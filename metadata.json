@@ -1,0 +1,6 @@
+{
+  "name": "Doodle Strike",
+  "description": "A first-person tactical survival shooter drawn in blue ballpoint on notebook paper, featuring solo wave survival and peer-to-peer multiplayer.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

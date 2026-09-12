@@ -1,0 +1,142 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-09-12T03:21:31.219Z",
+  "rules": {
+    "stairway": {
+      "minRise": 0.2,
+      "maxRise": 0.32,
+      "recommendedRise": 0.2857,
+      "minRun": 0.4,
+      "maxRun": 0.5,
+      "recommendedRun": 0.45,
+      "requiredHeadroom": 2,
+      "sideClearance": 0.3,
+      "landingClearance": 1.2
+    },
+    "rings": {
+      "minWallDistance": 1.5,
+      "minCeilingDistance": 0.5,
+      "autoNudgeOffset": 0.4
+    },
+    "traversal": {
+      "minPinchWidth": 1.8,
+      "minDoorwayWidth": 1.8,
+      "minDoorwayHeight": 2.8,
+      "minLedgeDepth": 1.4,
+      "jumpOverMaxHeight": 1.2
+    },
+    "density": {
+      "minColliders": 150,
+      "minSpawns": 4,
+      "minSnipers": 2,
+      "minPickups": 4,
+      "minRings": 4
+    }
+  },
+  "learnedPatterns": [
+    {
+      "patternId": "stair-landing-slab-cutout",
+      "description": "Floor slabs positioned directly above stair entrances must maintain a cutout aperture matching stair width + 0.3m buffer",
+      "trigger": "stair-headroom-collision",
+      "autoRemedy": "carveAABB"
+    },
+    {
+      "patternId": "grapple-wall-proximity-nudge",
+      "description": "Grapple rings placed within 1.5m of solid colliders must be nudged outward along normal",
+      "trigger": "tight-ring-clearance",
+      "autoRemedy": "nudgeOutward"
+    },
+    {
+      "patternId": "dense-thematic-prop-distribution",
+      "description": "Every sector requires 15+ sub-elements across Detailing Tiers 1-4 to avoid sparse floor dead-zones",
+      "trigger": "sparse-sector",
+      "autoRemedy": "scaffoldProps"
+    },
+    {
+      "patternId": "dream-auto-injection",
+      "description": "Injected 9 safe 3D props into level code",
+      "trigger": "dream-auto-injection",
+      "autoRemedy": "3dPropInject",
+      "occurrences": 1,
+      "lastObserved": "2026-09-12T02:38:41.598Z"
+    },
+    {
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 2 multi-story interactive buildings",
+      "trigger": "macro-dream-building",
+      "autoRemedy": "macroSpatialInjection",
+      "occurrences": 7,
+      "lastObserved": "2026-09-12T03:21:31.219Z"
+    },
+    {
+      "patternId": "macro-syntax-failure",
+      "description": "box() has too few arguments (3): \"box(-27, 0 + s * 0.25, -43 + 4.2 + (3 - s)\"",
+      "trigger": "macro-syntax-failure",
+      "autoRemedy": "autoRejectStructure",
+      "occurrences": 2,
+      "lastObserved": "2026-09-12T03:07:27.834Z"
+    }
+  ],
+  "history": [
+    {
+      "timestamp": "2026-09-12T02:38:41.598Z",
+      "mapKey": "zen",
+      "patternId": "dream-auto-injection",
+      "description": "Injected 9 safe 3D props into level code"
+    },
+    {
+      "timestamp": "2026-09-12T02:47:32.814Z",
+      "mapKey": "zen",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 2 multi-story interactive buildings"
+    },
+    {
+      "timestamp": "2026-09-12T02:52:00.874Z",
+      "mapKey": "zen",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 2 multi-story interactive buildings"
+    },
+    {
+      "timestamp": "2026-09-12T02:59:16.833Z",
+      "mapKey": "zen",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 2 multi-story interactive buildings"
+    },
+    {
+      "timestamp": "2026-09-12T03:07:27.834Z",
+      "mapKey": "zen",
+      "patternId": "macro-syntax-failure",
+      "description": "box() has too few arguments (3): \"box(-27, 0 + s * 0.25, -43 + 4.2 + (3 - s)\""
+    },
+    {
+      "timestamp": "2026-09-12T03:07:27.834Z",
+      "mapKey": "zen",
+      "patternId": "macro-syntax-failure",
+      "description": "box() has too few arguments (3): \"box(-27, 0 + s * 0.3, 29 + 4.5 + (7 - s)\""
+    },
+    {
+      "timestamp": "2026-09-12T03:07:44.904Z",
+      "mapKey": "zen",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 2 multi-story interactive buildings"
+    },
+    {
+      "timestamp": "2026-09-12T03:11:11.329Z",
+      "mapKey": "zen",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 2 multi-story interactive buildings"
+    },
+    {
+      "timestamp": "2026-09-12T03:17:02.577Z",
+      "mapKey": "zen",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 2 multi-story interactive buildings"
+    },
+    {
+      "timestamp": "2026-09-12T03:21:31.219Z",
+      "mapKey": "zen",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 2 multi-story interactive buildings"
+    }
+  ]
+}

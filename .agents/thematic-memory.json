@@ -1,0 +1,73 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-09-11T19:25:00-07:00",
+  "thematicArchetypes": {
+    "zen": {
+      "keywords": ["zen", "garden", "temple", "shrine", "bamboo", "koi", "pagoda", "stone"],
+      "primaryInk": "INK.BLUE",
+      "secondaryInk": "INK.BLACK",
+      "accentInk": "INK.RED",
+      "props": {
+        "tier1_micro": ["toro stone lantern (0.8m x 1.4m x 0.8m)", "engraved kanji marker slab", "bamboo chōzubachi water basin", "incense burner bowl"],
+        "tier2_meso": ["bamboo shishi-odoshi water fountain", "wooden tatami bench (2.2m x 0.6m x 0.8m)", "slatted shoji privacy divider", "raked gravel border trim"],
+        "tier3_macro": ["multi-tiered sorin pagoda apex", "vermilion arched taiko bridge", "earthen kura storehouse wall", "slotted bell tower pavilion"],
+        "tier4_kinetic": ["flowing liquid ink stream", "paper cranes spiraling on thermal updrafts", "swinging chime pendulum"]
+      }
+    },
+    "cyber": {
+      "keywords": ["cyber", "neon", "matrix", "plaza", "diner", "tech", "metro", "grid"],
+      "primaryInk": "INK.BLUE",
+      "secondaryInk": "INK.BLACK",
+      "accentInk": "INK.ORANGE",
+      "props": {
+        "tier1_micro": ["holo-terminal console", "conduit junction box", "neon billboard frame", "cooling vent register"],
+        "tier2_meso": ["synthetic diner booth table", "server rack array (2.0m x 2.2m x 1.0m)", "reinforced cable bundle riser", "holographic ad totem"],
+        "tier3_macro": ["monolithic mainframe core", "skybridge transit catwalk", "rooftop communication dish array", "reinforced blast gate"],
+        "tier4_kinetic": ["pulsing fiber conduit glow", "paper drones on automated flightpaths", "rotating exhaust turbine"]
+      }
+    },
+    "steampunk": {
+      "keywords": ["clockwork", "gear", "steam", "brass", "industrial", "factory", "forge", "tower"],
+      "primaryInk": "INK.BLUE",
+      "secondaryInk": "INK.BLACK",
+      "accentInk": "INK.ORANGE",
+      "props": {
+        "tier1_micro": ["brass pressure gauge", "steam exhaust nozzle", "escapement pallet fork", "interlocking cog pinion"],
+        "tier2_meso": ["crankshaft piston housing", "furnace hopper bin (2.0m x 1.4m x 1.6m)", "riveted pressure boiler tank", "heavy chain winch spindle"],
+        "tier3_macro": ["colossal 14-tooth mainspring gear", "clock tower chime pendulum shaft", "smelting furnace chimney", "high-pressure steam manifold bridge"],
+        "tier4_kinetic": ["counter-rotating spur gears", "plunging steam hammer piston", "drifting paper gliders"]
+      }
+    },
+    "colossal": {
+      "keywords": ["desk", "classroom", "colossal", "giant", "bedroom", "library", "toy", "stationery"],
+      "primaryInk": "INK.BLUE",
+      "secondaryInk": "INK.BLACK",
+      "accentInk": "INK.GREEN",
+      "props": {
+        "tier1_micro": ["staple cartridge block", "eraser chunk (0.8m x 0.4m x 1.2m)", "thumbtack spine cover", "folded paperclip barrier"],
+        "tier2_meso": ["open spiral sketchbook", "pencil pot cylinder turret", "wooden ruler ramp slab", "stack of index cards"],
+        "tier3_macro": ["monumental anglepoise desk lamp", "rotary pencil sharpener tower", "cardboard filing cabinet tier", "ceramic mug sniper perch"],
+        "tier4_kinetic": ["gliding paper planes circling lamp thermal", "oscillating desk fan draft", "sliding protractor balance"]
+      }
+    },
+    "maritime": {
+      "keywords": ["sea", "pirate", "ship", "ocean", "harbor", "dock", "water", "nautical"],
+      "primaryInk": "INK.BLUE",
+      "secondaryInk": "INK.BLACK",
+      "accentInk": "INK.ORANGE",
+      "props": {
+        "tier1_micro": ["mooring bollard post", "coiled rope spool ring", "brass ship lantern", "anchor chain link"],
+        "tier2_meso": ["cargo crate pyramid (1.8m x 1.8m x 1.8m)", "shipwright timber workbench", "crow's nest basket barrier", "drydock keel block"],
+        "tier3_macro": ["galleon sterncastle deck", "rigging mast apex spar", "harbor crane jib boom", "lighthouse beacon cupola"],
+        "tier4_kinetic": ["buoyant dock bobbing on swell", "paper seagulls banking on wind shear", "swinging cargo hoist hook"]
+      }
+    }
+  },
+  "safetyClearances": {
+    "walkwayPinch": 1.8,
+    "stairHeadroom": 2.0,
+    "ringWallClearance": 1.5,
+    "coverMinHeight": 0.8,
+    "coverMaxHeight": 1.3
+  }
+}

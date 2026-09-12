@@ -1,0 +1,8 @@
+    const p = this.root.position, r = this.root.rotation; const rk = this.recoil.value, rr = this.recoilRot.value; const ads = this.aimAmt;
+    p.copy(this.basePos).lerp(this.aimPos, ads);
+    p.x += this.swayPos.x + bobX + rk.x * (0.3 + 0.7 * ia) + this.sprintAmt * 0.06;
+    p.y += this.swayPos.y + bobY + rk.y * (0.3 + 0.7 * ia) - eq * 0.32 - st.landDip * 0.35 * ia - this.sprintAmt * 0.09;
+    p.z += rk.z + this.sprintAmt * 0.05;
+    r.set(this.baseRot.x * ia + this.swayRot.x + rr.x - eq * 0.9 + this.sprintAmt * 0.4 + st.landDip * 0.5 * ia,
+      this.baseRot.y * ia + this.swayRot.y + rr.y * (0.4 + 0.6 * ia) - this.sprintAmt * 0.55,
+      this.baseRot.z * ia + this.swayRot.z + rr.z + this.sprintAmt * 0.3 - st.landDip * 0.2 * ia);

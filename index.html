@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Manga Shooter">
+<meta name="theme-color" content="#0d0d12">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="./icon-192.svg">
+<link rel="apple-touch-icon" href="./icon-192.svg">
+<title>Doodle Strike</title>
+<meta name="description" content="A first-person tactical survival shooter drawn in blue ballpoint on notebook paper, featuring solo wave survival and peer-to-peer multiplayer.">
+<meta property="og:title" content="Doodle Strike">
+<meta property="og:description" content="A first-person tactical survival shooter drawn in blue ballpoint on notebook paper, featuring solo wave survival and peer-to-peer multiplayer.">
+<link rel="stylesheet" href="./style.css">
+<script type="importmap">
+{ "imports": {
+  "three": "./vendor/three/three.module.js",
+  "three/addons/": "./vendor/three/addons/"
+} }
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch((err) => {
+      console.log('SW registration skipped:', err);
+    });
+  });
+}
+</script>
+</head>
+<body>
+<div id="landscape-blocker">
+  <div class="blocker-content">
+    <svg viewBox="0 0 24 24" width="48" height="48" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+      <path d="M16 10a4 4 0 0 1-8 0"></path>
+      <path d="M12 22v-4"></path>
+    </svg>
+    <h2>PLEASE ROTATE</h2>
+    <p>Landscape orientation required.</p>
+  </div>
+</div>
+<canvas id="c"></canvas>
+<div id="hud"></div>
+<script src="./vendor/peerjs/peerjs.min.js"></script>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>
