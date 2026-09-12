@@ -69,6 +69,16 @@ if (calledMatch) {
   }
 }
 
+
+// 4. Detect Multiplier (e.g. 2x, 3x)
+let multiplier = 1;
+const timesMatch = prompt.match(/(\d+)x/);
+if (timesMatch) {
+  multiplier = parseInt(timesMatch[1], 10);
+  if (multiplier < 1) multiplier = 1;
+  if (multiplier > 10) multiplier = 10; // Cap it so it doesn't run forever
+}
+
 try {
   let command = '';
   
@@ -80,9 +90,17 @@ try {
   else if (action === 'delete') command = `node src/map-deleter.js ${mapName}`;
 
   console.log(`✨ Dream understood your intent! Routing to:`);
-  console.log(`   > ${command}\n`);
-
-  execSync(command, { stdio: 'inherit' });
+  console.log(`   > ${command} (Running ${multiplier}x times)
+`);
+  
+  for (let i = 0; i < multiplier; i++) {
+    if (multiplier > 1) {
+      console.log(`\n============================================================`);
+      console.log(`🚀 DREAM CYCLE ${i + 1} OF ${multiplier}`);
+      console.log(`============================================================\n`);
+    }
+    execSync(command, { stdio: 'inherit' });
+  }
 
 } catch (err) {
   console.error(`\n❌ Dream failed to execute: ${err.message}`);
