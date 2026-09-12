@@ -20,62 +20,62 @@ export const LEVELS = [
   { key: 'zen',
     customEnemies: {
       zen_ninja: {
-  role: "melee",
-  canDodge: true,
-  canCover: true,
-  canRetreat: false,
-  canFlank: true,
-  berserker: true,
-  hp: 60,
-  speed: 8.5,
-  weapon: "blade",
-  lunge: 3.5,
-  reach: 3,
-  standoff: 1.5,
-  cool: [
-    0.8,
-    1.2
-  ],
-  dmg: 18,
-  build: {
-    bodyW: 0.8,
-    headS: 0.9,
-    limbR: 0.03
-  },
-  name: "ZEN NINJA",
-  score: 150,
-  scale: 1
-},
+        role: "melee",
+        canDodge: true,
+        canCover: true,
+        canRetreat: false,
+        canFlank: true,
+        berserker: true,
+        hp: 60,
+        speed: 8.5,
+        weapon: "blade",
+        lunge: 3.5,
+        reach: 3,
+        standoff: 1.5,
+        cool: [
+          0.8,
+          1.2
+        ],
+        dmg: 18,
+        build: {
+          bodyW: 0.8,
+          headS: 0.9,
+          limbR: 0.03
+        },
+        name: "ZEN NINJA",
+        score: 150,
+        scale: 1
+      },
       shogun_heavy: {
-  role: "ranged",
-  canDodge: false,
-  canCover: true,
-  canRetreat: true,
-  canFlank: true,
-  hp: 350,
-  speed: 2.8,
-  weapon: "shotgun",
-  range: 20,
-  stop: 10,
-  keep: 6,
-  pellets: 8,
-  cool: [
-    2,
-    3
-  ],
-  dmg: 6,
-  spread: 0.1,
-  pspeed: 30,
-  build: {
-    bodyW: 1.5,
-    headS: 0.9,
-    limbR: 0.05
-  },
-  name: "SHOGUN HEAVY",
-  score: 150,
-  scale: 1
-}
-    },, name: 'THE ZEN GARDEN', blurb: 'serene pagodas, cherry blossoms and koi ponds', category: 'anomalous', tags: ['FAST CQB', 'MEDIUM', 'EARTH'], env: 'Temple Sanctuary', engagement: 'Stealth / CQB', hazard: 'None', scale: 'Tier 1-2' },
+        role: "ranged",
+        canDodge: false,
+        canCover: true,
+        canRetreat: true,
+        canFlank: true,
+        hp: 350,
+        speed: 2.8,
+        weapon: "shotgun",
+        range: 20,
+        stop: 10,
+        keep: 6,
+        pellets: 8,
+        cool: [
+          2,
+          3
+        ],
+        dmg: 6,
+        spread: 0.1,
+        pspeed: 30,
+        build: {
+          bodyW: 1.5,
+          headS: 0.9,
+          limbR: 0.05
+        },
+        name: "SHOGUN HEAVY",
+        score: 150,
+        scale: 1
+      }
+    }, name: 'THE ZEN GARDEN', blurb: 'serene pagodas, cherry blossoms and koi ponds', category: 'anomalous', tags: ['FAST CQB', 'MEDIUM', 'EARTH'], env: 'Temple Sanctuary', engagement: 'Stealth / CQB', hazard: 'None', scale: 'Tier 1-2' },
   ...(MEXICO_READY ? [{ key: 'mexico', name: 'DOODLE MEXICO', blurb: 'a sun-baked plaza · piñatas, tacos and mariachi', category: 'urban', tags: ['FAST CQB', 'MEDIUM', 'EARTH'], env: 'Sun-baked Plaza', engagement: 'CQB / Cover', hazard: 'None', scale: 'Tier 1-2' }] : []),
   {
     key: 'pirate_cove',

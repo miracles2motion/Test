@@ -53,23 +53,67 @@ export function extractEnemiesFromConcept(conceptContent) {
 export function injectEnemiesIntoLevel(mapKey, customEnemies) {
   let levelJs = fs.readFileSync(LEVELS_FILE, 'utf8');
   
-  // We will just inject it right after the key property to avoid complex brace parsing
-  const keyRegex = new RegExp(`key\\s*:\\s*'${mapKey}'`, 'i');
-  if (!keyRegex.test(levelJs)) {
+  const keyMatch = new RegExp(`key\\s*:\\s*['"]${mapKey}['"]`, 'i').exec(levelJs);
+  if (!keyMatch) {
     console.error(`   ❌ Could not find level definition for '${mapKey}' in level.js`);
     return false;
   }
   
   // Format the enemies object back to JS code
-  const enemiesCode = `\n    customEnemies: {\n` + Object.entries(customEnemies).map(([k, v]) => {
+  const entriesStr = Object.entries(customEnemies).map(([k, v]) => {
     const jsonStr = JSON.stringify(v, null, 2).replace(/"([^"]+)":/g, '$1:');
-    return `      ${k}: ${jsonStr.split('\\n').join('\\n      ')}`;
-  }).join(',\n') + `\n    },`;
+    return `      ${k}: ${jsonStr.split('\n').join('\n      ')}`;
+  }).join(',\n');
+  const enemiesCode = `\n    customEnemies: {\n${entriesStr}\n    }`;
 
-  // Check if it already exists, if so we don't handle overwrite easily with this method, 
-  // but we can just do a basic replace for now or assume it's fresh for each run
+  const keyPos = keyMatch.index;
+  // Look ahead from keyPos for customEnemies before the next map entry "key:"
+  const nextKeyPos = levelJs.indexOf('key:', keyPos + keyMatch[0].length);
+  const searchSlice = nextKeyPos !== -1 ? levelJs.slice(keyPos, nextKeyPos) : levelJs.slice(keyPos, keyPos + 4000);
   
-  levelJs = levelJs.replace(new RegExp(`(key\\s*:\\s*'${mapKey}')`, 'i'), `$1,${enemiesCode}`);
+  const ceIndexInSlice = searchSlice.indexOf('customEnemies');
+  if (ceIndexInSlice !== -1) {
+    // customEnemies already exists! Find its outer curly braces via bracket counting
+    const ceGlobalPos = keyPos + ceIndexInSlice;
+    const braceStart = levelJs.indexOf('{', ceGlobalPos);
+    let depth = 0;
+    let braceEnd = -1;
+    for (let i = braceStart; i < levelJs.length; i++) {
+      if (levelJs[i] === '{') depth++;
+      else if (levelJs[i] === '}') {
+        depth--;
+        if (depth === 0) {
+          braceEnd = i;
+          break;
+        }
+      }
+    }
+    if (braceEnd !== -1) {
+      // Check if followed by a comma
+      let replaceEnd = braceEnd + 1;
+      let trailing = '';
+      if (levelJs[replaceEnd] === ',') {
+        replaceEnd++;
+        trailing = ',';
+      }
+      levelJs = levelJs.slice(0, ceGlobalPos) + `customEnemies: {\n${entriesStr}\n    }${trailing}` + levelJs.slice(replaceEnd);
+    }
+  } else {
+    // Insert customEnemies right after key: '...'
+    let insertPos = keyPos + keyMatch[0].length;
+    let leadingComma = '';
+    if (levelJs[insertPos] === ',') {
+      insertPos++;
+      leadingComma = ',';
+    } else {
+      leadingComma = ',';
+    }
+    levelJs = levelJs.slice(0, insertPos) + `${leadingComma}${enemiesCode},` + levelJs.slice(insertPos);
+  }
+
+  // Sanitize any potential duplicate commas
+  levelJs = levelJs.replace(/,\s*,/g, ',');
+
   fs.writeFileSync(LEVELS_FILE, levelJs, 'utf8');
   console.log(`   💉 Injected ${Object.keys(customEnemies).length} custom enemies into level.js for map '${mapKey}'`);
   return true;

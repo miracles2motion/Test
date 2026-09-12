@@ -160,13 +160,47 @@
           "timestamp": "2026-09-12T06:50:47.826Z"
         }
       }
+    },
+    {
+      "id": "dream-006",
+      "timestamp": "2026-09-12T10:39:45.356Z",
+      "mapKey": "zen",
+      "mode": "MAP",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "spatial-doctor": {
+          "status": "pass",
+          "fixes": 0
+        },
+        "Macro Building Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T10:39:43.654Z"
+        },
+        "Prop Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T10:39:44.188Z"
+        },
+        "Enemy Synthesis": {
+          "status": "pass",
+          "timestamp": "2026-09-12T10:39:44.332Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-12T10:39:44.869Z"
+        },
+        "Self-Healing Audit": {
+          "status": "pass",
+          "timestamp": "2026-09-12T10:39:45.336Z"
+        }
+      }
     }
   ],
   "stats": {
-    "totalRuns": 5,
-    "successes": 5,
+    "totalRuns": 6,
+    "successes": 6,
     "failures": 0,
-    "errorRate": "0/5 (0%)",
+    "errorRate": "0/6 (0%)",
     "avgScore": 0
   }
 }

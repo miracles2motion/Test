@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-09-12T06:50:47.828Z",
+  "updatedAt": "2026-09-12T10:39:45.353Z",
   "rules": {
     "stairway": {
       "minRise": 0.2,
@@ -57,16 +57,16 @@
       "description": "Injected 9 safe 3D props into level code",
       "trigger": "dream-auto-injection",
       "autoRemedy": "3dPropInject",
-      "occurrences": 6,
-      "lastObserved": "2026-09-12T06:50:46.717Z"
+      "occurrences": 7,
+      "lastObserved": "2026-09-12T10:39:44.146Z"
     },
     {
       "patternId": "macro-dream-building",
       "description": "Synthesized 2 multi-story interactive buildings",
       "trigger": "macro-dream-building",
       "autoRemedy": "macroSpatialInjection",
-      "occurrences": 12,
-      "lastObserved": "2026-09-12T06:50:46.216Z"
+      "occurrences": 13,
+      "lastObserved": "2026-09-12T10:39:43.623Z"
     },
     {
       "patternId": "macro-syntax-failure",
@@ -197,6 +197,18 @@
       "mapKey": "zen",
       "patternId": "dream-auto-injection",
       "description": "Injected 32 safe 3D props (God Mode, theme: zen)"
+    },
+    {
+      "timestamp": "2026-09-12T10:39:43.623Z",
+      "mapKey": "zen",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
+    },
+    {
+      "timestamp": "2026-09-12T10:39:44.146Z",
+      "mapKey": "zen",
+      "patternId": "dream-auto-injection",
+      "description": "Injected 32 safe 3D props (God Mode, theme: zen)"
     }
   ],
   "failureBlacklist": {},
@@ -298,8 +310,8 @@
       "lastSuccess": "2026-09-12T06:29:39.003Z"
     },
     "bell_pavilion": {
-      "count": 4,
-      "totalScore": 340,
+      "count": 5,
+      "totalScore": 425,
       "positions": [
         {
           "mapKey": "zen",
@@ -324,28 +336,40 @@
           "x": -13,
           "y": 0,
           "z": 41
+        },
+        {
+          "mapKey": "zen",
+          "x": -43,
+          "y": 0,
+          "z": -31
         }
       ],
       "avgScore": 85,
-      "lastSuccess": "2026-09-12T06:50:46.211Z"
+      "lastSuccess": "2026-09-12T10:39:43.611Z"
     },
     "engawa_teahouse": {
-      "count": 1,
-      "totalScore": 85,
+      "count": 2,
+      "totalScore": 170,
       "positions": [
         {
           "mapKey": "zen",
           "x": -43,
           "y": 0,
           "z": 41
+        },
+        {
+          "mapKey": "zen",
+          "x": -43,
+          "y": 0,
+          "z": 29
         }
       ],
       "avgScore": 85,
-      "lastSuccess": "2026-09-12T06:37:54.932Z"
+      "lastSuccess": "2026-09-12T10:39:43.614Z"
     },
     "torii_overlook": {
-      "count": 3,
-      "totalScore": 255,
+      "count": 5,
+      "totalScore": 425,
       "positions": [
         {
           "mapKey": "zen",
@@ -364,10 +388,22 @@
           "x": -13,
           "y": 0,
           "z": -19
+        },
+        {
+          "mapKey": "zen",
+          "x": -31,
+          "y": 0,
+          "z": -43
+        },
+        {
+          "mapKey": "zen",
+          "x": -13,
+          "y": 0,
+          "z": 17
         }
       ],
       "avgScore": 85,
-      "lastSuccess": "2026-09-12T06:50:46.209Z"
+      "lastSuccess": "2026-09-12T10:39:43.619Z"
     }
   },
   "errorRateTracker": {
@@ -403,6 +439,13 @@
       },
       {
         "timestamp": "2026-09-12T06:50:47.828Z",
+        "mapKey": "zen",
+        "success": true,
+        "score": 0,
+        "mode": "MAP"
+      },
+      {
+        "timestamp": "2026-09-12T10:39:45.352Z",
         "mapKey": "zen",
         "success": true,
         "score": 0,
