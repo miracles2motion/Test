@@ -40,6 +40,7 @@ const knownMap = (k) => {
   return firstPlayable ? firstPlayable.key : 'district';
 };
 let mapKey = knownMap(localStorage.getItem('doodle_map') || 'district');
+window.currentDifficulty = parseInt(localStorage.getItem('doodle_difficulty') || '2', 10);
 let level = buildLevel(R.scene, world, mapKey, { arena: false });
 let nav = new NavGrid(world, level.bounds, 1).build();
 let loadedKey = mapKey, arenaLoaded = false;
@@ -1638,6 +1639,15 @@ function mapSelectHTML() {
       <button class="tactical-filter-btn ${filter === 'anomalous' ? 'active' : ''}" data-filter="anomalous">ANOMALOUS LABS</button>
     </div>
 
+    <div class="tactical-difficulty">
+      <div style="font-size:10px; opacity:0.7; margin-bottom:5px; letter-spacing:2px; font-weight:bold;">ENEMY AI DIFFICULTY</div>
+      <button class="tactical-filter-btn ${window.currentDifficulty === 0 ? 'active' : ''}" data-diff="0" title="Stupid: Frequent friendly fire, falls into holes">STUPID</button>
+      <button class="tactical-filter-btn ${window.currentDifficulty === 1 ? 'active' : ''}" data-diff="1" title="Easy: Slow aiming, basic pathing">EASY</button>
+      <button class="tactical-filter-btn ${(window.currentDifficulty === undefined || window.currentDifficulty === 2) ? 'active' : ''}" data-diff="2" title="Hard: Standard AI, avoids hazards">HARD</button>
+      <button class="tactical-filter-btn ${window.currentDifficulty === 3 ? 'active' : ''}" data-diff="3" title="Extreme: Flanking maneuvers, zero friendly fire">EXTREME</button>
+      <button class="tactical-filter-btn ${window.currentDifficulty === 4 ? 'active' : ''}" style="${window.currentDifficulty === 4 ? 'color:#ff3366; border-color:#ff3366;' : ''}" data-diff="4" title="AI GOD MODE: Extreme reasoning, takes cover, slides">AI GOD MODE</button>
+    </div>
+
     <div class="tactical-body">
       <div class="map-carousel" id="mapsel">
         ${cardsHTML}
@@ -1831,7 +1841,12 @@ function showStart() {
     
     p.querySelectorAll('.tactical-filter-btn').forEach(btn => {
       fastClick(btn, () => {
-        window.currentTacticalFilter = btn.dataset.filter;
+        if (btn.hasAttribute('data-diff')) {
+          window.currentDifficulty = parseInt(btn.dataset.diff, 10);
+          localStorage.setItem('doodle_difficulty', window.currentDifficulty);
+        } else if (btn.hasAttribute('data-filter')) {
+          window.currentTacticalFilter = btn.dataset.filter;
+        }
         showStart();
       });
     });

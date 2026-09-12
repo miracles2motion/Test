@@ -473,7 +473,12 @@ export class EnemyManager {
     dx /= l; dz /= l; const a = (b.onGround ? accel : accel * 0.3) * dt; speed *= this.mods.speed;
     b.vel.x += clamp(dx * speed - b.vel.x, -a, a); b.vel.z += clamp(dz * speed - b.vel.z, -a, a); e.yawT = Math.atan2(dx, dz);
   }
-  _groundAhead(e, dx, dz) { _v.set(e.body.pos.x + dx * 0.9, e.body.pos.y + 0.5, e.body.pos.z + dz * 0.9); return this.ctx.world.raycast(_v, _d.set(0, -1, 0), 3.5) !== null; }
+  _groundAhead(e, dx, dz) {
+    const diff = typeof window !== 'undefined' ? (window.currentDifficulty ?? 2) : 2;
+    if (diff === 0 && Math.random() < 0.2) return true; // 20% chance to ignore holes
+    _v.set(e.body.pos.x + dx * 0.9, e.body.pos.y + 0.5, e.body.pos.z + dz * 0.9);
+    return this.ctx.world.raycast(_v, _d.set(0, -1, 0), 3.5) !== null;
+  }
   // Each enemy heads for its own slot around the player rather than the player's exact feet,
   // so a group fans out and arrives from different sides instead of forming one conga line.
   _approachPoint(e, dt, target, out) {
@@ -513,9 +518,28 @@ export class EnemyManager {
   _wander(e, dt) { e.body.vel.x = damp(e.body.vel.x, 0, 6, dt); e.body.vel.z = damp(e.body.vel.z, 0, 6, dt); e.aimAmt = damp(e.aimAmt, 0, 5, dt); }
   _think(e, dt, pp, pc, P) {
     const T = e.T, b = e.body, ctx = this.ctx;
-    const dx = pp.x - b.pos.x, dz = pp.z - b.pos.z; const dist = Math.hypot(dx, dz); const dy = pp.y - b.pos.y;
-    e.losT -= dt; if (e.losT <= 0) { e.losT = 0.12 + rand(0, 0.1); e.los = ctx.world.hasLineOfSight(this.eye(e, _eye), pc, SEE_THROUGH); }
-    e.cool -= dt; const yawTo = Math.atan2(dx, dz);
+    const diff = typeof window !== 'undefined' ? (window.currentDifficulty ?? 2) : 2;
+
+    // God Mode AI (4): Predict player movement and take cover by sliding behind obstacles
+    let targetX = pp.x, targetZ = pp.z;
+    if (diff >= 3 && P.body && P.body.vel) {
+      targetX += P.body.vel.x * 0.4;
+      targetZ += P.body.vel.z * 0.4;
+    }
+
+    const dx = targetX - b.pos.x, dz = targetZ - b.pos.z; const dist = Math.hypot(dx, dz); const dy = pp.y - b.pos.y;
+    e.losT -= dt; if (e.losT <= 0) { e.losT = (diff >= 3 ? 0.05 : 0.12) + rand(0, 0.1); e.los = ctx.world.hasLineOfSight(this.eye(e, _eye), pc, SEE_THROUGH); }
+    
+    // God Mode AI Cover Sliding: If being looked at and no cover, slide randomly
+    if (diff === 4 && e.los && Math.random() < 0.02 * dt && b.onGround) {
+      b.vel.x += (Math.random() < 0.5 ? 1 : -1) * 20;
+      b.vel.z += (Math.random() < 0.5 ? 1 : -1) * 20;
+      b.vel.y += 4;
+      e.stuckT = 0;
+    }
+
+    e.cool -= dt * (diff === 4 ? 1.5 : diff === 0 ? 0.5 : 1.0); // Modulate cooldowns by difficulty
+    const yawTo = Math.atan2(dx, dz);
     if (T.weapon === 'bomb') {
       if (e.fuseT >= 0) { e.fuseT -= dt; b.vel.x = damp(b.vel.x, 0, 4, dt); b.vel.z = damp(b.vel.z, 0, 4, dt); e.yawT = yawTo; e.flashT = 0.02; if (!e.flashOn) { setFill(e.mat, true); e.flashOn = true; } if (Math.floor(e.fuseT * 8) !== Math.floor((e.fuseT + dt) * 8)) audio.fuse(e.center); if (e.fuseT <= 0) this._explodeBomber(e); return; }
       if (dist < T.fuseRange && Math.abs(dy) < 2.2 && e.los) { e.fuseT = T.fuse; audio.fuse(e.center); return; }
@@ -713,16 +737,29 @@ export class EnemyManager {
   _flyTo(e, target, speed, accel, dt) { const b = e.body; _d.subVectors(target, b.pos); const l = _d.length(); if (l < 0.3) { b.vel.multiplyScalar(Math.max(0, 1 - 4 * dt)); return; } _d.divideScalar(l).multiplyScalar(speed * this.mods.speed); _v3.subVectors(_d, b.vel); const m = _v3.length(); if (m > accel * dt) _v3.multiplyScalar(accel * dt / m); b.vel.add(_v3); }
   _shoot(e, dt, pc, P) {
     const T = e.T, ctx = this.ctx; const muzzle = _v.setFromMatrixPosition(e.tip.matrixWorld);
+    const diff = typeof window !== 'undefined' ? (window.currentDifficulty ?? 2) : 2;
+
+    // Hard / Extreme / God Mode: Avoid Friendly Fire
+    if (diff >= 2 && e.cool <= 0 && T.weapon !== 'sniper') {
+      const distToP = pc.distanceTo(muzzle);
+      _d.subVectors(pc, muzzle).normalize();
+      const hitAlly = this.raycast(muzzle, _d, distToP, e);
+      if (hitAlly) return; // Wait until ally is clear
+    }
+
     if (T.weapon === 'sniper') {
       if (e.cool > 0) { this._hideLaser(e); return; }
       e.aimT += dt;
       // The beam chases the player rather than being glued to them, and the shot goes exactly
       // where the beam is pointing - so if you keep moving once you see it, it misses.
       if (!e.aimPoint) { e.aimPoint = pc.clone(); }
-      else e.aimPoint.lerp(pc, 1 - Math.exp(-2.6 * dt));
-      this._showLaser(e, muzzle, e.aimPoint, clamp(e.aimT / T.aimTime, 0, 1));
-      if (e.aimT > T.aimTime * 0.5 && !e.aimWarned) { e.aimWarned = true; audio.sniperAim(e.center); }
-      if (e.aimT >= T.aimTime) {
+      else e.aimPoint.lerp(pc, 1 - Math.exp(-2.6 * dt * (diff >= 3 ? 2 : 1))); // God mode tracks faster
+      
+      const targetAimTime = T.aimTime * (diff === 4 ? 0.4 : diff === 0 ? 1.5 : 1.0);
+      
+      this._showLaser(e, muzzle, e.aimPoint, clamp(e.aimT / targetAimTime, 0, 1));
+      if (e.aimT > targetAimTime * 0.5 && !e.aimWarned) { e.aimWarned = true; audio.sniperAim(e.center); }
+      if (e.aimT >= targetAimTime) {
         e.aimT = 0; e.aimWarned = false; e.cool = rand(T.cool[0], T.cool[1]);
         this._fireOne(e, muzzle, e.aimPoint, T.spread, T.pspeed, T.dmg, 0.07, P); audio.sniperShot(e.center);
         this._hideLaser(e); e.aimPoint = null;
