@@ -1870,16 +1870,11 @@ function showStart() {
       }, 100);
     });
     fastClick(p.querySelector('#quitAppBtn'), () => { 
-      try { window.close(); } catch (e) {}
-      setTimeout(() => {
-        if (!window.closed) {
-          document.body.innerHTML = '<div style="background:#000; color:#fff; height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; font-family:sans-serif; text-align:center; padding: 20px;">' +
-            '<h1 style="font-size:36px; margin-bottom:10px; letter-spacing:2px;">GAME SAVED</h1>' +
-            '<p style="font-size:18px; opacity:0.7; margin-bottom: 30px;">It is now safe to close the app or browser tab.</p>' +
-            '<button style="padding:10px 20px; font-size:16px; font-weight:bold; background:#fff; color:#000; border:none; border-radius:5px; cursor:pointer;" onclick="window.location.reload()">RETURN TO GAME</button>' +
-            '</div>';
-        }
-      }, 100);
+      if (typeof navigator.app !== 'undefined' && navigator.app.exitApp) {
+        navigator.app.exitApp();
+      } else {
+        window.close(); 
+      }
     });
     fastClick(p.querySelector('#mainInstallBtn'), () => triggerInstallApp());
   } else if (screen === 'map_select') {
