@@ -73,7 +73,7 @@ export class NavGrid {
     _min.set(B.x - 0.2, B.y + 0.05, B.z - 0.2); _max.set(B.x + 0.2, A.y + 0.05, B.z + 0.2);
     return !this.world.overlapsAABB(_min, _max);
   }
-  nearestNode(pos, r = 3, maxDy = 4) {
+  nearestNode(pos, r = 5, maxDy = 4) {
     const c = this.cell; const cx = Math.floor((pos.x - this.minX) / c), cz = Math.floor((pos.z - this.minZ) / c);
     let best = -1, bestS = Infinity, bestAny = -1, bestAnyS = Infinity;
     for (let iz = cz - r; iz <= cz + r; iz++) for (let ix = cx - r; ix <= cx + r; ix++) {
@@ -82,7 +82,7 @@ export class NavGrid {
       for (const id of cand) {
         const n = this.nodes[id]; const dy = n.y - pos.y; const h = Math.hypot(n.x - pos.x, n.z - pos.z);
         const sAny = h + Math.abs(dy) * 2.0; if (sAny < bestAnyS) { bestAnyS = sAny; bestAny = id; }
-        if (dy < -maxDy || dy > 2.2) continue;
+        if (dy < -maxDy || dy > 2.5) continue;
         const s = h + Math.abs(dy) * 1.5; if (s < bestS) { bestS = s; best = id; }
       }
     }
@@ -90,7 +90,9 @@ export class NavGrid {
   }
   // A* between two world positions; returns array of Vector3 or null
   findPath(from, to, maxExpand = 40000) {
-    const start = this.nearestNode(from, 3, 3), goal = this.nearestNode(to, 4, 8);
+    let start = this.nearestNode(from, 5, 3.5), goal = this.nearestNode(to, 6, 8);
+    if (start < 0) start = this.nearestNode(from, 12, 6);
+    if (goal < 0) goal = this.nearestNode(to, 16, 12);
     if (start < 0 || goal < 0) return null;
     const nodes = this.nodes, gen = this._gen, g = this._g, fromArr = this._from; const sid = ++this._searchId;
     const G = nodes[goal]; const h = (n) => Math.hypot(n.x - G.x, n.y - G.y, n.z - G.z) * 1.15;

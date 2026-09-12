@@ -462,10 +462,27 @@ function pickSpawn(type) {
   const spots = type === 'sniper' ? level.snipers : level.spawns; const pp = player.body.pos;
   if (type === 'flyer') { const a = Math.random() * Math.PI * 2, r = 22 + Math.random() * 10; return new THREE.Vector3(clamp(pp.x + Math.cos(a) * r, level.bounds.minX + 4, level.bounds.maxX - 4), pp.y + 12 + Math.random() * 6, clamp(pp.z + Math.sin(a) * r, level.bounds.minZ + 4, level.bounds.maxZ - 4)); }
   if (BOSSES.includes(type)) {
-    const fits = (sp) => !world.overlapsAABB({ x: sp.x - 1.1, y: sp.y + 0.1, z: sp.z - 1.1 }, { x: sp.x + 1.1, y: sp.y + 5.2, z: sp.z + 1.1 });
-    const open = spots.filter((sp) => fits(sp)); const far = open.filter((sp) => sp.distanceTo(pp) > 20);
+    const nav = enemies.ctx.nav;
+    if (nav && nav.nodes && nav.nodes.length) {
+      const groundY = level.playerStart ? level.playerStart.y : 0;
+      const arenaNodes = nav.nodes.filter(n => {
+        if (Math.abs(n.y - groundY) > 2.5) return false;
+        if (!n.links || n.links.length < 3) return false;
+        return !world.overlapsAABB(
+          { x: n.x - 1.4, y: n.y + 0.1, z: n.z - 1.4 },
+          { x: n.x + 1.4, y: n.y + 4.2, z: n.z + 1.4 }
+        );
+      });
+      const farNodes = arenaNodes.filter(n => Math.hypot(n.x - pp.x, n.z - pp.z) > 18);
+      const pool = farNodes.length ? farNodes : arenaNodes;
+      if (pool.length) {
+        const chosen = choose(pool);
+        return new THREE.Vector3(chosen.x, chosen.y + 0.1, chosen.z);
+      }
+    }
+    const fits = (sp) => !world.overlapsAABB({ x: sp.x - 1.3, y: sp.y + 0.1, z: sp.z - 1.3 }, { x: sp.x + 1.3, y: sp.y + 4.2, z: sp.z + 1.3 });
+    const open = spots.filter((sp) => fits(sp)); const far = open.filter((sp) => sp.distanceTo(pp) > 18);
     if (far.length) return choose(far).clone(); if (open.length) return choose(open).clone();
-    for (let i = 0; i < 200; i++) { const a = Math.random() * Math.PI * 2, r = 22 + Math.random() * 18; const c = new THREE.Vector3(clamp(pp.x + Math.cos(a) * r, -44, 44), 0, clamp(pp.z + Math.sin(a) * r, -44, 44)); c.y = world.groundBelow(c.x, 30, c.z, 40); if (c.y > -3 && fits(c)) return c; }
     return level.playerStart.clone();
   }
   let cands = spots.filter((s) => { const d = s.distanceTo(pp); return d > 14 && d < 48; });
