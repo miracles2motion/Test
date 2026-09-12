@@ -31,6 +31,7 @@ if (prompt.includes('detail') || prompt.includes('micro')) action = 'detail';
 else if (prompt.includes('heal') || prompt.includes('improve') || prompt.includes('upgrade') || prompt.includes('refine')) action = 'heal';
 else if (prompt.includes('macro') || prompt.includes('building')) action = 'macro';
 else if (prompt.includes('inject') || prompt.includes('prop')) action = 'inject';
+else if (prompt.includes('delete') || prompt.includes('remove') || prompt.includes('destroy') || prompt.includes('purge')) action = 'delete';
 
 // 2. Detect Theme
 const themes = ["urban", "cyber", "steampunk", "colossal", "maritime", "zen", "anomalous"];
@@ -76,6 +77,7 @@ try {
   else if (action === 'heal') command = `node src/map-refiner.js ${mapName} heal`;
   else if (action === 'macro') command = `npm run dream:macro ${mapName} ${theme}`;
   else if (action === 'inject') command = `npm run dream:inject ${mapName} ${theme}`;
+  else if (action === 'delete') command = `node src/map-deleter.js ${mapName}`;
 
   console.log(`✨ Dream understood your intent! Routing to:`);
   console.log(`   > ${command}\n`);
