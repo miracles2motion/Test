@@ -643,6 +643,25 @@ export class EnemyManager {
     e.justHit = false;
     if (e.dodgeCooldown > 0) e.dodgeCooldown -= dt;
 
+    // Grenade evasion (Extreme+ only, not for berserkers/kamikazes)
+    if (diff >= 3 && !T.berserker && role !== 'kamikaze' && P.nades && P.nades.length) {
+      let evading = false;
+      for (const nade of P.nades) {
+        if (nade.fuse > 0) { // live grenade
+          const gd = Math.hypot(nade.pos.x - b.pos.x, nade.pos.z - b.pos.z);
+          if (gd < 6 && Math.abs(nade.pos.y - b.pos.y) < 3.5) {
+            const nx = (b.pos.x - nade.pos.x) / (gd || 1);
+            const nz = (b.pos.z - nade.pos.z) / (gd || 1);
+            this._steer(e, dt, b.pos.x + nx * 8, b.pos.z + nz * 8, T.speed * 1.5, 50);
+            e.aimAmt = damp(e.aimAmt, 0, 8, dt);
+            evading = true;
+            break;
+          }
+        }
+      }
+      if (evading) return;
+    }
+
     // Tactical Cover System:
     // 1. Critical health retreat to break line of sight
     if (diff >= 2 && e.hp / e.maxHp < (diff >= 4 ? 0.22 : 0.4) && T.canCover && !T.berserker) {
@@ -760,9 +779,17 @@ export class EnemyManager {
       e.burstLeft = 0; e.aimT = 0; e.aimPoint = null; this._hideLaser(e);
       if (T.stationary && e.t < 5) { b.vel.x = damp(b.vel.x, 0, 8, dt); b.vel.z = damp(b.vel.z, 0, 8, dt); e.yawT = yawTo; }
       else {
-        if (e.soundAlert) this._follow(e, dt, e.soundAlert, T.speed * 1.1);
-        else if (e.lastKnownPos) this._follow(e, dt, e.lastKnownPos, T.speed * 1.1);
-        else this._follow(e, dt, pp, T.speed);
+        if (e.soundAlert) {
+          const sd = Math.hypot(e.soundAlert.x - b.pos.x, e.soundAlert.z - b.pos.z);
+          if (sd < 3.0) e.soundAlert = null;
+          else this._follow(e, dt, e.soundAlert, T.speed * 1.1);
+        } else if (e.lastKnownPos) {
+          const ld = Math.hypot(e.lastKnownPos.x - b.pos.x, e.lastKnownPos.z - b.pos.z);
+          if (ld < 2.5) { e.lastKnownPos = null; e.soundAlert = null; }
+          else this._follow(e, dt, e.lastKnownPos, T.speed * 1.1);
+        } else {
+          this._follow(e, dt, pp, T.speed);
+        }
       }
       if (e.los) e.yawT = yawTo;
     }
