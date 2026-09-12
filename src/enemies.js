@@ -653,7 +653,7 @@ export class EnemyManager {
       }
     }
     // 2. Tactical reload cover (Hard mode only, NOT God mode! God mode enemies relentlessly suppress)
-    else if (diff === 3 && T.role === 'ranged' && T.canCover && e.cool > 0.8 && !e.coverPoint && e.los && dist > 14) {
+    else if (diff === 3 && T.role === 'ranged' && T.canCover && e.cool > 0.8 && !e.coverPoint && e.los && distReal > 14) {
       e.coverPoint = this._findCover(e, pp, pc);
       if (e.coverPoint) e.coverT = Math.min(e.cool, 1.8);
     }
