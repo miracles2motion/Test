@@ -1,13 +1,13 @@
+# Lead Level Designer Workflow (Tactical & Gameplay First)
+When requested to create or refine a map, the AI Agent MUST prioritize GAMEPLAY, FLOW, and READABILITY over complex thematic lore. Do not try to build complex abstract shapes (like skulls or ships) out of basic box primitives, as this creates visual noise and terrible pathing.
 
-# Dream Engine - Imagineering Workflow
-When requested to use "Dream" or create a new map/thematic geography, the AI Agent MUST NOT rely solely on generic procedural box-spawning algorithms. Instead, the Agent must act as a "Disney Imagineer" and follow this collaborative workflow:
-
-1. **The Brainstorm (Creative Pitch)**: 
-   - Think about the theme deeply. What is the story? What is the atmosphere? 
-   - Divide the map into 4 distinct, highly creative thematic zones (e.g., instead of just "Maritime", think "Smuggler's Shanty Town", "Leviathan's Graveyard", "Gunpowder Grotto", "Galleon Centerpiece").
-   - Define the specific *macro structures*, *pathways*, *verticality*, and *mysteries/treasures* for each zone.
-2. **User Collaboration**: 
-   - Present this creative pitch to the user first or brainstorm with them. Let the user feed ideas into Dream.
-3. **Execution (Blueprint Translation)**: 
-   - Once the creative vision is set, manually update the `propCatalog` in `src/map-injector.js` (or directly author the map's JS file) to generate the *exact* structures described in the pitch.
-   - Use organic thinking: combine cylinders, boxes, and planes to create immersive set pieces (like giant skulls, ship ribs, market tents) while maintaining strict playable pathways (City Planner architecture).
+1. **The Tactical Blockout**:
+   - Think in terms of competitive shooter design: 3-Lane layouts, central chokepoints (mid), and clear sightlines.
+   - Use clean, easily readable geometry (slabs for floors, boxes for cover, clear ramps/stairs).
+   - Color coding should mean something (e.g., Blue for structures, Orange for interactables/cover).
+2. **Flow & Movement**:
+   - Pathways must be explicitly clear and unobstructed.
+   - Elevation changes must be deliberate (clear sniper nests with at least 2 ways up/down).
+   - Grapple points should be mounted on high, clean architectural pillars to allow momentum swinging.
+3. **User Collaboration**:
+   - Pitch the tactical layout (lanes, chokepoints, high-ground) to the user before writing the code.
