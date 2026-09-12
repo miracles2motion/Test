@@ -11,3 +11,9 @@ When requested to create or refine a map, the AI Agent MUST prioritize GAMEPLAY,
    - Grapple points should be mounted on high, clean architectural pillars to allow momentum swinging.
 3. **User Collaboration**:
    - Pitch the tactical layout (lanes, chokepoints, high-ground) to the user before writing the code.
+
+# Dream Synthesizer Guidelines (Prop & Structure AI)
+When the Dream Orchestrator / Macro-Dreamer is invoked to decorate or synthesize structures (e.g. `npm run map:dream`), it must follow these constraints:
+1. **Respect NavMesh & Flow:** Never block main arteries, ramps, or the L-Junction Sky-Bridges.
+2. **Thematic Integrity (Pirate Cove):** Use maritime, pirate, and naval aesthetics (e.g., wooden crates, barrels, ship masts, cannons, ropes, rigging, cargo nets).
+3. **Cover Playability:** Props should function as waist-high (Y=1.5) or full-cover (Y=3.0) tactical blocks, not just visual clutter.
