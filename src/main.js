@@ -1707,14 +1707,6 @@ function mainHTML() {
         <polyline points="7 10 12 15 17 10"/>
         <line x1="12" y1="15" x2="12" y2="3"/>
       </svg>
-    </button>` : ''}
-    <button type="button" id="quitAppBtn" class="floating-btn quit-btn" title="Quit">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-        <polyline points="16 17 21 12 16 7"></polyline>
-        <line x1="21" y1="12" x2="9" y2="12"></line>
-      </svg>
-    </button>
   </div>
   
   <h1>DOODLE STRIKE</h1><h2>TACTICAL INK SHOOTER</h2>
@@ -1869,14 +1861,7 @@ function showStart() {
         window.location.href = window.location.href.split('?')[0] + '?t=' + Date.now();
       }, 100);
     });
-    fastClick(p.querySelector('#quitAppBtn'), () => { 
-      if (typeof navigator.app !== 'undefined' && navigator.app.exitApp) {
-        navigator.app.exitApp();
-      } else {
-        window.open('', '_self').close();
-        window.close(); 
-      }
-    });
+
     fastClick(p.querySelector('#mainInstallBtn'), () => triggerInstallApp());
   } else if (screen === 'map_select') {
     wireCheckpoints((w) => beginAtWave(w));
