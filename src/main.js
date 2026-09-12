@@ -9,7 +9,7 @@ import { MobileControls } from './mobile.js';
 import { buildLevel, LEVELS } from './level.js';
 import { NavGrid } from './nav.js';
 import { Effects } from './effects.js';
-import { EnemyManager, BOSSES } from './enemies.js';
+import { EnemyManager, BOSSES, TYPES } from './enemies.js';
 import { Player } from './player.js';
 import { RemotePlayer, encodeLocal } from './players.js';
 import { Net } from './net.js';
@@ -442,6 +442,12 @@ function startWave(n) {
   let count = Math.round(Math.min(5 + n * 2.0, 32 + n) * (swarm ? 1.35 : 1));
   if (boss) { count = 7 + n; game.maxAlive += 2 + Math.floor(n / 5); game.queue.push(bossFor(n)); }
   const pool = ROSTER.filter((r) => n >= r.from).map((r) => ({ t: r.t, w: r.w * Math.min(1, 0.3 + 0.25 * (n - r.from)) }));
+  if (level && level.customEnemies) {
+    for (const [k, def] of Object.entries(level.customEnemies)) {
+      if (!TYPES[k]) TYPES[k] = def;
+      pool.push({ t: k, w: 8 });
+    }
+  }
   const total = pool.reduce((a, r) => a + r.w, 0);
   for (let i = 0; i < count; i++) { let r = Math.random() * total, t = pool[0].t; for (const c of pool) { r -= c.w; if (r <= 0) { t = c.t; break; } } game.queue.push(t); }
   if (boss) { hud.message('WAVE ' + n, enemyName(bossFor(n)) + ' IS COMING', 3); audio.bossRoar(player.center); }

@@ -382,6 +382,10 @@ function generateRichConcept() {
 - [x] All 4 quadrants have ≥ 15 colliders each.
 - [x] Cover blocks distributed across all sectors at 0.8m–1.3m heights.
 - [x] Fire lanes cover ≥ 70% of playable floor area.
+
+## 14. Map-Specific Bestiary (Enemy Intelligence Design)
+- **Enemy 1: [Theme] Rusher**: \`{ role: 'melee', canDodge: true, canCover: true, canRetreat: false, canFlank: true, berserker: true, hp: 60, speed: 8.5, weapon: 'blade', lunge: 3.5, reach: 3.0, standoff: 1.5, cool: [0.8, 1.2], dmg: 18, build: { bodyW: 0.8, headS: 0.9, limbR: 0.03 } }\`
+- **Enemy 2: [Theme] Sniper**: \`{ role: 'ranged', canDodge: true, canCover: true, canRetreat: true, canFlank: false, stationary: true, hp: 50, speed: 3.0, weapon: 'sniper', range: 80, stop: 80, keep: 20, aimTime: 1.5, cool: [2.5, 3.5], dmg: 25, build: { bodyW: 0.7, headS: 0.8, limbR: 0.02 } }\`
 `;
 
   fs.writeFileSync(filePath, doc, 'utf8');
@@ -504,6 +508,7 @@ async function main() {
       if (fs.existsSync(path.join(LEVELS_DIR, `${key}.js`))) {
         runStage('Macro Building Injection', `node src/macro-dreamer.js ${key} ${theme}`);
         runStage('Prop Injection', `node src/map-injector.js ${key} ${theme}`);
+        runStage('Enemy Synthesis', `node src/enemy-synthesizer.js ${key}`);
       }
     }
 
@@ -529,6 +534,7 @@ async function main() {
       if (fs.existsSync(path.join(LEVELS_DIR, `${key}.js`))) {
         runStage('Macro Building Injection', `node src/macro-dreamer.js ${key} ${theme}`);
         runStage('Prop Injection', `node src/map-injector.js ${key} ${theme}`);
+        runStage('Enemy Synthesis', `node src/enemy-synthesizer.js ${key}`);
       }
     }
 
@@ -585,6 +591,7 @@ async function main() {
       // Stage 2: Fill voids with macro buildings + props
       runStage('Macro Building Injection', `node src/macro-dreamer.js ${key} ${theme}`);
       const propResult = runStage('Prop Injection', `node src/map-injector.js ${key} ${theme}`);
+      runStage('Enemy Synthesis', `node src/enemy-synthesizer.js ${key}`);
       
       if (propResult && propResult.code === 2) {
         // Map is full. Trigger interactive Refinement Mode.

@@ -432,3 +432,7 @@ High-elevation tactical vantage points assigned to AI sniper units:
    - Apply `{ noNav: true }` to thin roof eaves, Torii gate top crossbeams, weeping willow boughs, and kinetic shishi-odoshi rocker pipe.
    - Apply `{ noGrapple: true }` to outer perimeter plaster walls and the sky containment ceiling.
    - Apply `{ noCollide: true }` to fallen cherry blossom petals, raked sand ripple markings, and rising incense smoke.
+
+## 14. Map-Specific Bestiary
+- **Enemy 1: Zen Ninja**: `{ role: 'melee', canDodge: true, canCover: true, canRetreat: false, canFlank: true, berserker: true, hp: 60, speed: 8.5, weapon: 'blade', lunge: 3.5, reach: 3.0, standoff: 1.5, cool: [0.8, 1.2], dmg: 18, build: { bodyW: 0.8, headS: 0.9, limbR: 0.03 } }`
+- **Enemy 2: Shogun Heavy**: `{ role: 'ranged', canDodge: false, canCover: true, canRetreat: true, canFlank: true, hp: 350, speed: 2.8, weapon: 'shotgun', range: 20, stop: 10, keep: 6, pellets: 8, cool: [2.0, 3.0], dmg: 6, spread: 0.1, pspeed: 30, build: { bodyW: 1.5, headS: 0.9, limbR: 0.05 } }`
