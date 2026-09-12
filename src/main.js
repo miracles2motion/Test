@@ -1689,7 +1689,17 @@ function mainHTML() {
   </button>
   <h1>DOODLE STRIKE</h1><h2>TACTICAL INK SHOOTER</h2>
     <div class="mainbtns">
+      <div class="tactical-difficulty" style="margin-bottom: 20px;">
+        <div style="font-size:10px; opacity:0.7; margin-bottom:5px; letter-spacing:2px; font-weight:bold;">ENEMY AI DIFFICULTY</div>
+        <button class="tactical-filter-btn ${window.currentDifficulty === 0 ? 'active' : ''}" data-diff="0" title="Stupid: Frequent friendly fire, falls into holes">STUPID</button>
+        <button class="tactical-filter-btn ${window.currentDifficulty === 1 ? 'active' : ''}" data-diff="1" title="Easy: Slow aiming, basic pathing">EASY</button>
+        <button class="tactical-filter-btn ${(window.currentDifficulty === undefined || window.currentDifficulty === 2) ? 'active' : ''}" data-diff="2" title="Hard: Standard AI, avoids hazards">HARD</button>
+        <button class="tactical-filter-btn ${window.currentDifficulty === 3 ? 'active' : ''}" data-diff="3" title="Extreme: Flanking maneuvers, zero friendly fire">EXTREME</button>
+        <button class="tactical-filter-btn ${window.currentDifficulty === 4 ? 'active' : ''}" style="${window.currentDifficulty === 4 ? 'color:#ff3366; border-color:#ff3366;' : ''}" data-diff="4" title="AI GOD MODE: Extreme reasoning, takes cover, slides">AI GOD MODE</button>
+      </div>
+
       <button type="button" id="soloBtn">SURVIVAL</button>
+      <button type="button" id="duelBtn">1v1 DUEL</button>
       <button type="button" id="exploreBtn">FREE ROAM</button>
       <button type="button" id="onlineBtn">MULTIPLAYER</button>
       <button type="button" id="settingsBtn" class="settings-btn">
@@ -1805,7 +1815,18 @@ function showStart() {
   else p.classList.remove('tactical-layout');
 
   if (screen === 'main') {
+    p.querySelectorAll('.tactical-filter-btn').forEach(btn => {
+      fastClick(btn, () => {
+        if (btn.hasAttribute('data-diff')) {
+          window.currentDifficulty = parseInt(btn.dataset.diff, 10);
+          localStorage.setItem('doodle_difficulty', window.currentDifficulty);
+          showStart();
+        }
+      });
+    });
+
     fastClick(p.querySelector('#soloBtn'), () => { game.mode = 'solo'; screen = 'map_select'; showStart(); });
+    fastClick(p.querySelector('#duelBtn'), () => { game.mode = 'duel'; screen = 'map_select'; showStart(); });
     fastClick(p.querySelector('#exploreBtn'), () => { game.mode = 'explore'; screen = 'map_select'; showStart(); });
     fastClick(p.querySelector('#onlineBtn'), () => { screen = 'online'; showStart(); });
     fastClick(p.querySelector('#settingsBtn'), () => { settingsReturnTo = 'main'; screen = 'settings'; showStart(); });
@@ -1934,6 +1955,19 @@ function resetGame() {
 }
 function beginCommon() { audio.init(); audio.resume(); if (!input.usingGamepad && !input.isTouch && !mobile.enabled) input.requestLock(); if (musicWanted && !audio.musicPlaying) audio.musicOn(true); hud.hideScreen(); hud.setGameplayVisible(true); game.menu = false; }
 function begin() { game.mode = 'solo'; setArena(false); beginCommon(); if (game.state === 'start' || game.state === 'dead') { resetGame(); startWave(1); } game.state = 'play'; }
+function beginDuel() { 
+  game.mode = 'duel'; setArena(false); beginCommon(); resetGame(); game.state = 'play'; 
+  player.grenades = 5;
+  for (const w of player.weapons) { if (w.isGun) { w.mag = w.magSize; w.reserve = 999; } }
+  hud.setWave('DUEL', 0); hud.message('1 V 1', 'Defeat the AI', 3.5);
+  hud.tip('AI Difficulty: ' + (window.currentDifficulty === 4 ? 'GOD MODE' : window.currentDifficulty === 3 ? 'EXTREME' : window.currentDifficulty === 0 ? 'STUPID' : 'STANDARD'), 4);
+  const diff = window.currentDifficulty ?? 2;
+  const t = diff === 4 ? 'boss' : diff === 3 ? 'sniper' : diff === 2 ? 'shield' : diff === 1 ? 'heavy' : 'rusher';
+  const spots = (typeof spawnSpots === 'function' ? spawnSpots() : []);
+  const spawnPt = spots.length > 0 ? spots[Math.floor(Math.random()*spots.length)] : (typeof arenaSpawn === 'function' ? arenaSpawn() : level.playerStart.clone());
+  spawnPt.y += 2;
+  enemies.spawn(t, spawnPt);
+}
 function beginExplore() {
   game.mode = 'explore';
   setArena(false);
@@ -1988,7 +2022,7 @@ function resume() {
   }
   begin();
 }
-Object.assign(window.__game, { startWave, updateWaves, begin, beginExplore, beginAtWave, jumpToWave, resetGame, spawnPickup, focusCandidate, enterFocus, pickSpawn, startMatch, createLobby, joinLobby, quickPlay, leaveOnline, hostStart });
+Object.assign(window.__game, { startWave, updateWaves, begin, beginDuel, beginExplore, beginAtWave, jumpToWave, resetGame, spawnPickup, focusCandidate, enterFocus, pickSpawn, startMatch, createLobby, joinLobby, quickPlay, leaveOnline, hostStart });
 hud.onScreenClick = () => {
   const st = game.state;
   if (st === 'over') { if (net.isHost) { net.send('backtolobby', {}); toLobbyScreen(); } return; }
@@ -2059,7 +2093,13 @@ function step(now) {
       }
     }
     player.update(sdt); enemies.update(sdt); effects.update(sdt); updatePickups(sdt); netUpdate(dt);
-    if (st === 'play' && !online() && game.mode !== 'explore') updateWaves(sdt);
+    if (st === 'play' && !online() && game.mode !== 'explore' && game.mode !== 'duel') updateWaves(sdt);
+    if (st === 'play' && !online() && game.mode === 'duel') {
+      if (enemies.alive <= 0 && game.time > 1) {
+        hud.message('VICTORY', 'You defeated the AI', 4);
+        game.state = 'over'; game.overT = 0;
+      }
+    }
     if (online()) updateArenaPickups(dt);
     if (game.comboT > 0) { game.comboT -= sdt; if (game.comboT <= 0) { game.combo = 0; hud.setScore(game.score, 0); } }
     if (st === 'dying') {
