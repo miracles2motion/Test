@@ -23,6 +23,7 @@
     "map:simulate": "node src/map-simulate.js",
     "map:learn": "node src/map-learning.js",
     "map:pack": "node src/map-pack.js",
+    "dream": "node dream.js",
     "dream:synthesize": "node src/map-synthesizer.js",
     "dream:macro": "node src/macro-dreamer.js",
     "dream:inject": "node src/map-injector.js",
