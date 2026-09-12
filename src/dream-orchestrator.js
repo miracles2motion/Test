@@ -409,6 +409,64 @@ function scaffoldFromConcept(conceptPath) {
 }
 
 // ============================================================
+// WORKSPACE CLEANUP
+// ============================================================
+function cleanupWorkspace() {
+  console.log(`\n🧹 Sweeping workspace for redundant/duplicate concepts...`);
+  if (!fs.existsSync(CONCEPTS_DIR)) return;
+
+  const files = fs.readdirSync(CONCEPTS_DIR).filter(f => f.endsWith('.md'));
+  const mapGroups = {};
+
+  // Group files by base map key
+  for (const f of files) {
+    const baseMatch = f.match(/^\d+_(.+)\.md$/);
+    const baseKey = baseMatch ? baseMatch[1] : f.replace('.md', '');
+    if (!mapGroups[baseKey]) mapGroups[baseKey] = [];
+    mapGroups[baseKey].push({ name: f, path: path.join(CONCEPTS_DIR, f) });
+  }
+
+  let deleted = 0;
+  for (const [baseKey, group] of Object.entries(mapGroups)) {
+    // Check if map is already promoted to Map Description
+    const DESC_DIR = path.join(ROOT_DIR, 'Map Description');
+    let isGraduated = false;
+    if (fs.existsSync(DESC_DIR)) {
+      const descFiles = fs.readdirSync(DESC_DIR).filter(f => f.endsWith('.md'));
+      const descMatch = descFiles.find(f => f.toLowerCase().replace(/-/g, '_').includes(baseKey));
+      if (descMatch) {
+        // Has a final design doc, concepts are redundant
+        isGraduated = true;
+      }
+    }
+
+    if (isGraduated) {
+      console.log(`   🎓 [${baseKey}] is graduated. Clearing ${group.length} redundant concepts.`);
+      for (const item of group) {
+        fs.unlinkSync(item.path);
+        deleted++;
+      }
+    } else if (group.length > 1) {
+      // Find the richest/largest file to keep, delete the rest
+      const sizes = group.map(item => ({ ...item, size: fs.statSync(item.path).size }));
+      sizes.sort((a, b) => b.size - a.size); // descending
+
+      const kept = sizes[0];
+      const duplicates = sizes.slice(1);
+      console.log(`   ✂️ [${baseKey}] found duplicates. Keeping ${kept.name} (${kept.size}B), deleting ${duplicates.length} redundant variants.`);
+      
+      for (const dup of duplicates) {
+        fs.unlinkSync(dup.path);
+        deleted++;
+      }
+    }
+  }
+
+  if (deleted > 0) console.log(`✅ Cleanup complete. Reclaimed space by deleting ${deleted} redundant files.`);
+  else console.log(`   ✓ Workspace is already clean.`);
+}
+
+// ============================================================
 // MAIN PIPELINE EXECUTION
 // ============================================================
 async function main() {
@@ -572,6 +630,11 @@ async function main() {
 
   // Record to learning system
   recordDreamRun(key, overallSuccess, 0, mode, stages);
+
+  // Clean up redundant files to conserve space
+  if (overallSuccess) {
+    cleanupWorkspace();
+  }
 
   process.exit(overallSuccess ? 0 : 1);
 }

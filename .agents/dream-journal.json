@@ -99,13 +99,43 @@
           "timestamp": "2026-09-12T06:29:39.931Z"
         }
       }
+    },
+    {
+      "id": "dream-004",
+      "timestamp": "2026-09-12T06:37:56.313Z",
+      "mapKey": "zen",
+      "mode": "MAP",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "spatial-doctor": {
+          "status": "pass",
+          "fixes": 0
+        },
+        "Macro Building Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T06:37:54.972Z"
+        },
+        "Prop Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T06:37:55.409Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-12T06:37:55.896Z"
+        },
+        "Self-Healing Audit": {
+          "status": "pass",
+          "timestamp": "2026-09-12T06:37:56.308Z"
+        }
+      }
     }
   ],
   "stats": {
-    "totalRuns": 3,
-    "successes": 3,
+    "totalRuns": 4,
+    "successes": 4,
     "failures": 0,
-    "errorRate": "0/3 (0%)",
+    "errorRate": "0/4 (0%)",
     "avgScore": 0
   }
 }

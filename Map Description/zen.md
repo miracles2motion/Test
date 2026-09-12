@@ -109,3 +109,10 @@
 ## 14. Interactive Macro-Structures (Tier 3 & 4)
 - **Bonshō Bell & Tea Pavilion (X=-43, Z=-43)**: Multi-tiered wooden open shrine with playable intermediate stairs, upper meditation deck, hanging bronze bell, and apex grapple beam.
 - **Engawa Lookout Sanctuary (X=-43, Z=29)**: Multi-room veranda teahouse with tatami platforms, waist-high railing cover, and overlooking sniper terrace.
+
+
+## 14. Interactive Macro-Structures (Tier 3 & 4)
+- **Bonshō Bell & Tea Pavilion (X=-43, Z=-31)**: Multi-tiered wooden open shrine with walkable mezzanine, bronze bell, and apex grapple beam.
+- **Engawa Lookout Sanctuary (X=-43, Z=41)**: Multi-room veranda teahouse with tatami platforms, waist-high railing cover, and sniper terrace.
+- **Torii Gate Overlook Platform (X=-31, Z=-43)**: Vermilion torii gate with elevated walkway beam and flanking stone lanterns.
+- **Bonshō Bell & Tea Pavilion (X=-31, Z=29)**: Multi-tiered wooden open shrine with walkable mezzanine, bronze bell, and apex grapple beam.
