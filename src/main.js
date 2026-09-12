@@ -1807,15 +1807,7 @@ function showStart() {
   else p.classList.remove('tactical-layout');
 
   if (screen === 'main') {
-    p.querySelectorAll('.tactical-filter-btn').forEach(btn => {
-      fastClick(btn, () => {
-        if (btn.hasAttribute('data-diff')) {
-          window.currentDifficulty = parseInt(btn.dataset.diff, 10);
-          localStorage.setItem('doodle_difficulty', window.currentDifficulty);
-          showStart();
-        }
-      });
-    });
+
 
     fastClick(p.querySelector('#soloBtn'), () => { game.mode = 'solo'; screen = 'map_select'; showStart(); });
     fastClick(p.querySelector('#duelBtn'), () => { game.mode = 'duel'; screen = 'map_select'; showStart(); });
