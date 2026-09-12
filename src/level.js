@@ -76,17 +76,7 @@ export const LEVELS = [
       }
     }, name: 'THE ZEN GARDEN', blurb: 'serene pagodas, cherry blossoms and koi ponds', category: 'anomalous', tags: ['FAST CQB', 'MEDIUM', 'EARTH'], env: 'Temple Sanctuary', engagement: 'Stealth / CQB', hazard: 'None', scale: 'Tier 1-2' },
   ...(MEXICO_READY ? [{ key: 'mexico', name: 'DOODLE MEXICO', blurb: 'a sun-baked plaza · piñatas, tacos and mariachi', category: 'urban', tags: ['FAST CQB', 'MEDIUM', 'EARTH'], env: 'Sun-baked Plaza', engagement: 'CQB / Cover', hazard: 'None', scale: 'Tier 1-2' }] : []),
-  {
-    key: 'pirate_cove',
-    name: 'PIRATE COVE',
-    category: 'colossal',
-    tags: ['GROTTO', 'SHIPWRECK', 'VERTICAL'],
-    env: 'A massive sunken grotto carved into the bones of the earth. Features a Smugglers Shanty Town, the Leviathans Graveyard, a highly volatile Gunpowder Grotto, and the shattered remains of a legendary Pirate Kings Galleon.',
-    engagement: 'Asymmetrical Verticality & Hazards',
-    hazard: 'Deep Water / Grapple Chasms',
-    scale: 'Tier 1-4',
-    comingSoon: false
-  }
+  { key: 'pirate_cove', name: 'PIRATE COVE', blurb: 'sunken grottos, shanty towns and shipwrecks', category: 'colossal', tags: ['GROTTO', 'SHIPWRECK', 'VERTICAL'], env: 'Sunken Grotto', engagement: 'Verticality / Hazards', hazard: 'Deep Water', scale: 'Tier 1-4' }
 ];
 
 function createBuilder(scene, world) {
