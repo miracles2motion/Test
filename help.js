@@ -37,7 +37,21 @@ console.log(`
       Example:
         npm run map:simulate clockwork
 
-2. 🏗️ SMART SCAFFOLDING & SELF-LEARNING
+2. 🔱 DREAM GOD MODE (Master Pipeline)
+--------------------------------------------------------------------------------
+  • Run the intelligent dream pipeline (auto-detects mode):
+      npm run map:god <mapName> [theme]
+      Modes:
+        ⚡ Mode 1 (NOTHING):  No concept, no map → Creates everything from scratch
+        📜 Mode 2 (CONCEPT):  Concept exists → Reads, enriches, builds from it
+        🏗️ Mode 3 (MAP):      Map exists → Fixes errors, fills voids, audits
+      Themes: zen, cyber, steampunk, colossal, maritime
+      Examples:
+        npm run map:god pirate_cove maritime
+        npm run map:god zen_garden zen
+        npm run map:god zen zen
+
+3. 🏗️ SMART SCAFFOLDING & SELF-LEARNING
 --------------------------------------------------------------------------------
   • Synthesize creative concepts with high-density prop taxonomies (Tiers 1-4):
       npm run map:dream <mapName> [themeCategory]

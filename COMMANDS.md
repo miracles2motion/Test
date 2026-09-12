@@ -43,7 +43,26 @@ npm run verify:integrity
 
 ---
 
-## 2. 🏗️ Smart Scaffolding & Self-Learning System
+## 2. 🔱 Dream God Mode (Master Pipeline)
+
+### Dream God Mode Orchestrator
+The single entry point for intelligent map creation. Auto-detects state and runs the appropriate pipeline:
+- **Mode 1 (Nothing)**: No concept, no map → Generates concept + scaffolds + populates + audits
+- **Mode 2 (Concept)**: Concept exists, no map → Reads concept, enriches, builds from it
+- **Mode 3 (Map)**: Map exists → Fixes errors (Spatial Doctor), fills voids, audits
+
+```bash
+npm run map:god <mapName> [theme]
+```
+**Themes:** `zen`, `cyber`, `steampunk`, `colossal`, `maritime`
+*Examples:*
+- `npm run map:god pirate_cove maritime` — Create from nothing
+- `npm run map:god zen_garden zen` — Build from existing concept
+- `npm run map:god zen zen` — Enhance existing map
+
+---
+
+## 3. 🏗️ Smart Scaffolding & Self-Learning System
 
 ### Thematic Neural Synthesizer (Concept Creator & Ideator)
 Synthesizes a complete 13-section concept specification filled with micro, meso, macro, and kinetic props based on map name and learned archetypes (`.agents/thematic-memory.json`).

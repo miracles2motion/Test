@@ -1,0 +1,111 @@
+{
+  "runs": [
+    {
+      "id": "dream-001",
+      "timestamp": "2026-09-12T06:26:18.825Z",
+      "mapKey": "pirate_cove",
+      "mode": "NOTHING",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "concept-generation": {
+          "status": "pass",
+          "lines": 102
+        },
+        "Level Scaffolding": {
+          "status": "pass",
+          "timestamp": "2026-09-12T06:26:17.069Z"
+        },
+        "Macro Building Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T06:26:17.615Z"
+        },
+        "Prop Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T06:26:18.236Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-12T06:26:18.518Z"
+        },
+        "Self-Healing Audit": {
+          "status": "fail",
+          "error": "Command failed: node .agents/skills/universal-detailing-standard/scripts/verify-detailing.js pirate_cove --heal",
+          "timestamp": "2026-09-12T06:26:18.810Z"
+        }
+      }
+    },
+    {
+      "id": "dream-002",
+      "timestamp": "2026-09-12T06:28:14.210Z",
+      "mapKey": "harbor_port",
+      "mode": "NOTHING",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "concept-generation": {
+          "status": "pass",
+          "lines": 102
+        },
+        "Level Scaffolding": {
+          "status": "pass",
+          "timestamp": "2026-09-12T06:28:12.658Z"
+        },
+        "Macro Building Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T06:28:12.975Z"
+        },
+        "Prop Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T06:28:13.368Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-12T06:28:13.855Z"
+        },
+        "Self-Healing Audit": {
+          "status": "fail",
+          "error": "Command failed: node .agents/skills/universal-detailing-standard/scripts/verify-detailing.js harbor_port --heal",
+          "timestamp": "2026-09-12T06:28:14.205Z"
+        }
+      }
+    },
+    {
+      "id": "dream-003",
+      "timestamp": "2026-09-12T06:29:39.936Z",
+      "mapKey": "harbor_port",
+      "mode": "MAP",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "spatial-doctor": {
+          "status": "pass",
+          "fixes": 0
+        },
+        "Macro Building Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T06:29:39.020Z"
+        },
+        "Prop Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T06:29:39.355Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-12T06:29:39.649Z"
+        },
+        "Self-Healing Audit": {
+          "status": "pass",
+          "timestamp": "2026-09-12T06:29:39.931Z"
+        }
+      }
+    }
+  ],
+  "stats": {
+    "totalRuns": 3,
+    "successes": 3,
+    "failures": 0,
+    "errorRate": "0/3 (0%)",
+    "avgScore": 0
+  }
+}

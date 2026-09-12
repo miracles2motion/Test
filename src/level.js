@@ -1,5 +1,7 @@
 // Level construction. Two maps share one builder: everything is merged ink geometry plus
 // axis-aligned box colliders, which is what the navigation grid is generated from.
+import { buildHarborPort } from './levels/harbor_port.js';
+import { buildPirateCove } from './levels/pirate_cove.js';
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { makeInkMaterial, INK } from './render.js';
@@ -16,7 +18,29 @@ export const LEVELS = [
   { key: 'clockwork', name: 'CLOCKWORK TOWER', blurb: 'monolithic gears, pendulums and grinding cogs', category: 'anomalous', tags: ['FAST CQB', 'MEDIUM', 'HOROLOGICAL'], env: 'Kinetic Machinery', engagement: 'Platforming / CQB', hazard: 'Grinding Cogs below Y=-4.0m', scale: 'Tier 1-5' },
   { key: 'castle', name: 'BLUEPRINT CASTLE', comingSoon: true, blurb: 'drawbridges, donjon keeps and siege engines', category: 'urban', tags: ['LONG-RANGE', 'MASSIVE', 'EARTH'], env: 'Medieval Fortress', engagement: 'Siege / Sniping', hazard: 'Moat Abyss', scale: 'Tier 1-4' },
   { key: 'zen', name: 'THE ZEN GARDEN', blurb: 'serene pagodas, cherry blossoms and koi ponds', category: 'anomalous', tags: ['FAST CQB', 'MEDIUM', 'EARTH'], env: 'Temple Sanctuary', engagement: 'Stealth / CQB', hazard: 'None', scale: 'Tier 1-2' },
-  ...(MEXICO_READY ? [{ key: 'mexico', name: 'DOODLE MEXICO', blurb: 'a sun-baked plaza · piñatas, tacos and mariachi', category: 'urban', tags: ['FAST CQB', 'MEDIUM', 'EARTH'], env: 'Sun-baked Plaza', engagement: 'CQB / Cover', hazard: 'None', scale: 'Tier 1-2' }] : [])
+  ...(MEXICO_READY ? [{ key: 'mexico', name: 'DOODLE MEXICO', blurb: 'a sun-baked plaza · piñatas, tacos and mariachi', category: 'urban', tags: ['FAST CQB', 'MEDIUM', 'EARTH'], env: 'Sun-baked Plaza', engagement: 'CQB / Cover', hazard: 'None', scale: 'Tier 1-2' }] : []),
+  {
+    key: 'pirate_cove',
+    name: 'PIRATE COVE',
+    category: 'urban',
+    tags: ['DREAM MODE', 'AUTO-GENERATED'],
+    env: 'PIRATE COVE Environment',
+    engagement: 'CQB & Vertical',
+    hazard: 'TBD',
+    scale: 'Tier 1-4',
+    comingSoon: false
+  },
+  {
+    key: 'harbor_port',
+    name: 'HARBOR PORT',
+    category: 'urban',
+    tags: ['DREAM MODE', 'AUTO-GENERATED'],
+    env: 'HARBOR PORT Environment',
+    engagement: 'CQB & Vertical',
+    hazard: 'TBD',
+    scale: 'Tier 1-4',
+    comingSoon: false
+  }
 ];
 
 function createBuilder(scene, world) {
@@ -1316,7 +1340,9 @@ export const MAP_BUILDERS = {
   zen: buildZen,
   garden: buildZen,
   studio: buildStudio,
-  mexico: buildMexico
+  mexico: buildMexico,
+  pirate_cove: buildPirateCove,
+  harbor_port: buildHarborPort
 };
 
 export function registerMapBuilder(key, builderFn) {

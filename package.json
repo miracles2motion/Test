@@ -25,7 +25,8 @@
     "map:pack": "node src/map-pack.js",
     "map:dream": "node src/map-synthesizer.js",
     "map:macro": "node src/macro-dreamer.js",
-    "map:inject": "node src/map-injector.js"
+    "map:inject": "node src/map-injector.js",
+    "map:god": "node src/dream-orchestrator.js"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",
