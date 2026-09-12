@@ -1343,6 +1343,7 @@ function weaponsPreviewHTML() {
 function getMapSVG(key, isDossier = false) {
   const c = 'currentColor';
   const alpha = isDossier ? '0.85' : '0.7';
+  let paths = '';
   
   if (key === 'district') {
     if (isDossier) {
@@ -1624,6 +1625,7 @@ function mapSelectHTML() {
     <div class="tactical-top-bar">
       <div class="tactical-mode-switch">
         <button class="tactical-mode-btn ${game.mode === 'solo' ? 'active' : ''}" id="topSoloBtn">SURVIVAL</button>
+        <button class="tactical-mode-btn ${game.mode === 'duel' ? 'active' : ''}" id="topDuelBtn">1v1 DUEL</button>
         <button class="tactical-mode-btn ${game.mode === 'explore' ? 'active' : ''}" id="topExploreBtn">FREE ROAM</button>
         <button class="tactical-mode-btn" id="topOnlineBtn">MULTIPLAYER</button>
       </div>
@@ -1639,13 +1641,15 @@ function mapSelectHTML() {
       <button class="tactical-filter-btn ${filter === 'anomalous' ? 'active' : ''}" data-filter="anomalous">ANOMALOUS LABS</button>
     </div>
 
-    <div class="tactical-difficulty">
-      <div style="font-size:10px; opacity:0.7; margin-bottom:5px; letter-spacing:2px; font-weight:bold;">ENEMY AI DIFFICULTY</div>
-      <button class="tactical-filter-btn ${window.currentDifficulty === 0 ? 'active' : ''}" data-diff="0" title="Stupid: Frequent friendly fire, falls into holes">STUPID</button>
-      <button class="tactical-filter-btn ${window.currentDifficulty === 1 ? 'active' : ''}" data-diff="1" title="Easy: Slow aiming, basic pathing">EASY</button>
-      <button class="tactical-filter-btn ${(window.currentDifficulty === undefined || window.currentDifficulty === 2) ? 'active' : ''}" data-diff="2" title="Hard: Standard AI, avoids hazards">HARD</button>
-      <button class="tactical-filter-btn ${window.currentDifficulty === 3 ? 'active' : ''}" data-diff="3" title="Extreme: Flanking maneuvers, zero friendly fire">EXTREME</button>
-      <button class="tactical-filter-btn ${window.currentDifficulty === 4 ? 'active' : ''}" style="${window.currentDifficulty === 4 ? 'color:#ff3366; border-color:#ff3366;' : ''}" data-diff="4" title="AI GOD MODE: Extreme reasoning, takes cover, slides">AI GOD MODE</button>
+    <div class="tactical-difficulty" style="margin: 15px 0 5px 0; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+      <div style="font-size:11px; opacity:0.8; letter-spacing:1px; font-weight:bold;">AI DIFFICULTY</div>
+      <div style="display: flex; gap: 6px; justify-content: center; flex-wrap: wrap;">
+        <button class="tactical-filter-btn" style="font-size: 11px; padding: 4px 12px; border-width: 1.5px; border-radius: 4px; min-width: 70px; ${window.currentDifficulty === 0 ? 'background:var(--ink); color:var(--paper);' : 'background:transparent; color:var(--ink);'}" data-diff="0" title="Stupid">STUPID</button>
+        <button class="tactical-filter-btn" style="font-size: 11px; padding: 4px 12px; border-width: 1.5px; border-radius: 4px; min-width: 70px; ${window.currentDifficulty === 1 ? 'background:var(--ink); color:var(--paper);' : 'background:transparent; color:var(--ink);'}" data-diff="1" title="Easy">EASY</button>
+        <button class="tactical-filter-btn" style="font-size: 11px; padding: 4px 12px; border-width: 1.5px; border-radius: 4px; min-width: 70px; ${(window.currentDifficulty === undefined || window.currentDifficulty === 2) ? 'background:var(--ink); color:var(--paper);' : 'background:transparent; color:var(--ink);'}" data-diff="2" title="Hard">HARD</button>
+        <button class="tactical-filter-btn" style="font-size: 11px; padding: 4px 12px; border-width: 1.5px; border-radius: 4px; min-width: 70px; ${window.currentDifficulty === 3 ? 'background:var(--ink); color:var(--paper);' : 'background:transparent; color:var(--ink);'}" data-diff="3" title="Extreme">EXTREME</button>
+        <button class="tactical-filter-btn" style="font-size: 11px; padding: 4px 12px; border-width: 1.5px; border-radius: 4px; min-width: 70px; ${window.currentDifficulty === 4 ? 'background:var(--red); color:white; border-color:var(--red);' : 'background:transparent; color:var(--red); border-color:var(--red);'}" data-diff="4" title="AI GOD MODE">GOD MODE</button>
+      </div>
     </div>
 
     <div class="tactical-body">
@@ -1689,13 +1693,15 @@ function mainHTML() {
   </button>
   <h1>DOODLE STRIKE</h1><h2>TACTICAL INK SHOOTER</h2>
     <div class="mainbtns">
-      <div class="tactical-difficulty" style="margin-bottom: 20px;">
-        <div style="font-size:10px; opacity:0.7; margin-bottom:5px; letter-spacing:2px; font-weight:bold;">ENEMY AI DIFFICULTY</div>
-        <button class="tactical-filter-btn ${window.currentDifficulty === 0 ? 'active' : ''}" data-diff="0" title="Stupid: Frequent friendly fire, falls into holes">STUPID</button>
-        <button class="tactical-filter-btn ${window.currentDifficulty === 1 ? 'active' : ''}" data-diff="1" title="Easy: Slow aiming, basic pathing">EASY</button>
-        <button class="tactical-filter-btn ${(window.currentDifficulty === undefined || window.currentDifficulty === 2) ? 'active' : ''}" data-diff="2" title="Hard: Standard AI, avoids hazards">HARD</button>
-        <button class="tactical-filter-btn ${window.currentDifficulty === 3 ? 'active' : ''}" data-diff="3" title="Extreme: Flanking maneuvers, zero friendly fire">EXTREME</button>
-        <button class="tactical-filter-btn ${window.currentDifficulty === 4 ? 'active' : ''}" style="${window.currentDifficulty === 4 ? 'color:#ff3366; border-color:#ff3366;' : ''}" data-diff="4" title="AI GOD MODE: Extreme reasoning, takes cover, slides">AI GOD MODE</button>
+      <div class="tactical-difficulty" style="margin-bottom: 15px; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+        <div style="font-size:11px; opacity:0.8; letter-spacing:1px; font-weight:bold;">AI DIFFICULTY</div>
+        <div style="display: flex; gap: 6px; justify-content: center; flex-wrap: wrap;">
+          <button class="tactical-filter-btn" style="font-size: 11px; padding: 4px 12px; border-width: 1.5px; border-radius: 4px; min-width: 70px; ${window.currentDifficulty === 0 ? 'background:var(--ink); color:var(--paper);' : 'background:transparent; color:var(--ink);'}" data-diff="0" title="Stupid">STUPID</button>
+          <button class="tactical-filter-btn" style="font-size: 11px; padding: 4px 12px; border-width: 1.5px; border-radius: 4px; min-width: 70px; ${window.currentDifficulty === 1 ? 'background:var(--ink); color:var(--paper);' : 'background:transparent; color:var(--ink);'}" data-diff="1" title="Easy">EASY</button>
+          <button class="tactical-filter-btn" style="font-size: 11px; padding: 4px 12px; border-width: 1.5px; border-radius: 4px; min-width: 70px; ${(window.currentDifficulty === undefined || window.currentDifficulty === 2) ? 'background:var(--ink); color:var(--paper);' : 'background:transparent; color:var(--ink);'}" data-diff="2" title="Hard">HARD</button>
+          <button class="tactical-filter-btn" style="font-size: 11px; padding: 4px 12px; border-width: 1.5px; border-radius: 4px; min-width: 70px; ${window.currentDifficulty === 3 ? 'background:var(--ink); color:var(--paper);' : 'background:transparent; color:var(--ink);'}" data-diff="3" title="Extreme">EXTREME</button>
+          <button class="tactical-filter-btn" style="font-size: 11px; padding: 4px 12px; border-width: 1.5px; border-radius: 4px; min-width: 70px; ${window.currentDifficulty === 4 ? 'background:var(--red); color:white; border-color:var(--red);' : 'background:transparent; color:var(--red); border-color:var(--red);'}" data-diff="4" title="AI GOD MODE">GOD MODE</button>
+        </div>
       </div>
 
       <button type="button" id="soloBtn">SURVIVAL</button>
@@ -1850,12 +1856,15 @@ function showStart() {
         hud.tip('Mission in development · Select an active theater', 2.0);
         return;
       }
-      if (game.mode === 'explore') beginExplore(); else begin();
+      if (game.mode === 'explore') beginExplore(); 
+      else if (game.mode === 'duel') beginDuel();
+      else begin();
     });
     fastClick(p.querySelector('#backBtn'), () => { screen = 'main'; showStart(); });
     fastClick(p.querySelector('#weaponsBtn'), () => { weaponsReturnTo = 'map_select'; screen = 'weapons_preview'; showStart(); });
     
     fastClick(p.querySelector('#topSoloBtn'), () => { game.mode = 'solo'; showStart(); });
+    if (p.querySelector('#topDuelBtn')) fastClick(p.querySelector('#topDuelBtn'), () => { game.mode = 'duel'; showStart(); });
     fastClick(p.querySelector('#topExploreBtn'), () => { game.mode = 'explore'; showStart(); });
     fastClick(p.querySelector('#topOnlineBtn'), () => { screen = 'online'; showStart(); });
     fastClick(p.querySelector('#topSettingsBtn'), () => { settingsReturnTo = 'map_select'; screen = 'settings'; showStart(); });
