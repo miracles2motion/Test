@@ -6,7 +6,7 @@ import { rand, randInt, clamp, damp, wrapAngle, angleLerp, choose, alignYAxis, T
 import { audio } from './audio.js';
 
 const _v = new THREE.Vector3(), _v2 = new THREE.Vector3(), _v3 = new THREE.Vector3(), _d = new THREE.Vector3(), _q = new THREE.Quaternion(), _m = new THREE.Matrix4(), _s = new THREE.Vector3();
-const _up = new THREE.Vector3(0, 1, 0), _eye = new THREE.Vector3(), _goal = new THREE.Vector3();
+const _up = new THREE.Vector3(0, 1, 0), _eye = new THREE.Vector3(), _goal = new THREE.Vector3(), _aimV = new THREE.Vector3();
 const nxOf = (dx, d) => dx / (d || 1), nzOf = (dz, d) => dz / (d || 1);
 
 export const BOSSES = ['boss', 'eraser', 'inkblot'];
@@ -512,42 +512,100 @@ export class EnemyManager {
     this._steer(e, dt, goal.x, goal.z, speed, 40);
     const hd = Math.hypot(goal.x - b.pos.x, goal.z - b.pos.z);
     if (b.onGround) {
-      if (goal.y > b.pos.y + 0.6 && hd < 1.7) { b.vel.y = 9; b.onGround = false; }
-      else if (b.hitWall) { e.stuckT += dt; if (e.stuckT > 0.35 && e.stuckT < 0.4) e.pathT = 0; if (e.stuckT > 0.9) { b.vel.y = 9; b.onGround = false; e.stuckT = 0; e.pathT = 0; } }
+      if (goal.y > b.pos.y + 0.6 && hd < 1.7) { b.vel.y = 6.2; b.onGround = false; }
+      else if (b.hitWall) { e.stuckT += dt; if (e.stuckT > 0.35 && e.stuckT < 0.4) e.pathT = 0; if (e.stuckT > 0.9) { b.vel.y = 5.0; b.onGround = false; e.stuckT = 0; e.pathT = 0; } }
       else e.stuckT = 0;
     }
   }
   _wander(e, dt) { e.body.vel.x = damp(e.body.vel.x, 0, 6, dt); e.body.vel.z = damp(e.body.vel.z, 0, 6, dt); e.aimAmt = damp(e.aimAmt, 0, 5, dt); }
-  _findCover(e, pp) {
-    const b = e.body, world = this.ctx.world;
-    for (let i = 0; i < 8; i++) {
-      const a = (i / 8) * TAU; _d.set(Math.cos(a), 0, Math.sin(a));
-      const hit = world.raycast(b.pos, _d, 15, SEE_THROUGH);
+  _findCover(e, pp, pc) {
+    const b = e.body, nav = this.ctx.nav, world = this.ctx.world;
+    const eyeTarget = pc || pp;
+    
+    // 1. Search nearby navigation nodes for true spatial cover (behind walls, pillars, crates)
+    if (nav && nav.nodes && nav.nodes.length) {
+      const c = nav.cell;
+      const cx = Math.floor((b.pos.x - nav.minX) / c);
+      const cz = Math.floor((b.pos.z - nav.minZ) / c);
+      const r = 14;
+      let bestNode = null;
+      let bestScore = Infinity;
+
+      for (let iz = Math.max(0, cz - r); iz <= Math.min(nav.nz - 1, cz + r); iz += 2) {
+        for (let ix = Math.max(0, cx - r); ix <= Math.min(nav.nx - 1, cx + r); ix += 2) {
+          const cand = nav.cells[iz * nav.nx + ix];
+          if (!cand) continue;
+          for (const id of cand) {
+            const n = nav.nodes[id];
+            const dy = n.y - b.pos.y;
+            if (dy < -2.0 || dy > 2.5) continue;
+            
+            const distToEnemy = Math.hypot(n.x - b.pos.x, n.z - b.pos.z);
+            if (distToEnemy < 3.5 || distToEnemy > 18.0) continue;
+            
+            const distToPlayer = Math.hypot(n.x - pp.x, n.z - pp.z);
+            if (distToPlayer < 7.0) continue; // Never choose cover right next to player
+            
+            _v.set(n.x, n.y + 1.2, n.z);
+            if (!world.hasLineOfSight(_v, eyeTarget, SEE_THROUGH)) {
+              const score = distToEnemy - (distToPlayer * 0.3);
+              if (score < bestScore) {
+                bestScore = score;
+                bestNode = new THREE.Vector3(n.x, n.y, n.z);
+              }
+            }
+          }
+        }
+      }
+      if (bestNode) return bestNode;
+    }
+
+    // 2. Fallback: Raycast in 12 directions looking for walls where reverse side blocks LOS
+    for (let i = 0; i < 12; i++) {
+      const a = (i / 12) * TAU;
+      _d.set(Math.cos(a), 0, Math.sin(a));
+      const hit = world.raycast(b.pos, _d, 16, SEE_THROUGH);
       if (hit && hit.distance > 3) {
-        _v.copy(hit.point).addScaledVector(hit.normal, 1.0);
-        if (!world.hasLineOfSight(_v, pp, SEE_THROUGH)) return _v.clone();
+        _v.copy(hit.point).addScaledVector(hit.normal, 1.2);
+        if (Math.hypot(_v.x - pp.x, _v.z - pp.z) > 6.0 && !world.hasLineOfSight(_v, eyeTarget, SEE_THROUGH)) {
+          return _v.clone();
+        }
       }
     }
     return null;
   }
-  _evasiveJump(e, dx, dz, dist, diff) {
-    const b = e.body; e.dodgeCooldown = diff === 4 ? rand(0.3, 0.8) : 1.5;
+  _combatSlide(e, dx, dz, dist, diff) {
+    const b = e.body;
+    e.dodgeCooldown = diff === 4 ? rand(1.2, 1.7) : diff === 3 ? rand(2.0, 2.8) : rand(3.0, 4.2);
     let perpX = -dz / dist, perpZ = dx / dist;
     if (Math.random() < 0.5) { perpX = -perpX; perpZ = -perpZ; }
     if (diff >= 3 && !this._groundAhead(e, perpX, perpZ)) { perpX = -perpX; perpZ = -perpZ; }
-    b.vel.x += perpX * 14; b.vel.z += perpZ * 14; b.vel.y += 6; b.onGround = false;
+    const slideSpeed = diff === 4 ? 12 : 9.5;
+    b.vel.x += perpX * slideSpeed;
+    b.vel.z += perpZ * slideSpeed;
+    // Ground slide impulse - low profile slide, NO vertical rocket jump!
+    b.vel.y = Math.max(b.vel.y, 0.4);
   }
-  _retreatToCover(e, dt) {
-    const b = e.body; e.yawT = Math.atan2(e.coverPoint.x - b.pos.x, e.coverPoint.z - b.pos.z);
-    if (b.pos.distanceToSquared(e.coverPoint) < 2) {
-      e.coverT -= dt; b.vel.x = damp(b.vel.x, 0, 8, dt); b.vel.z = damp(b.vel.z, 0, 8, dt);
-      if (e.coverT <= 0) {
-        e.coverT = rand(1, 2); e.coverPoint = null; 
+  _retreatToCover(e, dt, pp) {
+    const b = e.body;
+    const distSq = b.pos.distanceToSquared(e.coverPoint);
+    const inCover = distSq < 3.5 || (!e.los && distSq < 9.0);
+    
+    if (inCover) {
+      // Reached cover: crouch, hold position, and prepare ambush
+      e.coverT -= dt;
+      b.vel.x = damp(b.vel.x, 0, 8, dt);
+      b.vel.z = damp(b.vel.z, 0, 8, dt);
+      if (pp) e.yawT = Math.atan2(pp.x - b.pos.x, pp.z - b.pos.z);
+      if (e.coverT <= 0 || (e.T.role === 'ranged' && e.cool <= 0 && e.hp / e.maxHp > 0.35)) {
+        e.coverT = 0;
+        e.coverPoint = null;
         if (e.retreating) { e.retreating = false; e.cool = 0; }
       }
     } else {
-      this._steer(e, dt, e.coverPoint.x, e.coverPoint.z, e.T.speed * 1.3, 40);
-      if (b.onGround && b.hitWall) { b.vel.y = 9; b.onGround = false; }
+      // SPRINT TO COVER using NavMesh pathfinding!
+      this._follow(e, dt, e.coverPoint, e.T.speed * 1.35);
+      e.aimAmt = damp(e.aimAmt, 0, 8, dt);
     }
   }
   _think(e, dt, pp, pc, P) {
@@ -561,15 +619,49 @@ export class EnemyManager {
     if (diff === 0 && e.los && !e.hasPanicked && role !== 'kamikaze' && role !== 'aerial' && !T.boss) { e.panicT = rand(1.0, 2.0); e.hasPanicked = true; }
     if (e.panicT > 0) { e.panicT -= dt; this._wander(e, dt); e.justHit = false; return; }
 
-    if (e.justHit && T.canDodge && diff >= 2 && b.onGround && e.dodgeCooldown <= 0) this._evasiveJump(e, pp.x - b.pos.x, pp.z - b.pos.z, Math.hypot(pp.x - b.pos.x, pp.z - b.pos.z), diff);
-    e.justHit = false; if (e.dodgeCooldown > 0) e.dodgeCooldown -= dt;
+    const dxReal = pp.x - b.pos.x, dzReal = pp.z - b.pos.z;
+    const distReal = Math.hypot(dxReal, dzReal);
 
-    if (diff >= 3 && e.hp / e.maxHp < (T.canRetreat ? 0.3 : 0.5) && T.canCover) {
-      if (T.canRetreat && e.hp / e.maxHp < 0.3 && !e.retreating && !T.berserker) { e.retreating = true; e.coverPoint = this._findCover(e, pp); if (e.coverPoint) e.coverT = rand(2, 4); }
-      else if (!e.retreating && e.hp / e.maxHp < 0.5 && !e.coverPoint) { e.coverPoint = this._findCover(e, pp); if (e.coverPoint) e.coverT = rand(1, 2.5); }
+    // Detect if player is aiming crosshair directly at this enemy
+    let playerAimingAtMe = false;
+    if (P && P.camera && e.los && distReal < 35) {
+      P.camera.getWorldDirection(_aimV);
+      _d.subVectors(e.center, P.eye).normalize();
+      if (_aimV.dot(_d) > 0.985) playerAimingAtMe = true;
     }
-    if (e.coverPoint) { this._retreatToCover(e, dt); return; }
 
+    // Tactical combat slide: Trigger on damage impact or when locked into player's crosshair
+    if (T.canDodge && b.onGround && e.dodgeCooldown <= 0) {
+      if (e.justHit && diff >= 2) {
+        this._combatSlide(e, dxReal, dzReal, distReal, diff);
+      } else if (playerAimingAtMe && diff >= 3 && Math.random() < (diff === 4 ? 0.95 : 0.6) * dt * 10) {
+        this._combatSlide(e, dxReal, dzReal, distReal, diff);
+      }
+    }
+    e.justHit = false;
+    if (e.dodgeCooldown > 0) e.dodgeCooldown -= dt;
+
+    // Tactical Cover System:
+    // 1. Critical health retreat to break line of sight
+    if (diff >= 2 && e.hp / e.maxHp < (diff >= 4 ? 0.55 : 0.4) && T.canCover && !T.berserker) {
+      if (!e.coverPoint && !e.retreating) {
+        e.retreating = true;
+        e.coverPoint = this._findCover(e, pp, pc);
+        if (e.coverPoint) e.coverT = rand(2.2, 4.0);
+      }
+    }
+    // 2. Tactical reload cover for ranged enemies while cycling weapons
+    else if (diff >= 3 && T.role === 'ranged' && T.canCover && e.cool > 0.7 && !e.coverPoint && e.los) {
+      e.coverPoint = this._findCover(e, pp, pc);
+      if (e.coverPoint) e.coverT = Math.min(e.cool, 2.0);
+    }
+
+    if (e.coverPoint) {
+      this._retreatToCover(e, dt, pp);
+      return;
+    }
+
+    // Predictive aim scales by wave on Hard+ (2+)
     let targetX = pp.x, targetZ = pp.z;
     if (diff >= 2 && P.body && P.body.vel) {
       const predForce = diff >= 3 ? 0.2 * waveMult : 0.05 * waveMult;
@@ -582,8 +674,6 @@ export class EnemyManager {
       if (diff === 0) baseDelay = Math.min(0.8, baseDelay + (0.05 * waveMult));
       e.losT = baseDelay + rand(0, 0.1); e.los = ctx.world.hasLineOfSight(this.eye(e, _eye), pc, SEE_THROUGH); 
     }
-    
-    if (diff === 4 && e.los && T.canDodge && b.onGround && e.dodgeCooldown <= 0) this._evasiveJump(e, dx, dz, dist, diff);
 
     let coolMod = 1.0;
     if (diff >= 2) coolMod = Math.min(2.5, 1.0 + (0.05 * waveMult));
@@ -642,7 +732,7 @@ export class EnemyManager {
         } else {
           const g = dist > 4.5 ? this._approachPoint(e, dt, pp, _goal) : pp;
           this._steer(e, dt, g.x, g.z, T.speed, 45);
-          if (b.onGround && b.hitWall) { e.stuckT += dt; if (e.stuckT > 0.25) { b.vel.y = 9; e.stuckT = 0; } }
+          if (b.onGround && b.hitWall) { e.stuckT += dt; if (e.stuckT > 0.8) { b.vel.y = 4.8; e.stuckT = 0; } }
         }
       } else this._follow(e, dt, pp, T.speed);
       return;
