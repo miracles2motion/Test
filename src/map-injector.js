@@ -228,8 +228,8 @@ for (const p of safePockets) {
   else pocketsByQuad.SE.push(p);
 }
 
-// Select props, ensuring even distribution (target: ~80 total, ~20 per quad)
-const MAX_PROPS = 80;
+// Fill every possible space (infinite props up to physical limits)
+const MAX_PROPS = 9999;
 const targetPerQuad = Math.ceil(MAX_PROPS / 4);
 const selectedProps = [];
 
@@ -241,8 +241,8 @@ for (const [quad, pockets] of Object.entries(pocketsByQuad)) {
   for (const pocket of shuffled) {
     if (selected.length >= targetPerQuad) break;
 
-    // Ensure props don't crowd each other (min 3m apart)
-    const tooClose = [...selectedProps, ...selected].some(s => Math.hypot(s.x - pocket.x, s.z - pocket.z) < 3.0 && Math.abs(s.y - pocket.y) < 2.0);
+    // Ensure props don't overlap (min 1.5m apart)
+    const tooClose = [...selectedProps, ...selected].some(s => Math.hypot(s.x - pocket.x, s.z - pocket.z) < 1.5 && Math.abs(s.y - pocket.y) < 2.0);
 
     if (!tooClose) {
       selected.push(pocket);

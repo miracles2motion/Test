@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-09-12T20:33:14.832Z",
+  "updatedAt": "2026-09-12T20:44:01.400Z",
   "rules": {
     "stairway": {
       "minRise": 0.2,
@@ -57,16 +57,16 @@
       "description": "Injected 9 safe 3D props into level code",
       "trigger": "dream-auto-injection",
       "autoRemedy": "3dPropInject",
-      "occurrences": 25,
-      "lastObserved": "2026-09-12T20:33:14.313Z"
+      "occurrences": 26,
+      "lastObserved": "2026-09-12T20:44:00.676Z"
     },
     {
       "patternId": "macro-dream-building",
       "description": "Synthesized 2 multi-story interactive buildings",
       "trigger": "macro-dream-building",
       "autoRemedy": "macroSpatialInjection",
-      "occurrences": 30,
-      "lastObserved": "2026-09-12T20:33:14.054Z"
+      "occurrences": 31,
+      "lastObserved": "2026-09-12T20:44:00.406Z"
     },
     {
       "patternId": "macro-syntax-failure",
@@ -419,26 +419,26 @@
       "mapKey": "pirate_cove",
       "patternId": "dream-auto-injection",
       "description": "Injected 80 safe 3D props (God Mode, theme: maritime)"
+    },
+    {
+      "timestamp": "2026-09-12T20:44:00.406Z",
+      "mapKey": "pirate_cove",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
+    },
+    {
+      "timestamp": "2026-09-12T20:44:00.676Z",
+      "mapKey": "pirate_cove",
+      "patternId": "dream-auto-injection",
+      "description": "Injected 515 safe 3D props (God Mode, theme: maritime)"
     }
   ],
   "failureBlacklist": {},
   "successRegistry": {
     "galleon_sterncastle": {
-      "count": 27,
-      "totalScore": 2295,
+      "count": 29,
+      "totalScore": 2465,
       "positions": [
-        {
-          "mapKey": "cove",
-          "x": -43,
-          "y": 0,
-          "z": 41
-        },
-        {
-          "mapKey": "pirate_cove",
-          "x": -31,
-          "y": 0,
-          "z": -37
-        },
         {
           "mapKey": "pirate_cove",
           "x": -43,
@@ -546,14 +546,26 @@
           "x": -19,
           "y": 0,
           "z": -37
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -43,
+          "y": 0,
+          "z": -13
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -31,
+          "y": 0,
+          "z": -25
         }
       ],
       "avgScore": 85,
-      "lastSuccess": "2026-09-12T20:33:14.053Z"
+      "lastSuccess": "2026-09-12T20:44:00.405Z"
     },
     "lighthouse_beacon": {
-      "count": 9,
-      "totalScore": 765,
+      "count": 10,
+      "totalScore": 850,
       "positions": [
         {
           "mapKey": "pirate_cove",
@@ -608,21 +620,21 @@
           "x": -19,
           "y": 0,
           "z": 29
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -37,
+          "y": 0,
+          "z": -43
         }
       ],
       "avgScore": 85,
-      "lastSuccess": "2026-09-12T20:33:14.054Z"
+      "lastSuccess": "2026-09-12T20:44:00.404Z"
     },
     "cargo_crane": {
-      "count": 44,
-      "totalScore": 3740,
+      "count": 45,
+      "totalScore": 3825,
       "positions": [
-        {
-          "mapKey": "pirate_cove",
-          "x": -19,
-          "y": 0,
-          "z": 11
-        },
         {
           "mapKey": "pirate_cove",
           "x": -43,
@@ -736,10 +748,16 @@
           "x": -25,
           "y": 0,
           "z": 11
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -37,
+          "y": 0,
+          "z": 23
         }
       ],
       "avgScore": 85,
-      "lastSuccess": "2026-09-12T20:33:14.053Z"
+      "lastSuccess": "2026-09-12T20:44:00.405Z"
     },
     "bell_pavilion": {
       "count": 5,
@@ -841,13 +859,6 @@
   "errorRateTracker": {
     "windowSize": 20,
     "runs": [
-      {
-        "timestamp": "2026-09-12T06:50:47.828Z",
-        "mapKey": "zen",
-        "success": true,
-        "score": 0,
-        "mode": "MAP"
-      },
       {
         "timestamp": "2026-09-12T10:39:45.352Z",
         "mapKey": "zen",
@@ -976,6 +987,13 @@
       },
       {
         "timestamp": "2026-09-12T20:33:14.831Z",
+        "mapKey": "pirate_cove",
+        "success": true,
+        "score": 0,
+        "mode": "MAP"
+      },
+      {
+        "timestamp": "2026-09-12T20:44:01.400Z",
         "mapKey": "pirate_cove",
         "success": true,
         "score": 0,
