@@ -50,8 +50,8 @@ export function buildPirateCove(B, arena = false) {
   stairs(0, 6, 18, 16, 2, 4, 2, { ink: BK });  // South Bow
   
   // Ramps connecting ground to the Ironclad deck
-  stairs(0, 0, -28, 10, 6, 12, 0, { ink: BL }); // North access ramp
-  stairs(0, 0, 28, 10, 6, 12, 2, { ink: BL });  // South access ramp
+  // User requested a single massive boarding staircase at one end for a King of the Hill flow
+  stairs(0, 0, 25, 12, 8, 14, 2, { ink: BL });  // South massive boarding ramp (Y=0 to Y=8)
   
   // Deck Cover: Massive Cylindrical Smokestacks
   cyl(0, 8, -8, 2.5, 6, { ink: OR }); // North Smokestack
