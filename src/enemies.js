@@ -4,6 +4,7 @@ import { makeInkMaterial, setFill, INK } from './render.js';
 import { makeBody, SEE_THROUGH } from './physics.js';
 import { rand, randInt, clamp, damp, wrapAngle, angleLerp, choose, alignYAxis, TAU } from './util.js';
 import { audio } from './audio.js';
+import { EnemyBrain } from './enemy-brain.js';
 
 const _v = new THREE.Vector3(), _v2 = new THREE.Vector3(), _v3 = new THREE.Vector3(), _d = new THREE.Vector3(), _q = new THREE.Quaternion(), _m = new THREE.Matrix4(), _s = new THREE.Vector3();
 const _up = new THREE.Vector3(0, 1, 0), _eye = new THREE.Vector3(), _goal = new THREE.Vector3(), _aimV = new THREE.Vector3();
@@ -235,6 +236,7 @@ export class EnemyManager {
     this.ctx = ctx; this.enemies = []; this.alive = 0; this.projectiles = new Projectiles(this); this.onKill = null; this.onBoss = null; this._sepT = 0; this._slot = 0; this.mods = { speed: 1, damage: 1 };
     // mirror mode: this peer is a client; the host owns AI, physics and health, we only render
     this.mirror = false; this.nextId = 1; this.onClientHit = null; this.onSpawn = null; this.byId = new Map();
+    this.brain = new EnemyBrain(this);
   }
   // Everyone an enemy may go after. Solo play is just the local player.
   targets() { return this.ctx.targets ? this.ctx.targets() : [this.ctx.player]; }
@@ -375,6 +377,7 @@ export class EnemyManager {
   eye(e, out) { return out.setFromMatrixPosition(e.parts.head.matrixWorld); }
   update(dt) {
     if (this.mirror) { this._updateMirror(dt); return; }
+    if (this.ctx.player && this.brain) this.brain.updateProfile(this.ctx.player, dt);
     const ctx = this.ctx, world = ctx.world;
     for (const e of this.enemies) {
       e.t += dt;
@@ -624,6 +627,9 @@ export class EnemyManager {
     const dxReal = pp.x - b.pos.x, dzReal = pp.z - b.pos.z;
     const distReal = Math.hypot(dxReal, dzReal);
 
+    let brainMods = { keepMulBias: 1, strafeDirOverride: null, dodgeChanceMul: 1, suppress: false };
+    if (this.brain) brainMods = this.brain.consult(e, distReal, e.los);
+
     // Detect if player is aiming crosshair directly at this enemy
     let playerAimingAtMe = false;
     if (P && P.camera && e.los && distReal < 35) {
@@ -636,7 +642,7 @@ export class EnemyManager {
     if (T.canDodge && b.onGround && e.dodgeCooldown <= 0) {
       if (e.justHit && diff >= 2) {
         this._combatSlide(e, dxReal, dzReal, distReal, diff);
-      } else if (playerAimingAtMe && diff >= 3 && Math.random() < (diff === 4 ? 0.95 : 0.6) * dt * 10) {
+      } else if (playerAimingAtMe && diff >= 3 && Math.random() < (diff === 4 ? 0.95 : 0.6) * brainMods.dodgeChanceMul * dt * 10) {
         this._combatSlide(e, dxReal, dzReal, distReal, diff);
       }
     }
@@ -760,19 +766,19 @@ export class EnemyManager {
       e.aimAmt = damp(e.aimAmt, 1, diff === 4 ? 18 : 8, dt); e.yawT = yawTo;
       let mx = 0, mz = 0; const nx = dx / dist, nz = dz / dist;
       if (T.stationary) { mx = 0; mz = 0; }
-      else if (dist > T.stop * e.keepMul) { 
+      else if (dist > T.stop * e.keepMul * brainMods.keepMulBias) { 
         if (diff === 4 && T.canFlank) { _v.copy(pp).addScaledVector(P.forward || _d.set(0,0,1), -8).applyAxisAngle(_up, e.flankAngle); this._follow(e, dt, _v, T.speed * 1.15); }
         else this._follow(e, dt, pp, T.speed * (diff === 4 ? 1.05 : 0.8)); 
-        this._shoot(e, dt, pc, P); e.yawT = yawTo; return; 
+        this._shoot(e, dt, pc, P, brainMods.suppress); e.yawT = yawTo; return; 
       }
-      else if (Math.abs(dy) > 1.2) { this._follow(e, dt, pp, T.speed * 0.9); this._shoot(e, dt, pc, P); e.yawT = yawTo; return; }
-      else if (dist < T.keep * e.keepMul) { mx = -nx; mz = -nz; }
+      else if (Math.abs(dy) > 1.2) { this._follow(e, dt, pp, T.speed * 0.9); this._shoot(e, dt, pc, P, brainMods.suppress); e.yawT = yawTo; return; }
+      else if (dist < T.keep * e.keepMul * brainMods.keepMulBias) { mx = -nx; mz = -nz; }
       else if (dist > T.range * 0.7 && T.weapon === 'shotgun') { mx = nx; mz = nz; }
-      else { e.strafeT -= dt; if (e.strafeT <= 0) { e.strafeT = rand(0.6, 1.6); e.strafeDir *= -1; } mx = -nz * e.strafeDir; mz = nx * e.strafeDir; }
+      else { e.strafeT -= dt; if (e.strafeT <= 0) { e.strafeT = rand(0.6, 1.6); e.strafeDir *= -1; } const sd = brainMods.strafeDirOverride !== null ? brainMods.strafeDirOverride : e.strafeDir; mx = -nz * sd; mz = nx * sd; }
       const spd = T.weapon === 'shotgun' ? T.speed * 1.1 : (diff === 4 ? T.speed * 0.9 : T.speed * 0.5);
       if ((mx || mz) && this._groundAhead(e, mx, mz)) { const a = 32 * dt; b.vel.x += clamp(mx * spd - b.vel.x, -a, a); b.vel.z += clamp(mz * spd - b.vel.z, -a, a); }
       else { b.vel.x = damp(b.vel.x, 0, 8, dt); b.vel.z = damp(b.vel.z, 0, 8, dt); }
-      this._shoot(e, dt, pc, P);
+      this._shoot(e, dt, pc, P, brainMods.suppress);
     } else {
       if (diff >= 3 && e.lastKnownPos) e.aimAmt = damp(e.aimAmt, 1, 8, dt);
       else e.aimAmt = damp(e.aimAmt, 0, 5, dt);
@@ -936,7 +942,7 @@ export class EnemyManager {
     _d.copy(b.vel); if (_d.lengthSq() > 0.1) e.yawT = Math.atan2(_d.x, _d.z);
   }
   _flyTo(e, target, speed, accel, dt) { const b = e.body; _d.subVectors(target, b.pos); const l = _d.length(); if (l < 0.3) { b.vel.multiplyScalar(Math.max(0, 1 - 4 * dt)); return; } _d.divideScalar(l).multiplyScalar(speed * this.mods.speed); _v3.subVectors(_d, b.vel); const m = _v3.length(); if (m > accel * dt) _v3.multiplyScalar(accel * dt / m); b.vel.add(_v3); }
-  _shoot(e, dt, pc, P) {
+  _shoot(e, dt, pc, P, suppress = false) {
     const T = e.T, ctx = this.ctx; const muzzle = _v.setFromMatrixPosition(e.tip.matrixWorld);
     const diff = typeof window !== 'undefined' ? (window.currentDifficulty ?? 2) : 2;
     const waveMult = typeof game !== 'undefined' ? game.wave : 1;
@@ -960,21 +966,21 @@ export class EnemyManager {
       let aimTimeMod = 1.0;
       if (diff >= 2) aimTimeMod = Math.max(0.2, 1.0 - (0.05 * waveMult));
       else if (diff === 0) aimTimeMod = Math.min(2.5, 1.2 + (0.1 * waveMult));
-      const targetAimTime = T.aimTime * aimTimeMod;
+      const targetAimTime = T.aimTime * aimTimeMod * (suppress ? 0.7 : 1.0);
       
       this._showLaser(e, muzzle, e.aimPoint, clamp(e.aimT / targetAimTime, 0, 1));
       if (e.aimT > targetAimTime * 0.5 && !e.aimWarned) { e.aimWarned = true; audio.sniperAim(e.center); }
       if (e.aimT >= targetAimTime) {
-        e.aimT = 0; e.aimWarned = false; e.cool = rand(T.cool[0], T.cool[1]);
+        e.aimT = 0; e.aimWarned = false; e.cool = suppress ? rand(0.5, 1.0) : rand(T.cool[0], T.cool[1]);
         this._fireOne(e, muzzle, e.aimPoint, T.spread, T.pspeed, T.dmg, 0.07, P); audio.sniperShot(e.center);
         this._hideLaser(e); e.aimPoint = null;
       }
       return;
     }
-    if (e.burstLeft > 0) { e.burstT -= dt; if (e.burstT <= 0) { e.burstT = T.burstInt; e.burstLeft--; this._fireOne(e, muzzle, pc, T.spread, T.pspeed, T.dmg, 0.045, P); audio.enemyShot(e.center); if (e.burstLeft === 0) e.cool = rand(T.cool[0], T.cool[1]); } return; }
+    if (e.burstLeft > 0) { e.burstT -= dt; if (e.burstT <= 0) { e.burstT = suppress ? (T.burstInt * 0.7) : T.burstInt; e.burstLeft--; this._fireOne(e, muzzle, pc, T.spread, T.pspeed, T.dmg, 0.045, P); audio.enemyShot(e.center); if (e.burstLeft === 0) e.cool = suppress ? rand(0.2, 0.6) : rand(T.cool[0], T.cool[1]); } return; }
     if (e.cool <= 0) {
-      if (T.weapon === 'shotgun') { for (let i = 0; i < T.pellets; i++) this._fireOne(e, muzzle, pc, T.spread, T.pspeed * rand(0.85, 1.1), T.dmg, 0.05, P); audio.shotgun(e.center); e.cool = rand(T.cool[0], T.cool[1]); ctx.effects.strokeBurst(muzzle, INK.ORANGE, 8, 5, { life: 0.1, size: 0.04 }); }
-      else { e.burstLeft = T.burst; e.burstT = 0; }
+      if (T.weapon === 'shotgun') { for (let i = 0; i < T.pellets; i++) this._fireOne(e, muzzle, pc, T.spread, T.pspeed * rand(0.85, 1.1), T.dmg, 0.05, P); audio.shotgun(e.center); e.cool = suppress ? rand(0.5, 1.0) : rand(T.cool[0], T.cool[1]); ctx.effects.strokeBurst(muzzle, INK.ORANGE, 8, 5, { life: 0.1, size: 0.04 }); }
+      else { e.burstLeft = T.burst + (suppress ? 2 : 0); e.burstT = 0; }
     }
   }
   _showLaser(e, from, to, charge) {

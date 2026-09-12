@@ -510,6 +510,7 @@ function updateWaves(dt) {
   hud.setWave(game.wave, enemies.alive + game.queue.length);
 }
 enemies.onKill = (e, info, over) => {
+  if (enemies.brain) enemies.brain.recordKill(e, info);
   game.kills++; game.combo++; game.comboT = 3.5;
   let label = e.T.name, pts = e.T.score;
   if (info.crit) { label = 'HEADSHOT'; pts += 60; }
@@ -524,7 +525,10 @@ enemies.onKill = (e, info, over) => {
   const r = Math.random(); if (r < 0.5) spawnPickup('ammo', e.body.pos); else if (r < 0.62) spawnPickup('health', e.body.pos);
 };
 enemies.onBoss = (e) => { if (!e.alive) { hud.setBoss(null, null); game.boss = null; } else { game.boss = e; hud.setBoss(e.T.name, e.hp / e.maxHp); } };
-player.onThrow = (d) => { if (net.active) net.broadcast('nade', d); };
+player.onThrow = (d) => { 
+  if (enemies.brain) enemies.brain.recordNade();
+  if (net.active) net.broadcast('nade', d); 
+};
 
 // ---------------- focus slash (solo only) ----------------
 const FOCUS_TIME = 2.6, FOCUS_SCALE = 0.26, FOCUS_RANGE = 24, FOCUS_MAX_CHAIN = 2, FOCUS_ARM = 0.18, DASH_SPEED = 46, KATANA_CHARGE_KILLS = 3;
@@ -607,7 +611,11 @@ function farthestSpawnIndex() {
   return best;
 }
 function onLocalDeath() {
-  if (!online()) { game.state = 'dying'; game.deathT = 0; return; }
+  if (!online()) { 
+    game.state = 'dying'; game.deathT = 0; 
+    if (enemies.brain) enemies.brain.saveIfGodMode();
+    return; 
+  }
   const killer = player.lastHitBy || null; const h = player.lastHit || {};
   const dir = h.from ? player.center.clone().sub(new THREE.Vector3().fromArray(h.from)).normalize().toArray().map((v) => +v.toFixed(2)) : null;
   const how = killer ? howWord(h.src) : null;
@@ -1990,6 +1998,7 @@ function resetGame() {
   player.maxHp = online() ? 110 : 120; player.regenDelay = online() ? 4 : 4.5; player.regenRate = online() ? 14 : 11;
   player.reset(level.playerStart); player.name = myName; player.lastHitBy = null; player.lastHit = null; enemies.mods.speed = 1; enemies.mods.damage = 1; hud.setModifier(''); hud.setBoss(null, null); game.boss = null; endFocus(); game.katanaStreak = 0;
   game.score = 0; game.kills = 0; game.combo = 0; game.wave = 0; game.intermission = 0; game.queue = []; game.time = 0; game.over = null; game.matchT = 0; hud.setScore(0, 0); hud.setTimer(''); hud.setPvpScore(null); hud.setWave(1, 0); hud.setBoard(null);
+  if (enemies.brain) enemies.brain.init(hud);
 }
 function beginCommon() { audio.init(); audio.resume(); if (!input.usingGamepad && !input.isTouch && !mobile.enabled) input.requestLock(); if (musicWanted && !audio.musicPlaying) audio.musicOn(true); hud.hideScreen(); hud.setGameplayVisible(true); game.menu = false; }
 function begin() { game.mode = 'solo'; setArena(false); beginCommon(); if (game.state === 'start' || game.state === 'dead') { resetGame(); startWave(1); } game.state = 'play'; }

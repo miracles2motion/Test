@@ -135,6 +135,7 @@ export class Gun extends ViewModel {
     let hits = 0;
     const origin = P.camera.position;
     for (let i = 0; i < this.pellets; i++) if (this.fireRay(origin, P.aimDir(spreadNow))) hits++;
+    if (ctx.enemies && ctx.enemies.brain) ctx.enemies.brain.recordShot(this.kind, hits > 0);
     // fx
     this.flash.visible = true; this.flashT = 0.045; this.flash.rotation.z = rand(0, TAU); this.flash.scale.setScalar(this.flashScale * rand(0.8, 1.4));
     this.muzzle.getWorldPosition(_v); _v2.copy(P.forward);
