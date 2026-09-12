@@ -92,8 +92,8 @@ canvas#c { position: fixed; inset: 0; width: 100vw; height: 100vh; display: bloc
   flex-direction: column;
   position: relative;
 }
-.panel h1 { font-size: 80px; margin: 0; letter-spacing: 3px; line-height: 1; }
-.panel h2 { font-size: 32px; margin: 4px 0 14px; font-weight: normal; }
+.panel h1 { font-size: clamp(40px, 8vh, 80px); margin: 0; letter-spacing: 3px; line-height: 1; }
+.panel h2 { font-size: clamp(18px, 3vh, 32px); margin: 4px 0 clamp(8px, 2vh, 14px); font-weight: normal; }
 .panel .cols { display: flex; gap: 46px; justify-content: center; text-align: left; font-size: 22px; line-height: 1.35; }
 .panel .cols b { color: var(--red); } .colhead { font-size: 26px; border-bottom: 2px solid var(--ink); margin-bottom: 4px; }
 .panel .go { font-size: 34px; margin-top: 18px; animation: blink 1.2s infinite; } @keyframes blink { 50% { opacity: .35; } }
@@ -201,6 +201,19 @@ canvas#c { position: fixed; inset: 0; width: 100vw; height: 100vh; display: bloc
 #hud.pad .kbonly, #hud:not(.pad) .padonly { display: none; }
 
 /* ---- main menu, online panel, scoreboard overlay ---- */
+.main-menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(8px, 2vh, 16px); width: 100%; max-width: 680px; margin: clamp(10px, 3vh, 20px) auto 0 auto; }
+.mm-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: clamp(12px, 3vh, 24px) 10px; font: inherit; color: var(--paper); background: var(--ink); border: 3px solid var(--ink); border-radius: 12px; cursor: pointer; transform: rotate(-0.5deg); transition: transform 0.1s, filter 0.1s; }
+.mm-btn:hover { transform: scale(1.03) rotate(-0.5deg); filter: brightness(1.15); }
+.mm-label { font-size: clamp(20px, 4vh, 36px); font-weight: bold; letter-spacing: 1.5px; }
+.mm-sub { font-size: clamp(12px, 2vh, 18px); opacity: 0.8; }
+.mm-duel { background: var(--red); border-color: var(--red); transform: rotate(0.6deg); }
+.mm-duel:hover { transform: scale(1.03) rotate(0.6deg); }
+
+.floating-utilities { position: absolute; top: clamp(8px, 2vh, 16px); right: clamp(8px, 2vw, 20px); display: flex; gap: 10px; align-items: center; z-index: 100; }
+.floating-btn { width: clamp(36px, 6vh, 48px); height: clamp(36px, 6vh, 48px); border-radius: 50%; background: rgba(246,243,230,0.8); border: 2.5px solid var(--ink); color: var(--ink); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.1s, background 0.1s; box-shadow: 2px 3px 0 rgba(26,48,192,0.15); }
+.floating-btn:hover { transform: scale(1.1); background: var(--ink); color: var(--paper); }
+.floating-btn svg { width: clamp(18px, 3vh, 24px); height: clamp(18px, 3vh, 24px); pointer-events: none; }
+
 .mainbtns { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; margin: 14px 0 6px; }
 .mainbtns button { font: inherit; font-size: 30px; color: var(--paper); background: var(--ink); border: 3px solid var(--ink); border-radius: 9px 13px 8px 12px / 12px 8px 11px 9px; padding: 10px 34px; cursor: pointer; transform: rotate(-.8deg); line-height: 1.05; }
 .mainbtns button i { display: block; font-style: normal; font-size: 16px; opacity: .8; letter-spacing: 1px; }

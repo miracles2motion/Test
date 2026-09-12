@@ -1684,54 +1684,72 @@ function mapSelectHTML() {
 }
 
 function mainHTML() {
-  return `<button type="button" id="forceReloadBtn" class="update-btn">
-    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M21 2v6h-6"></path>
-      <path d="M3 12a9 9 0 1 0 2.13-5.88L2 9"></path>
-    </svg>
-    UPDATE
-  </button>
+  const isInstalled = isAppInstalled();
+  const installDisplay = (!isInstalled && typeof deferredPrompt !== 'undefined' && deferredPrompt) ? 'flex' : 'none';
+  
+  return `
+  <div class="floating-utilities">
+    <button type="button" id="forceReloadBtn" class="floating-btn update-btn" title="Update App">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 2v6h-6"></path>
+        <path d="M3 12a9 9 0 1 0 2.13-5.88L2 9"></path>
+      </svg>
+    </button>
+    <button type="button" id="settingsBtn" class="floating-btn settings-btn" title="Settings">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+      </svg>
+    </button>
+    ${!isInstalled ? `
+    <button type="button" id="mainInstallBtn" class="floating-btn install-btn" style="display:${installDisplay};" title="Install App">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+    </button>` : ''}
+    <button type="button" id="quitAppBtn" class="floating-btn quit-btn" title="Quit">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+        <polyline points="16 17 21 12 16 7"></polyline>
+        <line x1="21" y1="12" x2="9" y2="12"></line>
+      </svg>
+    </button>
+  </div>
+  
   <h1>DOODLE STRIKE</h1><h2>TACTICAL INK SHOOTER</h2>
-    <div class="mainbtns">
-      <div class="tactical-difficulty" style="margin-bottom: 15px; display: flex; flex-direction: column; align-items: center; gap: 6px;">
-        <div style="font-size:11px; opacity:0.8; letter-spacing:1px; font-weight:bold;">AI DIFFICULTY</div>
-        <div style="display: flex; gap: 6px; justify-content: center; flex-wrap: wrap;">
-          <button class="tactical-filter-btn" style="font-size: 11px; padding: 4px 12px; border-width: 1.5px; border-radius: 4px; min-width: 70px; ${window.currentDifficulty === 0 ? 'background:var(--ink); color:var(--paper);' : 'background:transparent; color:var(--ink);'}" data-diff="0" title="Stupid">STUPID</button>
-          <button class="tactical-filter-btn" style="font-size: 11px; padding: 4px 12px; border-width: 1.5px; border-radius: 4px; min-width: 70px; ${window.currentDifficulty === 1 ? 'background:var(--ink); color:var(--paper);' : 'background:transparent; color:var(--ink);'}" data-diff="1" title="Easy">EASY</button>
-          <button class="tactical-filter-btn" style="font-size: 11px; padding: 4px 12px; border-width: 1.5px; border-radius: 4px; min-width: 70px; ${(window.currentDifficulty === undefined || window.currentDifficulty === 2) ? 'background:var(--ink); color:var(--paper);' : 'background:transparent; color:var(--ink);'}" data-diff="2" title="Hard">HARD</button>
-          <button class="tactical-filter-btn" style="font-size: 11px; padding: 4px 12px; border-width: 1.5px; border-radius: 4px; min-width: 70px; ${window.currentDifficulty === 3 ? 'background:var(--ink); color:var(--paper);' : 'background:transparent; color:var(--ink);'}" data-diff="3" title="Extreme">EXTREME</button>
-          <button class="tactical-filter-btn" style="font-size: 11px; padding: 4px 12px; border-width: 1.5px; border-radius: 4px; min-width: 70px; ${window.currentDifficulty === 4 ? 'background:var(--red); color:white; border-color:var(--red);' : 'background:transparent; color:var(--red); border-color:var(--red);'}" data-diff="4" title="AI GOD MODE">GOD MODE</button>
-        </div>
+  
+  <div class="mainbtns">
+    <div class="tactical-difficulty" style="margin-bottom: 15px; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+      <div style="font-size:11px; opacity:0.8; letter-spacing:1px; font-weight:bold;">AI DIFFICULTY</div>
+      <div style="display: flex; gap: 6px; justify-content: center; flex-wrap: wrap;">
+        <button class="tactical-filter-btn" style="font-size: 11px; padding: 4px 12px; border-width: 1.5px; border-radius: 4px; min-width: 70px; ${window.currentDifficulty === 0 ? 'background:var(--ink); color:var(--paper);' : 'background:transparent; color:var(--ink);'}" data-diff="0" title="Stupid">STUPID</button>
+        <button class="tactical-filter-btn" style="font-size: 11px; padding: 4px 12px; border-width: 1.5px; border-radius: 4px; min-width: 70px; ${window.currentDifficulty === 1 ? 'background:var(--ink); color:var(--paper);' : 'background:transparent; color:var(--ink);'}" data-diff="1" title="Easy">EASY</button>
+        <button class="tactical-filter-btn" style="font-size: 11px; padding: 4px 12px; border-width: 1.5px; border-radius: 4px; min-width: 70px; ${(window.currentDifficulty === undefined || window.currentDifficulty === 2) ? 'background:var(--ink); color:var(--paper);' : 'background:transparent; color:var(--ink);'}" data-diff="2" title="Hard">HARD</button>
+        <button class="tactical-filter-btn" style="font-size: 11px; padding: 4px 12px; border-width: 1.5px; border-radius: 4px; min-width: 70px; ${window.currentDifficulty === 3 ? 'background:var(--ink); color:var(--paper);' : 'background:transparent; color:var(--ink);'}" data-diff="3" title="Extreme">EXTREME</button>
+        <button class="tactical-filter-btn" style="font-size: 11px; padding: 4px 12px; border-width: 1.5px; border-radius: 4px; min-width: 70px; ${window.currentDifficulty === 4 ? 'background:var(--red); color:white; border-color:var(--red);' : 'background:transparent; color:var(--red); border-color:var(--red);'}" data-diff="4" title="AI GOD MODE">GOD MODE</button>
       </div>
+    </div>
+  </div>
 
-      <button type="button" id="soloBtn">SURVIVAL</button>
-      <button type="button" id="duelBtn">1v1 DUEL</button>
-      <button type="button" id="exploreBtn">FREE ROAM</button>
-      <button type="button" id="onlineBtn">MULTIPLAYER</button>
-      <button type="button" id="settingsBtn" class="settings-btn">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-          <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
-        </svg>
-        SETTINGS
-      </button>
-      ${!isAppInstalled() ? `
-      <button type="button" id="mainInstallBtn" class="settings-btn install-btn" style="display:${deferredPrompt ? 'flex' : 'none'};">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-          <polyline points="7 10 12 15 17 10"/>
-          <line x1="12" y1="15" x2="12" y2="3"/>
-        </svg>
-        INSTALL APP
-      </button>` : ''}
-      <button type="button" id="quitAppBtn" class="settings-btn quit-btn">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-          <polyline points="16 17 21 12 16 7"></polyline>
-          <line x1="21" y1="12" x2="9" y2="12"></line>
-        </svg>
-        QUIT
-      </button>
-    </div>`;
+  <div class="main-menu-grid">
+    <button type="button" id="soloBtn" class="mm-btn">
+      <div class="mm-label">SURVIVAL</div>
+      <div class="mm-sub">Wave Defense</div>
+    </button>
+    <button type="button" id="duelBtn" class="mm-btn mm-duel">
+      <div class="mm-label">1v1 DUEL</div>
+      <div class="mm-sub">vs AI Boss</div>
+    </button>
+    <button type="button" id="exploreBtn" class="mm-btn">
+      <div class="mm-label">FREE ROAM</div>
+      <div class="mm-sub">Zero Enemies</div>
+    </button>
+    <button type="button" id="onlineBtn" class="mm-btn">
+      <div class="mm-label">MULTIPLAYER</div>
+      <div class="mm-sub">Public / Private</div>
+    </button>
+  </div>`;
 }
 function onlineHTML() {
   return `<h1>PLAY ONLINE</h1><h2>free for all · first to ${FFA_TARGET} · up to 10 players</h2>
@@ -1836,7 +1854,21 @@ function showStart() {
     fastClick(p.querySelector('#exploreBtn'), () => { game.mode = 'explore'; screen = 'map_select'; showStart(); });
     fastClick(p.querySelector('#onlineBtn'), () => { screen = 'online'; showStart(); });
     fastClick(p.querySelector('#settingsBtn'), () => { settingsReturnTo = 'main'; screen = 'settings'; showStart(); });
-    fastClick(p.querySelector('#forceReloadBtn'), () => { window.location.reload(true); });
+    fastClick(p.querySelector('#forceReloadBtn'), () => {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(regs => {
+          for (let r of regs) r.unregister();
+        });
+      }
+      if ('caches' in window) {
+        caches.keys().then(names => {
+          for (let name of names) caches.delete(name);
+        });
+      }
+      setTimeout(() => {
+        window.location.href = window.location.href.split('?')[0] + '?t=' + Date.now();
+      }, 100);
+    });
     fastClick(p.querySelector('#quitAppBtn'), () => { window.close(); });
     fastClick(p.querySelector('#mainInstallBtn'), () => triggerInstallApp());
   } else if (screen === 'map_select') {
