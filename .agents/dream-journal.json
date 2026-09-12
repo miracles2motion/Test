@@ -887,13 +887,47 @@
           "timestamp": "2026-09-12T20:47:29.445Z"
         }
       }
+    },
+    {
+      "id": "dream-027",
+      "timestamp": "2026-09-12T20:49:07.642Z",
+      "mapKey": "pirate_cove",
+      "mode": "MAP",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "spatial-doctor": {
+          "status": "pass",
+          "fixes": 0
+        },
+        "Macro Building Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T20:49:06.544Z"
+        },
+        "Prop Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T20:49:06.804Z"
+        },
+        "Enemy Synthesis": {
+          "status": "pass",
+          "timestamp": "2026-09-12T20:49:06.876Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-12T20:49:07.306Z"
+        },
+        "Self-Healing Audit": {
+          "status": "pass",
+          "timestamp": "2026-09-12T20:49:07.640Z"
+        }
+      }
     }
   ],
   "stats": {
-    "totalRuns": 26,
-    "successes": 26,
+    "totalRuns": 27,
+    "successes": 27,
     "failures": 0,
-    "errorRate": "0/26 (0%)",
+    "errorRate": "0/27 (0%)",
     "avgScore": 0
   }
 }

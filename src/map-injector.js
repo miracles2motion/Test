@@ -160,17 +160,10 @@ const propCatalog = {
   box(${x}, ${y} + 0.4, ${z} + 1.0, 1.0, 1.1, 1.5, { ink: BL });` }
   ],
   maritime: [
-    { type: 'cargo_crate', w: 1.8, h: 1.8, d: 1.8, tier: 1, gen: (x, y, z) => `
-  // Prop: Cargo Crate
-  box(${x}, ${y}, ${z}, 1.8, 1.8, 1.8, { ink: BL });
-  box(${x}, ${y}, ${z}, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });` },
     { type: 'mooring_bollard', w: 1.0, h: 1.2, d: 1.0, tier: 1, gen: (x, y, z) => `
   // Prop: Mooring Bollard
   cyl(${x}, ${y}, ${z}, 0.4, 1.0, { seg: 8, ink: BK });
   cyl(${x}, ${y} + 1.0, ${z}, 0.5, 0.2, { seg: 8, ink: BK });` },
-    { type: 'timber_stack', w: 3.0, h: 1.0, d: 1.2, tier: 2, gen: (x, y, z) => `
-  // Prop: Timber Stack
-  box(${x}, ${y}, ${z}, 3.0, 1.0, 1.2, { ink: OR });` },
     { type: 'cannon', w: 1.4, h: 1.5, d: 2.8, tier: 2, gen: (x, y, z) => `
   // Prop: Iron Cannon
   box(${x}, ${y}, ${z}, 1.4, 0.6, 2.0, { ink: OR }); // Wooden base
