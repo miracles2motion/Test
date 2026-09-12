@@ -350,11 +350,11 @@ export class EnemyManager {
     const detach = (obj, extraVel, radius) => { if (!obj || !obj.parent) return; obj.updateWorldMatrix(true, false); scene.attach(obj); _v.copy(dir).multiplyScalar(rand(3, 7)).add(extraVel); _v.y += rand(2, 5); eff.debris(obj, obj.position, _v, new THREE.Vector3(rand(-8, 8), rand(-8, 8), rand(-8, 8)), { radius, blood: true, life: rand(7, 10) }); };
     if (over) {
       audio.gib(e.center); const J = e.J;
-      if (info.crit || ((info.source === 'katana' || info.source === 'focus') && Math.random() < 0.35)) { detach(J.headG, _v2.set(rand(-2, 2), 3, rand(-2, 2)), 0.25); eff.fountain(e.parts.torso.getWorldPosition(new THREE.Vector3()).add(_v2.set(0, 0.35, 0)), _up, 0.9, inkC); }
+      if (info.crit || ((info.source === 'katana' || info.source === 'focus') && Math.random() < 0.35)) { detach(J.headG, _v2.set(rand(-2, 2), 3, rand(-2, 2)), 0.25); eff.fountain((e.parts.torso || e.root).getWorldPosition(new THREE.Vector3()).add(_v2.set(0, 0.35, 0)), _up, 0.9, inkC); }
       if (info.source === 'katana' || info.source === 'focus') {
         const r = Math.random();
         if (r < 0.4) detach(J.armR, _v2.set(rand(-3, 3), 2, rand(-3, 3)), 0.12); else if (r < 0.7) detach(J.armL, _v2.set(rand(-3, 3), 2, rand(-3, 3)), 0.12);
-        else { detach(J.torso, _v2.set(rand(-2, 2), 2, rand(-2, 2)), 0.3); eff.fountain(e.parts.hips.getWorldPosition(new THREE.Vector3()), _up, 0.7, inkC); }
+        else { detach(J.torso, _v2.set(rand(-2, 2), 2, rand(-2, 2)), 0.3); eff.fountain((e.parts.hips || e.parts.torso || e.root).getWorldPosition(new THREE.Vector3()), _up, 0.7, inkC); }
       } else if (info.source === 'deflect' || info.source === 'blast' || -e.hp > e.maxHp * 0.6) {
         const limbs = [J.armL, J.armR, J.legL, J.legR, J.torso]; const k = e.T.boss ? 5 : randInt(1, 2);
         for (let i = 0; i < k && limbs.length; i++) { const o = limbs.splice(randInt(0, limbs.length - 1), 1)[0]; detach(o, _v2.set(rand(-3, 3), 2, rand(-3, 3)), 0.15); }
