@@ -1,6 +1,5 @@
 // Level construction. Two maps share one builder: everything is merged ink geometry plus
 // axis-aligned box colliders, which is what the navigation grid is generated from.
-import { buildHarborPort } from './levels/harbor_port.js';
 import { buildPirateCove } from './levels/pirate_cove.js';
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
@@ -88,19 +87,7 @@ export const LEVELS = [
     scale: 'Tier 1-4',
     comingSoon: false
   },
-  {
-    key: 'harbor_port',
-    name: 'HARBOR PORT',
-    category: 'urban',
-    tags: ['DREAM MODE', 'AUTO-GENERATED'],
-    env: 'HARBOR PORT Environment',
-    engagement: 'CQB & Vertical',
-    hazard: 'TBD',
-    scale: 'Tier 1-4',
-    comingSoon: false
-  },
-  {
-    key: '5x',
+{
     customEnemies: {
       theme_rusher: {
         role: "melee",
@@ -1468,7 +1455,6 @@ export const MAP_BUILDERS = {
   studio: buildStudio,
   mexico: buildMexico,
   pirate_cove: buildPirateCove,
-  harbor_port: buildHarborPort,
 };
 
 export function registerMapBuilder(key, builderFn) {
