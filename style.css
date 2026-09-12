@@ -2138,6 +2138,5 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
   .deployment-action-bar button { font-size: 16px; padding: 6px 16px; }
   .deployment-action-bar button.primary { font-size: 20px; padding: 8px 20px; }
 }
-.update-btn { position: fixed; top: 20px; right: 20px; display: flex; align-items: center; gap: 6px; padding: 8px 16px; background: rgba(0, 0, 0, 0.5); color: #fff; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 4px; font-family: inherit; font-size: 0.9em; cursor: pointer; transition: all 0.2s; z-index: 1000; }
-.update-btn:hover { background: rgba(255, 255, 255, 0.1); border-color: #fff; }
+
 .quit-btn { margin-top: 8px; color: #ff5555; }
