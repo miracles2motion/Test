@@ -206,353 +206,332 @@ export function buildPirateCove(B, arena = false) {
   
   
   
+  
+
+  
+  
+  
+  
+
+  
+  
+  
   // === DREAM AUTO-INJECTED MACRO STRUCTURES ===
 
-  // === MACRO STRUCTURE: Galleon Sterncastle at (-43, 0, -43) ===
-  box(-43, 0, -43, 8.0, 2.0, 6.0, { ink: BL });
-  box(-43, 0 + 2.0, -43, 7.5, 2.5, 5.5, { ink: OR });
-  slab(-43 - 4.0, -43 - 3.2, -43 + 4.0, -43 + 3.2, 0 + 4.5, 0.3, { ink: OR });
-  rail(-43 - 4.0, -43 - 3.2, -43 + 4.0, -43 - 3.2, 0 + 4.5, { ink: BK });
-  rail(-43 - 4.0, -43 + 3.2, -43 + 4.0, -43 + 3.2, 0 + 4.5, { ink: BK });
-  rail(-43 - 4.0, -43 - 3.2, -43 - 4.0, -43 + 3.2, 0 + 4.5, { ink: BK });
-  box(-43, 0 + 4.8, -43, 1.0, 3.0, 0.5, { ink: BK });
-  ring(-43, 0 + 9.3, -43, 'z');
-  pickup(-43, 0 + 4.7, -43);
-
-  // === MACRO STRUCTURE: Lighthouse Beacon at (-43, 0, -25) ===
-  cyl(-43, 0, -25, 2.2, 5.5, { seg: 10, ink: BL });
-  slab(-43 - 2.8, -25 - 2.8, -43 + 2.8, -25 + 2.8, 0 + 5.0, 0.3, { ink: OR });
-  rail(-43 - 2.8, -25 - 2.8, -43 + 2.8, -25 - 2.8, 0 + 5.0, { ink: BK });
-  rail(-43 - 2.8, -25 + 2.8, -43 + 2.8, -25 + 2.8, 0 + 5.0, { ink: BK });
-  cyl(-43, 0 + 5.3, -25, 1.5, 1.5, { seg: 8, noCollide: true, ink: OR });
+  // === MACRO STRUCTURE: Galleon Sterncastle at (-43, 0, -25) ===
+  box(-43, 0, -25, 8.0, 2.0, 6.0, { ink: BL });
+  box(-43, 0 + 2.0, -25, 7.5, 2.5, 5.5, { ink: OR });
+  slab(-43 - 4.0, -25 - 3.2, -43 + 4.0, -25 + 3.2, 0 + 4.5, 0.3, { ink: OR });
+  rail(-43 - 4.0, -25 - 3.2, -43 + 4.0, -25 - 3.2, 0 + 4.5, { ink: BK });
+  rail(-43 - 4.0, -25 + 3.2, -43 + 4.0, -25 + 3.2, 0 + 4.5, { ink: BK });
+  rail(-43 - 4.0, -25 - 3.2, -43 - 4.0, -25 + 3.2, 0 + 4.5, { ink: BK });
+  box(-43, 0 + 4.8, -25, 1.0, 3.0, 0.5, { ink: BK });
   ring(-43, 0 + 9.3, -25, 'z');
-  pickup(-43, 0 + 5.2, -25);
+  pickup(-43, 0 + 4.7, -25);
 
-  // === MACRO STRUCTURE: Cargo Crane Gantry at (-43, 0, -7) ===
-  box(-43 - 2.5, 0, -7 - 2.5, 0.8, 6.0, 0.8, { ink: BK });
-  box(-43 + 2.5, 0, -7 - 2.5, 0.8, 6.0, 0.8, { ink: BK });
-  box(-43 - 2.5, 0, -7 + 2.5, 0.8, 6.0, 0.8, { ink: BK });
-  box(-43 + 2.5, 0, -7 + 2.5, 0.8, 6.0, 0.8, { ink: BK });
-  slab(-43 - 3.0, -7 - 3.0, -43 + 3.0, -7 + 3.0, 0 + 5.5, 0.4, { ink: OR });
-  box(-43, 0 + 5.9, -7 - 1.5, 2.5, 1.8, 2.5, { ink: BL });
-  box(-43, 0 + 5.9, -7 + 2.5, 0.6, 0.6, 3.0, { ink: BK });
-  ring(-43, 0 + 8.3, -7 + 4.0, 'z');
-  pickup(-43, 0 + 6.1, -7 - 1.5);
+  // === MACRO STRUCTURE: Cargo Crane Gantry at (-43, 0, -1) ===
+  box(-43 - 2.5, 0, -1 - 2.5, 0.8, 6.0, 0.8, { ink: BK });
+  box(-43 + 2.5, 0, -1 - 2.5, 0.8, 6.0, 0.8, { ink: BK });
+  box(-43 - 2.5, 0, -1 + 2.5, 0.8, 6.0, 0.8, { ink: BK });
+  box(-43 + 2.5, 0, -1 + 2.5, 0.8, 6.0, 0.8, { ink: BK });
+  slab(-43 - 3.0, -1 - 3.0, -43 + 3.0, -1 + 3.0, 0 + 5.5, 0.4, { ink: OR });
+  box(-43, 0 + 5.9, -1 - 1.5, 2.5, 1.8, 2.5, { ink: BL });
+  box(-43, 0 + 5.9, -1 + 2.5, 0.6, 0.6, 3.0, { ink: BK });
+  ring(-43, 0 + 8.3, -1 + 4.0, 'z');
+  pickup(-43, 0 + 6.1, -1 - 1.5);
 
-  // === MACRO STRUCTURE: Galleon Sterncastle at (-43, 0, 11) ===
-  box(-43, 0, 11, 8.0, 2.0, 6.0, { ink: BL });
-  box(-43, 0 + 2.0, 11, 7.5, 2.5, 5.5, { ink: OR });
-  slab(-43 - 4.0, 11 - 3.2, -43 + 4.0, 11 + 3.2, 0 + 4.5, 0.3, { ink: OR });
-  rail(-43 - 4.0, 11 - 3.2, -43 + 4.0, 11 - 3.2, 0 + 4.5, { ink: BK });
-  rail(-43 - 4.0, 11 + 3.2, -43 + 4.0, 11 + 3.2, 0 + 4.5, { ink: BK });
-  rail(-43 - 4.0, 11 - 3.2, -43 - 4.0, 11 + 3.2, 0 + 4.5, { ink: BK });
-  box(-43, 0 + 4.8, 11, 1.0, 3.0, 0.5, { ink: BK });
-  ring(-43, 0 + 9.3, 11, 'z');
-  pickup(-43, 0 + 4.7, 11);
+  // === MACRO STRUCTURE: Cargo Crane Gantry at (-43, 0, 41) ===
+  box(-43 - 2.5, 0, 41 - 2.5, 0.8, 6.0, 0.8, { ink: BK });
+  box(-43 + 2.5, 0, 41 - 2.5, 0.8, 6.0, 0.8, { ink: BK });
+  box(-43 - 2.5, 0, 41 + 2.5, 0.8, 6.0, 0.8, { ink: BK });
+  box(-43 + 2.5, 0, 41 + 2.5, 0.8, 6.0, 0.8, { ink: BK });
+  slab(-43 - 3.0, 41 - 3.0, -43 + 3.0, 41 + 3.0, 0 + 5.5, 0.4, { ink: OR });
+  box(-43, 0 + 5.9, 41 - 1.5, 2.5, 1.8, 2.5, { ink: BL });
+  box(-43, 0 + 5.9, 41 + 2.5, 0.6, 0.6, 3.0, { ink: BK });
+  ring(-43, 0 + 8.3, 41 + 4.0, 'z');
+  pickup(-43, 0 + 6.1, 41 - 1.5);
+
+  // === MACRO STRUCTURE: Cargo Crane Gantry at (-31, 0, -13) ===
+  box(-31 - 2.5, 0, -13 - 2.5, 0.8, 6.0, 0.8, { ink: BK });
+  box(-31 + 2.5, 0, -13 - 2.5, 0.8, 6.0, 0.8, { ink: BK });
+  box(-31 - 2.5, 0, -13 + 2.5, 0.8, 6.0, 0.8, { ink: BK });
+  box(-31 + 2.5, 0, -13 + 2.5, 0.8, 6.0, 0.8, { ink: BK });
+  slab(-31 - 3.0, -13 - 3.0, -31 + 3.0, -13 + 3.0, 0 + 5.5, 0.4, { ink: OR });
+  box(-31, 0 + 5.9, -13 - 1.5, 2.5, 1.8, 2.5, { ink: BL });
+  box(-31, 0 + 5.9, -13 + 2.5, 0.6, 0.6, 3.0, { ink: BK });
+  ring(-31, 0 + 8.3, -13 + 4.0, 'z');
+  pickup(-31, 0 + 6.1, -13 - 1.5);
   // === END DREAM AUTO-INJECTED MACRO STRUCTURES ===
 
   
   // === DREAM AUTO-INJECTED THEMATIC PROPS ===
 
-  // Macro: Bone Yard Platform
-  box(-31, 0, -31, 8, 2.0, 8, { ink: BK }); // Raised platform
-  stairs(-31-4.5, 0, -31, 1, 2.0, 2, 3, { ink: OR }); // Side stairs (West)
-  stairs(-31+4.5, 0, -31, 1, 2.0, 2, 1, { ink: OR }); // Side stairs (East)
-  cyl(-31-2, 0+2.0, -31-2, 0.5, 2.0, { seg:6, ink: OR }); // Spike
-  cyl(-31+2, 0+2.0, -31-2, 0.5, 3.0, { seg:6, ink: OR }); // Spike
-  cyl(-31-2, 0+2.0, -31+2, 0.5, 1.5, { seg:6, ink: OR }); // Spike
-  cyl(-31+2, 0+2.0, -31+2, 0.5, 2.5, { seg:6, ink: OR }); // Spike
+  // Macro: Suspended Plank Bridge
+  box(-31, 0+3, -31, 10, 0.2, 2, { ink: OR }); // Wood plank
+  cyl(-31-4.5, 0, -31-0.5, 0.2, 4, { ink: OR }); // Support posts
+  cyl(-31+4.5, 0, -31+0.5, 0.2, 4, { ink: OR });
 
-  // Macro: Bone Yard Platform
-  box(-31, 0, -15, 8, 2.0, 8, { ink: BK }); // Raised platform
-  stairs(-31-4.5, 0, -15, 1, 2.0, 2, 3, { ink: OR }); // Side stairs (West)
-  stairs(-31+4.5, 0, -15, 1, 2.0, 2, 1, { ink: OR }); // Side stairs (East)
-  cyl(-31-2, 0+2.0, -15-2, 0.5, 2.0, { seg:6, ink: OR }); // Spike
-  cyl(-31+2, 0+2.0, -15-2, 0.5, 3.0, { seg:6, ink: OR }); // Spike
-  cyl(-31-2, 0+2.0, -15+2, 0.5, 1.5, { seg:6, ink: OR }); // Spike
-  cyl(-31+2, 0+2.0, -15+2, 0.5, 2.5, { seg:6, ink: OR }); // Spike
+  // Macro: Gunpowder Overhang & Crane
+  box(-31, 0, 1, 12, 0.2, 10, { ink: OR }); // Stone floor
+  box(-31-5, 0+0.2, 1, 2, 8, 10, { ink: OR }); // Left cave wall
+  box(-31+5, 0+0.2, 1, 2, 8, 10, { ink: OR }); // Right cave wall
+  box(-31, 0+8, 1, 12, 1, 10, { ink: OR }); // Cave Roof Overhang
+  // Stockpile
+  cyl(-31-2, 0+0.2, 1-2, 0.8, 1.5, { ink: GR }); // Volatile Barrel
+  cyl(-31-3, 0+0.2, 1-1, 0.8, 1.5, { ink: OR }); // Powder Barrel
+  cyl(-31-2.5, 0+1.7, 1-1.5, 0.8, 1.5, { ink: GR }); // Stacked
+  // Crane & Suspended Barrel
+  box(-31+4, 0+7, 1, 5, 0.4, 0.4, { ink: OR }); // Wood crane arm
+  cyl(-31+1.5, 0+4, 1, 0.1, 3, { ink: OR }); // Rope
+  cyl(-31+1.5, 0+3, 1, 1.0, 1.5, { ink: OR }); // Hanging explosive
+  ring(-31+1.5, 0+2, 1, 1.5, { ink: OR }); // Grapple onto the explosive!
+  
 
-  // Macro: Bazaar Plaza with Tents
-  box(-31, 0, 1, 10, 0.2, 10, { ink: BL }); // Rug/Plaza
-  // Tent 1 (NW)
-  box(-31-3, 0+0.2, 1-3, 3, 2, 3, { ink: OR });
-  box(-31-3, 0+2.2, 1-3, 3.2, 0.2, 3.2, { ink: RD });
-  // Tent 2 (NE)
-  box(-31+3, 0+0.2, 1-3, 3, 2, 3, { ink: OR });
-  box(-31+3, 0+2.2, 1-3, 3.2, 0.2, 3.2, { ink: OR });
-  // Tent 3 (SW)
-  box(-31-3, 0+0.2, 1+3, 3, 2, 3, { ink: OR });
-  box(-31-3, 0+2.2, 1+3, 3.2, 0.2, 3.2, { ink: BL });
-  // Center Gold
-  cyl(-31, 0+0.2, 1, 1.5, 1.0, { seg:8, ink: OR });
-  ring(-31, 0+4, 1, 1, { ink: OR }); // Grapple
-  box(-31-2, 0+0.2, 1-2, 1, 1, 1, { ink: BK }); // Cover
-  box(-31+2, 0+0.2, 1+2, 1, 1, 1, { ink: BK }); // Cover
+  // Macro: Gunpowder Overhang & Crane
+  box(-31, 0, 17, 12, 0.2, 10, { ink: OR }); // Stone floor
+  box(-31-5, 0+0.2, 17, 2, 8, 10, { ink: OR }); // Left cave wall
+  box(-31+5, 0+0.2, 17, 2, 8, 10, { ink: OR }); // Right cave wall
+  box(-31, 0+8, 17, 12, 1, 10, { ink: OR }); // Cave Roof Overhang
+  // Stockpile
+  cyl(-31-2, 0+0.2, 17-2, 0.8, 1.5, { ink: GR }); // Volatile Barrel
+  cyl(-31-3, 0+0.2, 17-1, 0.8, 1.5, { ink: OR }); // Powder Barrel
+  cyl(-31-2.5, 0+1.7, 17-1.5, 0.8, 1.5, { ink: GR }); // Stacked
+  // Crane & Suspended Barrel
+  box(-31+4, 0+7, 17, 5, 0.4, 0.4, { ink: OR }); // Wood crane arm
+  cyl(-31+1.5, 0+4, 17, 0.1, 3, { ink: OR }); // Rope
+  cyl(-31+1.5, 0+3, 17, 1.0, 1.5, { ink: OR }); // Hanging explosive
+  ring(-31+1.5, 0+2, 17, 1.5, { ink: OR }); // Grapple onto the explosive!
+  
 
-  // Macro: Bazaar Plaza with Tents
-  box(-31, 0, 17, 10, 0.2, 10, { ink: BL }); // Rug/Plaza
-  // Tent 1 (NW)
-  box(-31-3, 0+0.2, 17-3, 3, 2, 3, { ink: OR });
-  box(-31-3, 0+2.2, 17-3, 3.2, 0.2, 3.2, { ink: RD });
-  // Tent 2 (NE)
-  box(-31+3, 0+0.2, 17-3, 3, 2, 3, { ink: OR });
-  box(-31+3, 0+2.2, 17-3, 3.2, 0.2, 3.2, { ink: OR });
-  // Tent 3 (SW)
-  box(-31-3, 0+0.2, 17+3, 3, 2, 3, { ink: OR });
-  box(-31-3, 0+2.2, 17+3, 3.2, 0.2, 3.2, { ink: BL });
-  // Center Gold
-  cyl(-31, 0+0.2, 17, 1.5, 1.0, { seg:8, ink: OR });
-  ring(-31, 0+4, 17, 1, { ink: OR }); // Grapple
-  box(-31-2, 0+0.2, 17-2, 1, 1, 1, { ink: BK }); // Cover
-  box(-31+2, 0+0.2, 17+2, 1, 1, 1, { ink: BK }); // Cover
+  // Macro: Gunpowder Overhang & Crane
+  box(-31, 0, 33, 12, 0.2, 10, { ink: OR }); // Stone floor
+  box(-31-5, 0+0.2, 33, 2, 8, 10, { ink: OR }); // Left cave wall
+  box(-31+5, 0+0.2, 33, 2, 8, 10, { ink: OR }); // Right cave wall
+  box(-31, 0+8, 33, 12, 1, 10, { ink: OR }); // Cave Roof Overhang
+  // Stockpile
+  cyl(-31-2, 0+0.2, 33-2, 0.8, 1.5, { ink: GR }); // Volatile Barrel
+  cyl(-31-3, 0+0.2, 33-1, 0.8, 1.5, { ink: OR }); // Powder Barrel
+  cyl(-31-2.5, 0+1.7, 33-1.5, 0.8, 1.5, { ink: GR }); // Stacked
+  // Crane & Suspended Barrel
+  box(-31+4, 0+7, 33, 5, 0.4, 0.4, { ink: OR }); // Wood crane arm
+  cyl(-31+1.5, 0+4, 33, 0.1, 3, { ink: OR }); // Rope
+  cyl(-31+1.5, 0+3, 33, 1.0, 1.5, { ink: OR }); // Hanging explosive
+  ring(-31+1.5, 0+2, 33, 1.5, { ink: OR }); // Grapple onto the explosive!
+  
 
-  // Macro: Bazaar Plaza with Tents
-  box(-31, 0, 33, 10, 0.2, 10, { ink: BL }); // Rug/Plaza
-  // Tent 1 (NW)
-  box(-31-3, 0+0.2, 33-3, 3, 2, 3, { ink: OR });
-  box(-31-3, 0+2.2, 33-3, 3.2, 0.2, 3.2, { ink: RD });
-  // Tent 2 (NE)
-  box(-31+3, 0+0.2, 33-3, 3, 2, 3, { ink: OR });
-  box(-31+3, 0+2.2, 33-3, 3.2, 0.2, 3.2, { ink: OR });
-  // Tent 3 (SW)
-  box(-31-3, 0+0.2, 33+3, 3, 2, 3, { ink: OR });
-  box(-31-3, 0+2.2, 33+3, 3.2, 0.2, 3.2, { ink: BL });
-  // Center Gold
-  cyl(-31, 0+0.2, 33, 1.5, 1.0, { seg:8, ink: OR });
-  ring(-31, 0+4, 33, 1, { ink: OR }); // Grapple
-  box(-31-2, 0+0.2, 33-2, 1, 1, 1, { ink: BK }); // Cover
-  box(-31+2, 0+0.2, 33+2, 1, 1, 1, { ink: BK }); // Cover
+  // Macro: Vertical Shanty Tower
+  box(-15, 0, -31, 8, 3, 8, { ink: OR }); // Base shack
+  stairs(-15-4.5, 0, -31, 1, 3, 2, 3, { ink: OR }); // Rickety steps up
+  box(-15-1, 0+3, -31-1, 6, 3, 6, { ink: BL }); // Second floor offset
+  stairs(-15+2.5, 0+3, -31, 1, 3, 2, 1, { ink: OR }); // Steps to roof
+  box(-15+1, 0+6, -31+1, 4, 3, 4, { ink: OR }); // Crows nest shack
+  ring(-15, 0+10, -31, 1.5, { ink: OR }); // Rope swing anchor
 
-  // Macro: Bone Yard Platform
-  box(-15, 0, -31, 8, 2.0, 8, { ink: BK }); // Raised platform
-  stairs(-15-4.5, 0, -31, 1, 2.0, 2, 3, { ink: OR }); // Side stairs (West)
-  stairs(-15+4.5, 0, -31, 1, 2.0, 2, 1, { ink: OR }); // Side stairs (East)
-  cyl(-15-2, 0+2.0, -31-2, 0.5, 2.0, { seg:6, ink: OR }); // Spike
-  cyl(-15+2, 0+2.0, -31-2, 0.5, 3.0, { seg:6, ink: OR }); // Spike
-  cyl(-15-2, 0+2.0, -31+2, 0.5, 1.5, { seg:6, ink: OR }); // Spike
-  cyl(-15+2, 0+2.0, -31+2, 0.5, 2.5, { seg:6, ink: OR }); // Spike
+  // Macro: Suspended Plank Bridge
+  box(-15, 0+3, -15, 10, 0.2, 2, { ink: OR }); // Wood plank
+  cyl(-15-4.5, 0, -15-0.5, 0.2, 4, { ink: OR }); // Support posts
+  cyl(-15+4.5, 0, -15+0.5, 0.2, 4, { ink: OR });
 
-  // Macro: Bazaar Plaza with Tents
-  box(-15, 0, 33, 10, 0.2, 10, { ink: BL }); // Rug/Plaza
-  // Tent 1 (NW)
-  box(-15-3, 0+0.2, 33-3, 3, 2, 3, { ink: OR });
-  box(-15-3, 0+2.2, 33-3, 3.2, 0.2, 3.2, { ink: RD });
-  // Tent 2 (NE)
-  box(-15+3, 0+0.2, 33-3, 3, 2, 3, { ink: OR });
-  box(-15+3, 0+2.2, 33-3, 3.2, 0.2, 3.2, { ink: OR });
-  // Tent 3 (SW)
-  box(-15-3, 0+0.2, 33+3, 3, 2, 3, { ink: OR });
-  box(-15-3, 0+2.2, 33+3, 3.2, 0.2, 3.2, { ink: BL });
-  // Center Gold
-  cyl(-15, 0+0.2, 33, 1.5, 1.0, { seg:8, ink: OR });
-  ring(-15, 0+4, 33, 1, { ink: OR }); // Grapple
-  box(-15-2, 0+0.2, 33-2, 1, 1, 1, { ink: BK }); // Cover
-  box(-15+2, 0+0.2, 33+2, 1, 1, 1, { ink: BK }); // Cover
+  // Macro: Gunpowder Overhang & Crane
+  box(-15, 0, 33, 12, 0.2, 10, { ink: OR }); // Stone floor
+  box(-15-5, 0+0.2, 33, 2, 8, 10, { ink: OR }); // Left cave wall
+  box(-15+5, 0+0.2, 33, 2, 8, 10, { ink: OR }); // Right cave wall
+  box(-15, 0+8, 33, 12, 1, 10, { ink: OR }); // Cave Roof Overhang
+  // Stockpile
+  cyl(-15-2, 0+0.2, 33-2, 0.8, 1.5, { ink: GR }); // Volatile Barrel
+  cyl(-15-3, 0+0.2, 33-1, 0.8, 1.5, { ink: OR }); // Powder Barrel
+  cyl(-15-2.5, 0+1.7, 33-1.5, 0.8, 1.5, { ink: GR }); // Stacked
+  // Crane & Suspended Barrel
+  box(-15+4, 0+7, 33, 5, 0.4, 0.4, { ink: OR }); // Wood crane arm
+  cyl(-15+1.5, 0+4, 33, 0.1, 3, { ink: OR }); // Rope
+  cyl(-15+1.5, 0+3, 33, 1.0, 1.5, { ink: OR }); // Hanging explosive
+  ring(-15+1.5, 0+2, 33, 1.5, { ink: OR }); // Grapple onto the explosive!
+  
 
-  // Macro: Dry Dock & Scaffolding
-  box(1-4, 0, -31, 2, 4.0, 10, { ink: OR }); // Scaffolding L
-  box(1+4, 0, -31, 2, 4.0, 10, { ink: OR }); // Scaffolding R
-  box(1, 0, -31-4, 10, 4.0, 2, { ink: OR }); // Scaffolding Back
-  stairs(1, 0, -31-5.5, 2, 4.0, 2, 2, { ink: BL }); // Back stairs up
-  // Ship hull in middle
-  box(1, 0, -31+1, 4, 2.5, 8, { ink: BK });
-  box(1, 0+2.5, -31-2, 4, 1.0, 2, { ink: BK }); // Stern
-  // Crane on left scaffolding
-  cyl(1-4, 0+4, -31, 0.5, 4, { seg:8, ink: BK });
-  box(1-1.5, 0+7.5, -31, 5, 0.5, 0.5, { ink: BK });
-  ring(1-4, 0+7, -31, 1, { ink: OR }); // Grapple
+  // Macro: Leviathan Ribcage & Cursed Treasure
+  box(1, 0, -31, 12, 0.5, 8, { ink: OR }); // Sand mound
+  // Left Ribs
+  cyl(1-3, 0+3, -31-2, 0.4, 6, { ink: OR });
+  cyl(1-3, 0+3, -31+2, 0.4, 6, { ink: OR });
+  // Right Ribs
+  cyl(1+3, 0+3, -31-2, 0.4, 6, { ink: OR });
+  cyl(1+3, 0+3, -31+2, 0.4, 6, { ink: OR });
+  // Top Spines (Connecting Ribs)
+  box(1, 0+6, -31-2, 6.6, 0.4, 0.4, { ink: OR });
+  box(1, 0+6, -31+2, 6.6, 0.4, 0.4, { ink: OR });
+  // The Cursed Treasure
+  box(1, 0+0.5, -31, 1.5, 1, 1, { ink: OR }); // Gold Chest
+  box(1, 0+1.5, -31, 0.5, 0.5, 0.5, { ink: OR }); // Iron Lock
+  ring(1, 0+5, -31, 1.5, { ink: OR }); // Grapple to escape
 
-  // Macro: Stone Keep & Walls
-  box(1-5, 0, 33, 2, 3, 12, { ink: BL }); // West wall
-  box(1+5, 0, 33, 2, 3, 12, { ink: BL }); // East wall
-  box(1, 0, 33-5, 12, 3, 2, { ink: BL }); // North wall
-  box(1-3.5, 0, 33+5, 5, 3, 2, { ink: BL }); // South wall L
-  box(1+3.5, 0, 33+5, 5, 3, 2, { ink: BL }); // South wall R (3m door gap)
-  // Inner Watchtower
-  box(1, 0, 33-1, 4, 6, 4, { ink: BK });
-  stairs(1, 0, 33+2.5, 2, 6, 4, 0, { ink: OR }); // Huge stairs leading to tower
-  ring(1, 0+8, 33-1, 1, { ink: OR }); // Grapple
-  box(1-3, 0, 33, 1, 1, 1, { ink: OR }); // Cover
-  box(1+3, 0, 33, 1, 1, 1, { ink: OR }); // Cover
+  // Macro: The Shattered Bow
+  box(1, 0, 33, 8, 3, 10, { ink: OR }); // Front hull
+  stairs(1, 0+3, 33-6, 2, -3, 2, 2, { ink: OR }); // Ramps down into the sand
+  cyl(1, 0+3, 33+2, 0.4, 8, { ink: OR }); // Main mast
+  box(1, 0+7, 33+2, 6, 0.2, 0.2, { ink: OR }); // Yardarm
+  box(1, 0+5, 33+2.2, 5, 4, 0.1, { ink: BL, noCollide: true }); // Torn sail
+  ring(1, 0+11, 33+2, 1.5, { ink: OR }); // Grapple
+  
 
-  // Macro: Dry Dock & Scaffolding
-  box(17-4, 0, -31, 2, 4.0, 10, { ink: OR }); // Scaffolding L
-  box(17+4, 0, -31, 2, 4.0, 10, { ink: OR }); // Scaffolding R
-  box(17, 0, -31-4, 10, 4.0, 2, { ink: OR }); // Scaffolding Back
-  stairs(17, 0, -31-5.5, 2, 4.0, 2, 2, { ink: BL }); // Back stairs up
-  // Ship hull in middle
-  box(17, 0, -31+1, 4, 2.5, 8, { ink: BK });
-  box(17, 0+2.5, -31-2, 4, 1.0, 2, { ink: BK }); // Stern
-  // Crane on left scaffolding
-  cyl(17-4, 0+4, -31, 0.5, 4, { seg:8, ink: BK });
-  box(17-1.5, 0+7.5, -31, 5, 0.5, 0.5, { ink: BK });
-  ring(17-4, 0+7, -31, 1, { ink: OR }); // Grapple
+  // Macro: Leviathan Ribcage & Cursed Treasure
+  box(17, 0, -31, 12, 0.5, 8, { ink: OR }); // Sand mound
+  // Left Ribs
+  cyl(17-3, 0+3, -31-2, 0.4, 6, { ink: OR });
+  cyl(17-3, 0+3, -31+2, 0.4, 6, { ink: OR });
+  // Right Ribs
+  cyl(17+3, 0+3, -31-2, 0.4, 6, { ink: OR });
+  cyl(17+3, 0+3, -31+2, 0.4, 6, { ink: OR });
+  // Top Spines (Connecting Ribs)
+  box(17, 0+6, -31-2, 6.6, 0.4, 0.4, { ink: OR });
+  box(17, 0+6, -31+2, 6.6, 0.4, 0.4, { ink: OR });
+  // The Cursed Treasure
+  box(17, 0+0.5, -31, 1.5, 1, 1, { ink: OR }); // Gold Chest
+  box(17, 0+1.5, -31, 0.5, 0.5, 0.5, { ink: OR }); // Iron Lock
+  ring(17, 0+5, -31, 1.5, { ink: OR }); // Grapple to escape
 
-  // Macro: Stone Keep & Walls
-  box(17-5, 0, 33, 2, 3, 12, { ink: BL }); // West wall
-  box(17+5, 0, 33, 2, 3, 12, { ink: BL }); // East wall
-  box(17, 0, 33-5, 12, 3, 2, { ink: BL }); // North wall
-  box(17-3.5, 0, 33+5, 5, 3, 2, { ink: BL }); // South wall L
-  box(17+3.5, 0, 33+5, 5, 3, 2, { ink: BL }); // South wall R (3m door gap)
-  // Inner Watchtower
-  box(17, 0, 33-1, 4, 6, 4, { ink: BK });
-  stairs(17, 0, 33+2.5, 2, 6, 4, 0, { ink: OR }); // Huge stairs leading to tower
-  ring(17, 0+8, 33-1, 1, { ink: OR }); // Grapple
-  box(17-3, 0, 33, 1, 1, 1, { ink: OR }); // Cover
-  box(17+3, 0, 33, 1, 1, 1, { ink: OR }); // Cover
+  // Macro: The Shattered Bow
+  box(17, 0, 33, 8, 3, 10, { ink: OR }); // Front hull
+  stairs(17, 0+3, 33-6, 2, -3, 2, 2, { ink: OR }); // Ramps down into the sand
+  cyl(17, 0+3, 33+2, 0.4, 8, { ink: OR }); // Main mast
+  box(17, 0+7, 33+2, 6, 0.2, 0.2, { ink: OR }); // Yardarm
+  box(17, 0+5, 33+2.2, 5, 4, 0.1, { ink: BL, noCollide: true }); // Torn sail
+  ring(17, 0+11, 33+2, 1.5, { ink: OR }); // Grapple
+  
 
-  // Macro: Dry Dock & Scaffolding
-  box(33-4, 0, -31, 2, 4.0, 10, { ink: OR }); // Scaffolding L
-  box(33+4, 0, -31, 2, 4.0, 10, { ink: OR }); // Scaffolding R
-  box(33, 0, -31-4, 10, 4.0, 2, { ink: OR }); // Scaffolding Back
-  stairs(33, 0, -31-5.5, 2, 4.0, 2, 2, { ink: BL }); // Back stairs up
-  // Ship hull in middle
-  box(33, 0, -31+1, 4, 2.5, 8, { ink: BK });
-  box(33, 0+2.5, -31-2, 4, 1.0, 2, { ink: BK }); // Stern
-  // Crane on left scaffolding
-  cyl(33-4, 0+4, -31, 0.5, 4, { seg:8, ink: BK });
-  box(33-1.5, 0+7.5, -31, 5, 0.5, 0.5, { ink: BK });
-  ring(33-4, 0+7, -31, 1, { ink: OR }); // Grapple
+  // Macro: Leviathan Ribcage & Cursed Treasure
+  box(33, 0, -31, 12, 0.5, 8, { ink: OR }); // Sand mound
+  // Left Ribs
+  cyl(33-3, 0+3, -31-2, 0.4, 6, { ink: OR });
+  cyl(33-3, 0+3, -31+2, 0.4, 6, { ink: OR });
+  // Right Ribs
+  cyl(33+3, 0+3, -31-2, 0.4, 6, { ink: OR });
+  cyl(33+3, 0+3, -31+2, 0.4, 6, { ink: OR });
+  // Top Spines (Connecting Ribs)
+  box(33, 0+6, -31-2, 6.6, 0.4, 0.4, { ink: OR });
+  box(33, 0+6, -31+2, 6.6, 0.4, 0.4, { ink: OR });
+  // The Cursed Treasure
+  box(33, 0+0.5, -31, 1.5, 1, 1, { ink: OR }); // Gold Chest
+  box(33, 0+1.5, -31, 0.5, 0.5, 0.5, { ink: OR }); // Iron Lock
+  ring(33, 0+5, -31, 1.5, { ink: OR }); // Grapple to escape
 
-  // Macro: Dry Dock & Scaffolding
-  box(33-4, 0, -15, 2, 4.0, 10, { ink: OR }); // Scaffolding L
-  box(33+4, 0, -15, 2, 4.0, 10, { ink: OR }); // Scaffolding R
-  box(33, 0, -15-4, 10, 4.0, 2, { ink: OR }); // Scaffolding Back
-  stairs(33, 0, -15-5.5, 2, 4.0, 2, 2, { ink: BL }); // Back stairs up
-  // Ship hull in middle
-  box(33, 0, -15+1, 4, 2.5, 8, { ink: BK });
-  box(33, 0+2.5, -15-2, 4, 1.0, 2, { ink: BK }); // Stern
-  // Crane on left scaffolding
-  cyl(33-4, 0+4, -15, 0.5, 4, { seg:8, ink: BK });
-  box(33-1.5, 0+7.5, -15, 5, 0.5, 0.5, { ink: BK });
-  ring(33-4, 0+7, -15, 1, { ink: OR }); // Grapple
+  // Macro: Leviathan Ribcage & Cursed Treasure
+  box(33, 0, -15, 12, 0.5, 8, { ink: OR }); // Sand mound
+  // Left Ribs
+  cyl(33-3, 0+3, -15-2, 0.4, 6, { ink: OR });
+  cyl(33-3, 0+3, -15+2, 0.4, 6, { ink: OR });
+  // Right Ribs
+  cyl(33+3, 0+3, -15-2, 0.4, 6, { ink: OR });
+  cyl(33+3, 0+3, -15+2, 0.4, 6, { ink: OR });
+  // Top Spines (Connecting Ribs)
+  box(33, 0+6, -15-2, 6.6, 0.4, 0.4, { ink: OR });
+  box(33, 0+6, -15+2, 6.6, 0.4, 0.4, { ink: OR });
+  // The Cursed Treasure
+  box(33, 0+0.5, -15, 1.5, 1, 1, { ink: OR }); // Gold Chest
+  box(33, 0+1.5, -15, 0.5, 0.5, 0.5, { ink: OR }); // Iron Lock
+  ring(33, 0+5, -15, 1.5, { ink: OR }); // Grapple to escape
 
-  // Macro: Stone Keep & Walls
-  box(33-5, 0, 1, 2, 3, 12, { ink: BL }); // West wall
-  box(33+5, 0, 1, 2, 3, 12, { ink: BL }); // East wall
-  box(33, 0, 1-5, 12, 3, 2, { ink: BL }); // North wall
-  box(33-3.5, 0, 1+5, 5, 3, 2, { ink: BL }); // South wall L
-  box(33+3.5, 0, 1+5, 5, 3, 2, { ink: BL }); // South wall R (3m door gap)
-  // Inner Watchtower
-  box(33, 0, 1-1, 4, 6, 4, { ink: BK });
-  stairs(33, 0, 1+2.5, 2, 6, 4, 0, { ink: OR }); // Huge stairs leading to tower
-  ring(33, 0+8, 1-1, 1, { ink: OR }); // Grapple
-  box(33-3, 0, 1, 1, 1, 1, { ink: OR }); // Cover
-  box(33+3, 0, 1, 1, 1, 1, { ink: OR }); // Cover
+  // Macro: The Captains Quarters (Stern)
+  box(33, 0, 1, 10, 3, 10, { ink: OR }); // Lower hull
+  stairs(33, 0, 1+6, 2, 3, 2, 0, { ink: OR }); // Ramp into ship
+  box(33, 0+3, 1-2, 8, 3, 6, { ink: OR }); // Captains Cabin
+  stairs(33-4.5, 0+3, 1+1, 1, 3, 2, 3, { ink: OR }); // Left stairs to poop deck
+  stairs(33+4.5, 0+3, 1+1, 1, 3, 2, 1, { ink: OR }); // Right stairs to poop deck
+  box(33, 0+6, 1-2, 10, 1, 6, { ink: OR }); // Poop deck roof
+  cyl(33, 0+7, 1-2, 0.4, 6, { ink: OR }); // Broken rear mast
+  ring(33, 0+13, 1-2, 1.5, { ink: OR }); // Crows nest grapple
+  
 
-  // Macro: Stone Keep & Walls
-  box(33-5, 0, 17, 2, 3, 12, { ink: BL }); // West wall
-  box(33+5, 0, 17, 2, 3, 12, { ink: BL }); // East wall
-  box(33, 0, 17-5, 12, 3, 2, { ink: BL }); // North wall
-  box(33-3.5, 0, 17+5, 5, 3, 2, { ink: BL }); // South wall L
-  box(33+3.5, 0, 17+5, 5, 3, 2, { ink: BL }); // South wall R (3m door gap)
-  // Inner Watchtower
-  box(33, 0, 17-1, 4, 6, 4, { ink: BK });
-  stairs(33, 0, 17+2.5, 2, 6, 4, 0, { ink: OR }); // Huge stairs leading to tower
-  ring(33, 0+8, 17-1, 1, { ink: OR }); // Grapple
-  box(33-3, 0, 17, 1, 1, 1, { ink: OR }); // Cover
-  box(33+3, 0, 17, 1, 1, 1, { ink: OR }); // Cover
+  // Macro: The Shattered Bow
+  box(33, 0, 17, 8, 3, 10, { ink: OR }); // Front hull
+  stairs(33, 0+3, 17-6, 2, -3, 2, 2, { ink: OR }); // Ramps down into the sand
+  cyl(33, 0+3, 17+2, 0.4, 8, { ink: OR }); // Main mast
+  box(33, 0+7, 17+2, 6, 0.2, 0.2, { ink: OR }); // Yardarm
+  box(33, 0+5, 17+2.2, 5, 4, 0.1, { ink: BL, noCollide: true }); // Torn sail
+  ring(33, 0+11, 17+2, 1.5, { ink: OR }); // Grapple
+  
 
-  // Macro: Stone Keep & Walls
-  box(33-5, 0, 33, 2, 3, 12, { ink: BL }); // West wall
-  box(33+5, 0, 33, 2, 3, 12, { ink: BL }); // East wall
-  box(33, 0, 33-5, 12, 3, 2, { ink: BL }); // North wall
-  box(33-3.5, 0, 33+5, 5, 3, 2, { ink: BL }); // South wall L
-  box(33+3.5, 0, 33+5, 5, 3, 2, { ink: BL }); // South wall R (3m door gap)
-  // Inner Watchtower
-  box(33, 0, 33-1, 4, 6, 4, { ink: BK });
-  stairs(33, 0, 33+2.5, 2, 6, 4, 0, { ink: OR }); // Huge stairs leading to tower
-  ring(33, 0+8, 33-1, 1, { ink: OR }); // Grapple
-  box(33-3, 0, 33, 1, 1, 1, { ink: OR }); // Cover
-  box(33+3, 0, 33, 1, 1, 1, { ink: OR }); // Cover
-  box(21.9406635510242, 0, 11.243232430801953, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-4.296964159395827, 0, -25.808908075174386, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(33.68184527829001, 0, -25.156050162909978, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(24.132342579270983, 0, -38.48946163843236, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(48.79893637332766, 0, 39.76050554804061, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-11.18967874833902, 0, 39.704963379317206, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(24.889040018540015, 0, -3.744474880670623, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(19.25687102166735, 0, -46.59880447716118, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(26.842755708738295, 0, -45.723773067221664, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-45.38742065174877, 0, 29.388760059652185, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-19.205600544176612, 0, -41.746517506727365, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(0.341683416858686, 0, 36.294107671483786, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(9.216930064940215, 0, -50.44600099442701, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-11.951011635800931, 0, 42.37587812226717, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(13.548587347359756, 0, 49.97626247312695, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-18.038670082338484, 0, 39.530528005548916, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(14.457056410883311, 0, -28.322209197565794, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(13.47495342798922, 0, 32.25143311228838, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(37.49138192177358, 0, -20.704578646329118, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(48.082270781105024, 0, 45.636873460208605, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-10.263070710279145, 0, 35.42775069463295, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-29.737672250198045, 0, 27.454503689465753, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(27.690279198256448, 0, -22.353951908932927, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-18.19990569773516, 0, 4.754500884254057, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(46.841421392182724, 0, 43.83009851358979, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-34.21913558119576, 0, -17.033742543971037, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-4.711992444090228, 0, -16.653649803757546, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-23.632912241628027, 0, 22.01198578259104, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(48.46774557896961, 0, 42.61840984489672, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-21.72178141646436, 0, -2.3251114565487967, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(49.326057997768075, 0, -46.138447838023396, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-13.771154907636287, 0, -6.804580036669456, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-29.878032289150745, 0, 20.675511065825688, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(39.48896024598987, 0, -8.573306144473989, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(3.170167309837815, 0, -13.613066693578254, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(10.754940618655382, 0, -47.05525413975641, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-12.082554165135925, 0, 28.028463574575795, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-4.9298951495146355, 0, -39.40573779122431, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(14.48801018156368, 0, 9.872580338806287, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(3.977998507083157, 0, 24.586020686256774, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(48.89820614346763, 0, -40.01723937878878, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-43.144126396048264, 0, 3.7208159485525627, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(6.558794050265803, 0, 35.87173120224523, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-46.54659459657492, 0, -12.284873681036643, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(9.48604714659784, 0, -33.01476375883967, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(6.469901578341506, 0, 16.347127110017354, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(44.82216752455173, 0, 22.725968090575634, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-22.814624357759094, 0, -12.737365103686976, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(34.253244313818996, 0, -34.20311955301305, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(24.54067127994564, 0, -22.45672110822172, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(31.46843619515802, 0, 38.21032748888929, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(38.08299261998803, 0, 47.13736561121294, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(27.894727670220732, 0, 23.680774722862424, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(18.75295694718713, 0, -45.85100480615992, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-28.076520548015772, 0, -37.39087684968254, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(29.111741576968384, 0, -25.384145128389875, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-33.786504459946826, 0, 42.27089586679483, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(26.236618441191936, 0, -36.803512529745355, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-13.92562553140749, 0, -20.720997460339014, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-33.87687392432741, 0, -29.24910311044135, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(33.7463980134565, 0, -6.494125440908093, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(27.830533317876018, 0, 35.85134776388668, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(29.721212645560144, 0, -31.977203442009, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-48.524986521913945, 0, -20.04444165858248, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-16.16178610425076, 0, 13.7411038776076, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-45.98438425226072, 0, 45.403301752848975, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(39.241155746249774, 0, 42.51689456659712, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-13.129667483952595, 0, 31.011164289687798, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-27.78284019522988, 0, 26.94424768720735, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-17.97374700702038, 0, -32.27331618421506, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-24.40566583615878, 0, -36.66452903140218, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(28.530986716099704, 0, -11.353852714394904, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(27.989947102966838, 0, -11.366003390409993, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-7.291668950465734, 0, -17.402889684331107, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-9.486113184288321, 0, -19.104067459194653, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-43.78477168508141, 0, 36.517990547107175, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-20.700917777633137, 0, 21.17236593031869, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-13.937075235045043, 0, -8.891552996120346, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(6.33160592160295, 0, -45.562913044323224, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(3.598083043179635, 0, 49.80500666803415, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(11.267611613128508, 0, 25.42547829872197, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(12.795811243085211, 0, 20.29969545999984, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-24.31830280554598, 0, 20.150889205245136, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-32.82398060286074, 0, 11.502677598551855, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-38.73979325341909, 0, -1.4223987982878086, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(36.345352628988636, 0, 28.055631802166545, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(-8.39095088587095, 0, 30.727041464338228, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
-  box(22.333391942846546, 0, 49.70849613712045, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  // Macro: The Captains Quarters (Stern)
+  box(33, 0, 33, 10, 3, 10, { ink: OR }); // Lower hull
+  stairs(33, 0, 33+6, 2, 3, 2, 0, { ink: OR }); // Ramp into ship
+  box(33, 0+3, 33-2, 8, 3, 6, { ink: OR }); // Captains Cabin
+  stairs(33-4.5, 0+3, 33+1, 1, 3, 2, 3, { ink: OR }); // Left stairs to poop deck
+  stairs(33+4.5, 0+3, 33+1, 1, 3, 2, 1, { ink: OR }); // Right stairs to poop deck
+  box(33, 0+6, 33-2, 10, 1, 6, { ink: OR }); // Poop deck roof
+  cyl(33, 0+7, 33-2, 0.4, 6, { ink: OR }); // Broken rear mast
+  ring(33, 0+13, 33-2, 1.5, { ink: OR }); // Crows nest grapple
+  
+  box(11.802494230754618, 0, -31.70815655952189, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-50.00067809736688, 0, -45.509959614555285, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-47.40279886143968, 0, 48.950535988050746, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(50.23956370587047, 0, 25.57592275635558, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-30.986143136054178, 0, -9.247645273688164, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(4.677347253657928, 0, 13.890666704358935, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-38.940990367269876, 0, -47.62882478789674, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-15.120711923189887, 0, -15.460068261167315, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(24.573710695965914, 0, -7.220426931715608, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(22.946429575683197, 0, -21.4192874684721, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(44.04119052915506, 0, 48.07548571204366, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(23.07631860356767, 0, 23.99559641789712, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(25.63475745828073, 0, 13.27625096350836, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(30.473153331063585, 0, -46.247368718245596, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-28.50264874127658, 0, -32.54883971176804, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-4.630149998703509, 0, 28.604285034081187, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(45.01222264739667, 0, 4.051578061816969, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-28.205004096743988, 0, -0.562000239869711, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(44.33864976467474, 0, -48.24428146483247, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-48.25572498365439, 0, -17.751840683172368, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(43.705265864311116, 0, 25.693673499407694, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(49.04514200781905, 0, 22.692377172945086, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(16.09322998608107, 0, -25.251571380040115, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(46.54937925350664, 0, -26.54968725140002, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(15.274507521140237, 0, 1.582864778606968, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(17.785329697979193, 0, 11.835193176524086, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(39.26056331217249, 0, 50.29814700898328, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(28.737115512523417, 0, 0.09619726523489192, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-3.695176306685596, 0, 24.841246938666075, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-19.830878558262285, 0, 15.523562569007922, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(13.773673407964083, 0, -10.436190033452888, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-48.62058323273342, 0, -19.3613474825691, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(46.67231915639283, 0, -45.30763522742242, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(49.215020381746626, 0, -47.07704712102637, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(40.8058127694723, 0, 48.96469019848428, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(44.69734178427467, 0, -46.919106051368175, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-26.120225200860926, 0, -5.6648367515388856, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-27.676483577447428, 0, 5.077988027963947, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-46.78183005851095, 0, -49.090366066980465, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(38.32210848999267, 0, -44.00527140025954, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-34.5386907145552, 0, 12.02980336557151, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-5.399591263372372, 0, -17.907329563060607, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-15.11966199858081, 0, 7.780383293662723, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-34.530666246341035, 0, -13.073002743286573, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-28.970128917907473, 0, 38.885487101850714, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(10.805346359845302, 0, -47.41045407736271, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(26.29932811323117, 0, 27.649711485658983, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-42.68571352834954, 0, -8.047504859239872, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-2.6813402748556427, 0, -34.033353978851245, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-20.687011130950573, 0, 30.090827885994216, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(24.585830094761377, 0, -16.082975128763906, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(25.05356057141958, 0, -34.94357005288788, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(27.255418147276274, 0, -32.0646606990477, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(50.26536638168423, 0, 27.011035047817202, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(29.179762957920047, 0, -17.99448865845747, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(16.455470647293723, 0, 38.95346767932003, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-36.29687307212416, 0, 9.470137719191314, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-8.83327455769593, 0, 49.54306913724865, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-44.32807858037121, 0, 34.17615598448013, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(0.46031082678263147, 0, -32.1195014563301, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(7.5856359161635325, 0, 38.47963139380424, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-32.430109552043234, 0, -18.80798464122295, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-6.792591053335045, 0, 25.40271366680392, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-12.224688230209622, 0, 19.98492422412447, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(29.86575139141125, 0, -3.8592580958547913, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-26.76603792769034, 0, 25.449807866765823, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(42.61418831546446, 0, -47.79793127840035, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-23.010222941048866, 0, 21.846266968401707, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(-28.109679798878457, 0, 31.636716131014893, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(26.816518232959922, 0, -20.586125589936536, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(34.856693868471964, 0, 23.8223059122582, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
+  box(47.39284139884501, 0, -6.810350696236554, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover
   // === END DREAM AUTO-INJECTED PROPS ===
   B.finish();
   return L;

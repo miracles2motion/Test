@@ -1100,13 +1100,83 @@
           "timestamp": "2026-09-12T21:04:09.464Z"
         }
       }
+    },
+    {
+      "id": "dream-033",
+      "timestamp": "2026-09-12T21:20:19.640Z",
+      "mapKey": "pirate_cove",
+      "mode": "MAP",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "spatial-doctor": {
+          "status": "pass",
+          "fixes": 0
+        },
+        "Macro Building Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T21:20:18.869Z"
+        },
+        "Prop Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T21:20:19.108Z"
+        },
+        "Enemy Synthesis": {
+          "status": "pass",
+          "timestamp": "2026-09-12T21:20:19.180Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-12T21:20:19.432Z"
+        },
+        "Self-Healing Audit": {
+          "status": "fail",
+          "error": "Command failed: node .agents/skills/universal-detailing-standard/scripts/verify-detailing.js pirate_cove --heal",
+          "timestamp": "2026-09-12T21:20:19.636Z"
+        }
+      }
+    },
+    {
+      "id": "dream-034",
+      "timestamp": "2026-09-12T21:20:27.922Z",
+      "mapKey": "pirate_cove",
+      "mode": "MAP",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "spatial-doctor": {
+          "status": "pass",
+          "fixes": 0
+        },
+        "Macro Building Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T21:20:27.147Z"
+        },
+        "Prop Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T21:20:27.350Z"
+        },
+        "Enemy Synthesis": {
+          "status": "pass",
+          "timestamp": "2026-09-12T21:20:27.421Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-12T21:20:27.676Z"
+        },
+        "Self-Healing Audit": {
+          "status": "fail",
+          "error": "Command failed: node .agents/skills/universal-detailing-standard/scripts/verify-detailing.js pirate_cove --heal",
+          "timestamp": "2026-09-12T21:20:27.919Z"
+        }
+      }
     }
   ],
   "stats": {
-    "totalRuns": 32,
-    "successes": 32,
+    "totalRuns": 34,
+    "successes": 34,
     "failures": 0,
-    "errorRate": "0/32 (0%)",
+    "errorRate": "0/34 (0%)",
     "avgScore": 0
   }
 }

@@ -91,81 +91,81 @@ function isBoxCollisionFree(cx, cy, cz, w, h, d, minClearance = 0.5) {
 // 3. 5-Theme Prop Catalog
 
 // 3. 5-Theme Prop Catalog - Upgraded to MACRO CITY BLOCKS (Explorable, Pathways, Doors, Stairs)
+
+// 3. Imagineering Workflow - Bespoke Thematic Set Pieces
 const propCatalog = {
-  skull_city: [
-    { type: 'skull_temple', w: 12, h: 6, d: 12, tier: 1, gen: (x, y, z) => `
-  // Macro: Skull Temple Block
-  box(${x}, ${y}, ${z}, 10, 0.5, 10, { ink: BK }); // Foundation
-  stairs(${x}, ${y}, ${z} + 5.5, 2, 0.5, 1, 0, { ink: OR }); // Entrance stairs
-  box(${x} - 4, ${y} + 0.5, ${z}, 1, 4, 10, { ink: BL }); // Left wall
-  box(${x} + 4, ${y} + 0.5, ${z}, 1, 4, 10, { ink: BL }); // Right wall
-  box(${x}, ${y} + 0.5, ${z} - 4, 10, 4, 1, { ink: BL }); // Back wall
-  box(${x} - 2.5, ${y} + 0.5, ${z} + 4, 4, 4, 1, { ink: BL }); // Front wall L
-  box(${x} + 2.5, ${y} + 0.5, ${z} + 4, 4, 4, 1, { ink: BL }); // Front wall R (gap is door)
-  // Altar and skull inside
-  box(${x}, ${y} + 0.5, ${z} - 2, 4, 3, 4, { ink: BK }); // Skull base
-  box(${x}, ${y} + 3.5, ${z} - 2, 3, 2, 3, { ink: OR }); // Skull top
-  box(${x}-0.8, ${y} + 4.0, ${z} - 0.5, 0.5, 0.5, 0.5, { ink: BK }); // Eye
-  box(${x}+0.8, ${y} + 4.0, ${z} - 0.5, 0.5, 0.5, 0.5, { ink: BK }); // Eye
-  ring(${x}, ${y}+6, ${z}, 1, { ink: OR }); // Grapple` },
-    { type: 'bone_yard', w: 12, h: 4, d: 12, tier: 1, gen: (x, y, z) => `
-  // Macro: Bone Yard Platform
-  box(${x}, ${y}, ${z}, 8, 2.0, 8, { ink: BK }); // Raised platform
-  stairs(${x}-4.5, ${y}, ${z}, 1, 2.0, 2, 3, { ink: OR }); // Side stairs (West)
-  stairs(${x}+4.5, ${y}, ${z}, 1, 2.0, 2, 1, { ink: OR }); // Side stairs (East)
-  cyl(${x}-2, ${y}+2.0, ${z}-2, 0.5, 2.0, { seg:6, ink: WH }); // Spike
-  cyl(${x}+2, ${y}+2.0, ${z}-2, 0.5, 3.0, { seg:6, ink: WH }); // Spike
-  cyl(${x}-2, ${y}+2.0, ${z}+2, 0.5, 1.5, { seg:6, ink: WH }); // Spike
-  cyl(${x}+2, ${y}+2.0, ${z}+2, 0.5, 2.5, { seg:6, ink: WH }); // Spike` }
+  shanty_town: [
+    { type: 'shanty_tower', w: 10, h: 10, d: 10, tier: 1, gen: (x, y, z) => `
+  // Macro: Vertical Shanty Tower
+  box(${x}, ${y}, ${z}, 8, 3, 8, { ink: OR }); // Base shack
+  stairs(${x}-4.5, ${y}, ${z}, 1, 3, 2, 3, { ink: OR }); // Rickety steps up
+  box(${x}-1, ${y}+3, ${z}-1, 6, 3, 6, { ink: BL }); // Second floor offset
+  stairs(${x}+2.5, ${y}+3, ${z}, 1, 3, 2, 1, { ink: OR }); // Steps to roof
+  box(${x}+1, ${y}+6, ${z}+1, 4, 3, 4, { ink: OR }); // Crows nest shack
+  ring(${x}, ${y}+10, ${z}, 1.5, { ink: OR }); // Rope swing anchor` },
+    { type: 'plank_bridge', w: 12, h: 4, d: 4, tier: 1, gen: (x, y, z) => `
+  // Macro: Suspended Plank Bridge
+  box(${x}, ${y}+3, ${z}, 10, 0.2, 2, { ink: OR }); // Wood plank
+  cyl(${x}-4.5, ${y}, ${z}-0.5, 0.2, 4, { ink: OR }); // Support posts
+  cyl(${x}+4.5, ${y}, ${z}+0.5, 0.2, 4, { ink: OR });` }
   ],
-  shipyard: [
-    { type: 'dry_dock', w: 12, h: 6, d: 12, tier: 1, gen: (x, y, z) => `
-  // Macro: Dry Dock & Scaffolding
-  box(${x}-4, ${y}, ${z}, 2, 4.0, 10, { ink: OR }); // Scaffolding L
-  box(${x}+4, ${y}, ${z}, 2, 4.0, 10, { ink: OR }); // Scaffolding R
-  box(${x}, ${y}, ${z}-4, 10, 4.0, 2, { ink: OR }); // Scaffolding Back
-  stairs(${x}, ${y}, ${z}-5.5, 2, 4.0, 2, 2, { ink: BL }); // Back stairs up
-  // Ship hull in middle
-  box(${x}, ${y}, ${z}+1, 4, 2.5, 8, { ink: BK });
-  box(${x}, ${y}+2.5, ${z}-2, 4, 1.0, 2, { ink: BK }); // Stern
-  // Crane on left scaffolding
-  cyl(${x}-4, ${y}+4, ${z}, 0.5, 4, { seg:8, ink: BK });
-  box(${x}-1.5, ${y}+7.5, ${z}, 5, 0.5, 0.5, { ink: BK });
-  ring(${x}-4, ${y}+7, ${z}, 1, { ink: OR }); // Grapple` }
+  leviathan_graveyard: [
+    { type: 'giant_ribcage', w: 12, h: 6, d: 8, tier: 1, gen: (x, y, z) => `
+  // Macro: Leviathan Ribcage & Cursed Treasure
+  box(${x}, ${y}, ${z}, 12, 0.5, 8, { ink: OR }); // Sand mound
+  // Left Ribs
+  cyl(${x}-3, ${y}+3, ${z}-2, 0.4, 6, { ink: WH });
+  cyl(${x}-3, ${y}+3, ${z}+2, 0.4, 6, { ink: WH });
+  // Right Ribs
+  cyl(${x}+3, ${y}+3, ${z}-2, 0.4, 6, { ink: WH });
+  cyl(${x}+3, ${y}+3, ${z}+2, 0.4, 6, { ink: WH });
+  // Top Spines (Connecting Ribs)
+  box(${x}, ${y}+6, ${z}-2, 6.6, 0.4, 0.4, { ink: WH });
+  box(${x}, ${y}+6, ${z}+2, 6.6, 0.4, 0.4, { ink: WH });
+  // The Cursed Treasure
+  box(${x}, ${y}+0.5, ${z}, 1.5, 1, 1, { ink: OR }); // Gold Chest
+  box(${x}, ${y}+1.5, ${z}, 0.5, 0.5, 0.5, { ink: OR }); // Iron Lock
+  ring(${x}, ${y}+5, ${z}, 1.5, { ink: WH }); // Grapple to escape` }
   ],
-  treasure_market: [
-    { type: 'bazaar_plaza', w: 12, h: 4, d: 12, tier: 1, gen: (x, y, z) => `
-  // Macro: Bazaar Plaza with Tents
-  box(${x}, ${y}, ${z}, 10, 0.2, 10, { ink: BL }); // Rug/Plaza
-  // Tent 1 (NW)
-  box(${x}-3, ${y}+0.2, ${z}-3, 3, 2, 3, { ink: OR });
-  box(${x}-3, ${y}+2.2, ${z}-3, 3.2, 0.2, 3.2, { ink: RD });
-  // Tent 2 (NE)
-  box(${x}+3, ${y}+0.2, ${z}-3, 3, 2, 3, { ink: OR });
-  box(${x}+3, ${y}+2.2, ${z}-3, 3.2, 0.2, 3.2, { ink: WH });
-  // Tent 3 (SW)
-  box(${x}-3, ${y}+0.2, ${z}+3, 3, 2, 3, { ink: OR });
-  box(${x}-3, ${y}+2.2, ${z}+3, 3.2, 0.2, 3.2, { ink: BL });
-  // Center Gold
-  cyl(${x}, ${y}+0.2, ${z}, 1.5, 1.0, { seg:8, ink: OR });
-  ring(${x}, ${y}+4, ${z}, 1, { ink: OR }); // Grapple
-  box(${x}-2, ${y}+0.2, ${z}-2, 1, 1, 1, { ink: BK }); // Cover
-  box(${x}+2, ${y}+0.2, ${z}+2, 1, 1, 1, { ink: BK }); // Cover` }
+  gunpowder_grotto: [
+    { type: 'explosive_cavern', w: 12, h: 8, d: 10, tier: 1, gen: (x, y, z) => `
+  // Macro: Gunpowder Overhang & Crane
+  box(${x}, ${y}, ${z}, 12, 0.2, 10, { ink: OR }); // Stone floor
+  box(${x}-5, ${y}+0.2, ${z}, 2, 8, 10, { ink: OR }); // Left cave wall
+  box(${x}+5, ${y}+0.2, ${z}, 2, 8, 10, { ink: OR }); // Right cave wall
+  box(${x}, ${y}+8, ${z}, 12, 1, 10, { ink: OR }); // Cave Roof Overhang
+  // Stockpile
+  cyl(${x}-2, ${y}+0.2, ${z}-2, 0.8, 1.5, { ink: GR }); // Volatile Barrel
+  cyl(${x}-3, ${y}+0.2, ${z}-1, 0.8, 1.5, { ink: OR }); // Powder Barrel
+  cyl(${x}-2.5, ${y}+1.7, ${z}-1.5, 0.8, 1.5, { ink: GR }); // Stacked
+  // Crane & Suspended Barrel
+  box(${x}+4, ${y}+7, ${z}, 5, 0.4, 0.4, { ink: OR }); // Wood crane arm
+  cyl(${x}+1.5, ${y}+4, ${z}, 0.1, 3, { ink: WH }); // Rope
+  cyl(${x}+1.5, ${y}+3, ${z}, 1.0, 1.5, { ink: OR }); // Hanging explosive
+  ring(${x}+1.5, ${y}+2, ${z}, 1.5, { ink: OR }); // Grapple onto the explosive!
+  ` }
   ],
-  fortress: [
-    { type: 'keep_tower', w: 12, h: 8, d: 12, tier: 1, gen: (x, y, z) => `
-  // Macro: Stone Keep & Walls
-  box(${x}-5, ${y}, ${z}, 2, 3, 12, { ink: BL }); // West wall
-  box(${x}+5, ${y}, ${z}, 2, 3, 12, { ink: BL }); // East wall
-  box(${x}, ${y}, ${z}-5, 12, 3, 2, { ink: BL }); // North wall
-  box(${x}-3.5, ${y}, ${z}+5, 5, 3, 2, { ink: BL }); // South wall L
-  box(${x}+3.5, ${y}, ${z}+5, 5, 3, 2, { ink: BL }); // South wall R (3m door gap)
-  // Inner Watchtower
-  box(${x}, ${y}, ${z}-1, 4, 6, 4, { ink: BK });
-  stairs(${x}, ${y}, ${z}+2.5, 2, 6, 4, 0, { ink: OR }); // Huge stairs leading to tower
-  ring(${x}, ${y}+8, ${z}-1, 1, { ink: OR }); // Grapple
-  box(${x}-3, ${y}, ${z}, 1, 1, 1, { ink: OR }); // Cover
-  box(${x}+3, ${y}, ${z}, 1, 1, 1, { ink: OR }); // Cover` }
+  broken_galleon: [
+    { type: 'galleon_stern', w: 12, h: 10, d: 12, tier: 1, gen: (x, y, z) => `
+  // Macro: The Captains Quarters (Stern)
+  box(${x}, ${y}, ${z}, 10, 3, 10, { ink: OR }); // Lower hull
+  stairs(${x}, ${y}, ${z}+6, 2, 3, 2, 0, { ink: OR }); // Ramp into ship
+  box(${x}, ${y}+3, ${z}-2, 8, 3, 6, { ink: OR }); // Captains Cabin
+  stairs(${x}-4.5, ${y}+3, ${z}+1, 1, 3, 2, 3, { ink: OR }); // Left stairs to poop deck
+  stairs(${x}+4.5, ${y}+3, ${z}+1, 1, 3, 2, 1, { ink: OR }); // Right stairs to poop deck
+  box(${x}, ${y}+6, ${z}-2, 10, 1, 6, { ink: OR }); // Poop deck roof
+  cyl(${x}, ${y}+7, ${z}-2, 0.4, 6, { ink: OR }); // Broken rear mast
+  ring(${x}, ${y}+13, ${z}-2, 1.5, { ink: OR }); // Crows nest grapple
+  ` },
+    { type: 'galleon_bow', w: 10, h: 8, d: 12, tier: 1, gen: (x, y, z) => `
+  // Macro: The Shattered Bow
+  box(${x}, ${y}, ${z}, 8, 3, 10, { ink: OR }); // Front hull
+  stairs(${x}, ${y}+3, ${z}-6, 2, -3, 2, 2, { ink: OR }); // Ramps down into the sand
+  cyl(${x}, ${y}+3, ${z}+2, 0.4, 8, { ink: OR }); // Main mast
+  box(${x}, ${y}+7, ${z}+2, 6, 0.2, 0.2, { ink: OR }); // Yardarm
+  box(${x}, ${y}+5, ${z}+2.2, 5, 4, 0.1, { ink: BL, noCollide: true }); // Torn sail
+  ring(${x}, ${y}+11, ${z}+2, 1.5, { ink: OR }); // Grapple
+  ` }
   ]
 };
 
@@ -187,12 +187,12 @@ for (const y of tiers) {
   for (let x = bounds.minX + 8; x <= bounds.maxX - 8; x += gridStep) {
     for (let z = bounds.minZ + 8; z <= bounds.maxZ - 8; z += gridStep) {
       // Determine active catalog
-      let activeCatalog = propCatalog['fortress'];
+      let activeCatalog = propCatalog['broken_galleon'];
       if (mapArg === 'pirate_cove') {
-        if (x <= midX && z <= midZ) activeCatalog = propCatalog['skull_city'];
-        else if (x > midX && z <= midZ) activeCatalog = propCatalog['shipyard'];
-        else if (x <= midX && z > midZ) activeCatalog = propCatalog['treasure_market'];
-        else activeCatalog = propCatalog['fortress'];
+        if (x <= midX && z <= midZ) activeCatalog = propCatalog['shanty_town'];
+        else if (x > midX && z <= midZ) activeCatalog = propCatalog['leviathan_graveyard'];
+        else if (x <= midX && z > midZ) activeCatalog = propCatalog['gunpowder_grotto'];
+        else activeCatalog = propCatalog['broken_galleon'];
       }
       
       const propTemplate = activeCatalog[Math.floor(Math.random() * activeCatalog.length)];
@@ -218,7 +218,7 @@ for(let i=0; i<120; i++) {
   if (isBoxCollisionFree(bx, 0.0, bz, 1.0, 1.0, 1.0, 1.0)) {
      safePockets.push({
        x: bx, y: 0, z: bz,
-       template: { gen: (x,y,z) => `  box(${x}, ${y}, ${z}, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover` }
+       template: { gen: (x,y,z) => `  box(${x}, ${y}, ${z}, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover` }
      });
   }
 }

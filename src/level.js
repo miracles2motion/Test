@@ -80,11 +80,11 @@ export const LEVELS = [
   {
     key: 'pirate_cove',
     name: 'PIRATE COVE',
-    category: 'urban',
-    tags: ['DREAM MODE', 'AUTO-GENERATED'],
-    env: 'PIRATE COVE Environment',
-    engagement: 'CQB & Vertical',
-    hazard: 'TBD',
+    category: 'colossal',
+    tags: ['GROTTO', 'SHIPWRECK', 'VERTICAL'],
+    env: 'A massive sunken grotto carved into the bones of the earth. Features a Smugglers Shanty Town, the Leviathans Graveyard, a highly volatile Gunpowder Grotto, and the shattered remains of a legendary Pirate Kings Galleon.',
+    engagement: 'Asymmetrical Verticality & Hazards',
+    hazard: 'Deep Water / Grapple Chasms',
     scale: 'Tier 1-4',
     comingSoon: false
   },
