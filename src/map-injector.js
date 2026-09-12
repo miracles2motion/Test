@@ -228,8 +228,8 @@ for (const p of safePockets) {
   else pocketsByQuad.SE.push(p);
 }
 
-// Select props, ensuring even distribution (target: ~30 total, ~7 per quad)
-const MAX_PROPS = 32;
+// Select props, ensuring even distribution (target: ~80 total, ~20 per quad)
+const MAX_PROPS = 80;
 const targetPerQuad = Math.ceil(MAX_PROPS / 4);
 const selectedProps = [];
 

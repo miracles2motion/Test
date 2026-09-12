@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-09-12T19:57:24.525Z",
+  "updatedAt": "2026-09-12T20:14:38.098Z",
   "rules": {
     "stairway": {
       "minRise": 0.2,
@@ -57,16 +57,16 @@
       "description": "Injected 9 safe 3D props into level code",
       "trigger": "dream-auto-injection",
       "autoRemedy": "3dPropInject",
-      "occurrences": 9,
-      "lastObserved": "2026-09-12T19:57:23.983Z"
+      "occurrences": 15,
+      "lastObserved": "2026-09-12T20:14:37.568Z"
     },
     {
       "patternId": "macro-dream-building",
       "description": "Synthesized 2 multi-story interactive buildings",
       "trigger": "macro-dream-building",
       "autoRemedy": "macroSpatialInjection",
-      "occurrences": 15,
-      "lastObserved": "2026-09-12T19:57:23.730Z"
+      "occurrences": 20,
+      "lastObserved": "2026-09-12T20:14:37.317Z"
     },
     {
       "patternId": "macro-syntax-failure",
@@ -233,11 +233,175 @@
       "mapKey": "cove",
       "patternId": "dream-auto-injection",
       "description": "Injected 32 safe 3D props (God Mode, theme: maritime)"
+    },
+    {
+      "timestamp": "2026-09-12T20:11:38.957Z",
+      "mapKey": "pirate_cove",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
+    },
+    {
+      "timestamp": "2026-09-12T20:11:39.193Z",
+      "mapKey": "pirate_cove",
+      "patternId": "dream-auto-injection",
+      "description": "Injected 32 safe 3D props (God Mode, theme: maritime)"
+    },
+    {
+      "timestamp": "2026-09-12T20:12:15.637Z",
+      "mapKey": "pirate_cove",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
+    },
+    {
+      "timestamp": "2026-09-12T20:12:15.882Z",
+      "mapKey": "pirate_cove",
+      "patternId": "dream-auto-injection",
+      "description": "Injected 32 safe 3D props (God Mode, theme: maritime)"
+    },
+    {
+      "timestamp": "2026-09-12T20:12:50.363Z",
+      "mapKey": "pirate_cove",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
+    },
+    {
+      "timestamp": "2026-09-12T20:12:50.596Z",
+      "mapKey": "pirate_cove",
+      "patternId": "dream-auto-injection",
+      "description": "Injected 32 safe 3D props (God Mode, theme: maritime)"
+    },
+    {
+      "timestamp": "2026-09-12T20:13:31.927Z",
+      "mapKey": "pirate_cove",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
+    },
+    {
+      "timestamp": "2026-09-12T20:13:32.181Z",
+      "mapKey": "pirate_cove",
+      "patternId": "dream-auto-injection",
+      "description": "Injected 32 safe 3D props (God Mode, theme: maritime)"
+    },
+    {
+      "timestamp": "2026-09-12T20:14:05.445Z",
+      "mapKey": "pirate_cove",
+      "patternId": "dream-auto-injection",
+      "description": "Injected 32 safe 3D props (God Mode, theme: maritime)"
+    },
+    {
+      "timestamp": "2026-09-12T20:14:37.317Z",
+      "mapKey": "pirate_cove",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
+    },
+    {
+      "timestamp": "2026-09-12T20:14:37.568Z",
+      "mapKey": "pirate_cove",
+      "patternId": "dream-auto-injection",
+      "description": "Injected 80 safe 3D props (God Mode, theme: maritime)"
     }
   ],
   "failureBlacklist": {},
   "successRegistry": {
     "galleon_sterncastle": {
+      "count": 15,
+      "totalScore": 1275,
+      "positions": [
+        {
+          "mapKey": "pirate_cove",
+          "x": -43,
+          "y": 0,
+          "z": -43
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -43,
+          "y": 0,
+          "z": 11
+        },
+        {
+          "mapKey": "harbor_port",
+          "x": -43,
+          "y": 0,
+          "z": -43
+        },
+        {
+          "mapKey": "harbor_port",
+          "x": -43,
+          "y": 0,
+          "z": 11
+        },
+        {
+          "mapKey": "harbor_port",
+          "x": -43,
+          "y": 0,
+          "z": 41
+        },
+        {
+          "mapKey": "cove",
+          "x": -43,
+          "y": 0,
+          "z": -43
+        },
+        {
+          "mapKey": "cove",
+          "x": -43,
+          "y": 0,
+          "z": 11
+        },
+        {
+          "mapKey": "cove",
+          "x": -43,
+          "y": 0,
+          "z": 41
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -31,
+          "y": 0,
+          "z": -37
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -43,
+          "y": 0,
+          "z": -43
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -31,
+          "y": 0,
+          "z": -7
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -43,
+          "y": 0,
+          "z": -7
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -25,
+          "y": 0,
+          "z": 5
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -43,
+          "y": 0,
+          "z": -43
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -43,
+          "y": 0,
+          "z": 29
+        }
+      ],
+      "avgScore": 85,
+      "lastSuccess": "2026-09-12T20:14:37.317Z"
+    },
+    "lighthouse_beacon": {
       "count": 8,
       "totalScore": 680,
       "positions": [
@@ -245,62 +409,6 @@
           "mapKey": "pirate_cove",
           "x": -43,
           "y": 0,
-          "z": -43
-        },
-        {
-          "mapKey": "pirate_cove",
-          "x": -43,
-          "y": 0,
-          "z": 11
-        },
-        {
-          "mapKey": "harbor_port",
-          "x": -43,
-          "y": 0,
-          "z": -43
-        },
-        {
-          "mapKey": "harbor_port",
-          "x": -43,
-          "y": 0,
-          "z": 11
-        },
-        {
-          "mapKey": "harbor_port",
-          "x": -43,
-          "y": 0,
-          "z": 41
-        },
-        {
-          "mapKey": "cove",
-          "x": -43,
-          "y": 0,
-          "z": -43
-        },
-        {
-          "mapKey": "cove",
-          "x": -43,
-          "y": 0,
-          "z": 11
-        },
-        {
-          "mapKey": "cove",
-          "x": -43,
-          "y": 0,
-          "z": 41
-        }
-      ],
-      "avgScore": 85,
-      "lastSuccess": "2026-09-12T19:57:23.728Z"
-    },
-    "lighthouse_beacon": {
-      "count": 5,
-      "totalScore": 425,
-      "positions": [
-        {
-          "mapKey": "pirate_cove",
-          "x": -43,
-          "y": 0,
           "z": -25
         },
         {
@@ -326,14 +434,32 @@
           "x": -31,
           "y": 0,
           "z": -43
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -31,
+          "y": 0,
+          "z": -19
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -43,
+          "y": 0,
+          "z": -25
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -43,
+          "y": 0,
+          "z": -7
         }
       ],
       "avgScore": 85,
-      "lastSuccess": "2026-09-12T19:57:23.728Z"
+      "lastSuccess": "2026-09-12T20:14:37.316Z"
     },
     "cargo_crane": {
-      "count": 7,
-      "totalScore": 595,
+      "count": 17,
+      "totalScore": 1445,
       "positions": [
         {
           "mapKey": "pirate_cove",
@@ -376,10 +502,70 @@
           "x": -31,
           "y": 0,
           "z": -13
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -37,
+          "y": 0,
+          "z": 23
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -31,
+          "y": 0,
+          "z": 5
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -37,
+          "y": 0,
+          "z": 35
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -43,
+          "y": 0,
+          "z": 11
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -31,
+          "y": 0,
+          "z": -37
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -43,
+          "y": 0,
+          "z": -19
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -31,
+          "y": 0,
+          "z": -7
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -31,
+          "y": 0,
+          "z": 17
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -31,
+          "y": 0,
+          "z": 35
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -43,
+          "y": 0,
+          "z": 11
         }
       ],
       "avgScore": 85,
-      "lastSuccess": "2026-09-12T19:57:23.728Z"
+      "lastSuccess": "2026-09-12T20:14:37.316Z"
     },
     "bell_pavilion": {
       "count": 5,
@@ -533,6 +719,48 @@
       {
         "timestamp": "2026-09-12T19:57:24.525Z",
         "mapKey": "cove",
+        "success": true,
+        "score": 0,
+        "mode": "MAP"
+      },
+      {
+        "timestamp": "2026-09-12T20:11:39.724Z",
+        "mapKey": "pirate_cove",
+        "success": true,
+        "score": 0,
+        "mode": "MAP"
+      },
+      {
+        "timestamp": "2026-09-12T20:12:16.454Z",
+        "mapKey": "pirate_cove",
+        "success": true,
+        "score": 0,
+        "mode": "MAP"
+      },
+      {
+        "timestamp": "2026-09-12T20:12:51.156Z",
+        "mapKey": "pirate_cove",
+        "success": true,
+        "score": 0,
+        "mode": "MAP"
+      },
+      {
+        "timestamp": "2026-09-12T20:13:32.730Z",
+        "mapKey": "pirate_cove",
+        "success": true,
+        "score": 0,
+        "mode": "MAP"
+      },
+      {
+        "timestamp": "2026-09-12T20:14:06.036Z",
+        "mapKey": "pirate_cove",
+        "success": true,
+        "score": 0,
+        "mode": "MAP"
+      },
+      {
+        "timestamp": "2026-09-12T20:14:38.098Z",
+        "mapKey": "pirate_cove",
         "success": true,
         "score": 0,
         "mode": "MAP"

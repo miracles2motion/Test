@@ -270,13 +270,222 @@
           "timestamp": "2026-09-12T19:57:24.523Z"
         }
       }
+    },
+    {
+      "id": "dream-009",
+      "timestamp": "2026-09-12T20:11:39.725Z",
+      "mapKey": "pirate_cove",
+      "mode": "MAP",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "spatial-doctor": {
+          "status": "pass",
+          "fixes": 0
+        },
+        "Macro Building Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T20:11:38.968Z"
+        },
+        "Prop Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T20:11:39.218Z"
+        },
+        "Enemy Synthesis": {
+          "status": "pass",
+          "timestamp": "2026-09-12T20:11:39.292Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-12T20:11:39.503Z"
+        },
+        "Self-Healing Audit": {
+          "status": "fail",
+          "error": "Command failed: node .agents/skills/universal-detailing-standard/scripts/verify-detailing.js pirate_cove --heal",
+          "timestamp": "2026-09-12T20:11:39.723Z"
+        }
+      }
+    },
+    {
+      "id": "dream-010",
+      "timestamp": "2026-09-12T20:12:16.455Z",
+      "mapKey": "pirate_cove",
+      "mode": "MAP",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "spatial-doctor": {
+          "status": "pass",
+          "fixes": 0
+        },
+        "Macro Building Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T20:12:15.643Z"
+        },
+        "Prop Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T20:12:15.899Z"
+        },
+        "Enemy Synthesis": {
+          "status": "pass",
+          "timestamp": "2026-09-12T20:12:15.984Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-12T20:12:16.230Z"
+        },
+        "Self-Healing Audit": {
+          "status": "fail",
+          "error": "Command failed: node .agents/skills/universal-detailing-standard/scripts/verify-detailing.js pirate_cove --heal",
+          "timestamp": "2026-09-12T20:12:16.452Z"
+        }
+      }
+    },
+    {
+      "id": "dream-011",
+      "timestamp": "2026-09-12T20:12:51.157Z",
+      "mapKey": "pirate_cove",
+      "mode": "MAP",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "spatial-doctor": {
+          "status": "pass",
+          "fixes": 0
+        },
+        "Macro Building Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T20:12:50.368Z"
+        },
+        "Prop Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T20:12:50.613Z"
+        },
+        "Enemy Synthesis": {
+          "status": "pass",
+          "timestamp": "2026-09-12T20:12:50.688Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-12T20:12:50.933Z"
+        },
+        "Self-Healing Audit": {
+          "status": "fail",
+          "error": "Command failed: node .agents/skills/universal-detailing-standard/scripts/verify-detailing.js pirate_cove --heal",
+          "timestamp": "2026-09-12T20:12:51.154Z"
+        }
+      }
+    },
+    {
+      "id": "dream-012",
+      "timestamp": "2026-09-12T20:13:32.730Z",
+      "mapKey": "pirate_cove",
+      "mode": "MAP",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "spatial-doctor": {
+          "status": "pass",
+          "fixes": 0
+        },
+        "Macro Building Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T20:13:31.932Z"
+        },
+        "Prop Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T20:13:32.216Z"
+        },
+        "Enemy Synthesis": {
+          "status": "pass",
+          "timestamp": "2026-09-12T20:13:32.289Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-12T20:13:32.514Z"
+        },
+        "Self-Healing Audit": {
+          "status": "fail",
+          "error": "Command failed: node .agents/skills/universal-detailing-standard/scripts/verify-detailing.js pirate_cove --heal",
+          "timestamp": "2026-09-12T20:13:32.728Z"
+        }
+      }
+    },
+    {
+      "id": "dream-013",
+      "timestamp": "2026-09-12T20:14:06.037Z",
+      "mapKey": "pirate_cove",
+      "mode": "MAP",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "spatial-doctor": {
+          "status": "pass",
+          "fixes": 0
+        },
+        "Macro Building Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T20:14:05.178Z"
+        },
+        "Prop Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T20:14:05.450Z"
+        },
+        "Enemy Synthesis": {
+          "status": "pass",
+          "timestamp": "2026-09-12T20:14:05.540Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-12T20:14:05.827Z"
+        },
+        "Self-Healing Audit": {
+          "status": "fail",
+          "error": "Command failed: node .agents/skills/universal-detailing-standard/scripts/verify-detailing.js pirate_cove --heal",
+          "timestamp": "2026-09-12T20:14:06.035Z"
+        }
+      }
+    },
+    {
+      "id": "dream-014",
+      "timestamp": "2026-09-12T20:14:38.099Z",
+      "mapKey": "pirate_cove",
+      "mode": "MAP",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "spatial-doctor": {
+          "status": "pass",
+          "fixes": 0
+        },
+        "Macro Building Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T20:14:37.334Z"
+        },
+        "Prop Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T20:14:37.581Z"
+        },
+        "Enemy Synthesis": {
+          "status": "pass",
+          "timestamp": "2026-09-12T20:14:37.659Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-12T20:14:37.890Z"
+        },
+        "Self-Healing Audit": {
+          "status": "pass",
+          "timestamp": "2026-09-12T20:14:38.097Z"
+        }
+      }
     }
   ],
   "stats": {
-    "totalRuns": 8,
-    "successes": 8,
+    "totalRuns": 14,
+    "successes": 14,
     "failures": 0,
-    "errorRate": "0/8 (0%)",
+    "errorRate": "0/14 (0%)",
     "avgScore": 0
   }
 }
