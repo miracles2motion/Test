@@ -1,5 +1,6 @@
 // Level construction. Two maps share one builder: everything is merged ink geometry plus
 // axis-aligned box colliders, which is what the navigation grid is generated from.
+import { buildCove } from './levels/cove.js';
 import { buildHarborPort } from './levels/harbor_port.js';
 import { buildPirateCove } from './levels/pirate_cove.js';
 import * as THREE from 'three';
@@ -94,6 +95,17 @@ export const LEVELS = [
     category: 'urban',
     tags: ['DREAM MODE', 'AUTO-GENERATED'],
     env: 'HARBOR PORT Environment',
+    engagement: 'CQB & Vertical',
+    hazard: 'TBD',
+    scale: 'Tier 1-4',
+    comingSoon: false
+  },
+  {
+    key: 'cove',
+    name: 'COVE',
+    category: 'urban',
+    tags: ['DREAM MODE', 'AUTO-GENERATED'],
+    env: 'COVE Environment',
     engagement: 'CQB & Vertical',
     hazard: 'TBD',
     scale: 'Tier 1-4',
@@ -1400,7 +1412,8 @@ export const MAP_BUILDERS = {
   studio: buildStudio,
   mexico: buildMexico,
   pirate_cove: buildPirateCove,
-  harbor_port: buildHarborPort
+  harbor_port: buildHarborPort,
+  cove: buildCove
 };
 
 export function registerMapBuilder(key, builderFn) {

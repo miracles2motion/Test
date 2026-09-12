@@ -63,6 +63,13 @@
 - Anti-camp open rear vector preventing entrenched camping.
 - Sniper perch at Y = 5.5m with 3 open directional sightlines.
 
+
+### Detailed Prop Taxonomy (Enriched by Dream God Mode)
+- **Tier 1 Micro Props**: mooring bollard post, coiled rope spool ring, brass ship lantern, anchor chain link.
+- **Tier 2 Meso Props**: cargo crate pyramid (1.8m x 1.8m x 1.8m), shipwright timber workbench, crow's nest basket barrier, drydock keel block.
+- **Tier 3 Macro Props**: galleon sterncastle deck, rigging mast apex spar, harbor crane jib boom, lighthouse beacon cupola.
+- **Tier 4 Kinetic Elements**: buoyant dock bobbing on swell, paper seagulls banking on wind shear, swinging cargo hoist hook.
+
 ## 8. Central Sector (Plaza & Apex Catwalk)
 - Central Tier 2 Dais (Y = 4.5m) connected via dual 14-step stairways.
 - **Tier 3 Landmark**: galleon sterncastle deck & rigging mast apex spar.

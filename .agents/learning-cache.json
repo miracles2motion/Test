@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-09-12T10:39:45.353Z",
+  "updatedAt": "2026-09-12T19:57:24.525Z",
   "rules": {
     "stairway": {
       "minRise": 0.2,
@@ -57,16 +57,16 @@
       "description": "Injected 9 safe 3D props into level code",
       "trigger": "dream-auto-injection",
       "autoRemedy": "3dPropInject",
-      "occurrences": 7,
-      "lastObserved": "2026-09-12T10:39:44.146Z"
+      "occurrences": 9,
+      "lastObserved": "2026-09-12T19:57:23.983Z"
     },
     {
       "patternId": "macro-dream-building",
       "description": "Synthesized 2 multi-story interactive buildings",
       "trigger": "macro-dream-building",
       "autoRemedy": "macroSpatialInjection",
-      "occurrences": 13,
-      "lastObserved": "2026-09-12T10:39:43.623Z"
+      "occurrences": 15,
+      "lastObserved": "2026-09-12T19:57:23.730Z"
     },
     {
       "patternId": "macro-syntax-failure",
@@ -209,13 +209,37 @@
       "mapKey": "zen",
       "patternId": "dream-auto-injection",
       "description": "Injected 32 safe 3D props (God Mode, theme: zen)"
+    },
+    {
+      "timestamp": "2026-09-12T19:56:57.794Z",
+      "mapKey": "cove",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
+    },
+    {
+      "timestamp": "2026-09-12T19:56:58.082Z",
+      "mapKey": "cove",
+      "patternId": "dream-auto-injection",
+      "description": "Injected 32 safe 3D props (God Mode, theme: maritime)"
+    },
+    {
+      "timestamp": "2026-09-12T19:57:23.730Z",
+      "mapKey": "cove",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
+    },
+    {
+      "timestamp": "2026-09-12T19:57:23.983Z",
+      "mapKey": "cove",
+      "patternId": "dream-auto-injection",
+      "description": "Injected 32 safe 3D props (God Mode, theme: maritime)"
     }
   ],
   "failureBlacklist": {},
   "successRegistry": {
     "galleon_sterncastle": {
-      "count": 5,
-      "totalScore": 425,
+      "count": 8,
+      "totalScore": 680,
       "positions": [
         {
           "mapKey": "pirate_cove",
@@ -246,14 +270,32 @@
           "x": -43,
           "y": 0,
           "z": 41
+        },
+        {
+          "mapKey": "cove",
+          "x": -43,
+          "y": 0,
+          "z": -43
+        },
+        {
+          "mapKey": "cove",
+          "x": -43,
+          "y": 0,
+          "z": 11
+        },
+        {
+          "mapKey": "cove",
+          "x": -43,
+          "y": 0,
+          "z": 41
         }
       ],
       "avgScore": 85,
-      "lastSuccess": "2026-09-12T06:29:38.996Z"
+      "lastSuccess": "2026-09-12T19:57:23.728Z"
     },
     "lighthouse_beacon": {
-      "count": 3,
-      "totalScore": 255,
+      "count": 5,
+      "totalScore": 425,
       "positions": [
         {
           "mapKey": "pirate_cove",
@@ -272,14 +314,26 @@
           "x": -31,
           "y": 0,
           "z": -43
+        },
+        {
+          "mapKey": "cove",
+          "x": -43,
+          "y": 0,
+          "z": -25
+        },
+        {
+          "mapKey": "cove",
+          "x": -31,
+          "y": 0,
+          "z": -43
         }
       ],
       "avgScore": 85,
-      "lastSuccess": "2026-09-12T06:29:39.000Z"
+      "lastSuccess": "2026-09-12T19:57:23.728Z"
     },
     "cargo_crane": {
-      "count": 4,
-      "totalScore": 340,
+      "count": 7,
+      "totalScore": 595,
       "positions": [
         {
           "mapKey": "pirate_cove",
@@ -304,10 +358,28 @@
           "x": -25,
           "y": 0,
           "z": -13
+        },
+        {
+          "mapKey": "cove",
+          "x": -43,
+          "y": 0,
+          "z": -7
+        },
+        {
+          "mapKey": "cove",
+          "x": -43,
+          "y": 0,
+          "z": 23
+        },
+        {
+          "mapKey": "cove",
+          "x": -31,
+          "y": 0,
+          "z": -13
         }
       ],
       "avgScore": 85,
-      "lastSuccess": "2026-09-12T06:29:39.003Z"
+      "lastSuccess": "2026-09-12T19:57:23.728Z"
     },
     "bell_pavilion": {
       "count": 5,
@@ -447,6 +519,20 @@
       {
         "timestamp": "2026-09-12T10:39:45.352Z",
         "mapKey": "zen",
+        "success": true,
+        "score": 0,
+        "mode": "MAP"
+      },
+      {
+        "timestamp": "2026-09-12T19:56:58.710Z",
+        "mapKey": "cove",
+        "success": true,
+        "score": 0,
+        "mode": "CONCEPT"
+      },
+      {
+        "timestamp": "2026-09-12T19:57:24.525Z",
+        "mapKey": "cove",
         "success": true,
         "score": 0,
         "mode": "MAP"

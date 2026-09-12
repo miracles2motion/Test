@@ -194,13 +194,89 @@
           "timestamp": "2026-09-12T10:39:45.336Z"
         }
       }
+    },
+    {
+      "id": "dream-007",
+      "timestamp": "2026-09-12T19:56:58.711Z",
+      "mapKey": "cove",
+      "mode": "CONCEPT",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "concept-parse": {
+          "status": "pass",
+          "lines": 102,
+          "sections": 13
+        },
+        "concept-enrichment": {
+          "status": "pass"
+        },
+        "Concept-Aware Scaffold": {
+          "status": "pass",
+          "timestamp": "2026-09-12T19:56:57.576Z"
+        },
+        "Macro Building Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T19:56:57.812Z"
+        },
+        "Prop Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T19:56:58.135Z"
+        },
+        "Enemy Synthesis": {
+          "status": "pass",
+          "timestamp": "2026-09-12T19:56:58.212Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-12T19:56:58.461Z"
+        },
+        "Self-Healing Audit": {
+          "status": "pass",
+          "timestamp": "2026-09-12T19:56:58.708Z"
+        }
+      }
+    },
+    {
+      "id": "dream-008",
+      "timestamp": "2026-09-12T19:57:24.526Z",
+      "mapKey": "cove",
+      "mode": "MAP",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "spatial-doctor": {
+          "status": "pass",
+          "fixes": 0
+        },
+        "Macro Building Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T19:57:23.737Z"
+        },
+        "Prop Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-12T19:57:23.993Z"
+        },
+        "Enemy Synthesis": {
+          "status": "pass",
+          "timestamp": "2026-09-12T19:57:24.073Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-12T19:57:24.316Z"
+        },
+        "Self-Healing Audit": {
+          "status": "pass",
+          "timestamp": "2026-09-12T19:57:24.523Z"
+        }
+      }
     }
   ],
   "stats": {
-    "totalRuns": 6,
-    "successes": 6,
+    "totalRuns": 8,
+    "successes": 8,
     "failures": 0,
-    "errorRate": "0/6 (0%)",
+    "errorRate": "0/8 (0%)",
     "avgScore": 0
   }
 }
