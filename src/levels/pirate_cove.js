@@ -223,1890 +223,404 @@ export function buildPirateCove(B, arena = false) {
   // === END DREAM AUTO-INJECTED MACRO STRUCTURES ===
 
   
+  
+
+  
   // === DREAM AUTO-INJECTED THEMATIC PROPS ===
 
-  // Prop: Cargo Crate
-  box(-3, 4.5, -3, 1.8, 1.8, 1.8, { ink: BL });
-  box(-3, 4.5, -3, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(-35, 0, -47, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(-43, 0, -19, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(-39, 0, -31, 1.8, 1.8, 1.8, { ink: BL });
-  box(-39, 0, -31, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-31, 0, -47, 1.8, 1.8, 1.8, { ink: BL });
-  box(-31, 0, -47, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(-23, 0, -19, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(-47, 0, -43, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-47, 0 + 1.0, -43, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(-31, 0, -19, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(-31, 0, -3, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-31, 0 + 1.0, -3, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-39, 0, -19, 1.8, 1.8, 1.8, { ink: BL });
-  box(-39, 0, -19, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-35, 0, -19, 1.8, 1.8, 1.8, { ink: BL });
-  box(-35, 0, -19, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(-43, 0, -43, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(-35, 4.5, -27, 1.8, 1.8, 1.8, { ink: BL });
-  box(-35, 4.5, -27, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(-35, 0, -15, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(-3, 0, -39, 1.8, 1.8, 1.8, { ink: BL });
-  box(-3, 0, -39, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-39, 0, -35, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-39, 0 + 1.0, -35, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(-39, 0, -3, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(-39, 0, -47, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-39, 0 + 1.0, -47, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-27, 0, -39, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-27, 0 + 1.0, -39, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-31, 0, -7, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-31, 0 + 1.0, -7, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(-27, 0, -47, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(-31, 4.5, -27, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-31, 4.5 + 1.0, -27, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-23, 0, -7, 1.8, 1.8, 1.8, { ink: BL });
-  box(-23, 0, -7, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-27, 0, -35, 1.8, 1.8, 1.8, { ink: BL });
-  box(-27, 0, -35, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-39, 0, -27, 1.8, 1.8, 1.8, { ink: BL });
-  box(-39, 0, -27, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-11, 0, -19, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-11, 0 + 1.0, -19, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-19, 0, -27, 1.8, 1.8, 1.8, { ink: BL });
-  box(-19, 0, -27, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-15, 0, -7, 1.8, 1.8, 1.8, { ink: BL });
-  box(-15, 0, -7, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-11, 0, -47, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-11, 0 + 1.0, -47, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-23, 0, -39, 1.8, 1.8, 1.8, { ink: BL });
-  box(-23, 0, -39, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(-39, 0, -23, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(-43, 0, -27, 1.8, 1.8, 1.8, { ink: BL });
-  box(-43, 0, -27, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-11, 0, -15, 1.8, 1.8, 1.8, { ink: BL });
-  box(-11, 0, -15, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-27, 4.5, -23, 1.8, 1.8, 1.8, { ink: BL });
-  box(-27, 4.5, -23, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-11, 4.5, -11, 1.8, 1.8, 1.8, { ink: BL });
-  box(-11, 4.5, -11, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-7, 0, -23, 1.8, 1.8, 1.8, { ink: BL });
-  box(-7, 0, -23, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-15, 0, -3, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-15, 0 + 1.0, -3, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-47, 4.5, -11, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-47, 4.5 + 1.0, -11, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(-23, 0, -11, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(-27, 0, -19, 1.8, 1.8, 1.8, { ink: BL });
-  box(-27, 0, -19, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-15, 0, -31, 1.8, 1.8, 1.8, { ink: BL });
-  box(-15, 0, -31, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(-31, 0, -31, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(-3, 0, -47, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(-35, 0, -31, 1.8, 1.8, 1.8, { ink: BL });
-  box(-35, 0, -31, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(-7, 0, -31, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(-15, 0, -27, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-15, 0 + 1.0, -27, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-27, 0, -15, 1.8, 1.8, 1.8, { ink: BL });
-  box(-27, 0, -15, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-35, 0, -39, 1.8, 1.8, 1.8, { ink: BL });
-  box(-35, 0, -39, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-35, 0, -3, 1.8, 1.8, 1.8, { ink: BL });
-  box(-35, 0, -3, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(-43, 0, -7, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(-47, 0, -27, 1.8, 1.8, 1.8, { ink: BL });
-  box(-47, 0, -27, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-7, 0, -15, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-7, 0 + 1.0, -15, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(-27, 0, -43, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(-23, 0, -27, 1.8, 1.8, 1.8, { ink: BL });
-  box(-23, 0, -27, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(-11, 0, -23, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(-19, 0, -39, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-19, 0 + 1.0, -39, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(-23, 0, -47, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(-15, 0, -43, 1.8, 1.8, 1.8, { ink: BL });
-  box(-15, 0, -43, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-15, 0, -35, 1.8, 1.8, 1.8, { ink: BL });
-  box(-15, 0, -35, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-3, 0, -27, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-3, 0 + 1.0, -27, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-3, 0, -43, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-3, 0 + 1.0, -43, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-27, 4.5, -27, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-27, 4.5 + 1.0, -27, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-31, 0, -39, 1.8, 1.8, 1.8, { ink: BL });
-  box(-31, 0, -39, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-7, 0, -47, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-7, 0 + 1.0, -47, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-31, 4.5, -23, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-31, 4.5 + 1.0, -23, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-43, 0, -23, 1.8, 1.8, 1.8, { ink: BL });
-  box(-43, 0, -23, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-3, 0, -23, 1.8, 1.8, 1.8, { ink: BL });
-  box(-3, 0, -23, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-23, 0, -15, 1.8, 1.8, 1.8, { ink: BL });
-  box(-23, 0, -15, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-39, 4.5, -11, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-39, 4.5 + 1.0, -11, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-23, 0, -23, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-23, 0 + 1.0, -23, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-7, 0, -35, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-7, 0 + 1.0, -35, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-47, 0, -35, 1.8, 1.8, 1.8, { ink: BL });
-  box(-47, 0, -35, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-31, 0, -43, 1.8, 1.8, 1.8, { ink: BL });
-  box(-31, 0, -43, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-27, 0, -3, 1.8, 1.8, 1.8, { ink: BL });
-  box(-27, 0, -3, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(-47, 0, -19, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(-31, 0, -15, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-31, 0 + 1.0, -15, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(-7, 4.5, -7, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(-27, 0, -31, 1.8, 1.8, 1.8, { ink: BL });
-  box(-27, 0, -31, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-19, 0, -43, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-19, 0 + 1.0, -43, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-43, 0, -31, 1.8, 1.8, 1.8, { ink: BL });
-  box(-43, 0, -31, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(-15, 0, -19, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(-47, 0, -7, 1.8, 1.8, 1.8, { ink: BL });
-  box(-47, 0, -7, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(-35, 0, -35, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(-35, 0, -11, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-35, 0 + 1.0, -11, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-7, 0, -39, 1.8, 1.8, 1.8, { ink: BL });
-  box(-7, 0, -39, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-19, 0, -47, 1.8, 1.8, 1.8, { ink: BL });
-  box(-19, 0, -47, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-43, 0, -47, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-43, 0 + 1.0, -47, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-19, 0, -35, 1.8, 1.8, 1.8, { ink: BL });
-  box(-19, 0, -35, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(-39, 4.5, -15, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(-3, 4.5, -7, 1.8, 1.8, 1.8, { ink: BL });
-  box(-3, 4.5, -7, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-47, 0, -47, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-47, 0 + 1.0, -47, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(-15, 0, -11, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(-47, 0, -3, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(-27, 0, -7, 1.8, 1.8, 1.8, { ink: BL });
-  box(-27, 0, -7, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(-15, 0, -47, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(-35, 4.5, -23, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-35, 4.5 + 1.0, -23, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-19, 0, -15, 1.8, 1.8, 1.8, { ink: BL });
-  box(-19, 0, -15, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-11, 0, -31, 1.8, 1.8, 1.8, { ink: BL });
-  box(-11, 0, -31, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-39, 0, -7, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-39, 0 + 1.0, -7, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-39, 0, -39, 1.8, 1.8, 1.8, { ink: BL });
-  box(-39, 0, -39, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-7, 0, -19, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-7, 0 + 1.0, -19, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-31, 0, -35, 1.8, 1.8, 1.8, { ink: BL });
-  box(-31, 0, -35, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-19, 0, -23, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-19, 0 + 1.0, -23, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-11, 0, -35, 1.8, 1.8, 1.8, { ink: BL });
-  box(-11, 0, -35, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(-35, 0, -7, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(-23, 0, -35, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-23, 0 + 1.0, -35, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(-43, 0, -39, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(-23, 0, -43, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-23, 0 + 1.0, -43, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-7, 0, -43, 1.8, 1.8, 1.8, { ink: BL });
-  box(-7, 0, -43, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(-11, 4.5, -3, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(-19, 0, -7, 1.8, 1.8, 1.8, { ink: BL });
-  box(-19, 0, -7, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(-19, 0, -3, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(-27, 0, -11, 1.8, 1.8, 1.8, { ink: BL });
-  box(-27, 0, -11, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-7, 4.5, -3, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-7, 4.5 + 1.0, -3, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-11, 4.5, -7, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-11, 4.5 + 1.0, -7, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(-19, 0, -11, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(-47, 4.5, -15, 1.8, 1.8, 1.8, { ink: BL });
-  box(-47, 4.5, -15, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-15, 0, -39, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-15, 0 + 1.0, -39, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(-7, 4.5, -11, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(37, 0, -3, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(37, 0 + 1.0, -3, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(41, 0, -19, 1.8, 1.8, 1.8, { ink: BL });
-  box(41, 0, -19, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(45, 0, -39, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(33, 0, -31, 1.8, 1.8, 1.8, { ink: BL });
-  box(33, 0, -31, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(29, 0, -47, 1.8, 1.8, 1.8, { ink: BL });
-  box(29, 0, -47, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(37, 0, -47, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(37, 0, -11, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(41, 0, -15, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(29, 0, -43, 1.8, 1.8, 1.8, { ink: BL });
-  box(29, 0, -43, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(41, 0, -23, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(29, 0, -39, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(29, 0 + 1.0, -39, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(45, 0, -23, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(49, 0, -35, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(49, 0, -23, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(49, 0 + 1.0, -23, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(33, 0, -39, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(45, 0, -43, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(45, 0 + 1.0, -43, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(49, 0, -47, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(49, 0 + 1.0, -47, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(37, 0, -31, 1.8, 1.8, 1.8, { ink: BL });
-  box(37, 0, -31, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(45, 0, -35, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(45, 0 + 1.0, -35, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(5, 4.5, -3, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(37, 0, -35, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(37, 0 + 1.0, -35, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(33, 0, -15, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(33, 0 + 1.0, -15, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(29, 0, -7, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(29, 0, -11, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(5, 0, -39, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(17, 0, -3, 1.8, 1.8, 1.8, { ink: BL });
-  box(17, 0, -3, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(1, 0, -43, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(41, 0, -43, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(41, 0 + 1.0, -43, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(1, 0, -39, 1.8, 1.8, 1.8, { ink: BL });
-  box(1, 0, -39, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(13, 0, -43, 1.8, 1.8, 1.8, { ink: BL });
-  box(13, 0, -43, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(25, 0, -39, 1.8, 1.8, 1.8, { ink: BL });
-  box(25, 0, -39, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(17, 0, -39, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(13, 0, -23, 1.8, 1.8, 1.8, { ink: BL });
-  box(13, 0, -23, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(5, 0, -27, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(17, 0, -35, 1.8, 1.8, 1.8, { ink: BL });
-  box(17, 0, -35, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(5, 0, -47, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(9, 0, -19, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(21, 0, -15, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(5, 0, -35, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(5, 0 + 1.0, -35, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(21, 0, -19, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(21, 0 + 1.0, -19, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(21, 0, -47, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(21, 0 + 1.0, -47, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(25, 0, -15, 1.8, 1.8, 1.8, { ink: BL });
-  box(25, 0, -15, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(9, 0, -31, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(9, 0 + 1.0, -31, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(13, 0, -19, 1.8, 1.8, 1.8, { ink: BL });
-  box(13, 0, -19, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(1, 0, -27, 1.8, 1.8, 1.8, { ink: BL });
-  box(1, 0, -27, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(17, 0, -47, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(17, 0 + 1.0, -47, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(25, 0, -31, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(25, 0 + 1.0, -31, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(25, 0, -23, 1.8, 1.8, 1.8, { ink: BL });
-  box(25, 0, -23, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(9, 0, -39, 1.8, 1.8, 1.8, { ink: BL });
-  box(9, 0, -39, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(21, 0, -23, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(21, 0, -31, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(21, 0 + 1.0, -31, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(13, 0, -15, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(13, 0 + 1.0, -15, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(17, 0, -23, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(9, 0, -35, 1.8, 1.8, 1.8, { ink: BL });
-  box(9, 0, -35, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(33, 0, -23, 1.8, 1.8, 1.8, { ink: BL });
-  box(33, 0, -23, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(5, 0, -43, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(5, 0 + 1.0, -43, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(5, 0, -23, 1.8, 1.8, 1.8, { ink: BL });
-  box(5, 0, -23, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(9, 0, -15, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(45, 0, -19, 1.8, 1.8, 1.8, { ink: BL });
-  box(45, 0, -19, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(49, 0, -39, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(49, 0 + 1.0, -39, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(5, 4.5, -7, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(5, 4.5 + 1.0, -7, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(49, 0, -7, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(29, 0, -31, 1.8, 1.8, 1.8, { ink: BL });
-  box(29, 0, -31, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(25, 0, -27, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(25, 0 + 1.0, -27, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(1, 0, -31, 1.8, 1.8, 1.8, { ink: BL });
-  box(1, 0, -31, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(9, 0, -47, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(9, 0 + 1.0, -47, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(25, 0, -3, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(25, 0 + 1.0, -3, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(41, 0, -35, 1.8, 1.8, 1.8, { ink: BL });
-  box(41, 0, -35, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(9, 0, -23, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(9, 0 + 1.0, -23, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(17, 0, -15, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(17, 0 + 1.0, -15, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(21, 0, -3, 1.8, 1.8, 1.8, { ink: BL });
-  box(21, 0, -3, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(25, 0, -43, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(25, 0 + 1.0, -43, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(9, 4.5, -7, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(9, 4.5 + 1.0, -7, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(17, 0, -19, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(9, 0, -27, 1.8, 1.8, 1.8, { ink: BL });
-  box(9, 0, -27, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(5, 4.5, -11, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(21, 0, -39, 1.8, 1.8, 1.8, { ink: BL });
-  box(21, 0, -39, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(21, 0, -35, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(33, 0, -19, 1.8, 1.8, 1.8, { ink: BL });
-  box(33, 0, -19, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(9, 4.5, -3, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(9, 4.5 + 1.0, -3, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(17, 0, -7, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(29, 0, -35, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(21, 0, -11, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(41, 0, -39, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(29, 0, -23, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(49, 0, -43, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(49, 0 + 1.0, -43, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(45, 0, -3, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(49, 0, -31, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(49, 0 + 1.0, -31, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(25, 0, -11, 1.8, 1.8, 1.8, { ink: BL });
-  box(25, 0, -11, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(45, 0, -47, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(37, 0, -43, 1.8, 1.8, 1.8, { ink: BL });
-  box(37, 0, -43, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(33, 0, -3, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(13, 0, -39, 1.8, 1.8, 1.8, { ink: BL });
-  box(13, 0, -39, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(21, 0, -43, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(45, 0, -27, 1.8, 1.8, 1.8, { ink: BL });
-  box(45, 0, -27, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(41, 0, -27, 1.8, 1.8, 1.8, { ink: BL });
-  box(41, 0, -27, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(1, 4.5, -7, 1.8, 1.8, 1.8, { ink: BL });
-  box(1, 4.5, -7, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(33, 0, -27, 1.8, 1.8, 1.8, { ink: BL });
-  box(33, 0, -27, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(17, 0, -31, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(17, 0, -11, 1.8, 1.8, 1.8, { ink: BL });
-  box(17, 0, -11, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(37, 0, -19, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(37, 0 + 1.0, -19, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(49, 0, -27, 1.8, 1.8, 1.8, { ink: BL });
-  box(49, 0, -27, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(21, 0, -27, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(25, 0, -19, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(25, 0 + 1.0, -19, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(49, 0, -19, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(49, 0 + 1.0, -19, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(33, 0, -11, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(25, 0, -7, 1.8, 1.8, 1.8, { ink: BL });
-  box(25, 0, -7, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(45, 0, -7, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(45, 0 + 1.0, -7, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(9, 0, -43, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(9, 0 + 1.0, -43, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(5, 0, -31, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(5, 0 + 1.0, -31, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(37, 0, -23, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(37, 0, -7, 1.8, 1.8, 1.8, { ink: BL });
-  box(37, 0, -7, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(13, 0, -27, 1.8, 1.8, 1.8, { ink: BL });
-  box(13, 0, -27, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(49, 0, -11, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(49, 0 + 1.0, -11, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(17, 0, -27, 1.8, 1.8, 1.8, { ink: BL });
-  box(17, 0, -27, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(41, 0, -3, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(41, 0 + 1.0, -3, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(17, 0, -43, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(49, 0, -15, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(21, 0, -7, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(9, 4.5, -11, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(9, 4.5 + 1.0, -11, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(13, 0, -47, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(13, 0 + 1.0, -47, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(25, 0, -47, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(1, 4.5, -3, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(1, 4.5 + 1.0, -3, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(1, 0, -23, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(1, 0 + 1.0, -23, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(45, 0, -31, 1.8, 1.8, 1.8, { ink: BL });
-  box(45, 0, -31, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(5, 0, -19, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(5, 0, -15, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(5, 0 + 1.0, -15, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(41, 0, -11, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(41, 0 + 1.0, -11, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(25, 0, -35, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(-31, 0, 17, 1.8, 1.8, 1.8, { ink: BL });
-  box(-31, 0, 17, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-19, 0, 5, 1.8, 1.8, 1.8, { ink: BL });
-  box(-19, 0, 5, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(-23, 0, 25, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(-43, 0, 1, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-43, 0 + 1.0, 1, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(-27, 0, 37, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(-31, 0, 21, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-31, 0 + 1.0, 21, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-47, 0, 37, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-47, 0 + 1.0, 37, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-47, 0, 33, 1.8, 1.8, 1.8, { ink: BL });
-  box(-47, 0, 33, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-15, 0, 1, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-15, 0 + 1.0, 1, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-3, 0, 37, 1.8, 1.8, 1.8, { ink: BL });
-  box(-3, 0, 37, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-7, 0, 49, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-7, 0 + 1.0, 49, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-39, 0, 41, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-39, 0 + 1.0, 41, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-43, 0, 33, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-43, 0 + 1.0, 33, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-35, 0, 9, 1.8, 1.8, 1.8, { ink: BL });
-  box(-35, 0, 9, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-11, 0, 25, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-11, 0 + 1.0, 25, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(-7, 0, 17, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(-23, 0, 37, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-23, 0 + 1.0, 37, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(-3, 0, 49, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(-3, 4.5, 1, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-3, 4.5 + 1.0, 1, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(-3, 0, 33, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(-27, 0, 25, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(-11, 0, 49, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-11, 0 + 1.0, 49, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-27, 0, 5, 1.8, 1.8, 1.8, { ink: BL });
-  box(-27, 0, 5, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-23, 0, 5, 1.8, 1.8, 1.8, { ink: BL });
-  box(-23, 0, 5, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-43, 0, 21, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-43, 0 + 1.0, 21, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-7, 0, 33, 1.8, 1.8, 1.8, { ink: BL });
-  box(-7, 0, 33, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-47, 0, 21, 1.8, 1.8, 1.8, { ink: BL });
-  box(-47, 0, 21, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-11, 4.5, 5, 1.8, 1.8, 1.8, { ink: BL });
-  box(-11, 4.5, 5, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-47, 0, 41, 1.8, 1.8, 1.8, { ink: BL });
-  box(-47, 0, 41, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(-31, 0, 13, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(-19, 0, 33, 1.8, 1.8, 1.8, { ink: BL });
-  box(-19, 0, 33, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-15, 0, 9, 1.8, 1.8, 1.8, { ink: BL });
-  box(-15, 0, 9, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-23, 0, 45, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-23, 0 + 1.0, 45, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-15, 0, 5, 1.8, 1.8, 1.8, { ink: BL });
-  box(-15, 0, 5, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(-19, 0, 17, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(-27, 0, 33, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(-15, 0, 37, 1.8, 1.8, 1.8, { ink: BL });
-  box(-15, 0, 37, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-19, 0, 1, 1.8, 1.8, 1.8, { ink: BL });
-  box(-19, 0, 1, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-27, 0, 13, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-27, 0 + 1.0, 13, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-47, 0, 5, 1.8, 1.8, 1.8, { ink: BL });
-  box(-47, 0, 5, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-31, 0, 5, 1.8, 1.8, 1.8, { ink: BL });
-  box(-31, 0, 5, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-31, 0, 29, 1.8, 1.8, 1.8, { ink: BL });
-  box(-31, 0, 29, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(-15, 0, 49, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(-11, 0, 45, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-11, 0 + 1.0, 45, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(-31, 0, 49, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(-43, 0, 17, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-43, 0 + 1.0, 17, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-27, 0, 17, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-27, 0 + 1.0, 17, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-3, 4.5, 9, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-3, 4.5 + 1.0, 9, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-39, 0, 33, 1.8, 1.8, 1.8, { ink: BL });
-  box(-39, 0, 33, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(-19, 0, 49, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(-11, 0, 33, 1.8, 1.8, 1.8, { ink: BL });
-  box(-11, 0, 33, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-39, 0, 5, 1.8, 1.8, 1.8, { ink: BL });
-  box(-39, 0, 5, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(-19, 0, 29, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(-35, 0, 37, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-35, 0 + 1.0, 37, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-3, 4.5, 5, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-3, 4.5 + 1.0, 5, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-19, 0, 45, 1.8, 1.8, 1.8, { ink: BL });
-  box(-19, 0, 45, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-23, 0, 49, 1.8, 1.8, 1.8, { ink: BL });
-  box(-23, 0, 49, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-43, 0, 13, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-43, 0 + 1.0, 13, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-35, 0, 49, 1.8, 1.8, 1.8, { ink: BL });
-  box(-35, 0, 49, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-39, 0, 45, 1.8, 1.8, 1.8, { ink: BL });
-  box(-39, 0, 45, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(-31, 0, 33, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(-47, 0, 29, 1.8, 1.8, 1.8, { ink: BL });
-  box(-47, 0, 29, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-7, 0, 41, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-7, 0 + 1.0, 41, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-23, 0, 9, 1.8, 1.8, 1.8, { ink: BL });
-  box(-23, 0, 9, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-15, 0, 17, 1.8, 1.8, 1.8, { ink: BL });
-  box(-15, 0, 17, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-27, 0, 21, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-27, 0 + 1.0, 21, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-31, 0, 41, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-31, 0 + 1.0, 41, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(-19, 0, 13, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(-7, 4.5, 1, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(-23, 0, 13, 1.8, 1.8, 1.8, { ink: BL });
-  box(-23, 0, 13, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-43, 0, 25, 1.8, 1.8, 1.8, { ink: BL });
-  box(-43, 0, 25, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-47, 0, 13, 1.8, 1.8, 1.8, { ink: BL });
-  box(-47, 0, 13, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(-19, 0, 9, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(-43, 0, 41, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-43, 0 + 1.0, 41, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(-35, 0, 13, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(-15, 0, 29, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-15, 0 + 1.0, 29, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(-47, 0, 17, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(-11, 0, 21, 1.8, 1.8, 1.8, { ink: BL });
-  box(-11, 0, 21, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(-35, 0, 17, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(-43, 0, 29, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(-19, 0, 25, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-19, 0 + 1.0, 25, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-47, 0, 45, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-47, 0 + 1.0, 45, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-3, 0, 41, 1.8, 1.8, 1.8, { ink: BL });
-  box(-3, 0, 41, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(-7, 4.5, 9, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(-31, 0, 37, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(-39, 0, 29, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(-23, 0, 1, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(-3, 0, 29, 1.8, 1.8, 1.8, { ink: BL });
-  box(-3, 0, 29, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-31, 0, 45, 1.8, 1.8, 1.8, { ink: BL });
-  box(-31, 0, 45, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(-3, 0, 25, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(-23, 0, 33, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(-27, 0, 1, 1.8, 1.8, 1.8, { ink: BL });
-  box(-27, 0, 1, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-23, 0, 41, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-23, 0 + 1.0, 41, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(-31, 0, 9, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(-15, 0, 13, 1.8, 1.8, 1.8, { ink: BL });
-  box(-15, 0, 13, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-43, 0, 45, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-43, 0 + 1.0, 45, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(-15, 0, 41, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(-35, 0, 1, 1.8, 1.8, 1.8, { ink: BL });
-  box(-35, 0, 1, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(-7, 0, 45, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(-27, 0, 29, 1.8, 1.8, 1.8, { ink: BL });
-  box(-27, 0, 29, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(-39, 0, 1, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(-19, 0, 37, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-19, 0 + 1.0, 37, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-35, 0, 41, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-35, 0 + 1.0, 41, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(-35, 0, 29, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(-43, 0, 9, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(-27, 0, 45, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-27, 0 + 1.0, 45, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-47, 0, 49, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-47, 0 + 1.0, 49, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-11, 4.5, 1, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-11, 4.5 + 1.0, 1, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(-23, 0, 21, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(-23, 0, 17, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(-11, 0, 41, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(-39, 0, 17, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(-3, 0, 45, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-3, 0 + 1.0, 45, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(-19, 0, 21, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(-15, 0, 33, 1.8, 1.8, 1.8, { ink: BL });
-  box(-15, 0, 33, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-27, 0, 49, 1.8, 1.8, 1.8, { ink: BL });
-  box(-27, 0, 49, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-7, 0, 37, 1.8, 1.8, 1.8, { ink: BL });
-  box(-7, 0, 37, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-27, 0, 9, 1.8, 1.8, 1.8, { ink: BL });
-  box(-27, 0, 9, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-35, 0, 33, 1.8, 1.8, 1.8, { ink: BL });
-  box(-35, 0, 33, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(-15, 0, 45, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(-11, 0, 17, 1.8, 1.8, 1.8, { ink: BL });
-  box(-11, 0, 17, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(-7, 0, 21, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-7, 0 + 1.0, 21, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(-7, 0, 29, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(-11, 0, 29, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(-11, 0 + 1.0, 29, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-39, 0, 49, 1.8, 1.8, 1.8, { ink: BL });
-  box(-39, 0, 49, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(-7, 4.5, 5, 1.8, 1.8, 1.8, { ink: BL });
-  box(-7, 4.5, 5, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(33, 0, 1, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(33, 0 + 1.0, 1, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(1, 0, 25, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(1, 0 + 1.0, 25, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(17, 0, 9, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(17, 0 + 1.0, 9, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(25, 0, 29, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(25, 0 + 1.0, 29, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(25, 0, 1, 1.8, 1.8, 1.8, { ink: BL });
-  box(25, 0, 1, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(5, 0, 45, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(5, 0 + 1.0, 45, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(21, 0, 13, 1.8, 1.8, 1.8, { ink: BL });
-  box(21, 0, 13, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
   // Prop: Mooring Bollard
-  cyl(17, 0, 13, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(17, 0 + 1.0, 13, 0.5, 0.2, { seg: 8, ink: BK });
+  cyl(-43, 4.5, -11, 0.4, 1.0, { seg: 8, ink: BK });
+  cyl(-43, 4.5 + 1.0, -11, 0.5, 0.2, { seg: 8, ink: BK });
 
-  // Prop: Timber Stack
-  box(17, 0, 21, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(17, 0, 1, 1.8, 1.8, 1.8, { ink: BL });
-  box(17, 0, 1, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(37, 0, 49, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(5, 4.5, 9, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(5, 4.5, 1, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(29, 0, 13, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(29, 0 + 1.0, 13, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(49, 0, 13, 1.8, 1.8, 1.8, { ink: BL });
-  box(49, 0, 13, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(45, 0, 9, 1.8, 1.8, 1.8, { ink: BL });
-  box(45, 0, 9, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(29, 0, 5, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(45, 0, 13, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(49, 0, 1, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(1, 4.5, 9, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(5, 4.5, 5, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(5, 4.5 + 1.0, 5, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(25, 0, 33, 1.8, 1.8, 1.8, { ink: BL });
-  box(25, 0, 33, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(41, 0, 45, 3.0, 1.0, 1.2, { ink: OR });
+  // Prop: Treasure Chest
+  box(-31, 0, -11, 1.5, 0.8, 1.0, { ink: OR }); // Base
+  cyl(-31, 0 + 0.8, -11, 0.5, 1.5, { seg: 8, ink: OR }); // Rounded Lid
+  box(-31, 0 + 0.5, -11 + 0.5, 0.3, 0.4, 0.1, { ink: BK }); // Lock
 
-  // Prop: Timber Stack
-  box(45, 0, 29, 3.0, 1.0, 1.2, { ink: OR });
+  // Prop: Treasure Chest
+  box(-11, 0, -43, 1.5, 0.8, 1.0, { ink: OR }); // Base
+  cyl(-11, 0 + 0.8, -43, 0.5, 1.5, { seg: 8, ink: OR }); // Rounded Lid
+  box(-11, 0 + 0.5, -43 + 0.5, 0.3, 0.4, 0.1, { ink: BK }); // Lock
 
-  // Prop: Cargo Crate
-  box(1, 0, 49, 1.8, 1.8, 1.8, { ink: BL });
-  box(1, 0, 49, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
+  // Prop: Iron Cannon
+  box(-47, 0, -23, 1.4, 0.6, 2.0, { ink: OR }); // Wooden base
+  cyl(-47, 0 + 0.8, -23 + 0.4, 0.5, 2.8, { seg: 8, ink: BK }); // Cannon barrel
+  cyl(-47 - 0.7, 0 + 0.3, -23, 0.4, 0.2, { seg: 8, ink: BK }); // Wheel
+  cyl(-47 + 0.7, 0 + 0.3, -23, 0.4, 0.2, { seg: 8, ink: BK }); // Wheel
 
   // Prop: Timber Stack
-  box(17, 0, 49, 3.0, 1.0, 1.2, { ink: OR });
+  box(-43, 0, -35, 3.0, 1.0, 1.2, { ink: OR });
 
   // Prop: Timber Stack
-  box(5, 0, 33, 3.0, 1.0, 1.2, { ink: OR });
+  box(-47, 0, -31, 3.0, 1.0, 1.2, { ink: OR });
 
-  // Prop: Cargo Crate
-  box(29, 0, 21, 1.8, 1.8, 1.8, { ink: BL });
-  box(29, 0, 21, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
+  // Prop: Rowboat
+  box(-3, 0, -35, 1.4, 0.4, 3.6, { ink: OR }); // Hull base
+  box(-3 - 0.8, 0 + 0.4, -35, 0.2, 0.6, 4.0, { ink: OR }); // Port side
+  box(-3 + 0.8, 0 + 0.4, -35, 0.2, 0.6, 4.0, { ink: OR }); // Starboard side
+  box(-3, 0 + 0.4, -35 - 1.8, 1.4, 0.6, 0.2, { ink: OR }); // Stern
+  box(-3, 0 + 0.4, -35 + 1.8, 1.4, 0.6, 0.2, { ink: OR }); // Bow
+  box(-3, 0 + 0.6, -35, 1.4, 0.1, 0.4, { ink: BK }); // Seat
 
-  // Prop: Mooring Bollard
-  cyl(13, 0, 25, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(13, 0 + 1.0, 25, 0.5, 0.2, { seg: 8, ink: BK });
+  // Prop: Rowboat
+  box(-15, 0, -15, 1.4, 0.4, 3.6, { ink: OR }); // Hull base
+  box(-15 - 0.8, 0 + 0.4, -15, 0.2, 0.6, 4.0, { ink: OR }); // Port side
+  box(-15 + 0.8, 0 + 0.4, -15, 0.2, 0.6, 4.0, { ink: OR }); // Starboard side
+  box(-15, 0 + 0.4, -15 - 1.8, 1.4, 0.6, 0.2, { ink: OR }); // Stern
+  box(-15, 0 + 0.4, -15 + 1.8, 1.4, 0.6, 0.2, { ink: OR }); // Bow
+  box(-15, 0 + 0.6, -15, 1.4, 0.1, 0.4, { ink: BK }); // Seat
+
+  // Prop: Rowboat
+  box(-19, 0, -31, 1.4, 0.4, 3.6, { ink: OR }); // Hull base
+  box(-19 - 0.8, 0 + 0.4, -31, 0.2, 0.6, 4.0, { ink: OR }); // Port side
+  box(-19 + 0.8, 0 + 0.4, -31, 0.2, 0.6, 4.0, { ink: OR }); // Starboard side
+  box(-19, 0 + 0.4, -31 - 1.8, 1.4, 0.6, 0.2, { ink: OR }); // Stern
+  box(-19, 0 + 0.4, -31 + 1.8, 1.4, 0.6, 0.2, { ink: OR }); // Bow
+  box(-19, 0 + 0.6, -31, 1.4, 0.1, 0.4, { ink: BK }); // Seat
 
   // Prop: Timber Stack
-  box(29, 0, 37, 3.0, 1.0, 1.2, { ink: OR });
+  box(-11, 0, -39, 3.0, 1.0, 1.2, { ink: OR });
 
-  // Prop: Timber Stack
-  box(25, 0, 41, 3.0, 1.0, 1.2, { ink: OR });
+  // Prop: Barrel Stack
+  cyl(-43 - 0.5, 4.5, -15, 0.45, 1.0, { seg: 8, ink: OR }); // Bottom Left
+  cyl(-43 + 0.5, 4.5, -15, 0.45, 1.0, { seg: 8, ink: OR }); // Bottom Right
+  cyl(-43, 4.5 + 0.9, -15, 0.45, 1.0, { seg: 8, ink: OR }); // Top Center
 
-  // Prop: Timber Stack
-  box(33, 0, 5, 3.0, 1.0, 1.2, { ink: OR });
+  // Prop: Treasure Chest
+  box(-47, 0, -39, 1.5, 0.8, 1.0, { ink: OR }); // Base
+  cyl(-47, 0 + 0.8, -39, 0.5, 1.5, { seg: 8, ink: OR }); // Rounded Lid
+  box(-47, 0 + 0.5, -39 + 0.5, 0.3, 0.4, 0.1, { ink: BK }); // Lock
 
-  // Prop: Cargo Crate
-  box(25, 0, 45, 1.8, 1.8, 1.8, { ink: BL });
-  box(25, 0, 45, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
+  // Prop: Barrel Stack
+  cyl(-23 - 0.5, 0, -3, 0.45, 1.0, { seg: 8, ink: OR }); // Bottom Left
+  cyl(-23 + 0.5, 0, -3, 0.45, 1.0, { seg: 8, ink: OR }); // Bottom Right
+  cyl(-23, 0 + 0.9, -3, 0.45, 1.0, { seg: 8, ink: OR }); // Top Center
 
-  // Prop: Cargo Crate
-  box(13, 0, 49, 1.8, 1.8, 1.8, { ink: BL });
-  box(13, 0, 49, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
+  // Prop: Barrel Stack
+  cyl(-19 - 0.5, 0, -19, 0.45, 1.0, { seg: 8, ink: OR }); // Bottom Left
+  cyl(-19 + 0.5, 0, -19, 0.45, 1.0, { seg: 8, ink: OR }); // Bottom Right
+  cyl(-19, 0 + 0.9, -19, 0.45, 1.0, { seg: 8, ink: OR }); // Top Center
 
-  // Prop: Timber Stack
-  box(41, 0, 49, 3.0, 1.0, 1.2, { ink: OR });
+  // Prop: Treasure Chest
+  box(-15, 0, -23, 1.5, 0.8, 1.0, { ink: OR }); // Base
+  cyl(-15, 0 + 0.8, -23, 0.5, 1.5, { seg: 8, ink: OR }); // Rounded Lid
+  box(-15, 0 + 0.5, -23 + 0.5, 0.3, 0.4, 0.1, { ink: BK }); // Lock
 
-  // Prop: Mooring Bollard
-  cyl(1, 0, 29, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(1, 0 + 1.0, 29, 0.5, 0.2, { seg: 8, ink: BK });
+  // Prop: Barrel Stack
+  cyl(-23 - 0.5, 0, -31, 0.45, 1.0, { seg: 8, ink: OR }); // Bottom Left
+  cyl(-23 + 0.5, 0, -31, 0.45, 1.0, { seg: 8, ink: OR }); // Bottom Right
+  cyl(-23, 0 + 0.9, -31, 0.45, 1.0, { seg: 8, ink: OR }); // Top Center
 
-  // Prop: Timber Stack
-  box(29, 0, 25, 3.0, 1.0, 1.2, { ink: OR });
+  // Prop: Treasure Chest
+  box(-3, 0, -31, 1.5, 0.8, 1.0, { ink: OR }); // Base
+  cyl(-3, 0 + 0.8, -31, 0.5, 1.5, { seg: 8, ink: OR }); // Rounded Lid
+  box(-3, 0 + 0.5, -31 + 0.5, 0.3, 0.4, 0.1, { ink: BK }); // Lock
 
   // Prop: Timber Stack
-  box(33, 0, 9, 3.0, 1.0, 1.2, { ink: OR });
+  box(-11, 0, -27, 3.0, 1.0, 1.2, { ink: OR });
 
-  // Prop: Cargo Crate
-  box(41, 0, 41, 1.8, 1.8, 1.8, { ink: BL });
-  box(41, 0, 41, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(9, 4.5, 9, 1.8, 1.8, 1.8, { ink: BL });
-  box(9, 4.5, 9, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(37, 0, 41, 3.0, 1.0, 1.2, { ink: OR });
+  // Prop: Rowboat
+  box(-7, 0, -27, 1.4, 0.4, 3.6, { ink: OR }); // Hull base
+  box(-7 - 0.8, 0 + 0.4, -27, 0.2, 0.6, 4.0, { ink: OR }); // Port side
+  box(-7 + 0.8, 0 + 0.4, -27, 0.2, 0.6, 4.0, { ink: OR }); // Starboard side
+  box(-7, 0 + 0.4, -27 - 1.8, 1.4, 0.6, 0.2, { ink: OR }); // Stern
+  box(-7, 0 + 0.4, -27 + 1.8, 1.4, 0.6, 0.2, { ink: OR }); // Bow
+  box(-7, 0 + 0.6, -27, 1.4, 0.1, 0.4, { ink: BK }); // Seat
 
   // Prop: Cargo Crate
-  box(17, 0, 41, 1.8, 1.8, 1.8, { ink: BL });
-  box(17, 0, 41, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(21, 0, 29, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(21, 0 + 1.0, 29, 0.5, 0.2, { seg: 8, ink: BK });
+  box(-43, 0, -3, 1.8, 1.8, 1.8, { ink: BL });
+  box(-43, 0, -3, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
 
-  // Prop: Timber Stack
-  box(9, 0, 45, 3.0, 1.0, 1.2, { ink: OR });
+  // Prop: Treasure Chest
+  box(37, 0, -27, 1.5, 0.8, 1.0, { ink: OR }); // Base
+  cyl(37, 0 + 0.8, -27, 0.5, 1.5, { seg: 8, ink: OR }); // Rounded Lid
+  box(37, 0 + 0.5, -27 + 0.5, 0.3, 0.4, 0.1, { ink: BK }); // Lock
 
   // Prop: Cargo Crate
-  box(21, 0, 41, 1.8, 1.8, 1.8, { ink: BL });
-  box(21, 0, 41, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
+  box(29, 0, -3, 1.8, 1.8, 1.8, { ink: BL });
+  box(29, 0, -3, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
 
   // Prop: Cargo Crate
-  box(25, 0, 25, 1.8, 1.8, 1.8, { ink: BL });
-  box(25, 0, 25, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
+  box(41, 0, -31, 1.8, 1.8, 1.8, { ink: BL });
+  box(41, 0, -31, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
 
-  // Prop: Timber Stack
-  box(17, 0, 37, 3.0, 1.0, 1.2, { ink: OR });
+  // Prop: Iron Cannon
+  box(41, 0, -47, 1.4, 0.6, 2.0, { ink: OR }); // Wooden base
+  cyl(41, 0 + 0.8, -47 + 0.4, 0.5, 2.8, { seg: 8, ink: BK }); // Cannon barrel
+  cyl(41 - 0.7, 0 + 0.3, -47, 0.4, 0.2, { seg: 8, ink: BK }); // Wheel
+  cyl(41 + 0.7, 0 + 0.3, -47, 0.4, 0.2, { seg: 8, ink: BK }); // Wheel
 
-  // Prop: Mooring Bollard
-  cyl(45, 0, 33, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(45, 0 + 1.0, 33, 0.5, 0.2, { seg: 8, ink: BK });
+  // Prop: Ship Mast
+  cyl(1, 0, -35, 0.4, 6.0, { seg: 8, ink: OR }); // Main mast pole
+  box(1, 0 + 3.5, -35 + 0.2, 3.5, 0.2, 0.2, { ink: BK }); // Cross yardarm
+  box(1, 0 + 2.0, -35 + 0.3, 3.0, 3.0, 0.1, { noCollide: true, ink: BL }); // Furled sail
 
-  // Prop: Cargo Crate
-  box(37, 0, 13, 1.8, 1.8, 1.8, { ink: BL });
-  box(37, 0, 13, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
+  // Prop: Ship Mast
+  cyl(37, 0, -39, 0.4, 6.0, { seg: 8, ink: OR }); // Main mast pole
+  box(37, 0 + 3.5, -39 + 0.2, 3.5, 0.2, 0.2, { ink: BK }); // Cross yardarm
+  box(37, 0 + 2.0, -39 + 0.3, 3.0, 3.0, 0.1, { noCollide: true, ink: BL }); // Furled sail
 
-  // Prop: Timber Stack
-  box(9, 0, 37, 3.0, 1.0, 1.2, { ink: OR });
+  // Prop: Treasure Chest
+  box(13, 0, -35, 1.5, 0.8, 1.0, { ink: OR }); // Base
+  cyl(13, 0 + 0.8, -35, 0.5, 1.5, { seg: 8, ink: OR }); // Rounded Lid
+  box(13, 0 + 0.5, -35 + 0.5, 0.3, 0.4, 0.1, { ink: BK }); // Lock
 
-  // Prop: Mooring Bollard
-  cyl(45, 0, 49, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(45, 0 + 1.0, 49, 0.5, 0.2, { seg: 8, ink: BK });
+  // Prop: Barrel Stack
+  cyl(29 - 0.5, 0, -15, 0.45, 1.0, { seg: 8, ink: OR }); // Bottom Left
+  cyl(29 + 0.5, 0, -15, 0.45, 1.0, { seg: 8, ink: OR }); // Bottom Right
+  cyl(29, 0 + 0.9, -15, 0.45, 1.0, { seg: 8, ink: OR }); // Top Center
 
   // Prop: Timber Stack
-  box(25, 0, 21, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(45, 0, 37, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(45, 0 + 1.0, 37, 0.5, 0.2, { seg: 8, ink: BK });
+  box(45, 0, -15, 3.0, 1.0, 1.2, { ink: OR });
 
-  // Prop: Mooring Bollard
-  cyl(25, 0, 17, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(25, 0 + 1.0, 17, 0.5, 0.2, { seg: 8, ink: BK });
+  // Prop: Treasure Chest
+  box(41, 0, -7, 1.5, 0.8, 1.0, { ink: OR }); // Base
+  cyl(41, 0 + 0.8, -7, 0.5, 1.5, { seg: 8, ink: OR }); // Rounded Lid
+  box(41, 0 + 0.5, -7 + 0.5, 0.3, 0.4, 0.1, { ink: BK }); // Lock
 
   // Prop: Cargo Crate
-  box(45, 0, 21, 1.8, 1.8, 1.8, { ink: BL });
-  box(45, 0, 21, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
+  box(37, 0, -15, 1.8, 1.8, 1.8, { ink: BL });
+  box(37, 0, -15, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
 
   // Prop: Mooring Bollard
-  cyl(49, 0, 45, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(49, 0 + 1.0, 45, 0.5, 0.2, { seg: 8, ink: BK });
+  cyl(49, 0, -3, 0.4, 1.0, { seg: 8, ink: BK });
+  cyl(49, 0 + 1.0, -3, 0.5, 0.2, { seg: 8, ink: BK });
 
   // Prop: Mooring Bollard
-  cyl(49, 0, 21, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(49, 0 + 1.0, 21, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(41, 0, 33, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(9, 0, 21, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(9, 0 + 1.0, 21, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(41, 0, 17, 1.8, 1.8, 1.8, { ink: BL });
-  box(41, 0, 17, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(33, 0, 41, 3.0, 1.0, 1.2, { ink: OR });
+  cyl(33, 0, -35, 0.4, 1.0, { seg: 8, ink: BK });
+  cyl(33, 0 + 1.0, -35, 0.5, 0.2, { seg: 8, ink: BK });
 
-  // Prop: Timber Stack
-  box(21, 0, 17, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(9, 4.5, 1, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(29, 0, 41, 1.8, 1.8, 1.8, { ink: BL });
-  box(29, 0, 41, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(49, 0, 41, 1.8, 1.8, 1.8, { ink: BL });
-  box(49, 0, 41, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(21, 0, 21, 3.0, 1.0, 1.2, { ink: OR });
+  // Prop: Treasure Chest
+  box(45, 0, -11, 1.5, 0.8, 1.0, { ink: OR }); // Base
+  cyl(45, 0 + 0.8, -11, 0.5, 1.5, { seg: 8, ink: OR }); // Rounded Lid
+  box(45, 0 + 0.5, -11 + 0.5, 0.3, 0.4, 0.1, { ink: BK }); // Lock
 
-  // Prop: Mooring Bollard
-  cyl(33, 0, 17, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(33, 0 + 1.0, 17, 0.5, 0.2, { seg: 8, ink: BK });
+  // Prop: Ship Mast
+  cyl(13, 0, -31, 0.4, 6.0, { seg: 8, ink: OR }); // Main mast pole
+  box(13, 0 + 3.5, -31 + 0.2, 3.5, 0.2, 0.2, { ink: BK }); // Cross yardarm
+  box(13, 0 + 2.0, -31 + 0.3, 3.0, 3.0, 0.1, { noCollide: true, ink: BL }); // Furled sail
 
-  // Prop: Timber Stack
-  box(49, 0, 37, 3.0, 1.0, 1.2, { ink: OR });
+  // Prop: Ship Mast
+  cyl(29, 0, -19, 0.4, 6.0, { seg: 8, ink: OR }); // Main mast pole
+  box(29, 0 + 3.5, -19 + 0.2, 3.5, 0.2, 0.2, { ink: BK }); // Cross yardarm
+  box(29, 0 + 2.0, -19 + 0.3, 3.0, 3.0, 0.1, { noCollide: true, ink: BL }); // Furled sail
 
-  // Prop: Timber Stack
-  box(49, 0, 9, 3.0, 1.0, 1.2, { ink: OR });
+  // Prop: Barrel Stack
+  cyl(33 - 0.5, 0, -43, 0.45, 1.0, { seg: 8, ink: OR }); // Bottom Left
+  cyl(33 + 0.5, 0, -43, 0.45, 1.0, { seg: 8, ink: OR }); // Bottom Right
+  cyl(33, 0 + 0.9, -43, 0.45, 1.0, { seg: 8, ink: OR }); // Top Center
 
   // Prop: Timber Stack
-  box(41, 0, 1, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(29, 0, 1, 1.8, 1.8, 1.8, { ink: BL });
-  box(29, 0, 1, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(45, 0, 41, 1.8, 1.8, 1.8, { ink: BL });
-  box(45, 0, 41, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
+  box(33, 0, -7, 3.0, 1.0, 1.2, { ink: OR });
 
-  // Prop: Cargo Crate
-  box(41, 0, 37, 1.8, 1.8, 1.8, { ink: BL });
-  box(41, 0, 37, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(1, 4.5, 1, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(1, 4.5 + 1.0, 1, 0.5, 0.2, { seg: 8, ink: BK });
+  // Prop: Treasure Chest
+  box(29, 0, -27, 1.5, 0.8, 1.0, { ink: OR }); // Base
+  cyl(29, 0 + 0.8, -27, 0.5, 1.5, { seg: 8, ink: OR }); // Rounded Lid
+  box(29, 0 + 0.5, -27 + 0.5, 0.3, 0.4, 0.1, { ink: BK }); // Lock
 
-  // Prop: Timber Stack
-  box(21, 0, 49, 3.0, 1.0, 1.2, { ink: OR });
+  // Prop: Rowboat
+  box(33, 0, -47, 1.4, 0.4, 3.6, { ink: OR }); // Hull base
+  box(33 - 0.8, 0 + 0.4, -47, 0.2, 0.6, 4.0, { ink: OR }); // Port side
+  box(33 + 0.8, 0 + 0.4, -47, 0.2, 0.6, 4.0, { ink: OR }); // Starboard side
+  box(33, 0 + 0.4, -47 - 1.8, 1.4, 0.6, 0.2, { ink: OR }); // Stern
+  box(33, 0 + 0.4, -47 + 1.8, 1.4, 0.6, 0.2, { ink: OR }); // Bow
+  box(33, 0 + 0.6, -47, 1.4, 0.1, 0.4, { ink: BK }); // Seat
 
   // Prop: Cargo Crate
-  box(45, 0, 17, 1.8, 1.8, 1.8, { ink: BL });
-  box(45, 0, 17, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
+  box(-39, 0, 37, 1.8, 1.8, 1.8, { ink: BL });
+  box(-39, 0, 37, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
 
-  // Prop: Timber Stack
-  box(5, 0, 17, 3.0, 1.0, 1.2, { ink: OR });
+  // Prop: Ship Mast
+  cyl(-43, 0, 5, 0.4, 6.0, { seg: 8, ink: OR }); // Main mast pole
+  box(-43, 0 + 3.5, 5 + 0.2, 3.5, 0.2, 0.2, { ink: BK }); // Cross yardarm
+  box(-43, 0 + 2.0, 5 + 0.3, 3.0, 3.0, 0.1, { noCollide: true, ink: BL }); // Furled sail
 
-  // Prop: Cargo Crate
-  box(49, 0, 25, 1.8, 1.8, 1.8, { ink: BL });
-  box(49, 0, 25, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
+  // Prop: Ship Mast
+  cyl(-39, 0, 13, 0.4, 6.0, { seg: 8, ink: OR }); // Main mast pole
+  box(-39, 0 + 3.5, 13 + 0.2, 3.5, 0.2, 0.2, { ink: BK }); // Cross yardarm
+  box(-39, 0 + 2.0, 13 + 0.3, 3.0, 3.0, 0.1, { noCollide: true, ink: BL }); // Furled sail
 
-  // Prop: Timber Stack
-  box(41, 0, 21, 3.0, 1.0, 1.2, { ink: OR });
+  // Prop: Rowboat
+  box(-35, 0, 5, 1.4, 0.4, 3.6, { ink: OR }); // Hull base
+  box(-35 - 0.8, 0 + 0.4, 5, 0.2, 0.6, 4.0, { ink: OR }); // Port side
+  box(-35 + 0.8, 0 + 0.4, 5, 0.2, 0.6, 4.0, { ink: OR }); // Starboard side
+  box(-35, 0 + 0.4, 5 - 1.8, 1.4, 0.6, 0.2, { ink: OR }); // Stern
+  box(-35, 0 + 0.4, 5 + 1.8, 1.4, 0.6, 0.2, { ink: OR }); // Bow
+  box(-35, 0 + 0.6, 5, 1.4, 0.1, 0.4, { ink: BK }); // Seat
 
-  // Prop: Timber Stack
-  box(5, 0, 37, 3.0, 1.0, 1.2, { ink: OR });
+  // Prop: Ship Mast
+  cyl(-47, 0, 25, 0.4, 6.0, { seg: 8, ink: OR }); // Main mast pole
+  box(-47, 0 + 3.5, 25 + 0.2, 3.5, 0.2, 0.2, { ink: BK }); // Cross yardarm
+  box(-47, 0 + 2.0, 25 + 0.3, 3.0, 3.0, 0.1, { noCollide: true, ink: BL }); // Furled sail
 
   // Prop: Mooring Bollard
-  cyl(37, 0, 25, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(37, 0 + 1.0, 25, 0.5, 0.2, { seg: 8, ink: BK });
+  cyl(-31, 0, 1, 0.4, 1.0, { seg: 8, ink: BK });
+  cyl(-31, 0 + 1.0, 1, 0.5, 0.2, { seg: 8, ink: BK });
 
-  // Prop: Timber Stack
-  box(49, 0, 29, 3.0, 1.0, 1.2, { ink: OR });
+  // Prop: Iron Cannon
+  box(-23, 0, 29, 1.4, 0.6, 2.0, { ink: OR }); // Wooden base
+  cyl(-23, 0 + 0.8, 29 + 0.4, 0.5, 2.8, { seg: 8, ink: BK }); // Cannon barrel
+  cyl(-23 - 0.7, 0 + 0.3, 29, 0.4, 0.2, { seg: 8, ink: BK }); // Wheel
+  cyl(-23 + 0.7, 0 + 0.3, 29, 0.4, 0.2, { seg: 8, ink: BK }); // Wheel
 
-  // Prop: Timber Stack
-  box(37, 0, 33, 3.0, 1.0, 1.2, { ink: OR });
+  // Prop: Rowboat
+  box(-43, 0, 49, 1.4, 0.4, 3.6, { ink: OR }); // Hull base
+  box(-43 - 0.8, 0 + 0.4, 49, 0.2, 0.6, 4.0, { ink: OR }); // Port side
+  box(-43 + 0.8, 0 + 0.4, 49, 0.2, 0.6, 4.0, { ink: OR }); // Starboard side
+  box(-43, 0 + 0.4, 49 - 1.8, 1.4, 0.6, 0.2, { ink: OR }); // Stern
+  box(-43, 0 + 0.4, 49 + 1.8, 1.4, 0.6, 0.2, { ink: OR }); // Bow
+  box(-43, 0 + 0.6, 49, 1.4, 0.1, 0.4, { ink: BK }); // Seat
 
   // Prop: Mooring Bollard
-  cyl(33, 0, 49, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(33, 0 + 1.0, 49, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Timber Stack
-  box(49, 0, 17, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(37, 0, 29, 1.8, 1.8, 1.8, { ink: BL });
-  box(37, 0, 29, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(13, 0, 37, 1.8, 1.8, 1.8, { ink: BL });
-  box(13, 0, 37, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
+  cyl(-39, 0, 9, 0.4, 1.0, { seg: 8, ink: BK });
+  cyl(-39, 0 + 1.0, 9, 0.5, 0.2, { seg: 8, ink: BK });
 
-  // Prop: Timber Stack
-  box(37, 0, 5, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(13, 0, 33, 1.8, 1.8, 1.8, { ink: BL });
-  box(13, 0, 33, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(33, 0, 33, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(45, 0, 25, 1.8, 1.8, 1.8, { ink: BL });
-  box(45, 0, 25, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(49, 0, 49, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(9, 0, 41, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(29, 0, 9, 3.0, 1.0, 1.2, { ink: OR });
+  // Prop: Treasure Chest
+  box(-19, 0, 41, 1.5, 0.8, 1.0, { ink: OR }); // Base
+  cyl(-19, 0 + 0.8, 41, 0.5, 1.5, { seg: 8, ink: OR }); // Rounded Lid
+  box(-19, 0 + 0.5, 41 + 0.5, 0.3, 0.4, 0.1, { ink: BK }); // Lock
 
-  // Prop: Cargo Crate
-  box(33, 0, 13, 1.8, 1.8, 1.8, { ink: BL });
-  box(33, 0, 13, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
+  // Prop: Rowboat
+  box(-15, 0, 25, 1.4, 0.4, 3.6, { ink: OR }); // Hull base
+  box(-15 - 0.8, 0 + 0.4, 25, 0.2, 0.6, 4.0, { ink: OR }); // Port side
+  box(-15 + 0.8, 0 + 0.4, 25, 0.2, 0.6, 4.0, { ink: OR }); // Starboard side
+  box(-15, 0 + 0.4, 25 - 1.8, 1.4, 0.6, 0.2, { ink: OR }); // Stern
+  box(-15, 0 + 0.4, 25 + 1.8, 1.4, 0.6, 0.2, { ink: OR }); // Bow
+  box(-15, 0 + 0.6, 25, 1.4, 0.1, 0.4, { ink: BK }); // Seat
 
   // Prop: Timber Stack
-  box(13, 0, 45, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(1, 0, 37, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(1, 0 + 1.0, 37, 0.5, 0.2, { seg: 8, ink: BK });
+  box(-43, 0, 37, 3.0, 1.0, 1.2, { ink: OR });
 
-  // Prop: Timber Stack
-  box(9, 4.5, 5, 3.0, 1.0, 1.2, { ink: OR });
+  // Prop: Iron Cannon
+  box(-11, 4.5, 9, 1.4, 0.6, 2.0, { ink: OR }); // Wooden base
+  cyl(-11, 4.5 + 0.8, 9 + 0.4, 0.5, 2.8, { seg: 8, ink: BK }); // Cannon barrel
+  cyl(-11 - 0.7, 4.5 + 0.3, 9, 0.4, 0.2, { seg: 8, ink: BK }); // Wheel
+  cyl(-11 + 0.7, 4.5 + 0.3, 9, 0.4, 0.2, { seg: 8, ink: BK }); // Wheel
 
   // Prop: Cargo Crate
-  box(17, 0, 25, 1.8, 1.8, 1.8, { ink: BL });
-  box(17, 0, 25, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(5, 0, 49, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Mooring Bollard
-  cyl(37, 0, 37, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(37, 0 + 1.0, 37, 0.5, 0.2, { seg: 8, ink: BK });
+  box(-7, 0, 25, 1.8, 1.8, 1.8, { ink: BL });
+  box(-7, 0, 25, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
 
-  // Prop: Timber Stack
-  box(41, 0, 13, 3.0, 1.0, 1.2, { ink: OR });
+  // Prop: Iron Cannon
+  box(-27, 0, 41, 1.4, 0.6, 2.0, { ink: OR }); // Wooden base
+  cyl(-27, 0 + 0.8, 41 + 0.4, 0.5, 2.8, { seg: 8, ink: BK }); // Cannon barrel
+  cyl(-27 - 0.7, 0 + 0.3, 41, 0.4, 0.2, { seg: 8, ink: BK }); // Wheel
+  cyl(-27 + 0.7, 0 + 0.3, 41, 0.4, 0.2, { seg: 8, ink: BK }); // Wheel
 
-  // Prop: Cargo Crate
-  box(25, 0, 49, 1.8, 1.8, 1.8, { ink: BL });
-  box(25, 0, 49, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
+  // Prop: Barrel Stack
+  cyl(-11 - 0.5, 0, 37, 0.45, 1.0, { seg: 8, ink: OR }); // Bottom Left
+  cyl(-11 + 0.5, 0, 37, 0.45, 1.0, { seg: 8, ink: OR }); // Bottom Right
+  cyl(-11, 0 + 0.9, 37, 0.45, 1.0, { seg: 8, ink: OR }); // Top Center
 
   // Prop: Mooring Bollard
-  cyl(33, 0, 25, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(33, 0 + 1.0, 25, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(9, 0, 25, 1.8, 1.8, 1.8, { ink: BL });
-  box(9, 0, 25, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(13, 0, 21, 3.0, 1.0, 1.2, { ink: OR });
+  cyl(-47, 0, 9, 0.4, 1.0, { seg: 8, ink: BK });
+  cyl(-47, 0 + 1.0, 9, 0.5, 0.2, { seg: 8, ink: BK });
 
-  // Prop: Cargo Crate
-  box(9, 0, 49, 1.8, 1.8, 1.8, { ink: BL });
-  box(9, 0, 49, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
+  // Prop: Barrel Stack
+  cyl(-35 - 0.5, 0, 45, 0.45, 1.0, { seg: 8, ink: OR }); // Bottom Left
+  cyl(-35 + 0.5, 0, 45, 0.45, 1.0, { seg: 8, ink: OR }); // Bottom Right
+  cyl(-35, 0 + 0.9, 45, 0.45, 1.0, { seg: 8, ink: OR }); // Top Center
 
-  // Prop: Cargo Crate
-  box(33, 0, 21, 1.8, 1.8, 1.8, { ink: BL });
-  box(33, 0, 21, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
+  // Prop: Iron Cannon
+  box(-15, 0, 21, 1.4, 0.6, 2.0, { ink: OR }); // Wooden base
+  cyl(-15, 0 + 0.8, 21 + 0.4, 0.5, 2.8, { seg: 8, ink: BK }); // Cannon barrel
+  cyl(-15 - 0.7, 0 + 0.3, 21, 0.4, 0.2, { seg: 8, ink: BK }); // Wheel
+  cyl(-15 + 0.7, 0 + 0.3, 21, 0.4, 0.2, { seg: 8, ink: BK }); // Wheel
 
-  // Prop: Cargo Crate
-  box(37, 0, 21, 1.8, 1.8, 1.8, { ink: BL });
-  box(37, 0, 21, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
+  // Prop: Barrel Stack
+  cyl(-31 - 0.5, 0, 25, 0.45, 1.0, { seg: 8, ink: OR }); // Bottom Left
+  cyl(-31 + 0.5, 0, 25, 0.45, 1.0, { seg: 8, ink: OR }); // Bottom Right
+  cyl(-31, 0 + 0.9, 25, 0.45, 1.0, { seg: 8, ink: OR }); // Top Center
 
-  // Prop: Mooring Bollard
-  cyl(1, 0, 21, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(1, 0 + 1.0, 21, 0.5, 0.2, { seg: 8, ink: BK });
+  // Prop: Iron Cannon
+  box(21, 0, 5, 1.4, 0.6, 2.0, { ink: OR }); // Wooden base
+  cyl(21, 0 + 0.8, 5 + 0.4, 0.5, 2.8, { seg: 8, ink: BK }); // Cannon barrel
+  cyl(21 - 0.7, 0 + 0.3, 5, 0.4, 0.2, { seg: 8, ink: BK }); // Wheel
+  cyl(21 + 0.7, 0 + 0.3, 5, 0.4, 0.2, { seg: 8, ink: BK }); // Wheel
 
   // Prop: Mooring Bollard
-  cyl(13, 0, 41, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(13, 0 + 1.0, 41, 0.5, 0.2, { seg: 8, ink: BK });
+  cyl(29, 0, 33, 0.4, 1.0, { seg: 8, ink: BK });
+  cyl(29, 0 + 1.0, 33, 0.5, 0.2, { seg: 8, ink: BK });
 
-  // Prop: Mooring Bollard
-  cyl(41, 0, 25, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(41, 0 + 1.0, 25, 0.5, 0.2, { seg: 8, ink: BK });
+  // Prop: Rowboat
+  box(9, 0, 33, 1.4, 0.4, 3.6, { ink: OR }); // Hull base
+  box(9 - 0.8, 0 + 0.4, 33, 0.2, 0.6, 4.0, { ink: OR }); // Port side
+  box(9 + 0.8, 0 + 0.4, 33, 0.2, 0.6, 4.0, { ink: OR }); // Starboard side
+  box(9, 0 + 0.4, 33 - 1.8, 1.4, 0.6, 0.2, { ink: OR }); // Stern
+  box(9, 0 + 0.4, 33 + 1.8, 1.4, 0.6, 0.2, { ink: OR }); // Bow
+  box(9, 0 + 0.6, 33, 1.4, 0.1, 0.4, { ink: BK }); // Seat
 
   // Prop: Timber Stack
-  box(37, 0, 1, 3.0, 1.0, 1.2, { ink: OR });
+  box(29, 0, 45, 3.0, 1.0, 1.2, { ink: OR });
 
-  // Prop: Mooring Bollard
-  cyl(45, 0, 45, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(45, 0 + 1.0, 45, 0.5, 0.2, { seg: 8, ink: BK });
+  // Prop: Treasure Chest
+  box(41, 0, 5, 1.5, 0.8, 1.0, { ink: OR }); // Base
+  cyl(41, 0 + 0.8, 5, 0.5, 1.5, { seg: 8, ink: OR }); // Rounded Lid
+  box(41, 0 + 0.5, 5 + 0.5, 0.3, 0.4, 0.1, { ink: BK }); // Lock
 
   // Prop: Timber Stack
-  box(13, 0, 17, 3.0, 1.0, 1.2, { ink: OR });
+  box(33, 0, 37, 3.0, 1.0, 1.2, { ink: OR });
 
   // Prop: Timber Stack
-  box(21, 0, 25, 3.0, 1.0, 1.2, { ink: OR });
+  box(9, 0, 29, 3.0, 1.0, 1.2, { ink: OR });
 
-  // Prop: Mooring Bollard
-  cyl(21, 0, 45, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(21, 0 + 1.0, 45, 0.5, 0.2, { seg: 8, ink: BK });
+  // Prop: Treasure Chest
+  box(13, 0, 29, 1.5, 0.8, 1.0, { ink: OR }); // Base
+  cyl(13, 0 + 0.8, 29, 0.5, 1.5, { seg: 8, ink: OR }); // Rounded Lid
+  box(13, 0 + 0.5, 29 + 0.5, 0.3, 0.4, 0.1, { ink: BK }); // Lock
 
   // Prop: Timber Stack
-  box(5, 0, 21, 3.0, 1.0, 1.2, { ink: OR });
+  box(29, 0, 49, 3.0, 1.0, 1.2, { ink: OR });
 
   // Prop: Cargo Crate
-  box(49, 0, 5, 1.8, 1.8, 1.8, { ink: BL });
-  box(49, 0, 5, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
+  box(25, 0, 5, 1.8, 1.8, 1.8, { ink: BL });
+  box(25, 0, 5, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
 
-  // Prop: Timber Stack
-  box(29, 0, 17, 3.0, 1.0, 1.2, { ink: OR });
+  // Prop: Barrel Stack
+  cyl(21 - 0.5, 0, 1, 0.45, 1.0, { seg: 8, ink: OR }); // Bottom Left
+  cyl(21 + 0.5, 0, 1, 0.45, 1.0, { seg: 8, ink: OR }); // Bottom Right
+  cyl(21, 0 + 0.9, 1, 0.45, 1.0, { seg: 8, ink: OR }); // Top Center
 
-  // Prop: Timber Stack
-  box(17, 0, 33, 3.0, 1.0, 1.2, { ink: OR });
+  // Prop: Treasure Chest
+  box(5, 0, 29, 1.5, 0.8, 1.0, { ink: OR }); // Base
+  cyl(5, 0 + 0.8, 29, 0.5, 1.5, { seg: 8, ink: OR }); // Rounded Lid
+  box(5, 0 + 0.5, 29 + 0.5, 0.3, 0.4, 0.1, { ink: BK }); // Lock
 
-  // Prop: Cargo Crate
-  box(49, 0, 33, 1.8, 1.8, 1.8, { ink: BL });
-  box(49, 0, 33, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
+  // Prop: Barrel Stack
+  cyl(17 - 0.5, 0, 5, 0.45, 1.0, { seg: 8, ink: OR }); // Bottom Left
+  cyl(17 + 0.5, 0, 5, 0.45, 1.0, { seg: 8, ink: OR }); // Bottom Right
+  cyl(17, 0 + 0.9, 5, 0.45, 1.0, { seg: 8, ink: OR }); // Top Center
 
-  // Prop: Timber Stack
-  box(45, 0, 1, 3.0, 1.0, 1.2, { ink: OR });
+  // Prop: Treasure Chest
+  box(37, 0, 45, 1.5, 0.8, 1.0, { ink: OR }); // Base
+  cyl(37, 0 + 0.8, 45, 0.5, 1.5, { seg: 8, ink: OR }); // Rounded Lid
+  box(37, 0 + 0.5, 45 + 0.5, 0.3, 0.4, 0.1, { ink: BK }); // Lock
 
-  // Prop: Cargo Crate
-  box(25, 0, 37, 1.8, 1.8, 1.8, { ink: BL });
-  box(25, 0, 37, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
+  // Prop: Treasure Chest
+  box(41, 0, 9, 1.5, 0.8, 1.0, { ink: OR }); // Base
+  cyl(41, 0 + 0.8, 9, 0.5, 1.5, { seg: 8, ink: OR }); // Rounded Lid
+  box(41, 0 + 0.5, 9 + 0.5, 0.3, 0.4, 0.1, { ink: BK }); // Lock
 
   // Prop: Timber Stack
-  box(37, 0, 9, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(1, 0, 41, 1.8, 1.8, 1.8, { ink: BL });
-  box(1, 0, 41, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Cargo Crate
-  box(1, 4.5, 5, 1.8, 1.8, 1.8, { ink: BL });
-  box(1, 4.5, 5, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(21, 0, 9, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(21, 0 + 1.0, 9, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(17, 0, 17, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(17, 0 + 1.0, 17, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Mooring Bollard
-  cyl(45, 0, 5, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(45, 0 + 1.0, 5, 0.5, 0.2, { seg: 8, ink: BK });
+  box(17, 0, 29, 3.0, 1.0, 1.2, { ink: OR });
 
   // Prop: Mooring Bollard
-  cyl(17, 0, 45, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(17, 0 + 1.0, 45, 0.5, 0.2, { seg: 8, ink: BK });
-
-  // Prop: Cargo Crate
-  box(9, 0, 17, 1.8, 1.8, 1.8, { ink: BL });
-  box(9, 0, 17, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
-
-  // Prop: Timber Stack
-  box(33, 0, 29, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(1, 0, 33, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(25, 0, 13, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(25, 0, 9, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Timber Stack
-  box(21, 0, 37, 3.0, 1.0, 1.2, { ink: OR });
-
-  // Prop: Cargo Crate
-  box(29, 0, 29, 1.8, 1.8, 1.8, { ink: BL });
-  box(29, 0, 29, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
+  cyl(5, 0, 25, 0.4, 1.0, { seg: 8, ink: BK });
+  cyl(5, 0 + 1.0, 25, 0.5, 0.2, { seg: 8, ink: BK });
 
-  // Prop: Timber Stack
-  box(5, 0, 41, 3.0, 1.0, 1.2, { ink: OR });
+  // Prop: Ship Mast
+  cyl(1, 0, 45, 0.4, 6.0, { seg: 8, ink: OR }); // Main mast pole
+  box(1, 0 + 3.5, 45 + 0.2, 3.5, 0.2, 0.2, { ink: BK }); // Cross yardarm
+  box(1, 0 + 2.0, 45 + 0.3, 3.0, 3.0, 0.1, { noCollide: true, ink: BL }); // Furled sail
 
-  // Prop: Mooring Bollard
-  cyl(41, 0, 29, 0.4, 1.0, { seg: 8, ink: BK });
-  cyl(41, 0 + 1.0, 29, 0.5, 0.2, { seg: 8, ink: BK });
+  // Prop: Treasure Chest
+  box(21, 0, 33, 1.5, 0.8, 1.0, { ink: OR }); // Base
+  cyl(21, 0 + 0.8, 33, 0.5, 1.5, { seg: 8, ink: OR }); // Rounded Lid
+  box(21, 0 + 0.5, 33 + 0.5, 0.3, 0.4, 0.1, { ink: BK }); // Lock
 
   // Prop: Cargo Crate
-  box(37, 0, 17, 1.8, 1.8, 1.8, { ink: BL });
-  box(37, 0, 17, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
+  box(33, 0, 45, 1.8, 1.8, 1.8, { ink: BL });
+  box(33, 0, 45, 1.9, 1.9, 1.9, { noCollide: true, ink: BK });
   // === END DREAM AUTO-INJECTED PROPS ===
 
   B.finish();

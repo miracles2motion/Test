@@ -170,7 +170,36 @@ const propCatalog = {
   cyl(${x}, ${y} + 1.0, ${z}, 0.5, 0.2, { seg: 8, ink: BK });` },
     { type: 'timber_stack', w: 3.0, h: 1.0, d: 1.2, tier: 2, gen: (x, y, z) => `
   // Prop: Timber Stack
-  box(${x}, ${y}, ${z}, 3.0, 1.0, 1.2, { ink: OR });` }
+  box(${x}, ${y}, ${z}, 3.0, 1.0, 1.2, { ink: OR });` },
+    { type: 'cannon', w: 1.4, h: 1.5, d: 2.8, tier: 2, gen: (x, y, z) => `
+  // Prop: Iron Cannon
+  box(${x}, ${y}, ${z}, 1.4, 0.6, 2.0, { ink: OR }); // Wooden base
+  cyl(${x}, ${y} + 0.8, ${z} + 0.4, 0.5, 2.8, { seg: 8, ink: BK }); // Cannon barrel
+  cyl(${x} - 0.7, ${y} + 0.3, ${z}, 0.4, 0.2, { seg: 8, ink: BK }); // Wheel
+  cyl(${x} + 0.7, ${y} + 0.3, ${z}, 0.4, 0.2, { seg: 8, ink: BK }); // Wheel` },
+    { type: 'treasure_chest', w: 1.5, h: 1.2, d: 1.0, tier: 1, gen: (x, y, z) => `
+  // Prop: Treasure Chest
+  box(${x}, ${y}, ${z}, 1.5, 0.8, 1.0, { ink: OR }); // Base
+  cyl(${x}, ${y} + 0.8, ${z}, 0.5, 1.5, { seg: 8, ink: OR }); // Rounded Lid
+  box(${x}, ${y} + 0.5, ${z} + 0.5, 0.3, 0.4, 0.1, { ink: BK }); // Lock` },
+    { type: 'rowboat', w: 1.8, h: 1.2, d: 4.0, tier: 2, gen: (x, y, z) => `
+  // Prop: Rowboat
+  box(${x}, ${y}, ${z}, 1.4, 0.4, 3.6, { ink: OR }); // Hull base
+  box(${x} - 0.8, ${y} + 0.4, ${z}, 0.2, 0.6, 4.0, { ink: OR }); // Port side
+  box(${x} + 0.8, ${y} + 0.4, ${z}, 0.2, 0.6, 4.0, { ink: OR }); // Starboard side
+  box(${x}, ${y} + 0.4, ${z} - 1.8, 1.4, 0.6, 0.2, { ink: OR }); // Stern
+  box(${x}, ${y} + 0.4, ${z} + 1.8, 1.4, 0.6, 0.2, { ink: OR }); // Bow
+  box(${x}, ${y} + 0.6, ${z}, 1.4, 0.1, 0.4, { ink: BK }); // Seat` },
+    { type: 'barrel_stack', w: 2.0, h: 1.8, d: 1.0, tier: 1, gen: (x, y, z) => `
+  // Prop: Barrel Stack
+  cyl(${x} - 0.5, ${y}, ${z}, 0.45, 1.0, { seg: 8, ink: OR }); // Bottom Left
+  cyl(${x} + 0.5, ${y}, ${z}, 0.45, 1.0, { seg: 8, ink: OR }); // Bottom Right
+  cyl(${x}, ${y} + 0.9, ${z}, 0.45, 1.0, { seg: 8, ink: OR }); // Top Center` },
+    { type: 'ship_mast', w: 1.2, h: 6.0, d: 1.2, tier: 3, gen: (x, y, z) => `
+  // Prop: Ship Mast
+  cyl(${x}, ${y}, ${z}, 0.4, 6.0, { seg: 8, ink: OR }); // Main mast pole
+  box(${x}, ${y} + 3.5, ${z} + 0.2, 3.5, 0.2, 0.2, { ink: BK }); // Cross yardarm
+  box(${x}, ${y} + 2.0, ${z} + 0.3, 3.0, 3.0, 0.1, { noCollide: true, ink: BL }); // Furled sail` }
   ]
 };
 

@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-09-12T20:44:01.400Z",
+  "updatedAt": "2026-09-12T20:47:29.447Z",
   "rules": {
     "stairway": {
       "minRise": 0.2,
@@ -57,8 +57,8 @@
       "description": "Injected 9 safe 3D props into level code",
       "trigger": "dream-auto-injection",
       "autoRemedy": "3dPropInject",
-      "occurrences": 26,
-      "lastObserved": "2026-09-12T20:44:00.676Z"
+      "occurrences": 27,
+      "lastObserved": "2026-09-12T20:47:28.896Z"
     },
     {
       "patternId": "macro-dream-building",
@@ -431,6 +431,12 @@
       "mapKey": "pirate_cove",
       "patternId": "dream-auto-injection",
       "description": "Injected 515 safe 3D props (God Mode, theme: maritime)"
+    },
+    {
+      "timestamp": "2026-09-12T20:47:28.896Z",
+      "mapKey": "pirate_cove",
+      "patternId": "dream-auto-injection",
+      "description": "Injected 80 safe 3D props (God Mode, theme: maritime)"
     }
   ],
   "failureBlacklist": {},
@@ -860,13 +866,6 @@
     "windowSize": 20,
     "runs": [
       {
-        "timestamp": "2026-09-12T10:39:45.352Z",
-        "mapKey": "zen",
-        "success": true,
-        "score": 0,
-        "mode": "MAP"
-      },
-      {
         "timestamp": "2026-09-12T19:56:58.710Z",
         "mapKey": "cove",
         "success": true,
@@ -994,6 +993,13 @@
       },
       {
         "timestamp": "2026-09-12T20:44:01.400Z",
+        "mapKey": "pirate_cove",
+        "success": true,
+        "score": 0,
+        "mode": "MAP"
+      },
+      {
+        "timestamp": "2026-09-12T20:47:29.447Z",
         "mapKey": "pirate_cove",
         "success": true,
         "score": 0,
