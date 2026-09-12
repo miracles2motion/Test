@@ -1,25 +1,14 @@
 #!/usr/bin/env node
 /**
- * Dream Master NLP Router
- * Understands natural language and routes to the correct Doodle Strike workflow.
+ * Dream Master NLP Router (Zero-Dependency Version)
+ * Uses procedural keyword analysis to route commands locally without an API key!
  */
 
-import { GoogleGenAI, Type } from '@google/genai';
 import { execSync } from 'child_process';
-import dotenv from 'dotenv';
 import process from 'process';
 
-dotenv.config();
+const prompt = process.argv.slice(2).join(' ').toLowerCase();
 
-const apiKey = process.env.GEMINI_API_KEY;
-if (!apiKey) {
-  console.error('❌ Missing GEMINI_API_KEY in .env file. Please add it to use the NLP Router.');
-  process.exit(1);
-}
-
-const ai = new GoogleGenAI({ apiKey });
-
-const prompt = process.argv.slice(2).join(' ');
 if (!prompt) {
   console.log(`
 🌌 Dream NLP Router
@@ -34,76 +23,66 @@ Usage:
   process.exit(0);
 }
 
-console.log(`\n🧠 Dream is thinking about: "${prompt}"...\n`);
+console.log(`\n🧠 Dream is analyzing your request locally: "${prompt}"...\n`);
 
-const schema = {
-  type: Type.OBJECT,
-  properties: {
-    action: {
-      type: Type.STRING,
-      description: "The core action to perform.",
-      enum: ["god_mode", "refine", "macro", "inject"]
-    },
-    mapName: {
-      type: Type.STRING,
-      description: "The machine-safe key for the map (lowercase, underscores instead of spaces, e.g., 'neon_district', 'zen', 'pirate_cove')."
-    },
-    theme: {
-      type: Type.STRING,
-      description: "The architectural theme.",
-      enum: ["urban", "cyber", "steampunk", "colossal", "maritime", "zen", "anomalous"]
-    },
-    refineOption: {
-      type: Type.STRING,
-      description: "Only required if action is 'refine'. Whether to upgrade existing generic props or heal structures with micro-details.",
-      enum: ["upgrade", "heal"]
-    }
-  },
-  required: ["action", "mapName", "theme"]
-};
+// 1. Detect Action
+let action = 'god_mode'; // default
+if (prompt.includes('heal') || prompt.includes('improve')) action = 'refine_heal';
+else if (prompt.includes('upgrade') || prompt.includes('refine')) action = 'refine_upgrade';
+else if (prompt.includes('macro') || prompt.includes('building')) action = 'macro';
+else if (prompt.includes('inject') || prompt.includes('prop')) action = 'inject';
 
-async function route() {
-  try {
-    const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
-      contents: `You are the routing brain for 'Dream', an AI architect for a 3D tactical shooter. 
-Map the user's natural language request to the required fields. 
-If the user wants a new map or the ultimate pipeline, choose 'god_mode'. 
-If they want to 'heal' or 'improve' an existing full map, choose 'refine' and set 'refineOption'. 
-If they just want to 'inject' or add 'macro' buildings, choose those respective actions.
-If they don't specify a theme, infer the most logical one based on the map name (e.g. 'pirate' -> maritime, 'shrine' -> zen, 'city' -> urban, 'factory' -> steampunk).
-      
-User request: "${prompt}"`,
-      config: {
-        responseMimeType: 'application/json',
-        responseSchema: schema
-      }
-    });
-
-    const data = JSON.parse(response.text());
-    
-    let command = '';
-    
-    if (data.action === 'god_mode') {
-      command = `npm run dream:god ${data.mapName} ${data.theme}`;
-    } else if (data.action === 'refine') {
-      const option = data.refineOption || 'heal';
-      command = `node src/map-refiner.js ${data.mapName} ${data.theme} ${option}`;
-    } else if (data.action === 'macro') {
-      command = `npm run dream:macro ${data.mapName} ${data.theme}`;
-    } else if (data.action === 'inject') {
-      command = `npm run dream:inject ${data.mapName} ${data.theme}`;
-    }
-
-    console.log(`✨ Dream understood your intent! Routing to:`);
-    console.log(`   > ${command}\n`);
-
-    execSync(command, { stdio: 'inherit' });
-
-  } catch (err) {
-    console.error(`\n❌ Dream failed to process your request: ${err.message}`);
-    process.exit(1);
+// 2. Detect Theme
+const themes = ["urban", "cyber", "steampunk", "colossal", "maritime", "zen", "anomalous"];
+let theme = 'urban'; // fallback
+for (const t of themes) {
+  if (prompt.includes(t)) {
+    theme = t;
+    break;
   }
 }
 
-route();
+// Infer theme from keywords if not explicitly stated
+if (theme === 'urban') {
+  if (prompt.includes('pirate') || prompt.includes('sea') || prompt.includes('ship')) theme = 'maritime';
+  if (prompt.includes('shrine') || prompt.includes('garden') || prompt.includes('temple')) theme = 'zen';
+  if (prompt.includes('factory') || prompt.includes('clock') || prompt.includes('gear')) theme = 'steampunk';
+  if (prompt.includes('neon') || prompt.includes('tech') || prompt.includes('hacker')) theme = 'cyber';
+}
+
+// 3. Detect Map Name
+// Looks for "called [name]" or "map [name]" or assumes the last word.
+let mapName = 'unknown_map';
+const calledMatch = prompt.match(/called\s+([a-z0-9_ -]+)/);
+if (calledMatch) {
+  mapName = calledMatch[1].trim().replace(/\s+/g, '_');
+} else {
+  // Try to find the word after "map"
+  const words = prompt.split(' ');
+  const mapIndex = words.indexOf('map');
+  if (mapIndex !== -1 && mapIndex + 1 < words.length) {
+    mapName = words[mapIndex + 1].replace(/[^a-z0-9_]/g, '');
+  } else {
+    // Just use the last word
+    mapName = words[words.length - 1].replace(/[^a-z0-9_]/g, '');
+  }
+}
+
+try {
+  let command = '';
+  
+  if (action === 'god_mode') command = `npm run dream:god ${mapName} ${theme}`;
+  else if (action === 'refine_heal') command = `node src/map-refiner.js ${mapName} ${theme} heal`;
+  else if (action === 'refine_upgrade') command = `node src/map-refiner.js ${mapName} ${theme} upgrade`;
+  else if (action === 'macro') command = `npm run dream:macro ${mapName} ${theme}`;
+  else if (action === 'inject') command = `npm run dream:inject ${mapName} ${theme}`;
+
+  console.log(`✨ Dream understood your intent! Routing to:`);
+  console.log(`   > ${command}\n`);
+
+  execSync(command, { stdio: 'inherit' });
+
+} catch (err) {
+  console.error(`\n❌ Dream failed to execute: ${err.message}`);
+  process.exit(1);
+}
