@@ -1,13 +1,12 @@
-# Project Guidelines: Local Commits Only
+# Project Guidelines: Auto-Push to GitHub
 
-Whenever you complete changes, bug fixes, or enhancements in this repository, you must automatically stage and commit them locally.
-**DO NOT PUSH TO GITHUB.**
+Whenever you complete changes, bug fixes, or enhancements in this repository, you must automatically stage, commit, and push the changes to GitHub.
 
 ## Rules
 1. Always run git status and check diffs before committing.
 2. Commit with clean, descriptive commit messages following conventional commits (e.g., `feat: ...`, `fix: ...`, `refactor: ...`).
-3. NEVER run `git push`. The user will handle all pushes manually in their own terminal to ensure Vercel deployments succeed.
-4. Keep the repository clean and ensure all tests/syntax checks pass before committing.
+3. Always push to the remote repository on `main` branch (`git push origin main`).
+4. Keep the repository clean and ensure all tests/syntax checks pass before pushing.
 
 ## Architecture Guardian & Disaster Recovery (Sanctuary & Immutability)
 - **STRICT SANCTUARY**: Under NO circumstances are any agents permitted to edit, modify, delete, or overwrite `.agents/skills/doodle-strike-architect/`. This is a permanent, immutable safe space representing the verified Golden Baseline.

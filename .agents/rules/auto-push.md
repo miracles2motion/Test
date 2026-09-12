@@ -9,5 +9,5 @@ Whenever tasks, code edits, or bug fixes are completed:
 1. Verify git status and validate the codebase.
 2. Stage all relevant modifications (`git add ...`).
 3. Commit with a concise and descriptive message.
-4. DO NOT PUSH! Leave the repository ready for the user to push manually in their own terminal.
+4. Push directly to GitHub (`git push origin main`).
 5. Ensure the working tree is clean.
