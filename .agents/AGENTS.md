@@ -41,7 +41,14 @@ Whenever a new map is created, promoted, or added to the game:
 4. **Crash-Safe Deploy Button**: If a map has `comingSoon: true`, the UI automatically displays "MISSION IN DEVELOPMENT" and locks the start button to prevent game-loop crashes.
 5. **Universal Detailing Audit**: Run `npm run audit:map <mapKey>` (or `all`) to guarantee that all colliders, spawns, pickups, and grapple clearances meet quality score ≥ 7.0.
 
-
+## Enemy Intelligence Design Standard (Mandatory for All Enemies)
+- For all enemy creation, modification, balancing, or AI behavior changes, follow `.agents/skills/enemy-intelligence-design/SKILL.md`.
+- Every enemy in `TYPES` (`src/enemies.js`) **MUST** include the role-based intelligence tags: `role`, `canDodge`, `canCover`, `canRetreat`, `canFlank`.
+- **Intent Interpretation for All Agents**:
+  - **CREATE / DESIGN ("create enemy", "new enemy", "design enemy", "add enemy type")**: Follow the SKILL.md step-by-step guide. Set role tags first, then combat stats. Run `node -c src/enemies.js` before committing.
+  - **MODIFY / BALANCE ("buff", "nerf", "change enemy", "adjust difficulty")**: Consult the Behavior → Tag Mapping table and the Decision Guide in the skill. Never change HP/damage to scale difficulty — only change intelligence tags and behaviors.
+  - **DEBUG ("enemy not dodging", "AI broken", "enemy just stands there")**: Check that the enemy's `role` and capability tags match the expected behaviors for the current difficulty level.
+- **Kamikaze / Aerial / Boss Rule**: ALL intelligence tags (`canDodge`, `canCover`, `canRetreat`, `canFlank`) MUST be `false` for enemies with `role: 'kamikaze'`, `role: 'aerial'`, or `role: 'boss'`. These have dedicated brain functions.
 
 
 
