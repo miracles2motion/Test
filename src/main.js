@@ -1937,6 +1937,24 @@ function showDead() {
   hud.showScreen(`<h1>ERASED</h1><div class="stats">you survived <b>${game.wave}</b> wave${game.wave === 1 ? '' : 's'} · <b>${game.kills}</b> kills · score <b>${game.score}</b>${nb ? ' · <b>NEW BEST</b>' : ` · best ${best}`}</div>${checkpointHTML()}${menuBtnHTML()}<div class="go">CLICK (or press ${hud.key('confirm')}) TO DRAW AGAIN</div>`);
   wireCheckpoints((w) => beginAtWave(w)); wireMenuBtn();
 }
+function showDuelEnd(won) {
+  hud.setGameplayVisible(false);
+  const getStyle = (d) => {
+    if (window.currentDifficulty === d) return d === 4 ? 'style="background:var(--red); color:white; border-color:var(--red);"' : 'style="background:var(--ink); color:var(--paper);"';
+    return d === 4 ? 'style="color:var(--red); border-color:var(--red);"' : '';
+  };
+  const btn = (d, label) => `<button class="tactical-filter-btn" data-diff="${d}" ${getStyle(d)}>${label}</button>`;
+  hud.showScreen(`<h1>${won ? 'VICTORY' : 'DEFEATED'}</h1><div class="stats">${won ? 'You successfully defeated the AI' : 'The AI erased you'}</div><div class="tactical-difficulty" style="margin: 15px 0 5px 0; display: flex; flex-direction: column; align-items: center; gap: 6px;"><div style="font-size:11px; opacity:0.8; letter-spacing:1px; font-weight:bold;">CHANGE DIFFICULTY</div><div class="row" id="duelDiffBtns">${btn(0, 'STUPID')}${btn(1, 'EASY')}${btn(2, 'HARD')}${btn(3, 'EXTREME')}${btn(4, 'GOD MODE')}</div></div><div class="online menubtn"><div class="row"><button type="button" id="retryBtn">RETRY MATCH</button><button type="button" class="alt" id="menuBtn">MAIN MENU</button></div></div>`);
+  hud.el.screen.querySelectorAll('.tactical-filter-btn').forEach(b => {
+    fastClick(b, () => {
+      window.currentDifficulty = parseInt(b.dataset.diff, 10);
+      localStorage.setItem('doodle_difficulty', window.currentDifficulty);
+      showDuelEnd(won);
+    });
+  });
+  fastClick(hud.el.screen.querySelector('#retryBtn'), () => { beginDuel(); });
+  wireMenuBtn();
+}
 function menuBtnHTML() { return '<div class="online menubtn"><div class="row"><button type="button" class="alt" id="menuBtn">MAIN MENU</button></div></div>'; }
 function wireMenuBtn() { const b = hud.el.panel.querySelector('#menuBtn'); if (b) fastClick(b, (e) => { toMainMenu(); }); }
 function toMainMenu() { game.state = 'start'; game.mode = 'solo'; game.menu = false; setArena(false); resetGame(); audio.reelLoop(false); input.exitLock(); hud.setGameplayVisible(false); screen = 'main'; showStart(); }
@@ -1959,7 +1977,8 @@ function beginDuel() {
   hud.setWave('DUEL', 0); hud.message('1 V 1', 'Defeat the AI', 3.5);
   hud.tip('AI Difficulty: ' + (window.currentDifficulty === 4 ? 'GOD MODE' : window.currentDifficulty === 3 ? 'EXTREME' : window.currentDifficulty === 0 ? 'STUPID' : 'STANDARD'), 4);
   const diff = window.currentDifficulty ?? 2;
-  const t = diff === 4 ? 'boss' : diff === 3 ? 'sniper' : diff === 2 ? 'shield' : diff === 1 ? 'heavy' : 'rusher';
+  const normalPool = ['rusher', 'heavy', 'shield', 'sniper', 'grunt'];
+  const t = Math.random() < 0.1 ? 'boss' : normalPool[Math.floor(Math.random() * normalPool.length)];
   const spots = (typeof spawnSpots === 'function' ? spawnSpots() : []);
   const spawnPt = spots.length > 0 ? spots[Math.floor(Math.random()*spots.length)] : (typeof arenaSpawn === 'function' ? arenaSpawn() : level.playerStart.clone());
   spawnPt.y += 2;
@@ -2093,8 +2112,8 @@ function step(now) {
     if (st === 'play' && !online() && game.mode !== 'explore' && game.mode !== 'duel') updateWaves(sdt);
     if (st === 'play' && !online() && game.mode === 'duel') {
       if (enemies.alive <= 0 && game.time > 1) {
-        hud.message('VICTORY', 'You defeated the AI', 4);
         game.state = 'over'; game.overT = 0;
+        showDuelEnd(true); input.exitLock();
       }
     }
     if (online()) updateArenaPickups(dt);
@@ -2111,7 +2130,11 @@ function step(now) {
           if (input.lastActive !== game.respawnArm && !input.pressed('pause') && !input.down('pause')) respawnLocal();
         }
       }
-      else if (game.deathT > 1.7) { game.state = 'dead'; showDead(); input.exitLock(); }
+      else if (game.deathT > 1.7) { 
+        game.state = 'dead'; 
+        if (game.mode === 'duel') showDuelEnd(false); else showDead(); 
+        input.exitLock(); 
+      }
     }
   } else {
     game.time += dt; if (st === 'start' || st === 'dead' || st === 'lobby' || st === 'over') player.idleCam(game.time, dt); effects.update(dt); if (net.active) netUpdate(dt);
