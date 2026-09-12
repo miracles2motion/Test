@@ -23,3 +23,9 @@ When the Dream Orchestrator / Macro-Dreamer is invoked to decorate or synthesize
    - **Ship Masts & Crow's Nests:** Use extremely tall `cyl(x, y, z, 0.6, 16, { ink: BK })` for masts, capped with a hollow `box` or `slab` near the top acting as a Crow's Nest. Hang `ring` (grapple points) directly off these masts.
    - **Cargo Cranes:** Use L-shaped `box` structures on the docks. A vertical wooden pillar and a horizontal boom, suspending a cluster of shipping crates (`box`) underneath them to block long sniper sightlines.
    - **Mooring Bollards:** Small iron `cyl(x, y, z, 0.4, 0.8, { ink: BK })` placed right along the water's edge of the East Docks. Adds nautical flavor and acts as micro-cover.
+
+5. **Advanced Geometry over Blocks:**
+   - **Do NOT rely exclusively on `box()` for props.** We have a full geometric toolkit.
+   - **Cylinders (`cyl(x, y, z, r, h, { axis: 'x'|'z' })`)**: Use for barrels, pipes, columns, ship masts, cannons, and bollards. The `axis` property allows them to lay horizontally!
+   - **Spheres (`sphere(x, y, z, r, { ink })`)**: Use for cannonballs, buoys, or decorative round elements.
+   - **Animated Planes (`planes(count, radius, height, { speed, scale, ink })`)**: Repurpose as circling seagulls, bats, or ambient atmospheric movement high above the play space.

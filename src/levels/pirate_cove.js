@@ -87,11 +87,17 @@ export function buildPirateCove(B, arena = false) {
   stairs(35, 0, -33.2, '+z', 8, 10, { rise: 0.25, run: 0.4, ink: BL }); // Ends at Y=2
   stairs(35, 0, 33.2, '-z', 8, 10, { rise: 0.25, run: 0.4, ink: BL });
   
-  box(32, 2, -20, 6, 3, 4, { ink: OR });
-  box(38, 2, -10, 4, 3, 6, { ink: OR });
-  box(32, 2, 0, 6, 3, 6, { ink: OR }); 
-  box(38, 2, 10, 4, 3, 6, { ink: OR });
-  box(32, 2, 20, 6, 3, 4, { ink: OR });
+  // Rum Barrel Stacks (Stacked Cylinders for cover)
+  cyl(32, 2, -20, 1.2, 1.5, { ink: OR }); cyl(32, 2, -22.5, 1.2, 1.5, { ink: OR }); cyl(32, 2+1.5, -21.25, 1.2, 1.5, { ink: OR });
+  cyl(38, 2, -10, 1.2, 1.5, { ink: OR }); cyl(38, 2, -12.5, 1.2, 1.5, { ink: OR }); cyl(38, 2+1.5, -11.25, 1.2, 1.5, { ink: OR });
+  cyl(32, 2, 0, 1.2, 1.5, { ink: OR }); cyl(32, 2, -2.5, 1.2, 1.5, { ink: OR }); cyl(32, 2+1.5, -1.25, 1.2, 1.5, { ink: OR });
+  cyl(38, 2, 10, 1.2, 1.5, { ink: OR }); cyl(38, 2, 7.5, 1.2, 1.5, { ink: OR }); cyl(38, 2+1.5, 8.75, 1.2, 1.5, { ink: OR });
+  cyl(32, 2, 20, 1.2, 1.5, { ink: OR }); cyl(32, 2, 17.5, 1.2, 1.5, { ink: OR }); cyl(32, 2+1.5, 18.75, 1.2, 1.5, { ink: OR });
+
+  // Mooring Bollards (Iron tie-offs along the dock edge)
+  cyl(30.5, 2, -25, 0.4, 0.8, { ink: BK }); cyl(30.5, 2, -15, 0.4, 0.8, { ink: BK });
+  cyl(30.5, 2, -5, 0.4, 0.8, { ink: BK }); cyl(30.5, 2, 5, 0.4, 0.8, { ink: BK });
+  cyl(30.5, 2, 15, 0.4, 0.8, { ink: BK }); cyl(30.5, 2, 25, 0.4, 0.8, { ink: BK });
   
   pickup(35, 2.5, 0); 
   pickup(35, 0, -15); pickup(35, 0, 15);
@@ -255,6 +261,13 @@ export function buildPirateCove(B, arena = false) {
   box(1, 0+0.5, -47, 1.5, 1, 1, { ink: OR }); // Gold Chest
   box(1, 0+1.5, -47, 0.5, 0.5, 0.5, { ink: OR }); // Iron Lock
   ring(1, 0+5, -47, 1.5, { ink: OR }); // Grapple to escape
+  // Macro: Fallen Mainmast bridging the East Docks to Central Crane
+  cyl(15, 8.5, 0, 1.2, 30, { axis: 'x', ink: OR }); // Giant broken log
+  ring(15, 10, 0, 1.5, { ink: OR }); // Grapple underneath it
+
+  // Macro: Circling 'Seagulls' (White paper planes high in the grotto)
+  planes(12, 15, 28, { ink: OR, speed: 0.1, scale: 0.5 });
+  
   // === END DREAM AUTO-INJECTED PROPS ===
   B.finish();
   return L;
