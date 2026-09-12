@@ -255,8 +255,8 @@ console.log(`\n📦 Selected ${selectedProps.length} props for injection (balanc
 console.log(`   NW: ${selectedProps.filter(p => p.x <= midX && p.z <= midZ).length} | NE: ${selectedProps.filter(p => p.x > midX && p.z <= midZ).length} | SW: ${selectedProps.filter(p => p.x <= midX && p.z > midZ).length} | SE: ${selectedProps.filter(p => p.x > midX && p.z > midZ).length}`);
 
 if (selectedProps.length === 0) {
-  console.log(`ℹ️ Map is already optimally densified. No props injected.`);
-  process.exit(0);
+  console.log(`ℹ️ Map is already optimally densified (0 safe pockets found). Yielding to Refinement Mode.`);
+  process.exit(2);
 }
 
 // 6. Read level code, inject right before B.finish()

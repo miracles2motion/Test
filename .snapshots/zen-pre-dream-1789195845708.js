@@ -531,235 +531,237 @@ export function buildZen(B, arena = false) {
   
 
   
-  
-
-  
-  
-
-  
   // === DREAM AUTO-INJECTED MACRO STRUCTURES ===
 
-  // === MACRO STRUCTURE: Bonshō Bell & Tea Pavilion at (-31, 0, -31) ===
-  box(-31, 0, -31, 8.4, 0.6, 8.4, { ink: BL });
-  box(-31, 0 + 0.6, -31, 7.6, 0.4, 7.6, { ink: BL });
-  box(-31 - 3.2, 0 + 1.0, -31 - 3.2, 0.6, 4.2, 0.6, { ink: BK });
-  box(-31 + 3.2, 0 + 1.0, -31 - 3.2, 0.6, 4.2, 0.6, { ink: BK });
-  box(-31 - 3.2, 0 + 1.0, -31 + 3.2, 0.6, 4.2, 0.6, { ink: BK });
-  box(-31 + 3.2, 0 + 1.0, -31 + 3.2, 0.6, 4.2, 0.6, { ink: BK });
-  slab(-31 - 4.0, -31 - 4.0, -31 + 4.0, -31 + 4.0, 0 + 4.2, 0.4, { ink: OR });
-  rail(-31 - 4.0, -31 - 4.0, -31 + 4.0, -31 - 4.0, 0 + 4.2, { ink: OR });
-  rail(-31 - 4.0, -31 + 4.0, -31 + 4.0, -31 + 4.0, 0 + 4.2, { ink: OR });
-  rail(-31 - 4.0, -31 - 4.0, -31 - 4.0, -31 + 4.0, 0 + 4.2, { ink: OR });
-  rail(-31 + 4.0, -31 - 4.0, -31 + 4.0, -31 + 4.0, 0 + 4.2, { ink: OR });
-  box(-31, 0 + 4.4, -31, 9.6, 0.4, 9.6, { noCollide: true, ink: BK });
-  box(-31, 0 + 5.6, -31, 6.0, 0.4, 6.0, { noCollide: true, ink: BK });
-  box(-31, 0 + 6.8, -31, 2.4, 0.5, 2.4, { noCollide: true, ink: BK });
-  cyl(-31, 0 + 3.0, -31, 0.8, 1.6, { seg: 8, noCollide: true, ink: RD });
-  ring(-31, 0 + 8.0, -31, 'z');
-  pickup(-31, 0 + 4.4, -31);
+  // === MACRO STRUCTURE: Bonshō Bell & Tea Pavilion at (-43, 0, -31) ===
+  box(-43, 0, -31, 8.4, 0.6, 8.4, { ink: BL });
+  box(-43, 0 + 0.6, -31, 7.6, 0.4, 7.6, { ink: BL });
+  box(-43 - 3.2, 0 + 1.0, -31 - 3.2, 0.6, 4.2, 0.6, { ink: BK });
+  box(-43 + 3.2, 0 + 1.0, -31 - 3.2, 0.6, 4.2, 0.6, { ink: BK });
+  box(-43 - 3.2, 0 + 1.0, -31 + 3.2, 0.6, 4.2, 0.6, { ink: BK });
+  box(-43 + 3.2, 0 + 1.0, -31 + 3.2, 0.6, 4.2, 0.6, { ink: BK });
+  slab(-43 - 4.0, -31 - 4.0, -43 + 4.0, -31 + 4.0, 0 + 4.2, 0.4, { ink: OR });
+  rail(-43 - 4.0, -31 - 4.0, -43 + 4.0, -31 - 4.0, 0 + 4.2, { ink: OR });
+  rail(-43 - 4.0, -31 + 4.0, -43 + 4.0, -31 + 4.0, 0 + 4.2, { ink: OR });
+  rail(-43 - 4.0, -31 - 4.0, -43 - 4.0, -31 + 4.0, 0 + 4.2, { ink: OR });
+  rail(-43 + 4.0, -31 - 4.0, -43 + 4.0, -31 + 4.0, 0 + 4.2, { ink: OR });
+  box(-43, 0 + 4.4, -31, 9.6, 0.4, 9.6, { noCollide: true, ink: BK });
+  box(-43, 0 + 5.6, -31, 6.0, 0.4, 6.0, { noCollide: true, ink: BK });
+  box(-43, 0 + 6.8, -31, 2.4, 0.5, 2.4, { noCollide: true, ink: BK });
+  cyl(-43, 0 + 3.0, -31, 0.8, 1.6, { seg: 8, noCollide: true, ink: RD });
+  ring(-43, 0 + 8.0, -31, 'z');
+  pickup(-43, 0 + 4.4, -31);
 
-  // === MACRO STRUCTURE: Torii Gate Overlook at (-13, 0, -37) ===
-  box(-13 - 3.0, 0, -37, 0.8, 6.0, 0.8, { ink: RD });
-  box(-13 + 3.0, 0, -37, 0.8, 6.0, 0.8, { ink: RD });
-  box(-13, 0 + 5.2, -37, 7.4, 0.6, 1.0, { ink: RD });
-  box(-13, 0 + 4.4, -37, 6.2, 0.4, 0.6, { ink: RD });
-  slab(-13 - 3.5, -37 - 1.5, -13 + 3.5, -37 + 1.5, 0 + 4.0, 0.3, { ink: OR });
-  rail(-13 - 3.5, -37 - 1.5, -13 + 3.5, -37 - 1.5, 0 + 4.0, { ink: BK });
-  rail(-13 - 3.5, -37 + 1.5, -13 + 3.5, -37 + 1.5, 0 + 4.0, { ink: BK });
-  box(-13 - 2.5, 0, -37 + 2.5, 0.6, 1.4, 0.6, { ink: BK });
-  box(-13 + 2.5, 0, -37 + 2.5, 0.6, 1.4, 0.6, { ink: BK });
-  ring(-13, 0 + 8.3, -37, 'z');
+  // === MACRO STRUCTURE: Engawa Lookout Sanctuary at (-43, 0, 41) ===
+  box(-43, 0, 41, 9.0, 0.8, 9.0, { ink: BL });
+  box(-43, 0 + 0.8, 41, 7.8, 1.6, 7.8, { ink: BL });
+  slab(-43 - 4.3, 41 - 4.3, -43 + 4.3, 41 + 4.3, 0 + 2.4, 0.4, { ink: OR });
+  box(-43 - 4.1, 0 + 2.4, 41, 0.2, 1.1, 8.2, { ink: BK });
+  box(-43 + 4.1, 0 + 2.4, 41, 0.2, 1.1, 8.2, { ink: BK });
+  box(-43, 0 + 2.4, 41 - 4.1, 8.2, 1.1, 0.2, { ink: BK });
+  box(-43, 0 + 5.2, 41, 9.4, 0.3, 9.4, { noCollide: true, ink: BK });
+  ring(-43, 0 + 7.8, 41, 'z');
+  pickup(-43 + 2.0, 0 + 2.6, 41 - 2.0);
 
-  // === MACRO STRUCTURE: Torii Gate Overlook at (-13, 0, -19) ===
-  box(-13 - 3.0, 0, -19, 0.8, 6.0, 0.8, { ink: RD });
-  box(-13 + 3.0, 0, -19, 0.8, 6.0, 0.8, { ink: RD });
-  box(-13, 0 + 5.2, -19, 7.4, 0.6, 1.0, { ink: RD });
-  box(-13, 0 + 4.4, -19, 6.2, 0.4, 0.6, { ink: RD });
-  slab(-13 - 3.5, -19 - 1.5, -13 + 3.5, -19 + 1.5, 0 + 4.0, 0.3, { ink: OR });
-  rail(-13 - 3.5, -19 - 1.5, -13 + 3.5, -19 - 1.5, 0 + 4.0, { ink: BK });
-  rail(-13 - 3.5, -19 + 1.5, -13 + 3.5, -19 + 1.5, 0 + 4.0, { ink: BK });
-  box(-13 - 2.5, 0, -19 + 2.5, 0.6, 1.4, 0.6, { ink: BK });
-  box(-13 + 2.5, 0, -19 + 2.5, 0.6, 1.4, 0.6, { ink: BK });
-  ring(-13, 0 + 8.3, -19, 'z');
+  // === MACRO STRUCTURE: Torii Gate Overlook at (-31, 0, -43) ===
+  box(-31 - 3.0, 0, -43, 0.8, 6.0, 0.8, { ink: RD });
+  box(-31 + 3.0, 0, -43, 0.8, 6.0, 0.8, { ink: RD });
+  box(-31, 0 + 5.2, -43, 7.4, 0.6, 1.0, { ink: RD });
+  box(-31, 0 + 4.4, -43, 6.2, 0.4, 0.6, { ink: RD });
+  slab(-31 - 3.5, -43 - 1.5, -31 + 3.5, -43 + 1.5, 0 + 4.0, 0.3, { ink: OR });
+  rail(-31 - 3.5, -43 - 1.5, -31 + 3.5, -43 - 1.5, 0 + 4.0, { ink: BK });
+  rail(-31 - 3.5, -43 + 1.5, -31 + 3.5, -43 + 1.5, 0 + 4.0, { ink: BK });
+  box(-31 - 2.5, 0, -43 + 2.5, 0.6, 1.4, 0.6, { ink: BK });
+  box(-31 + 2.5, 0, -43 + 2.5, 0.6, 1.4, 0.6, { ink: BK });
+  ring(-31, 0 + 8.3, -43, 'z');
 
-  // === MACRO STRUCTURE: Bonshō Bell & Tea Pavilion at (-13, 0, 41) ===
-  box(-13, 0, 41, 8.4, 0.6, 8.4, { ink: BL });
-  box(-13, 0 + 0.6, 41, 7.6, 0.4, 7.6, { ink: BL });
-  box(-13 - 3.2, 0 + 1.0, 41 - 3.2, 0.6, 4.2, 0.6, { ink: BK });
-  box(-13 + 3.2, 0 + 1.0, 41 - 3.2, 0.6, 4.2, 0.6, { ink: BK });
-  box(-13 - 3.2, 0 + 1.0, 41 + 3.2, 0.6, 4.2, 0.6, { ink: BK });
-  box(-13 + 3.2, 0 + 1.0, 41 + 3.2, 0.6, 4.2, 0.6, { ink: BK });
-  slab(-13 - 4.0, 41 - 4.0, -13 + 4.0, 41 + 4.0, 0 + 4.2, 0.4, { ink: OR });
-  rail(-13 - 4.0, 41 - 4.0, -13 + 4.0, 41 - 4.0, 0 + 4.2, { ink: OR });
-  rail(-13 - 4.0, 41 + 4.0, -13 + 4.0, 41 + 4.0, 0 + 4.2, { ink: OR });
-  rail(-13 - 4.0, 41 - 4.0, -13 - 4.0, 41 + 4.0, 0 + 4.2, { ink: OR });
-  rail(-13 + 4.0, 41 - 4.0, -13 + 4.0, 41 + 4.0, 0 + 4.2, { ink: OR });
-  box(-13, 0 + 4.4, 41, 9.6, 0.4, 9.6, { noCollide: true, ink: BK });
-  box(-13, 0 + 5.6, 41, 6.0, 0.4, 6.0, { noCollide: true, ink: BK });
-  box(-13, 0 + 6.8, 41, 2.4, 0.5, 2.4, { noCollide: true, ink: BK });
-  cyl(-13, 0 + 3.0, 41, 0.8, 1.6, { seg: 8, noCollide: true, ink: RD });
-  ring(-13, 0 + 8.0, 41, 'z');
-  pickup(-13, 0 + 4.4, 41);
+  // === MACRO STRUCTURE: Bonshō Bell & Tea Pavilion at (-31, 0, 29) ===
+  box(-31, 0, 29, 8.4, 0.6, 8.4, { ink: BL });
+  box(-31, 0 + 0.6, 29, 7.6, 0.4, 7.6, { ink: BL });
+  box(-31 - 3.2, 0 + 1.0, 29 - 3.2, 0.6, 4.2, 0.6, { ink: BK });
+  box(-31 + 3.2, 0 + 1.0, 29 - 3.2, 0.6, 4.2, 0.6, { ink: BK });
+  box(-31 - 3.2, 0 + 1.0, 29 + 3.2, 0.6, 4.2, 0.6, { ink: BK });
+  box(-31 + 3.2, 0 + 1.0, 29 + 3.2, 0.6, 4.2, 0.6, { ink: BK });
+  slab(-31 - 4.0, 29 - 4.0, -31 + 4.0, 29 + 4.0, 0 + 4.2, 0.4, { ink: OR });
+  rail(-31 - 4.0, 29 - 4.0, -31 + 4.0, 29 - 4.0, 0 + 4.2, { ink: OR });
+  rail(-31 - 4.0, 29 + 4.0, -31 + 4.0, 29 + 4.0, 0 + 4.2, { ink: OR });
+  rail(-31 - 4.0, 29 - 4.0, -31 - 4.0, 29 + 4.0, 0 + 4.2, { ink: OR });
+  rail(-31 + 4.0, 29 - 4.0, -31 + 4.0, 29 + 4.0, 0 + 4.2, { ink: OR });
+  box(-31, 0 + 4.4, 29, 9.6, 0.4, 9.6, { noCollide: true, ink: BK });
+  box(-31, 0 + 5.6, 29, 6.0, 0.4, 6.0, { noCollide: true, ink: BK });
+  box(-31, 0 + 6.8, 29, 2.4, 0.5, 2.4, { noCollide: true, ink: BK });
+  cyl(-31, 0 + 3.0, 29, 0.8, 1.6, { seg: 8, noCollide: true, ink: RD });
+  ring(-31, 0 + 8.0, 29, 'z');
+  pickup(-31, 0 + 4.4, 29);
   // === END DREAM AUTO-INJECTED MACRO STRUCTURES ===
 
   
   // === DREAM AUTO-INJECTED THEMATIC PROPS ===
 
   // Prop: Tatami Bench
-  box(-47 - 0.9, 0, -39, 0.3, 0.5, 0.6, { ink: BK });
-  box(-47 + 0.9, 0, -39, 0.3, 0.5, 0.6, { ink: BK });
-  box(-47, 0 + 0.5, -39, 2.2, 0.15, 0.8, { ink: BL });
-
-  // Prop: Tatami Bench
-  box(-15 - 0.9, 0, -39, 0.3, 0.5, 0.6, { ink: BK });
-  box(-15 + 0.9, 0, -39, 0.3, 0.5, 0.6, { ink: BK });
-  box(-15, 0 + 0.5, -39, 2.2, 0.15, 0.8, { ink: BL });
-
-  // Prop: Shoji Divider
-  box(-39, 0, -7, 2.4, 2.2, 0.1, { ink: BL });
-  box(-39, 0, -7, 2.5, 2.3, 0.15, { noCollide: true, ink: BK });
+  box(-47 - 0.9, 0, -43, 0.3, 0.5, 0.6, { ink: BK });
+  box(-47 + 0.9, 0, -43, 0.3, 0.5, 0.6, { ink: BK });
+  box(-47, 0 + 0.5, -43, 2.2, 0.15, 0.8, { ink: BL });
 
   // Prop: Tsukubai Basin
-  cyl(-11, 0, -27, 0.6, 0.8, { seg: 8, ink: BL });
-  cyl(-11, 0 + 0.8, -27, 0.5, 0.1, { seg: 8, noCollide: true, ink: RD });
-
-  // Prop: Tatami Bench
-  box(-39 - 0.9, 0, -3, 0.3, 0.5, 0.6, { ink: BK });
-  box(-39 + 0.9, 0, -3, 0.3, 0.5, 0.6, { ink: BK });
-  box(-39, 0 + 0.5, -3, 2.2, 0.15, 0.8, { ink: BL });
+  cyl(-47, 0, -47, 0.6, 0.8, { seg: 8, ink: BL });
+  cyl(-47, 0 + 0.8, -47, 0.5, 0.1, { seg: 8, noCollide: true, ink: RD });
 
   // Prop: Tōrō Lantern
-  box(-7, 0, -39, 0.8, 0.4, 0.8, { ink: BL });
-  box(-7, 0 + 0.4, -39, 0.4, 0.6, 0.4, { ink: BK });
-  box(-7, 0 + 1.0, -39, 0.6, 0.4, 0.6, { ink: OR });
-  box(-7, 0 + 1.4, -39, 0.9, 0.2, 0.9, { ink: BK });
-  sphere(-7, 0 + 1.6, -39, 0.15, { noCollide: true, ink: OR });
-
-  // Prop: Tatami Bench
-  box(-19 - 0.9, 0, -39, 0.3, 0.5, 0.6, { ink: BK });
-  box(-19 + 0.9, 0, -39, 0.3, 0.5, 0.6, { ink: BK });
-  box(-19, 0 + 0.5, -39, 2.2, 0.15, 0.8, { ink: BL });
-
-  // Prop: Tōrō Lantern
-  box(-7, 0, -15, 0.8, 0.4, 0.8, { ink: BL });
-  box(-7, 0 + 0.4, -15, 0.4, 0.6, 0.4, { ink: BK });
-  box(-7, 0 + 1.0, -15, 0.6, 0.4, 0.6, { ink: OR });
-  box(-7, 0 + 1.4, -15, 0.9, 0.2, 0.9, { ink: BK });
-  sphere(-7, 0 + 1.6, -15, 0.15, { noCollide: true, ink: OR });
-
-  // Prop: Tōrō Lantern
-  box(29, 0, -47, 0.8, 0.4, 0.8, { ink: BL });
-  box(29, 0 + 0.4, -47, 0.4, 0.6, 0.4, { ink: BK });
-  box(29, 0 + 1.0, -47, 0.6, 0.4, 0.6, { ink: OR });
-  box(29, 0 + 1.4, -47, 0.9, 0.2, 0.9, { ink: BK });
-  sphere(29, 0 + 1.6, -47, 0.15, { noCollide: true, ink: OR });
-
-  // Prop: Tatami Bench
-  box(17 - 0.9, 0, -39, 0.3, 0.5, 0.6, { ink: BK });
-  box(17 + 0.9, 0, -39, 0.3, 0.5, 0.6, { ink: BK });
-  box(17, 0 + 0.5, -39, 2.2, 0.15, 0.8, { ink: BL });
+  box(-15, 0, -43, 0.8, 0.4, 0.8, { ink: BL });
+  box(-15, 0 + 0.4, -43, 0.4, 0.6, 0.4, { ink: BK });
+  box(-15, 0 + 1.0, -43, 0.6, 0.4, 0.6, { ink: OR });
+  box(-15, 0 + 1.4, -43, 0.9, 0.2, 0.9, { ink: BK });
+  sphere(-15, 0 + 1.6, -43, 0.15, { noCollide: true, ink: OR });
 
   // Prop: Shoji Divider
-  box(17, 0, -23, 2.4, 2.2, 0.1, { ink: BL });
-  box(17, 0, -23, 2.5, 2.3, 0.15, { noCollide: true, ink: BK });
+  box(-11, 0, -43, 2.4, 2.2, 0.1, { ink: BL });
+  box(-11, 0, -43, 2.5, 2.3, 0.15, { noCollide: true, ink: BK });
 
   // Prop: Shoji Divider
-  box(1, 0, -15, 2.4, 2.2, 0.1, { ink: BL });
-  box(1, 0, -15, 2.5, 2.3, 0.15, { noCollide: true, ink: BK });
-
-  // Prop: Shoji Divider
-  box(21, 0, -39, 2.4, 2.2, 0.1, { ink: BL });
-  box(21, 0, -39, 2.5, 2.3, 0.15, { noCollide: true, ink: BK });
+  box(-19, 0, -43, 2.4, 2.2, 0.1, { ink: BL });
+  box(-19, 0, -43, 2.5, 2.3, 0.15, { noCollide: true, ink: BK });
 
   // Prop: Tatami Bench
-  box(5 - 0.9, 0, -23, 0.3, 0.5, 0.6, { ink: BK });
-  box(5 + 0.9, 0, -23, 0.3, 0.5, 0.6, { ink: BK });
-  box(5, 0 + 0.5, -23, 2.2, 0.15, 0.8, { ink: BL });
+  box(-3 - 0.9, 0, -47, 0.3, 0.5, 0.6, { ink: BK });
+  box(-3 + 0.9, 0, -47, 0.3, 0.5, 0.6, { ink: BK });
+  box(-3, 0 + 0.5, -47, 2.2, 0.15, 0.8, { ink: BL });
 
   // Prop: Tsukubai Basin
-  cyl(25, 0, -43, 0.6, 0.8, { seg: 8, ink: BL });
-  cyl(25, 0 + 0.8, -43, 0.5, 0.1, { seg: 8, noCollide: true, ink: RD });
-
-  // Prop: Tatami Bench
-  box(9 - 0.9, 0, -27, 0.3, 0.5, 0.6, { ink: BK });
-  box(9 + 0.9, 0, -27, 0.3, 0.5, 0.6, { ink: BK });
-  box(9, 0 + 0.5, -27, 2.2, 0.15, 0.8, { ink: BL });
+  cyl(-47, 0, -11, 0.6, 0.8, { seg: 8, ink: BL });
+  cyl(-47, 0 + 0.8, -11, 0.5, 0.1, { seg: 8, noCollide: true, ink: RD });
 
   // Prop: Shoji Divider
-  box(-11, 0, 25, 2.4, 2.2, 0.1, { ink: BL });
-  box(-11, 0, 25, 2.5, 2.3, 0.15, { noCollide: true, ink: BK });
-
-  // Prop: Tatami Bench
-  box(-19 - 0.9, 0, 29, 0.3, 0.5, 0.6, { ink: BK });
-  box(-19 + 0.9, 0, 29, 0.3, 0.5, 0.6, { ink: BK });
-  box(-19, 0 + 0.5, 29, 2.2, 0.15, 0.8, { ink: BL });
+  box(-15, 0, -3, 2.4, 2.2, 0.1, { ink: BL });
+  box(-15, 0, -3, 2.5, 2.3, 0.15, { noCollide: true, ink: BK });
 
   // Prop: Tōrō Lantern
-  box(-27, 0, 45, 0.8, 0.4, 0.8, { ink: BL });
-  box(-27, 0 + 0.4, 45, 0.4, 0.6, 0.4, { ink: BK });
-  box(-27, 0 + 1.0, 45, 0.6, 0.4, 0.6, { ink: OR });
-  box(-27, 0 + 1.4, 45, 0.9, 0.2, 0.9, { ink: BK });
-  sphere(-27, 0 + 1.6, 45, 0.15, { noCollide: true, ink: OR });
-
-  // Prop: Shoji Divider
-  box(-27, 0, 33, 2.4, 2.2, 0.1, { ink: BL });
-  box(-27, 0, 33, 2.5, 2.3, 0.15, { noCollide: true, ink: BK });
-
-  // Prop: Tatami Bench
-  box(-3 - 0.9, 0, 13, 0.3, 0.5, 0.6, { ink: BK });
-  box(-3 + 0.9, 0, 13, 0.3, 0.5, 0.6, { ink: BK });
-  box(-3, 0 + 0.5, 13, 2.2, 0.15, 0.8, { ink: BL });
-
-  // Prop: Shoji Divider
-  box(-11, 0, 49, 2.4, 2.2, 0.1, { ink: BL });
-  box(-11, 0, 49, 2.5, 2.3, 0.15, { noCollide: true, ink: BK });
+  box(41, 0, -23, 0.8, 0.4, 0.8, { ink: BL });
+  box(41, 0 + 0.4, -23, 0.4, 0.6, 0.4, { ink: BK });
+  box(41, 0 + 1.0, -23, 0.6, 0.4, 0.6, { ink: OR });
+  box(41, 0 + 1.4, -23, 0.9, 0.2, 0.9, { ink: BK });
+  sphere(41, 0 + 1.6, -23, 0.15, { noCollide: true, ink: OR });
 
   // Prop: Tsukubai Basin
-  cyl(-19, 0, 41, 0.6, 0.8, { seg: 8, ink: BL });
-  cyl(-19, 0 + 0.8, 41, 0.5, 0.1, { seg: 8, noCollide: true, ink: RD });
+  cyl(33, 0, -23, 0.6, 0.8, { seg: 8, ink: BL });
+  cyl(33, 0 + 0.8, -23, 0.5, 0.1, { seg: 8, noCollide: true, ink: RD });
+
+  // Prop: Tatami Bench
+  box(29 - 0.9, 0, -39, 0.3, 0.5, 0.6, { ink: BK });
+  box(29 + 0.9, 0, -39, 0.3, 0.5, 0.6, { ink: BK });
+  box(29, 0 + 0.5, -39, 2.2, 0.15, 0.8, { ink: BL });
+
+  // Prop: Tatami Bench
+  box(49 - 0.9, 0, -43, 0.3, 0.5, 0.6, { ink: BK });
+  box(49 + 0.9, 0, -43, 0.3, 0.5, 0.6, { ink: BK });
+  box(49, 0 + 0.5, -43, 2.2, 0.15, 0.8, { ink: BL });
 
   // Prop: Tōrō Lantern
-  box(-15, 0, 1, 0.8, 0.4, 0.8, { ink: BL });
-  box(-15, 0 + 0.4, 1, 0.4, 0.6, 0.4, { ink: BK });
-  box(-15, 0 + 1.0, 1, 0.6, 0.4, 0.6, { ink: OR });
-  box(-15, 0 + 1.4, 1, 0.9, 0.2, 0.9, { ink: BK });
-  sphere(-15, 0 + 1.6, 1, 0.15, { noCollide: true, ink: OR });
+  box(45, 0, -39, 0.8, 0.4, 0.8, { ink: BL });
+  box(45, 0 + 0.4, -39, 0.4, 0.6, 0.4, { ink: BK });
+  box(45, 0 + 1.0, -39, 0.6, 0.4, 0.6, { ink: OR });
+  box(45, 0 + 1.4, -39, 0.9, 0.2, 0.9, { ink: BK });
+  sphere(45, 0 + 1.6, -39, 0.15, { noCollide: true, ink: OR });
 
-  // Prop: Tatami Bench
-  box(49 - 0.9, 0, 49, 0.3, 0.5, 0.6, { ink: BK });
-  box(49 + 0.9, 0, 49, 0.3, 0.5, 0.6, { ink: BK });
-  box(49, 0 + 0.5, 49, 2.2, 0.15, 0.8, { ink: BL });
-
-  // Prop: Shoji Divider
-  box(13, 0, 37, 2.4, 2.2, 0.1, { ink: BL });
-  box(13, 0, 37, 2.5, 2.3, 0.15, { noCollide: true, ink: BK });
+  // Prop: Tōrō Lantern
+  box(37, 0, -23, 0.8, 0.4, 0.8, { ink: BL });
+  box(37, 0 + 0.4, -23, 0.4, 0.6, 0.4, { ink: BK });
+  box(37, 0 + 1.0, -23, 0.6, 0.4, 0.6, { ink: OR });
+  box(37, 0 + 1.4, -23, 0.9, 0.2, 0.9, { ink: BK });
+  sphere(37, 0 + 1.6, -23, 0.15, { noCollide: true, ink: OR });
 
   // Prop: Tsukubai Basin
-  cyl(9, 0, 13, 0.6, 0.8, { seg: 8, ink: BL });
-  cyl(9, 0 + 0.8, 13, 0.5, 0.1, { seg: 8, noCollide: true, ink: RD });
+  cyl(1, 0, -19, 0.6, 0.8, { seg: 8, ink: BL });
+  cyl(1, 0 + 0.8, -19, 0.5, 0.1, { seg: 8, noCollide: true, ink: RD });
 
-  // Prop: Tatami Bench
-  box(21 - 0.9, 0, 13, 0.3, 0.5, 0.6, { ink: BK });
-  box(21 + 0.9, 0, 13, 0.3, 0.5, 0.6, { ink: BK });
-  box(21, 0 + 0.5, 13, 2.2, 0.15, 0.8, { ink: BL });
+  // Prop: Tsukubai Basin
+  cyl(9, 0, -39, 0.6, 0.8, { seg: 8, ink: BL });
+  cyl(9, 0 + 0.8, -39, 0.5, 0.1, { seg: 8, noCollide: true, ink: RD });
 
-  // Prop: Shoji Divider
-  box(21, 0, 21, 2.4, 2.2, 0.1, { ink: BL });
-  box(21, 0, 21, 2.5, 2.3, 0.15, { noCollide: true, ink: BK });
-
-  // Prop: Tatami Bench
-  box(49 - 0.9, 0, 5, 0.3, 0.5, 0.6, { ink: BK });
-  box(49 + 0.9, 0, 5, 0.3, 0.5, 0.6, { ink: BK });
-  box(49, 0 + 0.5, 5, 2.2, 0.15, 0.8, { ink: BL });
+  // Prop: Tōrō Lantern
+  box(-23, 0, 41, 0.8, 0.4, 0.8, { ink: BL });
+  box(-23, 0 + 0.4, 41, 0.4, 0.6, 0.4, { ink: BK });
+  box(-23, 0 + 1.0, 41, 0.6, 0.4, 0.6, { ink: OR });
+  box(-23, 0 + 1.4, 41, 0.9, 0.2, 0.9, { ink: BK });
+  sphere(-23, 0 + 1.6, 41, 0.15, { noCollide: true, ink: OR });
 
   // Prop: Shoji Divider
-  box(45, 0, 49, 2.4, 2.2, 0.1, { ink: BL });
-  box(45, 0, 49, 2.5, 2.3, 0.15, { noCollide: true, ink: BK });
+  box(-11, 0, 21, 2.4, 2.2, 0.1, { ink: BL });
+  box(-11, 0, 21, 2.5, 2.3, 0.15, { noCollide: true, ink: BK });
+
+  // Prop: Tsukubai Basin
+  cyl(-47, 0, 25, 0.6, 0.8, { seg: 8, ink: BL });
+  cyl(-47, 0 + 0.8, 25, 0.5, 0.1, { seg: 8, noCollide: true, ink: RD });
 
   // Prop: Tatami Bench
-  box(1 - 0.9, 0, 25, 0.3, 0.5, 0.6, { ink: BK });
-  box(1 + 0.9, 0, 25, 0.3, 0.5, 0.6, { ink: BK });
-  box(1, 0 + 0.5, 25, 2.2, 0.15, 0.8, { ink: BL });
+  box(-15 - 0.9, 0, 33, 0.3, 0.5, 0.6, { ink: BK });
+  box(-15 + 0.9, 0, 33, 0.3, 0.5, 0.6, { ink: BK });
+  box(-15, 0 + 0.5, 33, 2.2, 0.15, 0.8, { ink: BL });
+
+  // Prop: Tōrō Lantern
+  box(-7, 0, 33, 0.8, 0.4, 0.8, { ink: BL });
+  box(-7, 0 + 0.4, 33, 0.4, 0.6, 0.4, { ink: BK });
+  box(-7, 0 + 1.0, 33, 0.6, 0.4, 0.6, { ink: OR });
+  box(-7, 0 + 1.4, 33, 0.9, 0.2, 0.9, { ink: BK });
+  sphere(-7, 0 + 1.6, 33, 0.15, { noCollide: true, ink: OR });
+
+  // Prop: Tōrō Lantern
+  box(-35, 0, 37, 0.8, 0.4, 0.8, { ink: BL });
+  box(-35, 0 + 0.4, 37, 0.4, 0.6, 0.4, { ink: BK });
+  box(-35, 0 + 1.0, 37, 0.6, 0.4, 0.6, { ink: OR });
+  box(-35, 0 + 1.4, 37, 0.9, 0.2, 0.9, { ink: BK });
+  sphere(-35, 0 + 1.6, 37, 0.15, { noCollide: true, ink: OR });
+
+  // Prop: Tsukubai Basin
+  cyl(-11, 0, 9, 0.6, 0.8, { seg: 8, ink: BL });
+  cyl(-11, 0 + 0.8, 9, 0.5, 0.1, { seg: 8, noCollide: true, ink: RD });
+
+  // Prop: Shoji Divider
+  box(-31, 0, 49, 2.4, 2.2, 0.1, { ink: BL });
+  box(-31, 0, 49, 2.5, 2.3, 0.15, { noCollide: true, ink: BK });
+
+  // Prop: Shoji Divider
+  box(49, 0, 37, 2.4, 2.2, 0.1, { ink: BL });
+  box(49, 0, 37, 2.5, 2.3, 0.15, { noCollide: true, ink: BK });
+
+  // Prop: Shoji Divider
+  box(37, 0, 49, 2.4, 2.2, 0.1, { ink: BL });
+  box(37, 0, 49, 2.5, 2.3, 0.15, { noCollide: true, ink: BK });
+
+  // Prop: Tatami Bench
+  box(37 - 0.9, 0, 45, 0.3, 0.5, 0.6, { ink: BK });
+  box(37 + 0.9, 0, 45, 0.3, 0.5, 0.6, { ink: BK });
+  box(37, 0 + 0.5, 45, 2.2, 0.15, 0.8, { ink: BL });
+
+  // Prop: Shoji Divider
+  box(5, 0, 49, 2.4, 2.2, 0.1, { ink: BL });
+  box(5, 0, 49, 2.5, 2.3, 0.15, { noCollide: true, ink: BK });
+
+  // Prop: Tōrō Lantern
+  box(17, 0, 1, 0.8, 0.4, 0.8, { ink: BL });
+  box(17, 0 + 0.4, 1, 0.4, 0.6, 0.4, { ink: BK });
+  box(17, 0 + 1.0, 1, 0.6, 0.4, 0.6, { ink: OR });
+  box(17, 0 + 1.4, 1, 0.9, 0.2, 0.9, { ink: BK });
+  sphere(17, 0 + 1.6, 1, 0.15, { noCollide: true, ink: OR });
+
+  // Prop: Tatami Bench
+  box(29 - 0.9, 0, 41, 0.3, 0.5, 0.6, { ink: BK });
+  box(29 + 0.9, 0, 41, 0.3, 0.5, 0.6, { ink: BK });
+  box(29, 0 + 0.5, 41, 2.2, 0.15, 0.8, { ink: BL });
+
+  // Prop: Tōrō Lantern
+  box(33, 0, 1, 0.8, 0.4, 0.8, { ink: BL });
+  box(33, 0 + 0.4, 1, 0.4, 0.6, 0.4, { ink: BK });
+  box(33, 0 + 1.0, 1, 0.6, 0.4, 0.6, { ink: OR });
+  box(33, 0 + 1.4, 1, 0.9, 0.2, 0.9, { ink: BK });
+  sphere(33, 0 + 1.6, 1, 0.15, { noCollide: true, ink: OR });
+
+  // Prop: Tōrō Lantern
+  box(17, 0, 41, 0.8, 0.4, 0.8, { ink: BL });
+  box(17, 0 + 0.4, 41, 0.4, 0.6, 0.4, { ink: BK });
+  box(17, 0 + 1.0, 41, 0.6, 0.4, 0.6, { ink: OR });
+  box(17, 0 + 1.4, 41, 0.9, 0.2, 0.9, { ink: BK });
+  sphere(17, 0 + 1.6, 41, 0.15, { noCollide: true, ink: OR });
   // === END DREAM AUTO-INJECTED PROPS ===
 
   B.finish();

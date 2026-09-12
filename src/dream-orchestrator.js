@@ -142,11 +142,16 @@ function runStage(stageName, cmd) {
     execSync(cmd, { cwd: ROOT_DIR, stdio: 'inherit', timeout: 60000 });
     stages[stageName] = { status: 'pass', timestamp: new Date().toISOString() };
     console.log(`✅ ${stageName} — PASSED`);
-    return true;
+    return { success: true, code: 0 };
   } catch (err) {
+    const code = err.status || 1;
+    if (code === 2) {
+      stages[stageName] = { status: 'warn', info: 'Map Full - Yielded to Refinement', timestamp: new Date().toISOString() };
+      return { success: true, code: 2 };
+    }
     stages[stageName] = { status: 'fail', error: err.message?.slice(0, 200), timestamp: new Date().toISOString() };
     console.error(`❌ ${stageName} — FAILED: ${err.message?.slice(0, 100)}`);
-    return false;
+    return { success: false, code };
   }
 }
 
@@ -579,7 +584,30 @@ async function main() {
 
       // Stage 2: Fill voids with macro buildings + props
       runStage('Macro Building Injection', `node src/macro-dreamer.js ${key} ${theme}`);
-      runStage('Prop Injection', `node src/map-injector.js ${key} ${theme}`);
+      const propResult = runStage('Prop Injection', `node src/map-injector.js ${key} ${theme}`);
+      
+      if (propResult && propResult.code === 2) {
+        // Map is full. Trigger interactive Refinement Mode.
+        console.log(`\n🛑 [MAP IS FULL] Dream detected that the map has reached maximum spatial density.`);
+        
+        const readline = await import('readline/promises');
+        const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+        
+        console.log(`\nWhat would you like Dream to improve?`);
+        console.log(`  1. 'upgrade' : Replace basic generic blocks with complex thematic props`);
+        console.log(`  2. 'heal'    : Add micro-details and textures to existing structures`);
+        console.log(`  3. 'skip'    : Do nothing and finish the audit`);
+        
+        const answer = (await rl.question(`\n> Your choice (upgrade/heal/skip): `)).trim().toLowerCase();
+        rl.close();
+
+        if (answer === 'upgrade' || answer === 'heal') {
+          runStage(`Refinement: ${answer}`, `node src/map-refiner.js ${key} ${theme} ${answer}`);
+        } else {
+          console.log(`   ⏭️  Skipping refinement...`);
+          stages['refinement'] = { status: 'pass', info: 'skipped' };
+        }
+      }
     }
 
     // ==================== UNIVERSAL STAGES (all modes) ====================
