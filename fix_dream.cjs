@@ -1,4 +1,6 @@
-#!/usr/bin/env node
+const fs = require('fs');
+
+let code = `#!/usr/bin/env node
 
 /**
  * Dream Master NLP Router (Zero-Dependency Version)
@@ -12,11 +14,11 @@ if (!prompt) {
   process.exit(0);
 }
 
-console.log(`\n🧠 Dream is analyzing your request locally: "${prompt}"...\n`);
+console.log(\`\\n🧠 Dream is analyzing your request locally: "\${prompt}"...\\n\`);
 
 // 1. Detect Multiplier (e.g. 2x, 3x)
 let multiplier = 1;
-const timesMatch = prompt.match(/(\d+)x/);
+const timesMatch = prompt.match(/(\\d+)x/);
 if (timesMatch) {
   multiplier = parseInt(timesMatch[1], 10);
   if (multiplier < 1) multiplier = 1;
@@ -50,9 +52,9 @@ if (theme === 'urban') {
 
 // 4. Detect Map Name
 let mapName = 'unknown_map';
-const calledMatch = prompt.match(/called\s+([a-z0-9_ -]+)/);
+const calledMatch = prompt.match(/called\\s+([a-z0-9_ -]+)/);
 if (calledMatch) {
-  mapName = calledMatch[1].trim().replace(/\s+/g, '_');
+  mapName = calledMatch[1].trim().replace(/\\s+/g, '_');
 } else {
   const words = prompt.split(' ');
   const mapIndex = words.indexOf('map');
@@ -71,25 +73,28 @@ if (calledMatch) {
 
 try {
   let command = '';
-  if (action === 'god_mode') command = `npm run dream:god ${mapName} ${theme}`;
-  else if (action === 'detail') command = `node src/map-refiner.js ${mapName} detail`;
-  else if (action === 'heal') command = `node src/map-refiner.js ${mapName} heal`;
-  else if (action === 'macro') command = `npm run dream:macro ${mapName} ${theme}`;
-  else if (action === 'inject') command = `npm run dream:inject ${mapName} ${theme}`;
-  else if (action === 'delete') command = `node src/map-deleter.js ${mapName}`;
+  if (action === 'god_mode') command = \`npm run dream:god \${mapName} \${theme}\`;
+  else if (action === 'detail') command = \`node src/map-refiner.js \${mapName} detail\`;
+  else if (action === 'heal') command = \`node src/map-refiner.js \${mapName} heal\`;
+  else if (action === 'macro') command = \`npm run dream:macro \${mapName} \${theme}\`;
+  else if (action === 'inject') command = \`npm run dream:inject \${mapName} \${theme}\`;
+  else if (action === 'delete') command = \`node src/map-deleter.js \${mapName}\`;
 
-  console.log(`✨ Dream understood your intent! Routing to:`);
-  console.log(`   > ${command} (Running ${multiplier}x times)\n`);
+  console.log(\`✨ Dream understood your intent! Routing to:\`);
+  console.log(\`   > \${command} (Running \${multiplier}x times)\\n\`);
   
   for (let i = 0; i < multiplier; i++) {
     if (multiplier > 1) {
-      console.log(`============================================================`);
-      console.log(`🚀 DREAM CYCLE ${i + 1} OF ${multiplier}`);
-      console.log(`============================================================\n`);
+      console.log(\`============================================================\`);
+      console.log(\`🚀 DREAM CYCLE \${i + 1} OF \${multiplier}\`);
+      console.log(\`============================================================\\n\`);
     }
     execSync(command, { stdio: 'inherit' });
   }
 } catch (err) {
-  console.error(`\n❌ Dream failed to execute: ${err.message}`);
+  console.error(\`\\n❌ Dream failed to execute: \${err.message}\`);
   process.exit(1);
 }
+`;
+
+fs.writeFileSync('dream.js', code);
