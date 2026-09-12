@@ -23,10 +23,10 @@
     "map:simulate": "node src/map-simulate.js",
     "map:learn": "node src/map-learning.js",
     "map:pack": "node src/map-pack.js",
-    "map:dream": "node src/map-synthesizer.js",
-    "map:macro": "node src/macro-dreamer.js",
-    "map:inject": "node src/map-injector.js",
-    "map:god": "node src/dream-orchestrator.js"
+    "dream:synthesize": "node src/map-synthesizer.js",
+    "dream:macro": "node src/macro-dreamer.js",
+    "dream:inject": "node src/map-injector.js",
+    "dream:god": "node src/dream-orchestrator.js"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",
