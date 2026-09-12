@@ -195,2464 +195,365 @@ export function buildPirateCove(B, arena = false) {
   
 
   
+  
+
+  
+  
+
+  
+  
+
+  
+  
+  
   // === DREAM AUTO-INJECTED MACRO STRUCTURES ===
 
-  // === MACRO STRUCTURE: Cargo Crane Gantry at (-43, 0, -25) ===
-  box(-43 - 2.5, 0, -25 - 2.5, 0.8, 6.0, 0.8, { ink: BK });
-  box(-43 + 2.5, 0, -25 - 2.5, 0.8, 6.0, 0.8, { ink: BK });
-  box(-43 - 2.5, 0, -25 + 2.5, 0.8, 6.0, 0.8, { ink: BK });
-  box(-43 + 2.5, 0, -25 + 2.5, 0.8, 6.0, 0.8, { ink: BK });
-  slab(-43 - 3.0, -25 - 3.0, -43 + 3.0, -25 + 3.0, 0 + 5.5, 0.4, { ink: OR });
-  box(-43, 0 + 5.9, -25 - 1.5, 2.5, 1.8, 2.5, { ink: BL });
-  box(-43, 0 + 5.9, -25 + 2.5, 0.6, 0.6, 3.0, { ink: BK });
-  ring(-43, 0 + 8.3, -25 + 4.0, 'z');
-  pickup(-43, 0 + 6.1, -25 - 1.5);
+  // === MACRO STRUCTURE: Galleon Sterncastle at (-43, 0, -43) ===
+  box(-43, 0, -43, 8.0, 2.0, 6.0, { ink: BL });
+  box(-43, 0 + 2.0, -43, 7.5, 2.5, 5.5, { ink: OR });
+  slab(-43 - 4.0, -43 - 3.2, -43 + 4.0, -43 + 3.2, 0 + 4.5, 0.3, { ink: OR });
+  rail(-43 - 4.0, -43 - 3.2, -43 + 4.0, -43 - 3.2, 0 + 4.5, { ink: BK });
+  rail(-43 - 4.0, -43 + 3.2, -43 + 4.0, -43 + 3.2, 0 + 4.5, { ink: BK });
+  rail(-43 - 4.0, -43 - 3.2, -43 - 4.0, -43 + 3.2, 0 + 4.5, { ink: BK });
+  box(-43, 0 + 4.8, -43, 1.0, 3.0, 0.5, { ink: BK });
+  ring(-43, 0 + 9.3, -43, 'z');
+  pickup(-43, 0 + 4.7, -43);
 
-  // === MACRO STRUCTURE: Galleon Sterncastle at (-43, 0, -7) ===
-  box(-43, 0, -7, 8.0, 2.0, 6.0, { ink: BL });
-  box(-43, 0 + 2.0, -7, 7.5, 2.5, 5.5, { ink: OR });
-  slab(-43 - 4.0, -7 - 3.2, -43 + 4.0, -7 + 3.2, 0 + 4.5, 0.3, { ink: OR });
-  rail(-43 - 4.0, -7 - 3.2, -43 + 4.0, -7 - 3.2, 0 + 4.5, { ink: BK });
-  rail(-43 - 4.0, -7 + 3.2, -43 + 4.0, -7 + 3.2, 0 + 4.5, { ink: BK });
-  rail(-43 - 4.0, -7 - 3.2, -43 - 4.0, -7 + 3.2, 0 + 4.5, { ink: BK });
-  box(-43, 0 + 4.8, -7, 1.0, 3.0, 0.5, { ink: BK });
-  ring(-43, 0 + 9.3, -7, 'z');
-  pickup(-43, 0 + 4.7, -7);
+  // === MACRO STRUCTURE: Lighthouse Beacon at (-43, 0, -25) ===
+  cyl(-43, 0, -25, 2.2, 5.5, { seg: 10, ink: BL });
+  slab(-43 - 2.8, -25 - 2.8, -43 + 2.8, -25 + 2.8, 0 + 5.0, 0.3, { ink: OR });
+  rail(-43 - 2.8, -25 - 2.8, -43 + 2.8, -25 - 2.8, 0 + 5.0, { ink: BK });
+  rail(-43 - 2.8, -25 + 2.8, -43 + 2.8, -25 + 2.8, 0 + 5.0, { ink: BK });
+  cyl(-43, 0 + 5.3, -25, 1.5, 1.5, { seg: 8, noCollide: true, ink: OR });
+  ring(-43, 0 + 9.3, -25, 'z');
+  pickup(-43, 0 + 5.2, -25);
 
-  // === MACRO STRUCTURE: Lighthouse Beacon at (-37, 0, -43) ===
-  cyl(-37, 0, -43, 2.2, 5.5, { seg: 10, ink: BL });
-  slab(-37 - 2.8, -43 - 2.8, -37 + 2.8, -43 + 2.8, 0 + 5.0, 0.3, { ink: OR });
-  rail(-37 - 2.8, -43 - 2.8, -37 + 2.8, -43 - 2.8, 0 + 5.0, { ink: BK });
-  rail(-37 - 2.8, -43 + 2.8, -37 + 2.8, -43 + 2.8, 0 + 5.0, { ink: BK });
-  cyl(-37, 0 + 5.3, -43, 1.5, 1.5, { seg: 8, noCollide: true, ink: OR });
-  ring(-37, 0 + 9.3, -43, 'z');
-  pickup(-37, 0 + 5.2, -43);
+  // === MACRO STRUCTURE: Cargo Crane Gantry at (-43, 0, -7) ===
+  box(-43 - 2.5, 0, -7 - 2.5, 0.8, 6.0, 0.8, { ink: BK });
+  box(-43 + 2.5, 0, -7 - 2.5, 0.8, 6.0, 0.8, { ink: BK });
+  box(-43 - 2.5, 0, -7 + 2.5, 0.8, 6.0, 0.8, { ink: BK });
+  box(-43 + 2.5, 0, -7 + 2.5, 0.8, 6.0, 0.8, { ink: BK });
+  slab(-43 - 3.0, -7 - 3.0, -43 + 3.0, -7 + 3.0, 0 + 5.5, 0.4, { ink: OR });
+  box(-43, 0 + 5.9, -7 - 1.5, 2.5, 1.8, 2.5, { ink: BL });
+  box(-43, 0 + 5.9, -7 + 2.5, 0.6, 0.6, 3.0, { ink: BK });
+  ring(-43, 0 + 8.3, -7 + 4.0, 'z');
+  pickup(-43, 0 + 6.1, -7 - 1.5);
 
-  // === MACRO STRUCTURE: Cargo Crane Gantry at (-37, 0, 23) ===
-  box(-37 - 2.5, 0, 23 - 2.5, 0.8, 6.0, 0.8, { ink: BK });
-  box(-37 + 2.5, 0, 23 - 2.5, 0.8, 6.0, 0.8, { ink: BK });
-  box(-37 - 2.5, 0, 23 + 2.5, 0.8, 6.0, 0.8, { ink: BK });
-  box(-37 + 2.5, 0, 23 + 2.5, 0.8, 6.0, 0.8, { ink: BK });
-  slab(-37 - 3.0, 23 - 3.0, -37 + 3.0, 23 + 3.0, 0 + 5.5, 0.4, { ink: OR });
-  box(-37, 0 + 5.9, 23 - 1.5, 2.5, 1.8, 2.5, { ink: BL });
-  box(-37, 0 + 5.9, 23 + 2.5, 0.6, 0.6, 3.0, { ink: BK });
-  ring(-37, 0 + 8.3, 23 + 4.0, 'z');
-  pickup(-37, 0 + 6.1, 23 - 1.5);
+  // === MACRO STRUCTURE: Galleon Sterncastle at (-43, 0, 11) ===
+  box(-43, 0, 11, 8.0, 2.0, 6.0, { ink: BL });
+  box(-43, 0 + 2.0, 11, 7.5, 2.5, 5.5, { ink: OR });
+  slab(-43 - 4.0, 11 - 3.2, -43 + 4.0, 11 + 3.2, 0 + 4.5, 0.3, { ink: OR });
+  rail(-43 - 4.0, 11 - 3.2, -43 + 4.0, 11 - 3.2, 0 + 4.5, { ink: BK });
+  rail(-43 - 4.0, 11 + 3.2, -43 + 4.0, 11 + 3.2, 0 + 4.5, { ink: BK });
+  rail(-43 - 4.0, 11 - 3.2, -43 - 4.0, 11 + 3.2, 0 + 4.5, { ink: BK });
+  box(-43, 0 + 4.8, 11, 1.0, 3.0, 0.5, { ink: BK });
+  ring(-43, 0 + 9.3, 11, 'z');
+  pickup(-43, 0 + 4.7, 11);
   // === END DREAM AUTO-INJECTED MACRO STRUCTURES ===
 
   
   // === DREAM AUTO-INJECTED THEMATIC PROPS ===
 
-  // Prop: Giant Rock Skull
-  box(-27, 0, -47, 6.0, 5.0, 6.0, { ink: BL }); // Main skull block
-  box(-27 - 1.5, 0 + 2.0, -47 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Left eye socket
-  box(-27 + 1.5, 0 + 2.0, -47 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Right eye socket
-  box(-27, 0 + 0.5, -47 + 2.5, 0.8, 1.5, 1.0, { ink: BK }); // Nose cavity
-  box(-27, 0 - 2.0, -47 + 2.5, 4.0, 1.0, 1.0, { ink: OR }); // Teeth
-
-  // Prop: Dark Altar
-  box(-31, 0, -31, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-31, 0 + 1.0, -31, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Dark Altar
-  box(-35, 0, -31, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-35, 0 + 1.0, -31, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Bone Spike
-  cyl(-3, 4.5, -7, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-3, 4.5 + 1.5, -7, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-3, 4.5 + 3.0, -7, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Dark Altar
-  box(-7, 0, -35, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-7, 0 + 1.0, -35, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Giant Rock Skull
-  box(-23, 0, -43, 6.0, 5.0, 6.0, { ink: BL }); // Main skull block
-  box(-23 - 1.5, 0 + 2.0, -43 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Left eye socket
-  box(-23 + 1.5, 0 + 2.0, -43 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Right eye socket
-  box(-23, 0 + 0.5, -43 + 2.5, 0.8, 1.5, 1.0, { ink: BK }); // Nose cavity
-  box(-23, 0 - 2.0, -43 + 2.5, 4.0, 1.0, 1.0, { ink: OR }); // Teeth
-
-  // Prop: Dark Altar
-  box(-11, 0, -23, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-11, 0 + 1.0, -23, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Giant Rock Skull
-  box(-23, 0, -23, 6.0, 5.0, 6.0, { ink: BL }); // Main skull block
-  box(-23 - 1.5, 0 + 2.0, -23 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Left eye socket
-  box(-23 + 1.5, 0 + 2.0, -23 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Right eye socket
-  box(-23, 0 + 0.5, -23 + 2.5, 0.8, 1.5, 1.0, { ink: BK }); // Nose cavity
-  box(-23, 0 - 2.0, -23 + 2.5, 4.0, 1.0, 1.0, { ink: OR }); // Teeth
-
-  // Prop: Dark Altar
-  box(-3, 0, -43, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-3, 0 + 1.0, -43, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Giant Rock Skull
-  box(-23, 0, -3, 6.0, 5.0, 6.0, { ink: BL }); // Main skull block
-  box(-23 - 1.5, 0 + 2.0, -3 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Left eye socket
-  box(-23 + 1.5, 0 + 2.0, -3 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Right eye socket
-  box(-23, 0 + 0.5, -3 + 2.5, 0.8, 1.5, 1.0, { ink: BK }); // Nose cavity
-  box(-23, 0 - 2.0, -3 + 2.5, 4.0, 1.0, 1.0, { ink: OR }); // Teeth
-
-  // Prop: Giant Rock Skull
-  box(-31, 0, -23, 6.0, 5.0, 6.0, { ink: BL }); // Main skull block
-  box(-31 - 1.5, 0 + 2.0, -23 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Left eye socket
-  box(-31 + 1.5, 0 + 2.0, -23 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Right eye socket
-  box(-31, 0 + 0.5, -23 + 2.5, 0.8, 1.5, 1.0, { ink: BK }); // Nose cavity
-  box(-31, 0 - 2.0, -23 + 2.5, 4.0, 1.0, 1.0, { ink: OR }); // Teeth
-
-  // Prop: Bone Spike
-  cyl(-43, 0, -39, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-43, 0 + 1.5, -39, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-43, 0 + 3.0, -39, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Bone Spike
-  cyl(-11, 0, -31, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-11, 0 + 1.5, -31, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-11, 0 + 3.0, -31, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Bone Spike
-  cyl(-19, 0, -3, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-19, 0 + 1.5, -3, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-19, 0 + 3.0, -3, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Dark Altar
-  box(-27, 0, -35, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-27, 0 + 1.0, -35, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Dark Altar
-  box(-39, 0, -15, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-39, 0 + 1.0, -15, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Bone Spike
-  cyl(-15, 0, -31, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-15, 0 + 1.5, -31, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-15, 0 + 3.0, -31, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Dark Altar
-  box(-27, 0, -19, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-27, 0 + 1.0, -19, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Bone Spike
-  cyl(-3, 0, -47, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-3, 0 + 1.5, -47, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-3, 0 + 3.0, -47, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Bone Spike
-  cyl(-27, 0, -31, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-27, 0 + 1.5, -31, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-27, 0 + 3.0, -31, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Dark Altar
-  box(-15, 0, -43, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-15, 0 + 1.0, -43, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Bone Spike
-  cyl(-7, 4.5, -7, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-7, 4.5 + 1.5, -7, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-7, 4.5 + 3.0, -7, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Dark Altar
-  box(-47, 0, -43, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-47, 0 + 1.0, -43, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Giant Rock Skull
-  box(-31, 0, -15, 6.0, 5.0, 6.0, { ink: BL }); // Main skull block
-  box(-31 - 1.5, 0 + 2.0, -15 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Left eye socket
-  box(-31 + 1.5, 0 + 2.0, -15 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Right eye socket
-  box(-31, 0 + 0.5, -15 + 2.5, 0.8, 1.5, 1.0, { ink: BK }); // Nose cavity
-  box(-31, 0 - 2.0, -15 + 2.5, 4.0, 1.0, 1.0, { ink: OR }); // Teeth
-
-  // Prop: Bone Spike
-  cyl(-47, 0, -15, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-47, 0 + 1.5, -15, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-47, 0 + 3.0, -15, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Dark Altar
-  box(-35, 0, -23, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-35, 0 + 1.0, -23, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Dark Altar
-  box(-35, 0, -19, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-35, 0 + 1.0, -19, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Dark Altar
-  box(-43, 0, -43, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-43, 0 + 1.0, -43, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Bone Spike
-  cyl(-23, 0, -27, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-23, 0 + 1.5, -27, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-23, 0 + 3.0, -27, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Dark Altar
-  box(-7, 0, -19, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-7, 0 + 1.0, -19, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Giant Rock Skull
-  box(-35, 0, -11, 6.0, 5.0, 6.0, { ink: BL }); // Main skull block
-  box(-35 - 1.5, 0 + 2.0, -11 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Left eye socket
-  box(-35 + 1.5, 0 + 2.0, -11 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Right eye socket
-  box(-35, 0 + 0.5, -11 + 2.5, 0.8, 1.5, 1.0, { ink: BK }); // Nose cavity
-  box(-35, 0 - 2.0, -11 + 2.5, 4.0, 1.0, 1.0, { ink: OR }); // Teeth
-
-  // Prop: Giant Rock Skull
-  box(-7, 4.5, -3, 6.0, 5.0, 6.0, { ink: BL }); // Main skull block
-  box(-7 - 1.5, 4.5 + 2.0, -3 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Left eye socket
-  box(-7 + 1.5, 4.5 + 2.0, -3 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Right eye socket
-  box(-7, 4.5 + 0.5, -3 + 2.5, 0.8, 1.5, 1.0, { ink: BK }); // Nose cavity
-  box(-7, 4.5 - 2.0, -3 + 2.5, 4.0, 1.0, 1.0, { ink: OR }); // Teeth
-
-  // Prop: Bone Spike
-  cyl(-19, 0, -23, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-19, 0 + 1.5, -23, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-19, 0 + 3.0, -23, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Giant Rock Skull
-  box(-27, 0, -23, 6.0, 5.0, 6.0, { ink: BL }); // Main skull block
-  box(-27 - 1.5, 0 + 2.0, -23 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Left eye socket
-  box(-27 + 1.5, 0 + 2.0, -23 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Right eye socket
-  box(-27, 0 + 0.5, -23 + 2.5, 0.8, 1.5, 1.0, { ink: BK }); // Nose cavity
-  box(-27, 0 - 2.0, -23 + 2.5, 4.0, 1.0, 1.0, { ink: OR }); // Teeth
-
-  // Prop: Giant Rock Skull
-  box(-3, 4.5, -3, 6.0, 5.0, 6.0, { ink: BL }); // Main skull block
-  box(-3 - 1.5, 4.5 + 2.0, -3 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Left eye socket
-  box(-3 + 1.5, 4.5 + 2.0, -3 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Right eye socket
-  box(-3, 4.5 + 0.5, -3 + 2.5, 0.8, 1.5, 1.0, { ink: BK }); // Nose cavity
-  box(-3, 4.5 - 2.0, -3 + 2.5, 4.0, 1.0, 1.0, { ink: OR }); // Teeth
-
-  // Prop: Bone Spike
-  cyl(-11, 4.5, -7, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-11, 4.5 + 1.5, -7, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-11, 4.5 + 3.0, -7, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Giant Rock Skull
-  box(-11, 0, -35, 6.0, 5.0, 6.0, { ink: BL }); // Main skull block
-  box(-11 - 1.5, 0 + 2.0, -35 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Left eye socket
-  box(-11 + 1.5, 0 + 2.0, -35 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Right eye socket
-  box(-11, 0 + 0.5, -35 + 2.5, 0.8, 1.5, 1.0, { ink: BK }); // Nose cavity
-  box(-11, 0 - 2.0, -35 + 2.5, 4.0, 1.0, 1.0, { ink: OR }); // Teeth
-
-  // Prop: Bone Spike
-  cyl(-27, 0, -27, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-27, 0 + 1.5, -27, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-27, 0 + 3.0, -27, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Dark Altar
-  box(-39, 4.5, -7, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-39, 4.5 + 1.0, -7, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Dark Altar
-  box(-11, 0, -39, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-11, 0 + 1.0, -39, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Giant Rock Skull
-  box(-11, 4.5, -11, 6.0, 5.0, 6.0, { ink: BL }); // Main skull block
-  box(-11 - 1.5, 4.5 + 2.0, -11 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Left eye socket
-  box(-11 + 1.5, 4.5 + 2.0, -11 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Right eye socket
-  box(-11, 4.5 + 0.5, -11 + 2.5, 0.8, 1.5, 1.0, { ink: BK }); // Nose cavity
-  box(-11, 4.5 - 2.0, -11 + 2.5, 4.0, 1.0, 1.0, { ink: OR }); // Teeth
-
-  // Prop: Bone Spike
-  cyl(-7, 4.5, -11, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-7, 4.5 + 1.5, -11, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-7, 4.5 + 3.0, -11, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Bone Spike
-  cyl(-23, 0, -7, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-23, 0 + 1.5, -7, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-23, 0 + 3.0, -7, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Bone Spike
-  cyl(-7, 0, -27, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-7, 0 + 1.5, -27, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-7, 0 + 3.0, -27, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Bone Spike
-  cyl(-15, 0, -27, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-15, 0 + 1.5, -27, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-15, 0 + 3.0, -27, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Bone Spike
-  cyl(-43, 0, -15, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-43, 0 + 1.5, -15, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-43, 0 + 3.0, -15, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Bone Spike
-  cyl(-43, 0, -27, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-43, 0 + 1.5, -27, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-43, 0 + 3.0, -27, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Bone Spike
-  cyl(-23, 0, -39, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-23, 0 + 1.5, -39, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-23, 0 + 3.0, -39, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Bone Spike
-  cyl(-39, 0, -35, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-39, 0 + 1.5, -35, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-39, 0 + 3.0, -35, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Giant Rock Skull
-  box(-35, 0, -15, 6.0, 5.0, 6.0, { ink: BL }); // Main skull block
-  box(-35 - 1.5, 0 + 2.0, -15 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Left eye socket
-  box(-35 + 1.5, 0 + 2.0, -15 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Right eye socket
-  box(-35, 0 + 0.5, -15 + 2.5, 0.8, 1.5, 1.0, { ink: BK }); // Nose cavity
-  box(-35, 0 - 2.0, -15 + 2.5, 4.0, 1.0, 1.0, { ink: OR }); // Teeth
-
-  // Prop: Bone Spike
-  cyl(-27, 0, -15, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-27, 0 + 1.5, -15, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-27, 0 + 3.0, -15, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Dark Altar
-  box(-31, 0, -7, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-31, 0 + 1.0, -7, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Dark Altar
-  box(-23, 0, -35, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-23, 0 + 1.0, -35, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Dark Altar
-  box(-31, 0, -39, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-31, 0 + 1.0, -39, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Bone Spike
-  cyl(-47, 0, -35, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-47, 0 + 1.5, -35, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-47, 0 + 3.0, -35, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Dark Altar
-  box(-27, 0, -39, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-27, 0 + 1.0, -39, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Dark Altar
-  box(-39, 0, -19, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-39, 0 + 1.0, -19, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Giant Rock Skull
-  box(-31, 0, -11, 6.0, 5.0, 6.0, { ink: BL }); // Main skull block
-  box(-31 - 1.5, 0 + 2.0, -11 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Left eye socket
-  box(-31 + 1.5, 0 + 2.0, -11 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Right eye socket
-  box(-31, 0 + 0.5, -11 + 2.5, 0.8, 1.5, 1.0, { ink: BK }); // Nose cavity
-  box(-31, 0 - 2.0, -11 + 2.5, 4.0, 1.0, 1.0, { ink: OR }); // Teeth
-
-  // Prop: Bone Spike
-  cyl(-35, 0, -7, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-35, 0 + 1.5, -7, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-35, 0 + 3.0, -7, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Dark Altar
-  box(-27, 0, -11, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-27, 0 + 1.0, -11, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Giant Rock Skull
-  box(-35, 0, -35, 6.0, 5.0, 6.0, { ink: BL }); // Main skull block
-  box(-35 - 1.5, 0 + 2.0, -35 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Left eye socket
-  box(-35 + 1.5, 0 + 2.0, -35 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Right eye socket
-  box(-35, 0 + 0.5, -35 + 2.5, 0.8, 1.5, 1.0, { ink: BK }); // Nose cavity
-  box(-35, 0 - 2.0, -35 + 2.5, 4.0, 1.0, 1.0, { ink: OR }); // Teeth
-
-  // Prop: Bone Spike
-  cyl(-27, 0, -7, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-27, 0 + 1.5, -7, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-27, 0 + 3.0, -7, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Giant Rock Skull
-  box(-31, 0, -19, 6.0, 5.0, 6.0, { ink: BL }); // Main skull block
-  box(-31 - 1.5, 0 + 2.0, -19 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Left eye socket
-  box(-31 + 1.5, 0 + 2.0, -19 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Right eye socket
-  box(-31, 0 + 0.5, -19 + 2.5, 0.8, 1.5, 1.0, { ink: BK }); // Nose cavity
-  box(-31, 0 - 2.0, -19 + 2.5, 4.0, 1.0, 1.0, { ink: OR }); // Teeth
-
-  // Prop: Dark Altar
-  box(-47, 0, -47, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-47, 0 + 1.0, -47, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Bone Spike
-  cyl(-27, 0, -43, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-27, 0 + 1.5, -43, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-27, 0 + 3.0, -43, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Giant Rock Skull
-  box(-35, 0, -27, 6.0, 5.0, 6.0, { ink: BL }); // Main skull block
-  box(-35 - 1.5, 0 + 2.0, -27 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Left eye socket
-  box(-35 + 1.5, 0 + 2.0, -27 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Right eye socket
-  box(-35, 0 + 0.5, -27 + 2.5, 0.8, 1.5, 1.0, { ink: BK }); // Nose cavity
-  box(-35, 0 - 2.0, -27 + 2.5, 4.0, 1.0, 1.0, { ink: OR }); // Teeth
-
-  // Prop: Bone Spike
-  cyl(-7, 0, -39, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-7, 0 + 1.5, -39, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-7, 0 + 3.0, -39, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Bone Spike
-  cyl(-7, 0, -31, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-7, 0 + 1.5, -31, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-7, 0 + 3.0, -31, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Bone Spike
-  cyl(-47, 4.5, -7, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-47, 4.5 + 1.5, -7, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-47, 4.5 + 3.0, -7, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Giant Rock Skull
-  box(-19, 0, -7, 6.0, 5.0, 6.0, { ink: BL }); // Main skull block
-  box(-19 - 1.5, 0 + 2.0, -7 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Left eye socket
-  box(-19 + 1.5, 0 + 2.0, -7 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Right eye socket
-  box(-19, 0 + 0.5, -7 + 2.5, 0.8, 1.5, 1.0, { ink: BK }); // Nose cavity
-  box(-19, 0 - 2.0, -7 + 2.5, 4.0, 1.0, 1.0, { ink: OR }); // Teeth
-
-  // Prop: Dark Altar
-  box(-11, 0, -47, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-11, 0 + 1.0, -47, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Dark Altar
-  box(-19, 0, -39, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-19, 0 + 1.0, -39, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Dark Altar
-  box(-19, 0, -19, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-19, 0 + 1.0, -19, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Bone Spike
-  cyl(-19, 0, -47, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-19, 0 + 1.5, -47, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-19, 0 + 3.0, -47, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Bone Spike
-  cyl(-15, 0, -39, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-15, 0 + 1.5, -39, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-15, 0 + 3.0, -39, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Dark Altar
-  box(-31, 0, -35, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-31, 0 + 1.0, -35, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Dark Altar
-  box(-23, 0, -11, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-23, 0 + 1.0, -11, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Dark Altar
-  box(-19, 0, -35, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-19, 0 + 1.0, -35, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Bone Spike
-  cyl(-15, 0, -47, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-15, 0 + 1.5, -47, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-15, 0 + 3.0, -47, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Giant Rock Skull
-  box(-11, 4.5, -3, 6.0, 5.0, 6.0, { ink: BL }); // Main skull block
-  box(-11 - 1.5, 4.5 + 2.0, -3 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Left eye socket
-  box(-11 + 1.5, 4.5 + 2.0, -3 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Right eye socket
-  box(-11, 4.5 + 0.5, -3 + 2.5, 0.8, 1.5, 1.0, { ink: BK }); // Nose cavity
-  box(-11, 4.5 - 2.0, -3 + 2.5, 4.0, 1.0, 1.0, { ink: OR }); // Teeth
-
-  // Prop: Dark Altar
-  box(-23, 0, -15, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-23, 0 + 1.0, -15, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Dark Altar
-  box(-19, 0, -43, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-19, 0 + 1.0, -43, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Bone Spike
-  cyl(-23, 0, -19, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-23, 0 + 1.5, -19, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-23, 0 + 3.0, -19, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Bone Spike
-  cyl(-11, 0, -15, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-11, 0 + 1.5, -15, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-11, 0 + 3.0, -15, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Dark Altar
-  box(-31, 0, -27, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-31, 0 + 1.0, -27, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Dark Altar
-  box(-7, 0, -43, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-7, 0 + 1.0, -43, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Bone Spike
-  cyl(-43, 0, -35, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-43, 0 + 1.5, -35, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-43, 0 + 3.0, -35, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Dark Altar
-  box(-31, 0, -3, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-31, 0 + 1.0, -3, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Bone Spike
-  cyl(-31, 0, -43, 0.6, 1.5, { seg: 6, ink: OR });
-  cyl(-31, 0 + 1.5, -43, 0.4, 1.5, { seg: 6, ink: OR });
-  cyl(-31, 0 + 3.0, -43, 0.2, 1.0, { seg: 6, ink: OR });
-
-  // Prop: Giant Rock Skull
-  box(-23, 0, -47, 6.0, 5.0, 6.0, { ink: BL }); // Main skull block
-  box(-23 - 1.5, 0 + 2.0, -47 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Left eye socket
-  box(-23 + 1.5, 0 + 2.0, -47 + 2.5, 1.2, 1.2, 1.0, { ink: BK }); // Right eye socket
-  box(-23, 0 + 0.5, -47 + 2.5, 0.8, 1.5, 1.0, { ink: BK }); // Nose cavity
-  box(-23, 0 - 2.0, -47 + 2.5, 4.0, 1.0, 1.0, { ink: OR }); // Teeth
-
-  // Prop: Dark Altar
-  box(-7, 0, -47, 2.5, 1.0, 2.5, { ink: BK });
-  cyl(-7, 0 + 1.0, -47, 1.0, 0.5, { seg: 8, ink: RD });
-
-  // Prop: Shipyard Crane
-  box(41, 0, -23, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(41, 0 + 8.0, -23 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(41, 0 + 4.0, -23 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Shipyard Crane
-  box(49, 0, -7, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(49, 0 + 8.0, -7 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(49, 0 + 4.0, -7 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Galleon Hull Construction
-  box(37, 0, -7, 4.0, 3.0, 9.0, { ink: OR }); // Main wood hull
-  box(37, 0 + 1.5, -7 - 4.5, 5.0, 1.5, 2.0, { ink: OR }); // Stern castle
-  box(37, 0 + 1.0, -7 + 4.5, 4.0, 1.5, 2.5, { ink: OR }); // Bow
-
-  // Prop: Shipyard Crane
-  box(37, 0, -23, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(37, 0 + 8.0, -23 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(37, 0 + 4.0, -23 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Wood Scaffolding
-  cyl(1-1.2, 9, -35-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(1+1.2, 9, -35-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(1-1.2, 9, -35+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(1+1.2, 9, -35+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(1, 9 + 2.0, -35, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Shipyard Crane
-  box(33, 0, -19, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(33, 0 + 8.0, -19 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(33, 0 + 4.0, -19 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Shipyard Crane
-  box(49, 0, -3, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(49, 0 + 8.0, -3 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(49, 0 + 4.0, -3 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Galleon Hull Construction
-  box(37, 0, -35, 4.0, 3.0, 9.0, { ink: OR }); // Main wood hull
-  box(37, 0 + 1.5, -35 - 4.5, 5.0, 1.5, 2.0, { ink: OR }); // Stern castle
-  box(37, 0 + 1.0, -35 + 4.5, 4.0, 1.5, 2.5, { ink: OR }); // Bow
-
-  // Prop: Wood Scaffolding
-  cyl(33-1.2, 0, -27-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(33+1.2, 0, -27-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(33-1.2, 0, -27+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(33+1.2, 0, -27+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(33, 0 + 2.0, -27, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Wood Scaffolding
-  cyl(45-1.2, 0, -47-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(45+1.2, 0, -47-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(45-1.2, 0, -47+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(45+1.2, 0, -47+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(45, 0 + 2.0, -47, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Shipyard Crane
-  box(17, 0, -39, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(17, 0 + 8.0, -39 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(17, 0 + 4.0, -39 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Wood Scaffolding
-  cyl(37-1.2, 0, -39-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(37+1.2, 0, -39-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(37-1.2, 0, -39+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(37+1.2, 0, -39+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(37, 0 + 2.0, -39, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Wood Scaffolding
-  cyl(9-1.2, 0, -35-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(9+1.2, 0, -35-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(9-1.2, 0, -35+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(9+1.2, 0, -35+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(9, 0 + 2.0, -35, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Shipyard Crane
-  box(37, 0, -19, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(37, 0 + 8.0, -19 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(37, 0 + 4.0, -19 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Galleon Hull Construction
-  box(9, 4.5, -7, 4.0, 3.0, 9.0, { ink: OR }); // Main wood hull
-  box(9, 4.5 + 1.5, -7 - 4.5, 5.0, 1.5, 2.0, { ink: OR }); // Stern castle
-  box(9, 4.5 + 1.0, -7 + 4.5, 4.0, 1.5, 2.5, { ink: OR }); // Bow
-
-  // Prop: Wood Scaffolding
-  cyl(9-1.2, 0, -31-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(9+1.2, 0, -31-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(9-1.2, 0, -31+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(9+1.2, 0, -31+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(9, 0 + 2.0, -31, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Wood Scaffolding
-  cyl(29-1.2, 0, -43-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(29+1.2, 0, -43-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(29-1.2, 0, -43+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(29+1.2, 0, -43+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(29, 0 + 2.0, -43, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Shipyard Crane
-  box(41, 0, -19, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(41, 0 + 8.0, -19 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(41, 0 + 4.0, -19 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Shipyard Crane
-  box(25, 0, -3, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(25, 0 + 8.0, -3 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(25, 0 + 4.0, -3 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Galleon Hull Construction
-  box(21, 0, -31, 4.0, 3.0, 9.0, { ink: OR }); // Main wood hull
-  box(21, 0 + 1.5, -31 - 4.5, 5.0, 1.5, 2.0, { ink: OR }); // Stern castle
-  box(21, 0 + 1.0, -31 + 4.5, 4.0, 1.5, 2.5, { ink: OR }); // Bow
-
-  // Prop: Galleon Hull Construction
-  box(9, 0, -43, 4.0, 3.0, 9.0, { ink: OR }); // Main wood hull
-  box(9, 0 + 1.5, -43 - 4.5, 5.0, 1.5, 2.0, { ink: OR }); // Stern castle
-  box(9, 0 + 1.0, -43 + 4.5, 4.0, 1.5, 2.5, { ink: OR }); // Bow
-
-  // Prop: Shipyard Crane
-  box(21, 0, -39, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(21, 0 + 8.0, -39 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(21, 0 + 4.0, -39 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Shipyard Crane
-  box(25, 0, -11, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(25, 0 + 8.0, -11 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(25, 0 + 4.0, -11 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Shipyard Crane
-  box(25, 0, -19, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(25, 0 + 8.0, -19 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(25, 0 + 4.0, -19 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Shipyard Crane
-  box(17, 0, -43, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(17, 0 + 8.0, -43 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(17, 0 + 4.0, -43 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Wood Scaffolding
-  cyl(17-1.2, 0, -11-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(17+1.2, 0, -11-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(17-1.2, 0, -11+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(17+1.2, 0, -11+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(17, 0 + 2.0, -11, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Shipyard Crane
-  box(1, 0, -43, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(1, 0 + 8.0, -43 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(1, 0 + 4.0, -43 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Galleon Hull Construction
-  box(17, 0, -7, 4.0, 3.0, 9.0, { ink: OR }); // Main wood hull
-  box(17, 0 + 1.5, -7 - 4.5, 5.0, 1.5, 2.0, { ink: OR }); // Stern castle
-  box(17, 0 + 1.0, -7 + 4.5, 4.0, 1.5, 2.5, { ink: OR }); // Bow
-
-  // Prop: Galleon Hull Construction
-  box(29, 0, -39, 4.0, 3.0, 9.0, { ink: OR }); // Main wood hull
-  box(29, 0 + 1.5, -39 - 4.5, 5.0, 1.5, 2.0, { ink: OR }); // Stern castle
-  box(29, 0 + 1.0, -39 + 4.5, 4.0, 1.5, 2.5, { ink: OR }); // Bow
-
-  // Prop: Galleon Hull Construction
-  box(21, 0, -19, 4.0, 3.0, 9.0, { ink: OR }); // Main wood hull
-  box(21, 0 + 1.5, -19 - 4.5, 5.0, 1.5, 2.0, { ink: OR }); // Stern castle
-  box(21, 0 + 1.0, -19 + 4.5, 4.0, 1.5, 2.5, { ink: OR }); // Bow
-
-  // Prop: Wood Scaffolding
-  cyl(13-1.2, 0, -35-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(13+1.2, 0, -35-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(13-1.2, 0, -35+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(13+1.2, 0, -35+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(13, 0 + 2.0, -35, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Galleon Hull Construction
-  box(5, 0, -27, 4.0, 3.0, 9.0, { ink: OR }); // Main wood hull
-  box(5, 0 + 1.5, -27 - 4.5, 5.0, 1.5, 2.0, { ink: OR }); // Stern castle
-  box(5, 0 + 1.0, -27 + 4.5, 4.0, 1.5, 2.5, { ink: OR }); // Bow
-
-  // Prop: Wood Scaffolding
-  cyl(1-1.2, 4.5, -7-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(1+1.2, 4.5, -7-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(1-1.2, 4.5, -7+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(1+1.2, 4.5, -7+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(1, 4.5 + 2.0, -7, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Wood Scaffolding
-  cyl(1-1.2, 0, -23-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(1+1.2, 0, -23-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(1-1.2, 0, -23+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(1+1.2, 0, -23+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(1, 0 + 2.0, -23, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Galleon Hull Construction
-  box(45, 0, -27, 4.0, 3.0, 9.0, { ink: OR }); // Main wood hull
-  box(45, 0 + 1.5, -27 - 4.5, 5.0, 1.5, 2.0, { ink: OR }); // Stern castle
-  box(45, 0 + 1.0, -27 + 4.5, 4.0, 1.5, 2.5, { ink: OR }); // Bow
-
-  // Prop: Galleon Hull Construction
-  box(45, 0, -19, 4.0, 3.0, 9.0, { ink: OR }); // Main wood hull
-  box(45, 0 + 1.5, -19 - 4.5, 5.0, 1.5, 2.0, { ink: OR }); // Stern castle
-  box(45, 0 + 1.0, -19 + 4.5, 4.0, 1.5, 2.5, { ink: OR }); // Bow
-
-  // Prop: Wood Scaffolding
-  cyl(21-1.2, 0, -27-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(21+1.2, 0, -27-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(21-1.2, 0, -27+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(21+1.2, 0, -27+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(21, 0 + 2.0, -27, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Shipyard Crane
-  box(21, 0, -11, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(21, 0 + 8.0, -11 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(21, 0 + 4.0, -11 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Wood Scaffolding
-  cyl(9-1.2, 0, -15-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(9+1.2, 0, -15-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(9-1.2, 0, -15+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(9+1.2, 0, -15+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(9, 0 + 2.0, -15, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Wood Scaffolding
-  cyl(5-1.2, 0, -43-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(5+1.2, 0, -43-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(5-1.2, 0, -43+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(5+1.2, 0, -43+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(5, 0 + 2.0, -43, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Wood Scaffolding
-  cyl(5-1.2, 0, -35-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(5+1.2, 0, -35-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(5-1.2, 0, -35+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(5+1.2, 0, -35+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(5, 0 + 2.0, -35, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Shipyard Crane
-  box(9, 0, -27, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(9, 0 + 8.0, -27 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(9, 0 + 4.0, -27 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Wood Scaffolding
-  cyl(17-1.2, 0, -35-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(17+1.2, 0, -35-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(17-1.2, 0, -35+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(17+1.2, 0, -35+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(17, 0 + 2.0, -35, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Wood Scaffolding
-  cyl(13-1.2, 9, -31-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(13+1.2, 9, -31-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(13-1.2, 9, -31+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(13+1.2, 9, -31+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(13, 9 + 2.0, -31, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Galleon Hull Construction
-  box(17, 0, -3, 4.0, 3.0, 9.0, { ink: OR }); // Main wood hull
-  box(17, 0 + 1.5, -3 - 4.5, 5.0, 1.5, 2.0, { ink: OR }); // Stern castle
-  box(17, 0 + 1.0, -3 + 4.5, 4.0, 1.5, 2.5, { ink: OR }); // Bow
-
-  // Prop: Shipyard Crane
-  box(21, 0, -7, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(21, 0 + 8.0, -7 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(21, 0 + 4.0, -7 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Shipyard Crane
-  box(29, 0, -11, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(29, 0 + 8.0, -11 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(29, 0 + 4.0, -11 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Wood Scaffolding
-  cyl(25-1.2, 0, -47-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(25+1.2, 0, -47-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(25-1.2, 0, -47+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(25+1.2, 0, -47+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(25, 0 + 2.0, -47, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Galleon Hull Construction
-  box(9, 4.5, -3, 4.0, 3.0, 9.0, { ink: OR }); // Main wood hull
-  box(9, 4.5 + 1.5, -3 - 4.5, 5.0, 1.5, 2.0, { ink: OR }); // Stern castle
-  box(9, 4.5 + 1.0, -3 + 4.5, 4.0, 1.5, 2.5, { ink: OR }); // Bow
-
-  // Prop: Shipyard Crane
-  box(9, 0, -19, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(9, 0 + 8.0, -19 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(9, 0 + 4.0, -19 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Galleon Hull Construction
-  box(9, 4.5, -11, 4.0, 3.0, 9.0, { ink: OR }); // Main wood hull
-  box(9, 4.5 + 1.5, -11 - 4.5, 5.0, 1.5, 2.0, { ink: OR }); // Stern castle
-  box(9, 4.5 + 1.0, -11 + 4.5, 4.0, 1.5, 2.5, { ink: OR }); // Bow
-
-  // Prop: Wood Scaffolding
-  cyl(29-1.2, 0, -31-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(29+1.2, 0, -31-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(29-1.2, 0, -31+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(29+1.2, 0, -31+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(29, 0 + 2.0, -31, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Wood Scaffolding
-  cyl(25-1.2, 0, -7-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(25+1.2, 0, -7-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(25-1.2, 0, -7+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(25+1.2, 0, -7+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(25, 0 + 2.0, -7, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Wood Scaffolding
-  cyl(9-1.2, 0, -23-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(9+1.2, 0, -23-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(9-1.2, 0, -23+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(9+1.2, 0, -23+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(9, 0 + 2.0, -23, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Wood Scaffolding
-  cyl(45-1.2, 0, -11-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(45+1.2, 0, -11-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(45-1.2, 0, -11+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(45+1.2, 0, -11+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(45, 0 + 2.0, -11, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Wood Scaffolding
-  cyl(29-1.2, 0, -19-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(29+1.2, 0, -19-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(29-1.2, 0, -19+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(29+1.2, 0, -19+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(29, 0 + 2.0, -19, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Galleon Hull Construction
-  box(33, 0, -3, 4.0, 3.0, 9.0, { ink: OR }); // Main wood hull
-  box(33, 0 + 1.5, -3 - 4.5, 5.0, 1.5, 2.0, { ink: OR }); // Stern castle
-  box(33, 0 + 1.0, -3 + 4.5, 4.0, 1.5, 2.5, { ink: OR }); // Bow
-
-  // Prop: Shipyard Crane
-  box(29, 0, -35, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(29, 0 + 8.0, -35 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(29, 0 + 4.0, -35 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Galleon Hull Construction
-  box(5, 4.5, -3, 4.0, 3.0, 9.0, { ink: OR }); // Main wood hull
-  box(5, 4.5 + 1.5, -3 - 4.5, 5.0, 1.5, 2.0, { ink: OR }); // Stern castle
-  box(5, 4.5 + 1.0, -3 + 4.5, 4.0, 1.5, 2.5, { ink: OR }); // Bow
-
-  // Prop: Galleon Hull Construction
-  box(25, 0, -39, 4.0, 3.0, 9.0, { ink: OR }); // Main wood hull
-  box(25, 0 + 1.5, -39 - 4.5, 5.0, 1.5, 2.0, { ink: OR }); // Stern castle
-  box(25, 0 + 1.0, -39 + 4.5, 4.0, 1.5, 2.5, { ink: OR }); // Bow
-
-  // Prop: Wood Scaffolding
-  cyl(5-1.2, 0, -23-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(5+1.2, 0, -23-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(5-1.2, 0, -23+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(5+1.2, 0, -23+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(5, 0 + 2.0, -23, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Shipyard Crane
-  box(33, 0, -11, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(33, 0 + 8.0, -11 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(33, 0 + 4.0, -11 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Galleon Hull Construction
-  box(29, 0, -7, 4.0, 3.0, 9.0, { ink: OR }); // Main wood hull
-  box(29, 0 + 1.5, -7 - 4.5, 5.0, 1.5, 2.0, { ink: OR }); // Stern castle
-  box(29, 0 + 1.0, -7 + 4.5, 4.0, 1.5, 2.5, { ink: OR }); // Bow
-
-  // Prop: Wood Scaffolding
-  cyl(33-1.2, 0, -39-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(33+1.2, 0, -39-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(33-1.2, 0, -39+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(33+1.2, 0, -39+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(33, 0 + 2.0, -39, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Galleon Hull Construction
-  box(45, 0, -15, 4.0, 3.0, 9.0, { ink: OR }); // Main wood hull
-  box(45, 0 + 1.5, -15 - 4.5, 5.0, 1.5, 2.0, { ink: OR }); // Stern castle
-  box(45, 0 + 1.0, -15 + 4.5, 4.0, 1.5, 2.5, { ink: OR }); // Bow
-
-  // Prop: Galleon Hull Construction
-  box(45, 0, -23, 4.0, 3.0, 9.0, { ink: OR }); // Main wood hull
-  box(45, 0 + 1.5, -23 - 4.5, 5.0, 1.5, 2.0, { ink: OR }); // Stern castle
-  box(45, 0 + 1.0, -23 + 4.5, 4.0, 1.5, 2.5, { ink: OR }); // Bow
-
-  // Prop: Wood Scaffolding
-  cyl(33-1.2, 0, -35-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(33+1.2, 0, -35-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(33-1.2, 0, -35+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(33+1.2, 0, -35+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(33, 0 + 2.0, -35, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Shipyard Crane
-  box(5, 0, -47, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(5, 0 + 8.0, -47 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(5, 0 + 4.0, -47 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Wood Scaffolding
-  cyl(21-1.2, 0, -43-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(21+1.2, 0, -43-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(21-1.2, 0, -43+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(21+1.2, 0, -43+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(21, 0 + 2.0, -43, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Wood Scaffolding
-  cyl(37-1.2, 0, -3-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(37+1.2, 0, -3-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(37-1.2, 0, -3+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(37+1.2, 0, -3+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(37, 0 + 2.0, -3, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Galleon Hull Construction
-  box(45, 0, -7, 4.0, 3.0, 9.0, { ink: OR }); // Main wood hull
-  box(45, 0 + 1.5, -7 - 4.5, 5.0, 1.5, 2.0, { ink: OR }); // Stern castle
-  box(45, 0 + 1.0, -7 + 4.5, 4.0, 1.5, 2.5, { ink: OR }); // Bow
-
-  // Prop: Shipyard Crane
-  box(37, 0, -27, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(37, 0 + 8.0, -27 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(37, 0 + 4.0, -27 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Galleon Hull Construction
-  box(17, 0, -15, 4.0, 3.0, 9.0, { ink: OR }); // Main wood hull
-  box(17, 0 + 1.5, -15 - 4.5, 5.0, 1.5, 2.0, { ink: OR }); // Stern castle
-  box(17, 0 + 1.0, -15 + 4.5, 4.0, 1.5, 2.5, { ink: OR }); // Bow
-
-  // Prop: Shipyard Crane
-  box(41, 0, -31, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(41, 0 + 8.0, -31 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(41, 0 + 4.0, -31 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Wood Scaffolding
-  cyl(13-1.2, 0, -39-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(13+1.2, 0, -39-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(13-1.2, 0, -39+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(13+1.2, 0, -39+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(13, 0 + 2.0, -39, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Wood Scaffolding
-  cyl(25-1.2, 0, -23-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(25+1.2, 0, -23-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(25-1.2, 0, -23+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(25+1.2, 0, -23+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(25, 0 + 2.0, -23, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Shipyard Crane
-  box(13, 9, -27, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(13, 9 + 8.0, -27 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(13, 9 + 4.0, -27 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Shipyard Crane
-  box(5, 0, -31, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(5, 0 + 8.0, -31 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(5, 0 + 4.0, -31 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Wood Scaffolding
-  cyl(33-1.2, 0, -7-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(33+1.2, 0, -7-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(33-1.2, 0, -7+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(33+1.2, 0, -7+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(33, 0 + 2.0, -7, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Wood Scaffolding
-  cyl(1-1.2, 9, -31-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(1+1.2, 9, -31-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(1-1.2, 9, -31+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(1+1.2, 9, -31+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(1, 9 + 2.0, -31, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Shipyard Crane
-  box(45, 0, -35, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(45, 0 + 8.0, -35 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(45, 0 + 4.0, -35 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Shipyard Crane
-  box(37, 0, -11, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(37, 0 + 8.0, -11 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(37, 0 + 4.0, -11 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Shipyard Crane
-  box(21, 0, -3, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(21, 0 + 8.0, -3 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(21, 0 + 4.0, -3 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Shipyard Crane
-  box(49, 0, -15, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(49, 0 + 8.0, -15 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(49, 0 + 4.0, -15 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Shipyard Crane
-  box(13, 0, -43, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(13, 0 + 8.0, -43 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(13, 0 + 4.0, -43 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Wood Scaffolding
-  cyl(41-1.2, 0, -3-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(41+1.2, 0, -3-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(41-1.2, 0, -3+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(41+1.2, 0, -3+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(41, 0 + 2.0, -3, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Shipyard Crane
-  box(29, 0, -47, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(29, 0 + 8.0, -47 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(29, 0 + 4.0, -47 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Galleon Hull Construction
-  box(21, 0, -35, 4.0, 3.0, 9.0, { ink: OR }); // Main wood hull
-  box(21, 0 + 1.5, -35 - 4.5, 5.0, 1.5, 2.0, { ink: OR }); // Stern castle
-  box(21, 0 + 1.0, -35 + 4.5, 4.0, 1.5, 2.5, { ink: OR }); // Bow
-
-  // Prop: Shipyard Crane
-  box(1, 4.5, -3, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(1, 4.5 + 8.0, -3 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(1, 4.5 + 4.0, -3 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Shipyard Crane
-  box(25, 0, -35, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(25, 0 + 8.0, -35 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(25, 0 + 4.0, -35 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Wood Scaffolding
-  cyl(1-1.2, 0, -39-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(1+1.2, 0, -39-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(1-1.2, 0, -39+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(1+1.2, 0, -39+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(1, 0 + 2.0, -39, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Wood Scaffolding
-  cyl(25-1.2, 0, -31-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(25+1.2, 0, -31-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(25-1.2, 0, -31+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(25+1.2, 0, -31+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(25, 0 + 2.0, -31, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Wood Scaffolding
-  cyl(29-1.2, 0, -23-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(29+1.2, 0, -23-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(29-1.2, 0, -23+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(29+1.2, 0, -23+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(29, 0 + 2.0, -23, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Wood Scaffolding
-  cyl(13-1.2, 0, -47-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(13+1.2, 0, -47-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(13-1.2, 0, -47+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(13+1.2, 0, -47+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(13, 0 + 2.0, -47, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Shipyard Crane
-  box(5, 0, -15, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(5, 0 + 8.0, -15 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(5, 0 + 4.0, -15 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Galleon Hull Construction
-  box(41, 0, -7, 4.0, 3.0, 9.0, { ink: OR }); // Main wood hull
-  box(41, 0 + 1.5, -7 - 4.5, 5.0, 1.5, 2.0, { ink: OR }); // Stern castle
-  box(41, 0 + 1.0, -7 + 4.5, 4.0, 1.5, 2.5, { ink: OR }); // Bow
-
-  // Prop: Wood Scaffolding
-  cyl(33-1.2, 0, -43-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(33+1.2, 0, -43-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(33-1.2, 0, -43+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(33+1.2, 0, -43+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(33, 0 + 2.0, -43, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Shipyard Crane
-  box(45, 0, -39, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(45, 0 + 8.0, -39 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(45, 0 + 4.0, -39 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Shipyard Crane
-  box(29, 0, -3, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(29, 0 + 8.0, -3 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(29, 0 + 4.0, -3 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Shipyard Crane
-  box(49, 0, -23, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(49, 0 + 8.0, -23 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(49, 0 + 4.0, -23 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Wood Scaffolding
-  cyl(13-1.2, 0, -19-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(13+1.2, 0, -19-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(13-1.2, 0, -19+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(13+1.2, 0, -19+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(13, 0 + 2.0, -19, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Wood Scaffolding
-  cyl(37-1.2, 0, -43-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(37+1.2, 0, -43-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(37-1.2, 0, -43+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(37+1.2, 0, -43+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(37, 0 + 2.0, -43, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Shipyard Crane
-  box(41, 0, -35, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(41, 0 + 8.0, -35 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(41, 0 + 4.0, -35 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Wood Scaffolding
-  cyl(41-1.2, 0, -27-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(41+1.2, 0, -27-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(41-1.2, 0, -27+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(41+1.2, 0, -27+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(41, 0 + 2.0, -27, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Galleon Hull Construction
-  box(21, 0, -15, 4.0, 3.0, 9.0, { ink: OR }); // Main wood hull
-  box(21, 0 + 1.5, -15 - 4.5, 5.0, 1.5, 2.0, { ink: OR }); // Stern castle
-  box(21, 0 + 1.0, -15 + 4.5, 4.0, 1.5, 2.5, { ink: OR }); // Bow
-
-  // Prop: Wood Scaffolding
-  cyl(37-1.2, 0, -31-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(37+1.2, 0, -31-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(37-1.2, 0, -31+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(37+1.2, 0, -31+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(37, 0 + 2.0, -31, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Shipyard Crane
-  box(49, 0, -47, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(49, 0 + 8.0, -47 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(49, 0 + 4.0, -47 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Wood Scaffolding
-  cyl(5-1.2, 0, -39-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(5+1.2, 0, -39-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(5-1.2, 0, -39+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(5+1.2, 0, -39+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(5, 0 + 2.0, -39, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Shipyard Crane
-  box(21, 0, -23, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(21, 0 + 8.0, -23 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(21, 0 + 4.0, -23 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Wood Scaffolding
-  cyl(41-1.2, 0, -15-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(41+1.2, 0, -15-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(41-1.2, 0, -15+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(41+1.2, 0, -15+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(41, 0 + 2.0, -15, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Galleon Hull Construction
-  box(41, 9, -43, 4.0, 3.0, 9.0, { ink: OR }); // Main wood hull
-  box(41, 9 + 1.5, -43 - 4.5, 5.0, 1.5, 2.0, { ink: OR }); // Stern castle
-  box(41, 9 + 1.0, -43 + 4.5, 4.0, 1.5, 2.5, { ink: OR }); // Bow
-
-  // Prop: Shipyard Crane
-  box(17, 0, -47, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(17, 0 + 8.0, -47 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(17, 0 + 4.0, -47 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Shipyard Crane
-  box(25, 0, -43, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(25, 0 + 8.0, -43 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(25, 0 + 4.0, -43 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Wood Scaffolding
-  cyl(37-1.2, 0, -15-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(37+1.2, 0, -15-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(37-1.2, 0, -15+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(37+1.2, 0, -15+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(37, 0 + 2.0, -15, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Wood Scaffolding
-  cyl(17-1.2, 0, -23-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(17+1.2, 0, -23-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(17-1.2, 0, -23+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(17+1.2, 0, -23+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(17, 0 + 2.0, -23, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Wood Scaffolding
-  cyl(33-1.2, 0, -23-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(33+1.2, 0, -23-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(33-1.2, 0, -23+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(33+1.2, 0, -23+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(33, 0 + 2.0, -23, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Shipyard Crane
-  box(9, 0, -47, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(9, 0 + 8.0, -47 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(9, 0 + 4.0, -47 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Shipyard Crane
-  box(9, 0, -39, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(9, 0 + 8.0, -39 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(9, 0 + 4.0, -39 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Wood Scaffolding
-  cyl(5-1.2, 4.5, -11-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(5+1.2, 4.5, -11-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(5-1.2, 4.5, -11+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(5+1.2, 4.5, -11+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(5, 4.5 + 2.0, -11, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Wood Scaffolding
-  cyl(49-1.2, 0, -11-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(49+1.2, 0, -11-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(49-1.2, 0, -11+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(49+1.2, 0, -11+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(49, 0 + 2.0, -11, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Shipyard Crane
-  box(17, 0, -19, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(17, 0 + 8.0, -19 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(17, 0 + 4.0, -19 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Shipyard Crane
-  box(13, 0, -15, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(13, 0 + 8.0, -15 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(13, 0 + 4.0, -15 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Wood Scaffolding
-  cyl(41-1.2, 0, -11-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(41+1.2, 0, -11-1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(41-1.2, 0, -11+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  cyl(41+1.2, 0, -11+1.2, 0.2, 4.0, { seg: 4, ink: OR });
-  box(41, 0 + 2.0, -11, 3.0, 0.2, 3.0, { ink: OR }); // Platform
-
-  // Prop: Galleon Hull Construction
-  box(45, 0, -3, 4.0, 3.0, 9.0, { ink: OR }); // Main wood hull
-  box(45, 0 + 1.5, -3 - 4.5, 5.0, 1.5, 2.0, { ink: OR }); // Stern castle
-  box(45, 0 + 1.0, -3 + 4.5, 4.0, 1.5, 2.5, { ink: OR }); // Bow
-
-  // Prop: Shipyard Crane
-  box(45, 0, -31, 1.5, 9.0, 1.5, { ink: BK }); // Iron pillar
-  box(45, 0 + 8.0, -31 + 3.0, 1.0, 1.0, 6.0, { ink: BK }); // Crane arm
-  cyl(45, 0 + 4.0, -31 + 5.5, 0.2, 4.0, { seg: 4, ink: OR }); // Cable
-
-  // Prop: Goods Stall
-  box(-15, 0, 33, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-15, 0 + 1.5, 33, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Massive Gold Pile
-  cyl(-31, 0, 21, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-31, 0 + 0.6, 21, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-31, 0 + 1.1, 21, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Merchant Tent
-  cyl(-27-1.8, 0, 21-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-27+1.8, 0, 21-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-27-1.8, 0, 21+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-27+1.8, 0, 21+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-27, 0 + 2.0, 21, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-27, 0 + 2.2, 21, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Goods Stall
-  box(-27, 0, 17, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-27, 0 + 1.5, 17, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Goods Stall
-  box(-23, 0, 17, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-23, 0 + 1.5, 17, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Massive Gold Pile
-  cyl(-47, 0, 17, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-47, 0 + 0.6, 17, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-47, 0 + 1.1, 17, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Goods Stall
-  box(-27, 0, 5, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-27, 0 + 1.5, 5, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Goods Stall
-  box(-31, 0, 41, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-31, 0 + 1.5, 41, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Goods Stall
-  box(-43, 0, 17, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-43, 0 + 1.5, 17, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Goods Stall
-  box(-43, 0, 33, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-43, 0 + 1.5, 33, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Massive Gold Pile
-  cyl(-47, 0, 29, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-47, 0 + 0.6, 29, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-47, 0 + 1.1, 29, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Massive Gold Pile
-  cyl(-27, 0, 13, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-27, 0 + 0.6, 13, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-27, 0 + 1.1, 13, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Goods Stall
-  box(-43, 0, 37, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-43, 0 + 1.5, 37, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Goods Stall
-  box(-19, 0, 49, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-19, 0 + 1.5, 49, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Merchant Tent
-  cyl(-39-1.8, 0, 17-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-39+1.8, 0, 17-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-39-1.8, 0, 17+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-39+1.8, 0, 17+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-39, 0 + 2.0, 17, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-39, 0 + 2.2, 17, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Merchant Tent
-  cyl(-7-1.8, 0, 45-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-7+1.8, 0, 45-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-7-1.8, 0, 45+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-7+1.8, 0, 45+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-7, 0 + 2.0, 45, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-7, 0 + 2.2, 45, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Goods Stall
-  box(-47, 0, 49, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-47, 0 + 1.5, 49, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Goods Stall
-  box(-35, 0, 13, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-35, 0 + 1.5, 13, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Massive Gold Pile
-  cyl(-23, 0, 21, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-23, 0 + 0.6, 21, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-23, 0 + 1.1, 21, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Goods Stall
-  box(-23, 0, 9, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-23, 0 + 1.5, 9, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Massive Gold Pile
-  cyl(-15, 0, 41, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-15, 0 + 0.6, 41, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-15, 0 + 1.1, 41, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Goods Stall
-  box(-23, 0, 45, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-23, 0 + 1.5, 45, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Goods Stall
-  box(-11, 0, 41, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-11, 0 + 1.5, 41, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Massive Gold Pile
-  cyl(-3, 0, 25, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-3, 0 + 0.6, 25, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-3, 0 + 1.1, 25, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Merchant Tent
-  cyl(-15-1.8, 0, 17-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-15+1.8, 0, 17-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-15-1.8, 0, 17+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-15+1.8, 0, 17+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-15, 0 + 2.0, 17, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-15, 0 + 2.2, 17, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Massive Gold Pile
-  cyl(-47, 0, 45, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-47, 0 + 0.6, 45, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-47, 0 + 1.1, 45, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Massive Gold Pile
-  cyl(-31, 0, 45, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-31, 0 + 0.6, 45, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-31, 0 + 1.1, 45, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Goods Stall
-  box(-47, 0, 13, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-47, 0 + 1.5, 13, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Goods Stall
-  box(-19, 0, 5, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-19, 0 + 1.5, 5, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Massive Gold Pile
-  cyl(-15, 0, 5, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-15, 0 + 0.6, 5, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-15, 0 + 1.1, 5, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Massive Gold Pile
-  cyl(-11, 0, 45, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-11, 0 + 0.6, 45, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-11, 0 + 1.1, 45, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Massive Gold Pile
-  cyl(-3, 4.5, 9, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-3, 4.5 + 0.6, 9, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-3, 4.5 + 1.1, 9, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Merchant Tent
-  cyl(-35-1.8, 0, 33-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-35+1.8, 0, 33-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-35-1.8, 0, 33+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-35+1.8, 0, 33+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-35, 0 + 2.0, 33, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-35, 0 + 2.2, 33, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Massive Gold Pile
-  cyl(-35, 0, 29, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-35, 0 + 0.6, 29, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-35, 0 + 1.1, 29, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Goods Stall
-  box(-11, 0, 25, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-11, 0 + 1.5, 25, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Merchant Tent
-  cyl(-23-1.8, 0, 37-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-23+1.8, 0, 37-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-23-1.8, 0, 37+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-23+1.8, 0, 37+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-23, 0 + 2.0, 37, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-23, 0 + 2.2, 37, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Massive Gold Pile
-  cyl(-43, 0, 41, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-43, 0 + 0.6, 41, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-43, 0 + 1.1, 41, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Merchant Tent
-  cyl(-39-1.8, 0, 1-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-39+1.8, 0, 1-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-39-1.8, 0, 1+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-39+1.8, 0, 1+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-39, 0 + 2.0, 1, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-39, 0 + 2.2, 1, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Merchant Tent
-  cyl(-31-1.8, 0, 5-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-31+1.8, 0, 5-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-31-1.8, 0, 5+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-31+1.8, 0, 5+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-31, 0 + 2.0, 5, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-31, 0 + 2.2, 5, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Merchant Tent
-  cyl(-3-1.8, 4.5, 5-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-3+1.8, 4.5, 5-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-3-1.8, 4.5, 5+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-3+1.8, 4.5, 5+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-3, 4.5 + 2.0, 5, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-3, 4.5 + 2.2, 5, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Massive Gold Pile
-  cyl(-19, 0, 1, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-19, 0 + 0.6, 1, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-19, 0 + 1.1, 1, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Massive Gold Pile
-  cyl(-27, 0, 33, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-27, 0 + 0.6, 33, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-27, 0 + 1.1, 33, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Massive Gold Pile
-  cyl(-15, 0, 13, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-15, 0 + 0.6, 13, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-15, 0 + 1.1, 13, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Goods Stall
-  box(-35, 0, 49, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-35, 0 + 1.5, 49, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Merchant Tent
-  cyl(-35-1.8, 0, 17-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-35+1.8, 0, 17-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-35-1.8, 0, 17+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-35+1.8, 0, 17+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-35, 0 + 2.0, 17, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-35, 0 + 2.2, 17, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Massive Gold Pile
-  cyl(-39, 0, 49, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-39, 0 + 0.6, 49, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-39, 0 + 1.1, 49, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Goods Stall
-  box(-19, 0, 13, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-19, 0 + 1.5, 13, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Goods Stall
-  box(-23, 0, 13, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-23, 0 + 1.5, 13, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Massive Gold Pile
-  cyl(-7, 0, 29, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-7, 0 + 0.6, 29, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-7, 0 + 1.1, 29, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Goods Stall
-  box(-23, 0, 41, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-23, 0 + 1.5, 41, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Goods Stall
-  box(-19, 0, 17, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-19, 0 + 1.5, 17, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Merchant Tent
-  cyl(-23-1.8, 0, 25-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-23+1.8, 0, 25-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-23-1.8, 0, 25+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-23+1.8, 0, 25+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-23, 0 + 2.0, 25, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-23, 0 + 2.2, 25, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Merchant Tent
-  cyl(-31-1.8, 0, 49-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-31+1.8, 0, 49-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-31-1.8, 0, 49+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-31+1.8, 0, 49+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-31, 0 + 2.0, 49, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-31, 0 + 2.2, 49, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Massive Gold Pile
-  cyl(-15, 0, 49, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-15, 0 + 0.6, 49, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-15, 0 + 1.1, 49, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Goods Stall
-  box(-3, 0, 33, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-3, 0 + 1.5, 33, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Massive Gold Pile
-  cyl(-15, 0, 9, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-15, 0 + 0.6, 9, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-15, 0 + 1.1, 9, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Merchant Tent
-  cyl(-39-1.8, 0, 41-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-39+1.8, 0, 41-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-39-1.8, 0, 41+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-39+1.8, 0, 41+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-39, 0 + 2.0, 41, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-39, 0 + 2.2, 41, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Goods Stall
-  box(-19, 0, 25, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-19, 0 + 1.5, 25, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Goods Stall
-  box(-3, 0, 45, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-3, 0 + 1.5, 45, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Massive Gold Pile
-  cyl(-43, 0, 45, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-43, 0 + 0.6, 45, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-43, 0 + 1.1, 45, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Massive Gold Pile
-  cyl(-7, 4.5, 9, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-7, 4.5 + 0.6, 9, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-7, 4.5 + 1.1, 9, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Massive Gold Pile
-  cyl(-19, 0, 9, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-19, 0 + 0.6, 9, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-19, 0 + 1.1, 9, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Merchant Tent
-  cyl(-43-1.8, 0, 21-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-43+1.8, 0, 21-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-43-1.8, 0, 21+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-43+1.8, 0, 21+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-43, 0 + 2.0, 21, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-43, 0 + 2.2, 21, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Goods Stall
-  box(-3, 0, 21, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-3, 0 + 1.5, 21, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Goods Stall
-  box(-11, 0, 17, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-11, 0 + 1.5, 17, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Massive Gold Pile
-  cyl(-47, 0, 21, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-47, 0 + 0.6, 21, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-47, 0 + 1.1, 21, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Massive Gold Pile
-  cyl(-27, 0, 49, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-27, 0 + 0.6, 49, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-27, 0 + 1.1, 49, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Massive Gold Pile
-  cyl(-7, 4.5, 5, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-7, 4.5 + 0.6, 5, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-7, 4.5 + 1.1, 5, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Merchant Tent
-  cyl(-11-1.8, 0, 21-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-11+1.8, 0, 21-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-11-1.8, 0, 21+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-11+1.8, 0, 21+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-11, 0 + 2.0, 21, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-11, 0 + 2.2, 21, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Merchant Tent
-  cyl(-3-1.8, 0, 41-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-3+1.8, 0, 41-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-3-1.8, 0, 41+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-3+1.8, 0, 41+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-3, 0 + 2.0, 41, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-3, 0 + 2.2, 41, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Goods Stall
-  box(-3, 0, 29, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-3, 0 + 1.5, 29, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Goods Stall
-  box(-23, 0, 33, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-23, 0 + 1.5, 33, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Goods Stall
-  box(-11, 4.5, 1, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-11, 4.5 + 1.5, 1, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Goods Stall
-  box(-19, 0, 33, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-19, 0 + 1.5, 33, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Massive Gold Pile
-  cyl(-7, 4.5, 1, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-7, 4.5 + 0.6, 1, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-7, 4.5 + 1.1, 1, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Massive Gold Pile
-  cyl(-31, 0, 9, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-31, 0 + 0.6, 9, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-31, 0 + 1.1, 9, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Merchant Tent
-  cyl(-11-1.8, 4.5, 5-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-11+1.8, 4.5, 5-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-11-1.8, 4.5, 5+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-11+1.8, 4.5, 5+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-11, 4.5 + 2.0, 5, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-11, 4.5 + 2.2, 5, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Massive Gold Pile
-  cyl(-19, 0, 21, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-19, 0 + 0.6, 21, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-19, 0 + 1.1, 21, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Goods Stall
-  box(-27, 0, 9, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-27, 0 + 1.5, 9, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Goods Stall
-  box(-47, 0, 37, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-47, 0 + 1.5, 37, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Merchant Tent
-  cyl(-7-1.8, 0, 41-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-7+1.8, 0, 41-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-7-1.8, 0, 41+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-7+1.8, 0, 41+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-7, 0 + 2.0, 41, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-7, 0 + 2.2, 41, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Merchant Tent
-  cyl(-43-1.8, 0, 1-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-43+1.8, 0, 1-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-43-1.8, 0, 1+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-43+1.8, 0, 1+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-43, 0 + 2.0, 1, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-43, 0 + 2.2, 1, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Goods Stall
-  box(-43, 0, 5, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-43, 0 + 1.5, 5, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Merchant Tent
-  cyl(-47-1.8, 0, 33-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-47+1.8, 0, 33-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-47-1.8, 0, 33+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-47+1.8, 0, 33+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-47, 0 + 2.0, 33, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-47, 0 + 2.2, 33, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Goods Stall
-  box(-31, 0, 17, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-31, 0 + 1.5, 17, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Massive Gold Pile
-  cyl(-11, 0, 49, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-11, 0 + 0.6, 49, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-11, 0 + 1.1, 49, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Merchant Tent
-  cyl(-23-1.8, 0, 49-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-23+1.8, 0, 49-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-23-1.8, 0, 49+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-23+1.8, 0, 49+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-23, 0 + 2.0, 49, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-23, 0 + 2.2, 49, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Merchant Tent
-  cyl(-47-1.8, 0, 41-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-47+1.8, 0, 41-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-47-1.8, 0, 41+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-47+1.8, 0, 41+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-47, 0 + 2.0, 41, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-47, 0 + 2.2, 41, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Massive Gold Pile
-  cyl(-11, 4.5, 9, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-11, 4.5 + 0.6, 9, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-11, 4.5 + 1.1, 9, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Goods Stall
-  box(-23, 0, 1, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-23, 0 + 1.5, 1, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Massive Gold Pile
-  cyl(-7, 0, 49, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-7, 0 + 0.6, 49, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-7, 0 + 1.1, 49, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Goods Stall
-  box(-35, 0, 41, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-35, 0 + 1.5, 41, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Massive Gold Pile
-  cyl(-31, 0, 33, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-31, 0 + 0.6, 33, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-31, 0 + 1.1, 33, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Merchant Tent
-  cyl(-7-1.8, 0, 17-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-7+1.8, 0, 17-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-7-1.8, 0, 17+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-7+1.8, 0, 17+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-7, 0 + 2.0, 17, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-7, 0 + 2.2, 17, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Goods Stall
-  box(-39, 0, 45, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-39, 0 + 1.5, 45, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Massive Gold Pile
-  cyl(-31, 0, 29, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-31, 0 + 0.6, 29, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-31, 0 + 1.1, 29, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Merchant Tent
-  cyl(-15-1.8, 0, 37-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-15+1.8, 0, 37-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-15-1.8, 0, 37+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-15+1.8, 0, 37+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-15, 0 + 2.0, 37, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-15, 0 + 2.2, 37, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Massive Gold Pile
-  cyl(-31, 0, 37, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-31, 0 + 0.6, 37, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-31, 0 + 1.1, 37, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Merchant Tent
-  cyl(-39-1.8, 0, 29-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-39+1.8, 0, 29-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-39-1.8, 0, 29+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-39+1.8, 0, 29+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-39, 0 + 2.0, 29, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-39, 0 + 2.2, 29, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Merchant Tent
-  cyl(-7-1.8, 0, 37-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-7+1.8, 0, 37-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-7-1.8, 0, 37+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-7+1.8, 0, 37+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-7, 0 + 2.0, 37, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-7, 0 + 2.2, 37, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Massive Gold Pile
-  cyl(-47, 0, 5, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-47, 0 + 0.6, 5, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-47, 0 + 1.1, 5, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Merchant Tent
-  cyl(-35-1.8, 0, 45-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-35+1.8, 0, 45-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-35-1.8, 0, 45+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-35+1.8, 0, 45+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-35, 0 + 2.0, 45, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-35, 0 + 2.2, 45, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Goods Stall
-  box(-3, 0, 37, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-3, 0 + 1.5, 37, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Massive Gold Pile
-  cyl(-7, 0, 21, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-7, 0 + 0.6, 21, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-7, 0 + 1.1, 21, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Merchant Tent
-  cyl(-19-1.8, 0, 37-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-19+1.8, 0, 37-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-19-1.8, 0, 37+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-19+1.8, 0, 37+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-19, 0 + 2.0, 37, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-19, 0 + 2.2, 37, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Merchant Tent
-  cyl(-15-1.8, 0, 45-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-15+1.8, 0, 45-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-15-1.8, 0, 45+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-15+1.8, 0, 45+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-15, 0 + 2.0, 45, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-15, 0 + 2.2, 45, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Goods Stall
-  box(-15, 0, 1, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-15, 0 + 1.5, 1, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Massive Gold Pile
-  cyl(-43, 0, 29, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-43, 0 + 0.6, 29, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-43, 0 + 1.1, 29, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Goods Stall
-  box(-23, 0, 5, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-23, 0 + 1.5, 5, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Goods Stall
-  box(-11, 0, 37, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-11, 0 + 1.5, 37, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Massive Gold Pile
-  cyl(-35, 0, 37, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-35, 0 + 0.6, 37, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-35, 0 + 1.1, 37, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Merchant Tent
-  cyl(-31-1.8, 0, 13-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-31+1.8, 0, 13-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-31-1.8, 0, 13+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-31+1.8, 0, 13+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-31, 0 + 2.0, 13, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-31, 0 + 2.2, 13, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Massive Gold Pile
-  cyl(-19, 0, 45, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-19, 0 + 0.6, 45, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-19, 0 + 1.1, 45, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Merchant Tent
-  cyl(-27-1.8, 0, 29-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-27+1.8, 0, 29-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-27-1.8, 0, 29+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-27+1.8, 0, 29+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-27, 0 + 2.0, 29, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-27, 0 + 2.2, 29, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Massive Gold Pile
-  cyl(-43, 0, 25, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-43, 0 + 0.6, 25, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-43, 0 + 1.1, 25, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Massive Gold Pile
-  cyl(-3, 4.5, 1, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-3, 4.5 + 0.6, 1, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-3, 4.5 + 1.1, 1, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Goods Stall
-  box(-27, 0, 37, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-27, 0 + 1.5, 37, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Goods Stall
-  box(-39, 0, 33, 2.5, 1.0, 1.5, { ink: OR }); // Table
-  box(-39, 0 + 1.5, 33, 2.7, 0.2, 1.7, { ink: BL }); // Mini roof
-
-  // Prop: Merchant Tent
-  cyl(-7-1.8, 0, 33-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-7+1.8, 0, 33-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-7-1.8, 0, 33+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-7+1.8, 0, 33+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-7, 0 + 2.0, 33, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-7, 0 + 2.2, 33, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Merchant Tent
-  cyl(-27-1.8, 0, 45-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-27+1.8, 0, 45-1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-27-1.8, 0, 45+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  cyl(-27+1.8, 0, 45+1.8, 0.1, 2.0, { seg: 4, ink: OR });
-  box(-27, 0 + 2.0, 45, 4.2, 0.2, 4.2, { ink: RD }); // Canopy Roof
-  box(-27, 0 + 2.2, 45, 2.0, 0.8, 4.2, { ink: OR }); // Raised center
-
-  // Prop: Massive Gold Pile
-  cyl(-3, 0, 49, 1.2, 0.6, { seg: 8, ink: OR }); // Base
-  cyl(-3, 0 + 0.6, 49, 0.8, 0.5, { seg: 8, ink: OR }); // Mid
-  cyl(-3, 0 + 1.1, 49, 0.4, 0.4, { seg: 8, ink: OR }); // Top
-
-  // Prop: Stone Watchtower
-  box(49, 0, 29, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(49, 0 + 9.0, 29, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Prisoner Cage
-  box(1, 0, 33, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(1, 0 + 2.0, 33, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(1, 0 + 1.0, 33, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Stone Watchtower
-  box(29, 0, 25, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(29, 0 + 9.0, 25, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Prisoner Cage
-  box(1, 0, 41, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(1, 0 + 2.0, 41, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(1, 0 + 1.0, 41, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Cannon Battery Wall
-  box(25, 0, 41, 5.0, 1.2, 2.0, { ink: BL }); // Stone wall
-  cyl(25 - 1.5, 0 + 1.4, 41 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 1
-  cyl(25 + 1.5, 0 + 1.4, 41 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 2
-
-  // Prop: Cannon Battery Wall
-  box(21, 0, 41, 5.0, 1.2, 2.0, { ink: BL }); // Stone wall
-  cyl(21 - 1.5, 0 + 1.4, 41 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 1
-  cyl(21 + 1.5, 0 + 1.4, 41 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 2
-
-  // Prop: Cannon Battery Wall
-  box(25, 0, 45, 5.0, 1.2, 2.0, { ink: BL }); // Stone wall
-  cyl(25 - 1.5, 0 + 1.4, 45 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 1
-  cyl(25 + 1.5, 0 + 1.4, 45 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 2
-
-  // Prop: Prisoner Cage
-  box(29, 0, 29, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(29, 0 + 2.0, 29, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(29, 0 + 1.0, 29, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Prisoner Cage
-  box(13, 0, 21, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(13, 0 + 2.0, 21, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(13, 0 + 1.0, 21, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Prisoner Cage
-  box(21, 0, 1, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(21, 0 + 2.0, 1, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(21, 0 + 1.0, 1, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Cannon Battery Wall
-  box(37, 0, 17, 5.0, 1.2, 2.0, { ink: BL }); // Stone wall
-  cyl(37 - 1.5, 0 + 1.4, 17 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 1
-  cyl(37 + 1.5, 0 + 1.4, 17 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 2
-
-  // Prop: Stone Watchtower
-  box(45, 0, 17, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(45, 0 + 9.0, 17, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Cannon Battery Wall
-  box(21, 0, 21, 5.0, 1.2, 2.0, { ink: BL }); // Stone wall
-  cyl(21 - 1.5, 0 + 1.4, 21 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 1
-  cyl(21 + 1.5, 0 + 1.4, 21 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 2
-
-  // Prop: Stone Watchtower
-  box(41, 0, 45, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(41, 0 + 9.0, 45, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Prisoner Cage
-  box(29, 0, 17, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(29, 0 + 2.0, 17, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(29, 0 + 1.0, 17, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Prisoner Cage
-  box(5, 0, 37, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(5, 0 + 2.0, 37, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(5, 0 + 1.0, 37, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Cannon Battery Wall
-  box(33, 0, 1, 5.0, 1.2, 2.0, { ink: BL }); // Stone wall
-  cyl(33 - 1.5, 0 + 1.4, 1 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 1
-  cyl(33 + 1.5, 0 + 1.4, 1 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 2
-
-  // Prop: Prisoner Cage
-  box(37, 0, 41, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(37, 0 + 2.0, 41, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(37, 0 + 1.0, 41, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Prisoner Cage
-  box(29, 0, 45, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(29, 0 + 2.0, 45, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(29, 0 + 1.0, 45, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Cannon Battery Wall
-  box(29, 0, 13, 5.0, 1.2, 2.0, { ink: BL }); // Stone wall
-  cyl(29 - 1.5, 0 + 1.4, 13 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 1
-  cyl(29 + 1.5, 0 + 1.4, 13 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 2
-
-  // Prop: Cannon Battery Wall
-  box(33, 0, 9, 5.0, 1.2, 2.0, { ink: BL }); // Stone wall
-  cyl(33 - 1.5, 0 + 1.4, 9 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 1
-  cyl(33 + 1.5, 0 + 1.4, 9 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 2
-
-  // Prop: Stone Watchtower
-  box(49, 0, 33, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(49, 0 + 9.0, 33, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Cannon Battery Wall
-  box(33, 0, 21, 5.0, 1.2, 2.0, { ink: BL }); // Stone wall
-  cyl(33 - 1.5, 0 + 1.4, 21 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 1
-  cyl(33 + 1.5, 0 + 1.4, 21 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 2
-
-  // Prop: Stone Watchtower
-  box(41, 0, 33, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(41, 0 + 9.0, 33, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Prisoner Cage
-  box(33, 0, 29, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(33, 0 + 2.0, 29, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(33, 0 + 1.0, 29, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Prisoner Cage
-  box(5, 0, 41, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(5, 0 + 2.0, 41, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(5, 0 + 1.0, 41, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Cannon Battery Wall
-  box(17, 0, 9, 5.0, 1.2, 2.0, { ink: BL }); // Stone wall
-  cyl(17 - 1.5, 0 + 1.4, 9 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 1
-  cyl(17 + 1.5, 0 + 1.4, 9 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 2
-
-  // Prop: Stone Watchtower
-  box(41, 0, 17, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(41, 0 + 9.0, 17, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Cannon Battery Wall
-  box(13, 0, 17, 5.0, 1.2, 2.0, { ink: BL }); // Stone wall
-  cyl(13 - 1.5, 0 + 1.4, 17 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 1
-  cyl(13 + 1.5, 0 + 1.4, 17 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 2
-
-  // Prop: Prisoner Cage
-  box(29, 0, 21, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(29, 0 + 2.0, 21, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(29, 0 + 1.0, 21, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Stone Watchtower
-  box(25, 0, 25, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(25, 0 + 9.0, 25, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Stone Watchtower
-  box(5, 0, 49, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(5, 0 + 9.0, 49, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Stone Watchtower
-  box(41, 0, 29, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(41, 0 + 9.0, 29, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Cannon Battery Wall
-  box(45, 0, 29, 5.0, 1.2, 2.0, { ink: BL }); // Stone wall
-  cyl(45 - 1.5, 0 + 1.4, 29 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 1
-  cyl(45 + 1.5, 0 + 1.4, 29 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 2
-
-  // Prop: Prisoner Cage
-  box(9, 0, 37, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(9, 0 + 2.0, 37, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(9, 0 + 1.0, 37, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Prisoner Cage
-  box(21, 0, 45, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(21, 0 + 2.0, 45, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(21, 0 + 1.0, 45, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Prisoner Cage
-  box(37, 0, 9, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(37, 0 + 2.0, 9, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(37, 0 + 1.0, 9, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Stone Watchtower
-  box(1, 0, 45, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(1, 0 + 9.0, 45, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Prisoner Cage
-  box(1, 0, 29, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(1, 0 + 2.0, 29, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(1, 0 + 1.0, 29, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Prisoner Cage
-  box(45, 0, 41, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(45, 0 + 2.0, 41, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(45, 0 + 1.0, 41, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Cannon Battery Wall
-  box(45, 0, 33, 5.0, 1.2, 2.0, { ink: BL }); // Stone wall
-  cyl(45 - 1.5, 0 + 1.4, 33 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 1
-  cyl(45 + 1.5, 0 + 1.4, 33 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 2
-
-  // Prop: Prisoner Cage
-  box(45, 0, 25, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(45, 0 + 2.0, 25, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(45, 0 + 1.0, 25, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Stone Watchtower
-  box(9, 0, 41, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(9, 0 + 9.0, 41, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Prisoner Cage
-  box(21, 0, 37, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(21, 0 + 2.0, 37, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(21, 0 + 1.0, 37, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Prisoner Cage
-  box(29, 0, 5, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(29, 0 + 2.0, 5, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(29, 0 + 1.0, 5, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Cannon Battery Wall
-  box(13, 0, 49, 5.0, 1.2, 2.0, { ink: BL }); // Stone wall
-  cyl(13 - 1.5, 0 + 1.4, 49 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 1
-  cyl(13 + 1.5, 0 + 1.4, 49 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 2
-
-  // Prop: Stone Watchtower
-  box(41, 0, 49, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(41, 0 + 9.0, 49, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Prisoner Cage
-  box(49, 0, 9, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(49, 0 + 2.0, 9, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(49, 0 + 1.0, 9, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Prisoner Cage
-  box(9, 0, 45, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(9, 0 + 2.0, 45, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(9, 0 + 1.0, 45, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Prisoner Cage
-  box(21, 0, 13, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(21, 0 + 2.0, 13, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(21, 0 + 1.0, 13, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Stone Watchtower
-  box(1, 0, 37, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(1, 0 + 9.0, 37, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Cannon Battery Wall
-  box(9, 0, 21, 5.0, 1.2, 2.0, { ink: BL }); // Stone wall
-  cyl(9 - 1.5, 0 + 1.4, 21 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 1
-  cyl(9 + 1.5, 0 + 1.4, 21 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 2
-
-  // Prop: Prisoner Cage
-  box(29, 0, 1, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(29, 0 + 2.0, 1, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(29, 0 + 1.0, 1, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Stone Watchtower
-  box(17, 0, 49, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(17, 0 + 9.0, 49, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Stone Watchtower
-  box(45, 0, 45, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(45, 0 + 9.0, 45, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Prisoner Cage
-  box(13, 0, 41, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(13, 0 + 2.0, 41, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(13, 0 + 1.0, 41, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Stone Watchtower
-  box(25, 0, 29, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(25, 0 + 9.0, 29, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Prisoner Cage
-  box(17, 0, 13, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(17, 0 + 2.0, 13, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(17, 0 + 1.0, 13, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Prisoner Cage
-  box(17, 0, 33, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(17, 0 + 2.0, 33, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(17, 0 + 1.0, 33, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Cannon Battery Wall
-  box(17, 0, 17, 5.0, 1.2, 2.0, { ink: BL }); // Stone wall
-  cyl(17 - 1.5, 0 + 1.4, 17 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 1
-  cyl(17 + 1.5, 0 + 1.4, 17 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 2
-
-  // Prop: Prisoner Cage
-  box(33, 0, 17, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(33, 0 + 2.0, 17, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(33, 0 + 1.0, 17, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Prisoner Cage
-  box(41, 0, 41, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(41, 0 + 2.0, 41, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(41, 0 + 1.0, 41, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Cannon Battery Wall
-  box(37, 0, 29, 5.0, 1.2, 2.0, { ink: BL }); // Stone wall
-  cyl(37 - 1.5, 0 + 1.4, 29 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 1
-  cyl(37 + 1.5, 0 + 1.4, 29 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 2
-
-  // Prop: Prisoner Cage
-  box(49, 0, 25, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(49, 0 + 2.0, 25, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(49, 0 + 1.0, 25, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Cannon Battery Wall
-  box(37, 0, 25, 5.0, 1.2, 2.0, { ink: BL }); // Stone wall
-  cyl(37 - 1.5, 0 + 1.4, 25 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 1
-  cyl(37 + 1.5, 0 + 1.4, 25 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 2
-
-  // Prop: Stone Watchtower
-  box(45, 0, 37, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(45, 0 + 9.0, 37, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Stone Watchtower
-  box(33, 0, 25, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(33, 0 + 9.0, 25, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Prisoner Cage
-  box(37, 0, 49, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(37, 0 + 2.0, 49, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(37, 0 + 1.0, 49, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Cannon Battery Wall
-  box(17, 0, 37, 5.0, 1.2, 2.0, { ink: BL }); // Stone wall
-  cyl(17 - 1.5, 0 + 1.4, 37 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 1
-  cyl(17 + 1.5, 0 + 1.4, 37 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 2
-
-  // Prop: Prisoner Cage
-  box(9, 4.5, 9, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(9, 4.5 + 2.0, 9, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(9, 4.5 + 1.0, 9, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Cannon Battery Wall
-  box(9, 0, 49, 5.0, 1.2, 2.0, { ink: BL }); // Stone wall
-  cyl(9 - 1.5, 0 + 1.4, 49 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 1
-  cyl(9 + 1.5, 0 + 1.4, 49 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 2
-
-  // Prop: Prisoner Cage
-  box(9, 4.5, 5, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(9, 4.5 + 2.0, 5, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(9, 4.5 + 1.0, 5, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Stone Watchtower
-  box(41, 0, 1, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(41, 0 + 9.0, 1, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Cannon Battery Wall
-  box(41, 0, 25, 5.0, 1.2, 2.0, { ink: BL }); // Stone wall
-  cyl(41 - 1.5, 0 + 1.4, 25 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 1
-  cyl(41 + 1.5, 0 + 1.4, 25 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 2
-
-  // Prop: Prisoner Cage
-  box(29, 0, 41, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(29, 0 + 2.0, 41, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(29, 0 + 1.0, 41, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Prisoner Cage
-  box(33, 0, 13, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(33, 0 + 2.0, 13, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(33, 0 + 1.0, 13, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Cannon Battery Wall
-  box(9, 0, 17, 5.0, 1.2, 2.0, { ink: BL }); // Stone wall
-  cyl(9 - 1.5, 0 + 1.4, 17 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 1
-  cyl(9 + 1.5, 0 + 1.4, 17 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 2
-
-  // Prop: Cannon Battery Wall
-  box(37, 0, 13, 5.0, 1.2, 2.0, { ink: BL }); // Stone wall
-  cyl(37 - 1.5, 0 + 1.4, 13 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 1
-  cyl(37 + 1.5, 0 + 1.4, 13 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 2
-
-  // Prop: Prisoner Cage
-  box(37, 0, 37, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(37, 0 + 2.0, 37, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(37, 0 + 1.0, 37, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Stone Watchtower
-  box(25, 0, 9, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(25, 0 + 9.0, 9, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Stone Watchtower
-  box(5, 4.5, 9, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(5, 4.5 + 9.0, 9, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Stone Watchtower
-  box(1, 4.5, 1, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(1, 4.5 + 9.0, 1, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Prisoner Cage
-  box(37, 0, 33, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(37, 0 + 2.0, 33, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(37, 0 + 1.0, 33, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Cannon Battery Wall
-  box(5, 4.5, 5, 5.0, 1.2, 2.0, { ink: BL }); // Stone wall
-  cyl(5 - 1.5, 4.5 + 1.4, 5 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 1
-  cyl(5 + 1.5, 4.5 + 1.4, 5 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 2
-
-  // Prop: Stone Watchtower
-  box(49, 0, 21, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(49, 0 + 9.0, 21, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Prisoner Cage
-  box(25, 0, 17, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(25, 0 + 2.0, 17, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(25, 0 + 1.0, 17, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Stone Watchtower
-  box(21, 0, 25, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(21, 0 + 9.0, 25, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Prisoner Cage
-  box(17, 0, 45, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(17, 0 + 2.0, 45, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(17, 0 + 1.0, 45, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Stone Watchtower
-  box(17, 0, 21, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(17, 0 + 9.0, 21, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Stone Watchtower
-  box(25, 0, 13, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(25, 0 + 9.0, 13, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Stone Watchtower
-  box(9, 4.5, 1, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(9, 4.5 + 9.0, 1, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Stone Watchtower
-  box(21, 0, 17, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(21, 0 + 9.0, 17, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Prisoner Cage
-  box(49, 0, 49, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(49, 0 + 2.0, 49, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(49, 0 + 1.0, 49, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Cannon Battery Wall
-  box(1, 0, 49, 5.0, 1.2, 2.0, { ink: BL }); // Stone wall
-  cyl(1 - 1.5, 0 + 1.4, 49 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 1
-  cyl(1 + 1.5, 0 + 1.4, 49 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 2
-
-  // Prop: Prisoner Cage
-  box(29, 0, 9, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(29, 0 + 2.0, 9, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(29, 0 + 1.0, 9, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Stone Watchtower
-  box(49, 0, 37, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(49, 0 + 9.0, 37, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Cannon Battery Wall
-  box(37, 0, 1, 5.0, 1.2, 2.0, { ink: BL }); // Stone wall
-  cyl(37 - 1.5, 0 + 1.4, 1 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 1
-  cyl(37 + 1.5, 0 + 1.4, 1 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 2
-
-  // Prop: Prisoner Cage
-  box(37, 0, 21, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(37, 0 + 2.0, 21, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(37, 0 + 1.0, 21, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Prisoner Cage
-  box(45, 0, 49, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(45, 0 + 2.0, 49, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(45, 0 + 1.0, 49, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Stone Watchtower
-  box(45, 0, 21, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(45, 0 + 9.0, 21, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Prisoner Cage
-  box(25, 0, 49, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(25, 0 + 2.0, 49, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(25, 0 + 1.0, 49, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Cannon Battery Wall
-  box(17, 0, 41, 5.0, 1.2, 2.0, { ink: BL }); // Stone wall
-  cyl(17 - 1.5, 0 + 1.4, 41 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 1
-  cyl(17 + 1.5, 0 + 1.4, 41 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 2
-
-  // Prop: Prisoner Cage
-  box(45, 0, 1, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(45, 0 + 2.0, 1, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(45, 0 + 1.0, 1, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Prisoner Cage
-  box(21, 0, 29, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(21, 0 + 2.0, 29, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(21, 0 + 1.0, 29, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Stone Watchtower
-  box(25, 0, 21, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(25, 0 + 9.0, 21, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Prisoner Cage
-  box(5, 4.5, 1, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(5, 4.5 + 2.0, 1, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(5, 4.5 + 1.0, 1, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Stone Watchtower
-  box(49, 0, 5, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(49, 0 + 9.0, 5, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Stone Watchtower
-  box(21, 0, 49, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(21, 0 + 9.0, 49, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Cannon Battery Wall
-  box(13, 0, 45, 5.0, 1.2, 2.0, { ink: BL }); // Stone wall
-  cyl(13 - 1.5, 0 + 1.4, 45 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 1
-  cyl(13 + 1.5, 0 + 1.4, 45 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 2
-
-  // Prop: Prisoner Cage
-  box(29, 0, 37, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(29, 0 + 2.0, 37, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(29, 0 + 1.0, 37, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Stone Watchtower
-  box(5, 0, 45, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(5, 0 + 9.0, 45, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Prisoner Cage
-  box(49, 0, 13, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(49, 0 + 2.0, 13, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(49, 0 + 1.0, 13, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Prisoner Cage
-  box(33, 0, 5, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(33, 0 + 2.0, 5, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(33, 0 + 1.0, 5, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Prisoner Cage
-  box(13, 0, 37, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(13, 0 + 2.0, 37, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(13, 0 + 1.0, 37, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Stone Watchtower
-  box(25, 0, 1, 4.0, 9.0, 4.0, { ink: BL }); // Main tower
-  box(25, 0 + 9.0, 1, 4.5, 1.0, 4.5, { ink: BK }); // Top platform parapet
-
-  // Prop: Cannon Battery Wall
-  box(41, 0, 37, 5.0, 1.2, 2.0, { ink: BL }); // Stone wall
-  cyl(41 - 1.5, 0 + 1.4, 37 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 1
-  cyl(41 + 1.5, 0 + 1.4, 37 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 2
-
-  // Prop: Cannon Battery Wall
-  box(41, 0, 21, 5.0, 1.2, 2.0, { ink: BL }); // Stone wall
-  cyl(41 - 1.5, 0 + 1.4, 21 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 1
-  cyl(41 + 1.5, 0 + 1.4, 21 + 0.5, 0.4, 1.8, { seg: 8, ink: BK }); // Cannon 2
-
-  // Prop: Prisoner Cage
-  box(49, 0, 45, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(49, 0 + 2.0, 45, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(49, 0 + 1.0, 45, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Prisoner Cage
-  box(25, 0, 37, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(25, 0 + 2.0, 37, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(25, 0 + 1.0, 37, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
-
-  // Prop: Prisoner Cage
-  box(1, 4.5, 5, 1.8, 0.2, 1.8, { ink: BK }); // Base
-  box(1, 4.5 + 2.0, 5, 1.8, 0.2, 1.8, { ink: BK }); // Top
-  cyl(1, 4.5 + 1.0, 5, 1.6, 2.0, { seg: 8, ink: BK, noCollide: true }); // Bars
+  // Macro: Bone Yard Platform
+  box(-31, 0, -31, 8, 2.0, 8, { ink: BK }); // Raised platform
+  stairs(-31-4.5, 0, -31, 1, 2.0, 2, 3, { ink: OR }); // Side stairs (West)
+  stairs(-31+4.5, 0, -31, 1, 2.0, 2, 1, { ink: OR }); // Side stairs (East)
+  cyl(-31-2, 0+2.0, -31-2, 0.5, 2.0, { seg:6, ink: OR }); // Spike
+  cyl(-31+2, 0+2.0, -31-2, 0.5, 3.0, { seg:6, ink: OR }); // Spike
+  cyl(-31-2, 0+2.0, -31+2, 0.5, 1.5, { seg:6, ink: OR }); // Spike
+  cyl(-31+2, 0+2.0, -31+2, 0.5, 2.5, { seg:6, ink: OR }); // Spike
+
+  // Macro: Bone Yard Platform
+  box(-31, 0, -15, 8, 2.0, 8, { ink: BK }); // Raised platform
+  stairs(-31-4.5, 0, -15, 1, 2.0, 2, 3, { ink: OR }); // Side stairs (West)
+  stairs(-31+4.5, 0, -15, 1, 2.0, 2, 1, { ink: OR }); // Side stairs (East)
+  cyl(-31-2, 0+2.0, -15-2, 0.5, 2.0, { seg:6, ink: OR }); // Spike
+  cyl(-31+2, 0+2.0, -15-2, 0.5, 3.0, { seg:6, ink: OR }); // Spike
+  cyl(-31-2, 0+2.0, -15+2, 0.5, 1.5, { seg:6, ink: OR }); // Spike
+  cyl(-31+2, 0+2.0, -15+2, 0.5, 2.5, { seg:6, ink: OR }); // Spike
+
+  // Macro: Bazaar Plaza with Tents
+  box(-31, 0, 1, 10, 0.2, 10, { ink: BL }); // Rug/Plaza
+  // Tent 1 (NW)
+  box(-31-3, 0+0.2, 1-3, 3, 2, 3, { ink: OR });
+  box(-31-3, 0+2.2, 1-3, 3.2, 0.2, 3.2, { ink: RD });
+  // Tent 2 (NE)
+  box(-31+3, 0+0.2, 1-3, 3, 2, 3, { ink: OR });
+  box(-31+3, 0+2.2, 1-3, 3.2, 0.2, 3.2, { ink: OR });
+  // Tent 3 (SW)
+  box(-31-3, 0+0.2, 1+3, 3, 2, 3, { ink: OR });
+  box(-31-3, 0+2.2, 1+3, 3.2, 0.2, 3.2, { ink: BL });
+  // Center Gold
+  cyl(-31, 0+0.2, 1, 1.5, 1.0, { seg:8, ink: OR });
+  ring(-31, 0+4, 1, 1, { ink: OR }); // Grapple
+  box(-31-2, 0+0.2, 1-2, 1, 1, 1, { ink: BK }); // Cover
+  box(-31+2, 0+0.2, 1+2, 1, 1, 1, { ink: BK }); // Cover
+
+  // Macro: Bazaar Plaza with Tents
+  box(-31, 0, 17, 10, 0.2, 10, { ink: BL }); // Rug/Plaza
+  // Tent 1 (NW)
+  box(-31-3, 0+0.2, 17-3, 3, 2, 3, { ink: OR });
+  box(-31-3, 0+2.2, 17-3, 3.2, 0.2, 3.2, { ink: RD });
+  // Tent 2 (NE)
+  box(-31+3, 0+0.2, 17-3, 3, 2, 3, { ink: OR });
+  box(-31+3, 0+2.2, 17-3, 3.2, 0.2, 3.2, { ink: OR });
+  // Tent 3 (SW)
+  box(-31-3, 0+0.2, 17+3, 3, 2, 3, { ink: OR });
+  box(-31-3, 0+2.2, 17+3, 3.2, 0.2, 3.2, { ink: BL });
+  // Center Gold
+  cyl(-31, 0+0.2, 17, 1.5, 1.0, { seg:8, ink: OR });
+  ring(-31, 0+4, 17, 1, { ink: OR }); // Grapple
+  box(-31-2, 0+0.2, 17-2, 1, 1, 1, { ink: BK }); // Cover
+  box(-31+2, 0+0.2, 17+2, 1, 1, 1, { ink: BK }); // Cover
+
+  // Macro: Bazaar Plaza with Tents
+  box(-31, 0, 33, 10, 0.2, 10, { ink: BL }); // Rug/Plaza
+  // Tent 1 (NW)
+  box(-31-3, 0+0.2, 33-3, 3, 2, 3, { ink: OR });
+  box(-31-3, 0+2.2, 33-3, 3.2, 0.2, 3.2, { ink: RD });
+  // Tent 2 (NE)
+  box(-31+3, 0+0.2, 33-3, 3, 2, 3, { ink: OR });
+  box(-31+3, 0+2.2, 33-3, 3.2, 0.2, 3.2, { ink: OR });
+  // Tent 3 (SW)
+  box(-31-3, 0+0.2, 33+3, 3, 2, 3, { ink: OR });
+  box(-31-3, 0+2.2, 33+3, 3.2, 0.2, 3.2, { ink: BL });
+  // Center Gold
+  cyl(-31, 0+0.2, 33, 1.5, 1.0, { seg:8, ink: OR });
+  ring(-31, 0+4, 33, 1, { ink: OR }); // Grapple
+  box(-31-2, 0+0.2, 33-2, 1, 1, 1, { ink: BK }); // Cover
+  box(-31+2, 0+0.2, 33+2, 1, 1, 1, { ink: BK }); // Cover
+
+  // Macro: Bone Yard Platform
+  box(-15, 0, -31, 8, 2.0, 8, { ink: BK }); // Raised platform
+  stairs(-15-4.5, 0, -31, 1, 2.0, 2, 3, { ink: OR }); // Side stairs (West)
+  stairs(-15+4.5, 0, -31, 1, 2.0, 2, 1, { ink: OR }); // Side stairs (East)
+  cyl(-15-2, 0+2.0, -31-2, 0.5, 2.0, { seg:6, ink: OR }); // Spike
+  cyl(-15+2, 0+2.0, -31-2, 0.5, 3.0, { seg:6, ink: OR }); // Spike
+  cyl(-15-2, 0+2.0, -31+2, 0.5, 1.5, { seg:6, ink: OR }); // Spike
+  cyl(-15+2, 0+2.0, -31+2, 0.5, 2.5, { seg:6, ink: OR }); // Spike
+
+  // Macro: Bazaar Plaza with Tents
+  box(-15, 0, 33, 10, 0.2, 10, { ink: BL }); // Rug/Plaza
+  // Tent 1 (NW)
+  box(-15-3, 0+0.2, 33-3, 3, 2, 3, { ink: OR });
+  box(-15-3, 0+2.2, 33-3, 3.2, 0.2, 3.2, { ink: RD });
+  // Tent 2 (NE)
+  box(-15+3, 0+0.2, 33-3, 3, 2, 3, { ink: OR });
+  box(-15+3, 0+2.2, 33-3, 3.2, 0.2, 3.2, { ink: OR });
+  // Tent 3 (SW)
+  box(-15-3, 0+0.2, 33+3, 3, 2, 3, { ink: OR });
+  box(-15-3, 0+2.2, 33+3, 3.2, 0.2, 3.2, { ink: BL });
+  // Center Gold
+  cyl(-15, 0+0.2, 33, 1.5, 1.0, { seg:8, ink: OR });
+  ring(-15, 0+4, 33, 1, { ink: OR }); // Grapple
+  box(-15-2, 0+0.2, 33-2, 1, 1, 1, { ink: BK }); // Cover
+  box(-15+2, 0+0.2, 33+2, 1, 1, 1, { ink: BK }); // Cover
+
+  // Macro: Dry Dock & Scaffolding
+  box(1-4, 0, -31, 2, 4.0, 10, { ink: OR }); // Scaffolding L
+  box(1+4, 0, -31, 2, 4.0, 10, { ink: OR }); // Scaffolding R
+  box(1, 0, -31-4, 10, 4.0, 2, { ink: OR }); // Scaffolding Back
+  stairs(1, 0, -31-5.5, 2, 4.0, 2, 2, { ink: BL }); // Back stairs up
+  // Ship hull in middle
+  box(1, 0, -31+1, 4, 2.5, 8, { ink: BK });
+  box(1, 0+2.5, -31-2, 4, 1.0, 2, { ink: BK }); // Stern
+  // Crane on left scaffolding
+  cyl(1-4, 0+4, -31, 0.5, 4, { seg:8, ink: BK });
+  box(1-1.5, 0+7.5, -31, 5, 0.5, 0.5, { ink: BK });
+  ring(1-4, 0+7, -31, 1, { ink: OR }); // Grapple
+
+  // Macro: Stone Keep & Walls
+  box(1-5, 0, 33, 2, 3, 12, { ink: BL }); // West wall
+  box(1+5, 0, 33, 2, 3, 12, { ink: BL }); // East wall
+  box(1, 0, 33-5, 12, 3, 2, { ink: BL }); // North wall
+  box(1-3.5, 0, 33+5, 5, 3, 2, { ink: BL }); // South wall L
+  box(1+3.5, 0, 33+5, 5, 3, 2, { ink: BL }); // South wall R (3m door gap)
+  // Inner Watchtower
+  box(1, 0, 33-1, 4, 6, 4, { ink: BK });
+  stairs(1, 0, 33+2.5, 2, 6, 4, 0, { ink: OR }); // Huge stairs leading to tower
+  ring(1, 0+8, 33-1, 1, { ink: OR }); // Grapple
+  box(1-3, 0, 33, 1, 1, 1, { ink: OR }); // Cover
+  box(1+3, 0, 33, 1, 1, 1, { ink: OR }); // Cover
+
+  // Macro: Dry Dock & Scaffolding
+  box(17-4, 0, -31, 2, 4.0, 10, { ink: OR }); // Scaffolding L
+  box(17+4, 0, -31, 2, 4.0, 10, { ink: OR }); // Scaffolding R
+  box(17, 0, -31-4, 10, 4.0, 2, { ink: OR }); // Scaffolding Back
+  stairs(17, 0, -31-5.5, 2, 4.0, 2, 2, { ink: BL }); // Back stairs up
+  // Ship hull in middle
+  box(17, 0, -31+1, 4, 2.5, 8, { ink: BK });
+  box(17, 0+2.5, -31-2, 4, 1.0, 2, { ink: BK }); // Stern
+  // Crane on left scaffolding
+  cyl(17-4, 0+4, -31, 0.5, 4, { seg:8, ink: BK });
+  box(17-1.5, 0+7.5, -31, 5, 0.5, 0.5, { ink: BK });
+  ring(17-4, 0+7, -31, 1, { ink: OR }); // Grapple
+
+  // Macro: Stone Keep & Walls
+  box(17-5, 0, 33, 2, 3, 12, { ink: BL }); // West wall
+  box(17+5, 0, 33, 2, 3, 12, { ink: BL }); // East wall
+  box(17, 0, 33-5, 12, 3, 2, { ink: BL }); // North wall
+  box(17-3.5, 0, 33+5, 5, 3, 2, { ink: BL }); // South wall L
+  box(17+3.5, 0, 33+5, 5, 3, 2, { ink: BL }); // South wall R (3m door gap)
+  // Inner Watchtower
+  box(17, 0, 33-1, 4, 6, 4, { ink: BK });
+  stairs(17, 0, 33+2.5, 2, 6, 4, 0, { ink: OR }); // Huge stairs leading to tower
+  ring(17, 0+8, 33-1, 1, { ink: OR }); // Grapple
+  box(17-3, 0, 33, 1, 1, 1, { ink: OR }); // Cover
+  box(17+3, 0, 33, 1, 1, 1, { ink: OR }); // Cover
+
+  // Macro: Dry Dock & Scaffolding
+  box(33-4, 0, -31, 2, 4.0, 10, { ink: OR }); // Scaffolding L
+  box(33+4, 0, -31, 2, 4.0, 10, { ink: OR }); // Scaffolding R
+  box(33, 0, -31-4, 10, 4.0, 2, { ink: OR }); // Scaffolding Back
+  stairs(33, 0, -31-5.5, 2, 4.0, 2, 2, { ink: BL }); // Back stairs up
+  // Ship hull in middle
+  box(33, 0, -31+1, 4, 2.5, 8, { ink: BK });
+  box(33, 0+2.5, -31-2, 4, 1.0, 2, { ink: BK }); // Stern
+  // Crane on left scaffolding
+  cyl(33-4, 0+4, -31, 0.5, 4, { seg:8, ink: BK });
+  box(33-1.5, 0+7.5, -31, 5, 0.5, 0.5, { ink: BK });
+  ring(33-4, 0+7, -31, 1, { ink: OR }); // Grapple
+
+  // Macro: Dry Dock & Scaffolding
+  box(33-4, 0, -15, 2, 4.0, 10, { ink: OR }); // Scaffolding L
+  box(33+4, 0, -15, 2, 4.0, 10, { ink: OR }); // Scaffolding R
+  box(33, 0, -15-4, 10, 4.0, 2, { ink: OR }); // Scaffolding Back
+  stairs(33, 0, -15-5.5, 2, 4.0, 2, 2, { ink: BL }); // Back stairs up
+  // Ship hull in middle
+  box(33, 0, -15+1, 4, 2.5, 8, { ink: BK });
+  box(33, 0+2.5, -15-2, 4, 1.0, 2, { ink: BK }); // Stern
+  // Crane on left scaffolding
+  cyl(33-4, 0+4, -15, 0.5, 4, { seg:8, ink: BK });
+  box(33-1.5, 0+7.5, -15, 5, 0.5, 0.5, { ink: BK });
+  ring(33-4, 0+7, -15, 1, { ink: OR }); // Grapple
+
+  // Macro: Stone Keep & Walls
+  box(33-5, 0, 1, 2, 3, 12, { ink: BL }); // West wall
+  box(33+5, 0, 1, 2, 3, 12, { ink: BL }); // East wall
+  box(33, 0, 1-5, 12, 3, 2, { ink: BL }); // North wall
+  box(33-3.5, 0, 1+5, 5, 3, 2, { ink: BL }); // South wall L
+  box(33+3.5, 0, 1+5, 5, 3, 2, { ink: BL }); // South wall R (3m door gap)
+  // Inner Watchtower
+  box(33, 0, 1-1, 4, 6, 4, { ink: BK });
+  stairs(33, 0, 1+2.5, 2, 6, 4, 0, { ink: OR }); // Huge stairs leading to tower
+  ring(33, 0+8, 1-1, 1, { ink: OR }); // Grapple
+  box(33-3, 0, 1, 1, 1, 1, { ink: OR }); // Cover
+  box(33+3, 0, 1, 1, 1, 1, { ink: OR }); // Cover
+
+  // Macro: Stone Keep & Walls
+  box(33-5, 0, 17, 2, 3, 12, { ink: BL }); // West wall
+  box(33+5, 0, 17, 2, 3, 12, { ink: BL }); // East wall
+  box(33, 0, 17-5, 12, 3, 2, { ink: BL }); // North wall
+  box(33-3.5, 0, 17+5, 5, 3, 2, { ink: BL }); // South wall L
+  box(33+3.5, 0, 17+5, 5, 3, 2, { ink: BL }); // South wall R (3m door gap)
+  // Inner Watchtower
+  box(33, 0, 17-1, 4, 6, 4, { ink: BK });
+  stairs(33, 0, 17+2.5, 2, 6, 4, 0, { ink: OR }); // Huge stairs leading to tower
+  ring(33, 0+8, 17-1, 1, { ink: OR }); // Grapple
+  box(33-3, 0, 17, 1, 1, 1, { ink: OR }); // Cover
+  box(33+3, 0, 17, 1, 1, 1, { ink: OR }); // Cover
+
+  // Macro: Stone Keep & Walls
+  box(33-5, 0, 33, 2, 3, 12, { ink: BL }); // West wall
+  box(33+5, 0, 33, 2, 3, 12, { ink: BL }); // East wall
+  box(33, 0, 33-5, 12, 3, 2, { ink: BL }); // North wall
+  box(33-3.5, 0, 33+5, 5, 3, 2, { ink: BL }); // South wall L
+  box(33+3.5, 0, 33+5, 5, 3, 2, { ink: BL }); // South wall R (3m door gap)
+  // Inner Watchtower
+  box(33, 0, 33-1, 4, 6, 4, { ink: BK });
+  stairs(33, 0, 33+2.5, 2, 6, 4, 0, { ink: OR }); // Huge stairs leading to tower
+  ring(33, 0+8, 33-1, 1, { ink: OR }); // Grapple
+  box(33-3, 0, 33, 1, 1, 1, { ink: OR }); // Cover
+  box(33+3, 0, 33, 1, 1, 1, { ink: OR }); // Cover
+  box(21.9406635510242, 0, 11.243232430801953, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-4.296964159395827, 0, -25.808908075174386, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(33.68184527829001, 0, -25.156050162909978, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(24.132342579270983, 0, -38.48946163843236, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(48.79893637332766, 0, 39.76050554804061, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-11.18967874833902, 0, 39.704963379317206, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(24.889040018540015, 0, -3.744474880670623, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(19.25687102166735, 0, -46.59880447716118, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(26.842755708738295, 0, -45.723773067221664, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-45.38742065174877, 0, 29.388760059652185, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-19.205600544176612, 0, -41.746517506727365, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(0.341683416858686, 0, 36.294107671483786, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(9.216930064940215, 0, -50.44600099442701, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-11.951011635800931, 0, 42.37587812226717, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(13.548587347359756, 0, 49.97626247312695, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-18.038670082338484, 0, 39.530528005548916, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(14.457056410883311, 0, -28.322209197565794, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(13.47495342798922, 0, 32.25143311228838, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(37.49138192177358, 0, -20.704578646329118, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(48.082270781105024, 0, 45.636873460208605, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-10.263070710279145, 0, 35.42775069463295, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-29.737672250198045, 0, 27.454503689465753, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(27.690279198256448, 0, -22.353951908932927, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-18.19990569773516, 0, 4.754500884254057, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(46.841421392182724, 0, 43.83009851358979, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-34.21913558119576, 0, -17.033742543971037, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-4.711992444090228, 0, -16.653649803757546, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-23.632912241628027, 0, 22.01198578259104, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(48.46774557896961, 0, 42.61840984489672, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-21.72178141646436, 0, -2.3251114565487967, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(49.326057997768075, 0, -46.138447838023396, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-13.771154907636287, 0, -6.804580036669456, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-29.878032289150745, 0, 20.675511065825688, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(39.48896024598987, 0, -8.573306144473989, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(3.170167309837815, 0, -13.613066693578254, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(10.754940618655382, 0, -47.05525413975641, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-12.082554165135925, 0, 28.028463574575795, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-4.9298951495146355, 0, -39.40573779122431, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(14.48801018156368, 0, 9.872580338806287, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(3.977998507083157, 0, 24.586020686256774, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(48.89820614346763, 0, -40.01723937878878, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-43.144126396048264, 0, 3.7208159485525627, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(6.558794050265803, 0, 35.87173120224523, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-46.54659459657492, 0, -12.284873681036643, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(9.48604714659784, 0, -33.01476375883967, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(6.469901578341506, 0, 16.347127110017354, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(44.82216752455173, 0, 22.725968090575634, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-22.814624357759094, 0, -12.737365103686976, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(34.253244313818996, 0, -34.20311955301305, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(24.54067127994564, 0, -22.45672110822172, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(31.46843619515802, 0, 38.21032748888929, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(38.08299261998803, 0, 47.13736561121294, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(27.894727670220732, 0, 23.680774722862424, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(18.75295694718713, 0, -45.85100480615992, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-28.076520548015772, 0, -37.39087684968254, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(29.111741576968384, 0, -25.384145128389875, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-33.786504459946826, 0, 42.27089586679483, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(26.236618441191936, 0, -36.803512529745355, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-13.92562553140749, 0, -20.720997460339014, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-33.87687392432741, 0, -29.24910311044135, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(33.7463980134565, 0, -6.494125440908093, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(27.830533317876018, 0, 35.85134776388668, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(29.721212645560144, 0, -31.977203442009, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-48.524986521913945, 0, -20.04444165858248, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-16.16178610425076, 0, 13.7411038776076, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-45.98438425226072, 0, 45.403301752848975, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(39.241155746249774, 0, 42.51689456659712, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-13.129667483952595, 0, 31.011164289687798, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-27.78284019522988, 0, 26.94424768720735, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-17.97374700702038, 0, -32.27331618421506, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-24.40566583615878, 0, -36.66452903140218, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(28.530986716099704, 0, -11.353852714394904, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(27.989947102966838, 0, -11.366003390409993, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-7.291668950465734, 0, -17.402889684331107, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-9.486113184288321, 0, -19.104067459194653, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-43.78477168508141, 0, 36.517990547107175, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-20.700917777633137, 0, 21.17236593031869, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-13.937075235045043, 0, -8.891552996120346, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(6.33160592160295, 0, -45.562913044323224, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(3.598083043179635, 0, 49.80500666803415, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(11.267611613128508, 0, 25.42547829872197, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(12.795811243085211, 0, 20.29969545999984, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-24.31830280554598, 0, 20.150889205245136, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-32.82398060286074, 0, 11.502677598551855, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-38.73979325341909, 0, -1.4223987982878086, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(36.345352628988636, 0, 28.055631802166545, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(-8.39095088587095, 0, 30.727041464338228, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
+  box(22.333391942846546, 0, 49.70849613712045, 1.0, 1.0, 1.0, { ink: BK }); // Pathway Cover
   // === END DREAM AUTO-INJECTED PROPS ===
-
   B.finish();
   return L;
 }
