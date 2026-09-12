@@ -282,6 +282,9 @@ export class Player {
       this.weapon.recoil.kick(-0.4, 0.5, 1.2); this.weapon.recoilRot.kick(-3, 0, -1.5); audio.grappleFire(); ctx.input.rumble(0.2, 0.4, 50);
       if (this.onThrow) this.onThrow({ pos: pos.toArray().map((v) => +v.toFixed(2)), vel: vel.toArray().map((v) => +v.toFixed(2)) });
     }
+    if (typeof window !== 'undefined' && window.currentDifficulty >= 3) {
+      for (const e of ctx.enemies.enemies) if (e.alive && !e.T.berserker && e.T.role !== 'kamikaze') e.soundAlert = pos.clone();
+    }
     const g = new THREE.Group();
     g.add(new THREE.Mesh(new THREE.SphereGeometry(0.16, 8, 6), makeInkMaterial({ ink: INK.BLACK })));
     const pin = new THREE.Mesh(new THREE.TorusGeometry(0.07, 0.02, 4, 8), makeInkMaterial({ ink: INK.ORANGE })); pin.position.y = 0.2; g.add(pin);

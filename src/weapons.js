@@ -166,6 +166,9 @@ export class Gun extends ViewModel {
     else end = origin.clone().addScaledVector(dir, 300);
     this.muzzle.getWorldPosition(_v); ctx.effects.tracer(_v, end, INK.BLUE, this.tracer, 0.05);
     if (ctx.onShot) ctx.onShot(end);
+    if (typeof window !== 'undefined' && window.currentDifficulty === 4) {
+      for (const e of ctx.enemies.enemies) if (e.alive && e.T.role !== 'kamikaze' && e.T.role !== 'aerial') e.soundAlert = origin.clone();
+    }
     return hit;
   }
   _ejectShell(spread = 1) {

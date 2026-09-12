@@ -12,16 +12,16 @@ const nxOf = (dx, d) => dx / (d || 1), nzOf = (dz, d) => dz / (d || 1);
 export const BOSSES = ['boss', 'eraser', 'inkblot'];
 export const STATE_CODES = { spawn: 0, hunt: 1, stunned: 2, dead: 3 }; export const STATE_NAMES = ['spawn', 'hunt', 'stunned', 'dead'];
 export const TYPES = {
-  grunt: { hp: 100, speed: 5.2, weapon: 'rifle', range: 28, stop: 16, keep: 7, burst: 3, burstInt: 0.15, cool: [1.6, 2.6], dmg: 6, spread: 0.055, pspeed: 36, score: 100, scale: 1.0, name: 'GRUNT', hat: 'cap', build: { bodyW: 1, headS: 1, limbR: 0.032 } },
-  rusher: { hp: 70, speed: 7.6, weapon: 'blade', lunge: 2.9, reach: 3.0, standoff: 1.9, cool: [1.0, 1.5], dmg: 15, score: 120, scale: 0.95, name: 'RUSHER', hat: 'band', build: { bodyW: 0.82, headS: 0.95, limbR: 0.027 } },
-  heavy: { hp: 320, speed: 3.0, weapon: 'shotgun', range: 18, stop: 9, keep: 5, pellets: 7, cool: [2.4, 3.2], dmg: 5, spread: 0.13, pspeed: 32, score: 260, scale: 1.25, name: 'HEAVY', hat: 'helmet', build: { bodyW: 1.55, headS: 0.88, limbR: 0.05 } },
-  sniper: { hp: 60, speed: 3.6, weapon: 'sniper', range: 90, stop: 90, keep: 15, aimTime: 1.7, cool: [2.8, 3.8], dmg: 22, spread: 0.006, pspeed: 95, score: 180, scale: 1.05, name: 'SNIPER', stationary: true, hat: 'hood', build: { bodyW: 0.78, headS: 0.92, limbR: 0.026 } },
-  shield: { hp: 150, speed: 3.8, weapon: 'pistol', range: 20, stop: 8, keep: 4, burst: 2, burstInt: 0.2, cool: [1.8, 2.6], dmg: 5, spread: 0.06, pspeed: 34, score: 200, scale: 1.05, name: 'SHIELDBEARER', hat: 'helmet', shield: true, build: { bodyW: 1.2, headS: 0.9, limbR: 0.042 } },
-  bomber: { hp: 26, speed: 6.5, weapon: 'bomb', fuseRange: 3.4, fuse: 1.05, blast: 4.2, dmg: 24, score: 150, scale: 0.9, name: 'INK BOMB', ink: INK.BLACK, model: 'bomber' },
-  flyer: { hp: 40, speed: 6.2, weapon: 'dive', dmg: 10, cool: [2.8, 4.2], score: 140, scale: 1.5, name: 'PAPER WASP', flying: true, model: 'flyer' },
-  boss: { hp: 2600, speed: 3.2, weapon: 'boss', bossKind: 'doodler', range: 32, stop: 6, keep: 0, cool: [2.6, 3.6], dmg: 22, score: 2500, scale: 2.7, name: 'THE DOODLER', boss: true, ink: INK.BLACK, hat: 'crown', build: { bodyW: 1.35, headS: 1.15, limbR: 0.06 } },
-  eraser: { hp: 3400, speed: 4.2, weapon: 'boss', bossKind: 'eraser', range: 30, stop: 8, keep: 0, cool: [2.2, 3.2], dmg: 26, score: 3200, scale: 2.6, name: 'THE ERASER', boss: true, ink: INK.PINK, model: 'blob', build: {} },
-  inkblot: { hp: 3000, speed: 3.0, weapon: 'boss', bossKind: 'inkblot', range: 34, stop: 10, keep: 0, cool: [2.4, 3.4], dmg: 20, score: 3600, scale: 2.4, name: 'THE INKBLOT', boss: true, ink: INK.BLACK, model: 'blob', build: {} },
+  grunt: { role: 'ranged', canDodge: true, canCover: true, canRetreat: true, canFlank: true, hp: 100, speed: 5.2, weapon: 'rifle', range: 28, stop: 16, keep: 7, burst: 3, burstInt: 0.15, cool: [1.6, 2.6], dmg: 6, spread: 0.055, pspeed: 36, score: 100, scale: 1.0, name: 'GRUNT', hat: 'cap', build: { bodyW: 1, headS: 1, limbR: 0.032 } },
+  rusher: { role: 'melee', canDodge: true, canCover: true, canRetreat: false, canFlank: true, berserker: true, hp: 70, speed: 7.6, weapon: 'blade', lunge: 2.9, reach: 3.0, standoff: 1.9, cool: [1.0, 1.5], dmg: 15, score: 120, scale: 0.95, name: 'RUSHER', hat: 'band', build: { bodyW: 0.82, headS: 0.95, limbR: 0.027 } },
+  heavy: { role: 'ranged', canDodge: false, canCover: true, canRetreat: true, canFlank: true, hp: 320, speed: 3.0, weapon: 'shotgun', range: 18, stop: 9, keep: 5, pellets: 7, cool: [2.4, 3.2], dmg: 5, spread: 0.13, pspeed: 32, score: 260, scale: 1.25, name: 'HEAVY', hat: 'helmet', build: { bodyW: 1.55, headS: 0.88, limbR: 0.05 } },
+  sniper: { role: 'ranged', canDodge: true, canCover: true, canRetreat: true, canFlank: false, hp: 60, speed: 3.6, weapon: 'sniper', range: 90, stop: 90, keep: 15, aimTime: 1.7, cool: [2.8, 3.8], dmg: 22, spread: 0.006, pspeed: 95, score: 180, scale: 1.05, name: 'SNIPER', stationary: true, hat: 'hood', build: { bodyW: 0.78, headS: 0.92, limbR: 0.026 } },
+  shield: { role: 'ranged', canDodge: false, canCover: true, canRetreat: true, canFlank: true, hp: 150, speed: 3.8, weapon: 'pistol', range: 20, stop: 8, keep: 4, burst: 2, burstInt: 0.2, cool: [1.8, 2.6], dmg: 5, spread: 0.06, pspeed: 34, score: 200, scale: 1.05, name: 'SHIELDBEARER', hat: 'helmet', shield: true, build: { bodyW: 1.2, headS: 0.9, limbR: 0.042 } },
+  bomber: { role: 'kamikaze', canDodge: false, canCover: false, canRetreat: false, canFlank: false, hp: 26, speed: 6.5, weapon: 'bomb', fuseRange: 3.4, fuse: 1.05, blast: 4.2, dmg: 24, score: 150, scale: 0.9, name: 'INK BOMB', ink: INK.BLACK, model: 'bomber' },
+  flyer: { role: 'aerial', canDodge: false, canCover: false, canRetreat: false, canFlank: false, hp: 40, speed: 6.2, weapon: 'dive', dmg: 10, cool: [2.8, 4.2], score: 140, scale: 1.5, name: 'PAPER WASP', flying: true, model: 'flyer' },
+  boss: { role: 'boss', canDodge: false, canCover: false, canRetreat: false, canFlank: false, hp: 2600, speed: 3.2, weapon: 'boss', bossKind: 'doodler', range: 32, stop: 6, keep: 0, cool: [2.6, 3.6], dmg: 22, score: 2500, scale: 2.7, name: 'THE DOODLER', boss: true, ink: INK.BLACK, hat: 'crown', build: { bodyW: 1.35, headS: 1.15, limbR: 0.06 } },
+  eraser: { role: 'boss', canDodge: false, canCover: false, canRetreat: false, canFlank: false, hp: 3400, speed: 4.2, weapon: 'boss', bossKind: 'eraser', range: 30, stop: 8, keep: 0, cool: [2.2, 3.2], dmg: 26, score: 3200, scale: 2.6, name: 'THE ERASER', boss: true, ink: INK.PINK, model: 'blob', build: {} },
+  inkblot: { role: 'boss', canDodge: false, canCover: false, canRetreat: false, canFlank: false, hp: 3000, speed: 3.0, weapon: 'boss', bossKind: 'inkblot', range: 34, stop: 10, keep: 0, cool: [2.4, 3.4], dmg: 20, score: 3600, scale: 2.4, name: 'THE INKBLOT', boss: true, ink: INK.BLACK, model: 'blob', build: {} },
 };
 
 // ---------------- doodle model kit ----------------
@@ -257,7 +257,8 @@ export class EnemyManager {
       body: makeBody(pos, hw, (T.flying ? 0.8 : 1.85) * T.scale, T.boss ? 1.2 : 0.6), center: new THREE.Vector3(), yaw: rand(0, TAU), yawT: 0, phase: rand(0, TAU), walk: 0, aimAmt: 0, flinch: 0, flashT: 0, flashOn: false,
       path: null, pathI: 0, pathT: 0, pathGoal: null, losT: 0, los: false, cool: rand(0.6, 1.4), burstLeft: 0, burstT: 0, aimT: 0, attackT: 0, attackHit: false, stunDur: 0, stuckT: 0, strafeDir: Math.random() < 0.5 ? 1 : -1, strafeT: rand(1, 2), deadT: 0,
       appAng: (this._slot++) * 2.39996, appR: 0, appT: rand(0, 2), keepMul: rand(0.75, 1.35), backoffT: 0,
-      hitSpheres: model.hit.map(() => new THREE.Vector3()), fuseT: -1, shieldHp: T.shield ? 2 : 0, flyState: 'orbit', flyT: rand(0, 3), orbitDir: Math.random() < 0.5 ? 1 : -1, bossAtk: null, rootDetached: false };
+      hitSpheres: model.hit.map(() => new THREE.Vector3()), fuseT: -1, shieldHp: T.shield ? 2 : 0, flyState: 'orbit', flyT: rand(0, 3), orbitDir: Math.random() < 0.5 ? 1 : -1, bossAtk: null, rootDetached: false,
+      justHit: false, coverPoint: null, coverT: 0, retreating: false, lastKnownPos: null, panicT: 0, hasPanicked: false, dodgeCooldown: 0, soundAlert: null, flankAngle: rand(-1, 1) < 0 ? -Math.PI / 2 : Math.PI / 2, coordReady: false };
     e.id = id ?? this.nextId++; this.byId.set(e.id, e);
     e.body.alwaysStep = true; if (T.flying) e.body.noSnap = true; e.root.position.copy(pos); e.root.scale.setScalar(0.001);
     this.ctx.scene.add(e.root); this.enemies.push(e); this.alive++;
@@ -314,7 +315,7 @@ export class EnemyManager {
       this.ctx.hud.hitmarker(false, false); return;
     }
     amount *= this.mods.damage;
-    e.hp -= amount; e.flinch = 1; e.flashT = 0.07; if (!e.flashOn) { setFill(e.mat, true); e.flashOn = true; }
+    e.hp -= amount; e.flinch = 1; e.flashT = 0.07; e.justHit = true; if (!e.flashOn) { setFill(e.mat, true); e.flashOn = true; }
     const dir = info.dir || _d.set(0, 1, 0); const amt = clamp(0.5 + amount / 70, 0.5, 2.2) * (e.T.boss ? 1.6 : 1);
     this.ctx.effects.blood(info.point || e.center, dir, amt, { ink: e.T.ink === INK.BLACK ? INK.BLACK : INK.RED });
     if (info.crit) audio.headshot(e.center); else audio.hitEnemy(e.center);
@@ -517,35 +518,72 @@ export class EnemyManager {
     }
   }
   _wander(e, dt) { e.body.vel.x = damp(e.body.vel.x, 0, 6, dt); e.body.vel.z = damp(e.body.vel.z, 0, 6, dt); e.aimAmt = damp(e.aimAmt, 0, 5, dt); }
+  _findCover(e, pp) {
+    const b = e.body, world = this.ctx.world;
+    for (let i = 0; i < 8; i++) {
+      const a = (i / 8) * TAU; _d.set(Math.cos(a), 0, Math.sin(a));
+      const hit = world.raycast(b.pos, _d, 15, SEE_THROUGH);
+      if (hit && hit.distance > 3) {
+        _v.copy(hit.point).addScaledVector(hit.normal, 1.0);
+        if (!world.hasLineOfSight(_v, pp, SEE_THROUGH)) return _v.clone();
+      }
+    }
+    return null;
+  }
+  _evasiveJump(e, dx, dz, dist, diff) {
+    const b = e.body; e.dodgeCooldown = diff === 4 ? rand(0.3, 0.8) : 1.5;
+    let perpX = -dz / dist, perpZ = dx / dist;
+    if (Math.random() < 0.5) { perpX = -perpX; perpZ = -perpZ; }
+    if (diff >= 3 && !this._groundAhead(e, perpX, perpZ)) { perpX = -perpX; perpZ = -perpZ; }
+    b.vel.x += perpX * 14; b.vel.z += perpZ * 14; b.vel.y += 6; b.onGround = false;
+  }
+  _retreatToCover(e, dt) {
+    const b = e.body; e.yawT = Math.atan2(e.coverPoint.x - b.pos.x, e.coverPoint.z - b.pos.z);
+    if (b.pos.distanceToSquared(e.coverPoint) < 2) {
+      e.coverT -= dt; b.vel.x = damp(b.vel.x, 0, 8, dt); b.vel.z = damp(b.vel.z, 0, 8, dt);
+      if (e.coverT <= 0) {
+        e.coverT = rand(1, 2); e.coverPoint = null; 
+        if (e.retreating) { e.retreating = false; e.cool = 0; }
+      }
+    } else {
+      this._steer(e, dt, e.coverPoint.x, e.coverPoint.z, e.T.speed * 1.3, 40);
+      if (b.onGround && b.hitWall) { b.vel.y = 9; b.onGround = false; }
+    }
+  }
   _think(e, dt, pp, pc, P) {
     const T = e.T, b = e.body, ctx = this.ctx;
     const diff = typeof window !== 'undefined' ? (window.currentDifficulty ?? 2) : 2;
     const waveMult = typeof game !== 'undefined' ? game.wave : 1;
+    const role = T.role;
 
-    // Predictive aim scales by wave on Hard+ (2+)
+    if (e.los && role !== 'aerial') e.lastKnownPos = pp.clone();
+
+    if (diff === 0 && e.los && !e.hasPanicked && role !== 'kamikaze' && role !== 'aerial' && !T.boss) { e.panicT = rand(1.0, 2.0); e.hasPanicked = true; }
+    if (e.panicT > 0) { e.panicT -= dt; this._wander(e, dt); e.justHit = false; return; }
+
+    if (e.justHit && T.canDodge && diff >= 2 && b.onGround && e.dodgeCooldown <= 0) this._evasiveJump(e, pp.x - b.pos.x, pp.z - b.pos.z, Math.hypot(pp.x - b.pos.x, pp.z - b.pos.z), diff);
+    e.justHit = false; if (e.dodgeCooldown > 0) e.dodgeCooldown -= dt;
+
+    if (diff >= 3 && e.hp / e.maxHp < (T.canRetreat ? 0.3 : 0.5) && T.canCover) {
+      if (T.canRetreat && e.hp / e.maxHp < 0.3 && !e.retreating && !T.berserker) { e.retreating = true; e.coverPoint = this._findCover(e, pp); if (e.coverPoint) e.coverT = rand(2, 4); }
+      else if (!e.retreating && e.hp / e.maxHp < 0.5 && !e.coverPoint) { e.coverPoint = this._findCover(e, pp); if (e.coverPoint) e.coverT = rand(1, 2.5); }
+    }
+    if (e.coverPoint) { this._retreatToCover(e, dt); return; }
+
     let targetX = pp.x, targetZ = pp.z;
     if (diff >= 2 && P.body && P.body.vel) {
       const predForce = diff >= 3 ? 0.2 * waveMult : 0.05 * waveMult;
-      targetX += P.body.vel.x * clamp(predForce, 0, 1.2);
-      targetZ += P.body.vel.z * clamp(predForce, 0, 1.2);
+      targetX += P.body.vel.x * clamp(predForce, 0, 1.2); targetZ += P.body.vel.z * clamp(predForce, 0, 1.2);
     }
-
     const dx = targetX - b.pos.x, dz = targetZ - b.pos.z; const dist = Math.hypot(dx, dz); const dy = pp.y - b.pos.y;
     e.losT -= dt; if (e.losT <= 0) { 
       let baseDelay = diff === 0 ? 0.3 : diff === 1 ? 0.15 : 0.12;
       if (diff >= 2) baseDelay = Math.max(0.02, baseDelay - (0.01 * waveMult));
       if (diff === 0) baseDelay = Math.min(0.8, baseDelay + (0.05 * waveMult));
-      e.losT = baseDelay + rand(0, 0.1); 
-      e.los = ctx.world.hasLineOfSight(this.eye(e, _eye), pc, SEE_THROUGH); 
+      e.losT = baseDelay + rand(0, 0.1); e.los = ctx.world.hasLineOfSight(this.eye(e, _eye), pc, SEE_THROUGH); 
     }
     
-    // God Mode AI Cover Sliding: Dodge frequency scales with wave
-    if (diff === 4 && e.los && Math.random() < Math.min(0.01 * waveMult, 0.1) * dt && b.onGround) {
-      b.vel.x += (Math.random() < 0.5 ? 1 : -1) * 20;
-      b.vel.z += (Math.random() < 0.5 ? 1 : -1) * 20;
-      b.vel.y += 4;
-      e.stuckT = 0;
-    }
+    if (diff === 4 && e.los && T.canDodge && b.onGround && e.dodgeCooldown <= 0) this._evasiveJump(e, dx, dz, dist, diff);
 
     let coolMod = 1.0;
     if (diff >= 2) coolMod = Math.min(2.5, 1.0 + (0.05 * waveMult));
@@ -615,9 +653,11 @@ export class EnemyManager {
       e.aimAmt = damp(e.aimAmt, 1, 8, dt); e.yawT = yawTo;
       let mx = 0, mz = 0; const nx = dx / dist, nz = dz / dist;
       if (T.stationary) { mx = 0; mz = 0; }
-      else if (dist > T.stop * e.keepMul) { this._follow(e, dt, pp, T.speed * 0.8); this._shoot(e, dt, pc, P); e.yawT = yawTo; return; }
-      // if the player is up on something, keep working the route up rather than strafing along
-      // a ramp edge and falling off it; they still shoot on the way
+      else if (dist > T.stop * e.keepMul) { 
+        if (diff === 4 && T.canFlank) { _v.copy(pp).addScaledVector(P.forward || _d.set(0,0,1), -8).applyAxisAngle(_up, e.flankAngle); this._follow(e, dt, _v, T.speed * 0.8); }
+        else this._follow(e, dt, pp, T.speed * 0.8); 
+        this._shoot(e, dt, pc, P); e.yawT = yawTo; return; 
+      }
       else if (Math.abs(dy) > 1.2) { this._follow(e, dt, pp, T.speed * 0.85); this._shoot(e, dt, pc); e.yawT = yawTo; return; }
       else if (dist < T.keep * e.keepMul) { mx = -nx; mz = -nz; }
       else if (dist > T.range * 0.7 && T.weapon === 'shotgun') { mx = nx; mz = nz; }
@@ -629,7 +669,11 @@ export class EnemyManager {
     } else {
       e.aimAmt = damp(e.aimAmt, 0, 5, dt); e.burstLeft = 0; e.aimT = 0; e.aimPoint = null; this._hideLaser(e);
       if (T.stationary && e.t < 5) { b.vel.x = damp(b.vel.x, 0, 8, dt); b.vel.z = damp(b.vel.z, 0, 8, dt); e.yawT = yawTo; }
-      else this._follow(e, dt, pp, T.speed);
+      else {
+        if (e.soundAlert) this._follow(e, dt, e.soundAlert, T.speed);
+        else if (e.lastKnownPos) this._follow(e, dt, e.lastKnownPos, T.speed);
+        else this._follow(e, dt, pp, T.speed);
+      }
       if (e.los) e.yawT = yawTo;
     }
   }
