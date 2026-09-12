@@ -1,4 +1,6 @@
-import * as THREE from 'three';
+const fs = require('fs');
+
+const code = `import * as THREE from 'three';
 import { INK } from '../render.js';
 
 export function buildPirateCove(B, arena = false) {
@@ -167,3 +169,5 @@ export function buildPirateCove(B, arena = false) {
   B.finish();
   return L;
 }
+`;
+fs.writeFileSync('src/levels/pirate_cove.js', code);
