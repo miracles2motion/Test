@@ -627,8 +627,19 @@ export class EnemyManager {
     const dxReal = pp.x - b.pos.x, dzReal = pp.z - b.pos.z;
     const distReal = Math.hypot(dxReal, dzReal);
 
-    let brainMods = { keepMulBias: 1, strafeDirOverride: null, dodgeChanceMul: 1, suppress: false };
+    let brainMods = { keepMulBias: 1, strafeDirOverride: null, dodgeChanceMul: 1, suppress: false, interceptor: false, doctrine: 'NEUTRAL' };
     if (this.brain) brainMods = this.brain.consult(e, distReal, e.los);
+    
+    if (brainMods.interceptor && this.brain && this.brain.profile.spatialMemory) {
+        let maxIdx = -1, maxVal = 0;
+        for (let i = 0; i < 64; i++) {
+           if (this.brain.profile.spatialMemory.grid[i] > maxVal) { maxVal = this.brain.profile.spatialMemory.grid[i]; maxIdx = i; }
+        }
+        if (maxIdx >= 0) {
+            let dest = new THREE.Vector3((maxIdx % 8) * 15 - 60 + 7.5, pp.y, Math.floor(maxIdx / 8) * 15 - 60 + 7.5);
+            if (e.center.distanceTo(dest) > 5) { this._follow(e, dt, dest, T.speed * 1.2); return; }
+        }
+    }
 
     // Detect if player is aiming crosshair directly at this enemy
     let playerAimingAtMe = false;
@@ -670,7 +681,8 @@ export class EnemyManager {
 
     // Tactical Cover System:
     // 1. Critical health retreat to break line of sight
-    if (diff >= 2 && e.hp / e.maxHp < (diff >= 4 ? 0.22 : 0.4) && T.canCover && !T.berserker) {
+    const canCover = T.canCover && brainMods.doctrine !== 'FLUSH_CAMPER';
+    if (diff >= 2 && e.hp / e.maxHp < (diff >= 4 ? 0.22 : 0.4) && canCover && !T.berserker) {
       if (!e.coverPoint && !e.retreating) {
         e.retreating = true;
         e.coverPoint = this._findCover(e, pp, pc);
@@ -767,17 +779,39 @@ export class EnemyManager {
       let mx = 0, mz = 0; const nx = dx / dist, nz = dz / dist;
       if (T.stationary) { mx = 0; mz = 0; }
       else if (dist > T.stop * e.keepMul * brainMods.keepMulBias) { 
-        if (diff === 4 && T.canFlank) { _v.copy(pp).addScaledVector(P.forward || _d.set(0,0,1), -8).applyAxisAngle(_up, e.flankAngle); this._follow(e, dt, _v, T.speed * 1.15); }
+        if (brainMods.doctrine === 'RANGE_ENVELOPE_LOCK' && dist > 18) {
+             if (!e.zigT) e.zigT = 0;
+             e.zigT -= dt;
+             if (e.zigT <= 0) { e.zigT = 0.5; e.zigDir = (Math.random() > 0.5 ? 1 : -1) * rand(40, 80); }
+             this._steer(e, dt, pp.x, pp.z, T.speed * 1.3, e.zigDir);
+        }
+        else if (diff === 4 && T.canFlank) { _v.copy(pp).addScaledVector(P.forward || _d.set(0,0,1), -8).applyAxisAngle(_up, e.flankAngle); this._follow(e, dt, _v, T.speed * 1.15); }
         else this._follow(e, dt, pp, T.speed * (diff === 4 ? 1.05 : 0.8)); 
-        this._shoot(e, dt, pc, P, brainMods.suppress); e.yawT = yawTo; return; 
+        this._shoot(e, dt, pc, P, brainMods); e.yawT = yawTo; return; 
       }
-      else if (Math.abs(dy) > 1.2) { this._follow(e, dt, pp, T.speed * 0.9); this._shoot(e, dt, pc, P, brainMods.suppress); e.yawT = yawTo; return; }
-      else if (dist < T.keep * e.keepMul * brainMods.keepMulBias) { mx = -nx; mz = -nz; }
+      else if (Math.abs(dy) > 1.2) { this._follow(e, dt, pp, T.speed * 0.9); this._shoot(e, dt, pc, P, brainMods); e.yawT = yawTo; return; }
+      else if (dist < T.keep * e.keepMul * brainMods.keepMulBias || brainMods.doctrine === 'AMBUSH_RUSHER') { mx = -nx; mz = -nz; }
       else if (dist > T.range * 0.7 && T.weapon === 'shotgun') { mx = nx; mz = nz; }
       else { e.strafeT -= dt; if (e.strafeT <= 0) { e.strafeT = rand(0.6, 1.6); e.strafeDir *= -1; } const sd = brainMods.strafeDirOverride !== null ? brainMods.strafeDirOverride : e.strafeDir; mx = -nz * sd; mz = nx * sd; }
       const spd = T.weapon === 'shotgun' ? T.speed * 1.1 : (diff === 4 ? T.speed * 0.9 : T.speed * 0.5);
-      if ((mx || mz) && this._groundAhead(e, mx, mz)) { const a = 32 * dt; b.vel.x += clamp(mx * spd - b.vel.x, -a, a); b.vel.z += clamp(mz * spd - b.vel.z, -a, a); }
-      else { b.vel.x = damp(b.vel.x, 0, 8, dt); b.vel.z = damp(b.vel.z, 0, 8, dt); }
+      if ((mx || mz) && this._groundAhead(e, mx, mz)) {
+        const a = 32 * dt;
+        b.vel.x += clamp(mx * spd - b.vel.x, -a, a);
+        b.vel.z += clamp(mz * spd - b.vel.z, -a, a);
+      } else {
+        b.vel.x = damp(b.vel.x, 0, 8, dt);
+        b.vel.z = damp(b.vel.z, 0, 8, dt);
+        if (mx !== 0 || mz !== 0) {
+          const a = 28 * dt;
+          b.vel.x += clamp(mx * T.speed * 0.7 - b.vel.x, -a, a);
+          b.vel.z += clamp(mz * T.speed * 0.7 - b.vel.z, -a, a);
+        } else {
+          b.vel.x = damp(b.vel.x, 0, 8, dt);
+          b.vel.z = damp(b.vel.z, 0, 8, dt);
+        }
+        this._shoot(e, dt, pc, P, brainMods);
+        return;
+      }
       this._shoot(e, dt, pc, P, brainMods.suppress);
     } else {
       if (diff >= 3 && e.lastKnownPos) e.aimAmt = damp(e.aimAmt, 1, 8, dt);
@@ -942,10 +976,11 @@ export class EnemyManager {
     _d.copy(b.vel); if (_d.lengthSq() > 0.1) e.yawT = Math.atan2(_d.x, _d.z);
   }
   _flyTo(e, target, speed, accel, dt) { const b = e.body; _d.subVectors(target, b.pos); const l = _d.length(); if (l < 0.3) { b.vel.multiplyScalar(Math.max(0, 1 - 4 * dt)); return; } _d.divideScalar(l).multiplyScalar(speed * this.mods.speed); _v3.subVectors(_d, b.vel); const m = _v3.length(); if (m > accel * dt) _v3.multiplyScalar(accel * dt / m); b.vel.add(_v3); }
-  _shoot(e, dt, pc, P, suppress = false) {
+  _shoot(e, dt, pc, P, brainMods = {}) {
     const T = e.T, ctx = this.ctx; const muzzle = _v.setFromMatrixPosition(e.tip.matrixWorld);
     const diff = typeof window !== 'undefined' ? (window.currentDifficulty ?? 2) : 2;
     const waveMult = typeof game !== 'undefined' ? game.wave : 1;
+    const suppress = brainMods.suppress || false;
 
     // Hard / Extreme / God Mode: Avoid Friendly Fire
     if (diff >= 2 && e.cool <= 0 && T.weapon !== 'sniper') {
@@ -955,33 +990,40 @@ export class EnemyManager {
       if (hitAlly) return; // Wait until ally is clear
     }
 
-    if (T.weapon === 'sniper') {
-      if (e.cool > 0) { this._hideLaser(e); return; }
-      e.aimT += dt;
-      // The beam chases the player rather than being glued to them, and the shot goes exactly
-      // where the beam is pointing - so if you keep moving once you see it, it misses.
-      if (!e.aimPoint) { e.aimPoint = pc.clone(); }
-      else e.aimPoint.lerp(pc, 1 - Math.exp(-2.6 * dt * (diff >= 2 ? Math.min(3, 1 + waveMult * 0.1) : 1))); 
-      
-      let aimTimeMod = 1.0;
-      if (diff >= 2) aimTimeMod = Math.max(0.2, 1.0 - (0.05 * waveMult));
-      else if (diff === 0) aimTimeMod = Math.min(2.5, 1.2 + (0.1 * waveMult));
-      const targetAimTime = T.aimTime * aimTimeMod * (suppress ? 0.7 : 1.0);
-      
-      this._showLaser(e, muzzle, e.aimPoint, clamp(e.aimT / targetAimTime, 0, 1));
-      if (e.aimT > targetAimTime * 0.5 && !e.aimWarned) { e.aimWarned = true; audio.sniperAim(e.center); }
-      if (e.aimT >= targetAimTime) {
-        e.aimT = 0; e.aimWarned = false; e.cool = suppress ? rand(0.5, 1.0) : rand(T.cool[0], T.cool[1]);
-        this._fireOne(e, muzzle, e.aimPoint, T.spread, T.pspeed, T.dmg, 0.07, P); audio.sniperShot(e.center);
-        this._hideLaser(e); e.aimPoint = null;
+      // Anti-Air Doctrine vertical intercept
+      if (brainMods.doctrine === 'ANTI-AIR' && P.body && P.body.vel.y < 0) {
+        let fallPred = P.body.vel.y * 0.35;
+        pc.y += fallPred; // Predict landing zone
+        if (e.aimPoint) e.aimPoint.y += fallPred;
       }
-      return;
-    }
-    if (e.burstLeft > 0) { e.burstT -= dt; if (e.burstT <= 0) { e.burstT = suppress ? (T.burstInt * 0.7) : T.burstInt; e.burstLeft--; this._fireOne(e, muzzle, pc, T.spread, T.pspeed, T.dmg, 0.045, P); audio.enemyShot(e.center); if (e.burstLeft === 0) e.cool = suppress ? rand(0.2, 0.6) : rand(T.cool[0], T.cool[1]); } return; }
-    if (e.cool <= 0) {
-      if (T.weapon === 'shotgun') { for (let i = 0; i < T.pellets; i++) this._fireOne(e, muzzle, pc, T.spread, T.pspeed * rand(0.85, 1.1), T.dmg, 0.05, P); audio.shotgun(e.center); e.cool = suppress ? rand(0.5, 1.0) : rand(T.cool[0], T.cool[1]); ctx.effects.strokeBurst(muzzle, INK.ORANGE, 8, 5, { life: 0.1, size: 0.04 }); }
-      else { e.burstLeft = T.burst + (suppress ? 2 : 0); e.burstT = 0; }
-    }
+      
+      if (T.weapon === 'sniper') {
+        if (e.cool > 0) { this._hideLaser(e); return; }
+        e.aimT += dt;
+        // The beam chases the player rather than being glued to them, and the shot goes exactly
+        // where the beam is pointing - so if you keep moving once you see it, it misses.
+        if (!e.aimPoint) { e.aimPoint = pc.clone(); }
+        else e.aimPoint.lerp(pc, 1 - Math.exp(-2.6 * dt * (diff >= 2 ? Math.min(3, 1 + waveMult * 0.1) : 1))); 
+        
+        let aimTimeMod = 1.0;
+        if (diff >= 2) aimTimeMod = Math.max(0.2, 1.0 - (0.05 * waveMult));
+        else if (diff === 0) aimTimeMod = Math.min(2.5, 1.2 + (0.1 * waveMult));
+        const targetAimTime = T.aimTime * aimTimeMod * (suppress ? 0.7 : 1.0);
+        
+        this._showLaser(e, muzzle, e.aimPoint, clamp(e.aimT / targetAimTime, 0, 1));
+        if (e.aimT > targetAimTime * 0.5 && !e.aimWarned) { e.aimWarned = true; audio.sniperAim(e.center); }
+        if (e.aimT >= targetAimTime) {
+          e.aimT = 0; e.aimWarned = false; e.cool = suppress ? rand(0.5, 1.0) : rand(T.cool[0], T.cool[1]);
+          this._fireOne(e, muzzle, e.aimPoint, T.spread, T.pspeed, T.dmg, 0.07, P); audio.sniperShot(e.center);
+          this._hideLaser(e); e.aimPoint = null;
+        }
+        return;
+      }
+      if (e.burstLeft > 0) { e.burstT -= dt; if (e.burstT <= 0) { e.burstT = suppress ? (T.burstInt * 0.7) : T.burstInt; e.burstLeft--; this._fireOne(e, muzzle, pc, T.spread, T.pspeed, T.dmg, 0.045, P); audio.enemyShot(e.center); if (e.burstLeft === 0) e.cool = suppress ? rand(0.2, 0.6) : rand(T.cool[0], T.cool[1]); } return; }
+      if (e.cool <= 0) {
+        if (T.weapon === 'shotgun') { for (let i = 0; i < T.pellets; i++) this._fireOne(e, muzzle, pc, T.spread, T.pspeed * rand(0.85, 1.1), T.dmg, 0.05, P); audio.shotgun(e.center); e.cool = suppress ? rand(0.5, 1.0) : rand(T.cool[0], T.cool[1]); ctx.effects.strokeBurst(muzzle, INK.ORANGE, 8, 5, { life: 0.1, size: 0.04 }); }
+        else { e.burstLeft = T.burst + (suppress ? 2 : 0); e.burstT = 0; }
+      }
   }
   _showLaser(e, from, to, charge) {
     if (!e.laser) {
