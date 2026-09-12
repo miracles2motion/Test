@@ -1873,6 +1873,7 @@ function showStart() {
       if (typeof navigator.app !== 'undefined' && navigator.app.exitApp) {
         navigator.app.exitApp();
       } else {
+        window.open('', '_self').close();
         window.close(); 
       }
     });
