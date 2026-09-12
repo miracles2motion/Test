@@ -27,8 +27,8 @@ console.log(`\n🧠 Dream is analyzing your request locally: "${prompt}"...\n`);
 
 // 1. Detect Action
 let action = 'god_mode'; // default
-if (prompt.includes('heal') || prompt.includes('improve')) action = 'refine_heal';
-else if (prompt.includes('upgrade') || prompt.includes('refine')) action = 'refine_upgrade';
+if (prompt.includes('detail') || prompt.includes('micro')) action = 'detail';
+else if (prompt.includes('heal') || prompt.includes('improve') || prompt.includes('upgrade') || prompt.includes('refine')) action = 'heal';
 else if (prompt.includes('macro') || prompt.includes('building')) action = 'macro';
 else if (prompt.includes('inject') || prompt.includes('prop')) action = 'inject';
 
@@ -72,8 +72,8 @@ try {
   let command = '';
   
   if (action === 'god_mode') command = `npm run dream:god ${mapName} ${theme}`;
-  else if (action === 'refine_heal') command = `node src/map-refiner.js ${mapName} ${theme} heal`;
-  else if (action === 'refine_upgrade') command = `node src/map-refiner.js ${mapName} ${theme} upgrade`;
+  else if (action === 'detail') command = `node src/map-refiner.js ${mapName} detail`;
+  else if (action === 'heal') command = `node src/map-refiner.js ${mapName} heal`;
   else if (action === 'macro') command = `npm run dream:macro ${mapName} ${theme}`;
   else if (action === 'inject') command = `npm run dream:inject ${mapName} ${theme}`;
 
