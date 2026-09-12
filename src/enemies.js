@@ -475,7 +475,8 @@ export class EnemyManager {
   }
   _groundAhead(e, dx, dz) {
     const diff = typeof window !== 'undefined' ? (window.currentDifficulty ?? 2) : 2;
-    if (diff === 0 && Math.random() < 0.2) return true; // 20% chance to ignore holes
+    const waveMult = typeof game !== 'undefined' ? game.wave : 1;
+    if (diff === 0 && Math.random() < Math.min(0.2 * waveMult, 0.8)) return true; // 20% chance * wave to ignore holes
     _v.set(e.body.pos.x + dx * 0.9, e.body.pos.y + 0.5, e.body.pos.z + dz * 0.9);
     return this.ctx.world.raycast(_v, _d.set(0, -1, 0), 3.5) !== null;
   }
@@ -519,26 +520,37 @@ export class EnemyManager {
   _think(e, dt, pp, pc, P) {
     const T = e.T, b = e.body, ctx = this.ctx;
     const diff = typeof window !== 'undefined' ? (window.currentDifficulty ?? 2) : 2;
+    const waveMult = typeof game !== 'undefined' ? game.wave : 1;
 
-    // God Mode AI (4): Predict player movement and take cover by sliding behind obstacles
+    // Predictive aim scales by wave on Hard+ (2+)
     let targetX = pp.x, targetZ = pp.z;
-    if (diff >= 3 && P.body && P.body.vel) {
-      targetX += P.body.vel.x * 0.4;
-      targetZ += P.body.vel.z * 0.4;
+    if (diff >= 2 && P.body && P.body.vel) {
+      const predForce = diff >= 3 ? 0.2 * waveMult : 0.05 * waveMult;
+      targetX += P.body.vel.x * clamp(predForce, 0, 1.2);
+      targetZ += P.body.vel.z * clamp(predForce, 0, 1.2);
     }
 
     const dx = targetX - b.pos.x, dz = targetZ - b.pos.z; const dist = Math.hypot(dx, dz); const dy = pp.y - b.pos.y;
-    e.losT -= dt; if (e.losT <= 0) { e.losT = (diff >= 3 ? 0.05 : 0.12) + rand(0, 0.1); e.los = ctx.world.hasLineOfSight(this.eye(e, _eye), pc, SEE_THROUGH); }
+    e.losT -= dt; if (e.losT <= 0) { 
+      let baseDelay = diff === 0 ? 0.3 : diff === 1 ? 0.15 : 0.12;
+      if (diff >= 2) baseDelay = Math.max(0.02, baseDelay - (0.01 * waveMult));
+      if (diff === 0) baseDelay = Math.min(0.8, baseDelay + (0.05 * waveMult));
+      e.losT = baseDelay + rand(0, 0.1); 
+      e.los = ctx.world.hasLineOfSight(this.eye(e, _eye), pc, SEE_THROUGH); 
+    }
     
-    // God Mode AI Cover Sliding: If being looked at and no cover, slide randomly
-    if (diff === 4 && e.los && Math.random() < 0.02 * dt && b.onGround) {
+    // God Mode AI Cover Sliding: Dodge frequency scales with wave
+    if (diff === 4 && e.los && Math.random() < Math.min(0.01 * waveMult, 0.1) * dt && b.onGround) {
       b.vel.x += (Math.random() < 0.5 ? 1 : -1) * 20;
       b.vel.z += (Math.random() < 0.5 ? 1 : -1) * 20;
       b.vel.y += 4;
       e.stuckT = 0;
     }
 
-    e.cool -= dt * (diff === 4 ? 1.5 : diff === 0 ? 0.5 : 1.0); // Modulate cooldowns by difficulty
+    let coolMod = 1.0;
+    if (diff >= 2) coolMod = Math.min(2.5, 1.0 + (0.05 * waveMult));
+    else if (diff === 0) coolMod = Math.max(0.2, 0.8 - (0.05 * waveMult));
+    e.cool -= dt * coolMod;
     const yawTo = Math.atan2(dx, dz);
     if (T.weapon === 'bomb') {
       if (e.fuseT >= 0) { e.fuseT -= dt; b.vel.x = damp(b.vel.x, 0, 4, dt); b.vel.z = damp(b.vel.z, 0, 4, dt); e.yawT = yawTo; e.flashT = 0.02; if (!e.flashOn) { setFill(e.mat, true); e.flashOn = true; } if (Math.floor(e.fuseT * 8) !== Math.floor((e.fuseT + dt) * 8)) audio.fuse(e.center); if (e.fuseT <= 0) this._explodeBomber(e); return; }
@@ -738,6 +750,7 @@ export class EnemyManager {
   _shoot(e, dt, pc, P) {
     const T = e.T, ctx = this.ctx; const muzzle = _v.setFromMatrixPosition(e.tip.matrixWorld);
     const diff = typeof window !== 'undefined' ? (window.currentDifficulty ?? 2) : 2;
+    const waveMult = typeof game !== 'undefined' ? game.wave : 1;
 
     // Hard / Extreme / God Mode: Avoid Friendly Fire
     if (diff >= 2 && e.cool <= 0 && T.weapon !== 'sniper') {
@@ -753,9 +766,12 @@ export class EnemyManager {
       // The beam chases the player rather than being glued to them, and the shot goes exactly
       // where the beam is pointing - so if you keep moving once you see it, it misses.
       if (!e.aimPoint) { e.aimPoint = pc.clone(); }
-      else e.aimPoint.lerp(pc, 1 - Math.exp(-2.6 * dt * (diff >= 3 ? 2 : 1))); // God mode tracks faster
+      else e.aimPoint.lerp(pc, 1 - Math.exp(-2.6 * dt * (diff >= 2 ? Math.min(3, 1 + waveMult * 0.1) : 1))); 
       
-      const targetAimTime = T.aimTime * (diff === 4 ? 0.4 : diff === 0 ? 1.5 : 1.0);
+      let aimTimeMod = 1.0;
+      if (diff >= 2) aimTimeMod = Math.max(0.2, 1.0 - (0.05 * waveMult));
+      else if (diff === 0) aimTimeMod = Math.min(2.5, 1.2 + (0.1 * waveMult));
+      const targetAimTime = T.aimTime * aimTimeMod;
       
       this._showLaser(e, muzzle, e.aimPoint, clamp(e.aimT / targetAimTime, 0, 1));
       if (e.aimT > targetAimTime * 0.5 && !e.aimWarned) { e.aimWarned = true; audio.sniperAim(e.center); }
