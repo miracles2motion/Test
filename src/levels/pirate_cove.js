@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { INK } from '../render.js';
 
 export function buildPirateCove(B, arena = false) {
-  const { L, box, slab, stairs, cyl, ring, spawn, sniper, pickup } = B;
+  const { L, box, slab, stairs, cyl, ring, spawn, sniper, pickup, planes } = B;
   const OR = INK.ORANGE ?? 3, GR = INK.GREEN ?? 4, BK = INK.BLACK ?? 2, BL = INK.BLUE ?? 0;
   
   L.key = 'pirate_cove';
