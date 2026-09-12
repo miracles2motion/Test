@@ -35,9 +35,8 @@ if (fs.existsSync(mainLevelFile)) {
   const builderRegex = new RegExp(`[\\s\\r\\n]+${mapName}:\\s*\\w+,?`, 'g');
   levelCode = levelCode.replace(builderRegex, '');
 
-  // Remove from LEVELS array
-  // Matches { key: 'mapName', ... },
-  const objRegex = new RegExp(`[\\s\\r\\n]*\\{[\\s\\S]*?key:\\s*['"]${mapName}['"][\\s\\S]*?\\},?`, 'g');
+  // Remove from LEVELS array (assumes no nested objects within the level config)
+  const objRegex = new RegExp(`[\\s\\r\\n]*,?\\s*\\{[^{}]*?key:\\s*['"]${mapName}['"][^{}]*?\\},?`, 'g');
   levelCode = levelCode.replace(objRegex, '');
 
   fs.writeFileSync(mainLevelFile, levelCode);
