@@ -1622,18 +1622,6 @@ function mapSelectHTML() {
     const deployDisabled = isLocked ? 'disabled style="opacity: 0.45; cursor: not-allowed; pointer-events: none;"' : '';
 
     return `
-    <div class="tactical-top-bar">
-      <div class="tactical-mode-switch">
-        <button class="tactical-mode-btn ${game.mode === 'solo' ? 'active' : ''}" id="topSoloBtn">SURVIVAL</button>
-        <button class="tactical-mode-btn ${game.mode === 'duel' ? 'active' : ''}" id="topDuelBtn">1v1 DUEL</button>
-        <button class="tactical-mode-btn ${game.mode === 'explore' ? 'active' : ''}" id="topExploreBtn">FREE ROAM</button>
-        <button class="tactical-mode-btn" id="topOnlineBtn">MULTIPLAYER</button>
-      </div>
-      <div>
-        <button class="tactical-mode-btn" id="topSettingsBtn">SETTINGS</button>
-      </div>
-    </div>
-    
     <div class="tactical-filters">
       <button class="tactical-filter-btn ${filter === 'all' ? 'active' : ''}" data-filter="all">ALL THEATERS</button>
       <button class="tactical-filter-btn ${filter === 'urban' ? 'active' : ''}" data-filter="urban">TACTICAL GROUNDS</button>
@@ -1707,22 +1695,10 @@ function mainHTML() {
         <polyline points="7 10 12 15 17 10"/>
         <line x1="12" y1="15" x2="12" y2="3"/>
       </svg>
+    </button>` : ''}
   </div>
   
   <h1>DOODLE STRIKE</h1><h2>TACTICAL INK SHOOTER</h2>
-  
-  <div class="mainbtns">
-    <div class="tactical-difficulty" style="margin-bottom: 15px; display: flex; flex-direction: column; align-items: center; gap: 6px;">
-      <div style="font-size:11px; opacity:0.8; letter-spacing:1px; font-weight:bold;">AI DIFFICULTY</div>
-      <div style="display: flex; gap: 6px; justify-content: center; flex-wrap: wrap;">
-        <button class="tactical-filter-btn" style="font-size: 11px; padding: 4px 12px; border-width: 1.5px; border-radius: 4px; min-width: 70px; ${window.currentDifficulty === 0 ? 'background:var(--ink); color:var(--paper);' : 'background:transparent; color:var(--ink);'}" data-diff="0" title="Stupid">STUPID</button>
-        <button class="tactical-filter-btn" style="font-size: 11px; padding: 4px 12px; border-width: 1.5px; border-radius: 4px; min-width: 70px; ${window.currentDifficulty === 1 ? 'background:var(--ink); color:var(--paper);' : 'background:transparent; color:var(--ink);'}" data-diff="1" title="Easy">EASY</button>
-        <button class="tactical-filter-btn" style="font-size: 11px; padding: 4px 12px; border-width: 1.5px; border-radius: 4px; min-width: 70px; ${(window.currentDifficulty === undefined || window.currentDifficulty === 2) ? 'background:var(--ink); color:var(--paper);' : 'background:transparent; color:var(--ink);'}" data-diff="2" title="Hard">HARD</button>
-        <button class="tactical-filter-btn" style="font-size: 11px; padding: 4px 12px; border-width: 1.5px; border-radius: 4px; min-width: 70px; ${window.currentDifficulty === 3 ? 'background:var(--ink); color:var(--paper);' : 'background:transparent; color:var(--ink);'}" data-diff="3" title="Extreme">EXTREME</button>
-        <button class="tactical-filter-btn" style="font-size: 11px; padding: 4px 12px; border-width: 1.5px; border-radius: 4px; min-width: 70px; ${window.currentDifficulty === 4 ? 'background:var(--red); color:white; border-color:var(--red);' : 'background:transparent; color:var(--red); border-color:var(--red);'}" data-diff="4" title="AI GOD MODE">GOD MODE</button>
-      </div>
-    </div>
-  </div>
 
   <div class="main-menu-grid">
     <button type="button" id="soloBtn" class="mm-btn">
@@ -1887,11 +1863,7 @@ function showStart() {
     fastClick(p.querySelector('#backBtn'), () => { screen = 'main'; showStart(); });
     fastClick(p.querySelector('#weaponsBtn'), () => { weaponsReturnTo = 'map_select'; screen = 'weapons_preview'; showStart(); });
     
-    fastClick(p.querySelector('#topSoloBtn'), () => { game.mode = 'solo'; showStart(); });
-    if (p.querySelector('#topDuelBtn')) fastClick(p.querySelector('#topDuelBtn'), () => { game.mode = 'duel'; showStart(); });
-    fastClick(p.querySelector('#topExploreBtn'), () => { game.mode = 'explore'; showStart(); });
-    fastClick(p.querySelector('#topOnlineBtn'), () => { screen = 'online'; showStart(); });
-    fastClick(p.querySelector('#topSettingsBtn'), () => { settingsReturnTo = 'map_select'; screen = 'settings'; showStart(); });
+
     
     p.querySelectorAll('.tactical-filter-btn').forEach(btn => {
       fastClick(btn, () => {
