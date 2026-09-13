@@ -390,6 +390,7 @@ function makePickup(kind) {
   return g;
 }
 function spawnPickup(kind, pos, id = null) {
+  if (!pos) pos = (level && level.playerStart) ? level.playerStart.clone() : new THREE.Vector3(0, 1, 0);
   const m = makePickup(kind); m.position.copy(pos); m.position.y += 0.6; R.scene.add(m);
   const p = { id: id ?? pickupId++, kind, mesh: m, base: m.position.y, t: rand(0, 6), life: 45 }; pickups.push(p);
   if (net.isHost) net.send('pickup', { id: p.id, kind, pos: pos.toArray() });
@@ -2047,43 +2048,58 @@ function beginCommon() {
   game.menu = false;
 }
 function begin() {
-  game.mode = 'solo';
-  setArena(false);
-  beginCommon();
-  resetGame();
-  startWave(1);
-  game.state = 'play';
+  try {
+    game.mode = 'solo';
+    setArena(false);
+    beginCommon();
+    resetGame();
+    startWave(1);
+    game.state = 'play';
+  } catch (err) {
+    console.error('[Launch] Solo Start Error:', err);
+    hud.tip('Failed to start mission: ' + err.message, 5);
+  }
 }
 function beginDuel() { 
-  game.mode = 'duel'; setArena(false); beginCommon(); resetGame(); game.state = 'play'; 
-  player.grenades = 5;
-  for (const w of player.weapons) { if (w.isGun) { w.mag = w.magSize; w.reserve = 999; } }
-  hud.setWave('DUEL', 0, 'duel'); hud.message('1 V 1', 'Defeat the AI', 3.5);
-  hud.tip('AI Difficulty: ' + (window.currentDifficulty === 4 ? 'GOD MODE' : window.currentDifficulty === 3 ? 'EXTREME' : window.currentDifficulty === 0 ? 'STUPID' : 'STANDARD'), 4);
-  const diff = window.currentDifficulty ?? 2;
-  const normalPool = ['rusher', 'heavy', 'shield', 'sniper', 'grunt'];
-  const t = Math.random() < 0.1 ? 'boss' : normalPool[Math.floor(Math.random() * normalPool.length)];
-  const spots = (typeof spawnSpots === 'function' ? spawnSpots() : []);
-  const spawnPt = spots.length > 0 ? spots[Math.floor(Math.random()*spots.length)] : (typeof arenaSpawn === 'function' ? arenaSpawn() : level.playerStart.clone());
-  spawnPt.y += 2;
-  enemies.spawn(t, spawnPt);
+  try {
+    game.mode = 'duel'; setArena(false); beginCommon(); resetGame(); game.state = 'play'; 
+    player.grenades = 5;
+    for (const w of player.weapons) { if (w.isGun) { w.mag = w.magSize; w.reserve = 999; } }
+    hud.setWave('DUEL', 0, 'duel'); hud.message('1 V 1', 'Defeat the AI', 3.5);
+    hud.tip('AI Difficulty: ' + (window.currentDifficulty === 4 ? 'GOD MODE' : window.currentDifficulty === 3 ? 'EXTREME' : window.currentDifficulty === 0 ? 'STUPID' : 'STANDARD'), 4);
+    const diff = window.currentDifficulty ?? 2;
+    const normalPool = ['rusher', 'heavy', 'shield', 'sniper', 'grunt'];
+    const t = Math.random() < 0.1 ? 'boss' : normalPool[Math.floor(Math.random() * normalPool.length)];
+    const spots = (typeof spawnSpots === 'function' ? spawnSpots() : []);
+    const spawnPt = spots.length > 0 ? spots[Math.floor(Math.random()*spots.length)] : (typeof arenaSpawn === 'function' ? arenaSpawn() : level.playerStart.clone());
+    spawnPt.y += 2;
+    enemies.spawn(t, spawnPt);
+  } catch (err) {
+    console.error('[Launch] Duel Start Error:', err);
+    hud.tip('Failed to start duel: ' + err.message, 5);
+  }
 }
 function beginExplore() {
-  game.mode = 'explore';
-  setArena(false);
-  beginCommon();
-  resetGame();
-  game.state = 'play';
-  for (const w of player.weapons) {
-    if (w.isGun) {
-      w.mag = w.magSize;
-      w.reserve = 999;
+  try {
+    game.mode = 'explore';
+    setArena(false);
+    beginCommon();
+    resetGame();
+    game.state = 'play';
+    for (const w of player.weapons) {
+      if (w.isGun) {
+        w.mag = w.magSize;
+        w.reserve = 999;
+      }
     }
+    player.grenades = 5;
+    hud.setWave('ROAM', 0, 'roam');
+    hud.message('TEST RUN', 'Free Roam · Zero enemies · Explore the map', 3.5);
+    hud.tip(`Map: ${knownMap(mapKey).toUpperCase()} · Press Menu or ESC to pause`, 5);
+  } catch (err) {
+    console.error('[Launch] Explore Start Error:', err);
+    hud.tip('Failed to start explore: ' + err.message, 5);
   }
-  player.grenades = 5;
-  hud.setWave('ROAM', 0, 'roam');
-  hud.message('TEST RUN', 'Free Roam · Zero enemies · Explore the map', 3.5);
-  hud.tip(`Map: ${knownMap(mapKey).toUpperCase()} · Press Menu or ESC to pause`, 5);
 }
 function beginAtWave(n) { game.mode = 'solo'; setArena(false); beginCommon(); resetGame(); startWave(n); game.state = 'play'; }
 function jumpToWave(n) { enemies.clear(); effects.clear(); enemies.mods.speed = 1; enemies.mods.damage = 1; endFocus(); game.intermission = 0; game.queue = []; startWave(n); hud.hideScreen(); hud.setGameplayVisible(true); game.state = 'play'; game.menu = false; audio.reelLoop(false); }

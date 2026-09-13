@@ -26,7 +26,7 @@ export class HUD {
       <div class="killfeed" id="killfeed"></div>
       <div class="screen" id="screen"><div class="panel" id="panel"></div></div>`;
     const q = (id) => root.querySelector('#' + id);
-    this.el = { crosshair: q('crosshair'), gret: q('gret'), hitmarker: q('hitmarker'), dmg: q('dmg'), score: q('score'), combo: q('combo'), wave: q('wave'), modifier: q('modifier'), left: q('left'), timer: q('timer'), hpfill: q('hpfill'), hpnum: q('hpnum'), mag: q('mag'), reserve: q('reserve'), reloading: q('reloading'), tally: q('tally'), weapon: q('weapon'), hint: q('hint'), slots: q('slots'), tip: q('tip'), msg: q('msg'), msgsub: q('msgsub'), killfeed: q('killfeed'), screen: q('screen'), panel: q('panel'), nades: q('nades'), scope: q('scope'), focusmark: q('focusmark'), focusmeter: q('focusmeter'), fmfill: q('fmfill'), bossbar: q('bossbar'), bossname: q('bossname'), bossfill: q('bossfill'), pvpscore: q('pvpscore'), board: q('board'), gstam: q('gstam'), gstamfill: q('gstamfill') };
+    this.el = { crosshair: q('crosshair'), gret: q('gret'), hitmarker: q('hitmarker'), dmg: q('dmg'), score: q('score'), combo: q('combo'), wave: q('wave'), modifier: q('modifier'), left: q('left'), waveBox: root.querySelector('.wave'), leftBox: root.querySelector('.left'), waveCard: root.querySelector('.wave-card'), timer: q('timer'), hpfill: q('hpfill'), hpnum: q('hpnum'), mag: q('mag'), reserve: q('reserve'), reloading: q('reloading'), tally: q('tally'), weapon: q('weapon'), hint: q('hint'), slots: q('slots'), tip: q('tip'), msg: q('msg'), msgsub: q('msgsub'), killfeed: q('killfeed'), screen: q('screen'), panel: q('panel'), nades: q('nades'), scope: q('scope'), focusmark: q('focusmark'), focusmeter: q('focusmeter'), fmfill: q('fmfill'), bossbar: q('bossbar'), bossname: q('bossname'), bossfill: q('bossfill'), pvpscore: q('pvpscore'), board: q('board'), gstam: q('gstam'), gstamfill: q('gstamfill') };
     this._scope = false; this._nades = -1; this._pad = false; this.onDevice = null; this._fmShow = false; this._fmFrac = -1; this._fmReady = false; this._lastTally = -1; this._lastSlots = ''; this._ads = false; this._mode = ''; this.onScreenClick = null; this.onScreenVisibility = null;
     this._msgTimeout = null; this._tipTimeout = null;
 
@@ -96,23 +96,26 @@ export class HUD {
   }
   setHealth(hp, max) { const f = Math.max(0, hp / max); this.el.hpfill.style.width = (f * 100).toFixed(1) + '%'; this.el.hpnum.textContent = Math.ceil(hp); this.root.classList.toggle('low', f < 0.3); }
   setBoard(html) { const on = !!html; this.el.board.hidden = !on; if (on) this.el.board.innerHTML = html; }
-  setPvpScore(html) { const on = !!html; this.el.pvpscore.hidden = !on; if (on) this.el.pvpscore.innerHTML = html; this.el.wave.parentElement.hidden = on; this.el.left.parentElement.hidden = on; }
+  setPvpScore(html) { const on = !!html; this.el.pvpscore.hidden = !on; if (on) this.el.pvpscore.innerHTML = html; const wb = this.el.waveBox || this.root.querySelector('.wave'); const lb = this.el.leftBox || this.root.querySelector('.left'); if (wb) wb.hidden = on; if (lb) lb.hidden = on; }
   setWave(n, left, state = 'active') {
+    const wb = this.el.waveBox || this.root.querySelector('.wave');
+    const lb = this.el.leftBox || this.root.querySelector('.left');
+    if (!wb || !lb) return;
     if (state === 'active') {
-      this.el.wave.parentElement.innerHTML = '<div class="wave-title">WAVE <b>' + n + '</b></div>';
-      this.el.left.parentElement.innerHTML = '<div class="wave-sub"><b>' + left + '</b> ENEMIES LEFT</div>';
-      this.el.left.parentElement.hidden = false;
+      wb.innerHTML = '<div class="wave-title">WAVE <b>' + n + '</b></div>';
+      lb.innerHTML = '<div class="wave-sub"><b>' + left + '</b> ENEMIES LEFT</div>';
+      lb.hidden = false;
     } else if (state === 'intermission') {
-      this.el.wave.parentElement.innerHTML = '<div class="wave-title">WAVE <b>' + n + '</b> CLEARED</div>';
-      this.el.left.parentElement.innerHTML = '<div class="wave-sub">NEXT WAVE IN <b>' + left + 's</b></div>';
-      this.el.left.parentElement.hidden = false;
+      wb.innerHTML = '<div class="wave-title">WAVE <b>' + n + '</b> CLEARED</div>';
+      lb.innerHTML = '<div class="wave-sub">NEXT WAVE IN <b>' + left + 's</b></div>';
+      lb.hidden = false;
     } else if (state === 'roam') {
-      this.el.wave.parentElement.innerHTML = '<div class="wave-title">FREE ROAM</div>';
-      this.el.left.parentElement.hidden = true;
+      wb.innerHTML = '<div class="wave-title">FREE ROAM</div>';
+      lb.hidden = true;
     } else if (state === 'duel') {
-      this.el.wave.parentElement.innerHTML = '<div class="wave-title">1v1 DUEL</div>';
-      this.el.left.parentElement.innerHTML = '<div class="wave-sub">TARGET: <b>AI</b></div>';
-      this.el.left.parentElement.hidden = false;
+      wb.innerHTML = '<div class="wave-title">1v1 DUEL</div>';
+      lb.innerHTML = '<div class="wave-sub">TARGET: <b>AI</b></div>';
+      lb.hidden = false;
     }
   }
   setModifier(text) { this.el.modifier.textContent = text || ''; }
