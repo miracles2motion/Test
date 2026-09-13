@@ -633,7 +633,37 @@ async function main() {
 
   } catch (err) {
     overallSuccess = false;
-    console.error(`\n💥 DREAM PIPELINE ERROR: ${err.message}`);
+    
+    const cache = getLearningCache();
+    const errMsg = err.message || '';
+    let isKnown = false;
+    
+    for (const p of cache.learnedPatterns || []) {
+      if (p.description.includes(errMsg) || p.trigger === errMsg || errMsg.includes(p.trigger)) {
+        isKnown = true; break;
+      }
+    }
+    for (const entry of Object.values(cache.failureBlacklist || {})) {
+      if (entry.reason === errMsg || errMsg.includes(entry.reason)) {
+        isKnown = true; break;
+      }
+    }
+    
+    if (!isKnown) {
+      console.log(`
+      🚨🚨🚨 COMPLETELY NEW ERROR DETECTED 🚨🚨🚨
+      Dream has encountered a fatal error it does not recognize
+      and has no auto-remedy for. 
+      
+      Error Details:
+      ${err.message}
+      
+      User intervention required! Please fix the underlying issue.
+      🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨
+      `);
+    } else {
+      console.error(`\n💥 DREAM PIPELINE ERROR: ${err.message}`);
+    }
 
     if (snapshotPath) {
       rollback(snapshotPath);

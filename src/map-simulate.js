@@ -18,6 +18,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import * as THREE from 'three';
 import { buildLevel, LEVELS, MAP_BUILDERS } from './level.js';
+import { blacklistCoordinate } from './map-learning.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -89,7 +90,10 @@ export function simulateAndScoreMap(mapKey) {
         }
       }
     }
-    if (!hasFloorBelow) ungroundedSpawns++;
+    if (!hasFloorBelow) {
+      ungroundedSpawns++;
+      blacklistCoordinate(mapKey, sp.x, sp.z, 4.0, 'ungrounded-spawn');
+    }
   }
   if (spawns.length > 0 && ungroundedSpawns > 0) {
     spawnScore -= (ungroundedSpawns / spawns.length) * 40;
@@ -131,7 +135,10 @@ export function simulateAndScoreMap(mapKey) {
       }
       if (!blocked) openAngles++;
     }
-    if (openAngles < 3) campProneSnipers++;
+    if (openAngles < 3) {
+      campProneSnipers++;
+      blacklistCoordinate(mapKey, sn.x, sn.z, 5.0, 'camp-prone-sniper');
+    }
   }
   if (snipers.length > 0 && campProneSnipers > 0) {
     sniperScore -= (campProneSnipers / snipers.length) * 40;

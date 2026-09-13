@@ -24,7 +24,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import * as THREE from 'three';
 import { buildLevel, MAP_BUILDERS } from './level.js';
-import { recordLearnedPattern, blacklistTemplate, isTemplateBlacklisted, registerSuccess } from './map-learning.js';
+import { recordLearnedPattern, blacklistTemplate, isTemplateBlacklisted, registerSuccess, isCoordinateBlacklisted, getLearningCache } from './map-learning.js';
 import { GeometryValidator } from './geometry-validator.js';
 import { StairSanitizer } from './stair-sanitizer.js';
 
@@ -100,6 +100,8 @@ const voidCandidates = [];
 for (let x = bounds.minX + 12; x <= bounds.maxX - 12; x += step) {
   for (let z = bounds.minZ + 12; z <= bounds.maxZ - 12; z += step) {
     if (Math.abs(x) < 6 && Math.abs(z) < 6) continue;
+    if (isCoordinateBlacklisted(x, z, mapArg)) continue; // Skip known dead zones
+    
     // Test large voids first, then medium
     if (isVolumetricPocketClear(x, 0, z, 10.0, 7.0, 10.0, 1.2)) {
       voidCandidates.push({ x, y: 0, z, width: 10.0, height: 7.0, depth: 10.0, tier: 'large' });
@@ -425,11 +427,23 @@ for (const pocket of voidCandidates) {
 
     // Check size fit
     if (pocket.width >= tpl.minSize[0] && pocket.height >= tpl.minSize[1] && pocket.depth >= tpl.minSize[2]) {
+      let finalX = pocket.x;
+      let finalZ = pocket.z;
+      
+      // GOD MODE: Genetic algorithm mutation for successful templates
+      const cache = getLearningCache();
+      const registryEntry = cache.successRegistry[tpl.id];
+      if (registryEntry && registryEntry.avgScore > 80 && Math.random() < 0.20) {
+        console.log(`   🧬 Genetic Mutation applied to ${tpl.id} — searching for optimized placement.`);
+        finalX += (Math.random() - 0.5) * 3.0; // +/- 1.5m
+        finalZ += (Math.random() - 0.5) * 3.0;
+      }
+      
       selectedStructures.push({
         ...tpl,
-        x: pocket.x,
+        x: finalX,
         y: 0,
-        z: pocket.z,
+        z: finalZ,
         voidTier: pocket.tier
       });
       templateIdx = (templateIdx + attempt + 1) % templates.length;

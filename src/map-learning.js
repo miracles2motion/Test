@@ -76,7 +76,8 @@ const DEFAULT_CACHE = {
     runs: [],                 // last N run results: { timestamp, mapKey, success, score }
     currentRate: 0            // percentage of failures in window
   },
-  ruleTighteningLog: []       // log of auto-tightened rules
+  ruleTighteningLog: [],      // log of auto-tightened rules
+  deadZones: []               // { mapKey, x, z, radius, reason, timestamp }
 };
 
 export function getLearningCache() {
@@ -92,6 +93,7 @@ export function getLearningCache() {
     if (!cache.successRegistry) cache.successRegistry = {};
     if (!cache.errorRateTracker) cache.errorRateTracker = { windowSize: 20, runs: [], currentRate: 0 };
     if (!cache.ruleTighteningLog) cache.ruleTighteningLog = [];
+    if (!cache.deadZones) cache.deadZones = [];
     return cache;
   } catch (err) {
     console.error('Error parsing learning cache, resetting to defaults:', err.message);
@@ -184,6 +186,54 @@ export function getBlacklistedTemplates() {
   return Object.entries(cache.failureBlacklist)
     .filter(([, v]) => v.count >= 3)
     .map(([k]) => k);
+}
+
+/**
+ * Blacklist a specific coordinate as a dead zone.
+ */
+export function blacklistCoordinate(mapKey, x, z, radius, reason) {
+  const cache = getLearningCache();
+  if (!cache.deadZones) cache.deadZones = [];
+  
+  // Prevent duplicate nearby zones
+  const isDuplicate = cache.deadZones.some(dz => 
+    dz.mapKey === mapKey && 
+    dz.reason === reason && 
+    Math.hypot(dz.x - x, dz.z - z) < radius
+  );
+  
+  if (!isDuplicate) {
+    cache.deadZones.push({
+      mapKey,
+      x,
+      z,
+      radius,
+      reason,
+      timestamp: new Date().toISOString()
+    });
+    // Auto-tighten rules dynamically if we hit too many dead zones
+    if (cache.deadZones.length % 5 === 0) {
+      autoTightenRules(cache, 'dead-zone-cluster', reason);
+    }
+    saveLearningCache(cache);
+    recordLearnedPattern(mapKey, 'dead-zone-identified', `Identified dead zone at (${x}, ${z}) due to ${reason}`, 'blacklistCoordinate');
+  }
+}
+
+/**
+ * Check if a coordinate is within a known dead zone.
+ */
+export function isCoordinateBlacklisted(x, z, mapKey) {
+  const cache = getLearningCache();
+  if (!cache.deadZones) return false;
+  
+  for (const dz of cache.deadZones) {
+    if (dz.mapKey !== mapKey) continue;
+    if (Math.hypot(dz.x - x, dz.z - z) <= dz.radius) {
+      return true;
+    }
+  }
+  return false;
 }
 
 /**

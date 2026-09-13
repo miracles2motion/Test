@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-09-12T22:31:50.864Z",
+  "updatedAt": "2026-09-13T01:40:20.560Z",
   "rules": {
     "stairway": {
       "minRise": 0.2,
@@ -65,8 +65,8 @@
       "description": "Synthesized 2 multi-story interactive buildings",
       "trigger": "macro-dream-building",
       "autoRemedy": "macroSpatialInjection",
-      "occurrences": 42,
-      "lastObserved": "2026-09-12T22:31:49.913Z"
+      "occurrences": 43,
+      "lastObserved": "2026-09-13T01:40:20.560Z"
     },
     {
       "patternId": "macro-syntax-failure",
@@ -583,6 +583,12 @@
       "mapKey": "pirate_cove",
       "patternId": "dream-city-planner",
       "description": "Injected 56 macro structures (City Planner)"
+    },
+    {
+      "timestamp": "2026-09-13T01:40:20.560Z",
+      "mapKey": "pirate_cove",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
     }
   ],
   "failureBlacklist": {},
@@ -796,33 +802,9 @@
       "lastSuccess": "2026-09-12T21:04:08.655Z"
     },
     "cargo_crane": {
-      "count": 79,
-      "totalScore": 6715,
+      "count": 83,
+      "totalScore": 7055,
       "positions": [
-        {
-          "mapKey": "pirate_cove",
-          "x": -25,
-          "y": 0,
-          "z": -37
-        },
-        {
-          "mapKey": "pirate_cove",
-          "x": -25,
-          "y": 0,
-          "z": -19
-        },
-        {
-          "mapKey": "pirate_cove",
-          "x": -25,
-          "y": 0,
-          "z": -1
-        },
-        {
-          "mapKey": "pirate_cove",
-          "x": -25,
-          "y": 0,
-          "z": 17
-        },
         {
           "mapKey": "pirate_cove",
           "x": -25,
@@ -918,10 +900,34 @@
           "x": -1,
           "y": 0,
           "z": -13
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -25,
+          "y": 0,
+          "z": -37
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -25,
+          "y": 0,
+          "z": 11
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -25,
+          "y": 0,
+          "z": 29
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -13,
+          "y": 0,
+          "z": -1
         }
       ],
       "avgScore": 85,
-      "lastSuccess": "2026-09-12T22:31:49.913Z"
+      "lastSuccess": "2026-09-13T01:40:20.557Z"
     },
     "bell_pavilion": {
       "count": 5,
@@ -1166,5 +1172,6 @@
     ],
     "currentRate": 0
   },
-  "ruleTighteningLog": []
+  "ruleTighteningLog": [],
+  "deadZones": []
 }
