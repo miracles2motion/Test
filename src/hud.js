@@ -13,7 +13,7 @@ export class HUD {
       <div class="hitmarker" id="hitmarker"><i></i><i></i></div>
       <div class="dmg-ind" id="dmg"></div>
       <div class="hud-tl"><div class="score">SCORE <b id="score">0</b></div><div class="combo" id="combo"></div></div>
-      <div class="hud-tr wave-card"><div class="wave">WAVE <b id="wave">1</b></div><div class="modifier" id="modifier"></div><div class="left"><b id="left">0</b> ENEMIES LEFT</div><div class="timer" id="timer"></div><div class="pvpscore" id="pvpscore" hidden></div></div><div class="board" id="board" hidden></div>
+      <div class="hud-tr wave-card" id="hud-wave-card"><div class="wave" id="wave-box"><span class="hud-lbl" id="wave-lbl">WAVE</span> <b class="hud-num" id="wave">1</b></div><div class="left" id="left-box"><b class="hud-num" id="left">0</b> <span class="hud-sublbl" id="left-lbl">ENEMIES LEFT</span></div><div class="modifier" id="modifier" hidden></div><div class="timer" id="timer" hidden></div><div class="pvpscore" id="pvpscore" hidden></div></div><div class="board" id="board" hidden></div>
       <div class="bossbar" id="bossbar"><div class="bossname" id="bossname"></div><div class="bar big"><div class="fill red" id="bossfill"></div></div></div>
       <div class="hud-bl">
         <div class="health"><span>HEALTH</span><div class="bar"><div class="fill" id="hpfill"></div></div><span id="hpnum">100</span></div>
@@ -26,7 +26,7 @@ export class HUD {
       <div class="killfeed" id="killfeed"></div>
       <div class="screen" id="screen"><div class="panel" id="panel"></div></div>`;
     const q = (id) => root.querySelector('#' + id);
-    this.el = { crosshair: q('crosshair'), gret: q('gret'), hitmarker: q('hitmarker'), dmg: q('dmg'), score: q('score'), combo: q('combo'), wave: q('wave'), modifier: q('modifier'), left: q('left'), waveBox: root.querySelector('.wave'), leftBox: root.querySelector('.left'), waveCard: root.querySelector('.wave-card'), timer: q('timer'), hpfill: q('hpfill'), hpnum: q('hpnum'), mag: q('mag'), reserve: q('reserve'), reloading: q('reloading'), tally: q('tally'), weapon: q('weapon'), hint: q('hint'), slots: q('slots'), tip: q('tip'), msg: q('msg'), msgsub: q('msgsub'), killfeed: q('killfeed'), screen: q('screen'), panel: q('panel'), nades: q('nades'), scope: q('scope'), focusmark: q('focusmark'), focusmeter: q('focusmeter'), fmfill: q('fmfill'), bossbar: q('bossbar'), bossname: q('bossname'), bossfill: q('bossfill'), pvpscore: q('pvpscore'), board: q('board'), gstam: q('gstam'), gstamfill: q('gstamfill') };
+    this.el = { crosshair: q('crosshair'), gret: q('gret'), hitmarker: q('hitmarker'), dmg: q('dmg'), score: q('score'), combo: q('combo'), waveCard: q('hud-wave-card') || root.querySelector('.hud-tr'), waveBox: q('wave-box') || root.querySelector('.wave'), waveLbl: q('wave-lbl'), wave: q('wave'), leftBox: q('left-box') || root.querySelector('.left'), left: q('left'), leftLbl: q('left-lbl'), modifier: q('modifier'), timer: q('timer'), hpfill: q('hpfill'), hpnum: q('hpnum'), mag: q('mag'), reserve: q('reserve'), reloading: q('reloading'), tally: q('tally'), weapon: q('weapon'), hint: q('hint'), slots: q('slots'), tip: q('tip'), msg: q('msg'), msgsub: q('msgsub'), killfeed: q('killfeed'), screen: q('screen'), panel: q('panel'), nades: q('nades'), scope: q('scope'), focusmark: q('focusmark'), focusmeter: q('focusmeter'), fmfill: q('fmfill'), bossbar: q('bossbar'), bossname: q('bossname'), bossfill: q('bossfill'), pvpscore: q('pvpscore'), board: q('board'), gstam: q('gstam'), gstamfill: q('gstamfill') };
     this._scope = false; this._nades = -1; this._pad = false; this.onDevice = null; this._fmShow = false; this._fmFrac = -1; this._fmReady = false; this._lastTally = -1; this._lastSlots = ''; this._ads = false; this._mode = ''; this.onScreenClick = null; this.onScreenVisibility = null;
     this._msgTimeout = null; this._tipTimeout = null;
 
@@ -96,30 +96,87 @@ export class HUD {
   }
   setHealth(hp, max) { const f = Math.max(0, hp / max); this.el.hpfill.style.width = (f * 100).toFixed(1) + '%'; this.el.hpnum.textContent = Math.ceil(hp); this.root.classList.toggle('low', f < 0.3); }
   setBoard(html) { const on = !!html; this.el.board.hidden = !on; if (on) this.el.board.innerHTML = html; }
-  setPvpScore(html) { const on = !!html; this.el.pvpscore.hidden = !on; if (on) this.el.pvpscore.innerHTML = html; const wb = this.el.waveBox || this.root.querySelector('.wave'); const lb = this.el.leftBox || this.root.querySelector('.left'); if (wb) wb.hidden = on; if (lb) lb.hidden = on; }
-  setWave(n, left, state = 'active') {
+  setPvpScore(html) {
+    const on = !!html;
+    if (this.el.pvpscore) {
+      this.el.pvpscore.hidden = !on;
+      if (on) this.el.pvpscore.innerHTML = html;
+    }
     const wb = this.el.waveBox || this.root.querySelector('.wave');
     const lb = this.el.leftBox || this.root.querySelector('.left');
-    if (!wb || !lb) return;
+    if (wb) wb.hidden = on;
+    if (lb) lb.hidden = on;
+  }
+  setWave(n, left, state = 'active') {
+    const w = this.el.wave || this.root.querySelector('#wave');
+    const wLbl = this.el.waveLbl || this.root.querySelector('#wave-lbl');
+    const l = this.el.left || this.root.querySelector('#left');
+    const lLbl = this.el.leftLbl || this.root.querySelector('#left-lbl');
+    const lBox = this.el.leftBox || this.root.querySelector('#left-box') || this.root.querySelector('.left');
+    const card = this.el.waveCard || this.root.querySelector('.wave-card') || this.root.querySelector('.hud-tr');
+
     if (state === 'active') {
-      wb.innerHTML = '<div class="wave-title">WAVE <b>' + n + '</b></div>';
-      lb.innerHTML = '<div class="wave-sub"><b>' + left + '</b> ENEMIES LEFT</div>';
-      lb.hidden = false;
+      if (wLbl) wLbl.textContent = 'WAVE';
+      if (w) {
+        const strVal = String(n);
+        if (w.textContent !== strVal) {
+          w.textContent = strVal;
+          w.classList.remove('pop');
+          void w.offsetWidth;
+          w.classList.add('pop');
+        }
+      }
+      if (l) l.textContent = left;
+      if (lLbl) lLbl.textContent = left === 1 ? 'ENEMY LEFT' : 'ENEMIES LEFT';
+      if (lBox) lBox.hidden = false;
+      if (card) {
+        card.classList.remove('intermission', 'roam', 'duel');
+        card.classList.add('active');
+      }
     } else if (state === 'intermission') {
-      wb.innerHTML = '<div class="wave-title">WAVE <b>' + n + '</b> CLEARED</div>';
-      lb.innerHTML = '<div class="wave-sub">NEXT WAVE IN <b>' + left + 's</b></div>';
-      lb.hidden = false;
+      if (wLbl) wLbl.textContent = 'WAVE ' + n;
+      if (w) w.textContent = 'CLEARED';
+      if (l) l.textContent = left + 's';
+      if (lLbl) lLbl.textContent = 'NEXT WAVE IN';
+      if (lBox) lBox.hidden = false;
+      if (card) {
+        card.classList.remove('active', 'roam', 'duel');
+        card.classList.add('intermission');
+      }
     } else if (state === 'roam') {
-      wb.innerHTML = '<div class="wave-title">FREE ROAM</div>';
-      lb.hidden = true;
+      if (wLbl) wLbl.textContent = 'MODE';
+      if (w) w.textContent = 'FREE ROAM';
+      if (lBox) lBox.hidden = true;
+      if (card) {
+        card.classList.remove('active', 'intermission', 'duel');
+        card.classList.add('roam');
+      }
     } else if (state === 'duel') {
-      wb.innerHTML = '<div class="wave-title">1v1 DUEL</div>';
-      lb.innerHTML = '<div class="wave-sub">TARGET: <b>AI</b></div>';
-      lb.hidden = false;
+      if (wLbl) wLbl.textContent = 'MODE';
+      if (w) w.textContent = '1v1 DUEL';
+      if (l) l.textContent = 'AI';
+      if (lLbl) lLbl.textContent = 'TARGET';
+      if (lBox) lBox.hidden = false;
+      if (card) {
+        card.classList.remove('active', 'intermission', 'roam');
+        card.classList.add('duel');
+      }
     }
   }
-  setModifier(text) { this.el.modifier.textContent = text || ''; }
-  setTimer(text) { this.el.timer.textContent = text || ''; }
+  setModifier(text) {
+    const m = this.el.modifier || this.root.querySelector('#modifier');
+    if (m) {
+      m.textContent = text || '';
+      m.hidden = !text;
+    }
+  }
+  setTimer(text) {
+    const t = this.el.timer || this.root.querySelector('#timer');
+    if (t) {
+      t.textContent = text || '';
+      t.hidden = !text;
+    }
+  }
   setScore(score, combo) { this.el.score.textContent = score; this.el.combo.textContent = combo > 1 ? 'COMBO x' + combo : ''; }
   setWeapon(name, hint) { this.el.weapon.textContent = name; this.el.hint.textContent = hint || ''; }
   setBoss(name, frac) { if (frac == null) { this.el.bossbar.classList.remove('show'); return; } this.el.bossbar.classList.add('show'); this.el.bossname.textContent = name; this.el.bossfill.style.width = (Math.max(0, frac) * 100).toFixed(1) + '%'; }

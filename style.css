@@ -6,7 +6,7 @@ canvas#c { position: fixed; inset: 0; width: 100vw; height: 100vh; display: bloc
 .hud-tl, .hud-tr, .hud-bl, .hud-br, .crosshair, .grapple-ret, .hitmarker, .dmg-ind, .message, .killfeed { mix-blend-mode: multiply; }
 #hud.nogame .hud-tl, #hud.nogame .hud-tr, #hud.nogame .hud-bl, #hud.nogame .hud-br, #hud.nogame .crosshair, #hud.nogame .grapple-ret, #hud.nogame .killfeed { display: none; }
 .hud-tl { position: absolute; left: 9%; top: 3%; font-size: 30px; transform: rotate(-1.5deg); }
-.hud-tr { position: absolute; right: 4%; top: 3%; text-align: right; font-size: 30px; transform: rotate(1deg); }
+.hud-tr { position: absolute; right: 4%; top: 3%; text-align: right; pointer-events: none !important; }
 .hud-bl { position: absolute; left: 9%; bottom: 5%; }
 .hud-br { position: absolute; right: 4%; bottom: 5%; text-align: right; }
 .ammo b { font-size: 58px; } .ammo span { font-size: 28px; opacity: .8; } .reloading { font-size: 22px !important; color: var(--ink-red); }
@@ -425,8 +425,9 @@ button:active, .mapbtn:active, .tab-btn:active {
   user-select: none;
   -webkit-user-select: none;
   touch-action: none;
+  pointer-events: auto !important;
   cursor: pointer;
-  z-index: 50;
+  z-index: 2600;
   transform: scale(var(--global-scale, 1));
   transition: transform 0.1s, opacity 0.1s;
 }
@@ -2173,36 +2174,200 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
 .quit-btn { margin-top: 8px; color: var(--ink-red); }
 
 
-/* --- MOBILE HUD WAVE REFACTOR --- */
+/* --- HUD TOP-RIGHT (WAVE & OBJECTIVE CARD) --- */
+.hud-tr {
+  position: absolute;
+  right: 4%;
+  top: 3%;
+  text-align: right;
+  font-family: var(--font-display), 'Comic Sans MS', 'Marker Felt', cursive, sans-serif;
+  transform: rotate(var(--tilt-b, 0.6deg));
+  pointer-events: none !important;
+  user-select: none;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+.hud-tr * {
+  pointer-events: none !important;
+}
+.hud-tr.wave-card {
+  background: rgba(246, 243, 230, 0.88);
+  border: var(--stroke-1, 2px) solid var(--ink);
+  border-radius: var(--r-sketch-md, 7px 10px 6px 9px / 10px 6px 9px 7px);
+  padding: 6px 14px 8px 16px;
+  box-shadow: var(--stamp, 2px 2px 0 rgba(26,48,192,0.18));
+  min-width: 130px;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.hud-tr .wave {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 8px;
+  line-height: 1;
+  border-bottom: 1.5px solid var(--ink-wash, rgba(26,48,192,0.15));
+  padding-bottom: 3px;
+  width: 100%;
+}
+.hud-tr .wave #wave-lbl {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--pencil, #55524a);
+  text-transform: uppercase;
+}
+.hud-tr .wave #wave {
+  font-size: 38px;
+  font-weight: 900;
+  line-height: 0.9;
+  color: var(--ink-red, #d02030);
+  letter-spacing: 0.02em;
+  display: inline-block;
+  transform-origin: center right;
+  transition: transform 0.12s ease-out;
+}
+.hud-tr .wave #wave.pop {
+  animation: wavePop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes wavePop {
+  0% { transform: scale(1.4) rotate(-4deg); }
+  60% { transform: scale(0.96) rotate(1deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+.hud-tr .left {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 6px;
+  line-height: 1.1;
+  margin-top: 3px;
+  width: 100%;
+}
+.hud-tr .left #left {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--ink, #1a30c0);
+  font-family: var(--font-mono), 'Courier New', monospace;
+}
+.hud-tr .left #left-lbl {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--pencil, #55524a);
+  text-transform: uppercase;
+}
+
+/* Intermission state */
+.hud-tr.intermission {
+  border-color: var(--ink-red, #d02030);
+  box-shadow: 2px 2px 0 rgba(208, 32, 48, 0.18);
+}
+.hud-tr.intermission .wave {
+  border-bottom-color: rgba(208, 32, 48, 0.2);
+}
+.hud-tr.intermission .wave #wave-lbl {
+  color: var(--ink, #1a30c0);
+  font-size: 16px;
+}
+.hud-tr.intermission .wave #wave {
+  font-size: 24px;
+  color: var(--ink, #1a30c0);
+}
+.hud-tr.intermission .left #left {
+  color: var(--ink-red, #d02030);
+  font-size: 24px;
+}
+.hud-tr.intermission .left #left-lbl {
+  color: var(--ink-red, #d02030);
+  font-size: 14px;
+}
+
+/* Roam & Duel state */
+.hud-tr.roam .wave #wave-lbl,
+.hud-tr.duel .wave #wave-lbl {
+  font-size: 15px;
+  color: var(--pencil, #55524a);
+}
+.hud-tr.roam .wave #wave,
+.hud-tr.duel .wave #wave {
+  font-size: 24px;
+  color: var(--ink, #1a30c0);
+}
+
+.hud-tr .modifier {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-accent, #e8801a);
+  border: 1px dashed var(--ink-accent, #e8801a);
+  border-radius: var(--r-sketch-sm, 4px);
+  padding: 2px 6px;
+  margin-top: 4px;
+}
+.hud-tr .timer {
+  font-size: 18px;
+  font-weight: 700;
+  font-family: var(--font-mono), 'Courier New', monospace;
+  color: var(--ink-red, #d02030);
+  margin-top: 2px;
+}
+.hud-tr .pvpscore {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink, #1a30c0);
+}
+
+/* Mobile Responsive Positioning and Scaling */
 @media (max-width: 950px), (hover: none) and (pointer: coarse) {
   .hud-tr {
-    right: calc(130px + env(safe-area-inset-right, 0px)) !important;
-    top: calc(12px + env(safe-area-inset-top, 0px)) !important;
-    transform: rotate(0deg) !important;
+    right: calc(124px + env(safe-area-inset-right, 0px)) !important;
+    top: calc(10px + env(safe-area-inset-top, 0px)) !important;
+    transform: rotate(0.5deg) !important;
+    pointer-events: none !important;
+    gap: 1px !important;
   }
-  .wave-card {
-    background: var(--paper);
-    border: 2px solid var(--ink);
-    border-radius: 6px;
-    padding: 6px 12px;
-    box-shadow: 2px 2px 0 rgba(26,48,192,0.15);
-    text-align: right;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 4px;
-    font-size: 18px;
-    line-height: 1;
-    color: var(--ink);
+  .hud-tr.wave-card {
+    padding: 4px 10px 5px 12px !important;
+    min-width: 105px !important;
   }
-  .wave-card .wave-title {
-    font-size: 22px;
-    font-weight: bold;
-    border-bottom: 1.5px solid var(--ink);
-    padding-bottom: 2px;
+  .hud-tr .wave {
+    gap: 5px !important;
+    padding-bottom: 2px !important;
   }
-  .wave-card .wave-sub {
-    font-size: 16px;
-    opacity: 0.8;
+  .hud-tr .wave #wave-lbl {
+    font-size: 14px !important;
+  }
+  .hud-tr .wave #wave {
+    font-size: 28px !important;
+  }
+  .hud-tr .left {
+    gap: 4px !important;
+    margin-top: 2px !important;
+  }
+  .hud-tr .left #left {
+    font-size: 18px !important;
+  }
+  .hud-tr .left #left-lbl {
+    font-size: 12px !important;
+  }
+  .hud-tr.intermission .wave #wave-lbl {
+    font-size: 13px !important;
+  }
+  .hud-tr.intermission .wave #wave {
+    font-size: 20px !important;
+  }
+  .hud-tr.intermission .left #left {
+    font-size: 20px !important;
+  }
+  .hud-tr.intermission .left #left-lbl {
+    font-size: 12px !important;
   }
 }
+
