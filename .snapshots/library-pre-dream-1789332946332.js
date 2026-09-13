@@ -215,49 +215,6 @@ export function buildLibrary(B, arena = false) {
   // Arena-specific spawn list mirroring all valid spawns
   L.arenaSpawns = [...L.spawns];
 
-  
-  
-
-  
-  
-  
-  // === DREAM AUTO-INJECTED MACRO STRUCTURES ===
-
-  // === MACRO STRUCTURE: Giant Pencil Turret at (-32, 0, -44) ===
-  cyl(-32, 0, -44, 1.2, 6.5, { seg: 6, ink: OR });
-  cyl(-32, 0 + 5.5, -44, 1.3, 0.8, { seg: 6, ink: BK });
-  slab(-32 - 2.0, -44 - 2.0, -32 + 2.0, -44 + 2.0, 0 + 4.5, 0.3, { ink: RD });
-  rail(-32 - 2.0, -44 - 2.0, -32 + 2.0, -44 - 2.0, 0 + 4.5, { ink: BK });
-  rail(-32 - 2.0, -44 + 2.0, -32 + 2.0, -44 + 2.0, 0 + 4.5, { ink: BK });
-  box(-32, 0, -44 + 2.0, 1.5, 0.4, 1.5, { ink: BL });
-  ring(-32, 0 + 8.8, -44, 'z');
-  pickup(-32, 0 + 4.7, -44);
-
-  // === MACRO STRUCTURE: Desk Lamp Fortress at (4, 0, -44) ===
-  box(4, 0, -44, 5.0, 0.6, 5.0, { ink: BK });
-  box(4, 0 + 0.6, -44, 1.0, 4.5, 1.0, { ink: BK });
-  slab(4 - 2.5, -44 - 2.5, 4 + 2.5, -44 + 2.5, 0 + 3.5, 0.3, { ink: OR });
-  rail(4 - 2.5, -44 - 2.5, 4 + 2.5, -44 - 2.5, 0 + 3.5, { ink: BK });
-  rail(4 - 2.5, -44 + 2.5, 4 + 2.5, -44 + 2.5, 0 + 3.5, { ink: BK });
-  box(4 + 1.5, 0 + 4.5, -44, 3.5, 2.5, 3.5, { noCollide: true, ink: OR });
-  ring(4, 0 + 7.8, -44, 'z');
-  pickup(4, 0 + 3.7, -44);
-
-  // === MACRO STRUCTURE: Sketchbook Rampart at (34, 0, -44) ===
-  box(34, 0, -44, 8.0, 0.8, 5.0, { ink: BL });
-  box(34 - 2.5, 0 + 0.8, -44, 3.0, 2.0, 4.5, { ink: BL });
-  box(34 + 2.5, 0 + 0.8, -44, 3.0, 3.5, 4.5, { ink: BL });
-  slab(34 - 4.2, -44 - 2.8, 34 + 4.2, -44 + 2.8, 0 + 3.5, 0.3, { ink: OR });
-  rail(34 - 4.2, -44 - 2.8, 34 + 4.2, -44 - 2.8, 0 + 3.5, { ink: BK });
-  box(34, 0 + 4.0, -44, 8.2, 0.2, 5.2, { noCollide: true, ink: BK });
-  ring(34, 0 + 7.3, -44, 'y');
-  pickup(34 - 2.0, 0 + 3.7, -44);
-  // === END DREAM AUTO-INJECTED MACRO STRUCTURES ===
-
-  
-  // === DREAM AUTO-INJECTED THEMATIC PROPS ===
-
-  // === END DREAM AUTO-INJECTED PROPS ===
   B.finish();
   return L;
 }

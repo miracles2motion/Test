@@ -118,15 +118,21 @@ const modeLabels = {
   MAP: '🏗️  Mode 3: DREAM FROM MAP'
 };
 
-console.log(`\n╔══════════════════════════════════════════════════════════════╗`);
-console.log(`║  🔱 DREAM GOD MODE — ${displayName.toUpperCase().padEnd(36)}  ║`);
-console.log(`╠══════════════════════════════════════════════════════════════╣`);
-console.log(`║  ${modeLabels[mode].padEnd(57)} ║`);
-console.log(`║  Theme: ${theme.toUpperCase().padEnd(50)} ║`);
-console.log(`║  Key: ${key.padEnd(52)} ║`);
-if (hasConcept) console.log(`║  Concept: ${path.relative(ROOT_DIR, conceptFile).padEnd(48)} ║`);
-if (hasLevelFile) console.log(`║  Level: src/levels/${key}.js${''.padEnd(38 - key.length)} ║`);
-console.log(`╚══════════════════════════════════════════════════════════════╝\n`);
+const isVerbose = process.argv.includes('--verbose') || process.argv.includes('-v');
+
+if (isVerbose) {
+  console.log(`\n╔══════════════════════════════════════════════════════════════╗`);
+  console.log(`║  🔱 DREAM GOD MODE — ${displayName.toUpperCase().padEnd(36)}  ║`);
+  console.log(`╠══════════════════════════════════════════════════════════════╣`);
+  console.log(`║  ${modeLabels[mode].padEnd(57)} ║`);
+  console.log(`║  Theme: ${theme.toUpperCase().padEnd(50)} ║`);
+  console.log(`║  Key: ${key.padEnd(52)} ║`);
+  if (hasConcept) console.log(`║  Concept: ${path.relative(ROOT_DIR, conceptFile).padEnd(48)} ║`);
+  if (hasLevelFile) console.log(`║  Level: src/levels/${key}.js${''.padEnd(38 - key.length)} ║`);
+  console.log(`╚══════════════════════════════════════════════════════════════╝\n`);
+} else {
+  console.log(`🔱 [GOD MODE] Orchestrating [${displayName.toUpperCase()}] (Theme: ${theme.toUpperCase()})...`);
+}
 
 const stages = {};
 let overallSuccess = true;
@@ -135,23 +141,30 @@ let overallSuccess = true;
 // UTILITY: Safe command execution with error handling
 // ============================================================
 function runStage(stageName, cmd) {
-  console.log(`\n${'═'.repeat(60)}`);
-  console.log(`▶ STAGE: ${stageName}`);
-  console.log(`${'═'.repeat(60)}`);
+  if (isVerbose) {
+    console.log(`\n${'═'.repeat(60)}`);
+    console.log(`▶ STAGE: ${stageName}`);
+    console.log(`${'═'.repeat(60)}`);
+  }
 
   try {
-    execSync(cmd, { cwd: ROOT_DIR, stdio: 'inherit', timeout: 60000 });
+    const stdioMode = isVerbose ? 'inherit' : 'pipe';
+    execSync(cmd, { cwd: ROOT_DIR, stdio: stdioMode, timeout: 60000 });
     stages[stageName] = { status: 'pass', timestamp: new Date().toISOString() };
-    console.log(`✅ ${stageName} — PASSED`);
+    if (isVerbose) console.log(`✅ ${stageName} — PASSED`);
+    else console.log(`  ✓ ${stageName}: Clean`);
     return { success: true, code: 0 };
   } catch (err) {
     const code = err.status || 1;
     if (code === 2) {
       stages[stageName] = { status: 'warn', info: 'Map Full - Yielded to Refinement', timestamp: new Date().toISOString() };
+      if (isVerbose) console.log(`⚠️ ${stageName} — PASSED with warnings`);
+      else console.log(`  ✓ ${stageName}: Yielded`);
       return { success: true, code: 2 };
     }
     stages[stageName] = { status: 'fail', error: err.message?.slice(0, 200), timestamp: new Date().toISOString() };
-    console.error(`❌ ${stageName} — FAILED: ${err.message?.slice(0, 100)}`);
+    if (isVerbose) console.error(`❌ ${stageName} — FAILED: ${err.message?.slice(0, 100)}`);
+    else console.error(`  ❌ ${stageName}: FAILED`);
     return { success: false, code };
   }
 }
@@ -164,7 +177,7 @@ function createSnapshot() {
   fs.mkdirSync(SNAPSHOTS_DIR, { recursive: true });
   const snapshotPath = path.join(SNAPSHOTS_DIR, `${key}-pre-dream-${Date.now()}.js`);
   fs.copyFileSync(levelFile, snapshotPath);
-  console.log(`📸 Pre-flight snapshot saved: .snapshots/${path.basename(snapshotPath)}`);
+  if (isVerbose) console.log(`📸 Pre-flight snapshot saved: .snapshots/${path.basename(snapshotPath)}`);
   return snapshotPath;
 }
 
@@ -442,7 +455,7 @@ function scaffoldFromConcept(conceptPath) {
 // WORKSPACE CLEANUP
 // ============================================================
 function cleanupWorkspace() {
-  console.log(`\n🧹 Sweeping workspace for redundant/duplicate concepts...`);
+  if (isVerbose) console.log(`\n🧹 Sweeping workspace for redundant/duplicate concepts...`);
   if (!fs.existsSync(CONCEPTS_DIR)) return;
 
   const files = fs.readdirSync(CONCEPTS_DIR).filter(f => f.endsWith('.md'));
@@ -493,7 +506,9 @@ function cleanupWorkspace() {
   }
 
   if (deleted > 0) console.log(`✅ Cleanup complete. Reclaimed space by deleting ${deleted} redundant files.`);
-  else console.log(`   ✓ Workspace is already clean.`);
+  else {
+    if (isVerbose) console.log(`   ✓ Workspace is already clean.`);
+  }
 }
 
 // ============================================================
@@ -539,7 +554,7 @@ async function main() {
 
       // Stage 1: Parse and enrich concept
       const parsed = parseConcept(conceptFile);
-      console.log(`   📖 Concept: ${parsed.lineCount} lines, ${parsed.sectionCount}/13 sections, richness: ${parsed.richness} bytes`);
+      if (isVerbose) console.log(`   📖 Concept: ${parsed.lineCount} lines, ${parsed.sectionCount}/13 sections, richness: ${parsed.richness} bytes`);
       stages['concept-parse'] = { status: 'pass', lines: parsed.lineCount, sections: parsed.sectionCount };
 
       enrichConcept(conceptFile, parsed);
@@ -575,7 +590,7 @@ async function main() {
 
         let doctorFixes = 0;
         if (stairResult.cleanedCount > 0) {
-          console.log(`🩺 Spatial Doctor: Fixed ${stairResult.cleanedCount} staircase issues.`);
+          if (isVerbose) console.log(`🩺 Spatial Doctor: Fixed ${stairResult.cleanedCount} staircase issues.`);
           doctorFixes += stairResult.cleanedCount;
         }
 
@@ -603,7 +618,7 @@ async function main() {
         }
 
         stages['spatial-doctor'] = { status: 'pass', fixes: doctorFixes };
-        console.log(`🩺 Spatial Doctor complete: ${doctorFixes} issues resolved.`);
+        if (isVerbose) console.log(`🩺 Spatial Doctor complete: ${doctorFixes} issues resolved.`);
       } catch (err) {
         console.warn(`⚠️ Spatial Doctor encountered issues: ${err.message}`);
         stages['spatial-doctor'] = { status: 'warn', error: err.message };
@@ -689,25 +704,33 @@ async function main() {
   // ==================== FINAL REPORT ====================
   const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
 
-  console.log(`\n╔══════════════════════════════════════════════════════════════╗`);
-  console.log(`║  🔱 DREAM GOD MODE — FINAL REPORT                           ║`);
-  console.log(`╠══════════════════════════════════════════════════════════════╣`);
-  console.log(`║  Map: ${displayName.padEnd(52)} ║`);
-  console.log(`║  Mode: ${modeLabels[mode].padEnd(51)} ║`);
-  console.log(`║  Theme: ${theme.toUpperCase().padEnd(50)} ║`);
-  console.log(`║  Time: ${(elapsed + 's').padEnd(51)} ║`);
-  console.log(`╠══════════════════════════════════════════════════════════════╣`);
+  if (isVerbose) {
+    console.log(`\n╔══════════════════════════════════════════════════════════════╗`);
+    console.log(`║  🔱 DREAM GOD MODE — FINAL REPORT                           ║`);
+    console.log(`╠══════════════════════════════════════════════════════════════╣`);
+    console.log(`║  Map: ${displayName.padEnd(52)} ║`);
+    console.log(`║  Mode: ${modeLabels[mode].padEnd(51)} ║`);
+    console.log(`║  Theme: ${theme.toUpperCase().padEnd(50)} ║`);
+    console.log(`║  Time: ${(elapsed + 's').padEnd(51)} ║`);
+    console.log(`╠══════════════════════════════════════════════════════════════╣`);
 
-  // Stage results
-  for (const [name, data] of Object.entries(stages)) {
-    const icon = data.status === 'pass' ? '✅' : data.status === 'warn' ? '⚠️' : '❌';
-    console.log(`║  ${icon} ${name.padEnd(56)} ║`);
+    // Stage results
+    for (const [name, data] of Object.entries(stages)) {
+      const icon = data.status === 'pass' ? '✅' : data.status === 'warn' ? '⚠️' : '❌';
+      console.log(`║  ${icon} ${name.padEnd(56)} ║`);
+    }
+
+    console.log(`╠══════════════════════════════════════════════════════════════╣`);
+    console.log(`║  Result: ${overallSuccess ? '✅ DREAM COMPLETE' : '❌ DREAM FAILED'} ${''.padEnd(overallSuccess ? 40 : 41)} ║`);
+    console.log(`║  Error Rate: ${(getErrorRate() + '%').padEnd(46)} ║`);
+    console.log(`╚══════════════════════════════════════════════════════════════╝`);
+  } else {
+    if (overallSuccess) {
+      console.log(`✨ [SUCCESS] [${displayName.toUpperCase()}] Fully built, detailed, tested, and certified in ${elapsed}s!`);
+    } else {
+      console.log(`❌ [FAILED] [${displayName.toUpperCase()}] God Mode encountered errors during execution.`);
+    }
   }
-
-  console.log(`╠══════════════════════════════════════════════════════════════╣`);
-  console.log(`║  Result: ${overallSuccess ? '✅ DREAM COMPLETE' : '❌ DREAM FAILED'} ${''.padEnd(overallSuccess ? 40 : 41)} ║`);
-  console.log(`║  Error Rate: ${(getErrorRate() + '%').padEnd(46)} ║`);
-  console.log(`╚══════════════════════════════════════════════════════════════╝`);
 
   // Record to learning system
   recordDreamRun(key, overallSuccess, 0, mode, stages);

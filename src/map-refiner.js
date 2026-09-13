@@ -14,8 +14,14 @@ const ROOT_DIR = path.resolve(__dirname, '..');
 
 import { healMap } from './dream-healer.js';
 
-const mapArg = process.argv[2];
-const actionArg = process.argv[3] || 'detail'; // 'detail' | 'heal'
+const mapArg = process.argv.find((a, i) => i > 1 && !a.startsWith('-'));
+const rawAction = process.argv.find((a, i) => i > 2 && !a.startsWith('-')) || 'detail';
+const actionArg = rawAction; // 'detail' | 'heal'
+const isQuiet = process.argv.includes('--quiet') || process.argv.includes('-q');
+const isVerbose = process.argv.includes('--verbose') || process.argv.includes('-v');
+
+let originalConsoleLog = console.log;
+if (isQuiet && !isVerbose) console.log = () => {};
 
 if (!mapArg) {
   console.error("Usage: node map-refiner.js <mapName> [action]");
@@ -74,9 +80,13 @@ if (action === 'detail') {
 
   if (modifications > 0) {
     fs.writeFileSync(levelFilePath, code, 'utf8');
-    console.log(`✅ Dream completed execution. Applied ${modifications} detailing/healing upgrades.`);
+    if (!isQuiet || isVerbose) originalConsoleLog(`✅ Dream completed execution. Applied ${modifications} detailing/healing upgrades.`);
   } else {
-    console.log(`ℹ️ Map already meets Universal Detailing Standards. No upgrades needed.`);
+    if (!isQuiet || isVerbose) originalConsoleLog(`ℹ️ Map already meets Universal Detailing Standards. No upgrades needed.`);
+  }
+
+  if (isQuiet && !isVerbose) {
+    originalConsoleLog(`🎨 [MAP REFINER] Refined [${mapArg}] with micro-details.`);
   }
 
 } else if (action === 'heal') {

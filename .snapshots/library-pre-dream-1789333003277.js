@@ -216,47 +216,133 @@ export function buildLibrary(B, arena = false) {
   L.arenaSpawns = [...L.spawns];
 
   
-  
-
-  
-  
-  
   // === DREAM AUTO-INJECTED MACRO STRUCTURES ===
 
-  // === MACRO STRUCTURE: Giant Pencil Turret at (-32, 0, -44) ===
-  cyl(-32, 0, -44, 1.2, 6.5, { seg: 6, ink: OR });
-  cyl(-32, 0 + 5.5, -44, 1.3, 0.8, { seg: 6, ink: BK });
-  slab(-32 - 2.0, -44 - 2.0, -32 + 2.0, -44 + 2.0, 0 + 4.5, 0.3, { ink: RD });
-  rail(-32 - 2.0, -44 - 2.0, -32 + 2.0, -44 - 2.0, 0 + 4.5, { ink: BK });
-  rail(-32 - 2.0, -44 + 2.0, -32 + 2.0, -44 + 2.0, 0 + 4.5, { ink: BK });
-  box(-32, 0, -44 + 2.0, 1.5, 0.4, 1.5, { ink: BL });
-  ring(-32, 0 + 8.8, -44, 'z');
-  pickup(-32, 0 + 4.7, -44);
+  // === MACRO STRUCTURE: Giant Pencil Turret at (-44, 0, -44) ===
+  cyl(-44, 0, -44, 1.2, 6.5, { seg: 6, ink: OR });
+  cyl(-44, 0 + 5.5, -44, 1.3, 0.8, { seg: 6, ink: BK });
+  slab(-44 - 2.0, -44 - 2.0, -44 + 2.0, -44 + 2.0, 0 + 4.5, 0.3, { ink: RD });
+  rail(-44 - 2.0, -44 - 2.0, -44 + 2.0, -44 - 2.0, 0 + 4.5, { ink: BK });
+  rail(-44 - 2.0, -44 + 2.0, -44 + 2.0, -44 + 2.0, 0 + 4.5, { ink: BK });
+  box(-44, 0, -44 + 2.0, 1.5, 0.4, 1.5, { ink: BL });
+  ring(-44, 0 + 8.8, -44, 'z');
+  pickup(-44, 0 + 4.7, -44);
 
-  // === MACRO STRUCTURE: Desk Lamp Fortress at (4, 0, -44) ===
-  box(4, 0, -44, 5.0, 0.6, 5.0, { ink: BK });
-  box(4, 0 + 0.6, -44, 1.0, 4.5, 1.0, { ink: BK });
-  slab(4 - 2.5, -44 - 2.5, 4 + 2.5, -44 + 2.5, 0 + 3.5, 0.3, { ink: OR });
-  rail(4 - 2.5, -44 - 2.5, 4 + 2.5, -44 - 2.5, 0 + 3.5, { ink: BK });
-  rail(4 - 2.5, -44 + 2.5, 4 + 2.5, -44 + 2.5, 0 + 3.5, { ink: BK });
-  box(4 + 1.5, 0 + 4.5, -44, 3.5, 2.5, 3.5, { noCollide: true, ink: OR });
-  ring(4, 0 + 7.8, -44, 'z');
-  pickup(4, 0 + 3.7, -44);
+  // === MACRO STRUCTURE: Sketchbook Rampart at (-44, 0, 22) ===
+  box(-44, 0, 22, 8.0, 0.8, 5.0, { ink: BL });
+  box(-44 - 2.5, 0 + 0.8, 22, 3.0, 2.0, 4.5, { ink: BL });
+  box(-44 + 2.5, 0 + 0.8, 22, 3.0, 3.5, 4.5, { ink: BL });
+  slab(-44 - 4.2, 22 - 2.8, -44 + 4.2, 22 + 2.8, 0 + 3.5, 0.3, { ink: OR });
+  rail(-44 - 4.2, 22 - 2.8, -44 + 4.2, 22 - 2.8, 0 + 3.5, { ink: BK });
+  box(-44, 0 + 4.0, 22, 8.2, 0.2, 5.2, { noCollide: true, ink: BK });
+  ring(-44, 0 + 7.3, 22, 'y');
+  pickup(-44 - 2.0, 0 + 3.7, 22);
 
-  // === MACRO STRUCTURE: Sketchbook Rampart at (34, 0, -44) ===
-  box(34, 0, -44, 8.0, 0.8, 5.0, { ink: BL });
-  box(34 - 2.5, 0 + 0.8, -44, 3.0, 2.0, 4.5, { ink: BL });
-  box(34 + 2.5, 0 + 0.8, -44, 3.0, 3.5, 4.5, { ink: BL });
-  slab(34 - 4.2, -44 - 2.8, 34 + 4.2, -44 + 2.8, 0 + 3.5, 0.3, { ink: OR });
-  rail(34 - 4.2, -44 - 2.8, 34 + 4.2, -44 - 2.8, 0 + 3.5, { ink: BK });
-  box(34, 0 + 4.0, -44, 8.2, 0.2, 5.2, { noCollide: true, ink: BK });
-  ring(34, 0 + 7.3, -44, 'y');
-  pickup(34 - 2.0, 0 + 3.7, -44);
+  // === MACRO STRUCTURE: Desk Lamp Fortress at (-44, 0, 40) ===
+  box(-44, 0, 40, 5.0, 0.6, 5.0, { ink: BK });
+  box(-44, 0 + 0.6, 40, 1.0, 4.5, 1.0, { ink: BK });
+  slab(-44 - 2.5, 40 - 2.5, -44 + 2.5, 40 + 2.5, 0 + 3.5, 0.3, { ink: OR });
+  rail(-44 - 2.5, 40 - 2.5, -44 + 2.5, 40 - 2.5, 0 + 3.5, { ink: BK });
+  rail(-44 - 2.5, 40 + 2.5, -44 + 2.5, 40 + 2.5, 0 + 3.5, { ink: BK });
+  box(-44 + 1.5, 0 + 4.5, 40, 3.5, 2.5, 3.5, { noCollide: true, ink: OR });
+  ring(-44, 0 + 7.8, 40, 'z');
+  pickup(-44, 0 + 3.7, 40);
+
+  // === MACRO STRUCTURE: Giant Pencil Turret at (-26, 0, -32) ===
+  cyl(-26, 0, -32, 1.2, 6.5, { seg: 6, ink: OR });
+  cyl(-26, 0 + 5.5, -32, 1.3, 0.8, { seg: 6, ink: BK });
+  slab(-26 - 2.0, -32 - 2.0, -26 + 2.0, -32 + 2.0, 0 + 4.5, 0.3, { ink: RD });
+  rail(-26 - 2.0, -32 - 2.0, -26 + 2.0, -32 - 2.0, 0 + 4.5, { ink: BK });
+  rail(-26 - 2.0, -32 + 2.0, -26 + 2.0, -32 + 2.0, 0 + 4.5, { ink: BK });
+  box(-26, 0, -32 + 2.0, 1.5, 0.4, 1.5, { ink: BL });
+  ring(-26, 0 + 8.8, -32, 'z');
+  pickup(-26, 0 + 4.7, -32);
   // === END DREAM AUTO-INJECTED MACRO STRUCTURES ===
 
   
   // === DREAM AUTO-INJECTED THEMATIC PROPS ===
 
+  // Macro: The Shattered Bow
+  box(-32, 0, 32, 8, 3, 10, { ink: OR }); // Front hull
+  stairs(-32, 0+3, 32-6, 2, -3, 2, 2, { ink: OR }); // Ramps down into the sand
+  cyl(-32, 0+3, 32+2, 0.4, 8, { ink: OR }); // Main mast
+  box(-32, 0+7, 32+2, 6, 0.2, 0.2, { ink: OR }); // Yardarm
+  box(-32, 0+5, 32+2.2, 5, 4, 0.1, { ink: BL, noCollide: true }); // Torn sail
+  ring(-32, 0+11, 32+2, 1.5, { ink: OR }); // Grapple
+  
+
+  // Macro: The Captains Quarters (Stern)
+  box(-16, 0, -32, 10, 3, 10, { ink: OR }); // Lower hull
+  stairs(-16, 0, -32+6, 2, 3, 2, 0, { ink: OR }); // Ramp into ship
+  box(-16, 0+3, -32-2, 8, 3, 6, { ink: OR }); // Captains Cabin
+  stairs(-16-4.5, 0+3, -32+1, 1, 3, 2, 3, { ink: OR }); // Left stairs to poop deck
+  stairs(-16+4.5, 0+3, -32+1, 1, 3, 2, 1, { ink: OR }); // Right stairs to poop deck
+  box(-16, 0+6, -32-2, 10, 1, 6, { ink: OR }); // Poop deck roof
+  cyl(-16, 0+7, -32-2, 0.4, 6, { ink: OR }); // Broken rear mast
+  ring(-16, 0+13, -32-2, 1.5, { ink: OR }); // Crows nest grapple
+  
+
+  // Macro: The Shattered Bow
+  box(-16, 0, 32, 8, 3, 10, { ink: OR }); // Front hull
+  stairs(-16, 0+3, 32-6, 2, -3, 2, 2, { ink: OR }); // Ramps down into the sand
+  cyl(-16, 0+3, 32+2, 0.4, 8, { ink: OR }); // Main mast
+  box(-16, 0+7, 32+2, 6, 0.2, 0.2, { ink: OR }); // Yardarm
+  box(-16, 0+5, 32+2.2, 5, 4, 0.1, { ink: BL, noCollide: true }); // Torn sail
+  ring(-16, 0+11, 32+2, 1.5, { ink: OR }); // Grapple
+  
+
+  // Macro: The Captains Quarters (Stern)
+  box(0, 0, -32, 10, 3, 10, { ink: OR }); // Lower hull
+  stairs(0, 0, -32+6, 2, 3, 2, 0, { ink: OR }); // Ramp into ship
+  box(0, 0+3, -32-2, 8, 3, 6, { ink: OR }); // Captains Cabin
+  stairs(0-4.5, 0+3, -32+1, 1, 3, 2, 3, { ink: OR }); // Left stairs to poop deck
+  stairs(0+4.5, 0+3, -32+1, 1, 3, 2, 1, { ink: OR }); // Right stairs to poop deck
+  box(0, 0+6, -32-2, 10, 1, 6, { ink: OR }); // Poop deck roof
+  cyl(0, 0+7, -32-2, 0.4, 6, { ink: OR }); // Broken rear mast
+  ring(0, 0+13, -32-2, 1.5, { ink: OR }); // Crows nest grapple
+  
+
+  // Macro: The Captains Quarters (Stern)
+  box(0, 0, 32, 10, 3, 10, { ink: OR }); // Lower hull
+  stairs(0, 0, 32+6, 2, 3, 2, 0, { ink: OR }); // Ramp into ship
+  box(0, 0+3, 32-2, 8, 3, 6, { ink: OR }); // Captains Cabin
+  stairs(0-4.5, 0+3, 32+1, 1, 3, 2, 3, { ink: OR }); // Left stairs to poop deck
+  stairs(0+4.5, 0+3, 32+1, 1, 3, 2, 1, { ink: OR }); // Right stairs to poop deck
+  box(0, 0+6, 32-2, 10, 1, 6, { ink: OR }); // Poop deck roof
+  cyl(0, 0+7, 32-2, 0.4, 6, { ink: OR }); // Broken rear mast
+  ring(0, 0+13, 32-2, 1.5, { ink: OR }); // Crows nest grapple
+  
+
+  // Macro: The Shattered Bow
+  box(16, 0, -32, 8, 3, 10, { ink: OR }); // Front hull
+  stairs(16, 0+3, -32-6, 2, -3, 2, 2, { ink: OR }); // Ramps down into the sand
+  cyl(16, 0+3, -32+2, 0.4, 8, { ink: OR }); // Main mast
+  box(16, 0+7, -32+2, 6, 0.2, 0.2, { ink: OR }); // Yardarm
+  box(16, 0+5, -32+2.2, 5, 4, 0.1, { ink: BL, noCollide: true }); // Torn sail
+  ring(16, 0+11, -32+2, 1.5, { ink: OR }); // Grapple
+  
+
+  // Macro: The Shattered Bow
+  box(16, 0, 32, 8, 3, 10, { ink: OR }); // Front hull
+  stairs(16, 0+3, 32-6, 2, -3, 2, 2, { ink: OR }); // Ramps down into the sand
+  cyl(16, 0+3, 32+2, 0.4, 8, { ink: OR }); // Main mast
+  box(16, 0+7, 32+2, 6, 0.2, 0.2, { ink: OR }); // Yardarm
+  box(16, 0+5, 32+2.2, 5, 4, 0.1, { ink: BL, noCollide: true }); // Torn sail
+  ring(16, 0+11, 32+2, 1.5, { ink: OR }); // Grapple
+  
+
+  // Macro: The Shattered Bow
+  box(32, 0, 32, 8, 3, 10, { ink: OR }); // Front hull
+  stairs(32, 0+3, 32-6, 2, -3, 2, 2, { ink: OR }); // Ramps down into the sand
+  cyl(32, 0+3, 32+2, 0.4, 8, { ink: OR }); // Main mast
+  box(32, 0+7, 32+2, 6, 0.2, 0.2, { ink: OR }); // Yardarm
+  box(32, 0+5, 32+2.2, 5, 4, 0.1, { ink: BL, noCollide: true }); // Torn sail
+  ring(32, 0+11, 32+2, 1.5, { ink: OR }); // Grapple
+  
+  box(0.0, 0, 0.0, 2.0, 2.5, 2.0, { ink: OR }); // Hard Cover
+  box(0.0, 0, 0.0, 2.0, 2.5, 2.0, { ink: OR }); // Hard Cover
+  box(0.0, 0, 0.0, 2.0, 2.5, 2.0, { ink: OR }); // Hard Cover
+  box(0.0, 0, 0.0, 2.0, 2.5, 2.0, { ink: OR }); // Hard Cover
   // === END DREAM AUTO-INJECTED PROPS ===
   B.finish();
   return L;

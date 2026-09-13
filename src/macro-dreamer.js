@@ -34,8 +34,14 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT_DIR = path.resolve(__dirname, '..');
 
-const mapArg = (process.argv[2] || '').toLowerCase().trim();
-const themeArg = (process.argv[3] || '').toLowerCase().trim();
+const mapArg = (process.argv.find((a, i) => i > 1 && !a.startsWith('-')) || '').toLowerCase().trim();
+const rawTheme = process.argv.find((a, i) => i > 2 && !a.startsWith('-')) || '';
+const themeArg = rawTheme.toLowerCase().trim();
+const isQuiet = process.argv.includes('--quiet') || process.argv.includes('-q');
+const isVerbose = process.argv.includes('--verbose') || process.argv.includes('-v');
+
+let originalConsoleLog = console.log;
+if (isQuiet && !isVerbose) console.log = () => {};
 
 if (!mapArg || !MAP_BUILDERS[mapArg]) {
   console.log(`
@@ -583,7 +589,13 @@ if (fs.existsSync(descPath)) {
 // 8. Record learned pattern
 recordLearnedPattern(mapArg, 'macro-dream-building', `Synthesized ${validStructures.length} multi-story interactive buildings (God Mode)`, 'macroSpatialInjection');
 
-console.log(`\n============================================================`);
-console.log(`✅ MACRO-DREAM INJECTION & SYNCHRONIZATION COMPLETE (GOD MODE)!`);
-console.log(`   Buildings placed: ${validStructures.length}/${MAX_BUILDINGS}`);
-console.log(`============================================================`);
+if (!isQuiet || isVerbose) {
+  originalConsoleLog(`\n============================================================`);
+  originalConsoleLog(`✅ MACRO-DREAM INJECTION & SYNCHRONIZATION COMPLETE (GOD MODE)!`);
+  originalConsoleLog(`   Buildings placed: ${validStructures.length}/${MAX_BUILDINGS}`);
+  originalConsoleLog(`============================================================`);
+}
+
+if (isQuiet && !isVerbose) {
+  originalConsoleLog(`🏗️ [MACRO DREAMER] Built thematic landmarks and macro structures in ${mapArg.toUpperCase()}.`);
+}

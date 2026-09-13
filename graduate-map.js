@@ -22,7 +22,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT_DIR = path.resolve(__dirname);
 
-const arg = process.argv[2];
+const arg = process.argv.find((a, i) => i > 1 && !a.startsWith('-'));
+const isQuiet = process.argv.includes('--quiet') || process.argv.includes('-q');
+const isVerbose = process.argv.includes('--verbose') || process.argv.includes('-v');
+
+let originalConsoleLog = console.log;
+if (isQuiet && !isVerbose) console.log = () => {};
 if (!arg) {
   console.log(`
 Usage:
@@ -84,6 +89,10 @@ try {
   console.log(`   3. [src/main.js]  getMapSVG(): provide thumbnail and blueprint SVG paths.`);
   console.log(`   4. Verify: run 'npm run audit:map all' to guarantee zero crashes and full standard compliance.`);
   console.log(`\n   Run 'git status' and commit your changes.`);
+
+  if (isQuiet && !isVerbose) {
+    originalConsoleLog(`🎓 [GRADUATE] [${cleanName.replace('.md', '').toUpperCase()}] Promoted to Map Description/portfolio.`);
+  }
 } catch (err) {
   console.error(`❌ Error graduating map: ${err.message}`);
   process.exit(1);

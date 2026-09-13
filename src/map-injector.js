@@ -30,8 +30,14 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT_DIR = path.resolve(__dirname, '..');
 
-const mapArg = (process.argv[2] || '').toLowerCase().trim();
-const themeArg = (process.argv[3] || 'cyber').toLowerCase().trim();
+const mapArg = (process.argv.find((a, i) => i > 1 && !a.startsWith('-')) || '').toLowerCase().trim();
+const rawTheme = process.argv.find((a, i) => i > 2 && !a.startsWith('-')) || 'cyber';
+const themeArg = rawTheme.toLowerCase().trim();
+const isQuiet = process.argv.includes('--quiet') || process.argv.includes('-q');
+const isVerbose = process.argv.includes('--verbose') || process.argv.includes('-v');
+
+let originalConsoleLog = console.log;
+if (isQuiet && !isVerbose) console.log = () => {};
 
 if (!mapArg || !MAP_BUILDERS[mapArg]) {
   console.log(`
@@ -44,9 +50,11 @@ Usage:
   process.exit(1);
 }
 
-console.log(`============================================================`);
-console.log(`💉 DYNAMIC SPATIAL PROP INJECTOR (GOD MODE): [${mapArg.toUpperCase()}]`);
-console.log(`============================================================\n`);
+if (!isQuiet || isVerbose) {
+  originalConsoleLog(`============================================================`);
+  originalConsoleLog(`💉 DYNAMIC SPATIAL PROP INJECTOR (GOD MODE): [${mapArg.toUpperCase()}]`);
+  originalConsoleLog(`============================================================\n`);
+}
 
 // 1. Build level in memory to gather colliders & layout
 const colliders = [];
@@ -277,11 +285,18 @@ ${selectedProps.map(p => p.template.gen(p.x, p.y, p.z)).join('\n')}
   code = code.replace(/ink: WH/g, 'ink: OR');
 
   fs.writeFileSync(levelFilePath, code, 'utf8');
-  console.log(`\n💾 Injected ${selectedProps.length} MACRO STRUCTURES with guaranteed pathways into src/levels/${mapArg}.js`);
+  originalConsoleLog(`\n💾 Injected ${selectedProps.length} MACRO STRUCTURES with guaranteed pathways into src/levels/${mapArg}.js`);
   
   // Record learned pattern
   recordLearnedPattern(mapArg, 'dream-city-planner', `Injected ${selectedProps.length} macro structures (City Planner)`, 'macroCity');
 }
-console.log(`\n============================================================`);
-console.log(`✅ SPATIAL INJECTION COMPLETE (CITY PLANNER MODE)`);
-console.log(`============================================================`);
+
+if (!isQuiet || isVerbose) {
+  originalConsoleLog(`\n============================================================`);
+  originalConsoleLog(`✅ SPATIAL INJECTION COMPLETE (CITY PLANNER MODE)`);
+  originalConsoleLog(`============================================================`);
+}
+
+if (isQuiet && !isVerbose) {
+  originalConsoleLog(`📦 [INJECTOR] Injected thematic cover and tactical elements into ${mapArg.toUpperCase()}.`);
+}

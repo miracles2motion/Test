@@ -1796,13 +1796,85 @@
           "timestamp": "2026-09-13T20:14:12.421Z"
         }
       }
+    },
+    {
+      "id": "dream-052",
+      "timestamp": "2026-09-13T20:55:49.702Z",
+      "mapKey": "library",
+      "mode": "MAP",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "spatial-doctor": {
+          "status": "pass",
+          "fixes": 0
+        },
+        "Macro Building Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-13T20:55:47.434Z"
+        },
+        "Prop Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-13T20:55:48.010Z"
+        },
+        "Enemy Synthesis": {
+          "status": "fail",
+          "error": "Command failed: node src/enemy-synthesizer.js library\nnode:path:513\r\n      validateString(arg, 'path');\r\n      ^\r\n\r\nTypeError [ERR_INVALID_ARG_TYPE]: The \"path\" argument must be of type string. Receiv",
+          "timestamp": "2026-09-13T20:55:48.210Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-13T20:55:49.141Z"
+        },
+        "Self-Healing Audit": {
+          "status": "fail",
+          "error": "Command failed: node .agents/skills/universal-detailing-standard/scripts/verify-detailing.js library --heal",
+          "timestamp": "2026-09-13T20:55:49.694Z"
+        }
+      }
+    },
+    {
+      "id": "dream-053",
+      "timestamp": "2026-09-13T20:56:46.573Z",
+      "mapKey": "library",
+      "mode": "MAP",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "spatial-doctor": {
+          "status": "pass",
+          "fixes": 0
+        },
+        "Macro Building Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-13T20:56:44.759Z"
+        },
+        "Prop Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-13T20:56:45.224Z"
+        },
+        "Enemy Synthesis": {
+          "status": "fail",
+          "error": "Command failed: node src/enemy-synthesizer.js library\nnode:path:513\r\n      validateString(arg, 'path');\r\n      ^\r\n\r\nTypeError [ERR_INVALID_ARG_TYPE]: The \"path\" argument must be of type string. Receiv",
+          "timestamp": "2026-09-13T20:56:45.399Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-13T20:56:46.132Z"
+        },
+        "Self-Healing Audit": {
+          "status": "fail",
+          "error": "Command failed: node .agents/skills/universal-detailing-standard/scripts/verify-detailing.js library --heal",
+          "timestamp": "2026-09-13T20:56:46.565Z"
+        }
+      }
     }
   ],
   "stats": {
-    "totalRuns": 51,
-    "successes": 50,
+    "totalRuns": 53,
+    "successes": 52,
     "failures": 1,
-    "errorRate": "1/51 (2%)",
+    "errorRate": "1/53 (2%)",
     "avgScore": 0
   }
 }
