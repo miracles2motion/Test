@@ -103,11 +103,10 @@ export class BrainDirector {
       newDoctrine = DOCTRINES.RANGE_LOCK;
     }
 
-    if (newDoctrine !== this.doctrine && this._hud && learningRate > 0 && newDoctrine !== DOCTRINES.NEUTRAL) {
-      this._hud.tip(`[ALERT] >> SWARM SIGNATURE EVOLVING: EXECUTING DOCTRINE [${newDoctrine}]`, 4);
+    if (this.doctrine !== newDoctrine) {
+      this.doctrine = newDoctrine;
+      if (this._hud) this._hud.tip(`[AEI DIRECT] Swarm Shift: ${newDoctrine}`);
     }
-    
-    this.doctrine = newDoctrine;
     return this.doctrine;
   }
 }

@@ -525,13 +525,25 @@ export class MobileControls {
   }
 
   setOpacity(val) {
-    if (!this.selectedBtn) return;
+    if (!this.selectedBtn) {
+      this.settings.opacity = val;
+      this.saveSettings();
+      const allDraggables = this.dom.container.querySelectorAll('.draggable');
+      allDraggables.forEach(el => {
+        const btnId = el.dataset.btn;
+        const custom = this.settings.layout && this.settings.layout[btnId];
+        if (!custom || custom.opacity === undefined) {
+          el.style.setProperty('opacity', String(val), 'important');
+        }
+      });
+      return;
+    }
     const btnId = this.selectedBtn.dataset.btn;
     if (!this.settings.layout) this.settings.layout = {};
     if (!this.settings.layout[btnId]) this.settings.layout[btnId] = {};
     this.settings.layout[btnId].opacity = val;
+    this.selectedBtn.style.setProperty('opacity', String(val), 'important');
     this.saveSettings();
-    this.applyLayout();
     this.updateSelectionUI();
   }
 
@@ -540,12 +552,18 @@ export class MobileControls {
     const resetBtn = document.getElementById('edit-reset-btn');
     if (!label) return;
     if (!this.selectedBtn) {
-      label.innerHTML = 'No button selected <span class="subtle">(Tap any button to select & resize)</span>';
+      label.innerHTML = 'Global / All Buttons <span class="subtle">(Tap any button to customize individually)</span>';
       if (resetBtn) resetBtn.disabled = true;
       const visBtn = document.getElementById('edit-vis-btn');
-      if (visBtn) visBtn.disabled = true;
+      if (visBtn) {
+        visBtn.disabled = true;
+        visBtn.textContent = '👁 Show/Hide';
+      }
       const opSlider = document.getElementById('edit-opacity-slider');
-      if (opSlider) opSlider.disabled = true;
+      if (opSlider) {
+        opSlider.disabled = false;
+        opSlider.value = String(this.settings.opacity !== undefined ? this.settings.opacity : 1.0);
+      }
       return;
     }
     const btnId = this.selectedBtn.dataset.btn;
@@ -554,7 +572,7 @@ export class MobileControls {
     const scaleVal = custom.scale !== undefined ? custom.scale : this.settings.scale;
     const scalePct = Math.round(scaleVal * 100);
     const isHidden = custom.hidden || false;
-    const opacityVal = custom.opacity !== undefined ? custom.opacity : 1.0;
+    const opacityVal = custom.opacity !== undefined ? custom.opacity : (this.settings.opacity !== undefined ? this.settings.opacity : 1.0);
     const posText = (custom.x !== undefined && custom.y !== undefined) ? `at (${custom.x}%, ${custom.y}%)` : 'default position';
     label.innerHTML = `Selected: <b>${name}</b> • Size: <b>${scalePct}%</b> • ${posText} ${isHidden ? '<b style="color:var(--ink-red)">(HIDDEN)</b>' : ''}`;
     
@@ -568,7 +586,7 @@ export class MobileControls {
     const opSlider = document.getElementById('edit-opacity-slider');
     if (opSlider) {
       opSlider.disabled = false;
-      opSlider.value = opacityVal;
+      opSlider.value = String(opacityVal);
     }
   }
 
@@ -918,12 +936,23 @@ export class MobileControls {
     window.addEventListener('touchcancel', handleEndAll, { passive: false });
     window.addEventListener('mouseup', handleEndAll);
 
-    // Edit overlay controls - use fast-click binding to prevent overlap/swallow issues
+    // Edit overlay controls - robust fast-click binding with zero event swallowing
     const bindFast = (id, cb) => {
       const el = document.getElementById(id);
       if (!el) return;
-      el.addEventListener('touchstart', (e) => { e.preventDefault(); e.stopPropagation(); cb(e); }, {passive:false});
-      el.addEventListener('mousedown', (e) => { e.preventDefault(); e.stopPropagation(); cb(e); });
+      let lastTime = 0;
+      const trigger = (e) => {
+        if (e && e.stopPropagation) e.stopPropagation();
+        const now = Date.now();
+        if (now - lastTime < 300) return;
+        lastTime = now;
+        cb(e);
+      };
+      el.addEventListener('click', trigger);
+      el.addEventListener('touchend', (e) => {
+        if (e.cancelable) e.preventDefault();
+        trigger(e);
+      });
     };
     bindFast('edit-scale-down', () => this.scaleSelected(-0.1));
     bindFast('edit-scale-up', () => this.scaleSelected(0.1));
@@ -934,8 +963,14 @@ export class MobileControls {
     
     const opSlider = document.getElementById('edit-opacity-slider');
     if (opSlider) {
-      opSlider.addEventListener('input', (e) => this.setOpacity(parseFloat(e.target.value)));
-      opSlider.addEventListener('touchstart', (e) => { e.stopPropagation(); });
+      const handleOpacity = (e) => {
+        if (e.stopPropagation) e.stopPropagation();
+        this.setOpacity(parseFloat(e.target.value));
+      };
+      opSlider.addEventListener('input', handleOpacity);
+      opSlider.addEventListener('change', handleOpacity);
+      opSlider.addEventListener('touchstart', (e) => { e.stopPropagation(); }, { passive: true });
+      opSlider.addEventListener('pointerdown', (e) => { e.stopPropagation(); });
       opSlider.addEventListener('mousedown', (e) => { e.stopPropagation(); });
     }
 
@@ -1048,6 +1083,10 @@ export class MobileControls {
 
   startDrag(btn, touchOrMouse) {
     const rect = btn.getBoundingClientRect();
+    const style = window.getComputedStyle(btn);
+    const cssLeft = parseFloat(style.left) || 0;
+    const cssTop = parseFloat(style.top) || 0;
+    
     const isTouch = touchOrMouse.identifier !== undefined;
     const clientX = touchOrMouse.clientX;
     const clientY = touchOrMouse.clientY;
@@ -1058,8 +1097,8 @@ export class MobileControls {
       touchId: isTouch ? touchOrMouse.identifier : 'mouse',
       startX: clientX,
       startY: clientY,
-      origLeft: rect.left,
-      origTop: rect.top,
+      origLeft: cssLeft,
+      origTop: cssTop,
       btnWidth: rect.width || btn.offsetWidth || 50,
       btnHeight: rect.height || btn.offsetHeight || 50
     };
@@ -1070,9 +1109,6 @@ export class MobileControls {
     if (!this.dragState) return;
     const dx = touchOrMouse.clientX - this.dragState.startX;
     const dy = touchOrMouse.clientY - this.dragState.startY;
-      let newY = (this.dragState.startY + dy) / containerH * 100;
-      if (newY < 15) newY = 15; // clamp so it doesn't overlap header
-      if (newY > 85) newY = 85; // clamp so it doesn't overlap footer
     const btn = this.dragState.btn;
     const btnId = this.dragState.btnId;
 
@@ -1112,7 +1148,9 @@ export class MobileControls {
 
   scaleSelected(delta) {
     if (!this.selectedBtn) {
-      this.setScale(this.settings.scale + delta);
+      this.settings.scale = Math.max(0.5, Math.min(2.2, Number((this.settings.scale + delta).toFixed(2))));
+      this.saveSettings();
+      this.applyLayout();
       this.updateSelectionUI();
       return;
     }

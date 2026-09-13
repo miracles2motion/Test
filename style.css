@@ -427,6 +427,7 @@ button:active, .mapbtn:active, .tab-btn:active {
   touch-action: none;
   cursor: pointer;
   z-index: 50;
+  transform: scale(var(--global-scale, 1));
   transition: transform 0.1s, opacity 0.1s;
 }
 .mob-btn:active, .mob-btn.pressed {
@@ -811,7 +812,7 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  z-index: 1100;
+  z-index: 5000 !important;
 }
 #edit-overlay .edit-header {
   position: absolute;
@@ -829,9 +830,9 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  pointer-events: auto;
+  pointer-events: auto !important;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
-  z-index: 2000;
+  z-index: 5100 !important;
 }
 #edit-overlay .edit-title-row {
   display: flex;
@@ -868,6 +869,8 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
   color: var(--paper);
   border-radius: 8px;
   cursor: pointer;
+  touch-action: manipulation;
+  pointer-events: auto;
   transition: background 0.15s, border-color 0.15s, transform 0.1s;
 }
 #edit-overlay button:hover {

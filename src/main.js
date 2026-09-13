@@ -105,33 +105,41 @@ document.addEventListener('visibilitychange', () => {
 
 function fastClick(el, handler) {
   if (!el) return;
-  let startX = 0, startY = 0, isTouch = false, moved = false;
-  el.addEventListener('pointerdown', (e) => {
-    if (e.pointerType === 'touch' || e.pointerType === 'pen') {
-      isTouch = true;
-      moved = false;
-      startX = e.clientX;
-      startY = e.clientY;
+  let lastTriggerTime = 0;
+  const trigger = (e) => {
+    const now = Date.now();
+    if (now - lastTriggerTime < 320) return;
+    lastTriggerTime = now;
+    handler(e);
+  };
+
+  let startX = 0, startY = 0, tracking = false;
+  el.addEventListener('touchstart', (e) => {
+    tracking = true;
+    if (e.touches && e.touches[0]) {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
     }
   }, { passive: true });
-  el.addEventListener('pointermove', (e) => {
-    if (isTouch) {
-      if (Math.abs(e.clientX - startX) > 10 || Math.abs(e.clientY - startY) > 10) {
-        moved = true;
+
+  el.addEventListener('touchcancel', () => {
+    tracking = false;
+  }, { passive: true });
+
+  el.addEventListener('touchend', (e) => {
+    if (tracking) {
+      tracking = false;
+      if (e.changedTouches && e.changedTouches[0]) {
+        const dx = Math.abs(e.changedTouches[0].clientX - startX);
+        const dy = Math.abs(e.changedTouches[0].clientY - startY);
+        if (dx > 14 || dy > 14) return;
       }
+      trigger(e);
     }
   }, { passive: true });
-  el.addEventListener('pointerup', (e) => {
-    if (isTouch && !moved) {
-      if (e.cancelable) e.preventDefault(); // Prevent ghost click
-      handler(e);
-    }
-    setTimeout(() => { isTouch = false; moved = false; }, 300);
-  });
+
   el.addEventListener('click', (e) => {
-    if (!isTouch) {
-      handler(e);
-    }
+    trigger(e);
   });
 }
 const effects = new Effects(R.scene, world);
@@ -2025,12 +2033,27 @@ function resetGame() {
   if (enemies.brain) enemies.brain.init(hud);
 }
 function beginCommon() {
-  if (screen && screen.orientation && screen.orientation.lock) {
-    screen.orientation.lock('landscape').catch(() => {});
-  }
-  audio.init(); audio.resume(); if (!input.usingGamepad && !input.isTouch && !mobile.enabled) input.requestLock(); if (musicWanted && !audio.musicPlaying) audio.musicOn(true); hud.hideScreen(); hud.setGameplayVisible(true); game.menu = false;
+  try {
+    if (window.screen && window.screen.orientation && window.screen.orientation.lock) {
+      window.screen.orientation.lock('landscape').catch(() => {});
+    }
+  } catch(_) {}
+  audio.init();
+  audio.resume();
+  if (!input.usingGamepad && !input.isTouch && !mobile.enabled) input.requestLock();
+  if (musicWanted && !audio.musicPlaying) audio.musicOn(true);
+  hud.hideScreen();
+  hud.setGameplayVisible(true);
+  game.menu = false;
 }
-function begin() { game.mode = 'solo'; setArena(false); beginCommon(); if (game.state === 'start' || game.state === 'dead') { resetGame(); startWave(1); } game.state = 'play'; }
+function begin() {
+  game.mode = 'solo';
+  setArena(false);
+  beginCommon();
+  resetGame();
+  startWave(1);
+  game.state = 'play';
+}
 function beginDuel() { 
   game.mode = 'duel'; setArena(false); beginCommon(); resetGame(); game.state = 'play'; 
   player.grenades = 5;
