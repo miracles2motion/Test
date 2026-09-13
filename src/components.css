@@ -1,0 +1,297 @@
+/* ==========================================================================
+   DOODLE STRIKE - COMPONENT LIBRARY (FILE 12, PART 2)
+   Requires tokens.css
+   ========================================================================== */
+
+/* 2.1 — BUTTON (.ds-btn) */
+.ds-btn {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: var(--r-sketch-md);
+  cursor: pointer;
+  transition: transform var(--t-fast) var(--ease-snap),
+              background var(--t-fast) var(--ease-ink),
+              box-shadow var(--t-fast) var(--ease-ink),
+              color var(--t-fast) var(--ease-ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  touch-action: manipulation;
+  border: none;
+  background: transparent;
+  color: var(--ink);
+  outline: none;
+}
+
+/* Organic Tilts */
+.ds-btn:nth-child(3n+1) { transform: rotate(var(--tilt-a)); }
+.ds-btn:nth-child(3n+2) { transform: rotate(var(--tilt-b)); }
+.ds-btn:nth-child(3n)   { transform: rotate(var(--tilt-c)); }
+
+/* Accessibility Focus Ring (2.13) */
+.ds-btn:focus-visible, .ds-focus:focus-visible {
+  outline: 3px solid var(--ink);
+  border-radius: var(--r-round);
+  outline-offset: 2px;
+}
+
+/* Sizes */
+.ds-btn.sm { font-size: 14px; padding: 4px 8px; }
+.ds-btn.md { font-size: 16px; padding: 6px 12px; }
+.ds-btn.lg { font-size: 20px; padding: 8px 16px; }
+.ds-btn.hero { font-size: clamp(40px, 8vw, 64px); padding: 18px 48px; }
+.ds-btn.icon { width: 44px; height: 44px; padding: 0; }
+
+/* Variants */
+.ds-btn.primary {
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: var(--stamp);
+}
+.ds-btn.secondary {
+  border: var(--stroke-2) dashed var(--ink);
+  box-shadow: var(--stamp);
+}
+.ds-btn.danger {
+  background: var(--ink-red);
+  color: var(--paper);
+  box-shadow: var(--stamp);
+}
+.ds-btn.ghost {
+  color: var(--ink);
+}
+
+/* States */
+.ds-btn:hover {
+  box-shadow: var(--bleed);
+}
+.ds-btn.primary:hover {
+  box-shadow: var(--bleed), var(--stamp);
+}
+.ds-btn:active {
+  transform: scale(0.96) !important;
+}
+.ds-btn.primary:active, .ds-btn.danger:active, .ds-btn.secondary:active {
+  box-shadow: var(--stamp-heavy);
+}
+.ds-btn.primary:active { background: var(--ink-deep); }
+.ds-btn.danger:active { background: var(--ink-red-deep); }
+
+.ds-btn:disabled {
+  background: repeating-linear-gradient(45deg, var(--ink-wash), var(--ink-wash) 4px, transparent 4px, transparent 8px) !important;
+  color: var(--pencil) !important;
+  border-color: var(--pencil) !important;
+  box-shadow: none !important;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* 2.2 — SEGMENTED CONTROL (.ds-seg) */
+.ds-seg {
+  display: inline-flex;
+  border: var(--stroke-2) solid var(--ink);
+  border-radius: var(--r-sketch-sm);
+  overflow: hidden;
+  background: transparent;
+}
+.ds-seg > button {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  background: transparent;
+  color: var(--ink);
+  border: none;
+  border-right: var(--stroke-1) solid var(--ink);
+  cursor: pointer;
+  transition: all var(--t-fast) var(--ease-ink);
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ds-seg > button:last-child {
+  border-right: none;
+}
+.ds-seg > button:hover {
+  background: var(--ink-wash);
+}
+.ds-seg > button.active {
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: var(--stamp) inset;
+}
+.ds-seg > button:disabled {
+  background: repeating-linear-gradient(45deg, var(--ink-wash), var(--ink-wash) 4px, transparent 4px, transparent 8px);
+  color: var(--pencil);
+  cursor: not-allowed;
+}
+
+/* 2.3 — SLIDER (.ds-slider) */
+.ds-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: var(--stroke-1);
+  background: var(--ink);
+  outline: none;
+  position: relative;
+  margin: 16px 0;
+}
+.ds-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: var(--stroke-2) solid var(--ink);
+  cursor: pointer;
+  box-shadow: var(--stamp);
+  transition: transform var(--t-fast);
+}
+.ds-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+}
+.ds-slider:focus-visible::-webkit-slider-thumb {
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* 2.4 — TOGGLE (.ds-toggle) */
+.ds-toggle {
+  appearance: none;
+  width: 48px;
+  height: 28px;
+  border: var(--stroke-2) solid var(--ink);
+  border-radius: 14px;
+  background: transparent;
+  position: relative;
+  cursor: pointer;
+  transition: background var(--t-fast) var(--ease-ink);
+  outline: none;
+}
+.ds-toggle::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background: var(--ink);
+  border-radius: 50%;
+  transition: transform var(--t-fast) var(--ease-snap);
+}
+.ds-toggle:checked {
+  background: var(--ink-wash);
+}
+.ds-toggle:checked::after {
+  transform: translateX(20px);
+}
+.ds-toggle:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* 2.7 — TEXT INPUT (.ds-input) */
+.ds-input {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  color: var(--ink);
+  background: transparent;
+  border: none;
+  border-bottom: var(--stroke-1) solid var(--ink);
+  padding: 8px 4px;
+  outline: none;
+  transition: border-width var(--t-fast);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.ds-input::placeholder {
+  color: var(--pencil);
+}
+.ds-input:focus {
+  border-bottom: var(--stroke-2) solid var(--ink);
+}
+
+/* 2.8 — PANEL (.ds-panel) */
+.ds-panel {
+  background-color: var(--paper);
+  background-image: linear-gradient(var(--ink-wash) 1px, transparent 1px),
+                    linear-gradient(90deg, var(--ink-wash) 1px, transparent 1px);
+  background-size: 20px 20px;
+  border: var(--stroke-2) solid var(--ink);
+  border-radius: var(--r-sketch-lg);
+  padding: 24px;
+  color: var(--ink);
+  pointer-events: auto;
+}
+.ds-panel.modal {
+  background-color: var(--paper-dim);
+  box-shadow: var(--sheet);
+}
+
+/* 2.9 — TOAST (.ds-toast) */
+.ds-toast {
+  position: fixed;
+  z-index: var(--z-toast);
+  background: var(--paper);
+  border: var(--stroke-1) solid var(--ink);
+  padding: 8px 16px;
+  border-radius: var(--r-sketch-sm);
+  box-shadow: var(--stamp);
+  font-family: var(--font-display);
+  font-size: 16px;
+  color: var(--ink);
+  max-width: 340px;
+  transform: rotate(calc(-2deg + 4deg * var(--rand, 0.5)));
+  animation: toastIn var(--t-base) var(--ease-snap) forwards;
+}
+@keyframes toastIn {
+  0% { opacity: 0; transform: translateY(20px) rotate(0deg) scale(0.9); }
+  100% { opacity: 1; transform: translateY(0) rotate(calc(-2deg + 4deg * var(--rand, 0.5))) scale(1); }
+}
+
+/* 2.11 — PROGRESS (.ds-progress) */
+.ds-progress {
+  border: var(--stroke-2) solid var(--ink);
+  border-radius: var(--r-sketch-sm);
+  background: transparent;
+  overflow: hidden;
+  position: relative;
+}
+.ds-progress .ds-fill {
+  height: 100%;
+  background: repeating-linear-gradient(45deg, var(--ink), var(--ink) 4px, var(--ink-wash) 4px, var(--ink-wash) 8px);
+  transition: width var(--t-base) var(--ease-ink);
+}
+.ds-progress.red .ds-fill {
+  background: repeating-linear-gradient(45deg, var(--ink-red), var(--ink-red) 4px, transparent 4px, transparent 8px);
+}
+.ds-progress.sm { height: 12px; }
+.ds-progress.md { height: 20px; }
+.ds-progress.lg { height: 32px; }
+
+/* 2.14 — ERROR ALERT (.ds-error) */
+.ds-error {
+  border-color: var(--ink-red);
+  color: var(--ink-red);
+}
+.ds-error h1, .ds-error h2, .ds-error h3 {
+  position: relative;
+  display: inline-block;
+}
+.ds-error h1::after, .ds-error h2::after {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border: var(--stroke-2) solid var(--ink-red);
+  border-radius: 50%;
+  transform: rotate(-3deg);
+  opacity: 0.8;
+}

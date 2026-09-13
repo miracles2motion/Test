@@ -257,6 +257,11 @@ export class MobileControls {
             <span id="edit-selected-name">No button selected <span class="subtle">(Tap any button to select & resize)</span></span>
           </div>
           <div class="edit-actions">
+            <button id="edit-vis-btn" type="button" title="Toggle Visibility" disabled>👁 Show/Hide</button>
+            <div style="display:flex; align-items:center; gap:4px; margin:0 8px;">
+                <span style="font-size:10px;">OPACITY</span>
+                <input type="range" id="edit-opacity-slider" min="0.1" max="1" step="0.1" value="1" style="width: 60px;" disabled>
+            </div>
             <button id="edit-scale-down" type="button" title="Make selected button smaller">A- Size</button>
             <button id="edit-scale-up" type="button" title="Make selected button larger">A+ Size</button>
             <button id="edit-reset-btn" type="button" title="Reset selected button to default" disabled>Reset Selected</button>
@@ -324,6 +329,21 @@ export class MobileControls {
         } else {
           el.style.removeProperty('transform');
         }
+        
+        if (layout.hidden && !this.editMode) {
+          el.style.setProperty('display', 'none', 'important');
+        } else if (layout.hidden && this.editMode) {
+          el.style.removeProperty('display');
+          el.style.setProperty('opacity', '0.3', 'important');
+        } else {
+          el.style.removeProperty('display');
+          if (layout.opacity !== undefined) {
+             el.style.setProperty('opacity', layout.opacity, 'important');
+          } else {
+             el.style.removeProperty('opacity');
+          }
+        }
+        
         if (layout.x !== undefined || layout.y !== undefined) {
           el.style.setProperty('position', 'absolute', 'important');
         }
@@ -334,6 +354,8 @@ export class MobileControls {
         el.style.removeProperty('bottom');
         el.style.removeProperty('transform');
         el.style.removeProperty('position');
+        el.style.removeProperty('display');
+        el.style.removeProperty('opacity');
       }
     });
     this.recordDefaultJoystick();
@@ -491,6 +513,28 @@ export class MobileControls {
     this.updateSelectionUI();
   }
 
+  toggleVisibility() {
+    if (!this.selectedBtn) return;
+    const btnId = this.selectedBtn.dataset.btn;
+    if (!this.settings.layout) this.settings.layout = {};
+    if (!this.settings.layout[btnId]) this.settings.layout[btnId] = {};
+    this.settings.layout[btnId].hidden = !this.settings.layout[btnId].hidden;
+    this.saveSettings();
+    this.applyLayout();
+    this.updateSelectionUI();
+  }
+
+  setOpacity(val) {
+    if (!this.selectedBtn) return;
+    const btnId = this.selectedBtn.dataset.btn;
+    if (!this.settings.layout) this.settings.layout = {};
+    if (!this.settings.layout[btnId]) this.settings.layout[btnId] = {};
+    this.settings.layout[btnId].opacity = val;
+    this.saveSettings();
+    this.applyLayout();
+    this.updateSelectionUI();
+  }
+
   updateSelectionUI() {
     const label = document.getElementById('edit-selected-name');
     const resetBtn = document.getElementById('edit-reset-btn');
@@ -498,6 +542,10 @@ export class MobileControls {
     if (!this.selectedBtn) {
       label.innerHTML = 'No button selected <span class="subtle">(Tap any button to select & resize)</span>';
       if (resetBtn) resetBtn.disabled = true;
+      const visBtn = document.getElementById('edit-vis-btn');
+      if (visBtn) visBtn.disabled = true;
+      const opSlider = document.getElementById('edit-opacity-slider');
+      if (opSlider) opSlider.disabled = true;
       return;
     }
     const btnId = this.selectedBtn.dataset.btn;
@@ -505,9 +553,23 @@ export class MobileControls {
     const custom = (this.settings.layout && this.settings.layout[btnId]) || {};
     const scaleVal = custom.scale !== undefined ? custom.scale : this.settings.scale;
     const scalePct = Math.round(scaleVal * 100);
+    const isHidden = custom.hidden || false;
+    const opacityVal = custom.opacity !== undefined ? custom.opacity : 1.0;
     const posText = (custom.x !== undefined && custom.y !== undefined) ? `at (${custom.x}%, ${custom.y}%)` : 'default position';
-    label.innerHTML = `Selected: <b>${name}</b> • Size: <b>${scalePct}%</b> • ${posText}`;
+    label.innerHTML = `Selected: <b>${name}</b> • Size: <b>${scalePct}%</b> • ${posText} ${isHidden ? '<b style="color:var(--ink-red)">(HIDDEN)</b>' : ''}`;
+    
     if (resetBtn) resetBtn.disabled = false;
+    
+    const visBtn = document.getElementById('edit-vis-btn');
+    if (visBtn) {
+      visBtn.disabled = false;
+      visBtn.textContent = isHidden ? '👁 Show' : '👁 Hide';
+    }
+    const opSlider = document.getElementById('edit-opacity-slider');
+    if (opSlider) {
+      opSlider.disabled = false;
+      opSlider.value = opacityVal;
+    }
   }
 
   vibrate(ms = 15) {
@@ -855,12 +917,26 @@ export class MobileControls {
     window.addEventListener('touchcancel', handleEndAll, { passive: false });
     window.addEventListener('mouseup', handleEndAll);
 
-    // Edit overlay controls
-    document.getElementById('edit-scale-down')?.addEventListener('click', () => this.scaleSelected(-0.1));
-    document.getElementById('edit-scale-up')?.addEventListener('click', () => this.scaleSelected(0.1));
-    document.getElementById('edit-reset-btn')?.addEventListener('click', () => this.resetSelected());
-    document.getElementById('edit-reset')?.addEventListener('click', () => this.resetLayout());
-    document.getElementById('edit-save')?.addEventListener('click', () => this.exitEditMode());
+    // Edit overlay controls - use fast-click binding to prevent overlap/swallow issues
+    const bindFast = (id, cb) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.addEventListener('touchstart', (e) => { e.preventDefault(); e.stopPropagation(); cb(e); }, {passive:false});
+      el.addEventListener('mousedown', (e) => { e.preventDefault(); e.stopPropagation(); cb(e); });
+    };
+    bindFast('edit-scale-down', () => this.scaleSelected(-0.1));
+    bindFast('edit-scale-up', () => this.scaleSelected(0.1));
+    bindFast('edit-reset-btn', () => this.resetSelected());
+    bindFast('edit-reset', () => this.resetLayout());
+    bindFast('edit-save', () => this.exitEditMode());
+    bindFast('edit-vis-btn', () => this.toggleVisibility());
+    
+    const opSlider = document.getElementById('edit-opacity-slider');
+    if (opSlider) {
+      opSlider.addEventListener('input', (e) => this.setOpacity(parseFloat(e.target.value)));
+      opSlider.addEventListener('touchstart', (e) => { e.stopPropagation(); });
+      opSlider.addEventListener('mousedown', (e) => { e.stopPropagation(); });
+    }
 
     // Window resize
     window.addEventListener('resize', () => {
@@ -993,6 +1069,9 @@ export class MobileControls {
     if (!this.dragState) return;
     const dx = touchOrMouse.clientX - this.dragState.startX;
     const dy = touchOrMouse.clientY - this.dragState.startY;
+      let newY = (this.dragState.startY + dy) / containerH * 100;
+      if (newY < 15) newY = 15; // clamp so it doesn't overlap header
+      if (newY > 85) newY = 85; // clamp so it doesn't overlap footer
     const btn = this.dragState.btn;
     const btnId = this.dragState.btnId;
 

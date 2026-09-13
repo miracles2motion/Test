@@ -1,4 +1,4 @@
-:root { --ink: #1a30c0; --red: #d02030; --paper: #f6f3e6; }
+
 html, body { margin: 0; height: 100%; overflow: hidden; overscroll-behavior: none; touch-action: manipulation; -webkit-touch-callout: none; background: var(--paper); font-family: 'Comic Sans MS', 'Marker Felt', 'Segoe Print', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
 * { -webkit-tap-highlight-color: transparent; }
 canvas#c { position: fixed; inset: 0; width: 100vw; height: 100vh; display: block; }
@@ -29,7 +29,7 @@ canvas#c { position: fixed; inset: 0; width: 100vw; height: 100vh; display: bloc
 .grapple-ret { position: absolute; left: 50%; top: 50%; width: 30px; height: 30px; margin: -15px; border: 2.5px dashed var(--ink); border-radius: 50%; opacity: 0; transition: opacity .1s, transform .12s; transform: scale(1.6) rotate(0deg); }
 .grapple-ret.on { opacity: .9; transform: scale(1) rotate(20deg); } .grapple-ret.attached { border-style: solid; transform: scale(.65); }
 .hitmarker { position: absolute; left: 50%; top: 50%; opacity: 0; }
-.hitmarker i { position: absolute; width: 3.5px; height: 36px; background: #e8801a; left: -1.75px; top: -18px; border-radius: 2px; box-shadow: 0 0 0 1px rgba(250,248,238,.85); }
+.hitmarker i { position: absolute; width: 3.5px; height: 36px; background: var(--ink-accent); left: -1.75px; top: -18px; border-radius: 2px; box-shadow: 0 0 0 1px rgba(250,248,238,.85); }
 .hitmarker i:first-child { transform: rotate(45deg); } .hitmarker i:last-child { transform: rotate(-45deg); }
 .hitmarker.show { animation: hm .24s ease-out; }
 .hitmarker.crit i { background: var(--red); width: 4.5px; height: 44px; top: -22px; left: -2.25px; }
@@ -122,8 +122,8 @@ canvas#c { position: fixed; inset: 0; width: 100vw; height: 100vh; display: bloc
 #hud.nogame .tip, #hud.nogame .bossbar { display: none; }
 .settings { display: flex; flex-direction: column; gap: 4px; align-items: center; font-size: 21px; margin-top: 12px; border-top: 2px solid var(--ink); padding-top: 10px; }
 .settings label { display: flex; align-items: center; gap: 8px; cursor: pointer; }
-.settings input[type=range] { width: 220px; accent-color: #1a30c0; }
-.settings input[type=checkbox] { width: 17px; height: 17px; accent-color: #1a30c0; }
+.settings input[type=range] { width: 220px; accent-color: var(--ink); }
+.settings input[type=checkbox] { width: 17px; height: 17px; accent-color: var(--ink); }
 .settings b { color: var(--red); min-width: 56px; text-align: left; }
 .settings .k { opacity: .6; font-size: 17px; }
 .beststat { font-size: 22px; opacity: .8; margin-top: 4px; }
@@ -231,7 +231,7 @@ canvas#c { position: fixed; inset: 0; width: 100vw; height: 100vh; display: bloc
   color: var(--ink);
   border: 3px dashed var(--ink);
   transform: rotate(0.6deg);
-  box-shadow: 4px 5px 0 rgba(26, 48, 192, 0.12);
+  box-shadow: 4px 5px 0 var(--ink-wash);
 }
 .mainbtns button.start.alt:hover {
   background: var(--ink);
@@ -342,38 +342,37 @@ button:active, .mapbtn:active, .tab-btn:active {
 }
 #joy-base {
   position: absolute;
-  left: 36px;
-  bottom: 36px;
-  width: 124px;
-  height: 124px;
+  bottom: 12%;
+  left: 15%;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(26,48,192,0.15) 0%, rgba(26,48,192,0.06) 65%, transparent 70%);
-  border: 2.5px solid rgba(26,48,192,0.35);
-  box-shadow: 0 0 0 6px rgba(26,48,192,0.04);
-  transition: opacity 0.2s, border-color 0.15s;
-  transform: scale(var(--global-scale));
+  background: transparent;
+  border: 2px solid var(--ink);
+  box-shadow: inset 0 0 0 3px var(--paper), inset 0 0 0 5px var(--ink);
+  transform: translate(-50%, -50%) scale(var(--global-scale));
+  user-select: none;
+  -webkit-user-select: none;
   touch-action: none;
   pointer-events: none;
+  z-index: 40;
 }
 #joy-base.active {
-  background: radial-gradient(circle, rgba(26,48,192,0.26) 0%, rgba(26,48,192,0.12) 65%, transparent 70%);
-  border-color: rgba(26,48,192,0.65);
-  box-shadow: 0 0 0 8px rgba(26,48,192,0.08);
+  opacity: 1;
+}
+#joy-base.sprinting {
+  border-color: var(--ink-red);
 }
 #joy-stick {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 52px;
-  height: 52px;
-  margin-left: -26px;
-  margin-top: -26px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  background: radial-gradient(circle, #2b45e0 0%, #1a30c0 100%);
-  border: 2.5px solid #f6f3e6;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+  background: var(--ink);
+  position: absolute;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
-  pointer-events: none;
+  transition: transform 0.05s ease-out;
 }
 .joy-sprint-zone {
   position: absolute;
@@ -382,7 +381,7 @@ button:active, .mapbtn:active, .tab-btn:active {
   transform: translateX(-50%);
   font-size: 10px;
   font-weight: 800;
-  color: rgba(26,48,192,0.55);
+  color: var(--ink);
   letter-spacing: 1px;
   white-space: nowrap;
   pointer-events: none;
@@ -413,27 +412,22 @@ button:active, .mapbtn:active, .tab-btn:active {
 }
 
 .mob-btn {
-  pointer-events: auto;
-  font-family: inherit;
-  font-weight: bold;
-  border: 2.5px solid var(--ink);
-  background: rgba(246,243,230,0.92);
+  position: absolute;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: transparent;
   color: var(--ink);
-  border-radius: 50% !important;
-  cursor: pointer;
-  touch-action: none;
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-touch-callout: none;
-  box-shadow: 2.5px 3px 0 rgba(26,48,192,0.18);
-  transform: rotate(-0.5deg) scale(var(--global-scale));
-  transition: transform 0.08s, background 0.08s, box-shadow 0.08s;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  line-height: 1;
-  position: absolute;
+  align-items: center;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  cursor: pointer;
+  z-index: 50;
+  transition: transform 0.1s, opacity 0.1s;
 }
 .mob-btn:active, .mob-btn.pressed {
   transform: rotate(-0.5deg) scale(calc(var(--global-scale) * 0.92)) !important;
@@ -468,8 +462,8 @@ button:active, .mapbtn:active, .tab-btn:active {
   width: 90px;
   height: 90px;
   border-radius: 50%;
-  background: radial-gradient(circle, #e62238 0%, #ba1224 100%);
-  border: 2.5px solid #8a0c1a;
+  background: radial-gradient(circle, var(--ink-red) 0%, var(--ink-red-deep) 100%);
+  border: 2.5px solid var(--ink-red-deep);
   color: white;
   transform: rotate(0deg) scale(var(--global-scale));
   box-shadow: 0 0 0 4px rgba(230,34,56,0.25), 0 6px 16px rgba(0,0,0,0.35);
@@ -484,8 +478,8 @@ button:active, .mapbtn:active, .tab-btn:active {
   width: 68px;
   height: 68px;
   border-radius: 50%;
-  background: radial-gradient(circle, #2540d9 0%, #15269e 100%);
-  border: 2.5px solid #0d186b;
+  background: radial-gradient(circle, var(--ink) 0%, var(--ink-deep) 100%);
+  border: 2.5px solid var(--ink-deep);
   color: white;
   transform: rotate(0deg) scale(var(--global-scale));
   box-shadow: 0 0 0 3px rgba(37,64,217,0.22), 0 4px 12px rgba(0,0,0,0.28);
@@ -512,17 +506,17 @@ button:active, .mapbtn:active, .tab-btn:active {
 
 /* Tactical Mobile Red 'X' Cancel Aim Button */
 #btn-aim.aim-locked {
-  background: radial-gradient(circle, #e62238 0%, #a80d1e 100%) !important;
-  border: 3px solid #ffffff !important;
-  color: #ffffff !important;
+  background: radial-gradient(circle, var(--ink-red) 0%, var(--ink-red-deep) 100%) !important;
+  border: 3px solid var(--paper) !important;
+  color: var(--paper) !important;
   box-shadow: 0 0 0 3px rgba(230,34,56,0.55), 0 6px 18px rgba(0,0,0,0.45) !important;
   animation: codm-aim-pulse 1.4s ease-in-out infinite alternate;
 }
 #btn-aim.aim-locked svg {
-  stroke: #ffffff !important;
+  stroke: var(--paper) !important;
 }
 #btn-aim.aim-locked .btn-lbl {
-  color: #ffffff !important;
+  color: var(--paper) !important;
   font-weight: 900 !important;
 }
 @keyframes codm-aim-pulse {
@@ -547,37 +541,37 @@ body.scoped #btn-aim,
 #mobile-controls.in-ads #btn-aim {
   z-index: 3100 !important;
   pointer-events: auto !important;
-  border-color: #ffffff !important;
+  border-color: var(--paper) !important;
 }
 body.scoped #btn-ads-fire,
 #mobile-controls.in-ads #btn-ads-fire {
-  background: radial-gradient(circle, #e62238 0%, #b80e22 100%) !important;
-  border: 3.5px solid #ffffff !important;
-  box-shadow: 0 0 0 3.5px #ffffff, 0 0 24px rgba(230,34,56,0.85), 0 8px 24px rgba(0,0,0,0.7) !important;
+  background: radial-gradient(circle, var(--ink-red) 0%, var(--ink-red-deep) 100%) !important;
+  border: 3.5px solid var(--paper) !important;
+  box-shadow: 0 0 0 3.5px var(--paper), 0 0 24px rgba(230,34,56,0.85), 0 8px 24px rgba(0,0,0,0.7) !important;
 }
 body.scoped #btn-hip-fire,
 #mobile-controls.in-ads #btn-hip-fire {
-  background: radial-gradient(circle, #2540d9 0%, #102196 100%) !important;
-  border: 3.5px solid #ffffff !important;
-  box-shadow: 0 0 0 3.5px #ffffff, 0 0 24px rgba(37,64,217,0.85), 0 8px 24px rgba(0,0,0,0.7) !important;
+  background: radial-gradient(circle, var(--ink) 0%, var(--ink-deep) 100%) !important;
+  border: 3.5px solid var(--paper) !important;
+  box-shadow: 0 0 0 3.5px var(--paper), 0 0 24px rgba(37,64,217,0.85), 0 8px 24px rgba(0,0,0,0.7) !important;
 }
 body.scoped #btn-aim.aim-locked,
 #mobile-controls.in-ads #btn-aim.aim-locked {
-  background: radial-gradient(circle, #e62238 0%, #990c1b 100%) !important;
-  border: 3.5px solid #ffffff !important;
-  box-shadow: 0 0 0 3.5px #ffffff, 0 0 26px rgba(230,34,56,0.95), 0 8px 24px rgba(0,0,0,0.8) !important;
+  background: radial-gradient(circle, var(--ink-red) 0%, var(--ink-red-deep) 100%) !important;
+  border: 3.5px solid var(--paper) !important;
+  box-shadow: 0 0 0 3.5px var(--paper), 0 0 26px rgba(230,34,56,0.95), 0 8px 24px rgba(0,0,0,0.8) !important;
 }
 body.scoped #btn-aim:not(.aim-locked) {
   background: rgba(22,26,44,0.94) !important;
-  border: 3px solid #ffffff !important;
-  color: #ffffff !important;
-  box-shadow: 0 0 0 3.5px #ffffff, 0 6px 20px rgba(0,0,0,0.6) !important;
+  border: 3px solid var(--paper) !important;
+  color: var(--paper) !important;
+  box-shadow: 0 0 0 3.5px var(--paper), 0 6px 20px rgba(0,0,0,0.6) !important;
 }
 body.scoped #btn-aim:not(.aim-locked) svg {
-  stroke: #ffffff !important;
+  stroke: var(--paper) !important;
 }
 body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
-  color: #ffffff !important;
+  color: var(--paper) !important;
   font-weight: 900 !important;
 }
 
@@ -676,6 +670,32 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
   box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
 }
 
+.act-btn {
+  width: 64px;
+  height: 64px;
+  background: var(--paper);
+  border: 3px solid var(--ink);
+  box-shadow: 4px 4px 0px rgba(10, 16, 40, 0.4);
+}
+#btn-fire {
+  bottom: 25%;
+  right: 15%;
+  width: 72px;
+  height: 72px;
+  border-radius: var(--r-round);
+  background: var(--ink-red);
+  color: var(--paper);
+  border: 3px solid var(--ink);
+  box-shadow: 4px 4px 0px rgba(230, 34, 56, 0.4);
+}
+.util-btn {
+  width: 48px;
+  height: 48px;
+  background: var(--paper);
+  border: 2px solid var(--ink-accent);
+  color: var(--ink-accent);
+}
+
 /* Bottom Weapon Switcher Bar */
 #mob-weapon-bar {
   position: absolute;
@@ -716,7 +736,7 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
 }
 .mob-wep-btn .wep-slot {
   font-size: 9px;
-  background: rgba(26,48,192,0.12);
+  background: var(--ink-wash);
   padding: 0 4px;
   border-radius: 3px;
   font-weight: 900;
@@ -775,7 +795,7 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
   display: block !important;
 }
 #mobile-controls.edit-mode .draggable.selected {
-  outline: 3px solid #2540d9 !important;
+  outline: 3px solid var(--ink) !important;
   outline-offset: 3px;
   box-shadow: 0 0 0 4px rgba(37, 64, 217, 0.35), 0 0 20px rgba(37, 64, 217, 0.5) !important;
   z-index: 60 !important;
@@ -802,7 +822,7 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-bottom: 2px solid rgba(246, 243, 230, 0.2);
-  color: #f6f3e6;
+  color: var(--paper);
   padding: 8px 16px;
   display: flex;
   flex-direction: row;
@@ -811,6 +831,7 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
   gap: 12px;
   pointer-events: auto;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  z-index: 2000;
 }
 #edit-overlay .edit-title-row {
   display: flex;
@@ -825,7 +846,7 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
 }
 #edit-overlay #edit-selected-name {
   font-size: 12px;
-  color: #e6c875;
+  color: var(--ink-accent);
 }
 #edit-overlay #edit-selected-name .subtle {
   color: rgba(246, 243, 230, 0.65);
@@ -844,14 +865,14 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
   padding: 6px 14px;
   border: 2px solid rgba(246, 243, 230, 0.7);
   background: rgba(246, 243, 230, 0.12);
-  color: #f6f3e6;
+  color: var(--paper);
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.15s, border-color 0.15s, transform 0.1s;
 }
 #edit-overlay button:hover {
   background: rgba(246, 243, 230, 0.25);
-  border-color: #f6f3e6;
+  border-color: var(--paper);
 }
 #edit-overlay button:active {
   transform: scale(0.96);
@@ -861,14 +882,14 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
   cursor: not-allowed;
 }
 #edit-overlay button.primary {
-  background: #e62238;
-  border-color: #e62238;
+  background: var(--ink-red);
+  border-color: var(--ink-red);
   color: white;
   box-shadow: 0 2px 8px rgba(230, 34, 56, 0.4);
 }
 #edit-overlay button.primary:hover {
-  background: #ff2d45;
-  border-color: #ff2d45;
+  background: var(--ink-red);
+  border-color: var(--ink-red);
 }
 #edit-overlay .edit-footer {
   position: absolute;
@@ -878,7 +899,7 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
   background: rgba(10, 16, 40, 0.88);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
-  color: #f6f3e6;
+  color: var(--paper);
   padding: 6px 12px;
   text-align: center;
   font-size: 11px;
@@ -887,13 +908,14 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
   justify-content: center;
   gap: 16px;
   flex-wrap: wrap;
+  z-index: 2000;
 }
 
 /* Hide mobile controls when in menu unless edit mode */
 #hud.nogame ~ #mobile-controls:not(.edit-mode) { display: none !important; }
 
 /* Controls toggle - collapsible to save space on mobile */
-.controls-wrapper { margin-top: 12px; border-top: 2px dashed rgba(26,48,192,0.3); padding-top: 10px; }
+.controls-wrapper { margin-top: 12px; border-top: 2px dashed var(--ink); padding-top: 10px; }
 .controls-toggle {
   font: inherit;
   font-size: 18px;
@@ -1012,8 +1034,8 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: rgba(26, 48, 192, 0.96);
-  color: #f6f3e6;
+  background: var(--ink);
+  color: var(--paper);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1052,7 +1074,7 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
 .portrait-card h2 {
   margin: 0;
   font-size: 24px;
-  color: #fff;
+  color: var(--paper);
   letter-spacing: 0.5px;
 }
 .portrait-card p {
@@ -1066,8 +1088,8 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
   font-size: 14px;
   font-weight: bold;
   background: rgba(246, 243, 230, 0.2);
-  color: #f6f3e6;
-  border: 2px solid #f6f3e6;
+  color: var(--paper);
+  border: 2px solid var(--paper);
   border-radius: 20px;
   padding: 7px 18px;
   cursor: pointer;
@@ -1075,7 +1097,7 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
   transition: background 0.15s;
 }
 .portrait-card button:active {
-  background: #f6f3e6;
+  background: var(--paper);
   color: var(--ink);
 }
 
@@ -1170,7 +1192,7 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
-  border-bottom: 2px solid rgba(26,48,192,0.2);
+  border-bottom: 2px solid var(--ink-wash);
   padding: 4px 0;
   position: sticky;
   top: 0;
@@ -1182,7 +1204,7 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
   font-size: 12px;
   font-weight: 800;
   padding: 5px 10px;
-  border: 2px solid rgba(26,48,192,0.3);
+  border: 2px solid var(--ink);
   border-radius: 8px;
   background: rgba(246,243,230,0.6);
   color: var(--ink);
@@ -1190,14 +1212,14 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
   transition: all 0.15s ease;
 }
 .tab-btn:hover {
-  background: rgba(26,48,192,0.1);
+  background: var(--ink-wash);
   border-color: var(--blue);
 }
 .tab-btn.active {
   background: var(--blue);
   color: white;
   border-color: var(--blue);
-  box-shadow: 0 2px 8px rgba(26,48,192,0.3);
+  box-shadow: 0 2px 8px var(--ink);
 }
 
 .settings-body {
@@ -1276,7 +1298,7 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
   color: var(--blue);
   min-width: 48px;
   text-align: right;
-  background: rgba(26,48,192,0.1);
+  background: var(--ink-wash);
   padding: 2px 6px;
   border-radius: 6px;
 }
@@ -1315,8 +1337,8 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
 .sens-test-box {
   position: relative;
   height: 140px;
-  background: #fdfaf0;
-  border: 2px dashed rgba(26,48,192,0.35);
+  background: var(--paper);
+  border: 2px dashed var(--ink);
   border-radius: 10px;
   overflow: hidden;
   cursor: crosshair;
@@ -1399,7 +1421,7 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
 }
 .preset-card.selected {
   border-color: var(--blue);
-  background: rgba(26,48,192,0.12);
+  background: var(--ink-wash);
   box-shadow: 0 0 0 2px var(--blue);
 }
 .preset-card .p-title {
@@ -1463,7 +1485,7 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
   display: flex;
   gap: 10px;
   margin-top: 6px;
-  border-top: 2px dashed rgba(26,48,192,0.2);
+  border-top: 2px dashed var(--ink-wash);
   padding-top: 8px;
   position: sticky;
   bottom: 0;
@@ -1488,7 +1510,7 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
   .mainbtns button { font-size: 14px; padding: 4px 10px; }
   .mainbtns button i { font-size: 10px; }
   .mapsel { margin-top: 4px; padding-top: 4px; gap: 4px; }
-  .mapbtn { font-size: 12px; padding: 2px 6px; }
+  .mapbtn { font-size: 12px; padding: 2px 8px; }
   .controls-wrapper { margin-top: 4px; padding-top: 4px; }
   .controls-toggle { font-size: 12px; padding: 3px 8px; }
   .panel .cols { flex-direction: row; gap: 10px; font-size: 12px; }
@@ -1551,16 +1573,16 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
 }
 .preset-card[data-preset="extreme"]:hover {
   background: rgba(230, 34, 56, 0.08);
-  border-color: #e62238;
+  border-color: var(--ink-red);
 }
 .preset-card[data-preset="extreme"].selected {
-  border-color: #e62238;
+  border-color: var(--ink-red);
   background: rgba(230, 34, 56, 0.12);
-  box-shadow: 0 0 0 2px #e62238, 0 4px 14px rgba(230, 34, 56, 0.25);
+  box-shadow: 0 0 0 2px var(--ink-red), 0 4px 14px rgba(230, 34, 56, 0.25);
 }
 .preset-card[data-preset="extreme"] .p-res {
   background: rgba(230, 34, 56, 0.15);
-  color: #a00b1c;
+  color: var(--ink-red-deep);
 }
 
 /* PWA App Install Button & Fullscreen Styling */
@@ -1587,24 +1609,21 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
 
 /* ---- TACTICAL-STYLE MAIN MENU ---- */
 .panel.main-menu-panel {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
+  position: relative;
   width: 100%;
   max-width: 100% !important;
-  height: 100%;
+  min-height: 100%;
+  height: auto;
   margin: 0;
-  padding: 80px 10vw;
+  padding: 20px 4vw;
   background: transparent !important;
   box-shadow: none !important;
   border: none !important;
-  text-align: left;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  pointer-events: none; /* Let clicks pass through the background */
+  justify-content: flex-start;
+  align-items: center;
+  pointer-events: none;
 }
 .panel.main-menu-panel > * { pointer-events: auto; }
 .panel.main-menu-panel h1 { 
@@ -1767,7 +1786,7 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
 .preview-wep-card .wep-slot {
   font-size: 14px;
   font-weight: 900;
-  background: rgba(26,48,192,0.12);
+  background: var(--ink-wash);
   padding: 4px 8px;
   border-radius: 4px;
 }
@@ -1799,7 +1818,7 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
   position: fixed;
   inset: 0;
   z-index: 10000;
-  background: rgba(26, 48, 192, 0.95);
+  background: var(--ink);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   color: var(--paper);
@@ -1891,7 +1910,7 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
 }
 .tactical-mode-btn:hover {
   opacity: 0.9;
-  border-color: rgba(26, 48, 192, 0.3);
+  border-color: var(--ink);
 }
 .tactical-mode-btn.active {
   opacity: 1;
@@ -1905,7 +1924,7 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
   display: flex;
   gap: 12px;
   padding: 12px 24px 12px 56px;
-  border-bottom: 1.5px dashed rgba(26, 48, 192, 0.2);
+  border-bottom: 1.5px dashed var(--ink-wash);
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -2002,7 +2021,7 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
   justify-content: center;
   font-size: 48px;
   opacity: 0.6;
-  background-image: linear-gradient(rgba(26, 48, 192, 0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(26, 48, 192, 0.2) 1px, transparent 1px);
+  background-image: linear-gradient(var(--ink-wash) 1px, transparent 1px), linear-gradient(90deg, var(--ink-wash) 1px, transparent 1px);
   background-size: 8px 8px;
 }
 .map-card-title {
@@ -2139,4 +2158,4 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
   .deployment-action-bar button.primary { font-size: 20px; padding: 8px 20px; }
 }
 
-.quit-btn { margin-top: 8px; color: #ff5555; }
+.quit-btn { margin-top: 8px; color: var(--ink-red); }

@@ -1,4 +1,6 @@
 // DOM heads-up display drawn in "pen" style (multiplied over the paper canvas).
+import { gameBus } from './game-bus.js';
+
 export class HUD {
   constructor(root) {
     this.root = root;
@@ -25,7 +27,12 @@ export class HUD {
       <div class="screen" id="screen"><div class="panel" id="panel"></div></div>`;
     const q = (id) => root.querySelector('#' + id);
     this.el = { crosshair: q('crosshair'), gret: q('gret'), hitmarker: q('hitmarker'), dmg: q('dmg'), score: q('score'), combo: q('combo'), wave: q('wave'), modifier: q('modifier'), left: q('left'), timer: q('timer'), hpfill: q('hpfill'), hpnum: q('hpnum'), mag: q('mag'), reserve: q('reserve'), reloading: q('reloading'), tally: q('tally'), weapon: q('weapon'), hint: q('hint'), slots: q('slots'), tip: q('tip'), msg: q('msg'), msgsub: q('msgsub'), killfeed: q('killfeed'), screen: q('screen'), panel: q('panel'), nades: q('nades'), scope: q('scope'), focusmark: q('focusmark'), focusmeter: q('focusmeter'), fmfill: q('fmfill'), bossbar: q('bossbar'), bossname: q('bossname'), bossfill: q('bossfill'), pvpscore: q('pvpscore'), board: q('board'), gstam: q('gstam'), gstamfill: q('gstamfill') };
-    this._msgT = 0; this._scope = false; this._nades = -1; this._pad = false; this.onDevice = null; this._fmShow = false; this._fmFrac = -1; this._fmReady = false; this._lastTally = -1; this._lastSlots = ''; this._ads = false; this._mode = ''; this.onScreenClick = null; this.onScreenVisibility = null; this._tipT = 0;
+    this._scope = false; this._nades = -1; this._pad = false; this.onDevice = null; this._fmShow = false; this._fmFrac = -1; this._fmReady = false; this._lastTally = -1; this._lastSlots = ''; this._ads = false; this._mode = ''; this.onScreenClick = null; this.onScreenVisibility = null;
+    this._msgTimeout = null; this._tipTimeout = null;
+
+    // Listen to GameBus events
+    gameBus.on('ui:tip', ({text, dur}) => this.tip(text, dur));
+    gameBus.on('ui:message', ({main, sub, dur}) => this.message(main, sub, dur));
     this.el.screen.addEventListener('click', (e) => {
       // Only resume/proceed if clicking directly on the backdrop or on an explicit .go prompt
       // Never trigger when interacting with .panel buttons, sliders, inputs, or content
@@ -96,8 +103,25 @@ export class HUD {
   setScore(score, combo) { this.el.score.textContent = score; this.el.combo.textContent = combo > 1 ? 'COMBO x' + combo : ''; }
   setWeapon(name, hint) { this.el.weapon.textContent = name; this.el.hint.textContent = hint || ''; }
   setBoss(name, frac) { if (frac == null) { this.el.bossbar.classList.remove('show'); return; } this.el.bossbar.classList.add('show'); this.el.bossname.textContent = name; this.el.bossfill.style.width = (Math.max(0, frac) * 100).toFixed(1) + '%'; }
-  tip(text, dur = 5) { this.el.tip.innerHTML = text; this.el.tip.classList.add('show'); this._tipT = dur; }
-  message(main, sub = '', dur = 2.2) { const m = this.el.msg; m.textContent = main; m.classList.remove('show'); void m.offsetWidth; m.classList.add('show'); this.el.msgsub.textContent = sub; this._msgT = dur; }
+  tip(text, dur = 5) { 
+    this.el.tip.innerHTML = text; 
+    this.el.tip.classList.add('show'); 
+    clearTimeout(this._tipTimeout);
+    this._tipTimeout = setTimeout(() => this.el.tip.classList.remove('show'), dur * 1000);
+  }
+  message(main, sub = '', dur = 2.2) { 
+    const m = this.el.msg; 
+    m.textContent = main; 
+    m.classList.remove('show'); 
+    void m.offsetWidth; 
+    m.classList.add('show'); 
+    this.el.msgsub.textContent = sub; 
+    clearTimeout(this._msgTimeout);
+    this._msgTimeout = setTimeout(() => {
+      m.classList.remove('show');
+      this.el.msgsub.textContent = '';
+    }, dur * 1000);
+  }
   kill(text, pts) {
     const d = document.createElement('div'); d.innerHTML = pts > 0 ? `${text} <span class="pts">+${pts}</span>` : text; this.el.killfeed.appendChild(d);
     setTimeout(() => d.remove(), 1700); while (this.el.killfeed.children.length > 6) this.el.killfeed.firstChild.remove();
@@ -115,10 +139,7 @@ export class HUD {
     if (this.onScreenVisibility) this.onScreenVisibility(false);
   }
   setGameplayVisible(v) { this.root.classList.toggle('nogame', !v); }
-  update(dt) {
-    if (this._msgT > 0) { this._msgT -= dt; if (this._msgT <= 0) { this.el.msg.classList.remove('show'); this.el.msgsub.textContent = ''; } }
-    if (this._tipT > 0) { this._tipT -= dt; if (this._tipT <= 0) this.el.tip.classList.remove('show'); }
-  }
+  update(dt) { /* Deprecated. Timing managed by setTimeout / gameBus */ }
 }
 
 export const KB_KEYS = { fire: 'LMB', aim: 'RMB', block: 'RMB', jump: 'Space', sprint: 'Shift', slide: 'C', dash: 'C', grapple: 'Q', melee: 'F', reload: 'R', grenade: 'G', focus: 'Both Mouse Buttons (or X)', next: 'Scroll', pause: 'Esc', confirm: 'Space', score: 'Tab' };

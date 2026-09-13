@@ -149,7 +149,7 @@ const settings = {
   aimSens: Number(localStorage.getItem('doodle_aim_sens') || 85),
   mobileSens: Number(localStorage.getItem('doodle_mobile_sens') || 100),
   invert: localStorage.getItem('doodle_invert') === '1',
-  mobile: localStorage.getItem('doodle_mobile') ? localStorage.getItem('doodle_mobile') === '1' : (typeof window !== 'undefined' && ('ontouchstart' in window || (window.matchMedia && window.matchMedia("(pointer: coarse)").matches))),
+  mobile: localStorage.getItem('doodle_mobile') !== '0',
   mobileScale: Number(localStorage.getItem('doodle_mobile_scale') || 100),
   graphicsQuality: localStorage.getItem('doodle_graphics_quality') || 'high',
   resScale: Number(localStorage.getItem('doodle_res_scale') || 100),
@@ -1009,19 +1009,16 @@ function wireSettingsScreen() {
     localStorage.setItem('doodle_music', musicWanted ? '1' : '0');
   });
 
-
-  const btnCust = box.querySelector('#btnCustomize');
-  if (btnCust) {
-    fastClick(btnCust, () => {
+  const cust = box.querySelector('#btnCustomize');
+  if (cust) cust.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (typeof mobile !== 'undefined' && mobile.enterEditMode) {
       hud.hideScreen();
-      if (typeof mobile !== 'undefined' && mobile.enterEditMode) {
-        mobile.enterEditMode(() => {
-          screen = 'settings';
-          showStart();
-        });
-      }
-    });
-  }
+      mobile.enterEditMode(() => {
+        showStart();
+      });
+    }
+  });
 
   const closeMenu = () => {
     if (settingsReturnTo === 'pause') showPause();
@@ -1118,36 +1115,30 @@ function updatePreviewWeapon() {
 }
 
 function weaponsPreviewHTML() {
-
+  const getWepHTML = (id, num, name, svg) => `
+    <button type="button" class="preview-wep-card ${previewWeaponType === id ? 'active' : ''}" data-wep="${id}">
+      <div class="wep-meta"><span class="wep-slot">${num}</span><span class="wep-name">${name}</span></div>
+      <div class="wep-icon-wrap">${svg}</div>
+    </button>
+  `;
   return `
-  <div class="ds-panel" style="width: 100%; max-width: 900px; margin: 40px auto; background: transparent; border: none; box-shadow: none;">
-    <h1 style="font-family: var(--font-display); font-size: 48px; margin: 0; color: var(--ink);">WEAPON LOCKER</h1>
-    <h2 style="font-family: var(--font-body); font-size: 16px; margin: 4px 0 32px 0; color: var(--ink);">preview your loadout</h2>
-    
-    <div class="weapons-menu ds-panel" id="weaponsMenu" style="display: flex; flex-direction: column; gap: 24px;">
-      <div class="weapons-grid" style="display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;">
-        <button type="button" class="ds-btn ${previewWeaponType === 'rifle' ? 'primary' : 'ghost'} lg preview-wep-card" data-wep="rifle">RIFLE</button>
-        <button type="button" class="ds-btn ${previewWeaponType === 'shotgun' ? 'primary' : 'ghost'} lg preview-wep-card" data-wep="shotgun">SHOTGUN</button>
-        <button type="button" class="ds-btn ${previewWeaponType === 'sniper' ? 'primary' : 'ghost'} lg preview-wep-card" data-wep="sniper">SNIPER</button>
-        <button type="button" class="ds-btn ${previewWeaponType === 'katana' ? 'primary' : 'ghost'} lg preview-wep-card" data-wep="katana">KATANA</button>
+    <div class="wep-view-container">
+      <div class="wep-view-left">
+        <h1>WEAPON VIEWER</h1>
+        <h2>inspect 3d models · drag to rotate</h2>
       </div>
-      
-      <div style="background: var(--paper); border: 2px solid var(--ink); border-radius: var(--r-sketch-lg); padding: 24px; text-align: center; min-height: 200px;">
-         <h3 style="font-family: var(--font-display); font-size: 32px; margin: 0 0 12px 0;">${previewWeaponType.toUpperCase()}</h3>
-         <div style="font-family: var(--font-body); font-size: 16px; opacity: 0.8; max-width: 400px; margin: auto;">
-            ${previewWeaponType === 'rifle' ? 'Fully automatic assault rifle. Balanced damage and fire rate. Best for mid-range engagements.' :
-              previewWeaponType === 'shotgun' ? 'Pump-action scattergun. Devastating at close range. Slow fire rate.' :
-              previewWeaponType === 'sniper' ? 'High-powered precision rifle. One shot kill on headshots. Long range.' :
-              'Deadly blade for close-quarters combat. Dash-execute enemies when charged.'}
-         </div>
+      <div class="wep-view-menu" id="weaponsMenu">
+        <h3 style="margin-top: 0; margin-bottom: 24px; font-size: 24px; color: var(--ink); border-bottom: 3px solid var(--ink); padding-bottom: 8px;">ARSENAL</h3>
+        <div style="flex: 1; overflow-y: auto; padding-right: 8px; padding-left: 6px; padding-top: 6px;">
+          ${getWepHTML('rifle', 1, 'RIFLE', `<svg class="wep-icon" viewBox="0 0 70 28"><path d="M4 17 L12 17 L15 13 L28 13 L30 11 L48 11 L48 13 L64 13 L64 15 L48 15 L48 17 L36 17 L34 23 L28 23 L30 17 L22 17 L16 23 L10 23 L12 17 L4 17 Z" fill="currentColor"/><rect x="64" y="13.5" width="4" height="2" fill="currentColor"/><rect x="32" y="9" width="10" height="2" rx="0.5" fill="currentColor"/><rect x="23" y="17" width="2" height="3" fill="currentColor"/></svg>`)}
+          ${getWepHTML('shotgun', 2, 'SHOTGUN', `<svg class="wep-icon" viewBox="0 0 70 28"><path d="M4 18 L12 18 L16 15 L32 15 L66 15 L66 17 L32 17 L32 19 L62 19 L62 20 L32 20 L30 22 L20 22 L22 18 L12 18 L6 22 L4 22 Z" fill="currentColor"/><rect x="38" y="18" width="12" height="4" rx="1" fill="currentColor"/></svg>`)}
+          ${getWepHTML('sniper', 3, 'SNIPER', `<svg class="wep-icon" viewBox="0 0 70 28"><path d="M4 17 L14 17 L18 14 L30 14 L68 14 L68 16 L30 16 L28 22 L24 22 L26 16 L18 16 L12 21 L6 21 Z" fill="currentColor"/><path d="M22 10 L42 10 L44 8 L48 8 L48 12 L44 12 L42 10 Z" fill="currentColor"/><rect x="25" y="8" width="5" height="4" fill="currentColor"/><rect x="27" y="12" width="2" height="2" fill="currentColor"/><rect x="39" y="12" width="2" height="2" fill="currentColor"/><rect x="67" y="13" width="3" height="4" rx="0.5" fill="currentColor"/></svg>`)}
+          ${getWepHTML('revolver', 4, 'REVOLVER', `<svg class="wep-icon" viewBox="0 0 70 28"><path d="M12 18 L20 18 L24 13 L42 13 L42 17 L28 17 L26 23 L18 23 L20 18 Z" fill="currentColor"/><circle cx="30" cy="15" r="3" fill="currentColor" opacity="0.5"/><rect x="42" y="13.5" width="6" height="2" fill="currentColor"/><rect x="22" y="10" width="8" height="2" fill="currentColor"/></svg>`)}
+          ${getWepHTML('katana', 5, 'KATANA', `<svg class="wep-icon" viewBox="0 0 70 28"><path d="M20 14 Q40 13 62 10 Q66 10 68 11 Q63 15 40 16 Q20 16 20 16 Z" fill="currentColor"/><ellipse cx="20" cy="15" rx="1.5" ry="5" fill="currentColor"/><path d="M6 17 L19 15 L19 16 L6 18 Z" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>`)}
+        </div>
+        <button type="button" class="bigbtn alt" id="backWeaponsBtn" style="margin-top: 24px; padding: 14px; font-size: 20px;">BACK TO LOBBY</button>
       </div>
-      
-      <div style="display: flex; justify-content: flex-end; margin-top: 16px;">
-        <button type="button" class="ds-btn ghost md" id="backWeaponsBtn">BACK</button>
-      </div>
-    </div>
-  </div>`;
-
+    </div>`;
 }
 
 function getMapSVG(key, isDossier = false) {
@@ -1397,96 +1388,91 @@ function getMapSVG(key, isDossier = false) {
 }
 
 function mapSelectHTML() {
-
   const curMap = LEVELS.find((m) => m.key === mapKey) || LEVELS[0];
-  
+  const filter = window.currentTacticalFilter || 'all';
+
   let cardsHTML = '';
   LEVELS.forEach(m => {
-    const tagsHTML = (m.tags || []).map(t => `<div style="font-size: 10px; border: 1px solid var(--pencil); border-radius: 4px; padding: 2px 6px; color: var(--pencil);">${t}</div>`).join('');
-    
-    const active = m.key === mapKey ? 'var(--ink-wash)' : 'transparent';
-    const border = m.key === mapKey ? 'var(--ink)' : 'var(--pencil)';
-    const soon = m.comingSoon ? 'opacity: 0.6;' : '';
+    if (filter !== 'all' && m.category !== filter) return;
+    const tagsHTML = (m.tags || []).map(t => `<div class="map-card-tag">${t}</div>`).join('');
+    const active = m.key === mapKey ? ' active' : '';
+    const soon = m.comingSoon ? ' coming-soon' : '';
     const clickAttr = m.comingSoon ? '' : `data-map="${m.key}"`;
     const disabled = m.comingSoon ? 'disabled' : '';
 
     cardsHTML += `
-      <div class="ds-panel mapbtn" ${clickAttr} ${disabled} style="background: ${active}; border-color: ${border}; ${soon} padding: 12px; cursor: pointer; display: flex; flex-direction: column; gap: 8px; flex: 0 0 240px; box-sizing: border-box; transition: transform 0.1s;">
-        <div style="display: flex; justify-content: space-between; font-size: 10px; font-weight: bold; color: var(--pencil);">
+      <div class="map-card${active}${soon} mapbtn" ${clickAttr} ${disabled}>
+        <div class="map-card-header">
           <span>${m.category === 'urban' ? 'SEC-01' : m.category === 'colossal' ? 'SEC-02' : 'SEC-03'}</span>
           <span>${m.env || ''}</span>
         </div>
-        <div style="height: 120px; display: flex; align-items: center; justify-content: center; ${m.comingSoon ? 'font-size: 16px; font-weight: bold; letter-spacing: 2px; text-align: center;' : ''}">
+        <div class="map-card-thumb" ${m.comingSoon ? 'style="font-size: 16px; font-weight: bold; letter-spacing: 2px; text-align: center;"' : ''}>
           ${m.comingSoon ? 'COMING<br>SOON' : getMapSVG(m.key)}
         </div>
-        <div style="font-family: var(--font-display); font-size: 24px; text-align: center; color: var(--ink);">${m.name}</div>
-        <div style="display: flex; gap: 4px; flex-wrap: wrap; justify-content: center; margin-top: auto;">${tagsHTML}</div>
+        <div class="map-card-title">${m.name}</div>
+        <div class="map-card-tags">${tagsHTML}</div>
+        <div class="tape-corner"></div>
       </div>
     `;
   });
 
   const bestScore = Number(localStorage.getItem(`doodle_best_${mapKey}`)) || 0;
-  const isLocked = !!curMap.comingSoon;
-  const deployLabel = isLocked ? 'MISSION IN DEVELOPMENT' : 'DEPLOY TO MISSION';
-  const deployDisabled = isLocked ? 'disabled' : '';
-  
-  const diffStyle = (d) => {
-    if (window.currentDifficulty === d) return d === 4 ? 'background:var(--ink-red); color:var(--paper); border-color:var(--ink-red);' : 'background:var(--ink); color:var(--paper);';
-    return d === 4 ? 'color:var(--ink-red); border-color:var(--ink-red);' : 'color:var(--ink); background:transparent;';
-  };
-  const diffBtn = (d, label) => `<button class="tactical-filter-btn ds-btn secondary sm" data-diff="${d}" style="${diffStyle(d)}">${label}</button>`;
 
-  return `
-  <div id="mapsel" style="width: 100%; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; justify-content: center; gap: 24px; pointer-events: auto; height: 100%;">
-    
-    ${game.mode === 'solo' || game.mode === 'duel' ? `
-    <div style="background: var(--ink-wash); border-radius: var(--r-sketch-md); padding: 12px 24px; display: flex; justify-content: center; gap: 24px; align-items: center;">
-      <div style="font-size: 14px; opacity: 0.8; font-weight: bold; font-family: var(--font-display); letter-spacing: 2px;">AI DIFFICULTY</div>
-      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-        ${diffBtn(0, 'STUPID')}${diffBtn(1, 'EASY')}${diffBtn(2, 'HARD')}${diffBtn(3, 'EXTREME')}${diffBtn(4, 'GOD MODE')}
+    const isLocked = !!curMap.comingSoon;
+    const deployLabel = isLocked ? 'MISSION IN DEVELOPMENT' : 'DEPLOY TO MISSION';
+    const deployDisabled = isLocked ? 'disabled style="opacity: 0.45; cursor: not-allowed; pointer-events: none;"' : '';
+
+    return `
+    <div class="tactical-filters">
+      <button class="tactical-filter-btn ${filter === 'all' ? 'active' : ''}" data-filter="all">ALL THEATERS</button>
+      <button class="tactical-filter-btn ${filter === 'urban' ? 'active' : ''}" data-filter="urban">TACTICAL GROUNDS</button>
+      <button class="tactical-filter-btn ${filter === 'colossal' ? 'active' : ''}" data-filter="colossal">COLOSSAL SIZES</button>
+      <button class="tactical-filter-btn ${filter === 'anomalous' ? 'active' : ''}" data-filter="anomalous">ANOMALOUS LABS</button>
+    </div>
+
+    <div class="tactical-difficulty" style="margin: 15px 0 5px 0; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+      <div style="font-size:11px; opacity:0.8; letter-spacing:1px; font-weight:bold;">AI DIFFICULTY</div>
+      <div style="display: flex; gap: 6px; justify-content: center; flex-wrap: wrap;">
+        <button class="tactical-filter-btn" style="font-size: 11px; padding: 4px 12px; border-width: 1.5px; border-radius: 4px; min-width: 70px; ${window.currentDifficulty === 0 ? 'background:var(--ink); color:var(--paper);' : 'background:transparent; color:var(--ink);'}" data-diff="0" title="Stupid">STUPID</button>
+        <button class="tactical-filter-btn" style="font-size: 11px; padding: 4px 12px; border-width: 1.5px; border-radius: 4px; min-width: 70px; ${window.currentDifficulty === 1 ? 'background:var(--ink); color:var(--paper);' : 'background:transparent; color:var(--ink);'}" data-diff="1" title="Easy">EASY</button>
+        <button class="tactical-filter-btn" style="font-size: 11px; padding: 4px 12px; border-width: 1.5px; border-radius: 4px; min-width: 70px; ${(window.currentDifficulty === undefined || window.currentDifficulty === 2) ? 'background:var(--ink); color:var(--paper);' : 'background:transparent; color:var(--ink);'}" data-diff="2" title="Hard">HARD</button>
+        <button class="tactical-filter-btn" style="font-size: 11px; padding: 4px 12px; border-width: 1.5px; border-radius: 4px; min-width: 70px; ${window.currentDifficulty === 3 ? 'background:var(--ink); color:var(--paper);' : 'background:transparent; color:var(--ink);'}" data-diff="3" title="Extreme">EXTREME</button>
+        <button class="tactical-filter-btn" style="font-size: 11px; padding: 4px 12px; border-width: 1.5px; border-radius: 4px; min-width: 70px; ${window.currentDifficulty === 4 ? 'background:var(--red); color:white; border-color:var(--red);' : 'background:transparent; color:var(--red); border-color:var(--red);'}" data-diff="4" title="AI GOD MODE">GOD MODE</button>
       </div>
     </div>
-    ` : ''}
 
-    <div style="display: flex; gap: 24px; align-items: stretch; flex-grow: 1; min-height: 0;">
-      
-      <!-- CAROUSEL AREA (Left Side) -->
-      <div class="map-carousel" style="flex-grow: 1; display: flex; align-items: stretch; gap: 16px; overflow-x: auto; padding-bottom: 12px; scrollbar-width: thin; scrollbar-color: var(--ink) transparent;">
+    <div class="tactical-body">
+      <div class="map-carousel" id="mapsel">
         ${cardsHTML}
       </div>
       
-      <!-- DOSSIER AREA (Right Side) -->
-      <div class="ds-panel" style="width: 320px; flex-shrink: 0; display: flex; flex-direction: column; gap: 16px; overflow-y: auto;">
-        <div style="font-family: var(--font-display); font-size: 28px; color: var(--ink); border-bottom: 2px dashed var(--ink-wash); padding-bottom: 8px;">${curMap.name}</div>
-        <div style="min-height: 140px; display: flex; align-items: center; justify-content: center;">
+      <div class="mission-dossier">
+        <div class="dossier-header">MISSION: ${curMap.name}</div>
+        <div class="dossier-wireframe">
            ${getMapSVG(curMap.key, true)}
         </div>
-        <div style="display: flex; flex-direction: column; gap: 8px; font-family: var(--font-mono); font-size: 14px;">
-          <div style="display: flex; justify-content: space-between;"><span>ENV</span> <b>${curMap.env || 'Unknown'}</b></div>
-          <div style="display: flex; justify-content: space-between;"><span>ENGAGE</span> <b>${curMap.engagement || 'Unknown'}</b></div>
-          <div style="display: flex; justify-content: space-between;"><span>SCALE</span> <b>${curMap.scale || 'Unknown'}</b></div>
+        <div class="dossier-specs">
+          <div><b>ENVIRONMENT:</b> ${curMap.env || 'Unknown'}</div>
+          <div><b>ENGAGEMENT:</b> ${curMap.engagement || 'Unknown'}</div>
+          <div><b>SCALE:</b> ${curMap.scale || 'Unknown'}</div>
         </div>
-        ${curMap.hazard && curMap.hazard !== 'None' ? `<div style="color: var(--ink-red); font-family: var(--font-mono); font-size: 12px; font-weight: bold; text-align: center; margin-top: 8px;">WARNING: ${curMap.hazard}</div>` : ''}
-        ${bestScore > 0 ? `<div style="font-family: var(--font-display); font-size: 16px; text-align: center; border-top: 2px dashed var(--ink-wash); padding-top: 12px; margin-top: 8px;">BEST SCORE: ${bestScore}</div>` : ''}
-        ${checkpointHTML()}
+        ${curMap.hazard && curMap.hazard !== 'None' ? `<div class="dossier-hazard">WARNING: ${curMap.hazard}</div>` : ''}
+        <div class="dossier-records">
+          ${bestScore > 0 ? `<div>BEST SCORE: ${bestScore}</div>` : ''}
+          ${checkpointHTML()}
+        </div>
       </div>
     </div>
 
-    <!-- BOTTOM BAR -->
-    <div style="display: flex; justify-content: space-between; align-items: center; border-top: 2px solid var(--ink); padding: 16px 20px; background: rgba(246,243,230,0.85); backdrop-filter: blur(8px); border-radius: var(--r-sketch-md); flex-shrink: 0;">
-      <button class="ds-btn ghost md" id="backBtn">ESC / BACK</button>
-      <div style="display: flex; gap: 16px;">
-        <button class="ds-btn secondary md" id="weaponsBtn">WEAPONS</button>
-        <button class="ds-btn ${isLocked ? 'ghost' : 'primary'} lg" id="startBtn" ${deployDisabled}>${deployLabel}</button>
-      </div>
+    <div class="deployment-action-bar">
+      <button id="backBtn">ESC / HQ</button>
+      <button id="weaponsBtn">V / WEAPON LOCKER</button>
+      <button class="primary start" id="startBtn" ${deployDisabled}>${deployLabel}</button>
     </div>
-  </div>
   `;
-
 }
 
 function mainHTML() {
-
   const isInstalled = isAppInstalled();
   const installDisplay = (!isInstalled && typeof deferredPrompt !== 'undefined' && deferredPrompt) ? 'flex' : 'none';
   
@@ -1503,154 +1489,69 @@ function mainHTML() {
         <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
       </svg>
     </button>
+    ${!isInstalled ? `
+    <button type="button" id="mainInstallBtn" class="floating-btn install-btn" style="display:${installDisplay};" title="Install App">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+    </button>` : ''}
   </div>
-  <div style="width: 100%; max-width: 800px; margin: 0 auto; padding: 24px 0; display: flex; flex-direction: column; align-items: center;">
-    <h1 style="font-family: var(--font-display); font-size: clamp(40px, 8vw, 64px); letter-spacing: 3px; line-height: 1; margin: 0; color: var(--ink); text-align: center;">DOODLE STRIKE</h1>
-    <h2 style="font-family: var(--font-body); font-size: 20px; font-weight: normal; margin: 4px 0 48px 0; color: var(--ink); text-align: center;">TACTICAL INK SHOOTER</h2>
-    
-    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; width: 100%;">
-      <button type="button" id="soloBtn" class="ds-btn primary hero" style="transform: rotate(var(--tilt-a)); padding: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 120px;">
-        <span style="font-size: 32px; letter-spacing: 2px;">SURVIVAL</span>
-        <span style="font-size: 14px; font-family: var(--font-mono); opacity: 0.9; margin-top: 8px;">Wave Defense</span>
-      </button>
-      <button type="button" id="duelBtn" class="ds-btn secondary hero" style="transform: rotate(var(--tilt-b)); padding: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 120px;">
-        <span style="font-size: 32px; letter-spacing: 2px;">1v1 DUEL</span>
-        <span style="font-size: 14px; font-family: var(--font-mono); opacity: 0.9; margin-top: 8px;">vs AI Boss</span>
-      </button>
-      <button type="button" id="onlineBtn" class="ds-btn secondary hero" style="transform: rotate(var(--tilt-c)); padding: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 120px;">
-        <span style="font-size: 32px; letter-spacing: 2px;">MULTIPLAYER</span>
-        <span style="font-size: 14px; font-family: var(--font-mono); opacity: 0.9; margin-top: 8px;">Public / Private</span>
-      </button>
-      <button type="button" id="exploreBtn" class="ds-btn secondary hero" style="transform: rotate(var(--tilt-a)); padding: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 120px;">
-        <span style="font-size: 32px; letter-spacing: 2px;">FREE ROAM</span>
-        <span style="font-size: 14px; font-family: var(--font-mono); opacity: 0.9; margin-top: 8px;">Zero Enemies</span>
-      </button>
-    </div>
-  </div>
-  ${!isInstalled ? `<button type="button" id="mainInstallBtn" class="ds-btn ghost md" style="position: absolute; top: 24px; left: 24px; display: ${installDisplay};">INSTALL APP</button>` : ''}
-  `;
+  
+  <h1>DOODLE STRIKE</h1><h2>TACTICAL INK SHOOTER</h2>
 
+  <div class="main-menu-grid">
+    <button type="button" id="soloBtn" class="mm-btn">
+      <div class="mm-label">SURVIVAL</div>
+      <div class="mm-sub">Wave Defense</div>
+    </button>
+    <button type="button" id="duelBtn" class="mm-btn mm-duel">
+      <div class="mm-label">1v1 DUEL</div>
+      <div class="mm-sub">vs AI Boss</div>
+    </button>
+    <button type="button" id="exploreBtn" class="mm-btn">
+      <div class="mm-label">FREE ROAM</div>
+      <div class="mm-sub">Zero Enemies</div>
+    </button>
+    <button type="button" id="onlineBtn" class="mm-btn">
+      <div class="mm-label">MULTIPLAYER</div>
+      <div class="mm-sub">Public / Private</div>
+    </button>
+  </div>`;
 }
 function onlineHTML() {
-
-  return `
-  <div style="width: 100%; max-width: 800px; margin: 0 auto; padding: 24px 0;">
-    <h1 style="font-family: var(--font-display); font-size: 48px; margin: 0; color: var(--ink);">PLAY ONLINE</h1>
-    <h2 style="font-family: var(--font-body); font-size: 16px; margin: 4px 0 32px 0; color: var(--ink);">free for all &bull; first to ${FFA_TARGET} &bull; up to 10 players</h2>
-    
-    <div class="online ds-panel" id="online" style="display: flex; flex-direction: column; gap: 24px;">
-      
-      <div style="display: flex; align-items: center; gap: 16px;">
-        <span style="font-family: var(--font-display); font-size: 20px;">YOUR NAME</span>
-        <input type="text" class="namebox ds-input" id="setName" maxlength="14" value="${esc(myName)}" style="flex-grow: 1; max-width: 200px; font-size: 20px;">
-      </div>
-      
-      <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
-        <button type="button" class="ds-btn primary lg" id="quickBtn">QUICK PLAY</button>
-        <span style="opacity: 0.8; font-size: 14px;">jumps into an open public lobby, or opens one for you</span>
-      </div>
-      
-      <div style="border-top: 2px dashed var(--ink-wash); margin: 8px 0; text-align: center;">
-        <span style="background: var(--paper); padding: 0 16px; position: relative; top: -12px; font-family: var(--font-display);">OR</span>
-      </div>
-      
-      <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
-        <button type="button" class="ds-btn secondary md" id="createBtn">CREATE LOBBY</button>
-        <div class="radio ds-seg" style="display: flex;">
-          <label class="ds-btn ${lobby.isPublic ? 'active' : 'ghost'}"><input type="radio" name="vis" value="public" ${lobby.isPublic ? 'checked' : ''} style="display:none;"> PUBLIC</label>
-          <label class="ds-btn ${lobby.isPublic ? 'ghost' : 'active'}"><input type="radio" name="vis" value="private" ${lobby.isPublic ? '' : 'checked'} style="display:none;"> PRIVATE (code)</label>
-        </div>
-      </div>
-      
-      <div style="display: flex; align-items: center; gap: 16px;">
-        <span style="font-family: var(--font-display); font-size: 20px;">HAVE A CODE?</span>
-        <input type="text" id="codeBox" class="ds-input" placeholder="CODE" maxlength="5" autocomplete="off" style="width: 100px; font-size: 20px; text-transform: uppercase;">
-        <button type="button" class="ds-btn secondary md" id="joinBtn">JOIN</button>
-      </div>
-      
-      <div class="lobbylist" id="lobbylist" style="margin-top: 16px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <span style="font-family: var(--font-display); font-size: 20px;">PUBLIC LOBBIES</span>
-          <button type="button" class="ds-btn ghost sm" id="refreshBtn">REFRESH</button>
-        </div>
-        <div class="rows" id="lobbyRows" style="background: var(--ink-wash); border-radius: var(--r-sketch-md); padding: 12px; min-height: 100px;">
-          ${lobbyListHTML()}
-        </div>
-      </div>
-      
-      <div class="status" id="status" style="font-family: var(--font-mono); color: var(--ink-red);">${esc(lobby.status || '')}</div>
-      
-      ${lobby.rejoinCode ? `<div class="row"><button type="button" class="ds-btn danger lg" id="rejoinBtn">REJOIN ${esc(lobby.rejoinCode)}</button></div>` : ''}
-      
-      <div style="display: flex; justify-content: flex-end; margin-top: 16px;">
-        <button type="button" class="ds-btn ghost md" id="backBtn">BACK TO MAIN MENU</button>
-      </div>
-    </div>
-  </div>`;
-
+  return `<h1>PLAY ONLINE</h1><h2>free for all · first to ${FFA_TARGET} · up to 10 players</h2>
+    <div class="online" id="online">
+      <div class="row"><span>your name</span><input type="text" class="namebox" id="setName" maxlength="14" value="${esc(myName)}"></div>
+      <div class="row"><button type="button" class="big" id="quickBtn">QUICK PLAY</button><span class="hint">jumps into an open public lobby, or opens one for you</span></div>
+      <div class="row split"><span>or</span></div>
+      <div class="row"><button type="button" id="createBtn">CREATE LOBBY</button><div class="radio"><label><input type="radio" name="vis" value="public" ${lobby.isPublic ? 'checked' : ''}> public</label><label><input type="radio" name="vis" value="private" ${lobby.isPublic ? '' : 'checked'}> private · friends only</label></div></div>
+      <div class="row"><span>have a code?</span><input type="text" id="codeBox" placeholder="CODE" maxlength="5" autocomplete="off"><button type="button" id="joinBtn">JOIN</button></div>
+      <div class="lobbylist" id="lobbylist"><div class="row"><span>public lobbies</span><button type="button" class="alt" id="refreshBtn">REFRESH</button></div><div class="rows" id="lobbyRows">${lobbyListHTML()}</div></div>
+      <div class="status" id="status">${esc(lobby.status || '')}</div>
+      ${lobby.rejoinCode ? `<div class="row"><button type="button" class="big" id="rejoinBtn">REJOIN ${esc(lobby.rejoinCode)}</button></div>` : ''}
+      <div class="row"><button type="button" class="alt" id="backBtn">BACK</button></div>
+    </div>`;
 }
 function lobbyHTML() {
-
   const rows = lobbyRows(); const host = net.isHost; const n = rows.length;
-  return `
-  <div style="width: 100%; max-width: 800px; margin: 0 auto; padding: 24px 0;">
-    <h1 style="font-family: var(--font-display); font-size: 48px; margin: 0; color: var(--ink);">LOBBY</h1>
-    <h2 style="font-family: var(--font-body); font-size: 16px; margin: 4px 0 32px 0; color: var(--ink);">free for all &bull; first to ${FFA_TARGET} &bull; ${n}/${net.maxPlayers} players</h2>
-    
-    <div class="online ds-panel" id="online" style="display: flex; flex-direction: column; gap: 24px;">
-      
-      <div style="display: flex; align-items: center; justify-content: space-between;">
-        <div>
-            <span style="font-family: var(--font-display); font-size: 20px;">CODE</span>
-            <span class="code" style="font-family: var(--font-mono); font-size: 24px; font-weight: bold; margin-left: 12px;">${String(net.isHost ? (net.aliasCode || net.code) : (lobby.shown || net.code) || '').replace(/-\d+$/, '')}</span>
-        </div>
-        <div class="hint" style="font-size: 14px; opacity: 0.8; max-width: 250px; text-align: right;">
-            ${lobby.isPublic ? 'this lobby is public: anyone can quick play in, or type the code' : 'private lobby: friends type this code under PLAY ONLINE -> JOIN'}
-        </div>
-      </div>
-      
-      <div style="border-top: 2px dashed var(--ink-wash); margin: 8px 0;"></div>
-      
+  return `<h1>LOBBY</h1><h2>free for all · first to ${FFA_TARGET} · ${n}/${net.maxPlayers} players</h2>
+    <div class="online" id="online">
+      <div class="row"><span>code</span><span class="code">${String(net.isHost ? (net.aliasCode || net.code) : (lobby.shown || net.code) || '').replace(/-\d+$/, '')}</span></div>
       ${mapHTML(lobby.map || mapKey, host)}
-      
-      <div class="plist" style="background: var(--ink-wash); border-radius: var(--r-sketch-md); padding: 16px; display: flex; flex-direction: column; gap: 8px;">
-        <div style="font-family: var(--font-display); font-size: 16px; opacity: 0.8; color: var(--ink);">PLAYERS</div>
-        ${rows.map((p) => `<div class="${p.id === lobby.hostId ? 'host' : ''}${p.id === net.id ? ' me' : ''}" style="display:flex; justify-content:space-between; font-family: var(--font-mono); color: var(--ink);">
-            <span>${esc(p.name)}</span>
-            <span style="opacity:0.6;">${p.id === net.id ? 'YOU' : ''}</span>
-        </div>`).join('')}
-      </div>
-      
-      <div class="status" id="status" style="font-family: var(--font-mono); color: var(--ink-red);">${esc(lobby.status || '')}</div>
-      <div class="hint" style="text-align: center; opacity: 0.8; font-size: 14px;">anyone can start &bull; ${n < 2 ? 'people can still join once it is running' : n + ' players in'}</div>
-      
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; flex-wrap: wrap; gap: 12px;">
-        <button type="button" class="ds-btn danger md" id="leaveBtn">LEAVE</button>
-        <div style="display: flex; gap: 12px;">
-            <button type="button" class="ds-btn secondary md" id="weaponsBtn">VIEW WEAPONS</button>
-            <button type="button" class="ds-btn primary lg" id="startBtn">START MATCH</button>
-        </div>
-      </div>
-    </div>
-  </div>`;
-
+      <div class="hint">${lobby.isPublic ? 'this lobby is public: anyone can quick play in, or type the code' : 'private lobby: friends type this code under PLAY ONLINE → JOIN'}</div>
+      <div class="plist">${rows.map((p) => `<div class="${p.id === lobby.hostId ? 'host' : ''}${p.id === net.id ? ' me' : ''}"><span>${esc(p.name)}</span><span>${p.id === net.id ? 'you' : ''}</span></div>`).join('')}</div>
+      <div class="row"><button type="button" class="big" id="startBtn">START MATCH</button><button type="button" class="alt" id="weaponsBtn">VIEW WEAPONS</button><button type="button" class="alt" id="leaveBtn">LEAVE</button></div>
+      <div class="status" id="status">${esc(lobby.status || '')}</div><div class="hint">anyone can start · ${n < 2 ? 'people can still join once it is running' : n + ' players in'}</div>
+    </div>`;
 }
 let lobbyList = null, listBusy = false;
 function lobbyListHTML() {
-
-  if (listBusy) return '<div style="opacity:0.8;">looking…</div>';
-  if (!lobbyList) return '<div style="opacity:0.8;">press refresh to look for open lobbies</div>';
-  if (!lobbyList.length) return '<div style="opacity:0.8;">hit QUICK PLAY to join a lobby</div>';
-  return lobbyList.map((l) => `
-    <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px dashed var(--ink-wash);">
-      <div>
-        <b style="font-family: var(--font-mono); font-size: 16px;">${esc(l.code)}</b>
-        <span style="margin-left: 12px; opacity: 0.9;">${esc(l.hostName || 'someone')}'s lobby</span>
-        <span style="margin-left: 12px; font-size: 14px; opacity: 0.7;">${l.players}/${l.max}${l.inMatch ? ' &bull; in match' : ''}</span>
-      </div>
-      ${l.full ? '<span style="opacity:0.5;">FULL</span>' : `<button type="button" class="ds-btn secondary sm" data-join="${esc(l.code)}">JOIN</button>`}
-    </div>`).join('');
-
+  if (listBusy) return '<div class="hint">looking…</div>';
+  if (!lobbyList) return '<div class="hint">press refresh to look for open lobbies</div>';
+  if (!lobbyList.length) return '<div class="hint">hit QUICK PLAY to join a lobby</div>';
+  return lobbyList.map((l) => `<div class="lobbyrow"><span class="code">${esc(l.code)}</span><span>${esc(l.hostName || 'someone')}'s lobby</span><span>${l.players}/${l.max}${l.inMatch ? ' · in a match' : ''}</span>${l.full ? '<span class="status">full</span>' : `<button type="button" data-join="${esc(l.code)}">JOIN</button>`}</div>`).join('');
 }
 async function refreshLobbies() {
   if (listBusy || net.active) return; listBusy = true; const box = hud.el.panel.querySelector('#lobbyRows'); if (box) box.innerHTML = lobbyListHTML();
@@ -1691,7 +1592,7 @@ function showStart() {
   const html = screen === 'lobby' ? lobbyHTML() : screen === 'online' ? onlineHTML() : screen === 'settings' ? settingsScreenHTML() : screen === 'weapons_preview' ? weaponsPreviewHTML() : screen === 'map_select' ? mapSelectHTML() : mainHTML();
   
   // Tactical layout has its own class, does not use main-menu-panel
-  const isMainMenu = ['main', 'map_select', 'online', 'lobby', 'settings', 'weapons_preview'].includes(screen);
+  const isMainMenu = screen === 'main' || screen === 'weapons_preview';
   hud.showScreen(html, isMainMenu);
   
   if (screen === 'map_select') {
@@ -1810,160 +1711,42 @@ function wireControlsToggle() {
   });
 }
 function showPause() {
-
   if (typeof mobile !== 'undefined' && mobile.setGameplayActive) mobile.setGameplayActive(false);
-  
-  const scrimOpen = `<div class="ds-panel modal" style="width: 400px; max-width: 95vw; margin: auto; text-align: center; display: flex; flex-direction: column; gap: 24px;">`;
-  
   if (online()) {
-    hud.showScreen(`${scrimOpen}
-      <div>
-        <h1 style="font-family: var(--font-display); font-size: 40px; margin: 0; color: var(--ink);">PAUSED</h1>
-        <h2 style="font-family: var(--font-body); font-size: 16px; margin: 4px 0 0 0; color: var(--ink);">lobby ${String(net.aliasCode || net.code || '').replace(/-\d+$/, '')}</h2>
-      </div>
-      <div style="text-align: left; background: var(--ink-wash); padding: 12px; border-radius: var(--r-sketch-md);">
-        ${sortedScores().map(([id, s]) => `<div class="${id === net.id ? 'me' : ''}" style="display:flex; justify-content:space-between; font-family:var(--font-mono); margin-bottom: 4px;"><span>${esc(s.name)}</span><span>${s.kills} K &bull; ${s.deaths} D</span></div>`).join('')}
-      </div>
-      <div style="display: flex; flex-direction: column; gap: 12px;">
-        <button type="button" class="ds-btn primary md" id="resumeBtn">RESUME MATCH</button>
-        <button type="button" class="ds-btn secondary md" id="pauseSettingsBtn">SETTINGS</button>
-        <button type="button" class="ds-btn danger md" id="leaveBtn">LEAVE MATCH</button>
-      </div>
-    </div>`);
-    
-    fastClick(hud.el.panel.querySelector('#resumeBtn'), () => {
-        if(this.onScreenClick) this.onScreenClick();
-        else { game.menu = false; game.state = 'play'; hud.hideScreen(); audio.reelLoop(true); }
-    });
-    
+    hud.showScreen(`<h1>MENU</h1><h2>free for all · lobby ${String(net.aliasCode || net.code || '').replace(/-\d+$/, '')}</h2><div class="scoreboard">${sortedScores().map(([id, s]) => `<div class="${id === net.id ? 'me' : ''}"><span>${esc(s.name)}</span><span>${s.kills} K · ${s.deaths} D</span></div>`).join('')}</div>${CONTROLS_HTML}<div class="online" id="online"><div class="row"><button type="button" id="pauseSettingsBtn">⚙ SETTINGS<i>camera · graphics · layout</i></button><button type="button" class="alt" id="leaveBtn">LEAVE MATCH</button></div></div><div class="go">CLICK ANYWHERE (or press ${hud.key('confirm')}) TO KEEP PLAYING</div>`);
     const psb = hud.el.panel.querySelector('#pauseSettingsBtn');
     if (psb) fastClick(psb, (e) => { settingsReturnTo = 'pause'; screen = 'settings'; showStart(); });
     const lb = hud.el.panel.querySelector('#leaveBtn');
     if (lb) fastClick(lb, (e) => { lobby.rejoinCode = null; leaveOnline(''); });
-    
-    hud.el.screen.onclick = (e) => {
-        if(e.target === hud.el.screen) {
-            game.menu = false; game.state = 'play'; hud.hideScreen(); audio.reelLoop(true);
-        }
-    };
-    return;
+    wireOnline(); wireControlsToggle(); return;
   }
-  
   if (game.mode === 'explore') {
-    hud.showScreen(`${scrimOpen}
-      <div>
-        <h1 style="font-family: var(--font-display); font-size: 40px; margin: 0; color: var(--ink);">TEST RUN</h1>
-        <h2 style="font-family: var(--font-body); font-size: 16px; margin: 4px 0 0 0; color: var(--ink);">${knownMap(mapKey).toUpperCase()}</h2>
-      </div>
-      <div style="display: flex; flex-direction: column; gap: 12px;">
-        <button type="button" class="ds-btn primary md" id="resumeBtn">RESUME</button>
-        <button type="button" class="ds-btn secondary md" id="pauseSettingsBtn">SETTINGS</button>
-        <button type="button" class="ds-btn danger md" id="menuBtn">MAIN MENU</button>
-      </div>
-    </div>`);
-    
-    fastClick(hud.el.panel.querySelector('#resumeBtn'), () => { game.menu = false; game.state = 'play'; hud.hideScreen(); audio.reelLoop(true); });
+    hud.showScreen(`<h1>TEST RUN</h1><h2>free roam · ${knownMap(mapKey).toUpperCase()}</h2>${CONTROLS_HTML}<div class="online menubtn"><div class="row"><button type="button" id="pauseSettingsBtn">⚙ SETTINGS<i>camera · graphics · layout</i></button><button type="button" class="alt" id="menuBtn">MAIN MENU</button></div></div><div class="go">CLICK ANYWHERE (or press ${hud.key('confirm')}) TO RESUME</div>`);
     const psb = hud.el.panel.querySelector('#pauseSettingsBtn');
     if (psb) fastClick(psb, (e) => { settingsReturnTo = 'pause'; screen = 'settings'; showStart(); });
-    wireMenuBtn();
-    
-    hud.el.screen.onclick = (e) => { if(e.target === hud.el.screen) { game.menu = false; game.state = 'play'; hud.hideScreen(); audio.reelLoop(true); } };
+    wireMenuBtn(); wireControlsToggle();
     return;
   }
-  
-  hud.showScreen(`${scrimOpen}
-    <div>
-      <h1 style="font-family: var(--font-display); font-size: 40px; margin: 0; color: var(--ink);">PAUSED</h1>
-      <h2 style="font-family: var(--font-body); font-size: 16px; margin: 4px 0 0 0; color: var(--ink);">wave ${game.wave} &bull; score ${game.score}</h2>
-    </div>
-    <div style="display: flex; flex-direction: column; gap: 12px;">
-      <button type="button" class="ds-btn primary md" id="resumeBtn">RESUME</button>
-      <button type="button" class="ds-btn secondary md" id="pauseSettingsBtn">SETTINGS</button>
-      <button type="button" class="ds-btn danger md" id="menuBtn">MAIN MENU</button>
-    </div>
-  </div>`);
-  
-  fastClick(hud.el.panel.querySelector('#resumeBtn'), () => { game.menu = false; game.state = 'play'; hud.hideScreen(); audio.reelLoop(true); });
+  hud.showScreen(`<h1>PAUSED</h1><h2>wave ${game.wave} · score ${game.score}</h2>${CONTROLS_HTML}<div class="online menubtn"><div class="row"><button type="button" id="pauseSettingsBtn">⚙ SETTINGS<i>camera · graphics · layout</i></button><button type="button" class="alt" id="menuBtn">MAIN MENU</button></div></div><div class="go">CLICK ANYWHERE (or press ${hud.key('confirm')}) TO RESUME</div>`);
   const psb = hud.el.panel.querySelector('#pauseSettingsBtn');
   if (psb) fastClick(psb, (e) => { settingsReturnTo = 'pause'; screen = 'settings'; showStart(); });
-  wireMenuBtn();
-  
-  hud.el.screen.onclick = (e) => { if(e.target === hud.el.screen) { game.menu = false; game.state = 'play'; hud.hideScreen(); audio.reelLoop(true); } };
-
+  wireMenuBtn(); wireControlsToggle();
 }
-function showClickToPlay() {
-
-  hud.showScreen(`<div class="ds-panel modal" style="width: 400px; max-width: 95vw; margin: auto; text-align: center; display: flex; flex-direction: column; gap: 24px;">
-    <div>
-      <h1 style="font-family: var(--font-display); font-size: 40px; margin: 0; color: var(--ink);">MATCH ON</h1>
-      <h2 style="font-family: var(--font-body); font-size: 16px; margin: 4px 0 0 0; color: var(--ink);">free for all &bull; first to ${FFA_TARGET}</h2>
-    </div>
-    <div class="go" style="font-family: var(--font-display); font-size: 24px; animation: blink 1.2s infinite; cursor: pointer;">CLICK ANYWHERE (or press ${hud.key('confirm')}) TO PLAY</div>
-  </div>`);
-
-}
+function showClickToPlay() { hud.showScreen(`<h1>MATCH ON</h1><h2>free for all · first to ${FFA_TARGET}</h2><div class="go">CLICK ANYWHERE (or press ${hud.key('confirm')}) TO PLAY</div>`); }
 function showDead() {
-
-  hud.setGameplayVisible(false); 
-  const nb = game.score > best; 
-  if (nb) { best = game.score; localStorage.setItem('doodle_best', String(best)); }
-  
-  hud.showScreen(`<div class="ds-panel modal" style="width: 440px; max-width: 95vw; margin: auto; text-align: center; display: flex; flex-direction: column; gap: 24px;">
-    <div>
-      <h1 style="font-family: var(--font-display); font-size: 48px; margin: 0; color: var(--ink-red);">ERASED</h1>
-      <h2 style="font-family: var(--font-body); font-size: 16px; margin: 4px 0 0 0; color: var(--ink);">survived ${game.wave} wave${game.wave === 1 ? '' : 's'}</h2>
-    </div>
-    
-    <div style="background: var(--ink-wash); padding: 16px; border-radius: var(--r-sketch-md); display: flex; justify-content: space-around; font-family: var(--font-mono);">
-      <div style="display: flex; flex-direction: column; gap: 4px;">
-        <span style="font-size: 12px; color: var(--pencil);">KILLS</span>
-        <span style="font-size: 24px; font-weight: bold; color: var(--ink);">${game.kills}</span>
-      </div>
-      <div style="display: flex; flex-direction: column; gap: 4px;">
-        <span style="font-size: 12px; color: var(--pencil);">SCORE</span>
-        <span style="font-size: 24px; font-weight: bold; color: ${nb ? 'var(--ink-red)' : 'var(--ink)'};">${game.score}</span>
-      </div>
-    </div>
-    
-    <div style="display: flex; flex-direction: column; gap: 12px;">
-      ${checkpointHTML()}
-      <button type="button" class="ds-btn secondary md" id="menuBtn">MAIN MENU</button>
-    </div>
-  </div>`);
-  
-  wireCheckpoints((w) => beginAtWave(w)); 
-  wireMenuBtn();
-
+  hud.setGameplayVisible(false); const nb = game.score > best; if (nb) { best = game.score; localStorage.setItem('doodle_best', String(best)); }
+  hud.showScreen(`<h1>ERASED</h1><div class="stats">you survived <b>${game.wave}</b> wave${game.wave === 1 ? '' : 's'} · <b>${game.kills}</b> kills · score <b>${game.score}</b>${nb ? ' · <b>NEW BEST</b>' : ` · best ${best}`}</div>${checkpointHTML()}${menuBtnHTML()}<div class="go">CLICK (or press ${hud.key('confirm')}) TO DRAW AGAIN</div>`);
+  wireCheckpoints((w) => beginAtWave(w)); wireMenuBtn();
 }
 function showDuelEnd(won) {
-
   hud.setGameplayVisible(false);
   const getStyle = (d) => {
-    if (window.currentDifficulty === d) return d === 4 ? 'background:var(--ink-red); color:var(--paper); border-color:var(--ink-red);' : 'background:var(--ink); color:var(--paper);';
-    return d === 4 ? 'color:var(--ink-red); border-color:var(--ink-red);' : 'color:var(--ink); background:transparent;';
+    if (window.currentDifficulty === d) return d === 4 ? 'style="background:var(--red); color:white; border-color:var(--red);"' : 'style="background:var(--ink); color:var(--paper);"';
+    return d === 4 ? 'style="color:var(--red); border-color:var(--red);"' : '';
   };
-  const btn = (d, label) => `<button class="ds-btn secondary sm" data-diff="${d}" style="${getStyle(d)}">${label}</button>`;
-  
-  hud.showScreen(`<div class="ds-panel modal" style="width: 500px; max-width: 95vw; margin: auto; text-align: center; display: flex; flex-direction: column; gap: 24px;">
-    <div>
-      <h1 style="font-family: var(--font-display); font-size: 48px; margin: 0; color: ${won ? 'var(--ink)' : 'var(--ink-red)'};">${won ? 'VICTORY' : 'DEFEATED'}</h1>
-      <h2 style="font-family: var(--font-body); font-size: 16px; margin: 4px 0 0 0; color: var(--ink);">${won ? 'You successfully defeated the AI' : 'The AI erased you'}</h2>
-    </div>
-    
-    <div style="background: var(--ink-wash); padding: 16px; border-radius: var(--r-sketch-md); display: flex; flex-direction: column; gap: 12px; align-items: center;">
-      <div style="font-size: 12px; opacity: 0.8; font-family: var(--font-display); letter-spacing: 1px;">CHANGE DIFFICULTY</div>
-      <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;" id="duelDiffBtns">
-        ${btn(0, 'STUPID')}${btn(1, 'EASY')}${btn(2, 'HARD')}${btn(3, 'EXTREME')}${btn(4, 'GOD MODE')}
-      </div>
-    </div>
-    
-    <div style="display: flex; flex-direction: column; gap: 12px;">
-      <button type="button" class="ds-btn primary md" id="retryBtn">RETRY MATCH</button>
-      <button type="button" class="ds-btn secondary md" id="menuBtn">MAIN MENU</button>
-    </div>
-  </div>`);
-  
-  hud.el.screen.querySelectorAll('#duelDiffBtns button').forEach(b => {
+  const btn = (d, label) => `<button class="tactical-filter-btn" data-diff="${d}" ${getStyle(d)}>${label}</button>`;
+  hud.showScreen(`<h1>${won ? 'VICTORY' : 'DEFEATED'}</h1><div class="stats">${won ? 'You successfully defeated the AI' : 'The AI erased you'}</div><div class="tactical-difficulty" style="margin: 15px 0 5px 0; display: flex; flex-direction: column; align-items: center; gap: 6px;"><div style="font-size:11px; opacity:0.8; letter-spacing:1px; font-weight:bold;">CHANGE DIFFICULTY</div><div class="row" id="duelDiffBtns">${btn(0, 'STUPID')}${btn(1, 'EASY')}${btn(2, 'HARD')}${btn(3, 'EXTREME')}${btn(4, 'GOD MODE')}</div></div><div class="online menubtn"><div class="row"><button type="button" id="retryBtn">RETRY MATCH</button><button type="button" class="alt" id="menuBtn">MAIN MENU</button></div></div>`);
+  hud.el.screen.querySelectorAll('.tactical-filter-btn').forEach(b => {
     fastClick(b, () => {
       window.currentDifficulty = parseInt(b.dataset.diff, 10);
       localStorage.setItem('doodle_difficulty', window.currentDifficulty);
@@ -1972,7 +1755,6 @@ function showDuelEnd(won) {
   });
   fastClick(hud.el.screen.querySelector('#retryBtn'), () => { beginDuel(); });
   wireMenuBtn();
-
 }
 function menuBtnHTML() { return '<div class="online menubtn"><div class="row"><button type="button" class="alt" id="menuBtn">MAIN MENU</button></div></div>'; }
 function wireMenuBtn() { const b = hud.el.panel.querySelector('#menuBtn'); if (b) fastClick(b, (e) => { toMainMenu(); }); }

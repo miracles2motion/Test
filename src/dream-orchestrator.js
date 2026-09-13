@@ -265,6 +265,26 @@ function enrichConcept(conceptPath, parsed) {
   console.log(`   ✨ Concept enriched: ${parsed.lineCount} → ${newLines} lines`);
 }
 
+// PHASE 5.5 PIPELINE INTEGRATION
+import { CreativeDebateEngine } from './creative-debate.js';
+// PHASE 6 PIPELINE INTEGRATION
+import { BiomeEnemyMutator } from './enemy-mutator.js';
+import { WaveComposer } from './wave-composer.js';
+import { BossSynthesizer } from './boss-synthesizer.js';
+import { EnemyDebateEngine } from './enemy-debate.js';
+
+// The CreativeDebateEngine is now responsible for generating the initial SpatialJSON blueprint
+// before it reaches the orchestrator's rendering loop.
+// 
+// Usage example:
+// const debater = new CreativeDebateEngine(mockLLMClient);
+// const { blueprint } = await debater.generateMap("Crashed Cathedral", context);
+// const mapData = orchestrator.synthesize(blueprint);
+
+// Define grid dimensions (using standard scale)
+const GRID_SIZE = 1000;
+const TILE_SIZE = 100; // 10x10 tiles for 1000x1000 grid
+
 // ============================================================
 // RICH CONCEPT GENERATION (Mode 1)
 // ============================================================
