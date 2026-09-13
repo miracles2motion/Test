@@ -22,7 +22,7 @@ Before writing a single line of code, you MUST gather context. Run terminal comm
 
 ---
 
-## 🚀 CURRENT ACTIVE EPIC: Epic C (Enemy AI & Tactical Expansion)
+## 🚀 CURRENT ACTIVE EPIC: Epic D (The Level Architecture)
 
 ### Completed Epics:
 - **Epic B (Optimization & Caching Engine):** 100% COMPLETE & VERIFIED.
@@ -36,23 +36,16 @@ Before writing a single line of code, you MUST gather context. Run terminal comm
   - Pre-warmed Shell Enemy Object Pool with Concurrency Limiter (`enemy-pool.js`)
   - All 7 verification test suites passing green (`test/verify_epic_b.mjs`).
 
----
-
-## ⚔️ ACTIVE EPIC: Epic C (Enemy AI & Tactical Expansion)
-**STATUS:** IN PLANNING / READY FOR CONFIRMATION.
-
-### Goal
-Expand the enemy roster using the strict `enemy-intelligence-design` tags.
-
-### Implementation Steps
-1. **The 'Heavy' (Shielded Bruiser):** Slow movement, requires flanking.
-2. **The 'Sniper' (Evasive Marksman):** Retreats when approached (`canRetreat: true`).
-3. **NavMesh Upgrades:** Basic A* pathfinding nodes on maps for vertical navigation.
+- **Epic C (Enemy AI & Tactical Expansion):** 100% COMPLETE & VERIFIED.
+  - **The 'Heavy' (Shielded Bruiser):** Reinforced ballistic tower shield deflecting frontal gunfire, exposed rear ink power core weakspot ($2.2\times$ critical flank damage), concussive shotgun recoil with screen shake, high HP tank archetype.
+  - **The 'Sniper' (Evasive Marksman):** Close-quarters evasion trigger ($<14\text{m}$) with ink smoke decoy deployment, tactical disengagement and repositioning to elevated perches/cover, predictive velocity lead-aim against grappling and airborne targets.
+  - **NavMesh Upgrades:** Multi-tier vertical jump links connecting platforms up to $2.4\text{m}$, tactical node classification (`isPerch`, `isCover`, `isChoke`), tactical query search helpers (`findSniperPerch`, `findCoverNode`, `findFlankNode`).
+  - All 9 verification test suites passing green (`test/verify_epic_c.mjs`).
 
 ---
 
-## 🗺️ FUTURE EPIC: Epic D (The Level Architecture)
-**STATUS:** NOT STARTED. (Do not begin until Epic C is complete).
+## 🗺️ NEXT EPIC: Epic D (The Level Architecture)
+**STATUS:** READY TO BEGIN ON USER CONFIRMATION.
 
 ### Goal
 Add massive new maps built upon the `universal-detailing-standard`.

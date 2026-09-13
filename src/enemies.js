@@ -15,8 +15,8 @@ export const STATE_CODES = { spawn: 0, hunt: 1, stunned: 2, dead: 3 }; export co
 export const TYPES = {
   grunt: { role: 'ranged', canDodge: true, canCover: true, canRetreat: true, canFlank: true, hp: 100, speed: 5.2, weapon: 'rifle', range: 28, stop: 16, keep: 7, burst: 3, burstInt: 0.15, cool: [1.6, 2.6], dmg: 6, spread: 0.055, pspeed: 36, score: 100, scale: 1.0, name: 'GRUNT', hat: 'cap', build: { bodyW: 1, headS: 1, limbR: 0.032 } },
   rusher: { role: 'melee', canDodge: true, canCover: true, canRetreat: false, canFlank: true, berserker: true, hp: 70, speed: 7.6, weapon: 'blade', lunge: 2.9, reach: 3.0, standoff: 1.9, cool: [1.0, 1.5], dmg: 15, score: 120, scale: 0.95, name: 'RUSHER', hat: 'band', build: { bodyW: 0.82, headS: 0.95, limbR: 0.027 } },
-  heavy: { role: 'ranged', canDodge: false, canCover: true, canRetreat: true, canFlank: true, hp: 320, speed: 3.0, weapon: 'shotgun', range: 18, stop: 9, keep: 5, pellets: 7, cool: [2.4, 3.2], dmg: 5, spread: 0.13, pspeed: 32, score: 260, scale: 1.25, name: 'HEAVY', hat: 'helmet', build: { bodyW: 1.55, headS: 0.88, limbR: 0.05 } },
-  sniper: { role: 'ranged', canDodge: true, canCover: true, canRetreat: true, canFlank: false, hp: 60, speed: 3.6, weapon: 'sniper', range: 90, stop: 90, keep: 15, aimTime: 1.7, cool: [2.8, 3.8], dmg: 22, spread: 0.006, pspeed: 95, score: 180, scale: 1.05, name: 'SNIPER', stationary: true, hat: 'hood', build: { bodyW: 0.78, headS: 0.92, limbR: 0.026 } },
+  heavy: { role: 'ranged', canDodge: false, canCover: true, canRetreat: false, canFlank: true, hp: 420, speed: 2.8, weapon: 'shotgun', range: 18, stop: 9, keep: 5, pellets: 8, cool: [2.0, 2.8], dmg: 6, spread: 0.14, pspeed: 32, score: 300, scale: 1.35, name: 'HEAVY', hat: 'helmet', shield: true, isHeavyShield: true, build: { bodyW: 1.6, headS: 0.9, limbR: 0.055 } },
+  sniper: { role: 'ranged', canDodge: true, canCover: true, canRetreat: true, canFlank: false, hp: 60, speed: 4.8, weapon: 'sniper', range: 90, stop: 90, keep: 15, aimTime: 1.6, cool: [2.6, 3.6], dmg: 24, spread: 0.005, pspeed: 98, score: 200, scale: 1.05, name: 'SNIPER', stationary: false, hat: 'hood', build: { bodyW: 0.78, headS: 0.92, limbR: 0.026 } },
   shield: { role: 'ranged', canDodge: false, canCover: true, canRetreat: true, canFlank: true, hp: 150, speed: 3.8, weapon: 'pistol', range: 20, stop: 8, keep: 4, burst: 2, burstInt: 0.2, cool: [1.8, 2.6], dmg: 5, spread: 0.06, pspeed: 34, score: 200, scale: 1.05, name: 'SHIELDBEARER', hat: 'helmet', shield: true, build: { bodyW: 1.2, headS: 0.9, limbR: 0.042 } },
   bomber: { role: 'kamikaze', canDodge: false, canCover: false, canRetreat: false, canFlank: false, hp: 26, speed: 6.5, weapon: 'bomb', fuseRange: 3.4, fuse: 1.05, blast: 4.2, dmg: 24, score: 150, scale: 0.9, name: 'INK BOMB', ink: INK.BLACK, model: 'bomber' },
   flyer: { role: 'aerial', canDodge: false, canCover: false, canRetreat: false, canFlank: false, hp: 40, speed: 6.2, weapon: 'dive', dmg: 10, cool: [2.8, 4.2], score: 140, scale: 1.5, name: 'PAPER WASP', flying: true, model: 'flyer' },
@@ -105,14 +105,37 @@ export function buildHumanoid(mat, solid, T) {
   const tip = new THREE.Object3D(); tip.position.set(0, 0.05, T.weapon === 'blade' ? 0.92 : T.weapon === 'boss' ? 0.4 : 0.78); gun.add(tip);
   let shieldG = null;
   if (T.shield) {
-    shieldG = new THREE.Group(); shieldG.position.set(-0.17, 0.34, 0.46); torso.add(shieldG);
-    const plate = bx(0.92, 1.3, 0.07, 0, 0, 0, mat, shieldG);
-    bx(0.62, 0.06, 0.09, 0, 0.26, 0.04, solid, shieldG); bx(0.06, 0.62, 0.09, 0, 0.26, 0.04, solid, shieldG);
-    parts.shield = new THREE.Object3D(); shieldG.add(parts.shield);
+    shieldG = new THREE.Group();
+    if (T.isHeavyShield) {
+      shieldG.position.set(-0.1, 0.3, 0.52); torso.add(shieldG);
+      bx(1.35, 1.6, 0.12, 0, 0, 0, mat, shieldG);
+      bx(1.15, 0.08, 0.16, 0, 0.35, 0.04, solid, shieldG);
+      bx(1.15, 0.08, 0.16, 0, -0.35, 0.04, solid, shieldG);
+      bx(0.08, 1.4, 0.16, 0, 0, 0.04, solid, shieldG);
+      bx(0.55, 0.06, 0.16, 0, 0.52, 0, solid, shieldG);
+      parts.shield = new THREE.Object3D(); shieldG.add(parts.shield);
+
+      // Rear exposed power core (weakspot)
+      const coreG = new THREE.Group(); coreG.position.set(0, 0.28, -0.32); torso.add(coreG);
+      const coreMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 0.3, 8), makeInkMaterial({ ink: INK.BLUE, fill: true }));
+      coreMesh.rotation.x = Math.PI / 2; coreG.add(coreMesh);
+      bx(0.36, 0.4, 0.08, 0, 0, -0.06, solid, coreG);
+      parts.core = new THREE.Object3D(); coreG.add(parts.core);
+    } else {
+      shieldG.position.set(-0.17, 0.34, 0.46); torso.add(shieldG);
+      const plate = bx(0.92, 1.3, 0.07, 0, 0, 0, mat, shieldG);
+      bx(0.62, 0.06, 0.09, 0, 0.26, 0.04, solid, shieldG); bx(0.06, 0.62, 0.09, 0, 0.26, 0.04, solid, shieldG);
+      parts.shield = new THREE.Object3D(); shieldG.add(parts.shield);
+    }
   }
   Object.assign(J, { hips, torso, headG, armL, armR, foreL, foreR, legL, legR, shinL, shinR, gun, shieldG });
   const hit = [['head', 0.3], ['torso', 0.33], ['hips', 0.2], ['armL', 0.11], ['armR', 0.11], ['foreL', 0.1], ['foreR', 0.1], ['legL', 0.13], ['legR', 0.13], ['shinL', 0.11], ['shinR', 0.11]];
-  if (T.shield) hit.unshift(['shield', 0.66]);
+  if (T.isHeavyShield) {
+    hit.unshift(['shield', 0.85]);
+    hit.push(['core', 0.28]);
+  } else if (T.shield) {
+    hit.unshift(['shield', 0.66]);
+  }
   root.scale.setScalar(T.scale);
   return { root, parts, J, tip, face: fc, hit };
 }
@@ -261,7 +284,7 @@ export class EnemyManager {
       body: makeBody(pos, hw, bHeight, bStep), center: new THREE.Vector3(), yaw: rand(0, TAU), yawT: 0, phase: rand(0, TAU), walk: 0, aimAmt: 0, flinch: 0, flashT: 0, flashOn: false,
       path: null, pathI: 0, pathT: 0, pathGoal: null, losT: 0, los: false, cool: rand(0.6, 1.4), burstLeft: 0, burstT: 0, aimT: 0, attackT: 0, attackHit: false, stunDur: 0, stuckT: 0, strafeDir: Math.random() < 0.5 ? 1 : -1, strafeT: rand(1, 2), deadT: 0,
       appAng: (this._slot++) * 2.39996, appR: 0, appT: rand(0, 2), keepMul: rand(0.75, 1.35), backoffT: 0,
-      hitSpheres: model.hit.map(() => new THREE.Vector3()), fuseT: -1, shieldHp: T.shield ? 2 : 0, flyState: 'orbit', flyT: rand(0, 3), orbitDir: Math.random() < 0.5 ? 1 : -1, bossAtk: null, rootDetached: false,
+      hitSpheres: model.hit.map(() => new THREE.Vector3()), fuseT: -1, shieldHp: T.isHeavyShield ? 6 : (T.shield ? 2 : 0), flyState: 'orbit', flyT: rand(0, 3), orbitDir: Math.random() < 0.5 ? 1 : -1, bossAtk: null, rootDetached: false,
       justHit: false, coverPoint: null, coverT: 0, retreating: false, lastKnownPos: null, panicT: 0, hasPanicked: false, dodgeCooldown: 0, soundAlert: null, flankAngle: rand(-1, 1) < 0 ? -Math.PI / 2 : Math.PI / 2, coordReady: false };
     e.id = id ?? this.nextId++; this.byId.set(e.id, e);
     e.body.alwaysStep = true; if (T.flying) e.body.noSnap = true; e.root.position.copy(pos); e.root.scale.setScalar(0.001);
@@ -313,7 +336,33 @@ export class EnemyManager {
       if (this.onClientHit) this.onClientHit(e, amount, info);
       return;
     }
-    if (info.part === 'shield') {
+    if (info.part === 'core') {
+      amount *= 2.2;
+      info.crit = true;
+      this.ctx.effects.sparks(info.point || e.center, info.dir ? info.dir.clone().negate() : _up, INK.BLUE, 14, 12);
+      if (this.ctx.game && this.ctx.game.addScore) this.ctx.game.addScore(50, 'CORE FLANK');
+    }
+
+    if (e.T.isHeavyShield && e.J.shieldG && info.part !== 'core') {
+      // Check facing angle vs incoming attack
+      const fwdX = Math.sin(e.yaw), fwdZ = Math.cos(e.yaw);
+      let dotFront = 0;
+      if (info.dir) {
+        dotFront = (-info.dir.x * fwdX) + (-info.dir.z * fwdZ);
+      }
+      const isFrontal = info.part === 'shield' || dotFront > 0.15;
+      if (isFrontal) {
+        this.ctx.effects.sparks(info.point || e.center, info.dir ? info.dir.clone().negate() : _up, INK.ORANGE, 10, 10);
+        audio.shieldHit(info.point || e.center);
+        if (info.source === 'katana' || info.source === 'blast') {
+          e.shieldHp--;
+          e.flinch = 1;
+          if (e.shieldHp <= 0) this._breakShield(e);
+        }
+        this.ctx.hud.hitmarker(false, false);
+        return; // Zero damage taken from the front!
+      }
+    } else if (info.part === 'shield') {
       this.ctx.effects.sparks(info.point, info.dir ? info.dir.clone().negate() : _up, INK.ORANGE, 8, 8); audio.shieldHit(info.point);
       if (info.source === 'katana' || info.source === 'blast') { e.shieldHp--; if (e.shieldHp <= 0) this._breakShield(e); }
       this.ctx.hud.hitmarker(false, false); return;
@@ -508,7 +557,7 @@ export class EnemyManager {
     target = this._approachPoint(e, dt, target, _goal);
     const stale = !e.path || e.pathI >= e.path.length || (e.pathT <= 0 && (!e.pathGoal || e.pathGoal.distanceTo(target) > 3.5 || !e.path.complete));
     if (stale && (e.pathT <= 0 || !e.path)) {
-      e.pathT = 0.8 + rand(0, 0.6); const p = nav.findPath(b.pos, target);
+      e.pathT = 0.8 + rand(0, 0.6); const p = nav ? nav.findPath(b.pos, target) : null;
       if (p && p.length) { e.path = p; e.pathI = 0; e.pathGoal = target.clone(); while (e.pathI < p.length - 1 && Math.hypot(p[e.pathI].x - b.pos.x, p[e.pathI].z - b.pos.z) < 0.7 && Math.abs(p[e.pathI].y - b.pos.y) < 1) e.pathI++; }
     }
     let goal = null;
@@ -517,8 +566,12 @@ export class EnemyManager {
     this._steer(e, dt, goal.x, goal.z, speed, 40);
     const hd = Math.hypot(goal.x - b.pos.x, goal.z - b.pos.z);
     if (b.onGround) {
-      if (goal.y > b.pos.y + 0.6 && hd < 1.7) { b.vel.y = 6.2; b.onGround = false; }
-      else if (b.hitWall) { e.stuckT += dt; if (e.stuckT > 0.35 && e.stuckT < 0.4) e.pathT = 0; if (e.stuckT > 0.9) { b.vel.y = 5.0; b.onGround = false; e.stuckT = 0; e.pathT = 0; } }
+      if (goal.y > b.pos.y + 0.5 && hd < 2.2) {
+        const jumpH = goal.y - b.pos.y;
+        b.vel.y = Math.min(8.8, 5.8 + jumpH * 1.5);
+        b.onGround = false;
+      }
+      else if (b.hitWall) { e.stuckT += dt; if (e.stuckT > 0.35 && e.stuckT < 0.4) e.pathT = 0; if (e.stuckT > 0.9) { b.vel.y = 5.2; b.onGround = false; e.stuckT = 0; e.pathT = 0; } }
       else e.stuckT = 0;
     }
   }
@@ -773,6 +826,34 @@ export class EnemyManager {
       return;
     }
     if (T.weapon === 'boss') { this._thinkBoss(e, dt, pp, pc, dist, dy, yawTo, P); return; }
+    if (T.weapon === 'sniper') {
+      if (dist < 14.0 || e.retreating) {
+        if (!e.retreating) {
+          e.retreating = true;
+          e.retreatT = rand(2.2, 3.4);
+          this._hideLaser(e);
+          e.aimT = 0;
+          e.aimWarned = false;
+          e.aimPoint = null;
+          ctx.effects.strokeBurst(e.center, INK.BLACK, 18, 5, { life: 0.45, size: 0.05 });
+          audio.lunge(e.center);
+          const perch = ctx.nav ? ctx.nav.findSniperPerch(b.pos, pp, 20, 70) : null;
+          e.coverPoint = perch || (ctx.nav ? ctx.nav.findCoverNode(b.pos, pp, 24) : null);
+          if (!e.coverPoint) {
+            e.coverPoint = new THREE.Vector3(b.pos.x - (dx / dist) * 18, b.pos.y, b.pos.z - (dz / dist) * 18);
+          }
+          if (b.onGround) this._combatSlide(e, -dx, -dz, dist, diff);
+        }
+        e.retreatT -= dt;
+        if (e.coverPoint) this._follow(e, dt, e.coverPoint, T.speed * 1.35);
+        if (e.retreatT <= 0 || dist > 26) {
+          e.retreating = false;
+          e.coverPoint = null;
+        }
+        e.yawT = yawTo;
+        return;
+      }
+    }
     const inRange = e.los && dist < T.range;
     if (inRange) {
       e.aimAmt = damp(e.aimAmt, 1, diff === 4 ? 18 : 8, dt); e.yawT = yawTo;
@@ -1002,8 +1083,18 @@ export class EnemyManager {
         e.aimT += dt;
         // The beam chases the player rather than being glued to them, and the shot goes exactly
         // where the beam is pointing - so if you keep moving once you see it, it misses.
-        if (!e.aimPoint) { e.aimPoint = pc.clone(); }
-        else e.aimPoint.lerp(pc, 1 - Math.exp(-2.6 * dt * (diff >= 2 ? Math.min(3, 1 + waveMult * 0.1) : 1))); 
+        const dist = pc.distanceTo(muzzle);
+        let targetPos = pc.clone();
+        if (P && P.body && P.body.vel) {
+          const isGrappling = !!P.grappling;
+          const isAirborne = !P.body.onGround || Math.abs(P.body.vel.y) > 2;
+          if (isGrappling || isAirborne) {
+            const leadTime = clamp(dist / T.pspeed, 0.12, 0.42);
+            targetPos.addScaledVector(P.body.vel, leadTime);
+          }
+        }
+        if (!e.aimPoint) { e.aimPoint = targetPos; }
+        else e.aimPoint.lerp(targetPos, 1 - Math.exp(-2.8 * dt * (diff >= 2 ? Math.min(3, 1 + waveMult * 0.1) : 1))); 
         
         let aimTimeMod = 1.0;
         if (diff >= 2) aimTimeMod = Math.max(0.2, 1.0 - (0.05 * waveMult));
@@ -1021,7 +1112,15 @@ export class EnemyManager {
       }
       if (e.burstLeft > 0) { e.burstT -= dt; if (e.burstT <= 0) { e.burstT = suppress ? (T.burstInt * 0.7) : T.burstInt; e.burstLeft--; this._fireOne(e, muzzle, pc, T.spread, T.pspeed, T.dmg, 0.045, P); audio.enemyShot(e.center); if (e.burstLeft === 0) e.cool = suppress ? rand(0.2, 0.6) : rand(T.cool[0], T.cool[1]); } return; }
       if (e.cool <= 0) {
-        if (T.weapon === 'shotgun') { for (let i = 0; i < T.pellets; i++) this._fireOne(e, muzzle, pc, T.spread, T.pspeed * rand(0.85, 1.1), T.dmg, 0.05, P); audio.shotgun(e.center); e.cool = suppress ? rand(0.5, 1.0) : rand(T.cool[0], T.cool[1]); ctx.effects.strokeBurst(muzzle, INK.ORANGE, 8, 5, { life: 0.1, size: 0.04 }); }
+        if (T.weapon === 'shotgun') {
+          for (let i = 0; i < T.pellets; i++) this._fireOne(e, muzzle, pc, T.spread, T.pspeed * rand(0.85, 1.1), T.dmg, 0.05, P);
+          audio.shotgun(e.center);
+          e.cool = suppress ? rand(0.5, 1.0) : rand(T.cool[0], T.cool[1]);
+          ctx.effects.strokeBurst(muzzle, INK.ORANGE, 8, 5, { life: 0.1, size: 0.04 });
+          if (T.isHeavyShield) {
+            ctx.effects.shakeAmt += 0.22;
+          }
+        }
         else { e.burstLeft = T.burst + (suppress ? 2 : 0); e.burstT = 0; }
       }
   }

@@ -42,18 +42,37 @@ export class NavGrid {
         const cand = this.cells[niz * this.nx + nix]; if (!cand) continue;
         for (const id of cand) {
           const B = this.nodes[id]; const dy = B.y - A.y;
-          if (dy > 1.35 || dy < -8) continue;
+          if (dy > 2.4 || dy < -8) continue;
           if (dx !== 0 && dz !== 0 && (!this._hasNodeNear(A.ix + dx, A.iz, A.y, B.y) || !this._hasNodeNear(A.ix, A.iz + dz, A.y, B.y))) continue;
           if (!this._linkClear(A, B)) continue;
           if (dy < -0.6 && !this._dropClear(A, B)) continue;
           const horiz = Math.hypot(dx, dz) * c; let cost = Math.hypot(horiz, dy);
-          if (dy > 0.6) cost *= 1 + dy * 1.1; else if (dy < -0.6) cost += -dy * 0.35;
-          A.links.push({ to: id, cost, dy });
+          const isJump = dy > 1.35 || dy < -1.8;
+          if (dy > 0.6) cost *= 1 + dy * (isJump ? 1.8 : 1.1); else if (dy < -0.6) cost += -dy * 0.35;
+          A.links.push({ to: id, cost, dy, isJump });
         }
       }
     }
+    // Tag tactical nodes (perches, cover, chokepoints)
+    this._classifyTacticalNodes();
     this._gen = new Int32Array(this.nodes.length); this._g = new Float32Array(this.nodes.length); this._from = new Int32Array(this.nodes.length);
     return this;
+  }
+  _classifyTacticalNodes() {
+    for (const N of this.nodes) {
+      N.isChoke = N.links.length > 0 && N.links.length <= 2;
+      N.isPerch = false;
+      N.isCover = false;
+      // Perch detection: elevated compared to neighbors and decent Y
+      if (N.y >= 3.0) {
+        let higherCount = 0, total = 0;
+        for (const l of N.links) {
+          total++;
+          if (N.y - this.nodes[l.to].y > 1.2) higherCount++;
+        }
+        if (total > 0 && higherCount >= total * 0.5) N.isPerch = true;
+      }
+    }
   }
   _hasNodeNear(ix, iz, y1, y2) {
     if (ix < 0 || iz < 0 || ix >= this.nx || iz >= this.nz) return false;
@@ -115,4 +134,70 @@ export class NavGrid {
     return path;
   }
   randomNode() { return this.nodes[Math.floor(Math.random() * this.nodes.length)]; }
+
+  findSniperPerch(fromPos, playerPos, minDist = 18, maxDist = 80) {
+    let best = null;
+    let bestScore = -Infinity;
+    for (const N of this.nodes) {
+      const dPlayer = Math.hypot(N.x - playerPos.x, N.z - playerPos.z);
+      if (dPlayer < minDist || dPlayer > maxDist) continue;
+      const dFrom = Math.hypot(N.x - fromPos.x, N.z - fromPos.z);
+      // Prefer elevated nodes that have sightline or high Y advantage
+      const elevationAdvantage = N.y - playerPos.y;
+      if (elevationAdvantage < 1.0) continue;
+      
+      const score = (elevationAdvantage * 3.0) + (N.isPerch ? 15 : 0) - (dFrom * 0.4);
+      if (score > bestScore) {
+        bestScore = score;
+        best = new THREE.Vector3(N.x, N.y, N.z);
+      }
+    }
+    return best;
+  }
+
+  findCoverNode(fromPos, playerPos, maxDist = 22) {
+    let best = null;
+    let bestDist = Infinity;
+    for (const N of this.nodes) {
+      const d = Math.hypot(N.x - fromPos.x, N.z - fromPos.z);
+      if (d < 3.0 || d > maxDist) continue;
+      const dPlayer = Math.hypot(N.x - playerPos.x, N.z - playerPos.z);
+      if (dPlayer < 7.0) continue; // Not next to player
+      
+      // Check if world blocks line of sight from node to player
+      _min.set(N.x, N.y + 1.2, N.z);
+      if (!this.world.hasLineOfSight(_min, playerPos)) {
+        if (d < bestDist) {
+          bestDist = d;
+          best = new THREE.Vector3(N.x, N.y, N.z);
+        }
+      }
+    }
+    return best;
+  }
+
+  findFlankNode(fromPos, playerPos, playerFwd, side = 1) {
+    let best = null;
+    let bestScore = -Infinity;
+    // Lateral vector perpendicular to player forward
+    const lateralX = -playerFwd.z * side;
+    const lateralZ = playerFwd.x * side;
+    for (const N of this.nodes) {
+      const dx = N.x - playerPos.x;
+      const dz = N.z - playerPos.z;
+      const d = Math.hypot(dx, dz);
+      if (d < 8 || d > 32) continue;
+      
+      const lateralDot = (dx / d) * lateralX + (dz / d) * lateralZ;
+      if (lateralDot < 0.3) continue; // Must be on the specified flank side
+      
+      const dFrom = Math.hypot(N.x - fromPos.x, N.z - fromPos.z);
+      const score = lateralDot * 10 - dFrom * 0.3;
+      if (score > bestScore) {
+        bestScore = score;
+        best = new THREE.Vector3(N.x, N.y, N.z);
+      }
+    }
+    return best;
+  }
 }
