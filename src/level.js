@@ -200,18 +200,18 @@ function createBuilder(scene, world) {
     const sw = Number.isFinite(w) && w > 0 ? w : 1;
     const sh = Number.isFinite(h) && h > 0 ? h : 1;
     const sd = Number.isFinite(d) && d > 0 ? d : 1;
-    const shape = new THREE.Shape();
-    shape.moveTo(0, 0);
-    shape.lineTo(sw, 0);
-    shape.lineTo(0, sh);
-    shape.lineTo(0, 0);
-    const g = new THREE.ExtrudeGeometry(shape, { depth: sd, bevelEnabled: false });
-    g.center(); // Center the geometry geometry at origin
-    // By default, ExtrudeGeometry centers might be a bit weird. 
-    // Let's reset and translate manually to bottom-center.
-    g.translate(0, sh / 2, 0); // After center(), bottom is at -sh/2. Move it so bottom is at 0.
     
-    // Default: vertical wall is at -sw/2, tip is at sw/2 (sloping down to +x)
+    // Use BoxGeometry and deform it so it remains indexed and compatible with mergeGeometries
+    const g = new THREE.BoxGeometry(sw, sh, sd);
+    const pos = g.attributes.position;
+    for (let i = 0; i < pos.count; i++) {
+      if (pos.getX(i) > 0.001 && pos.getY(i) > 0.001) {
+        pos.setY(i, -sh / 2);
+      }
+    }
+    g.computeVertexNormals();
+    g.translate(0, sh / 2, 0); 
+    
     if (o.dir === '-x') g.rotateY(Math.PI);
     else if (o.dir === '+z') g.rotateY(-Math.PI/2);
     else if (o.dir === '-z') g.rotateY(Math.PI/2);
