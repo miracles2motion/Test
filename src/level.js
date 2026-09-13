@@ -164,6 +164,22 @@ function createBuilder(scene, world) {
       if (!o.noCollide) collider(x, y, z, r * 1.6, h, r * 1.6, o);
     }
   }
+
+  function barrel(x, y, z, r, h, o = {}) {
+    // A barrel has 3 sections: top, middle (fatter), bottom.
+    // And two black iron bands.
+    // Top wood section
+    cyl(x, y + h * 0.7, z, r * 0.85, h * 0.3, o);
+    // Middle wood section (fatter)
+    cyl(x, y + h * 0.3, z, r, h * 0.4, o);
+    // Bottom wood section
+    cyl(x, y, z, r * 0.85, h * 0.3, o);
+    
+    // Metal band 1
+    cyl(x, y + h * 0.25, z, r * 0.95, h * 0.05, { ink: INK.BLACK, noCollide: true });
+    // Metal band 2
+    cyl(x, y + h * 0.7, z, r * 0.95, h * 0.05, { ink: INK.BLACK, noCollide: true });
+  }
   function sphere(x, y, z, r, o = {}) { const g = new THREE.SphereGeometry(r, o.seg ?? 10, o.seg ?? 8); g.translate(x, y, z); addGeo(g, o.ink ?? INK.BLUE); }
   function ring(x, y, z, axis = 'z') {
     const g = new THREE.TorusGeometry(0.6, 0.1, 8, 20);
@@ -195,7 +211,7 @@ function createBuilder(scene, world) {
       L.animated.push({ mesh: m, update: (t) => { const a = t * sp + ph; m.position.set(Math.cos(a) * r, h + Math.sin(a * 2.3) * 3, Math.sin(a) * r * 0.7); m.lookAt(Math.cos(a + 0.05) * r, h + Math.sin((a + 0.05) * 2.3) * 3, Math.sin(a + 0.05) * r * 0.7); m.rotateZ(Math.sin(a * 3) * 0.6); } });
     }
   }
-  return { L, addGeo, collider, box, slab, wallX, wallZ, stairs, rail, cyl, sphere, ring, spawn, sniper, pickup, finish, planes, scene, world };
+  return { L, addGeo, collider, box, slab, wallX, wallZ, stairs, rail, cyl, sphere, barrel, ring, spawn, sniper, pickup, finish, planes, scene, world };
 }
 
 // ============================ map 1: Doodle District ============================

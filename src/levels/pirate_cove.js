@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { INK } from '../render.js';
 
 export function buildPirateCove(B, arena = false) {
-  const { L, box, slab, stairs, cyl, ring, spawn, sniper, pickup, planes } = B;
+  const { L, box, slab, stairs, cyl, ring, spawn, sniper, pickup, planes, barrel } = B;
   const OR = INK.ORANGE ?? 3, GR = INK.GREEN ?? 4, BK = INK.BLACK ?? 2, BL = INK.BLUE ?? 0;
   
   L.key = 'pirate_cove';
@@ -59,7 +59,7 @@ export function buildPirateCove(B, arena = false) {
   ring(0, 15, 0, 1.5, { ink: OR });
 
   // 4. West Flank (Lane 1: Sniper Alley & High Catwalk)
-  slab(-40, -30, -30, 30, 5, 1.0, { ink: BL }); // Top is Y=6
+  slab(-40, -30, -30, 30, 6, 1.0, { ink: BL }); // Top is Y=6
   cyl(-38, 0, -20, 1, 5, { ink: BK });
   cyl(-32, 0, -20, 1, 5, { ink: BK });
   cyl(-38, 0, 20, 1, 5, { ink: BK });
@@ -77,7 +77,7 @@ export function buildPirateCove(B, arena = false) {
   pickup(-35, 0, -15); pickup(-35, 0, 15);
 
   // 5. East Flank (Lane 2: The Docks)
-  slab(30, -30, 40, 30, 1, 1.0, { ink: BL }); // Top is Y=2
+  slab(30, -30, 40, 30, 2, 1.0, { ink: BL }); // Top is Y=2
   cyl(32, 0, -20, 1, 1, { ink: BK });
   cyl(38, 0, -20, 1, 1, { ink: BK });
   cyl(32, 0, 20, 1, 1, { ink: BK });
@@ -87,12 +87,12 @@ export function buildPirateCove(B, arena = false) {
   stairs(35, 0, -33.2, '+z', 8, 10, { rise: 0.25, run: 0.4, ink: BL }); // Ends at Y=2
   stairs(35, 0, 33.2, '-z', 8, 10, { rise: 0.25, run: 0.4, ink: BL });
   
-  // Rum Barrel Stacks (Stacked Cylinders for cover)
-  cyl(32, 2, -20, 1.2, 1.5, { ink: OR }); cyl(32, 2, -22.5, 1.2, 1.5, { ink: OR }); cyl(32, 2+1.5, -21.25, 1.2, 1.5, { ink: OR });
-  cyl(38, 2, -10, 1.2, 1.5, { ink: OR }); cyl(38, 2, -12.5, 1.2, 1.5, { ink: OR }); cyl(38, 2+1.5, -11.25, 1.2, 1.5, { ink: OR });
-  cyl(32, 2, 0, 1.2, 1.5, { ink: OR }); cyl(32, 2, -2.5, 1.2, 1.5, { ink: OR }); cyl(32, 2+1.5, -1.25, 1.2, 1.5, { ink: OR });
-  cyl(38, 2, 10, 1.2, 1.5, { ink: OR }); cyl(38, 2, 7.5, 1.2, 1.5, { ink: OR }); cyl(38, 2+1.5, 8.75, 1.2, 1.5, { ink: OR });
-  cyl(32, 2, 20, 1.2, 1.5, { ink: OR }); cyl(32, 2, 17.5, 1.2, 1.5, { ink: OR }); cyl(32, 2+1.5, 18.75, 1.2, 1.5, { ink: OR });
+  // Authentic Rum Barrel Stacks (Stacked Barrels for cover)
+  barrel(32, 2, -20, 0.8, 1.5, { ink: OR }); barrel(32, 2, -22.5, 0.8, 1.5, { ink: OR }); barrel(32, 2+1.5, -21.25, 0.8, 1.5, { ink: OR });
+  barrel(38, 2, -10, 0.8, 1.5, { ink: OR }); barrel(38, 2, -12.5, 0.8, 1.5, { ink: OR }); barrel(38, 2+1.5, -11.25, 0.8, 1.5, { ink: OR });
+  barrel(32, 2, 0, 0.8, 1.5, { ink: OR }); barrel(32, 2, -2.5, 0.8, 1.5, { ink: OR }); barrel(32, 2+1.5, -1.25, 0.8, 1.5, { ink: OR });
+  barrel(38, 2, 10, 0.8, 1.5, { ink: OR }); barrel(38, 2, 7.5, 0.8, 1.5, { ink: OR }); barrel(38, 2+1.5, 8.75, 0.8, 1.5, { ink: OR });
+  barrel(32, 2, 20, 0.8, 1.5, { ink: OR }); barrel(32, 2, 17.5, 0.8, 1.5, { ink: OR }); barrel(32, 2+1.5, 18.75, 0.8, 1.5, { ink: OR });
 
   // Mooring Bollards (Iron tie-offs along the dock edge)
   cyl(30.5, 2, -25, 0.4, 0.8, { ink: BK }); cyl(30.5, 2, -15, 0.4, 0.8, { ink: BK });

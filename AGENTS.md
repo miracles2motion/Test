@@ -18,7 +18,7 @@ When the Dream Orchestrator / Macro-Dreamer is invoked to decorate or synthesize
 2. **Thematic Integrity (Pirate Cove):** Use maritime, pirate, and naval aesthetics (e.g., wooden crates, barrels, ship masts, cannons, ropes, rigging, cargo nets).
 3. **Cover Playability:** Props should function as waist-high (Y=1.5) or full-cover (Y=3.0) tactical blocks, not just visual clutter.
 4. **Pirate Cove Specific Blueprints (Geometric & Clean):**
-   - **Rum Barrel Stacks:** Use clusters of `cyl(x, y, z, 0.8, 1.5, { ink: OR })` to create waist-high tactical cover on the East Docks. Group them tightly in logical shipping stacks (e.g., 3 on bottom, 2 on top).
+   - **Rum Barrel Stacks:** Use clusters of `barrel(x, y, z, 0.8, 1.5, { ink: OR })` to create authentic waist-high barrel tactical cover on the East Docks. Group them tightly in logical shipping stacks (e.g., 3 on bottom, 2 on top).
    - **Tactical Cannons:** Use `box(x, y, z, 2, 1, 3, { ink: OR })` for the wooden carriage, and an oriented/rotated `cyl` (black iron barrel) protruding outward toward the central lanes. Place these on the West Catwalks looking down.
    - **Ship Masts & Crow's Nests:** Use extremely tall `cyl(x, y, z, 0.6, 16, { ink: BK })` for masts, capped with a hollow `box` or `slab` near the top acting as a Crow's Nest. Hang `ring` (grapple points) directly off these masts.
    - **Cargo Cranes:** Use L-shaped `box` structures on the docks. A vertical wooden pillar and a horizontal boom, suspending a cluster of shipping crates (`box`) underneath them to block long sniper sightlines.
@@ -26,6 +26,7 @@ When the Dream Orchestrator / Macro-Dreamer is invoked to decorate or synthesize
 
 5. **Advanced Geometry over Blocks:**
    - **Do NOT rely exclusively on `box()` for props.** We have a full geometric toolkit.
-   - **Cylinders (`cyl(x, y, z, r, h, { axis: 'x'|'z' })`)**: Use for barrels, pipes, columns, ship masts, cannons, and bollards. The `axis` property allows them to lay horizontally!
+   - **Cylinders (`cyl(x, y, z, r, h, { axis: 'x'|'z' })`)**: Use for pipes, columns, ship masts, cannons, and bollards. The `axis` property allows them to lay horizontally!
+   - **Barrels (`barrel(x, y, z, r, h, { ink })`)**: A composite geometry primitive that creates an authentic wooden barrel with black iron bands. Use this instead of plain cylinders for rum and powder barrels.
    - **Spheres (`sphere(x, y, z, r, { ink })`)**: Use for cannonballs, buoys, or decorative round elements.
    - **Animated Planes (`planes(count, radius, height, { speed, scale, ink })`)**: Repurpose as circling seagulls, bats, or ambient atmospheric movement high above the play space.
