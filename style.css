@@ -309,12 +309,12 @@ canvas#c { position: fixed; inset: 0; width: 100vw; height: 100vh; display: bloc
 #mobile-controls.show { display: block; }
 #mobile-controls.disabled,
 #mobile-controls.menu-active,
-body:has(.screen.show) #mobile-controls {
+body:has(.screen.show) #mobile-controls:not(.edit-mode) {
   display: none !important;
   pointer-events: none !important;
 }
 #mobile-controls.menu-active *,
-body:has(.screen.show) #mobile-controls * {
+body:has(.screen.show) #mobile-controls:not(.edit-mode) * {
   pointer-events: none !important;
 }
 
@@ -778,7 +778,7 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
   pointer-events: auto !important;
-  z-index: 1000 !important;
+  z-index: 5000 !important;
 }
 #mobile-controls.edit-mode #joy-area,
 #mobile-controls.edit-mode #look-area {
@@ -869,9 +869,17 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
   color: var(--paper);
   border-radius: 8px;
   cursor: pointer;
-  touch-action: manipulation;
-  pointer-events: auto;
+  touch-action: manipulation !important;
+  pointer-events: auto !important;
+  user-select: none;
+  -webkit-user-select: none;
   transition: background 0.15s, border-color 0.15s, transform 0.1s;
+}
+#edit-opacity-slider {
+  cursor: pointer;
+  touch-action: pan-x !important;
+  pointer-events: auto !important;
+  height: 20px;
 }
 #edit-overlay button:hover {
   background: rgba(246, 243, 230, 0.25);
@@ -883,6 +891,7 @@ body.scoped #btn-aim:not(.aim-locked) .btn-lbl {
 #edit-overlay button:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+  pointer-events: none !important;
 }
 #edit-overlay button.primary {
   background: var(--ink-red);

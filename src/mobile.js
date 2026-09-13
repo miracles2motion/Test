@@ -260,7 +260,7 @@ export class MobileControls {
             <button id="edit-vis-btn" type="button" title="Toggle Visibility" disabled>👁 Show/Hide</button>
             <div style="display:flex; align-items:center; gap:4px; margin:0 8px;">
                 <span style="font-size:10px;">OPACITY</span>
-                <input type="range" id="edit-opacity-slider" min="0.1" max="1" step="0.1" value="1" style="width: 60px;" disabled>
+                <input type="range" id="edit-opacity-slider" min="0.1" max="1" step="0.05" value="1" style="width: 70px;">
             </div>
             <button id="edit-scale-down" type="button" title="Make selected button smaller">A- Size</button>
             <button id="edit-scale-up" type="button" title="Make selected button larger">A+ Size</button>
@@ -325,7 +325,8 @@ export class MobileControls {
           el.style.removeProperty('bottom');
         }
         if (layout.scale !== undefined) {
-          el.style.setProperty('transform', `scale(${layout.scale})`, 'important');
+          const prefix = btnId === 'joystick' ? 'translate(-50%, -50%) ' : (btnId === 'weaponbar' ? 'translateX(-50%) ' : '');
+          el.style.setProperty('transform', `${prefix}scale(${layout.scale})`, 'important');
         } else {
           el.style.removeProperty('transform');
         }
@@ -339,6 +340,8 @@ export class MobileControls {
           el.style.removeProperty('display');
           if (layout.opacity !== undefined) {
              el.style.setProperty('opacity', layout.opacity, 'important');
+          } else if (this.settings.opacity !== undefined) {
+             el.style.setProperty('opacity', this.settings.opacity, 'important');
           } else {
              el.style.removeProperty('opacity');
           }
@@ -355,7 +358,11 @@ export class MobileControls {
         el.style.removeProperty('transform');
         el.style.removeProperty('position');
         el.style.removeProperty('display');
-        el.style.removeProperty('opacity');
+        if (this.settings.opacity !== undefined) {
+          el.style.setProperty('opacity', this.settings.opacity, 'important');
+        } else {
+          el.style.removeProperty('opacity');
+        }
       }
     });
     this.recordDefaultJoystick();
@@ -489,6 +496,9 @@ export class MobileControls {
     this.selectedBtn.style.removeProperty('bottom');
     this.selectedBtn.style.removeProperty('transform');
     this.selectedBtn.style.removeProperty('position');
+    this.selectedBtn.style.removeProperty('opacity');
+    this.selectedBtn.style.removeProperty('display');
+    this.applyLayout();
     this.recordDefaultJoystick();
     this.updateSelectionUI();
   }
@@ -496,6 +506,7 @@ export class MobileControls {
   resetLayout() {
     this.settings.layout = {};
     this.settings.scale = 1.0;
+    this.settings.opacity = 0.92;
     this.saveSettings();
     const allDraggables = this.dom.container.querySelectorAll('.draggable');
     allDraggables.forEach(el => {
@@ -505,6 +516,8 @@ export class MobileControls {
       el.style.removeProperty('bottom');
       el.style.removeProperty('transform');
       el.style.removeProperty('position');
+      el.style.removeProperty('opacity');
+      el.style.removeProperty('display');
       el.classList.remove('selected', 'dragging');
     });
     this.selectedBtn = null;
@@ -525,6 +538,7 @@ export class MobileControls {
   }
 
   setOpacity(val) {
+    val = clamp(Math.round(val * 100) / 100, 0.1, 1.0);
     if (!this.selectedBtn) {
       this.settings.opacity = val;
       this.saveSettings();
@@ -536,6 +550,7 @@ export class MobileControls {
           el.style.setProperty('opacity', String(val), 'important');
         }
       });
+      this.updateSelectionUI();
       return;
     }
     const btnId = this.selectedBtn.dataset.btn;
@@ -552,7 +567,9 @@ export class MobileControls {
     const resetBtn = document.getElementById('edit-reset-btn');
     if (!label) return;
     if (!this.selectedBtn) {
-      label.innerHTML = 'Global / All Buttons <span class="subtle">(Tap any button to customize individually)</span>';
+      const globalScalePct = Math.round((this.settings.scale || 1.0) * 100);
+      const globalOpacityPct = Math.round((this.settings.opacity !== undefined ? this.settings.opacity : 0.92) * 100);
+      label.innerHTML = `Global / All Buttons • Size: <b>${globalScalePct}%</b> • Opacity: <b>${globalOpacityPct}%</b> <span class="subtle">(Tap any button to customize individually)</span>`;
       if (resetBtn) resetBtn.disabled = true;
       const visBtn = document.getElementById('edit-vis-btn');
       if (visBtn) {
@@ -562,7 +579,9 @@ export class MobileControls {
       const opSlider = document.getElementById('edit-opacity-slider');
       if (opSlider) {
         opSlider.disabled = false;
-        opSlider.value = String(this.settings.opacity !== undefined ? this.settings.opacity : 1.0);
+        if (document.activeElement !== opSlider) {
+          opSlider.value = String(this.settings.opacity !== undefined ? this.settings.opacity : 0.92);
+        }
       }
       return;
     }
@@ -572,9 +591,10 @@ export class MobileControls {
     const scaleVal = custom.scale !== undefined ? custom.scale : this.settings.scale;
     const scalePct = Math.round(scaleVal * 100);
     const isHidden = custom.hidden || false;
-    const opacityVal = custom.opacity !== undefined ? custom.opacity : (this.settings.opacity !== undefined ? this.settings.opacity : 1.0);
+    const opacityVal = custom.opacity !== undefined ? custom.opacity : (this.settings.opacity !== undefined ? this.settings.opacity : 0.92);
+    const opacityPct = Math.round(opacityVal * 100);
     const posText = (custom.x !== undefined && custom.y !== undefined) ? `at (${custom.x}%, ${custom.y}%)` : 'default position';
-    label.innerHTML = `Selected: <b>${name}</b> • Size: <b>${scalePct}%</b> • ${posText} ${isHidden ? '<b style="color:var(--ink-red)">(HIDDEN)</b>' : ''}`;
+    label.innerHTML = `Selected: <b>${name}</b> • Size: <b>${scalePct}%</b> • Opacity: <b>${opacityPct}%</b> • ${posText} ${isHidden ? '<b style="color:var(--ink-red)">(HIDDEN)</b>' : ''}`;
     
     if (resetBtn) resetBtn.disabled = false;
     
@@ -586,7 +606,9 @@ export class MobileControls {
     const opSlider = document.getElementById('edit-opacity-slider');
     if (opSlider) {
       opSlider.disabled = false;
-      opSlider.value = String(opacityVal);
+      if (document.activeElement !== opSlider) {
+        opSlider.value = String(opacityVal);
+      }
     }
   }
 
@@ -936,23 +958,25 @@ export class MobileControls {
     window.addEventListener('touchcancel', handleEndAll, { passive: false });
     window.addEventListener('mouseup', handleEndAll);
 
-    // Edit overlay controls - robust fast-click binding with zero event swallowing
+    // Edit overlay controls - instant responsive tap/click with zero delay and anti-swallow
     const bindFast = (id, cb) => {
       const el = document.getElementById(id);
       if (!el) return;
-      let lastTime = 0;
-      const trigger = (e) => {
-        if (e && e.stopPropagation) e.stopPropagation();
+      let lastTrigger = 0;
+      const fire = (e) => {
+        if (el.disabled) return;
         const now = Date.now();
-        if (now - lastTime < 300) return;
-        lastTime = now;
+        if (now - lastTrigger < 80) return;
+        lastTrigger = now;
+        if (e) {
+          if (e.cancelable) e.preventDefault();
+          if (e.stopPropagation) e.stopPropagation();
+        }
         cb(e);
       };
-      el.addEventListener('click', trigger);
-      el.addEventListener('touchend', (e) => {
-        if (e.cancelable) e.preventDefault();
-        trigger(e);
-      });
+      el.addEventListener('pointerdown', fire);
+      el.addEventListener('touchstart', fire, { passive: false });
+      el.addEventListener('click', fire);
     };
     bindFast('edit-scale-down', () => this.scaleSelected(-0.1));
     bindFast('edit-scale-up', () => this.scaleSelected(0.1));
@@ -965,12 +989,15 @@ export class MobileControls {
     if (opSlider) {
       const handleOpacity = (e) => {
         if (e.stopPropagation) e.stopPropagation();
-        this.setOpacity(parseFloat(e.target.value));
+        const val = parseFloat(e.target.value);
+        if (!isNaN(val)) {
+          this.setOpacity(val);
+        }
       };
       opSlider.addEventListener('input', handleOpacity);
       opSlider.addEventListener('change', handleOpacity);
-      opSlider.addEventListener('touchstart', (e) => { e.stopPropagation(); }, { passive: true });
       opSlider.addEventListener('pointerdown', (e) => { e.stopPropagation(); });
+      opSlider.addEventListener('touchstart', (e) => { e.stopPropagation(); }, { passive: true });
       opSlider.addEventListener('mousedown', (e) => { e.stopPropagation(); });
     }
 
@@ -1159,7 +1186,8 @@ export class MobileControls {
     const current = this.settings.layout[btnId].scale !== undefined ? this.settings.layout[btnId].scale : this.settings.scale;
     const newScale = Math.max(0.5, Math.min(2.2, Number((current + delta).toFixed(2))));
     this.settings.layout[btnId].scale = newScale;
-    this.selectedBtn.style.setProperty('transform', `scale(${newScale})`, 'important');
+    const prefix = btnId === 'joystick' ? 'translate(-50%, -50%) ' : (btnId === 'weaponbar' ? 'translateX(-50%) ' : '');
+    this.selectedBtn.style.setProperty('transform', `${prefix}scale(${newScale})`, 'important');
     this.saveSettings();
     this.updateSelectionUI();
   }

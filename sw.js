@@ -1,5 +1,5 @@
 // Service Worker for Manga / Comic Action FPS PWA
-const CACHE_NAME = 'manga-fps-v20';
+const CACHE_NAME = 'manga-fps-v21';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

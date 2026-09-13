@@ -7,6 +7,16 @@ const KEYMAP = {
   KeyR: 'reload', KeyQ: 'grapple', KeyE: 'grapple', KeyF: 'melee', KeyV: 'melee',
   Digit1: 'slot1', Digit2: 'slot2', Digit3: 'slot3', Digit4: 'slot4', Digit5: 'slot5', Digit0: 'screenshot', Numpad0: 'screenshot', Escape: 'pause', KeyP: 'pause', Enter: 'confirm', KeyG: 'grenade', KeyX: 'dash', AltLeft: 'dash', KeyM: 'music', KeyT: 'talk', Tab: 'score',
 };
+const KEY_CHAR_MAP = {
+  w: 'forward', s: 'back', a: 'left', d: 'right',
+  arrowup: 'forward', arrowdown: 'back', arrowleft: 'left', arrowright: 'right',
+  ' ': 'jump', spacebar: 'jump', shift: 'sprint', control: 'crouch', c: 'crouch',
+  r: 'reload', q: 'grapple', e: 'grapple', f: 'melee', v: 'melee',
+  '1': 'slot1', '2': 'slot2', '3': 'slot3', '4': 'slot4', '5': 'slot5',
+  escape: 'pause', p: 'pause', enter: 'confirm', g: 'grenade', x: 'dash', alt: 'dash',
+  m: 'music', t: 'talk', tab: 'score'
+};
+
 const MOUSEMAP = { 0: 'fire', 2: 'aim', 1: 'grapple', 3: 'grapple', 4: 'melee' };
 // Standard gamepad mapping (DualSense): 0 cross,1 circle,2 square,3 triangle,4 L1,5 R1,6 L2,7 R2,8 create,9 options,10 L3,11 R3,12-15 dpad
 const PADMAP = { 0: 'jump', 1: 'crouch', 2: 'reload', 3: 'nextWeapon', 4: 'grapple', 5: 'melee', 6: 'aim', 7: 'fire', 9: 'pause', 10: 'sprint', 11: 'grenade', 12: 'grenade', 13: 'slot5', 14: 'prevWeapon', 15: 'nextWeapon', 8: 'score', 17: 'confirm' };
@@ -37,12 +47,20 @@ export class Input {
 
     window.addEventListener('keydown', (e) => {
       if (e.repeat) return;
-      this.lastActive = performance.now(); const a = KEYMAP[e.code]; if (a) { this.keys[a] = true; if (this.usingGamepad && this.onDeviceChange) this.onDeviceChange(false); this.usingGamepad = false; }
+      this.lastActive = performance.now();
+      const keyLow = (e.key || '').toLowerCase();
+      const a = KEYMAP[e.code] || KEY_CHAR_MAP[keyLow];
+      if (a) { this.keys[a] = true; if (this.usingGamepad && this.onDeviceChange) this.onDeviceChange(false); this.usingGamepad = false; }
       if (!e.shiftKey) this.keys.sprint = false;
-      if (['Space', 'Tab', 'ArrowUp', 'ArrowDown'].includes(e.code)) e.preventDefault();
+      if (['Space', 'Tab', 'ArrowUp', 'ArrowDown'].includes(e.code) || [' ', 'tab', 'arrowup', 'arrowdown'].includes(keyLow)) e.preventDefault();
       this.anyInput = true;
     });
-    window.addEventListener('keyup', (e) => { const a = KEYMAP[e.code]; if (a) this.keys[a] = false; if (!e.shiftKey) this.keys.sprint = false; });
+    window.addEventListener('keyup', (e) => {
+      const keyLow = (e.key || '').toLowerCase();
+      const a = KEYMAP[e.code] || KEY_CHAR_MAP[keyLow];
+      if (a) this.keys[a] = false;
+      if (!e.shiftKey) this.keys.sprint = false;
+    });
     document.addEventListener('visibilitychange', () => { if (document.hidden) { this.keys = {}; this.mouseBtns = {}; } });
     window.addEventListener('blur', () => { this.keys = {}; this.mouseBtns = {}; });
     this.padState = {}; this.padPrev = {};
