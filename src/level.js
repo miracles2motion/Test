@@ -180,6 +180,47 @@ function createBuilder(scene, world) {
     // Metal band 2
     cyl(x, y + h * 0.7, z, r * 0.95, h * 0.05, { ink: INK.BLACK, noCollide: true });
   }
+
+  function cone(x, y, z, r, h, o = {}) {
+    const g = new THREE.ConeGeometry(r, h, o.seg ?? 16);
+    if (o.axis === 'z') {
+      g.rotateX(Math.PI / 2);
+      g.translate(x, y, z);
+    } else if (o.axis === 'x') {
+      g.rotateZ(-Math.PI / 2);
+      g.translate(x, y, z);
+    } else {
+      g.translate(x, y + h / 2, z);
+    }
+    addGeo(g, o.ink ?? INK.BLUE);
+    if (!o.noCollide) collider(x, y, z, r * 2, h, r * 2, o);
+  }
+
+  function wedge(x, y, z, w, h, d, o = {}) {
+    const sw = Number.isFinite(w) && w > 0 ? w : 1;
+    const sh = Number.isFinite(h) && h > 0 ? h : 1;
+    const sd = Number.isFinite(d) && d > 0 ? d : 1;
+    const shape = new THREE.Shape();
+    shape.moveTo(0, 0);
+    shape.lineTo(sw, 0);
+    shape.lineTo(0, sh);
+    shape.lineTo(0, 0);
+    const g = new THREE.ExtrudeGeometry(shape, { depth: sd, bevelEnabled: false });
+    g.center(); // Center the geometry geometry at origin
+    // By default, ExtrudeGeometry centers might be a bit weird. 
+    // Let's reset and translate manually to bottom-center.
+    g.translate(0, sh / 2, 0); // After center(), bottom is at -sh/2. Move it so bottom is at 0.
+    
+    // Default: vertical wall is at -sw/2, tip is at sw/2 (sloping down to +x)
+    if (o.dir === '-x') g.rotateY(Math.PI);
+    else if (o.dir === '+z') g.rotateY(-Math.PI/2);
+    else if (o.dir === '-z') g.rotateY(Math.PI/2);
+    
+    g.translate(x, y, z);
+    addGeo(g, o.ink ?? INK.BLUE);
+    if (!o.noCollide) collider(x, y, z, sw, sh, sd, o);
+  }
+
   function sphere(x, y, z, r, o = {}) { const g = new THREE.SphereGeometry(r, o.seg ?? 10, o.seg ?? 8); g.translate(x, y, z); addGeo(g, o.ink ?? INK.BLUE); }
   function ring(x, y, z, axis = 'z') {
     const g = new THREE.TorusGeometry(0.6, 0.1, 8, 20);
@@ -211,7 +252,7 @@ function createBuilder(scene, world) {
       L.animated.push({ mesh: m, update: (t) => { const a = t * sp + ph; m.position.set(Math.cos(a) * r, h + Math.sin(a * 2.3) * 3, Math.sin(a) * r * 0.7); m.lookAt(Math.cos(a + 0.05) * r, h + Math.sin((a + 0.05) * 2.3) * 3, Math.sin(a + 0.05) * r * 0.7); m.rotateZ(Math.sin(a * 3) * 0.6); } });
     }
   }
-  return { L, addGeo, collider, box, slab, wallX, wallZ, stairs, rail, cyl, sphere, barrel, ring, spawn, sniper, pickup, finish, planes, scene, world };
+  return { L, addGeo, collider, box, slab, wallX, wallZ, stairs, rail, cyl, sphere, barrel, cone, wedge, cone, wedge, ring, spawn, sniper, pickup, finish, planes, scene, world };
 }
 
 // ============================ map 1: Doodle District ============================

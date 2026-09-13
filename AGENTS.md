@@ -30,3 +30,10 @@ When the Dream Orchestrator / Macro-Dreamer is invoked to decorate or synthesize
    - **Barrels (`barrel(x, y, z, r, h, { ink })`)**: A composite geometry primitive that creates an authentic wooden barrel with black iron bands. Use this instead of plain cylinders for rum and powder barrels.
    - **Spheres (`sphere(x, y, z, r, { ink })`)**: Use for cannonballs, buoys, or decorative round elements.
    - **Animated Planes (`planes(count, radius, height, { speed, scale, ink })`)**: Repurpose as circling seagulls, bats, or ambient atmospheric movement high above the play space.
+
+6. **Prefabrication Architecture (`src/prefabs.js`):**
+   - We are no longer limited to individual basic geometries inside map files!
+   - For highly complex structures (ships, cars, giant machinery, buildings), **DO NOT build them directly inside the map files** (e.g., `pirate_cove.js`).
+   - Instead, design them as reusable functions inside `src/prefabs.js` (e.g., `buildGalleon(B, x, y, z)`).
+   - Import and instantiate these prefabs within the map file.
+   - This keeps the map's layout code clean and allows us to easily spawn multiple instances of complex props.

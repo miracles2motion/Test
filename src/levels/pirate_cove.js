@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { INK } from '../render.js';
+import { buildGalleon } from '../prefabs.js';
 
 export function buildPirateCove(B, arena = false) {
   const { L, box, slab, stairs, cyl, ring, spawn, sniper, pickup, planes, barrel } = B;
@@ -268,6 +269,10 @@ export function buildPirateCove(B, arena = false) {
   // Macro: Circling 'Seagulls' (White paper planes high in the grotto)
   planes(12, 15, 28, { ink: OR, speed: 0.1, scale: 0.5 });
   
+
+  // Macro: The Docked Pirate Galleon!
+  buildGalleon(B, 35, 0, -35); // Placed off the East Docks in the water
+
   // === END DREAM AUTO-INJECTED PROPS ===
   B.finish();
   return L;
