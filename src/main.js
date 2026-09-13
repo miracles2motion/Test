@@ -17,6 +17,9 @@ import { HUD, CONTROLS_HTML } from './hud.js';
 import { audio } from './audio.js';
 import { rand, choose, clamp } from './util.js';
 import { Rifle, Shotgun, Sniper, Revolver, Katana } from './weapons.js';
+import { perfMonitor } from './perf/perf-monitor.js';
+import { lodManager } from './perf/lod-manager.js';
+import { instanceManager } from './perf/instance-manager.js';
 
 // Attempt to lock screen orientation to landscape on mobile
 try {
@@ -2169,6 +2172,10 @@ function step(now) {
   else hud.setFocusMeter(playing && (w.kind === 'katana' || game.katanaStreak > 0 || game.focus.active), game.focus.active ? 1 : clamp(game.katanaStreak / KATANA_CHARGE_KILLS, 0, 1), game.focus.active, 'KATANA');
   if (game.boss) { if (game.boss.alive) hud.setBoss(game.boss.T.name, game.boss.hp / game.boss.maxHp); else { hud.setBoss(null, null); game.boss = null; } }
   audio.setIntensity(clamp((enemies.alive + game.queue.length + remote.size * 2) / 12, 0, 1) * (game.intermission > 0 ? 0.25 : 1));
+  lodManager.update(R.camera.position);
+  lodManager.flush(3);
+  perfMonitor.setCombatState(playing && (enemies.alive > 0 || game.boss != null));
   R.render(game.time, { hurt: player.hurtFx, flash: player.flashFx, slow: scale < 1 ? 1 : 0, lowHp: player.alive && player.hp < 30 ? 1 - player.hp / 30 : 0 });
+  perfMonitor.tick(dt * 1000, now);
 }
 requestAnimationFrame(tick);

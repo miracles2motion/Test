@@ -15,6 +15,10 @@ async function boot() {
   // 2. We can export or store the profile globally so main.js can read it synchronously
   window.__DEVICE_PROFILE = profile;
   
+  // Configure enemy pool concurrency budget to match device tier
+  const { enemyPoolManager } = await import('./perf/enemy-pool.js');
+  enemyPoolManager.setBudget(profile.enemyBudget);
+  
   // 3. Dynamically import the rest of the game now that we know our tier
   console.log('[Boot] Device Profile locked. Handing off to main...');
   await import('./main.js');

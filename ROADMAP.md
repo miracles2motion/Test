@@ -22,24 +22,24 @@ Before writing a single line of code, you MUST gather context. Run terminal comm
 
 ---
 
-## 🚀 CURRENT ACTIVE EPIC: Epic B (Optimization & Caching Engine)
-**STATUS:** NOT STARTED. (Execute this first).
+## 🚀 CURRENT ACTIVE EPIC: Epic C (Enemy AI & Tactical Expansion)
 
-### Goal
-Eliminate garbage collection (GC) stutters and maintain a locked 60FPS on mobile and 144FPS on desktop by implementing the **Dream Phase 7 Engine upgrades**.
-
-### Implementation Steps
-1. **Read the `dream_phase7/` docs:** Specifically 01 through 08, which dictate the implementation of the System Budget Arbiter, Instance Synthesizer, and Collision Octree.
-2. **Geometry Instancing & Pooling (`src/graphics.js`):**
-   - Implement a global Object Pool for projectiles and enemies (System 06). 
-   - Convert repetitive map geometry (crates, barrels) into `THREE.InstancedMesh` (System 02).
-3. **Dynamic Resolution Scaling (`src/main.js`):**
-   - Implement the Adaptive Monitor (System 04) to dynamically lower `renderer.setPixelRatio()` if FPS drops below 55.
+### Completed Epics:
+- **Epic B (Optimization & Caching Engine):** 100% COMPLETE & VERIFIED.
+  - Device Tier Profiling (`device-tiers.js`, `device-probe.js`)
+  - Budget Arbiter & Frame Cost Model (`budget-arbiter.js`)
+  - Adaptive Performance Monitor & Quality Ladder (`perf-monitor.js`)
+  - Content-Addressed Geometry Cache (`geometry-cache.js`)
+  - Cell-Batched InstancedMesh Grouping (`instance-manager.js`)
+  - Screen-Space Error LOD Grammar with amortized flushes (`lod-manager.js`)
+  - Loose Octree Spatial Broadphase (`loose-octree.js`)
+  - Pre-warmed Shell Enemy Object Pool with Concurrency Limiter (`enemy-pool.js`)
+  - All 7 verification test suites passing green (`test/verify_epic_b.mjs`).
 
 ---
 
-## ⚔️ FUTURE EPIC: Epic C (Enemy AI & Tactical Expansion)
-**STATUS:** NOT STARTED. (Do not begin until Epic B is complete).
+## ⚔️ ACTIVE EPIC: Epic C (Enemy AI & Tactical Expansion)
+**STATUS:** IN PLANNING / READY FOR CONFIRMATION.
 
 ### Goal
 Expand the enemy roster using the strict `enemy-intelligence-design` tags.

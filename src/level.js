@@ -7,6 +7,7 @@ import { makeInkMaterial, INK } from './render.js';
 import { rand, choose, TAU } from './util.js';
 import { buildHumanoid } from './enemies.js';
 import { buildZen } from './levels/zen.js';
+import { looseOctree } from './perf/loose-octree.js';
 
 // Doodle Mexico is built and kept, but off the menu until it is ready; flip this to offer it again
 export const MEXICO_READY = false;
@@ -82,7 +83,12 @@ export const LEVELS = [
 function createBuilder(scene, world) {
   const geos = {}; const L = { rings: [], spawns: [], snipers: [], pickups: [], animated: [], meshes: [], playerStart: new THREE.Vector3(0, 0, 42), bounds: { minX: -55, maxX: 55, minZ: -55, maxZ: 55 }, arenaSpawns: [], grappleMovers: [], breakables: [], key: 'district' };
   const addGeo = (g, ink) => (geos[ink] || (geos[ink] = [])).push(g);
-  const collider = (x, y, z, w, h, d, o = {}) => world.addBox({ x: x - w / 2, y, z: z - d / 2 }, { x: x + w / 2, y: y + h, z: z + d / 2 }, { noNav: !!o.noNav, noShoot: !!o.noShoot, noGrapple: !!o.noGrapple, tag: o.tag });
+  const collider = (x, y, z, w, h, d, o = {}) => {
+    const min = { x: x - w / 2, y, z: z - d / 2 };
+    const max = { x: x + w / 2, y: y + h, z: z + d / 2 };
+    looseOctree.addAABB([min.x, min.y, min.z], [max.x, max.y, max.z]);
+    return world.addBox(min, max, { noNav: !!o.noNav, noShoot: !!o.noShoot, noGrapple: !!o.noGrapple, tag: o.tag });
+  };
   function box(x, y, z, w, h, d, o = {}) {
     // Defensive sanitization against NaN dimensions
     const sw = Number.isFinite(w) && w > 0 ? w : 0.4;

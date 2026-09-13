@@ -72,10 +72,10 @@ export class EnemyBrain {
       const saved = loadBrainState();
       if (saved) {
         // safely assign saved fields to nested profile
-        if (saved.kinematics) this.profile.kinematics = saved.kinematics;
-        if (saved.verticality) this.profile.verticality = saved.verticality;
-        if (saved.ballistics) this.profile.ballistics = saved.ballistics;
-        if (saved.evasion) this.profile.evasion = saved.evasion;
+        if (saved.kinematics) Object.assign(this.profile.kinematics, saved.kinematics);
+        if (saved.verticality) Object.assign(this.profile.verticality, saved.verticality);
+        if (saved.ballistics) Object.assign(this.profile.ballistics, saved.ballistics);
+        if (saved.evasion) Object.assign(this.profile.evasion, saved.evasion);
         if (saved.spatialMemory && saved.spatialMemory.grid) {
           for (let i = 0; i < 64; i++) this.profile.spatialMemory.grid[i] = saved.spatialMemory.grid[i];
         } else if (saved.heatMap) { // Legacy fallback
