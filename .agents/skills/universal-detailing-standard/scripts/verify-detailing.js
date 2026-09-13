@@ -25,32 +25,42 @@ const ROOT_DIR = path.resolve(__dirname, '../../../..');
 
 const rawArgs = process.argv.slice(2);
 const autoHeal = rawArgs.includes('--heal') || rawArgs.includes('-h');
+const isVerbose = rawArgs.includes('--verbose') || rawArgs.includes('-v');
 const nonFlagArgs = rawArgs.filter(a => !a.startsWith('-'));
 const targetArg = (nonFlagArgs[0] || 'all').toLowerCase();
 
-console.log('🎨 Universal Detailing Standard: Map Audit & Self-Healing Verification Engine');
-console.log(`Target: [${targetArg.toUpperCase()}] ${autoHeal ? '🔧 [AUTO-HEAL ENABLED]' : ''}\n`);
+if (isVerbose) {
+  console.log('🎨 Universal Detailing Standard: Map Audit & Verification Engine');
+  console.log(`Target: [${targetArg.toUpperCase()}] ${autoHeal ? '🔧 [AUTO-HEAL ENABLED]' : ''}\n`);
+}
 
 let totalPassed = true;
+let score = 0;
+let errors = [];
+
 function assert(cond, msg) {
   if (cond) {
-    console.log(`  ✓ ${msg}`);
+    if (isVerbose) console.log(`  ✓ ${msg}`);
+    score += 1;
   } else {
-    console.error(`  ✗ FAIL: ${msg}`);
+    if (isVerbose) console.error(`  ✗ FAIL: ${msg}`);
+    errors.push(msg);
     totalPassed = false;
   }
 }
 
 // 1. Verify Standard Rules Exist
-console.log('📄 Rule & Skill Definitions:');
+if (isVerbose) console.log('📄 Rule & Skill Definitions:');
 assert(fs.existsSync(path.join(ROOT_DIR, '.agents/skills/universal-detailing-standard/SKILL.md')), 'SKILL.md exists');
 assert(fs.existsSync(path.join(ROOT_DIR, '.agents/rules/universal-detailing.md')), 'universal-detailing.md rule exists');
 
 // 2. Map-Specific Physical and Structural Audit
 function auditMap(mapKey) {
-  console.log(`\n============================================================`);
-  console.log(`🔍 AUDITING MAP: [${mapKey.toUpperCase()}]`);
-  console.log(`============================================================`);
+  if (isVerbose) {
+    console.log(`\n============================================================`);
+    console.log(`🔍 AUDITING MAP: [${mapKey.toUpperCase()}]`);
+    console.log(`============================================================`);
+  }
 
   const colliders = [];
   const rings = [];
@@ -160,12 +170,14 @@ function auditMap(mapKey) {
       // Swept-sphere character physical step rise: maximum 0.35m (ideally 0.20m - 0.32m)
       if (st.rise > 0.35 || st.rise < 0.1) {
         stairsValid = false;
-        console.error(`  ✗ Stairway step rise violation: ${st.rise.toFixed(3)}m (must be <= 0.35m)`);
+        errors.push(`Stairway step rise violation: ${st.rise.toFixed(3)}m`);
+        if (isVerbose) console.error(`  ✗ Stairway step rise violation: ${st.rise.toFixed(3)}m (must be <= 0.35m)`);
       }
       // Step run: minimum 0.30m
       if (st.run < 0.30) {
         stairsValid = false;
-        console.error(`  ✗ Stairway step run violation: ${st.run.toFixed(3)}m (must be >= 0.30m)`);
+        errors.push(`Stairway step run violation: ${st.run.toFixed(3)}m`);
+        if (isVerbose) console.error(`  ✗ Stairway step run violation: ${st.run.toFixed(3)}m (must be >= 0.30m)`);
       }
       // Landing connectivity check: verify landing platform at top of flight (within +/- 0.5m vertically and 2.5m horizontally)
       const topPt = st.end;
@@ -181,7 +193,8 @@ function auditMap(mapKey) {
       }
       if (!hasSupportLanding) {
         landingValid = false;
-        console.error(`  ✗ Stairway end landing disconnected: flight ending at (${topPt.x.toFixed(1)}, ${topPt.y.toFixed(1)}, ${topPt.z.toFixed(1)}) lacks flush landing deck`);
+        errors.push(`Stairway end landing disconnected`);
+        if (isVerbose) console.error(`  ✗ Stairway end landing disconnected: flight ending at (${topPt.x.toFixed(1)}, ${topPt.y.toFixed(1)}, ${topPt.z.toFixed(1)}) lacks flush landing deck`);
       }
 
       // Continuous 2.0m Vertical Headroom Clearance Sweep across every step
@@ -206,7 +219,8 @@ function auditMap(mapKey) {
           if (cMaxX > col.min.x && cMinX < col.max.x && cMaxZ > col.min.z && cMinZ < col.max.z) {
             if (col.min.y < headMaxY && col.max.y > headMinY) {
               headroomValid = false;
-              console.error(`  ✗ Stairway headroom collision: flight ${sIdx} step ${i} at (${cx.toFixed(1)}, ${sy.toFixed(1)}, ${cz.toFixed(1)}) blocked by collider X:[${col.min.x.toFixed(1)}, ${col.max.x.toFixed(1)}] Y: [${col.min.y.toFixed(2)}, ${col.max.y.toFixed(2)}] Z:[${col.min.z.toFixed(1)}, ${col.max.z.toFixed(1)}] tag: ${col.opts?.tag}`);
+              errors.push(`Stairway headroom collision`);
+              if (isVerbose) console.error(`  ✗ Stairway headroom collision: flight ${sIdx} step ${i} at (${cx.toFixed(1)}, ${sy.toFixed(1)}, ${cz.toFixed(1)}) blocked by collider X:[${col.min.x.toFixed(1)}, ${col.max.x.toFixed(1)}] Y: [${col.min.y.toFixed(2)}, ${col.max.y.toFixed(2)}] Z:[${col.min.z.toFixed(1)}, ${col.max.z.toFixed(1)}] tag: ${col.opts?.tag}`);
             }
           }
         }
@@ -218,17 +232,31 @@ function auditMap(mapKey) {
   }
 
   // --- Quality Scorecard Calculation ---
-  let score = 10;
-  if (ringCount >= 3) score += 1;
-  if (levelObj.pickups?.length >= 8) score += 1;
-  if (levelObj.stairways && levelObj.stairways.length > 0) score = Math.min(12, score);
-  console.log(`\n📊 DETAILED QUALITY SCORE: ${score}/12 (Benchmark Target: ≥ 7.0)`);
+  let finalScore = 10;
+  if (ringCount >= 3) finalScore += 1;
+  if (levelObj.pickups?.length >= 8) finalScore += 1;
+  if (levelObj.stairways && levelObj.stairways.length > 0) finalScore = Math.min(12, finalScore);
+  
+  if (isVerbose) {
+    console.log(`\n📊 DETAILED QUALITY SCORE: ${finalScore}/12 (Benchmark Target: ≥ 7.0)`);
+  } else {
+    if (errors.length === 0) {
+      console.log(`✅ [PASS] [${mapKey.toUpperCase()}] Quality Score: ${finalScore}/12 | Colliders: ${colliders.length} | Stairs: ${levelObj.stairways?.length || 0} | Grapples: ${ringCount}`);
+    } else {
+      console.log(`⚠️ [AUDIT WARNING] [${mapKey.toUpperCase()}] Quality Score: ${finalScore}/12 — Needs attention`);
+      errors.slice(0, 2).forEach(e => console.log(`   ❌ ${e}`));
+      console.log(`   👉 File: src/levels/${mapKey}.js`);
+      console.log(`   👉 Run with --verbose for full diagnostic breakdown.`);
+    }
+  }
 }
 
 // 3. Verify LEVELS Registration Integrity
-console.log(`\n============================================================`);
-console.log(`📋 CHECKING MAP SELECTOR & LEVELS REGISTRY HOOKS:`);
-console.log(`============================================================`);
+if (isVerbose) {
+  console.log(`\n============================================================`);
+  console.log(`📋 CHECKING MAP SELECTOR & LEVELS REGISTRY HOOKS:`);
+  console.log(`============================================================`);
+}
 for (const m of LEVELS) {
   assert(!!m.key, `Map entry has key: "${m.key}"`);
   assert(!!m.name, `[${m.key}] has display name: "${m.name}"`);
@@ -253,10 +281,17 @@ if (targetArg === 'all') {
   process.exit(1);
 }
 
-console.log('\n' + '='.repeat(60));
+if (isVerbose) console.log('\n' + '='.repeat(60));
+
 if (totalPassed) {
-  console.log('🎉 AUDIT COMPLETE: ALL SPECIFIED MAPS & SELECTOR HOOKS CONFORM TO UNIVERSAL STANDARD!\n');
+  if (isVerbose) {
+    console.log('🎉 AUDIT COMPLETE: ALL SPECIFIED MAPS & SELECTOR HOOKS CONFORM TO UNIVERSAL STANDARD!\n');
+  } else {
+    console.log('🎉 Audit Complete: Target conforms to Universal Detailing Standard.');
+  }
 } else {
-  console.error('⚠️ SOME AUDIT CHECKS FAILED!\n');
+  if (isVerbose) {
+    console.error('⚠️ SOME AUDIT CHECKS FAILED!\n');
+  }
   process.exit(1);
 }

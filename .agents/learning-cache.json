@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-09-13T08:04:23.366Z",
+  "updatedAt": "2026-09-13T20:14:12.426Z",
   "rules": {
     "stairway": {
       "minRise": 0.2,
@@ -89,8 +89,8 @@
       "description": "Identified dead zone at (0, 26.6) due to head-glitch",
       "trigger": "dead-zone-identified",
       "autoRemedy": "blacklistCoordinate",
-      "occurrences": 28,
-      "lastObserved": "2026-09-13T07:58:46.138Z"
+      "occurrences": 30,
+      "lastObserved": "2026-09-13T20:14:11.903Z"
     }
   ],
   "history": [
@@ -789,6 +789,18 @@
       "mapKey": "pirate_cove",
       "patternId": "dream-city-planner",
       "description": "Injected 5 macro structures (City Planner)"
+    },
+    {
+      "timestamp": "2026-09-13T20:14:11.897Z",
+      "mapKey": "cover",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (0, 12) due to god-spot"
+    },
+    {
+      "timestamp": "2026-09-13T20:14:11.903Z",
+      "mapKey": "cover",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (0, -12) due to god-spot"
     }
   ],
   "failureBlacklist": {},
@@ -1278,13 +1290,6 @@
     "windowSize": 20,
     "runs": [
       {
-        "timestamp": "2026-09-12T21:03:44.438Z",
-        "mapKey": "pirate_cove",
-        "success": true,
-        "score": 0,
-        "mode": "MAP"
-      },
-      {
         "timestamp": "2026-09-12T21:04:09.466Z",
         "mapKey": "pirate_cove",
         "success": true,
@@ -1416,6 +1421,13 @@
         "success": false,
         "score": 0,
         "mode": "MAP"
+      },
+      {
+        "timestamp": "2026-09-13T20:14:12.426Z",
+        "mapKey": "cover",
+        "success": true,
+        "score": 0,
+        "mode": "NOTHING"
       }
     ],
     "currentRate": 5
@@ -1645,6 +1657,22 @@
       "radius": 8,
       "reason": "god-spot",
       "timestamp": "2026-09-13T07:58:46.135Z"
+    },
+    {
+      "mapKey": "cover",
+      "x": 0,
+      "z": 12,
+      "radius": 8,
+      "reason": "god-spot",
+      "timestamp": "2026-09-13T20:14:11.893Z"
+    },
+    {
+      "mapKey": "cover",
+      "x": 0,
+      "z": -12,
+      "radius": 8,
+      "reason": "god-spot",
+      "timestamp": "2026-09-13T20:14:11.900Z"
     }
   ]
 }

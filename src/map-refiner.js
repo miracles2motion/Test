@@ -12,6 +12,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT_DIR = path.resolve(__dirname, '..');
 
+import { healMap } from './dream-healer.js';
+
 const mapArg = process.argv[2];
 const actionArg = process.argv[3] || 'detail'; // 'detail' | 'heal'
 
@@ -70,28 +72,14 @@ if (action === 'detail') {
     return match;
   });
 
-} else if (action === 'heal') {
-  // HEALING MODE: Quality Assessment Algorithm (Anatomy & Ink Contrast Check)
-  // Find single-color structural boxes and upgrade them with the Skeleton-Skin-Trim triad
-  const simpleBoxRegex = /box\(([^,]+),\s*([^,]+),\s*([^,]+),\s*([^,]+),\s*([^,]+),\s*([^,]+)(?:,\s*(\{.*?\}))?\);/g;
-  
-  code = code.replace(simpleBoxRegex, (match, x, y, z, w, h, d, opts) => {
-    // If it's a medium-sized block, add trim to it
-    if (parseFloat(w) > 2 && parseFloat(h) > 1.5 && parseFloat(d) > 2 && modifications < 10) {
-      modifications++;
-      const topY = `${y} + ${parseFloat(h) / 2}`;
-      return `${match}
-  // Dream Heal: Skeleton-Skin-Trim Applied (Rule 1 & 9)
-  box(${x}, ${topY} + 0.05, ${z}, ${parseFloat(w) + 0.2}, 0.1, ${parseFloat(d) + 0.2}, { ink: BK }); // Contrast Trim Deck
-  box(${x}, ${y}, ${z} + ${parseFloat(d) / 2 + 0.1}, 0.8, 0.2, 0.2, { ink: OR }); // Drawer Handle`;
-    }
-    return match;
-  });
-}
+  if (modifications > 0) {
+    fs.writeFileSync(levelFilePath, code, 'utf8');
+    console.log(`✅ Dream completed execution. Applied ${modifications} detailing/healing upgrades.`);
+  } else {
+    console.log(`ℹ️ Map already meets Universal Detailing Standards. No upgrades needed.`);
+  }
 
-if (modifications > 0) {
-  fs.writeFileSync(levelFilePath, code, 'utf8');
-  console.log(`✅ Dream completed execution. Applied ${modifications} detailing/healing upgrades.`);
-} else {
-  console.log(`ℹ️ Map already meets Universal Detailing Standards. No upgrades needed.`);
+} else if (action === 'heal') {
+  // Pass control to the intelligent physics-based Dream Healer
+  healMap(levelFilePath);
 }

@@ -1,5 +1,6 @@
 // Level construction. Two maps share one builder: everything is merged ink geometry plus
 // axis-aligned box colliders, which is what the navigation grid is generated from.
+import { buildCover } from './levels/cover.js';
 import { buildPirateCove } from './levels/pirate_cove.js';
 import { buildLibrary } from './levels/library.js';
 import * as THREE from 'three';
@@ -79,7 +80,75 @@ export const LEVELS = [
     }, name: 'THE ZEN GARDEN', blurb: 'serene pagodas, cherry blossoms and koi ponds', category: 'anomalous', tags: ['FAST CQB', 'MEDIUM', 'EARTH'], env: 'Temple Sanctuary', engagement: 'Stealth / CQB', hazard: 'None', scale: 'Tier 1-2' },
   ...(MEXICO_READY ? [{ key: 'mexico', name: 'DOODLE MEXICO', blurb: 'a sun-baked plaza · piñatas, tacos and mariachi', category: 'urban', tags: ['FAST CQB', 'MEDIUM', 'EARTH'], env: 'Sun-baked Plaza', engagement: 'CQB / Cover', hazard: 'None', scale: 'Tier 1-2' }] : []),
   { key: 'pirate_cove', name: 'PIRATE COVE', blurb: 'sunken grottos, shanty towns and shipwrecks', category: 'colossal', tags: ['GROTTO', 'SHIPWRECK', 'VERTICAL'], env: 'Sunken Grotto', engagement: 'Verticality / Hazards', hazard: 'Deep Water', scale: 'Tier 1-4' },
-  { key: 'library', name: 'THE LIBRARY', blurb: 'towering tomes, grand desk arena, bookmark catwalks & inkwells', category: 'colossal', tags: ['VERTICAL', '3-LANE', 'COLOSSAL'], env: 'Colossal Study', engagement: '3-Lane / Vertical / Sniping', hazard: 'None', scale: 'Tier 1-4' }
+  { key: 'library', name: 'THE LIBRARY', blurb: 'towering tomes, grand desk arena, bookmark catwalks & inkwells', category: 'colossal', tags: ['VERTICAL', '3-LANE', 'COLOSSAL'], env: 'Colossal Study', engagement: '3-Lane / Vertical / Sniping', hazard: 'None', scale: 'Tier 1-4' },
+  {
+    key: 'cover',
+    customEnemies: {
+      theme_rusher: {
+        role: "melee",
+        canDodge: true,
+        canCover: true,
+        canRetreat: false,
+        canFlank: true,
+        berserker: true,
+        hp: 60,
+        speed: 8.5,
+        weapon: "blade",
+        lunge: 3.5,
+        reach: 3,
+        standoff: 1.5,
+        cool: [
+          0.8,
+          1.2
+        ],
+        dmg: 18,
+        build: {
+          bodyW: 0.8,
+          headS: 0.9,
+          limbR: 0.03
+        },
+        name: "[THEME] RUSHER",
+        score: 150,
+        scale: 1
+      },
+      theme_sniper: {
+        role: "ranged",
+        canDodge: true,
+        canCover: true,
+        canRetreat: true,
+        canFlank: false,
+        stationary: true,
+        hp: 50,
+        speed: 3,
+        weapon: "sniper",
+        range: 80,
+        stop: 80,
+        keep: 20,
+        aimTime: 1.5,
+        cool: [
+          2.5,
+          3.5
+        ],
+        dmg: 25,
+        build: {
+          bodyW: 0.7,
+          headS: 0.8,
+          limbR: 0.02
+        },
+        name: "[THEME] SNIPER",
+        score: 150,
+        scale: 1
+      }
+    },
+    name: 'COVER',
+    category: 'urban',
+    tags: ['DREAM MODE', 'AUTO-GENERATED'],
+    env: 'COVER Environment',
+    engagement: 'CQB & Vertical',
+    hazard: 'TBD',
+    scale: 'Tier 1-4',
+    comingSoon: false
+  }
 ];
 
 function createBuilder(scene, world) {
@@ -1445,6 +1514,7 @@ export const MAP_BUILDERS = {
   pirate_cove: buildPirateCove,
   library: buildLibrary,
   tomes: buildLibrary,
+  cover: buildCover
 };
 
 export function registerMapBuilder(key, builderFn) {

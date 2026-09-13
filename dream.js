@@ -5,11 +5,28 @@
  */
 import { execSync } from 'child_process';
 import process from 'process';
+import { listPendingTickets, resolveConsultationTicket } from './src/dream-consultant.js';
 
-let prompt = process.argv.slice(2).join(' ').toLowerCase();
-if (!prompt) {
-  console.log('🌌 Dream NLP Router');
+let prompt = process.argv.slice(2).join(' ').toLowerCase().trim();
+if (!prompt || prompt === '?' || prompt === 'help' || prompt === '--help' || prompt === '-h' || prompt.includes('what can dream do') || prompt.includes('dream help') || prompt.includes('capabilities')) {
+  execSync('npm run dream:help', { stdio: 'inherit' });
   process.exit(0);
+}
+
+if (prompt.startsWith('teach') || prompt.startsWith('learn') || prompt.startsWith('consult') || prompt.startsWith('pending') || prompt.startsWith('resume')) {
+  let subPrompt = prompt;
+  if (prompt.startsWith('teach ') || prompt.startsWith('learn ') || prompt.startsWith('consult ')) {
+    subPrompt = prompt.split(' ').slice(1).join(' ');
+  }
+  const parts = subPrompt.split(' ');
+  
+  if (subPrompt === 'pending' || subPrompt === 'teach' || subPrompt === 'consult' || subPrompt === 'list' || subPrompt === '') {
+    execSync('node src/dream-consultant.js list', { stdio: 'inherit' });
+    process.exit(0);
+  } else {
+    execSync(`node src/dream-consultant.js ${parts[0]} ${parts.slice(1).join(' ')}`, { stdio: 'inherit' });
+    process.exit(0);
+  }
 }
 
 console.log(`\n🧠 Dream is analyzing your request locally: "${prompt}"...\n`);
@@ -31,6 +48,7 @@ else if (prompt.includes('heal') || prompt.includes('improve') || prompt.include
 else if (prompt.includes('macro') || prompt.includes('building')) action = 'macro';
 else if (prompt.includes('inject') || prompt.includes('prop')) action = 'inject';
 else if (prompt.includes('delete') || prompt.includes('remove')) action = 'delete';
+else if (prompt.includes('inspect') || prompt.includes('audit') || prompt.includes('check')) action = 'inspect';
 
 // 3. Detect Theme
 const themes = ["urban", "cyber", "steampunk", "colossal", "maritime", "zen", "anomalous"];
@@ -74,6 +92,7 @@ try {
   if (action === 'god_mode') command = `npm run dream:god ${mapName} ${theme}`;
   else if (action === 'detail') command = `node src/map-refiner.js ${mapName} detail`;
   else if (action === 'heal') command = `node src/map-refiner.js ${mapName} heal`;
+  else if (action === 'inspect') command = `node tools/dream_inspect_cli.js ${mapName}`;
   else if (action === 'macro') command = `npm run dream:macro ${mapName} ${theme}`;
   else if (action === 'inject') command = `npm run dream:inject ${mapName} ${theme}`;
   else if (action === 'delete') command = `node src/map-deleter.js ${mapName}`;

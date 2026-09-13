@@ -27,7 +27,12 @@
     "dream:synthesize": "node src/map-synthesizer.js",
     "dream:macro": "node src/macro-dreamer.js",
     "dream:inject": "node src/map-injector.js",
-    "dream:god": "node src/dream-orchestrator.js"
+    "dream:god": "node src/dream-orchestrator.js",
+    "dream:help": "node src/dream-help.js",
+    "dream:sync": "node src/dream-registry-sync.js",
+    "dream:heal": "node src/map-refiner.js",
+    "dream:inspect": "node tools/dream_inspect_cli.js",
+    "dream:teach": "node src/dream-consultant.js"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",

@@ -1,0 +1,114 @@
+{
+  "orchestration": [
+    {
+      "name": "god_mode",
+      "description": "Execute omnipotent commands over the workspace"
+    },
+    {
+      "name": "scaffold",
+      "description": "Generate base map scaffolding"
+    },
+    {
+      "name": "synthesize",
+      "description": "Synthesize and assemble map structures"
+    },
+    {
+      "name": "help",
+      "description": "Auto-discovered capability: help"
+    },
+    {
+      "name": "orchestrator",
+      "description": "Auto-discovered capability: orchestrator"
+    },
+    {
+      "name": "registry-sync",
+      "description": "Auto-discovered capability: registry-sync"
+    },
+    {
+      "name": "synthesizer",
+      "description": "Auto-discovered capability: synthesizer"
+    },
+    {
+      "name": "consultant",
+      "description": "Auto-discovered capability: consultant"
+    }
+  ],
+  "diagnostics": [
+    {
+      "name": "inspect",
+      "description": "Architectural and tactical map audit engine"
+    },
+    {
+      "name": "audit_map",
+      "description": "Verify physical constraints and density matrix"
+    },
+    {
+      "name": "audit_concept",
+      "description": "Verify concept designs against tactical rules"
+    },
+    {
+      "name": "simulate",
+      "description": "Simulate and test bot navigation meshes"
+    },
+    {
+      "name": "inspector",
+      "description": "Auto-discovered capability: inspector"
+    }
+  ],
+  "remediation": [
+    {
+      "name": "heal",
+      "description": "Intelligent physics-based geometry remediation"
+    },
+    {
+      "name": "detail",
+      "description": "Micro-detailing and prop scattering"
+    },
+    {
+      "name": "inject",
+      "description": "Inject custom behaviors or modifiers"
+    },
+    {
+      "name": "macro",
+      "description": "Execute large-scale structural macros"
+    },
+    {
+      "name": "delete",
+      "description": "Safely prune and remove invalid map elements"
+    },
+    {
+      "name": "deleter",
+      "description": "Auto-discovered capability: deleter"
+    },
+    {
+      "name": "injector",
+      "description": "Auto-discovered capability: injector"
+    },
+    {
+      "name": "refiner",
+      "description": "Auto-discovered capability: refiner"
+    },
+    {
+      "name": "healer",
+      "description": "Auto-discovered capability: healer"
+    }
+  ],
+  "learning": [
+    {
+      "name": "learn",
+      "description": "Record feedback and optimization patterns"
+    },
+    {
+      "name": "graduate",
+      "description": "Promote validated patterns to core libraries"
+    },
+    {
+      "name": "pack",
+      "description": "Compress learned data into memory caches"
+    },
+    {
+      "name": "learning",
+      "description": "Auto-discovered capability: learning"
+    }
+  ]
+}

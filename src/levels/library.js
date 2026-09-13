@@ -124,13 +124,18 @@ export function buildLibrary(B, arena = false) {
   rail(-42, -10, -36, -10, 6.4, { ink: BK });
 
   // Stair connection from ground to Tier 1 Book Stack
-  stairs(-38, 0, -28, '+z', 8, 4.0, { rise: 0.6, run: 0.8, ink: BK });
+  // Dream Heal: Normalized step rise
+  stairs(-38, 0, -28, '+z', 15, 4.0, { rise: 0.34, run: 0.43, ink: BK  });
 
   // Catwalk connecting West Bookcase directly onto the Grand Desktop
   slab(-34, -4, -26, 0, 6.0, 0.3, { ink: BK });
 
   // Wall-mounted Bookshelf Ledge at Y = 14.0m (Ultimate Sniper Perch)
   box(-46, 14.0, 0, 6.0, 0.6, 36.0, { ink: BL, tag: 'cover' });
+  // Dream Detail: Scattered Desk Props (Static collision geometry)
+  box(-46 - 1.2, 14.0 + 0.4, 0 + 0.5, 0.6, 0.2, 0.8, { ink: BL }); // Book
+  box(-46 + 0.8, 14.0 + 0.35, 0 - 1.0, 0.8, 0.1, 0.1, { ink: OR }); // Pencil
+  cyl(-46 - 0.2, 14.0 + 0.6, 0 + 1.2, 0.2, 0.6, { ink: BK }); // Ink Well
   sniper(-46, 14.8, -10);
   sniper(-46, 14.8, 10);
   sniper(-40, 9.8, 6);
@@ -139,7 +144,8 @@ export function buildLibrary(B, arena = false) {
   // Grapple rings along the West Bookcase Lane for rapid swing ascension
   ring(-38, 12.0, -18, 'y');
   ring(-40, 16.0, 6, 'y');
-  ring(-46, 19.0, 0, 'x');
+  // Dream Heal: Lowered embedded ring
+  ring(-46, 17.5, 0, 'x');
 
   // ==================== 5. EAST LANE: UNDER-DESK CATACOMBS & POWER CORDS ====================
   // Low-ceiling, fast-paced CQB flanking route underneath the main desk frame (Y = 0 to 4.5m)
@@ -153,12 +159,15 @@ export function buildLibrary(B, arena = false) {
 
   // Footrest Platform beneath the desk (Y = 1.8m)
   slab(12, -14, 22, 14, 1.8, 0.4, { ink: BK });
-  stairs(17, 0, 18, '-z', 4, 3.0, { rise: 0.45, run: 0.8, ink: BK });
-  stairs(17, 0, -18, '+z', 4, 3.0, { rise: 0.45, run: 0.8, ink: BK });
+  // Dream Heal: Normalized step rise
+  stairs(17, 0, 18, '-z', 6, 3.0, { rise: 0.34, run: 0.53, ink: BK  });
+  // Dream Heal: Normalized step rise
+  stairs(17, 0, -18, '+z', 6, 3.0, { rise: 0.34, run: 0.53, ink: BK  });
 
   // East Side Book Stack leading up to Desktop height
   buildBookStack(B, 38, 0, -28, 5, { w: 9, d: 11, thick: 1.2, inkSpine: OR });
-  stairs(38, 0, -18, '-z', 8, 3.5, { rise: 0.75, run: 0.8, ink: BK });
+  // Dream Heal: Normalized step rise
+  stairs(38, 0, -18, '-z', 18, 3.5, { rise: 0.34, run: 0.36, ink: BK  });
   spawn(38, 6.2, -28);
   pickup(38, 6.2, -28);
 
@@ -170,6 +179,10 @@ export function buildLibrary(B, arena = false) {
 
   // East Wall Bookshelf Ledge (East Counter-Sniper Perch at Y = 13.5m)
   box(46, 13.5, -4, 6.0, 0.6, 32.0, { ink: BL, tag: 'cover' });
+  // Dream Detail: Scattered Desk Props (Static collision geometry)
+  box(46 - 1.2, 13.5 + 0.4, -4 + 0.5, 0.6, 0.2, 0.8, { ink: BL }); // Book
+  box(46 + 0.8, 13.5 + 0.35, -4 - 1.0, 0.8, 0.1, 0.1, { ink: OR }); // Pencil
+  cyl(46 - 0.2, 13.5 + 0.6, -4 + 1.2, 0.2, 0.6, { ink: BK }); // Ink Well
   sniper(46, 14.3, -12);
   sniper(46, 14.3, 12);
   pickup(46, 14.3, 0);

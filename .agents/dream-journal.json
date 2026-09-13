@@ -1755,13 +1755,54 @@
           "timestamp": "2026-09-13T08:04:23.357Z"
         }
       }
+    },
+    {
+      "id": "dream-051",
+      "timestamp": "2026-09-13T20:14:12.429Z",
+      "mapKey": "cover",
+      "mode": "NOTHING",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "concept-generation": {
+          "status": "pass",
+          "lines": 106
+        },
+        "Level Scaffolding": {
+          "status": "pass",
+          "timestamp": "2026-09-13T20:14:10.382Z"
+        },
+        "Macro Building Injection": {
+          "status": "fail",
+          "error": "Command failed: node src/macro-dreamer.js cover steampunk",
+          "timestamp": "2026-09-13T20:14:11.039Z"
+        },
+        "Prop Injection": {
+          "status": "fail",
+          "error": "Command failed: node src/map-injector.js cover steampunk",
+          "timestamp": "2026-09-13T20:14:11.306Z"
+        },
+        "Enemy Synthesis": {
+          "status": "pass",
+          "timestamp": "2026-09-13T20:14:11.457Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-13T20:14:11.967Z"
+        },
+        "Self-Healing Audit": {
+          "status": "fail",
+          "error": "Command failed: node .agents/skills/universal-detailing-standard/scripts/verify-detailing.js cover --heal",
+          "timestamp": "2026-09-13T20:14:12.421Z"
+        }
+      }
     }
   ],
   "stats": {
-    "totalRuns": 50,
-    "successes": 49,
+    "totalRuns": 51,
+    "successes": 50,
     "failures": 1,
-    "errorRate": "1/50 (2%)",
+    "errorRate": "1/51 (2%)",
     "avgScore": 0
   }
 }
