@@ -13,6 +13,7 @@
  */
 
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 import * as THREE from 'three';
 import { buildLevel, LEVELS, MAP_BUILDERS } from './level.js';
@@ -174,6 +175,43 @@ export function simulateAndScoreMap(mapKey) {
   console.log(`\n╔══════════════════════════════════════╗`);
   console.log(`║  QUALITY SCORE: ${totalScore}/100  [GRADE: ${grade}]  ${passed ? '✅ PASS' : '❌ FAIL'}  ║`);
   console.log(`╚══════════════════════════════════════╝\n`);
+
+  // ============================================================
+  // EVOLUTIONARY CACHE SAVING
+  // ============================================================
+  if (passed) {
+    const cacheFile = path.join(process.cwd(), '.agents', 'evolution-cache.json');
+    let cache = [];
+    if (fs.existsSync(cacheFile)) {
+      try { cache = JSON.parse(fs.readFileSync(cacheFile, 'utf8')); } catch (e) {}
+    }
+    
+    // Extract map DNA (just basic parameters for now)
+    const dna = {
+      mapKey,
+      score: totalScore,
+      timestamp: new Date().toISOString(),
+      generation: 1, // Will be incremented on mutation
+      spawns: spawns.map(s => ({x: s.x, y: s.y, z: s.z})),
+      balanceScore,
+      exploitPenalty
+    };
+    
+    // Check if this specific mapKey is already in the cache, replace if score is better
+    const existingIndex = cache.findIndex(c => c.mapKey === mapKey);
+    if (existingIndex !== -1) {
+      if (totalScore > cache[existingIndex].score) {
+        console.log(`\n🧬 NEW EVOLUTIONARY TRAIT UNLOCKED: Better score for ${mapKey}! Saving DNA...`);
+        cache[existingIndex] = dna;
+      }
+    } else {
+      console.log(`\n🧬 INITIAL DNA SAVED: Added ${mapKey} to evolution cache!`);
+      cache.push(dna);
+    }
+    
+    fs.mkdirSync(path.dirname(cacheFile), { recursive: true });
+    fs.writeFileSync(cacheFile, JSON.stringify(cache, null, 2));
+  }
 
   return { passed, score: totalScore, grade, metrics: {} };
 }

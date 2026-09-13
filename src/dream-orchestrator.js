@@ -20,6 +20,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
 import { getLearningCache, recordLearnedPattern, recordDreamRun, getErrorRate } from './map-learning.js';
+import { broadcastHelpBeacon } from './help-beacon.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -654,13 +655,8 @@ async function main() {
       🚨🚨🚨 COMPLETELY NEW ERROR DETECTED 🚨🚨🚨
       Dream has encountered a fatal error it does not recognize
       and has no auto-remedy for. 
-      
-      Error Details:
-      ${err.message}
-      
-      User intervention required! Please fix the underlying issue.
-      🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨
       `);
+      broadcastHelpBeacon(err, key, { mode, theme, stages });
     } else {
       console.error(`\n💥 DREAM PIPELINE ERROR: ${err.message}`);
     }

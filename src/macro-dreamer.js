@@ -28,6 +28,7 @@ import { recordLearnedPattern, blacklistTemplate, isTemplateBlacklisted, registe
 import { GeometryValidator } from './geometry-validator.js';
 import { StairSanitizer } from './stair-sanitizer.js';
 import { NegativeSpaceProfiler } from './negative-space.js';
+import { getBestDNA, mutateDNA } from './mutate-map.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -402,63 +403,85 @@ function getMacroTemplates(theme) {
   ];
 }
 
+// GOD MODE: Evolution check
+const bestDNA = getBestDNA(mapArg);
+let mutantDNA = null;
+
+if (bestDNA) {
+  mutantDNA = mutateDNA(bestDNA);
+  console.log(`\n🧬 EVOLUTIONARY OVERRIDE: Using mutated DNA from Generation ${mutantDNA.generation}`);
+}
+
 const templates = getMacroTemplates(themeArg || 'zen');
 const selectedStructures = [];
 const profiler = new NegativeSpaceProfiler();
-
-// GOD MODE: Up to 4 buildings, consult blacklist, min spacing 15m
-let templateIdx = 0;
 const MAX_BUILDINGS = 4;
 
-for (const pocket of voidCandidates) {
-  if (selectedStructures.length >= MAX_BUILDINGS) break;
-
-  const tooClose = selectedStructures.some(s => Math.hypot(s.x - pocket.x, s.z - pocket.z) < 15);
-  if (tooClose) continue;
-
-  const profile = profiler.profileVoid(pocket);
-  const recommendedTemplates = profiler.recommendPrefabs(profile.archetype, templates);
-  console.log(`   🔍 Profiled void at (X: ${pocket.x}, Z: ${pocket.z}) as ${profile.archetype}. Recommended ${recommendedTemplates.length} templates.`);
-
-  // Find a non-blacklisted template that fits
-  let placed = false;
-  for (let attempt = 0; attempt < recommendedTemplates.length; attempt++) {
-    const tpl = recommendedTemplates[(templateIdx + attempt) % recommendedTemplates.length];
-
-    // GOD MODE: Check blacklist
-    if (isTemplateBlacklisted(tpl.id)) {
-      console.log(`   ⛔ Skipping blacklisted template: ${tpl.id}`);
-      continue;
-    }
-
-    // Check size fit
-    if (pocket.width >= tpl.minSize[0] && pocket.height >= tpl.minSize[1] && pocket.depth >= tpl.minSize[2]) {
-      let finalX = pocket.x;
-      let finalZ = pocket.z;
-      
-      // GOD MODE: Genetic algorithm mutation for successful templates
-      const cache = getLearningCache();
-      const registryEntry = cache.successRegistry[tpl.id];
-      if (registryEntry && registryEntry.avgScore > 80 && Math.random() < 0.20) {
-        console.log(`   🧬 Genetic Mutation applied to ${tpl.id} — searching for optimized placement.`);
-        finalX += (Math.random() - 0.5) * 3.0; // +/- 1.5m
-        finalZ += (Math.random() - 0.5) * 3.0;
-      }
-      
-      selectedStructures.push({
-        ...tpl,
-        x: finalX,
-        y: 0,
-        z: finalZ,
-        voidTier: pocket.tier,
-        archetype: profile.archetype
-      });
-      templateIdx = (templateIdx + attempt + 1) % recommendedTemplates.length;
-      placed = true;
-      break;
-    }
+if (mutantDNA && mutantDNA.macros) {
+  // Use mutated macros directly
+  for (const macro of mutantDNA.macros) {
+    const tpl = templates.find(t => t.id === macro.id) || templates[0];
+    selectedStructures.push({
+      ...tpl,
+      x: macro.x,
+      y: macro.y,
+      z: macro.z
+    });
   }
-  if (!placed) templateIdx++;
+} else {
+  // Original volumetric scan
+  let templateIdx = 0;
+
+  for (const pocket of voidCandidates) {
+    if (selectedStructures.length >= MAX_BUILDINGS) break;
+
+    const tooClose = selectedStructures.some(s => Math.hypot(s.x - pocket.x, s.z - pocket.z) < 15);
+    if (tooClose) continue;
+
+    const profile = profiler.profileVoid(pocket);
+    const recommendedTemplates = profiler.recommendPrefabs(profile.archetype, templates);
+    console.log(`   🔍 Profiled void at (X: ${pocket.x}, Z: ${pocket.z}) as ${profile.archetype}. Recommended ${recommendedTemplates.length} templates.`);
+
+    // Find a non-blacklisted template that fits
+    let placed = false;
+    for (let attempt = 0; attempt < recommendedTemplates.length; attempt++) {
+      const tpl = recommendedTemplates[(templateIdx + attempt) % recommendedTemplates.length];
+
+      // GOD MODE: Check blacklist
+      if (isTemplateBlacklisted(tpl.id)) {
+        console.log(`   ⛔ Skipping blacklisted template: ${tpl.id}`);
+        continue;
+      }
+
+      // Check size fit
+      if (pocket.width >= tpl.minSize[0] && pocket.height >= tpl.minSize[1] && pocket.depth >= tpl.minSize[2]) {
+        let finalX = pocket.x;
+        let finalZ = pocket.z;
+        
+        // GOD MODE: Genetic algorithm mutation for successful templates
+        const cache = getLearningCache();
+        const registryEntry = cache.successRegistry[tpl.id];
+        if (registryEntry && registryEntry.avgScore > 80 && Math.random() < 0.20) {
+          console.log(`   🧬 Genetic Mutation applied to ${tpl.id} — searching for optimized placement.`);
+          finalX += (Math.random() - 0.5) * 3.0; // +/- 1.5m
+          finalZ += (Math.random() - 0.5) * 3.0;
+        }
+        
+        selectedStructures.push({
+          ...tpl,
+          x: finalX,
+          y: pocket.y,
+          z: finalZ,
+          voidTier: pocket.tier,
+          archetype: profile.archetype
+        });
+        templateIdx = (templateIdx + attempt + 1) % recommendedTemplates.length;
+        placed = true;
+        break;
+      }
+    }
+    if (!placed) templateIdx++;
+  }
 }
 
 console.log(`\n🏗️ Synthesized Interactive Macro-Structures (${selectedStructures.length}/${MAX_BUILDINGS} max):`);
