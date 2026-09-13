@@ -101,13 +101,7 @@ document.addEventListener('visibilitychange', () => {
     if (audio.ctx && audio.ctx.state === 'suspended') audio.ctx.resume();
   }
 });
-let _lastPointerDown = 0;
-window.addEventListener('click', (e) => {
-  if (performance.now() - _lastPointerDown < 500 && e.isTrusted && !e.defaultPrevented) {
-    e.stopPropagation();
-    e.preventDefault();
-  }
-}, true);
+
 
 function fastClick(el, handler) {
   if (!el) return;
@@ -496,8 +490,8 @@ function pickSpawn(type) {
 }
 function updateWaves(dt) {
   if (game.intermission > 0) {
-    game.intermission -= dt; hud.setTimer('next wave in ' + Math.ceil(game.intermission));
-    if (game.intermission <= 0) { hud.setTimer(''); startWave(game.wave + 1); }
+    game.intermission -= dt; hud.setWave(game.wave, Math.ceil(game.intermission), 'intermission'); hud.setTimer('');
+    if (game.intermission <= 0) { startWave(game.wave + 1); }
     return;
   }
   if (game.queue.length && enemies.alive < game.maxAlive) {
@@ -2030,13 +2024,18 @@ function resetGame() {
   game.score = 0; game.kills = 0; game.combo = 0; game.wave = 0; game.intermission = 0; game.queue = []; game.time = 0; game.over = null; game.matchT = 0; hud.setScore(0, 0); hud.setTimer(''); hud.setPvpScore(null); hud.setWave(1, 0); hud.setBoard(null);
   if (enemies.brain) enemies.brain.init(hud);
 }
-function beginCommon() { audio.init(); audio.resume(); if (!input.usingGamepad && !input.isTouch && !mobile.enabled) input.requestLock(); if (musicWanted && !audio.musicPlaying) audio.musicOn(true); hud.hideScreen(); hud.setGameplayVisible(true); game.menu = false; }
+function beginCommon() {
+  if (screen && screen.orientation && screen.orientation.lock) {
+    screen.orientation.lock('landscape').catch(() => {});
+  }
+  audio.init(); audio.resume(); if (!input.usingGamepad && !input.isTouch && !mobile.enabled) input.requestLock(); if (musicWanted && !audio.musicPlaying) audio.musicOn(true); hud.hideScreen(); hud.setGameplayVisible(true); game.menu = false;
+}
 function begin() { game.mode = 'solo'; setArena(false); beginCommon(); if (game.state === 'start' || game.state === 'dead') { resetGame(); startWave(1); } game.state = 'play'; }
 function beginDuel() { 
   game.mode = 'duel'; setArena(false); beginCommon(); resetGame(); game.state = 'play'; 
   player.grenades = 5;
   for (const w of player.weapons) { if (w.isGun) { w.mag = w.magSize; w.reserve = 999; } }
-  hud.setWave('DUEL', 0); hud.message('1 V 1', 'Defeat the AI', 3.5);
+  hud.setWave('DUEL', 0, 'duel'); hud.message('1 V 1', 'Defeat the AI', 3.5);
   hud.tip('AI Difficulty: ' + (window.currentDifficulty === 4 ? 'GOD MODE' : window.currentDifficulty === 3 ? 'EXTREME' : window.currentDifficulty === 0 ? 'STUPID' : 'STANDARD'), 4);
   const diff = window.currentDifficulty ?? 2;
   const normalPool = ['rusher', 'heavy', 'shield', 'sniper', 'grunt'];
@@ -2059,7 +2058,7 @@ function beginExplore() {
     }
   }
   player.grenades = 5;
-  hud.setWave('ROAM', 0);
+  hud.setWave('ROAM', 0, 'roam');
   hud.message('TEST RUN', 'Free Roam · Zero enemies · Explore the map', 3.5);
   hud.tip(`Map: ${knownMap(mapKey).toUpperCase()} · Press Menu or ESC to pause`, 5);
 }

@@ -614,6 +614,7 @@ export class MobileControls {
       if (this.editMode) return;
       e.preventDefault();
       for (const touch of e.changedTouches) {
+        if (touch.target.closest('.mob-btn') || touch.target.closest('.mob-wep-btn')) continue;
         if (this.moveTouchId === null && touch.clientX < window.innerWidth * 0.48) {
           this.moveTouchId = touch.identifier;
           // Dynamically position joystick base under thumb

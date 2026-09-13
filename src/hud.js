@@ -13,7 +13,7 @@ export class HUD {
       <div class="hitmarker" id="hitmarker"><i></i><i></i></div>
       <div class="dmg-ind" id="dmg"></div>
       <div class="hud-tl"><div class="score">SCORE <b id="score">0</b></div><div class="combo" id="combo"></div></div>
-      <div class="hud-tr"><div class="wave">WAVE <b id="wave">1</b></div><div class="modifier" id="modifier"></div><div class="left"><b id="left">0</b> ENEMIES LEFT</div><div class="timer" id="timer"></div><div class="pvpscore" id="pvpscore" hidden></div></div><div class="board" id="board" hidden></div>
+      <div class="hud-tr wave-card"><div class="wave">WAVE <b id="wave">1</b></div><div class="modifier" id="modifier"></div><div class="left"><b id="left">0</b> ENEMIES LEFT</div><div class="timer" id="timer"></div><div class="pvpscore" id="pvpscore" hidden></div></div><div class="board" id="board" hidden></div>
       <div class="bossbar" id="bossbar"><div class="bossname" id="bossname"></div><div class="bar big"><div class="fill red" id="bossfill"></div></div></div>
       <div class="hud-bl">
         <div class="health"><span>HEALTH</span><div class="bar"><div class="fill" id="hpfill"></div></div><span id="hpnum">100</span></div>
@@ -97,7 +97,24 @@ export class HUD {
   setHealth(hp, max) { const f = Math.max(0, hp / max); this.el.hpfill.style.width = (f * 100).toFixed(1) + '%'; this.el.hpnum.textContent = Math.ceil(hp); this.root.classList.toggle('low', f < 0.3); }
   setBoard(html) { const on = !!html; this.el.board.hidden = !on; if (on) this.el.board.innerHTML = html; }
   setPvpScore(html) { const on = !!html; this.el.pvpscore.hidden = !on; if (on) this.el.pvpscore.innerHTML = html; this.el.wave.parentElement.hidden = on; this.el.left.parentElement.hidden = on; }
-  setWave(n, left) { this.el.wave.textContent = n; this.el.left.textContent = left; }
+  setWave(n, left, state = 'active') {
+    if (state === 'active') {
+      this.el.wave.parentElement.innerHTML = '<div class="wave-title">WAVE <b>' + n + '</b></div>';
+      this.el.left.parentElement.innerHTML = '<div class="wave-sub"><b>' + left + '</b> ENEMIES LEFT</div>';
+      this.el.left.parentElement.hidden = false;
+    } else if (state === 'intermission') {
+      this.el.wave.parentElement.innerHTML = '<div class="wave-title">WAVE <b>' + n + '</b> CLEARED</div>';
+      this.el.left.parentElement.innerHTML = '<div class="wave-sub">NEXT WAVE IN <b>' + left + 's</b></div>';
+      this.el.left.parentElement.hidden = false;
+    } else if (state === 'roam') {
+      this.el.wave.parentElement.innerHTML = '<div class="wave-title">FREE ROAM</div>';
+      this.el.left.parentElement.hidden = true;
+    } else if (state === 'duel') {
+      this.el.wave.parentElement.innerHTML = '<div class="wave-title">1v1 DUEL</div>';
+      this.el.left.parentElement.innerHTML = '<div class="wave-sub">TARGET: <b>AI</b></div>';
+      this.el.left.parentElement.hidden = false;
+    }
+  }
   setModifier(text) { this.el.modifier.textContent = text || ''; }
   setTimer(text) { this.el.timer.textContent = text || ''; }
   setScore(score, combo) { this.el.score.textContent = score; this.el.combo.textContent = combo > 1 ? 'COMBO x' + combo : ''; }
