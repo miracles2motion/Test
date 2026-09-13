@@ -1,0 +1,142 @@
+================================================================================
+DREAM PHASE 7 — FILE 10: THE BOOT & SUGGESTION FLOW
+"From cold start to first frame — who decides what, and when"
+================================================================================
+
+This file consolidates the startup experience from Files 01, 04, and 09
+into one end-to-end narrative. It answers four questions:
+
+  Q1  Does the game automatically know the optimal graphics for a device
+      at startup?                              -> YES  (Flow 1)
+  Q2  Does it then ensure smooth flow?          -> YES  (Flow 1, step 6)
+  Q3  Does it suggest settings to the user (once, if it hasn't before)?
+                                                -> YES  (Flow 2)
+  Q4  Can the user accept, or open settings and choose anything?
+                                                -> YES  (Flow 3)
+
+--------------------------------------------------------------------------------
+FLOW 1 — EVERY BOOT: THE DEVICE IS MEASURED, NOT GUESSED
+--------------------------------------------------------------------------------
+
+  T+0.0s  APP START -> loading screen (pen-styled)
+     |
+  T+0.1s  [1] DEVICE PROBE — LAYER 1: STATIC SIGNALS      (File 01, 1.2)
+     |        GPU string (ranked known-device table), navigator.
+     |        deviceMemory, hardwareConcurrency, maxTextureSize,
+     |        mobile/OS signals -> PROVISIONAL TIER (S / A / B / C)
+     |
+  T+0.4s  [2] DEVICE PROBE — LAYER 2: SMOKE BENCHMARK     (File 01, 1.2)
+     |        3 calibrated frames (<300ms): instanced pen-quads,
+     |        capsule broadphase, full composite pass.
+     |        Calibrates kTriangle/kDrawCall/kCollision -> CONFIRMS or
+     |        AMENDS the provisional tier. (A hot throttling phone is
+     |        caught HERE, not mid-match.) Doubles as shader warm-up.
+     |
+  T+0.7s  [3] DEVICE PROBE — LAYER 3: HISTORY OVERRIDE    (File 01, 1.2)
+     |        .agents/learning-cache.json (this device played before?)
+     |        If past telemetry says reality < classification, the tier
+     |        is silently corrected (TIER_B that always ran 48fps -> C).
+     |
+  T+0.8s  [4] DEVICE PROFILE FROZEN — one object, one truth
+     |        Consumed by: Budget Arbiter (map must fit its contract),
+     |        Instance/LOD/Pool sizing, the ladder's thresholds, and
+     |        the settings screen's option visibility.
+     |
+  T+1.0s  [5] SETTINGS RESOLVE (File 09, C.3)
+     |        First boot ever?     -> AUTO preset, 60fps, all AUTO.
+     |                                The optimal profile IS the default;
+     |                                the player does not have to choose.
+     |        Played before?       -> localStorage "doodle.graphics.v1"
+     |                                restores the player's choices
+     |                                (CUSTOM is sticky).
+     |
+  T+1.2s  [6] MAP + RUNTIME SIZED TO THE PROFILE
+     |        Generation layer: map variant exported against the tier's
+     |        budget contract (File 01, 1.4 — 0.84 x frame interval).
+     |        Runtime layer: pool sizes, LOD thresholds, instance cells,
+     |        octree depth, pixelRatio cap — all from the profile.
+     |
+  T+4.5s  [7] FIRST FRAME -> GAME
+     |        The Adaptive Performance Monitor (File 04) takes over:
+     |        defends the frame rate with the degradation ladder,
+     |        auto-tuning only in calm windows (combat deferral, 4.6),
+     |        announcing every change with an ink toast (File 09, C.2).
+     |
+           RESULT: a player who never opens settings gets the best
+           experience their device can hold — by construction.
+
+--------------------------------------------------------------------------------
+FLOW 2 — THE ONE-TIME SUGGESTION (only when telemetry earns it)
+--------------------------------------------------------------------------------
+
+  TRIGGER (checked at boot, Flow 1 step [3]): last match report shows
+    (a) a thermal flag, OR
+    (b) a Survival Mode (Rung 5) visit, OR
+    (c) more than 40% of match time at Rungs 3-5
+  AND the suggestion has never been shown/dismissed before.
+
+  T+1.5s  LOADING-SCREEN CARD (never a popup mid-game):
+
+     +------------------------------------------------------+
+     |   (pen-nib icon)                                      |
+     |   Things got choppy last match.                       |
+     |   A locked 30 FPS often looks and feels smoother —    |
+     |   and your next map will be built with richer        |
+     |   detail to match.                                    |
+     |                                                       |
+     |   [ Try 30 FPS ]        [ Keep 60 ]                   |
+     +------------------------------------------------------+
+
+  [ Try 30 FPS ] -> frame cap set to 30 (File 04, 4.9): thresholds
+                    re-derive, ladder relaxes, virtual tier bump applies
+                    to the NEXT map. Card never shows again.
+  [ Keep 60 ]    -> dismissed forever for this device (RULE: the system
+                    suggests once; it never nags — File 09, B.2).
+
+  NOTE: this is the ONLY auto-suggestion in the game. Everything else
+  "suggests" invisibly by simply being AUTO and correct (Flow 1).
+
+--------------------------------------------------------------------------------
+FLOW 3 — THE PLAYER ALWAYS OUTRANKS THE SYSTEM
+--------------------------------------------------------------------------------
+
+  ENTRY: pause menu -> SETTINGS -> GRAPHICS (File 09) — the live paused
+  game behind the menu is the preview; every change applies instantly.
+
+  THE AUTORITY CHAIN (top wins):
+    1. SURVIVAL MODE (Rung 5)   — emergency only, self-reverts, toasts
+    2. THE PLAYER (manual locks)— any setting, any time, sticky across
+                                  sessions; ladder BYPASSES locked rungs
+    3. THE LADDER (AUTO mode)   — manages only what the player left AUTO
+    4. THE DEFAULTS             — AUTO + 60fps on first boot
+
+  THE PLAYER'S GUARANTEES:
+    - Can pick ANY visible option instantly (no restart, no apply).
+    - Options the device truly cannot run are marked with a reason on
+      tap — honest, but still selectable (RULE 3, File 09).
+    - "Reset to Recommended" returns everything to AUTO = optimal for
+      the measured profile, one click.
+    - Nothing in this menu can affect gameplay fairness: the 60Hz
+      simulation is cap-invariant (File 04, 4.9); graphics never touch
+      parry windows, dodge i-frames, or God Mode timings.
+
+--------------------------------------------------------------------------------
+SUMMARY TABLE — WHO DECIDES WHAT
+--------------------------------------------------------------------------------
+
+  DECISION                          DECIDED BY            WHERE
+  --------------------------------  --------------------  -------------
+  Device tier (S/A/B/C)             Probe + history       File 01, 1.2
+  Map's budget fit                  Budget Arbiter        File 01, 1.4
+  First-boot defaults               AUTO preset           File 09, A1
+  Mid-match quality changes         Ladder (AUTO only)    File 04, 4.2
+  Quality change TIMING             Combat deferral       File 04, 4.6
+  Frame cap                         PLAYER (suggested     File 04, 4.9 /
+                                    once via Flow 2)      File 09, B.2
+  Any single setting                PLAYER, anytime       File 09, B.*
+  Emergency recovery                Survival Mode         File 04, 4.2
+--------------------------------------------------------------------------------
+
+================================================================================
+END OF FILE 10 — Architecture files 06/07/08 remain in the queue
+================================================================================

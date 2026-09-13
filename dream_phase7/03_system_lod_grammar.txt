@@ -1,0 +1,204 @@
+================================================================================
+DREAM PHASE 7 — SYSTEM 3: THE LOD GRAMMAR
+"Three Versions of Everything" — Brief Item B: Level of Detail
+================================================================================
+
+THE PHILOSOPHY: REGENERATE, DON'T DECIMATE
+--------------------------------------------------------------------------------
+
+A decimated mesh is a broken promise: it keeps the topology of the
+detailed form and deletes the parts that made it legible. A
+GRAMMAR-GENERATED mesh keeps its promise at every scale, because the
+grammar simply speaks less at each level — fewer L-System iterations,
+fewer trim components, fewer hatch layers. LOD1 is not a damaged LOD0; it
+is the same SPECIES redrawn faster, the way a doodler simplifies a distant
+tree to two strokes and it still reads as the same tree.
+
+This is why LOD belongs INSIDE the grammars (ComponentGrammar for
+structures, AnatomyGrammar for enemies, L-System for flora), not in a
+post-process mesh optimizer that knows nothing of the design intent.
+
+3.1 — Grammar-Native LOD Rules
+--------------------------------------------------------------------------------
+
+L-SYSTEM FLORA (per archetype, all three levels cached — File 02, 2.1):
+
+  LEVEL   ITERATIONS   BRANCHES   LEAVES            TARGET TRIS
+  LOD0         5          full     pen-quad tufts     100%   (~4k)
+  LOD1         3        merged     larger quads        ~30%
+  LOD2         1         trunk     none                ~2%
+
+COMPONENTGRAMMAR STRUCTURES (Skeleton-Skin-Trim triad, Phase 5.5 UDS v2):
+
+  LOD0: Skeleton + Skin + Trim. Full wobbly pen lines, deep cross-hatching
+        (hatchDensity uniform = 1.0), double-stroke on accents.
+  LOD1: Skeleton + Skin. Trim layer stripped. Child components WELDED into
+        the parent mesh (draw-call collapse), single outline stroke,
+        hatchDensity = 0 (outline only). The silhouette survives; the
+        interior goes quiet.
+  LOD2: Convex silhouette — a simplified hull or bounding form drawn with
+        the outline-only pen material. 8-24 triangles. Reads as a distant
+        shape on the page, which is exactly what it is.
+
+ANATOMYGRAMMAR ENEMIES (detailed in 3.4): full anatomy -> welded chibi ->
+billboard impostor.
+
+3.2 — The LODProfile (emitted by every grammar, cached as one entry)
+--------------------------------------------------------------------------------
+
+JavaScript
+
+  // Returned by every grammar build(); all three geometries are born at
+  // LOAD TIME, never at runtime (see 3.5, Rule 1).
+  const lodProfile = {
+    lod0: { geometry, material: 'pen_full',       collision: 'full'   },
+    lod1: { geometry, material: 'pen_outline',    collision: 'hull'   },
+    lod2: { geometry, material: 'pen_silhouette', collision: 'aabb'   },
+    boundingRadius: 3.1,
+    importance: 1.0,        // < 1.0 = clutter (swaps EARLIER)
+                            // > 1.0 = hero piece (swaps LATER)
+    thresholds: null,       // computed at realization, see 3.3
+  };
+
+3.3 — Screen-Space Error Thresholds (src/perf/lod-manager.js)
+--------------------------------------------------------------------------------
+
+Swap when the object's PROJECTED size crosses a pixel threshold — not at a
+fixed distance (a 40m cathedral and a 1m crate must not share a cutoff).
+
+  projectedHeight_px = (2 * boundingRadius / distance)
+                       * (viewportH / (2 * tan(fovY / 2)))
+
+  LOD0 -> LOD1  when  projectedHeight_px < H01      (H01 = 120 px)
+  LOD1 -> LOD2  when  projectedHeight_px < H12      (H12 =  36 px)
+
+  effectiveThreshold = H * importance
+     importance 2.0 (hero cathedral door)  -> holds LOD0 2x further
+     importance 0.7 (clutter shrub)        -> sheds LOD0 30% earlier
+
+EXAMPLE THRESHOLD TABLE (800px viewport height, fovY 70 deg, tan35 = 0.70):
+
+  OBJECT                RADIUS   IMPORTANCE   LOD0->1 @    LOD1->2 @
+  --------------------  -------  ----------  ----------   ----------
+  Clutter shrub           0.6 m     0.7          5.1 m       17.1 m
+  Weeping ink-willow      3.0 m     1.0         28.6 m       95.2 m
+  Cargo gantry (Phase 1)  8.0 m     1.2         91.4 m      305 m
+  Cathedral (hero)       22.0 m     2.0        419.0 m      1397 m
+  Jungle Rusher (enemy)  0.8 m     1.0          7.6 m       25.4 m
+
+Thresholds are viewport-relative and recomputed on resize — a smaller
+window swaps earlier, for free.
+
+3.4 — AnatomyGrammar LOD: Enemies Get Impostors, Not Boxes
+--------------------------------------------------------------------------------
+
+A box silhouette breaks a MOVING entity — the player tracks enemies with
+peripheral vision, and a rectangle that used to be a wasp reads as a bug
+in the renderer. Enemy LOD2 is therefore an IMPOSTOR: a pre-rendered
+billboard snapshot of the LOD1 mesh.
+
+  LOD0 (0-25m):   Full anatomy. Every socket dressed, hatching, double-
+                  stroke on biome accents, full animation.
+  LOD1 (25-50m):  Welded chibi — head blob, torso, limb tubes fused into
+                  ONE mesh (~30% tris), outline only, animation retained.
+  LOD2 (50m+):    Impostor billboard. At LOAD time, each mutated archetype
+                  is snapshotted from 8 yaw angles into a 128x128 atlas
+                  (one render target pass per archetype — File 08 load
+                  timeline, T+3.5s). The AI KEEPS RUNNING (throttled per
+                  File 06, 6.6); only the mesh becomes a sprite. When the
+                  distance closes, the impostor hands off to LOD1 and the
+                  wasp is a wasp again.
+
+3.5 — The Stutter-Free Swap Protocol (the brief's core question)
+--------------------------------------------------------------------------------
+
+"How do we swap without a stutter?" Five rules. Together they make the
+swap literally free at runtime:
+
+  RULE 1 — PRE-BAKE. All three LOD geometries are generated during the
+  loading screen (File 08). LOD1 + LOD2 add only ~8-12% memory vs LOD0
+  alone (they are 30% and 2% of its size). Runtime generation of ANY LOD
+  is a build-breaking lint error.
+
+  RULE 2 — PRE-COMPILE. Shader compilation, not geometry, is what
+  actually hitches. During load, every (material x LOD) variant is
+  rendered once through renderer.compile(scene, camera) — including both
+  the hatched and outline-only programs, and both lighting variants used
+  by the degradation ladder (File 04, 4.4). All programs sit warm in the
+  driver's cache before the first frame.
+
+  RULE 3 — HYSTERESIS. Swap-in and swap-out thresholds differ by 20%:
+  an object crossing INTO LOD1 at 28.6m only returns to LOD0 beyond
+  34.3m. An entity parked exactly on the threshold cannot thrash.
+
+  RULE 4 — AMORTIZE. LODManager holds a preallocated ring buffer of swap
+  requests and executes at most 3 per frame, prioritized by the size of
+  the projected-height change. Whole-cell batches (crossing a 40m cell
+  boundary, File 05) are swapped as ONE unit — the cell's objects are
+  adjacent in the buffer by construction.
+
+  RULE 5 — VISIBLE-FLIP ONLY. A runtime "swap" is exactly one operation:
+  mesh.visible = boolean. All three LOD meshes are pre-attached as
+  children of the same Group; they take turns being visible. No
+  instantiation, no parenting, no disposal, no allocation — the
+  zero-allocation audit sees three booleans.
+
+  OPTIONAL FLOURISH — INK-DITHER. For objects the player is LOOKING at
+  when they swap (rare, thanks to hysteresis), an 80ms dither crossfade
+  plays: the incoming LOD dissolves in through an aSeed-driven dither
+  mask in the shared shader (a uniform time window, not a material
+  clone). The transition reads as ink drying on the page. It can be
+  disabled on TIER_C without changing anything else.
+
+3.6 — Collision LOD (coupled to the visual levels, consumed by File 05)
+--------------------------------------------------------------------------------
+
+Collision quality is also a budget. The collision set is chosen by the
+SAME distance logic, with one sacred exception:
+
+  ENTITY              COLLISION SET USED
+  ------------------  --------------------------------------------------
+  Player (always)     FULL capsule set — the player's chunk is pinned to
+                      LOD0 collision regardless of visual level.
+  Enemies < 25m       FULL set (they dodge, flank, take cover — Phase 6
+                      behaviors demand real geometry).
+  Enemies 25-50m      HULL set (movement + pathing only).
+  Everything > 50m    AABB set (spawning validation, projectile sky
+                      checks, nothing else).
+  Projectiles < 25m   FULL set; beyond, AABB.
+
+A wasp 80m away does not need to know about a branch. The jungle does not
+need to be solid where nobody is standing.
+
+3.7 — Validation (part of the Step 6.5 gauntlet, File 07)
+--------------------------------------------------------------------------------
+
+  CHECK 1 — THRASH TEST: a simulated bot teleports across 200 sample
+  points and parks on 10 threshold boundaries for 5 simulated seconds
+  each. Pass = no object swaps more than once per 2 seconds anywhere.
+  CHECK 2 — MEMORY TEST: sum of all LOD geometries fits the tier's
+  geometryMemoryBudget (else drop LOD1 on clutter-class archetypes).
+  CHECK 3 — VISUAL REGRESSION: automated snapshot pairs (LOD0 vs LOD1 at
+  the swap distance) scored by the Theme Coherence scorer (v2.0, System
+  6.2). If LOD1 of an archetype scores below coherence floor, the
+  ARCHETYPE's LOD1 is regenerated with +1 L-System iteration (cheap:
+  still cached, still instanced).
+
+INTEGRATION HOOKS
+--------------------------------------------------------------------------------
+  - Instance Synthesizer (02): one cache entry per archetype holds all
+    three LOD geometries; instanced batches exist PER LOD level (a cell
+    shows LOD0 willows and LOD1 willows as two batches — still ~14 draw
+    calls total).
+  - Budget Arbiter (01): strategy rank 3 (tighten thresholds) edits
+    importance values only — no geometry is rebuilt.
+  - Enemy Pool (06): LOD2 impostor atlases are generated from pre-dressed
+    pool shells at load; AI throttling tiers share the same distance
+    bands (25m / 50m) so one distance check drives both.
+  - Adaptive Monitor (04): rung 4 (background cull) simply hides whole
+    LOD2 cells — the cheapest possible cull, because LOD2 cells are
+    already outline-only.
+
+================================================================================
+END OF FILE 03 — Continue with 04_system_adaptive_monitor.txt (next delivery)
+================================================================================

@@ -1,0 +1,246 @@
+================================================================================
+DOODLE STRIKE — FILE 11: THE GREAT UI CENSUS
+"An official request for the state of every screen in the game"
+================================================================================
+
+TO: The Building Agent
+FROM: The Dream Phase 7 working set (see 00_overview.txt)
+RETURN FORMAT: ONE Markdown file, named  ui-census.md
+PURPOSE: We are about to rebuild the game's UI for a consistent look and
+         feel, responsive behavior, and pen-aesthetic identity across
+         every component. Before we redesign anything, we need a
+         COMPLETE and HONEST record of what exists today.
+
+================================================================================
+SECTION 0 — THE RULES OF THE CENSUS
+================================================================================
+
+  R1  EVERYTHING COUNTS. If the player can see it or click it, it is a
+      screen or a component: main menus, HUD elements, toasts, damage
+      numbers, the loading screen, the Dream terminal, error alerts,
+      placeholder debug text — everything.
+
+  R2  BE HONEST, NOT POLITE. We want the real hex values, the real font
+      sizes, the magic numbers, the three different button styles that
+      were never supposed to be different. The census is not a review;
+      it is a mirror. Ugly findings are the valuable ones.
+
+  R3  EXACT VALUES OVER ADJECTIVES. "Styled nicely" is useless. "#1a1a2e
+      background, 16px bold, 8px padding" is census data. Where a value
+      is a magic number inline in code, quote it and give the file:line.
+
+  R4  IF A NEW DEVELOPER COULD REBUILD THE SCREEN PIXEL-PERFECT FROM
+      YOUR MD ALONE, THE ENTRY IS COMPLETE. That is the bar.
+
+  R5  MISSING IS AN ANSWER. If something in the checklist (Section 3)
+      does not exist, write MISSING — that tells us as much as FOUND.
+
+  R6  ONE FILE. Everything returns in a single ui-census.md, sections
+      in the order given below, per-screen entries using the template
+      in Section 4 verbatim.
+
+================================================================================
+SECTION 1 — GLOBAL INVENTORY (game-wide facts, once each)
+================================================================================
+
+  G1  TECH STACK
+      - How is UI rendered: HTML/CSS over the Three.js canvas? In-canvas
+        drawing? Both (which screens are which)?
+      - CSS approach: one stylesheet? inline styles? CSS-in-JS? utility
+        classes? List every file that contains UI styling.
+      - Is there ANY component system or UI framework in use, or is
+        each screen hand-rolled?
+      - How does UI layer over the game canvas (z-index strategy,
+        pointer-events handling, DOM order)?
+
+  G2  DESIGN TOKEN INVENTORY (the honesty section — this finds the
+      inconsistencies we are hunting)
+      - Every COLOR actually used by UI (hex/rgb), where it is defined,
+        and how many places hardcode it.
+      - Every FONT family/size/weight in use (including fallbacks and
+        any web fonts or assets).
+      - Spacing values in use (list the distinct paddings/margins — if
+        there are 14 different paddings, list all 14).
+      - Border radii, border styles, shadow styles.
+      - Any existing CSS variables or theme object — yes/no, and
+        coverage (which screens ignore it).
+      - Paper/pen texture assets used by UI, if any.
+
+  G3  COMPONENT CENSUS (the consistency killer)
+      For EACH widget type, count the DISTINCT implementations:
+      - Buttons: how many different styles exist across all screens?
+        (list each: where, and what it looks like)
+      - Sliders, toggles/checkboxes, dropdowns/selects, tabs,
+        text inputs, tooltips, progress bars.
+      - Modals/dialogs: how many different modal systems?
+      - Toasts/notifications: does any system exist at all?
+      - Hover / focus / active / disabled states: which components
+        implement which states (a table: component x state = yes/no).
+
+  G4  INPUT SUPPORT MATRIX
+      Per screen: mouse / keyboard / touch / gamepad — which work?
+      Is there any keyboard navigation (tab/arrow) anywhere?
+      Any touch handling code at all? (We must know the responsive
+      baseline before the upgrade pass.)
+
+  G5  SCREEN FLOW MAP
+      A simple text diagram: every screen as a node, every transition
+      as an arrow, labeled with its trigger (button, key, game event,
+      death, etc.). Include the loop back paths.
+
+  G6  ASSETS
+      - Icon set(s) in use (or: none — text only?).
+      - UI sounds (clicks, hovers), if any.
+      - Fonts as files vs system fonts.
+
+  G7  RESPONSIVE REALITY
+      - What happens today at 1280x720, 1920x1080, a phone width
+        (390px), and a rotated phone? Per-screen: fixed? stretched?
+        broken? unknown?
+      - Any viewport meta / media queries / resize handlers — list them.
+
+  G8  KNOWN ISSUES
+      - TODO/FIXME/HACK comments in UI code (quote them, file:line).
+      - Any dead/hidden screens still in the code.
+      - Any state that can soft-lock the UI (settings you cannot exit,
+        modals without close buttons).
+
+================================================================================
+SECTION 2 — SPECIAL DEEP-DIVES (these four get extra detail)
+================================================================================
+
+  D1  THE SETTINGS SCREEN — our integration target. File 09 specifies
+      a new GRAPHICS tab (10 controls, instant-apply, live game behind
+      the menu). Report the current settings screen exhaustively: every
+      existing tab/section, every control, its styling, and how (or if)
+      settings persist. Also: is there a pause menu, and does settings
+      open from it?
+
+  D2  THE LOADING SCREEN — File 10's device-probe suggestion card must
+      live here. Report what exists: progress bar? tips? Dream build
+      log? Can it show interactive cards today?
+
+  D3  THE HUD — report every element: health, weapon/ammo, wave
+      counter, difficulty indicator, boss health bar, wave-phase
+      banners (SURGE/CLIMAX), damage indicators/numbers, crosshair,
+      kill feedback, any counters. For each: canvas-drawn or DOM,
+      position, styling, and whether it scales with resolution. Also
+      where an FPS/perf readout could live (File 09, A9).
+
+  D4  THE DREAM TERMINAL — the NLP console ("npm run dream ...").
+      Is it in-game UI, dev-tools only, or a build script? If it has
+      any on-screen presence, full census entry for it.
+
+================================================================================
+SECTION 3 — THE SCREEN CHECKLIST (mark each: FOUND / MISSING / N-A)
+================================================================================
+
+  BOOT / SPLASH
+  [ ] Splash / logo screen
+  [ ] First-run / onboarding / tutorial overlay
+
+  MENUS
+  [ ] Main menu
+  [ ] Map / mode select (list of Dream-generated maps?)
+  [ ] Difficulty select (Stupid / Easy / Hard / Extreme / God Mode)
+  [ ] Loadout / weapon select
+  [ ] Credits
+  [ ] Quit / exit confirmation
+
+  IN-GAME
+  [ ] HUD (deep-dive D3)
+  [ ] Pause menu
+  [ ] Wave transition banner / between-wave screen
+  [ ] Boss intro / boss health UI
+  [ ] Death / game-over screen (stats: waves survived, kills)
+  [ ] Victory screen
+  [ ] Damage numbers / hit markers
+  [ ] Any in-game messages / event text
+
+  SETTINGS
+  [ ] Graphics settings (deep-dive D1)
+  [ ] Audio settings (master / music / sfx)
+  [ ] Controls / keybinding
+  [ ] Gameplay settings (if any)
+
+  SYSTEM / OVERLAYS
+  [ ] Loading screen (deep-dive D2)
+  [ ] Confirmation dialogs (how many kinds?)
+  [ ] Toasts / notifications (any system?)
+  [ ] Error / crash alerts (the orchestrator's "massive visual alert"
+      from Dream v1 — what does it look like?)
+  [ ] Dream terminal (deep-dive D4)
+  [ ] Debug / dev overlays (FPS, hitboxes, Dream state)
+  [ ] Any accessibility options or UI scaling anywhere
+
+  PLUS: any screen NOT on this list that exists in the code. The
+  checklist is a memory-jogger, not a boundary. (R1 applies.)
+
+================================================================================
+SECTION 4 — PER-SCREEN TEMPLATE (copy verbatim for every FOUND screen)
+================================================================================
+
+  ## SCREEN: <id> — <name>
+
+  **Purpose:**            one line — what this screen is for
+  **Code location:**      file(s), function(s), approx line ranges
+  **Entry points:**       how the player gets here (from where, trigger)
+  **Exit points:**        where the player can go (and any dead ends)
+  **Rendered by:**        DOM / canvas / both (which parts)
+
+  **Layout:**             regions top-to-bottom/left-to-right, with
+                          sizes in px where they exist; ASCII sketch if
+                          easier — measurements matter more than art
+  **Components used:**    every widget on the screen, in order
+
+  **Styling (exact):**
+  - Background:           value + where defined
+  - Text:                 font, size, weight, color per text style used
+  - Buttons/widgets:      per widget — bg, border, padding, hover,
+                          active, disabled (or "no such state")
+  - Spacing:              the actual margins/paddings
+  - Anything animated:    what, how (CSS transition? JS loop? none?)
+
+  **Interactions:**       click/hover behaviors, keyboard support (or
+                          none), touch behavior (or none)
+  **Responsive today:**   what happens at 390px / 720p / 1080p (or
+                          "unknown / untested")
+  **Game state bindings:** what it reads/writes (e.g., difficulty,
+                          window.currentDifficulty, wave number)
+  **Problems noticed:**   magic numbers, inconsistent with other
+                          screens, missing states, dead code — the
+                          honest list
+
+================================================================================
+SECTION 5 — DELIVERY CHECKLIST (before returning ui-census.md)
+================================================================================
+
+  [ ] All Section 3 items marked (FOUND needs a Section 4 entry)
+  [ ] G1-G8 all answered (MISSING / UNKNOWN is an answer)
+  [ ] D1-D4 deep-dives written
+  [ ] Every FOUND screen has exact values (R3) — no adjectives
+  [ ] Component census (G3) includes the implementation COUNT per
+      widget type — this number is the consistency headline
+  [ ] Screen flow map drawn (G5)
+  [ ] Anything not on any list but present in code is included anyway
+
+================================================================================
+WHAT HAPPENS NEXT (context for the agent)
+================================================================================
+
+  The returned ui-census.md feeds a UI REBUILD PASS with three goals:
+    1. CONSISTENCY — one token set (colors/fonts/spacing), one
+       implementation per component type; the census's duplicate counts
+       are the hit list.
+    2. RESPONSIVENESS — the input matrix (G4) and responsive reality
+       (G7) define the baseline we upgrade from.
+    3. INTEGRATION — the new Graphics menu (File 09) and the boot
+       suggestion card (File 10) need homes; the census tells us what
+       they plug into.
+
+  The pen-and-paper aesthetic is the destination. The census is the map
+  of where we are starting from.
+
+================================================================================
+END OF FILE 11 — awaiting ui-census.md from the building agent
+================================================================================

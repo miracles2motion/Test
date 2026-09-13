@@ -1,0 +1,305 @@
+================================================================================
+DREAM PHASE 7 — SYSTEM 4B: THE GRAPHICS SETTINGS MENU
+"A Click-Through Specification" — what happens when the user touches things
+================================================================================
+
+PURPOSE OF THIS FILE
+--------------------------------------------------------------------------------
+
+This is the BEHAVIORAL contract for the graphics settings UI: every
+control, its default, and exactly what is expected to happen when the
+user clicks it. Visual design (layout, styling, responsiveness) gets its
+own pass later, when the existing UI interface is brought in — Section
+"UI UPGRADE PASS — SEED NOTES" at the bottom collects what that pass
+will need to know.
+
+THE MENU'S GOLDEN RULES (inherited from the architecture)
+--------------------------------------------------------------------------------
+
+  RULE 1 — EVERYTHING APPLIES INSTANTLY. No "Apply" button, no loading
+  spinner, no restart. Every graphics setting is a driver-state change
+  by design (File 04, 4.4 — the No-Recompile Rule). The moment a control
+  changes, the live paused game BEHIND the menu updates. The menu is
+  opened from the pause screen, so the world itself is the preview.
+
+  RULE 2 — THE LADDER IS A SAFETY NET, NOT A RIVAL. Every setting has
+  two modes: AUTO (the adaptive ladder manages it during gameplay) or
+  MANUAL (the player locks it; the ladder bypasses that rung). The
+  player can never fully disable the ladder except via Survival Mode
+  (Rung 5), which overrides everything, always.
+
+  RULE 3 — THE DEVICE IS HONEST WITH THE PLAYER. Options the device
+  genuinely cannot afford are hidden or marked, never silently ignored.
+  Every auto-adjustment the ladder makes is surfaced as a gentle toast.
+
+  RULE 4 — GAMEPLAY IS NEVER A GRAPHIC. Frame cap, quality, resolution —
+  none of it touches the 60Hz simulation. No settings screen warning
+  like "may affect gameplay" is ever needed, because nothing here can.
+
+================================================================================
+SECTION A — MENU STRUCTURE (tab: SETTINGS > GRAPHICS)
+================================================================================
+
+  GRAPHICS
+   |- A1  Quality Preset          [segmented]
+   |- A2  Frame Rate              [segmented]           (File 04, 4.9)
+   |- A3  Resolution Scale        [auto / slider]
+   |- A4  Shadows                 [auto / on / off]
+   |- A5  Pen Detail              [sub-menu]
+   |     |- A5.1 Double-Stroke
+   |     |- A5.2 Cross-Hatching
+   |     |- A5.3 Halftone Paper
+   |- A6  Detail Distance         [segmented]           (File 03)
+   |- A7  World Visibility        [sub-menu]
+   |     |- A7.1 Background Cull
+   |     |- A7.2 Fog Distance
+   |- A8  Motion & Effects        [sub-menu]
+   |     |- A8.1 Pen-Sway
+   |     |- A8.2 Particle Density
+   |- A9  Show Performance        [toggle + readout]
+   |- A10 Reset to Recommended    [button]
+
+  Layout: single scrolling column on mobile; two columns (A1-A4 left,
+  A5-A10 right) on wide screens. Sub-menus expand IN PLACE (accordion),
+  never navigate away — the user must keep eyes on the live preview.
+
+================================================================================
+SECTION B — CONTROL-BY-CONTROL CLICK-THROUGH SPEC
+================================================================================
+
+B.1 — QUALITY PRESET (A1)
+--------------------------------------------------------------------------------
+  TYPE:     Segmented: AUTO (Recommended) | PERFORMANCE | BALANCED | QUALITY
+            + CUSTOM (appears only after any manual change, sticks until
+            reset — it is a STATE, not a button the user picks directly)
+  DEFAULT:  AUTO
+
+  CLICK AUTO          -> every sub-setting flips to AUTO mode; ladder
+                         owns everything; toast: "Quality: managed
+                         automatically for your device."
+  CLICK PERFORMANCE   -> sets: Shadows Off, Double-Stroke Off, Hatch
+                         Light, Resolution 0.8 fixed, Cull Near, Sway
+                         Off, Particles Low. All become MANUAL locks.
+                         (Ladder still active for anything left AUTO.)
+  CLICK BALANCED      -> Shadows Auto, Double-Stroke Auto, Hatch Full,
+                         Resolution Auto, Cull Auto, Sway On, Particles
+                         Medium.
+  CLICK QUALITY       -> everything On/Auto at maximum, cull Far,
+                         Particles High. Ladder stays armed as the
+                         safety net.
+
+  FEEDBACK: each preset click applies its whole bundle at once — the
+  user SEES the scene behind the menu change in one step (shadows drop,
+  strokes simplify). That one-click visible delta is the feature.
+
+  EDGE CASES:
+  - On TIER_C, QUALITY preset shows a small pen-nib warning icon:
+    "Your device may not hold 60 FPS at this preset." Selectable anyway
+    (RULE 3 — honesty, not paternalism).
+  - Selecting any preset does NOT touch Frame Rate (A2). Frame rate is
+    the player's own rung (File 04, 4.9) and is never bundled.
+
+B.2 — FRAME RATE (A2)
+--------------------------------------------------------------------------------
+  TYPE:     Segmented: 30 | 60 | MATCH DISPLAY (TIER_S only, hidden
+            otherwise)
+  DEFAULT:  60
+
+  CLICK 30           -> frame pacer re-arms instantly; ladder thresholds
+                         re-derive to the 33.3ms interval; an inline note
+                         fades in under the control:
+                         "Locked 30 — smoother battery, richer detail on
+                         the next map."
+  CLICK 60           -> re-arms to 16.67ms; note clears.
+  CLICK MATCH DISPLAY-> TIER_S path only; contract re-derives to the
+                         display interval (0.84 x 8.33ms @120Hz).
+                         If the smoke benchmark's stored k-constants say
+                         the device cannot hold it, the option is shown
+                         DISABLED with the reason on tap (RULE 3).
+
+  FEEDBACK: immediate; the readout in A9 (if visible) shows the new
+  pacing within one second.
+
+  EDGE CASES:
+  - Mid-match changes are allowed from the PAUSE menu only — the pacer
+    never re-arms during live combat (consistent with File 04, 4.6
+    combat deferral).
+  - AUTO-SUGGEST BANNER: if last match telemetry had thermal flag /
+    survival visit / >40% time at Rungs 3-5, the loading screen (not
+    this menu) suggests 30 once. This menu never nags again if
+    dismissed.
+
+B.3 — RESOLUTION SCALE (A3)
+--------------------------------------------------------------------------------
+  TYPE:     Segmented AUTO + slider (range: tier floor .. 100%)
+            Floors per tier (File 01): S 0.70 / A 0.65 / B 0.60 / C 0.55
+  DEFAULT:  AUTO (1.0, ladder-managed via Rung 3)
+
+  CLICK AUTO          -> ladder regains Rung 3 authority; slider greys
+                         to the ladder's CURRENT scale (still visible —
+                         transparency: the player sees the auto value
+                         moving).
+  DRAG SLIDER         -> mode flips to MANUAL at release; pen
+                         compensation (dotPitch / hatchStep — File 04,
+                         4.5) retunes live so the paper texture stays
+                         identical while pixels shrink; the scene behind
+                         sharpens/softens in real time.
+  RELEASE             -> value locks; ladder Rung 3 bypassed.
+
+  FEEDBACK: a live % label; the drag itself is the preview.
+
+  EDGE CASES:
+  - At the tier floor, the slider stops and the label reads
+    "minimum for paper texture integrity" — never lets the player
+    select a scale where halftone collapses into moire.
+  - SURVIVAL MODE (Rung 5) may still force the floor temporarily even
+    when MANUAL; if that happens a toast explains why (see TOASTS).
+
+B.4 — SHADOWS (A4)
+--------------------------------------------------------------------------------
+  TYPE:     Tri-state segmented: AUTO | ON | OFF
+  DEFAULT:  AUTO (boot reality per tier: Off on TIER_C, On elsewhere)
+
+  CLICK AUTO -> ladder owns Rung 1. ON/OFF -> manual lock.
+  FEEDBACK:  on OFF, entities immediately gain the hatch-shadow ground
+             decals (File 04, Rung 1) — grounding survives, and the
+             player SEES that immediately.
+  EDGE CASES:
+             - MANUAL ON is respected by Rungs 1-4. Only Rung 5 may
+               override, with a toast.
+             - On TIER_C, ON carries the same warning icon as QUALITY.
+
+B.5 — PEN DETAIL SUB-MENU (A5)
+--------------------------------------------------------------------------------
+  This is the game's identity panel — the controls that tune the
+  ballpoint look itself. All are fragment-uniform changes (free, no
+  recompile, File 04, 4.4).
+
+  A5.1 DOUBLE-STROKE   AUTO | ON | OFF      (ladder Rung 2)
+      The signature second stroke on bioluminescent accents and hero
+      silhouettes. OFF is instantly visible as flatter, cleaner ink.
+  A5.2 CROSS-HATCHING  FULL | LIGHT | OFF  (hatchDensity 1.0 / 0.45 / 0)
+      Interior shading strokes on LOD0 surfaces. OFF leaves pure
+      outlines — a legit aesthetic some players will prefer (and
+      telemetry will notice — see DREAM LEARNING).
+  A5.3 HALFTONE PAPER  ON | OFF
+      The paper-grain dot field in the composite pass. OFF renders the
+      page clean white. Not ladder-managed (it is identity, not load —
+      its cost is a single cheap texture fetch); always manual.
+
+B.6 — DETAIL DISTANCE (A6)
+--------------------------------------------------------------------------------
+  TYPE:     Segmented: NEAR | BALANCED | FAR
+  DEFAULT:  BALANCED
+  MAPS TO:  LOD threshold multiplier (File 03, 3.3): NEAR = 0.75x,
+            BALANCED = 1.0x, FAR = 1.3x effective swap distances.
+  CLICK     -> thresholds recompute instantly; trees/structures in the
+               mid-distance visibly gain or shed their hatching. No
+               geometry is generated (everything was pre-baked — File
+               03, Rule 1), so FAR costs only frame budget, which the
+               ladder then defends if needed.
+  EDGE CASES: on TIER_C, FAR shows the honesty warning icon.
+
+B.7 — WORLD VISIBILITY SUB-MENU (A7)
+--------------------------------------------------------------------------------
+  A7.1 BACKGROUND CULL  AUTO | NEAR (80m) | FAR (200m)  (ladder Rung 4)
+      AUTO lets the ladder pull the horizon in when needed; manual
+      locks the cull radius. The pen fog slides with it (File 04,
+      Rung 4) so the world still ends in paper.
+  A7.2 FOG DISTANCE     AUTO | CLOSE | OPEN
+      Cosmetic-only override of the biome fog (Phase 5.5 atmosphere),
+      independent of cull. AUTO = biome default.
+
+B.8 — MOTION & EFFECTS SUB-MENU (A8)
+--------------------------------------------------------------------------------
+  A8.1 PEN-SWAY         ON | OFF     (boot default: Off on TIER_C,
+                                      On elsewhere — File 02, 2.5)
+      The living-doodle wind on flora and accessories. Instant uniform
+      flip (uSwayAmp 0). Some players get motion-sensitive; this is
+      partly an accessibility control.
+  A8.2 PARTICLE DENSITY HIGH | MEDIUM | LOW
+      Ink-splat, muzzle-smear, dissolve burst emitter rates (all pooled
+      systems from File 06). Does NOT touch gameplay-relevant VFX
+      telegraphs (enemy attack wind-ups keep full visibility at LOW —
+      only decorative layers thin out).
+
+B.9 — SHOW PERFORMANCE (A9)
+--------------------------------------------------------------------------------
+  TYPE:     Toggle + expandable readout
+  DEFAULT:  Off
+
+  TOGGLE ON -> corner readout: current FPS, p95 frame ms, and the
+               current ladder rung as a small ink-meter (0-5). Tapping
+               the readout expands a frame-time sparkline (preallocated
+               buffer — it reuses the monitor's own ring buffer, File
+               04, 4.1; zero extra sampling cost).
+  USE CASE:  players diagnosing their own device; QA; and us — the
+             readout doubles as the in-field telemetry visual.
+
+B.10 — RESET TO RECOMMENDED (A10)
+--------------------------------------------------------------------------------
+  TYPE:     Button (destructive-ish; requires a light confirm)
+  CLICK     -> confirm sheet: "Reset all graphics to your device's
+               recommended settings?" [Reset] [Cancel]
+  CONFIRM   -> preset AUTO, frame rate 60, all sub-settings AUTO, pen
+               detail FULL/ON/ON, sway to tier default. The scene
+               snaps back to baseline behind the menu in one step.
+
+================================================================================
+SECTION C — CROSS-CUTTING BEHAVIORS
+================================================================================
+
+C.1 — THE CUSTOM STATE
+  Any manual change (slider release, OFF click, anything) flips the
+  preset (A1) to CUSTOM. CUSTOM is sticky across sessions. Only A10 or
+  re-selecting a preset clears it. Rationale: players must never wonder
+  "which preset am I in now?" — the segmented control answers by
+  showing CUSTOM.
+
+C.2 — TOASTS (ladder transparency, File 04 tie-in)
+  When the ladder changes a rung during gameplay (always in a calm
+  window per combat deferral), a small ink-styled toast: 
+      "Tuned for smoother frames — shadows off" 
+  Tapping it opens this menu pre-scrolled to the relevant control,
+  already flipped to AUTO (so the player can lock it back if they
+  disagree). Toasts are rate-limited to one per 60s. Rung 5 (survival)
+  toasts are NOT rate-limited — that state needs attention.
+
+C.3 — PERSISTENCE
+  localStorage key "doodle.graphics.v1", mirrored into the
+  matchPerfReport (File 07). Changing the frame cap mid-match is
+  persisted but the GENERATION-layer effect (virtual tier bump, File
+  04, 4.9) is explicitly noted as "next map" in the UI.
+
+C.4 — DREAM LEARNING (closing the loop)
+  Which settings players actually change per device tier is telemetry
+  gold: "TIER_C players disable Halftone Paper 31% of the time" is a
+  product decision waiting to become a boot default. The settings
+  screen is treated as a DATA SOURCE, not just a control panel.
+
+================================================================================
+SECTION D — UI UPGRADE PASS — SEED NOTES (for the later responsive work)
+================================================================================
+
+  COLLECTED FOR THE FUTURE PASS (do not implement from this file):
+  - The menu must render OVER a live (paused) 3D scene — backdrop blur
+    or paper-white scrim, per the pen aesthetic.
+  - Single column -> two columns at ~900px width; sub-menus accordion
+    inline; no page navigation (preview continuity is the point).
+  - Touch targets >= 44px; sliders need a 24px thumb + hold-to-scrub
+    with 0.1x fine-adjust after 500ms hold.
+  - Segmented controls are the dominant pattern (10 of 12 controls) —
+    they must share one component so the pass skins them once.
+  - Every disabled/hidden option carries a "why" on tap (RULE 3).
+  - Keyboard/controller navigation: the menu is fully arrow-key
+    traversable; focus ring styled as a hand-drawn ink oval (theme).
+  - Toast + confirm sheet + auto-suggest banner are the three overlay
+    patterns this spec introduces — the upgrade pass should design all
+    three together.
+  - Existing UI integration point: this spec describes BEHAVIOR only;
+    wiring to the current settings screen happens in the upgrade pass,
+    where this file becomes the acceptance checklist.
+
+================================================================================
+END OF FILE 09 — Architecture files 06/07/08 remain in the queue
+================================================================================

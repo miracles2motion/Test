@@ -1,0 +1,298 @@
+================================================================================
+DREAM PHASE 7 — SYSTEM 4: THE ADAPTIVE PERFORMANCE MONITOR
+"The Runtime Guardian" — Brief Item C: Dynamic Quality Scaling
+================================================================================
+
+WHY A MONITOR AT ALL? (the honest answer)
+--------------------------------------------------------------------------------
+
+The Budget Arbiter (File 01) PREDICTS cost. But predictions are built from
+k-constants, and k-constants are built from yesterday's devices. Reality
+ships with: thermal throttling, background tabs, OS updates that quietly
+break driver fast paths, and players who own phones the probe has never
+met. The monitor is the contract's enforcement layer — the difference
+between "designed for 60 FPS" and "delivered at 60 FPS."
+
+It is a strict state machine, not a heuristic soup. Every rule below has a
+number, and every number lives in PERF_CONFIG (data, tunable, logged).
+
+4.1 — Measurement (src/perf/perf-monitor.js)
+--------------------------------------------------------------------------------
+
+JavaScript
+
+  const PERF_CONFIG = {
+    sampleCount: 240,             // 4 seconds of history at 60fps
+    degradeThresholdMs: 18.2,     // p95 frame time  (= below 55 FPS)
+    degradeSustainFrames: 120,    // ...must persist 2 seconds
+    recoverThresholdMs: 15.5,     // p50 frame time  (= above ~64 FPS equiv)
+    recoverSustainMs: 10_000,     // ...must persist 10 seconds
+    dwellTimeMs: 2_500,           // min time between rung changes
+    settleDiscardMs: 500,         // samples during a settle window ignored
+    spikeMs: 50,                  // what counts as a spike
+    thermalSlopeMsPerMin: 0.35,   // gradual decline => throttling (4.8)
+  };
+
+  class AdaptivePerformanceMonitor {
+
+    constructor() {
+      // ZERO-ALLOCATION: one preallocated ring buffer, one preallocated
+      // copy for percentile sorting. No objects, no closures in tick().
+      this.samples  = new Float32Array(PERF_CONFIG.sampleCount);
+      this.sorted   = new Float32Array(PERF_CONFIG.sampleCount);
+      this.index    = 0;
+      this.filled   = 0;
+      this.rung     = 0;          // current ladder rung
+      this.rungAt   = 0;          // timestamp of last rung change
+      this.deferred = false;      // combat deferral flag (4.6)
+    }
+
+    tick(dt, now) {
+      this.samples[this.index] = dt;
+      this.index = (this.index + 1) % PERF_CONFIG.sampleCount;
+      if (this.filled < PERF_CONFIG.sampleCount) this.filled++;
+
+      if (this.filled === PERF_CONFIG.sampleCount && this.secondTick(now)) {
+        this.evaluate(now);      // heavy math once per second, not per frame
+      }
+    }
+
+    percentile95() {
+      // In-place copy + insertion sort of 240 floats: ~10 microseconds,
+      // once per second, into a PREALLOCATED array. No GC. No drama.
+      this.sorted.set(this.samples);
+      insertionSortInPlace(this.sorted);   // nearly-sorted data: O(n)
+      return this.sorted[Math.floor(PERF_CONFIG.sampleCount * 0.95)];
+    }
+  }
+
+WHY p95 AND NOT AVERAGE: an average of [16, 16, 16, 16, 90] is 30.8 — but
+the player felt ONE freeze, and 4 of 5 frames were perfect. p95 frame time
+answers the real question: "how bad is the WORST experience the player
+repeatedly has?" The average hides stutter; the 95th percentile IS stutter.
+
+4.2 — The Degradation Ladder (exactly as briefed, plus an emergency rung)
+--------------------------------------------------------------------------------
+
+  RUNG 0 — FULL QUALITY (boot default per device tier)
+     Dynamic shadows ON, double-stroke bioluminescence ON,
+     resolution scale 1.0, background geometry full.
+
+  RUNG 1 — SHADOWS OFF
+     Dynamic shadow maps stop updating (light.castShadow = false +
+     renderer.shadowMap.autoUpdate = false — see 4.4 for why this path).
+     PEN-STYLE REPLACEMENT, not a downgrade to nothing: entities receive
+     a "hatch shadow" — a 2-triangle ground decal with a cross-hatch
+     shader at 6% ink opacity. Cheap (fill-rate trivial), and it keeps
+     the characters GROUNDED on the page. Grounding is gameplay: melee
+     spacing (Phase 6, File 01 of that set) reads jumpy without it.
+
+  RUNG 2 — DOUBLE-STROKE OFF
+     The signature second stroke pass on bioluminescent accents and hero
+     silhouettes is disabled; single stroke remains. Pure fill-rate win,
+     taken BEFORE resolution because stroke count costs more per pixel
+     than pixel count costs per stroke (measured: 2 strokes at 1.0 scale
+     is heavier than 1 stroke at 0.9).
+
+  RUNG 3 — RESOLUTION SCALE (0.9 -> 0.8 -> 0.7 -> 0.6, four sub-rungs)
+     Each sub-rung is its own dwell-gated step. Pen compensation in 4.5
+     keeps the paper look intact. Floor per tier from File 01 (e.g.
+     TIER_C floor 0.55 — below that, halftone dots approach screen pixel
+     size and the page texture collapses).
+
+  RUNG 4 — BACKGROUND CULL
+     Geometry beyond cullRadius (140m, hero pieces excepted) is hidden —
+     LOD2 cells first (already outline-only, File 03), then whole cells.
+     The pen fog (a standard element since Phase 5.5 biomes) is pulled
+     20% closer to mask the new horizon; the skybox collapses to the
+     flat paper gradient. The world ends in paper, which it always
+     pretended to anyway.
+
+  RUNG 5 — SURVIVAL MODE (the rung we do not announce)
+     Triggered only by p95 > 40ms sustained 2s: spawner frozen (waves
+     pause at the next spawn tick, never mid-materialization), cull to
+     60m, scale to floor, AI throttled to 10Hz (File 06, 6.6). This is
+     a crash-prevention state. It sets an URGENT telemetry flag that
+     lands in Dream's post-mortem (File 07) — a map that sends a device
+     here gets its blueprint flagged for that tier.
+
+4.3 — Recovery (the ladder climbs back down — carefully)
+--------------------------------------------------------------------------------
+
+Degradation is FAST (2.5s dwell); recovery is SLOW (10s sustain, one rung
+per recovery window, never skipping rungs). Rationale: a player who
+notices quality getting worse is annoyed; a player who notices quality
+OSCILLATING is watching the renderer instead of the game. Asymmetry is the
+anti-oscillation weapon: the system must be more eager to hurt fidelity
+than to heal it.
+
+  RECOVERY ORDER: exact reverse — Rung 4 -> 3.3 -> 3.2 -> 3.1 -> 2 -> 1 -> 0.
+  Resolution scale re-climbs sub-rung by sub-rung (each re-checked).
+  Shadows are recovered LAST and only if the device has been healthy for
+  30 continuous seconds — shadow re-enable is the single most expensive
+  recovery step (one full shadow map re-render).
+
+4.4 — The No-Recompile Rule (why these specific toggles are safe)
+--------------------------------------------------------------------------------
+
+Every rung change must be a DRIVER STATE change, never a SHADER PROGRAM
+change. Programs are compiled once at load (File 03, Rule 2 pre-compiles
+both the 2-stroke and 1-stroke variants, and both the shadowed and
+unshadowed lighting variants):
+
+  TOGGLE                  MECHANISM                       RECOMPILES?
+  ----------------------  ------------------------------  -----------
+  Shadows off/on          light.castShadow +              No (both light
+                          shadowMap.autoUpdate=false      programs warm)
+  Double-stroke off/on    material define flip to the     No (both
+                          ALREADY-COMPILED variant        programs warm)
+  Resolution scale        render target / setPixelRatio   No (state only)
+                          + one uniform (dot/hatch        compensation)
+  Background cull         mesh.visible / cell flags       No (state only)
+  AI throttle             scheduler tick rate (File 06)   N/A (CPU)
+
+If a future quality knob cannot be implemented without a mid-match
+program compile, it is rejected at design review. This table is the
+review checklist.
+
+4.5 — Pen-Renderer Compensation (the detail everyone forgets)
+--------------------------------------------------------------------------------
+
+The halftone dot grid and hatch line spacing are tuned in SCREEN space at
+scale 1.0. Dropping resolution to 0.8 without compensation makes dots
+alias into moire and hatching get muddy — "lower quality" becomes "broken
+style." The composite pass therefore receives a compensation uniform:
+
+  dotPitch   = dotPitchBase   / resolutionScale   // world-space stability
+  hatchStep  = hatchStepBase  / resolutionScale
+  strokeWidth stays constant in DEVICE pixels (perceptual ink weight)
+
+Net effect: the page texture looks IDENTICAL at 0.7 as at 1.0 — fewer
+pixels, same paper. This is why Rung 3 is four sub-rungs deep: the
+pen renderer tolerates resolution loss gracefully, so it is a rich vein
+to mine — but only with compensation active (verified by the snapshot
+test in File 07's gauntlet).
+
+4.6 — Combat Deferral ("without interrupting the player")
+--------------------------------------------------------------------------------
+
+Rung changes 1-4 are DEFERRED while the player is in combat — defined as
+any enemy in an ACTIVE engagement state within 40m, or a boss phase
+transition playing, or a wave spawning THIS frame. Deferred changes queue
+and land at the next calm window. The Phase 6 pacing curve is our ally:
+REST and REST_SHORT waves are scheduled breathers, so natural landing
+windows occur every 4-6 waves. Only Rung 5 ignores deferral (survival
+trumps ceremony). A deferred-then-cancelled change (spike resolved
+itself) is simply dropped — the player never knew.
+
+4.7 — Thermal Awareness (the slow killer)
+--------------------------------------------------------------------------------
+
+Mobile thermal throttling presents as a gradual p50 slope, not a spike.
+The monitor tracks a linear regression of p50 over rolling 3-minute
+windows: slope > 0.35ms/min for 6+ minutes = thermal flag. A thermal
+flag PERMANENTLY lowers the recovery ceiling by one rung for the match
+(battery state made this bed) and is logged to telemetry so Dream's
+post-mortem can distinguish "bad map" from "hot phone on a summer bus."
+
+4.8 — Telemetry Output (consumed by File 07's learning loop)
+--------------------------------------------------------------------------------
+
+  matchPerfReport = {
+    deviceTier, calibratedProfileId,
+    rungHistory: [{ rung, at, reason, deferredMs }],
+    timeAtRung: [ms x 6],
+    minFps, p95FrameMs, spikeCount, thermalFlag, survivalModeVisits,
+    poolHighWater, aiThrottleDistribution: [x60, x20, x10, x5],
+    mapDnaRef,                              // correlation key
+  }
+
+This report is the closing of the loop: Dream's cost MODEL (File 01)
+predicted a number; the monitor MEASURED a number; File 07 reconciles
+them and adjusts the k-constants per device class. Every match played
+makes the next map's estimate slightly more honest.
+
+4.9 — The Frame Cap: The Player's Rung Zero (user-selected frame rate)
+--------------------------------------------------------------------------------
+
+Everything above defends 60 FPS by trading QUALITY. But there is a second
+lever the PLAYER should own: the frame rate itself.
+
+  SETTING:  Frame Cap = 30 / 60  (default 60)
+            + "Match Display" — offered ONLY on TIER_S profiles with a
+              calibrated high-refresh variant (see below)
+
+  WHY 30 IS A LEGITIMATE CHOICE, NOT A FAILURE:
+  - A LOCKED 30 with perfect pacing feels better than an unstable 45-55
+    with micro-stutter. Pacing is perception; players forgive coarse
+    motion, they do not forgive jitter.
+  - Halving the render rate halves sustained GPU/CPU load — the single
+    strongest counter to the thermal slope (4.7). On the hot-phone-on-
+    the-bus, 30 locked often ends the match at HIGHER visual quality
+    than 60 would have, because the ladder never had to climb past
+    Rung 1.
+
+  THE VIRTUAL TIER BUMP (the elegant part):
+  The frame budget doubles: 33.3ms instead of 16.67ms. All monitor
+  thresholds are expressed RELATIVE to the frame interval, so nothing
+  needs a special case:
+
+    degradeThresholdMs = 1.092 * interval     (18.2ms @60, 36.4ms @30)
+    recoverThresholdMs = 0.930 * interval     (15.5ms @60, 31.0ms @30)
+    spikeMs            = 3.0   * interval
+    Budget contract    = 0.84  * interval     (14.0ms @60, 28.0ms @30)
+
+  A potato that elects 30 can therefore be generated-for as roughly one
+  visual tier higher (TIER_C budgets re-derived from the 28.0ms
+  contract approach TIER_B's). Two-layer honesty:
+    - RUNTIME layer (instant): ladder thresholds re-derive on the spot.
+    - GENERATION layer (next map load): the Budget Arbiter's contract
+      reads the cap, so the NEXT map is built against the wider budget.
+      Changing the cap mid-match affects the ladder only — never swaps
+      the map out from under the player.
+
+  GAMEPLAY IS CAP-INVARIANT (non-negotiable):
+  The simulation keeps its fixed 60Hz timestep regardless of cap — an
+  accumulator runs 2 sim ticks per rendered frame at the 30 cap. Every
+  gameplay-relevant number — the 0.8s parry stagger, dodge i-frames,
+  God Mode reaction times, SpacingController thresholds — is untouched.
+  Only the RENDER rate halves. A player on 30 fights exactly the same
+  fight as a player on 60; there is no competitive or AI-behavior
+  divergence between caps.
+
+  IMPLEMENTATION (src/perf/frame-pacer.js):
+    rAF still fires at display rate; the pacer renders only when
+    accumulator >= interval, running any owed sim ticks first (max 5
+    per callback — the anti-spiral clamp; a 400ms tab-stall must not
+    become a 24-tick catch-up burst). At the 30 cap this renders every
+    other rAF on a 60Hz display.
+
+  AUTO-SUGGEST (never auto-change):
+  If last match's telemetry shows (a) a thermal flag, (b) a survival-
+  mode visit, or (c) timeAtRung[3..5] > 40% of the match, the next boot
+  SUGGESTS the 30 cap on the loading screen. The player decides; the
+  monitor never edits the player's setting.
+
+  HIGH-REFRESH NOTE (90/120Hz displays):
+  Default cap is 60 for consistency (the entire cost model is built
+  around the 16.67ms interval). "Match Display" on TIER_S re-derives
+  the contract to 0.84 x 8.33ms = 7.0ms — a genuinely different budget
+  that only flagship-calibrated profiles may attempt, and only after
+  the smoke benchmark confirms the device's k-constants support it.
+
+INTEGRATION HOOKS
+--------------------------------------------------------------------------------
+  - File 01: consumes the same DeviceProfile; the monitor is its runtime
+    counterpart (estimator vs enforcer). The Budget contract reads the
+    frame cap (0.84 x interval — see 4.9).
+  - File 03: Rung 4 hides LOD2 cells first; Rule 2 pre-compilation is why
+    4.4's toggles are free.
+  - File 06: Rung 5's spawner freeze and the AI throttle bands live in
+    the pool/scheduler; combat deferral queries enemy engagement states.
+  - File 07: matchPerfReport feeds post-mortem reconciliation.
+  - File 08: monitor singleton is constructed at load, first sample on
+    the first real frame (loading-screen frames are excluded — they lie).
+
+================================================================================
+END OF FILE 04 — Proceed to 05_system_collision_octree.txt
+================================================================================

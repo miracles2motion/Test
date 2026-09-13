@@ -1,0 +1,255 @@
+================================================================================
+DREAM PHASE 7 — SYSTEM 1: THE POLYGON BUDGET ARBITER
+"Dream Learns to Count"
+================================================================================
+
+Everything else in Phase 7 is a mechanism. This system is the BRAIN. Before
+Dream emits a single Instance Node, it must know what the target device can
+afford — and it must be able to prove, on paper, that the map it is about to
+build fits inside 16.67 milliseconds.
+
+1.1 — Device Tier Profiles (src/perf/device-tiers.js)
+--------------------------------------------------------------------------------
+
+JavaScript
+
+  const DEVICE_TIERS = {
+    TIER_S: {   // iPhone 15 Pro class, desktop GPUs
+      label: 'Flagship',
+      triangleBudget: 900_000,   // per frame, LOD0-visible
+      drawCallBudget: 200,
+      uniqueArchetypeBudget: 40, // distinct geometries (pre-instance)
+      instanceBudget: 6000,
+      activeColliderBudget: 400, // primitives in active collision chunks
+      enemyBudget: 20,           // concurrent ACTIVE enemies
+      shadowMapSize: 2048,
+      pixelRatioCap: 2.0,
+      resolutionScaleFloor: 0.7,
+      geometryMemoryBudget: 300, // MB, all LOD levels combined
+    },
+    TIER_A: {   // recent mid-range phones, old flagship desktops
+      label: 'Upper-Mid',
+      triangleBudget: 500_000,
+      drawCallBudget: 140,
+      uniqueArchetypeBudget: 28,
+      instanceBudget: 3500,
+      activeColliderBudget: 280,
+      enemyBudget: 16,
+      shadowMapSize: 1024,
+      pixelRatioCap: 1.75,
+      resolutionScaleFloor: 0.65,
+      geometryMemoryBudget: 200,
+    },
+    TIER_B: {   // common Android, integrated graphics
+      label: 'Mid',
+      triangleBudget: 300_000,
+      drawCallBudget: 100,
+      uniqueArchetypeBudget: 18,
+      instanceBudget: 2000,
+      activeColliderBudget: 200,
+      enemyBudget: 13,
+      shadowMapSize: 1024,       // shadows likely disabled by ladder rung 1
+      pixelRatioCap: 1.5,
+      resolutionScaleFloor: 0.6,
+      geometryMemoryBudget: 128,
+    },
+    TIER_C: {   // the 4-year-old Android. Respect it. It exists.
+      label: 'Potato',
+      triangleBudget: 120_000,
+      drawCallBudget: 60,
+      uniqueArchetypeBudget: 10,
+      instanceBudget: 900,
+      activeColliderBudget: 120,
+      enemyBudget: 10,           // pool still holds 13; only 10 concurrent
+      shadowMapSize: 0,          // dynamic shadows OFF at boot
+      pixelRatioCap: 1.0,
+      resolutionScaleFloor: 0.55,
+      geometryMemoryBudget: 72,
+    },
+  };
+
+IMPORTANT: The enemy budget does NOT shrink the WaveComposer's campaign. It
+caps CONCURRENT active enemies (the wave plan is preserved by staggering
+spawn delays — see File 06, Section 6.2). The map design is never mutilated
+by the device; only its moment-to-moment presentation is.
+
+1.2 — The Boot-Time Device Probe (src/perf/device-probe.js)
+--------------------------------------------------------------------------------
+
+Classification happens during the loading screen, in three layers:
+
+  Layer 1 — STATIC SIGNALS (instant):
+    - GPU string via WEBGL_debug_renderer_info (matched against a ranked
+      known-device table: Adreno 740 > Xclipse 5400 > Mali-G710 > ...)
+    - navigator.deviceMemory (4 / 8 / 16+ GB)
+    - navigator.hardwareConcurrency (cores)
+    - maxTextureSize, maxVertexUniformVectors
+    - isMobile / OS signals
+
+  Layer 2 — SMOKE BENCHMARK (< 300ms, doubles as shader warm-up):
+    Render 3 calibrated frames:
+      Frame A: 100k instanced pen-quads + full composite post chain
+      Frame B: 400 capsules broadphase-solved 10,000 times
+      Frame C: one full-resolution composite pass at native pixel ratio
+    Measured times map to kTriangle, kDrawCall, kCollision cost constants
+    (Section 1.4). This converts GENERIC tiers into a CALIBRATED profile —
+    a throttling hot phone is caught here, not mid-match.
+
+  Layer 3 — HISTORICAL OVERRIDE (from .agents/learning-cache.json):
+    If this device has played before, its post-mortem telemetry overrides
+    the probe estimate (see File 07). A device that consistently ran at
+    48 FPS despite being classified TIER_B is silently demoted to TIER_C.
+
+  Output: a frozen DeviceProfile object — the same object the Budget
+  Arbiter audits against, the Adaptive Monitor defends, and the pool
+  planner sizes itself from. ONE source of truth, created once, never
+  mutated mid-match.
+
+1.3 — The Budget Ledger (generation-time, travels WITH the Spatial JSON)
+--------------------------------------------------------------------------------
+
+Every node in the Spatial JSON graph now carries cost fields, and the
+Realization phase (pipeline Phase 4) maintains a running ledger:
+
+JavaScript
+
+  // The ledger is attached to the scene graph root and updated by the
+  // realization walker. It is DATA, not enforcement — enforcement is 1.5.
+  const budgetLedger = {
+    deviceProfile: 'TIER_B',
+    spent: {
+      triangles: { lod0: 0, lod1: 0, lod2: 0 },
+      drawCalls: 0,               // post cell-batching estimate (File 02)
+      uniqueArchetypes: 0,
+      instances: 0,
+      colliders: { total: 0, perChunkMax: 0 },
+      enemies: { concurrentMax: 0, archetypeVariants: 0 },
+      geometryMemoryMB: 0,
+      predictedFrameMs: 0,        // filled by the cost model (1.4)
+    },
+    overruns: [],                 // filled by the audit (1.5)
+  };
+
+1.4 — The Frame Cost Model (src/perf/frame-cost-model.js)
+--------------------------------------------------------------------------------
+
+An analytic estimate of p95 frame time, evaluated per device tier:
+
+JavaScript
+
+  // k constants are CALIBRATED per device by the smoke benchmark (1.2)
+  // and refined by real telemetry (File 07). All numbers in milliseconds.
+  function estimateFrameMs(ledger, k) {
+    const render =
+        ledger.spent.drawCalls            * k.drawCall +
+        ledger.spent.triangles.lod0       * k.triangle +
+        k.postPass;                                   // single composite pass
+
+    const physics =
+        ledger.spent.colliders.perChunkMax * k.collision *
+        (1 + ledger.spent.enemies.concurrentMax * 0.08); // entity fan-in
+
+    const ai =
+        ledger.spent.enemies.concurrentMax * k.enemyTick *
+        aiThrottleFactor(ledger);          // < 1.0 thanks to AI LOD (File 06)
+
+    const overhead = k.gfxDriver + k.gcHeadroom;  // reserved, always
+
+    return render + physics + ai + overhead;
+  }
+
+  // THE CONTRACT: a map may only export if, for EVERY targeted tier,
+  //   estimateFrameMs(...) <= 0.84 * frameInterval
+  //
+  //  16.67ms is the frame. 14.0ms is the CONTRACT at the default 60 cap —
+  //  2.6ms of headroom for GC, browser jank, and the spikes nobody
+  //  predicted. Dream that plans for 16.6 is Dream that ships at 22.
+  //  (At a player-selected 30 cap the contract widens to 28.0ms —
+  //  see File 04, Section 4.9: The Frame Cap.)
+
+1.5 — Blueprint Degradation Strategies (when the audit fails)
+--------------------------------------------------------------------------------
+
+When the Budget Arbiter rejects a blueprint, Dream does NOT delete content.
+It downgrades COST while preserving INTENT, choosing from strategies ranked
+by "quality lost per millisecond saved" (best first):
+
+  RANK  STRATEGY                          TYPICAL SAVING     QUALITY LOSS
+  ----  ---------------------------------  -----------------  ------------
+  1     Unique->Instance demotion         -60..-80% tris     Tiny (File 02:
+       (50 unique trees -> 6 archetypes   -70% draw calls    Five Dials)
+       x instancing)
+  2     L-System iteration shave          -35% tris/tree     Small (the
+       (depth 5 -> 4)                                        pen renderer
+                                                            is forgiving)
+  3     LOD threshold tightening          -25% lod0 tris     Invisible
+       (swap earlier)                                         (players never
+                                                            stand there)
+  4     Collision LOD coarsening          -50% capsules      Invisible
+       (branch capsules -> limb hulls                        (physics is
+       beyond 30m of lanes)                                  not rendered)
+  5     Trim-layer strip on Tier-1        -15% per object    Small, distant
+       clutter (keep Skeleton-Skin,                          objects only
+       drop Trim)
+  6     Spawner stagger (concurrency      -AI/physics load   Zero (waves
+       cap, not roster cap — 6.2)                            just breathe
+                                                            in sequence)
+  7     LAST RESORT: content reduction    -1 scene element   Real. Requires
+       (drop the least-flow-scored                           the Debate to
+       hero piece)                                           sign off (1.6)
+
+The arbiter applies strategies in rank order and re-estimates after each.
+It stops the moment the contract passes. Rank 7 requires a Debate verdict
+because it is the only strategy that changes what the player EXPERIENCES.
+
+1.6 — The Third Voice: The Performance Engineer Joins the Debate
+--------------------------------------------------------------------------------
+
+The Creative Debate Engine (Phase 5.5) argued beauty vs tactics. Phase 7
+adds a third permanent seat. The pipeline's Phase 1 debate is now
+three-way, and the Spatial JSON cannot converge until all three sign:
+
+  ART DIRECTOR:
+    "The cathedral approach needs a forest of 80 weeping ink-willows
+     shrouded in fog. The player should feel WATCHED."
+
+  LEVEL DESIGNER:
+    "Approved for lanes — trunk columns create natural cover rhythm
+     along mid, and the canopy breaks the sniper sightline from spawn."
+
+  PERFORMANCE ENGINEER:
+    "Ledger: 80 unique willows = 960k triangles, 80 draw calls, 4,100
+     collision capsules. Tier C contract: 120k / 60 / 900. Counter-
+     proposal: 6 willow archetypes, instanced x80, full capsule collision
+     only within 30m of the three lanes, LOD1 cutoff at 20m. New cost:
+     190k tris, 9 draw calls, 640 capsules. And here's the secret —
+     the FOG hides the reuse. That's the deal."
+
+  ART DIRECTOR:
+    "...the fog hides the reuse. Approved. But I want two of them
+     hero-sized, unique, framing the cathedral door."
+
+  PERFORMANCE ENGINEER:
+    "Two hero trees at full unique geometry, importance 2.0 (they hold
+     LOD0 at double range — File 03, 3.3): +40k tris. Ledger holds.
+     Deal."
+
+This is the cultural shift of Phase 7 in miniature: the Performance
+Engineer never says "no." The Engineer says "HERE, for this price" — and
+the fog, the pacing, and the pen renderer are full of places to hide
+optimizations without hiding beauty.
+
+1.7 — Integration Hooks
+--------------------------------------------------------------------------------
+
+  - Pipeline Phase 1 (Creative Debate): third persona instantiated with
+    the DeviceProfile; debate cannot converge without perf sign-off.
+  - Pipeline Phase 4 (Geometry Realization): ledger updated per node.
+  - Pipeline Step 6.5 (NEW — File 07): full-budget audit + degradation
+    loop + headless performance simulation.
+  - Pipeline Phase 7 (Learning & Export): frame-cost MODEL vs measured
+    REALITY is logged per match; k constants self-correct over time.
+
+================================================================================
+END OF FILE 01 — Proceed to 02_system_instance_synthesizer.txt
+================================================================================

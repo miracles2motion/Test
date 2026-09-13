@@ -1,0 +1,420 @@
+================================================================================
+DOODLE STRIKE — FILE 12: THE INKED PAGE
+"The UI Design Bible" — the proposed interface, built from ui-census.md
+================================================================================
+
+THE MANIFESTO
+--------------------------------------------------------------------------------
+
+Doodle Strike is a drawing that fights back. The world renderer is a
+ballpoint pen; the UI has been borrowing a different pen for every
+screen. This document ends that. From this page forward, every pixel of
+interface is ONE artist's work: blue ballpoint on paper, red ballpoint
+for danger, graphite for whispers. No gloss, no gradients, no modern
+app chrome. A button is not a plastic pill — it is an inked shape on a
+page, pressed harder when it matters.
+
+The UI and the world renderer already speak the same language (File 03:
+single-stroke, double-stroke, hatching). The UI will use that SAME
+depth language. When the world drops to outline-only under load, the
+menu still looks like it belongs to the same drawing — because it is
+made of the same strokes.
+
+Everything below is a decision, not a suggestion. Exact values are
+final unless playtesting overrides them.
+
+================================================================================
+PART 1 — THE TOKEN SYSTEM (tokens.css — the only place hex lives)
+================================================================================
+
+1.1 — INK & PAPER (the entire palette; 9 values, no more)
+
+  --ink:        #1a30c0   blue ballpoint (KEEP — this is the brand)
+  --ink-deep:   #12248c   pressed ink (active states, emphasis)
+  --ink-wash:   rgba(26,48,192,0.08)   hatch fills, panel tint
+  --ink-red:    #d02030   red ballpoint (KEEP) — danger, damage, God Mode
+  --ink-red-deep: #a01522 pressed red
+  --ink-accent: #e8801a   marker orange — TOKENIZED from the hitmarker
+                           (census: hardcoded at style.css:32); warnings
+                           and highlights only, never decoration
+  --pencil:     #55524a   graphite — secondary text, disabled, "quiet"
+  --paper:      #f6f3e6   the page (KEEP)
+  --paper-dim:  #efe9d8   stacked-sheet depth (modals over panels)
+
+  BANNED AFTER MIGRATION: every other hex in the census (#2b45e0,
+  #2540d9, #15269e, #e62238, #ba1224, #8a0c1a, undefined --blue — all
+  die). CI lint: no raw hex outside tokens.css.
+
+1.2 — TYPOGRAPHY (three self-hosted .woff2 fonts, system fallbacks stay)
+
+  --font-display: 'Caveat'        titles, buttons, numbers, HUD labels
+                                  (weight 700 — fast marker energy)
+  --font-body:    'Shantell Sans' body text, settings, descriptions
+                                  (400/700 — playful but legible)
+  --font-mono:    'Cutive Mono'   Dream terminal, loading build log,
+                                  stats readouts (typewriter = drafting)
+  --font-fallback: 'Comic Sans MS','Marker Felt','Segoe Print',... (the
+                                  existing census stack, unchanged, last
+                                  resort only)
+
+  Scale (rem-based so UI scaling works):  12 / 14 / 16 / 20 / 28 / 40 /
+  hero: clamp(40px, 8vw, 64px).  Labels: uppercase, +0.08em tracking.
+  Body: sentence case — handwriting is casual, labels are shouted.
+
+1.3 — THE HAND-DRAWN GEOMETRY (formalizing what already works)
+
+  Wobble radii (the census's slash-notation trick, named and varied so
+  identical neighbors never repeat):
+    --r-sketch-sm: 5px 8px 4px 7px  / 7px 4px 8px 5px
+    --r-sketch-md: 7px 10px 6px 9px / 10px 6px 9px 7px   (census value)
+    --r-sketch-lg: 12px 16px 10px 14px / 14px 11px 15px 12px
+  Tilt tokens (applied via nth-child so buttons lean organically):
+    --tilt-a: -0.8deg   --tilt-b: 0.6deg   --tilt-c: -1.4deg
+  Strokes: --stroke-1: 2px | --stroke-2: 3px | --stroke-3: 4px
+  Ink depth language (mirrors the world renderer, File 03):
+    depth-1 = single 2px outline        (quiet UI)
+    depth-2 = outline + offset shadow   (standard UI)
+    depth-3 = solid ink fill            (primary actions, emphasis)
+
+1.4 — SHADOWS (ink stamps, not software gloss)
+
+  --stamp:        2px 2px 0 rgba(26,48,192,0.18)   resting
+  --stamp-heavy:  3px 3px 0 rgba(26,48,192,0.25)   pressed-in
+  --bleed:        0 0 0 4px rgba(26,48,192,0.12)   HOVER = ink bleeding
+  --sheet:        6px 8px 24px rgba(0,0,0,0.18)    modals only (paper
+                  lifted off the desk — the ONE soft shadow allowed)
+
+1.5 — MOTION (the pen flick)
+
+  --t-fast: 120ms | --t-base: 200ms | --t-slow: 360ms
+  --ease-snap: cubic-bezier(0.34, 1.56, 0.64, 1)  overshoot = hand-drawn
+  --ease-ink:  cubic-bezier(0.65, 0, 0.35, 1)     settle = ink pooling
+  DRAW-ON: SVG stroke-dashoffset, 400-600ms, staggered 60ms per element
+  (logos, icons, checkmarks, the loading line). Everything else: fades
+  and tilts. prefers-reduced-motion => all draw-ons become fades.
+
+1.6 — Z-SCALE (governance — the 3010/3000 !important hacks are retired)
+
+  0 paper/game | 100 #hud | 200 mobile controls | 300 screens/menus
+  400 modals | 500 toasts | 600 debug overlays. Nothing else. Ever.
+
+================================================================================
+PART 2 — THE COMPONENT LIBRARY (one implementation each — census found 5
+button styles; there will be 1 system)
+================================================================================
+
+2.1 — BUTTON (.ds-btn)
+  Variants: primary (depth-3 ink fill, paper text) | secondary (dashed
+  --stroke-2 border — the census "alt" style survives here) | ghost
+  (transparent, ink text) | danger (--ink-red fill) | icon (square, 44px).
+  Sizes: sm 14px/8px | md 16px/12px | lg 20px/16px | hero 28px/18px
+  (main menu START keeps its 54px energy via hero + display font).
+  Anatomy: --r-sketch-md, nth-child tilt, --stamp at rest.
+  States: hover = --bleed + rotate 0.4deg toward its tilt (the ink
+  swells); active = scale 0.96 + --stamp-heavy + --ink-deep; focus =
+  THE INK OVAL (2.4); disabled = DIAGONAL HATCHING fill (repeating-
+  linear-gradient in --ink-wash — not mere opacity; a crossed-out
+  option on a form is what "unavailable" looks like on paper).
+  Loading: the label is overwritten with a looping squiggle underline.
+
+2.2 — SEGMENTED CONTROL (.ds-seg) — the workhorse (File 09 needs ten)
+  A drawn box divided by short vertical ink ticks. Active segment =
+  solid ink fill + paper text + --stamp. Hover = wash tint. Disabled
+  options = hatched. Minimum touch target 44px per segment. This
+  component replaces the settings tab grid AND preset pickers.
+
+2.3 — SLIDER (.ds-slider) — "the ruler"
+  Track: a drawn 2px line with tick marks every 10% (drafting ruler).
+  Thumb: 24px ink circle with paper center dot. Filled portion: 3px
+  heavier stroke. Value bubble: display-font number above the thumb.
+  Hold 500ms => 0.1x fine-adjust (File 09 seed note, honored).
+
+2.4 — TOGGLE (.ds-toggle)
+  A drawn pill outline; knob is a filled ink dot that SNAPS across
+  (--ease-snap). ON = pill fills with --ink-wash + a hand-drawn check
+  draw-on. OFF = empty outline. 48x28px minimum.
+
+2.5 — CHECKBOX (.ds-check)
+  20px sketch square; the check is an SVG path that DRAWS ON
+  (stroke-dashoffset, 300ms). Tri-state (File 09 AUTO/ON/OFF) is a
+  3-segment .ds-seg instead — never a magic checkbox.
+
+2.6 — TABS (.ds-tabs) — "notebook dividers"
+  Tabs are paper index tabs leaning out of the panel top edge; active
+  tab lifts 4px and gets a marker-swipe underline (thick ink swipe,
+  300ms draw-on). Replaces the strict-8px-radius tab buttons (census
+  D1) — the bug where --blue was undefined dies with them.
+
+2.7 — TEXT INPUT (.ds-input)
+  Underline only — a form line on paper. Focus = the underline doubles
+  (2px -> twin strokes). Placeholder in --pencil. Existing uppercase
+  letter-spacing .online style merges into this.
+
+2.8 — PANEL (.ds-panel)
+  Paper sheet: --paper bg, graph-grid background-image (the census
+  gradient survives, formalized), --stroke-2 ink border, --r-sketch-lg,
+  24px padding. Section headers get the SQUIGGLE UNDERLINE (SVG wavy
+  line, drawn on scroll-in). Modal variant: --paper-dim + --sheet
+  shadow + scrim = paper at 60% opacity with grid.
+
+2.9 — TOAST (.ds-toast) — "margin notes"
+  A small paper scrap (auto width, max 340px), slight random tilt,
+  --stamp, display-font message, 24px from top on mobile / bottom-right
+  desktop. Enters with --ease-snap tilt-in; exits with a fade+shrink.
+  Rate limits per File 09 C.2. Replaces .tip/.message ad-hoc styling.
+
+2.10 — CONFIRM DIALOG (.ds-confirm) — "tear here"
+  .ds-panel with a perforation line (dashed border + two drawn scissor
+  doodles) between message and actions. Danger confirms: message is
+  circled in red ink (see 2.13). Used by: quit, reset-to-recommended,
+  and any future destructive action. Kills the "no confirmation
+  dialogs" census gap.
+
+2.11 — PROGRESS (.ds-progress)
+  Sketch border box; fill = DIAGONAL HATCHING (repeating-linear-
+  gradient 45deg in --ink-wash, animated on load progress). Health,
+  boss bar, and loading all share this one component at three sizes.
+
+2.12 — TOOLTIP (.ds-tip)
+  Handwritten margin note: small paper scrap + curved arrow doodle
+  pointing at its target (SVG, draw-on). Used for the File 09 "why is
+  this disabled" honesty taps and warnings icons.
+
+2.13 — THE INK OVAL (focus ring) — the accessibility signature
+  :focus-visible = an asymmetric hand-drawn ellipse outline (outline:
+  3px solid --ink; border-radius: 60% 40% 55% 45% / 45% 55% 40% 60% +
+  2px offset). Visible for keyboard AND gamepad focus, everywhere.
+  A player navigating by gamepad sees the pen circling its next mark.
+
+2.14 — ERROR ALERT (.ds-error) — "the angry teacher"
+  A .ds-panel where the message is circled in red: an SVG ellipse
+  sketched around the text in 2 overlapping strokes (draw-on, 500ms),
+  like a teacher's furious correction. This is Dream's "massive visual
+  alert" (orchestrator fatal errors, census gap) given the game's
+  voice: loud without looking like an operating system dialog.
+
+================================================================================
+PART 3 — SCREEN BY SCREEN (every census FOUND screen + every MISSING one)
+================================================================================
+
+3.1 — SPLASH (NEW)
+  Full paper page. DOODLE STRIKE logo as SVG paths DRAWING ON (1.2s,
+  staggered), then a red ink underline swipe. "press any key / tap to
+  start" in --pencil blinking at 1.2s. Margin doodles (wasp, sword,
+  grapple ring) idle-sway at 4px amplitude. Boot target: < 2s to menu.
+
+3.2 — MAIN MENU (rebuild)
+  The page IS the menu (no black behind): full --paper, graph grid,
+  margin doodles. Logo top-left area, hero START (depth-3, hero size,
+  --tilt-a), then ONLINE / SETTINGS / CREDITS / QUIT as md secondary
+  buttons in a loose vertical stack (varied tilts, 12px gaps).
+  Census fix: HTML moves from main.js strings into <template> tags.
+  QUIT gets .ds-confirm. CREDITS closes the census gap (3.15).
+
+3.3 — DIFFICULTY SELECT (rebuild — a showpiece)
+  One page, five levels drawn with ESCALATING INK PRESSURE — the
+  visual language of the AI ladder itself:
+    0 STUPID    barely-there pencil ghost (faint outline, wobbly face)
+    1 EASY      light single blue stroke, friendly scribble face
+    2 HARD      solid blue, first hatching, narrowed eyes
+    3 EXTREME   double-stroke, red pupils, heavy hatch
+    4 GOD MODE  RED INK EVERYTHING: cross-hatched aura, scribbled
+                crown, slight paper-scorch tint; the card itself is
+                tilted like it was slammed onto the page
+  Selected level stamps in with --ease-snap. This screen must make a
+  first-time player afraid of God Mode. That is the spec.
+
+3.4 — MAP SELECT (rebuild)
+  Dream-generated maps as INDEX CARDS laid on the page (flex-wrap,
+  varied tilts). Each card: top-down map snapshot (Dream renders one
+  at export), map name in display font, biome tag in mono. Selected =
+  marker-swipe highlight + lifts with --stamp-heavy. Locked/low-perf
+  cards (tier mismatch) get .ds-tip honesty notes (File 09, RULE 3).
+
+3.5 — LOADING SCREEN (NEW — File 10's stage)
+  "DREAM IS DRAWING..." in display font. Below: the BUILD LOG in
+  Cutive Mono, streaming real pipeline steps as they happen
+  ("scanning voids... / placing cathedral... / waking the wasps... /
+  counting triangles... / signing the 60fps contract..."). The progress
+  indicator is a single blue line being DRAWN across the page
+  (stroke-dashoffset synced to real progress), milestones as ink dots.
+  The device-probe suggestion card (File 10, Flow 2) slots in at
+  T+1.5s as a .ds-toast-style card with two .ds-btns. The census gap
+  closes with the game's best-looking screen.
+
+3.6 — ONBOARDING (NEW, first run only)
+  Three quick scribbles on translucent paper: MOVE (joystick doodle),
+  AIM & FIRE (crosshair doodle), SURVIVE (wave counter doodle). Each
+  draws on, 1s apart; SKIP is a ghost button. One-time flag in
+  localStorage.
+
+3.7 — HUD (re-skin, positions preserved — muscle memory is sacred)
+  Same corners (score TL, wave TR, health BL, ammo BR — census D3),
+  same DOM layer, new skin:
+    Score/wave labels: display font, ink; numbers pop +scale on change.
+    Health: .ds-progress sm; below 30% the fill turns RED HATCH and
+    the whole HUD frame does a 2px paper-shake (600ms, once).
+    Ammo: weapon name display font; mag count large; slots as small
+    ink rectangles, active slot = depth-2.
+    Boss bar: .ds-progress lg, top center, with NAME PLATE — boss name
+    in display font on a torn-paper strip that draws on at intro.
+    Wave-phase banner (NEW, closes census gap): on pacing transitions
+    (Phase 6: SURGE / CLIMAX / REST...), a stamped word SLAMS center
+    screen (scale 1.6->1.0, --ease-snap, red ink for CLIMAX/BOSS,
+    blue for others), holds 900ms, fades. REST reads small and gentle.
+    Perf readout (File 09, A9): mono font, 12px, bottom-left corner,
+    toggled off by default.
+  Census fix: hud.js message timeouts migrate to the event bus (3.16).
+
+3.8 — PAUSE MENU (rebuild)
+  The game stays LIVE and visible behind (File 09 golden rule); scrim
+  = paper 70% + grid. A .ds-panel md, tilts in with --ease-snap:
+  RESUME (primary), SETTINGS, RESTART, QUIT (danger, .ds-confirm).
+  Perf toast deferral windows land here — the calm window (File 04).
+
+3.9 — SETTINGS (rebuild — File 09's integration target)
+  .ds-panel lg with .ds-tabs dividers: GRAPHICS | CONTROLS | AUDIO |
+  ACCESS. GRAPHICS is File 09 wholesale (preset segmented, frame-rate
+  segmented, ruler slider with live pen compensation visible behind,
+  pen-detail sub-accordion...). AUTO/ON/OFF tri-states are .ds-seg.
+  Controls keeps rebinding; AUDIO (census gap) = 3 ruler sliders
+  (master/music/sfx) with icon buttons; ACCESS (census gap) = UI SCALE
+  (.ds-seg 0.9/1.0/1.1/1.25 — rem tokens make this real), REDUCE
+  MOTION toggle, HIGH-CONTRAST INK toggle (--ink => #0f1f7a),
+  COLORBLIND-SAFE ACCENTS toggle. Instant-apply everywhere; the live
+  game behind the panel is the preview (RULE 1, File 09).
+
+3.10 — DEATH SCREEN (rebuild)
+  "GAME OVER" STAMPED in red display font, tilted -3deg, stamps in
+  with a thud (scale 2->1, no bounce — death is not playful). Stats as
+  TALLY MARKS: kills hand-drawn in groups of five (four strokes + a
+  diagonal slash), waves survived in display font. RETRY primary,
+  MENU ghost. The tally marks draw on one group at a time — the
+  player counts their own kills. That is the moment.
+
+3.11 — VICTORY (rebuild)
+  "WAVE 20 CLEARED" / boss name struck through in red with a double
+  line. Ink confetti: 20 short ink strokes falling with rotation
+  (CSS keyframes, staggered). Stats as 3.10.
+
+3.12 — WAVE BANNERS — covered in 3.7 (wave-phase banner).
+
+3.13 — ERROR / CRASH ALERT — .ds-error (2.14) full-screen variant for
+  orchestrator fatal errors; persistent, with COPY DETAILS ghost
+  button (mono text block) for bug reports.
+
+3.14 — DREAM TERMINAL (NEW — the census said zero in-game presence)
+  Toggle: backtick key or pause-menu TOOLS button. A typewriter paper
+  strip rises from the bottom (40% height): Cutive Mono, ink on paper,
+  the Dream generation log + runtime perf lines streaming
+  (matchPerfReport live). Phase 1 is READ-ONLY (the log with a face);
+  Phase 2 (later) adds input for dream commands. The CLI stays for
+  developers; players finally see Dream thinking.
+
+3.15 — CREDITS (NEW)
+  Paper scroll, names alternating pencil (--pencil) and ink, section
+  dividers as small doodles (pen nib, wasp, cathedral). Auto-scrolls,
+  any-key exits. "Built by Dream v3.5" in mono at the end — the
+  generator signs its work.
+
+3.16 — EVENT BUS (architecture, enables the above)
+  One pub/sub (game-bus.js): 'wave:start', 'wave:phase', 'boss:spawn',
+  'player:damage', 'perf:rung', 'dream:log'. hud.js stops owning
+  timeouts; toasts/banners subscribe. Decouples UI from the loop
+  (census G8) and gives Dream's terminal its feed for free.
+
+================================================================================
+PART 4 — MOBILE CONTROLS (the aesthetic betrayal, undone)
+================================================================================
+
+  The census is right: the current buttons are glossy CoD-Mobile
+  plastic (#e62238 gradients, heavy shadows). The redesign is ink:
+    JOYSTICK: a double-ink circle (2px + 3px strokes, --r-round) with
+    four small crosshair ticks; knob = filled 22px ink dot; the ring
+    DRAWS ON when touch begins.
+    FIRE (hip): 64px ink circle, --ink-red, depth-3; pressed = ink
+    bleed (--bleed) — no gloss, pressure.
+    ADS/SNIPER: 56px dashed blue circle (secondary variant language).
+    JUMP/INTERACT: 48px solid blue with white doodle glyphs.
+  All: min 48px (fire 64px), translucent paper fill (0.85) so the
+  world shows through, haptic tick on press (navigator.vibrate 10ms),
+  and ALL gradients deleted. The z-index scope hack dies (1.6).
+
+================================================================================
+PART 5 — RESPONSIVE & INPUT PARITY
+================================================================================
+
+  BREAKPOINTS: >=1280 desktop (settings two-column, menus 680px) |
+  900-1279 compact (single column) | <900 mobile landscape (dense HUD:
+  labels -> icons, panels full-bleed, touch controls on).
+  LANDSCAPE PHONE TARGET: 844x390 must pass every screen.
+  PORTRAIT: remains landscape-first THIS pass, but the blocking wall is
+  replaced by a designed ROTATE CARD: a phone doodle rotating 90deg
+  (draw-on, looping gently), "turn the page" in display font — and it
+  auto-continues the moment orientation flips. Full portrait HUD is a
+  future phase (it needs a HUD re-layout, not a stylesheet).
+  SAFE AREAS: env(safe-area-inset-*) on all HUD corners and the
+  joystick zone. Notches will not eat the health bar.
+  GAMEPAD/KEYBOARD: every screen traversable (the ink oval leads);
+  shoulder buttons change focus groups; A/Enter activate; B/Esc back.
+  Esc semantics documented per screen. The census gap (controller
+  cannot open settings) closes here.
+
+================================================================================
+PART 6 — CENSUS ISSUE -> RESOLUTION (accountability table)
+================================================================================
+
+  ISSUE (ui-census.md)                       RESOLUTION
+  ----------------------------------------  -----------------------------
+  --blue undefined (settings tabs)          token migration deletes it
+  5 distinct button styles                  1 system, 5 variants (2.1)
+  Hardcoded hex on mobile buttons           tokens + ink redesign (P4)
+  Glossy mobile buttons break aesthetic     ink circles (P4)
+  Strict 8px radius in settings             --r-sketch tokens (1.3)
+  z-index 3010 / 3000 !important hacks      z-scale governance (1.6)
+  HTML as JS template strings               <template> tags (3.2)
+  hud.js owns message timeouts              event bus (3.16)
+  No loading screen                         3.5 (File 10 stage)
+  No gamepad menu navigation                P5 input parity
+  No confirmation dialogs                   .ds-confirm (2.10)
+  No error/crash UI                         .ds-error (2.14, 3.13)
+  No Dream terminal UI                      3.14
+  No onboarding/credits/audio/access        3.6 / 3.15 / 3.9 / 3.9
+  Portrait = blocking wall                  designed rotate card (P5)
+  Inconsistent paddings (10/34, 6/18, 4/12) spacing scale (1.2 + tokens)
+
+================================================================================
+PART 7 — BUILD ORDER & ACCEPTANCE
+================================================================================
+
+  MIGRATION (each step ships green):
+    1. tokens.css + fonts (self-hosted .woff2, subset, font-display:
+       swap; preload display font) — nothing visually breaks, colors
+       route through vars
+    2. Component library (.ds-* classes) + focus system + event bus
+    3. SETTINGS screen (File 09 GRAPHICS tab — highest player value)
+    4. LOADING screen (File 10 card — needed before Phase 7 runtime)
+    5. HUD re-skin + wave-phase banner + boss name plate
+    6. Mobile controls redesign
+    7. Menus, difficulty, map select, death, victory, pause
+    8. New screens: splash, onboarding, credits, terminal, error
+    9. Accessibility + gamepad pass + portrait card
+    10. Delete dead CSS (target: style.css 2100 lines -> < 900)
+
+  ACCEPTANCE TEST (all must pass):
+  [ ] Zero raw hex outside tokens.css (CI lint)
+  [ ] One .ds-btn implementation serves every button in the game
+  [ ] Every interactive element shows the ink oval on keyboard/gamepad
+  [ ] 844x390: every screen usable, nothing clipped by a notch
+  [ ] All 16 census gaps/MISSING items now FOUND
+  [ ] A new player can reach God Mode, die, and retry using ONLY a
+      gamepad
+  [ ] Screenshots of any two screens side by side read as ONE game
+
+  THE FINAL TEST IS THE EYE: every screen, laid side by side, must
+  look like pages from the same notebook, drawn by the same hand, in
+  the same two pens. When that is true, the UI is done.
+
+================================================================================
+END OF FILE 12 — The Inked Page. The rebuild can begin.
+================================================================================

@@ -1,0 +1,228 @@
+================================================================================
+DREAM PHASE 7 — SYSTEM 6: THE ENEMY OBJECT POOL
+"Wave Zero" — Brief Item E: Object Pooling for Enemy Waves
+================================================================================
+
+6.1 — The Problem, In Numbers
+--------------------------------------------------------------------------------
+
+Wave 5 begins. The spawner instantiates 13 mutated enemies in the same
+frame. Each cold instantiation costs: AnatomyGrammar synthesis (~60ms),
+first-use shader compilation stall (~20ms), scene-graph parenting, and a
+burst of garbage the GC will collect at the worst possible moment.
+
+  13 x ~100ms = a 1.3-second FREEZE, exactly when the player needs to
+  react. On a potato it is worse: the GC pause lands during the freeze
+  recovery, and the first thing the player sees after the stutter is a
+  wasp already inside melee range.
+
+The fix: NOTHING should be born during a wave. Everything is born during
+the loading screen, sleeps, and is AWAKENED on cue.
+
+6.2 — Campaign Pre-Analysis: The Pool Planner (src/perf/pool-planner.js)
+--------------------------------------------------------------------------------
+
+Phase 6's WaveComposer outputs the ENTIRE campaign at generation time —
+every wave, every archetype, every spawn delay. This is the gift that
+makes pooling exact rather than guessed. At map load, the Pool Planner
+reads the campaign and emits the Pool Manifest:
+
+JavaScript
+
+  function planPools(waveCampaign, deviceProfile) {
+    const maxPerArchetype = {};
+    for (const wave of waveCampaign) {
+      for (const enemy of wave.enemies) {
+        maxPerArchetype[enemy.archetype] = Math.max(
+          maxPerArchetype[enemy.archetype] || 0, countInWave(wave, enemy.archetype));
+      }
+    }
+    const manifest = {};
+    for (const [arch, n] of Object.entries(maxPerArchetype)) {
+      // Waves are assumed to clear before the next spawns (Phase 6
+      // pacing); +2 margin covers stagger carryover (6.6) and rare
+      // wave overlap during special events.
+      manifest[arch] = { poolSize: n + 2, preDressed: true };
+    }
+    // The brief's "20 blank shells": generic fallback for OFF-PLAN
+    // spawns (special events) — see 6.7.
+    manifest.__generic = { poolSize: 20, preDressed: false };
+    manifest.__boss    = { poolSize: 1,  preDressed: true };
+    return manifest;
+  }
+
+CONCURRENCY CAP (tier respect, File 01): pool sizes are sized from the
+CAMPAIGN, but simultaneous ACTIVATION is capped at deviceProfile
+enemyBudget (S:20, A:16, B:13, C:10). On TIER_C, a 13-enemy CLIMAX wave
+activates 10 and holds 3 in PRE_WARMED, releasing each the moment a slot
+frees (a death). The wave's ROSTER is never cut — it BREATHES. Pacing
+survives because releases overlap with deaths; intensity reads the same.
+
+6.3 — Pool Architecture (src/perf/enemy-pool.js)
+--------------------------------------------------------------------------------
+
+  ENEMY SHELL — one preallocated enemy, stateless until dressed:
+
+  class EnemyShell {
+    constructor() {
+      this.group = new THREE.Group();
+      // AnatomyGrammar sockets (Phase 6, System 3), empty at birth:
+      this.sockets = { head, torso, leftArm, rightArm, legs, back, aura };
+      // ALL THREE LOD children pre-attached (File 03, Rule 5):
+      this.lodChildren = { lod0: Group, lod1: Group,
+                           lod2: ImpostorSprite };
+      // Preallocated EVERYTHING the runtime will ever need (house rule):
+      this.ai = new AIController();       // state machine, reused
+      this.broadphase = broadphaseRecord();  // File 05, 5.5
+      this.scratch = { _v, _v2, _v3, _q, _m };  // no per-enemy news
+      this.emitter = pooledParticleRef(); // ink-splat/dissolve (shared pool)
+      this.state = 'DORMANT';
+    }
+  }
+
+  POOL STATES:
+    DORMANT    hidden, in the freelist, zero cost
+    DRESSING   one frame (generic shells only — 6.7)
+    PRE_WARMED hidden but POSITIONED at its spawn point, AI warm (6.5)
+    ACTIVE     in the world, in the dynamic grid (File 05, 5.6)
+    DYING      dissolve FX playing (~600ms), then reset -> DORMANT
+
+6.4 — Dressing a Shell in O(1) (the biome mutation costs nothing at spawn)
+--------------------------------------------------------------------------------
+
+The expensive part of Phase 6's BiomeEnemyMutator is anatomy SYNTHESIS
+(geometry). So synthesis happens ONCE per archetype at load:
+
+  LOAD TIME (per archetype, from the mutated roster):
+    1. Run AnatomyGrammar ONCE -> dress a shell fully (all sockets).
+    2. Bake LOD1 weld + LOD2 impostor snapshot (8 yaw angles).
+    3. Copy the dress kit (mesh clones + palette + stat block + tag
+       set) into the archetype pool — every shell in that pool wears
+       the same kit.
+
+  WAVE TIME (awaken a pre-dressed shell):
+    1. transform from spawn plan (position, rotY)
+    2. wave stat scaling: copy archetype stats into the shell's
+       preallocated stat struct, apply wave multipliers (a struct
+       copy, not a recompute)
+    3. elite? swap preloaded accessory meshes + tint (attach/detach
+       preloaded parts — no generation)
+    4. AI state -> spawn state (patrol / ambush / entranceStyle)
+    5. register in dynamic grid, broadphase refresh, visible = true
+
+  MEASURED COST: awaken = ~0.3ms. Thirteen simultaneous awakens =
+  ~4ms, inside ONE frame. The freeze is gone; the wave ARRIVES.
+
+6.5 — Pre-Warming on the Pacing Curve (REST waves are loading bays)
+--------------------------------------------------------------------------------
+
+Phase 6 gave the campaign dramatic pacing — INTRO, ESCALATION, REST,
+SURGE, REST_SHORT, CLIMAX, BOSS. The REST dips exist so the player can
+breathe. Phase 7 uses the same dips as preparation windows:
+
+  During any REST / REST_SHORT wave, the pool manager PRE_WARMS the
+  NEXT wave's shells:
+    - position each at its spawn point (hidden, PRE_WARMED)
+    - run one warm AI tick (branch prediction, cache lines)
+    - refresh the impostor snapshot if the entrance style changes the
+      silhouette (e.g., elite accessories)
+
+The pacing curve now serves double duty: dramatic beat for the player,
+load bay for the renderer. The SURGE that follows starts with every
+shell already standing in the dark, waiting for its cue.
+
+6.6 — AI Tick Throttling (distance bands, shared with LOD — File 03)
+--------------------------------------------------------------------------------
+
+One distance check per enemy per frame drives BOTH visual level and
+think rate (bands from File 03, 3.4):
+
+  BAND        AI RATE   VISUAL          ANIMATION
+  ----------  --------  --------------  --------------
+  0-25m        60 Hz    LOD0 full       full
+  25-50m       20 Hz    LOD1 welded     full
+  50-100m      10 Hz    LOD1            interpolated
+  100m+         5 Hz    LOD2 impostor   none (sway only)
+
+  EXCEPTIONS:
+  - GOD MODE FLOOR: Level 4 enemies never think slower than 20 Hz at
+    any range — Sound Hunting and BAIT_AND_SWITCH timing are the whole
+    point of God Mode; they are not throttled into harmlessness.
+  - RUNG 5 SURVIVAL (File 04): everything drops to 10 Hz, God Mode
+    included — survival outranks fairness, and it self-reverts.
+  - ENGAGEMENT OVERRIDE: any enemy that has aggro thinks at 60 Hz
+    regardless of band (an enemy converging on the player is, by
+    definition, about to be within 25m).
+
+  COST MATH: a 13-enemy CLIMAX typically has 3-5 inside 25m — the wave
+  costs ~40% of the naive 13 x 60Hz AI budget, with zero observable
+  difference (the far ones are impostors).
+
+6.7 — Special Events & the 20 Generic Shells
+--------------------------------------------------------------------------------
+
+Phase 6's rollSpecialEvent can spawn OFF-PLAN enemies (an ambush). These
+are not in any archetype pool — they use the generic shell pool from
+the brief: 20 undressed shells. The event is ANNOUNCED 5 seconds before
+it lands (Phase 6 spawn delay); during that window the pool dresses the
+needed shells from PRELOADED anatomy parts (all grammar components are
+in memory at load) — dressing is attach + tint, ~2ms per shell, spread
+across the announcement. The player hears the growl; the pool does the
+paperwork; the ambush arrives on time and in budget.
+
+6.8 — Death -> Return Protocol (the 12-point reset)
+--------------------------------------------------------------------------------
+
+Dissolve FX (ink smear, 600ms) plays on the pooled emitter; then the
+shell is RESET before re-entering the freelist. The reset is a fixed
+12-point checklist — cheap, and it is what prevents the classic pooled-
+enemy bugs (ghost aggro, stale velocity, zombie health bars):
+
+   1. transform       -> identity (position/rotation/scale)
+   2. velocity        -> zero (all steering forces cleared)
+   3. health/shields  -> archetype base values
+   4. AI state        -> DORMANT (patrol seed re-armed on next awaken)
+   5. target refs     -> null (player, allies, sound events)
+   6. memory          -> cleared (last-known-position, aggro table)
+   7. timers          -> reset (reaction, dodge cooldown, parry window)
+   8. tint            -> archetype palette (elite tint removed)
+   9. animation       -> phase 0, skeleton neutral
+  10. emitters        -> detached and flushed
+  11. spatial         -> dynamic grid DEREGISTERED, broadphase cache
+                         invalidated
+  12. accessories     -> wave-specific attachments removed (elite kit)
+
+LEAK DETECTION: the pool tracks high-water marks (max borrowed, max
+outstanding). If outstanding count ratchets upward across waves, the
+12-point reset missed something — the condition is logged to
+matchPerfReport (poolHighWater, File 04, 4.8) and the post-mortem names
+the wave where the slope began. Pools that only ever grow are pools
+that are quietly leaking; Dream is built to notice.
+
+6.9 — Validation (gauntlet entry, File 07)
+--------------------------------------------------------------------------------
+
+  CHECK — POOL DRY-RUN: headless simulation of the ENTIRE campaign per
+  tier: assert zero cold instantiations after T+READY, concurrency
+  never exceeds the tier cap, no archetype pool exhausts (an exhaust
+  means the planner's margin was wrong — regenerate manifest, not
+  crisis-spawn), and 12-point reset leaves no drift (shell state hash
+  before first use == after reset).
+
+INTEGRATION HOOKS
+--------------------------------------------------------------------------------
+  - File 01: pool sizes respect enemyBudget caps; manifest is a Step
+    6.5 export (File 07).
+  - File 03: LOD children pre-attached on every shell; throttle bands
+    share the distance check; impostors snapshot FROM pool shells.
+  - File 04: Rung 5 freezes the spawner mid-queue (never mid-materiali-
+    zation) and drops all AI to 10Hz; combat deferral reads engagement
+    states from the AI scheduler.
+  - File 05: broadphase record preallocated per shell; dynamic grid is
+    the GroupTacticsController's formation backbone.
+  - File 08: pool pre-warm at T+3.0s; spawner code lives in the tick's
+    simulation stage (never the render stage).
+
+================================================================================
+END OF FILE 06 — Proceed to 07_system_pipeline_integration.txt
+================================================================================
