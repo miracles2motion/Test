@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-09-13T20:56:46.569Z",
+  "updatedAt": "2026-09-13T21:17:07.522Z",
   "rules": {
     "stairway": {
       "minRise": 0.2,
@@ -65,8 +65,8 @@
       "description": "Synthesized 2 multi-story interactive buildings",
       "trigger": "macro-dream-building",
       "autoRemedy": "macroSpatialInjection",
-      "occurrences": 48,
-      "lastObserved": "2026-09-13T20:56:44.707Z"
+      "occurrences": 49,
+      "lastObserved": "2026-09-13T21:17:06.938Z"
     },
     {
       "patternId": "macro-syntax-failure",
@@ -81,8 +81,8 @@
       "description": "Injected 0 macro structures (City Planner)",
       "trigger": "dream-city-planner",
       "autoRemedy": "macroCity",
-      "occurrences": 12,
-      "lastObserved": "2026-09-13T20:56:45.188Z"
+      "occurrences": 13,
+      "lastObserved": "2026-09-13T21:17:07.522Z"
     },
     {
       "patternId": "dead-zone-identified",
@@ -969,6 +969,18 @@
       "mapKey": "library",
       "patternId": "dream-city-planner",
       "description": "Injected 0 macro structures (City Planner)"
+    },
+    {
+      "timestamp": "2026-09-13T21:17:06.938Z",
+      "mapKey": "library",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
+    },
+    {
+      "timestamp": "2026-09-13T21:17:07.522Z",
+      "mapKey": "library",
+      "patternId": "dream-city-planner",
+      "description": "Injected 12 macro structures (City Planner)"
     }
   ],
   "failureBlacklist": {},
@@ -1454,8 +1466,8 @@
       "lastSuccess": "2026-09-13T07:59:51.113Z"
     },
     "pencil_turret": {
-      "count": 3,
-      "totalScore": 255,
+      "count": 5,
+      "totalScore": 425,
       "positions": [
         {
           "mapKey": "library",
@@ -1474,14 +1486,26 @@
           "x": -32,
           "y": 0,
           "z": -44
+        },
+        {
+          "mapKey": "library",
+          "x": -44,
+          "y": 0,
+          "z": -44
+        },
+        {
+          "mapKey": "library",
+          "x": -26,
+          "y": 0,
+          "z": -32
         }
       ],
       "avgScore": 85,
-      "lastSuccess": "2026-09-13T20:56:44.678Z"
+      "lastSuccess": "2026-09-13T21:17:06.932Z"
     },
     "sketchbook_rampart": {
-      "count": 2,
-      "totalScore": 170,
+      "count": 3,
+      "totalScore": 255,
       "positions": [
         {
           "mapKey": "library",
@@ -1494,14 +1518,20 @@
           "x": 34,
           "y": 0,
           "z": -44
+        },
+        {
+          "mapKey": "library",
+          "x": -44,
+          "y": 0,
+          "z": 22
         }
       ],
       "avgScore": 85,
-      "lastSuccess": "2026-09-13T20:56:44.701Z"
+      "lastSuccess": "2026-09-13T21:17:06.919Z"
     },
     "desk_lamp_fortress": {
-      "count": 2,
-      "totalScore": 170,
+      "count": 3,
+      "totalScore": 255,
       "positions": [
         {
           "mapKey": "library",
@@ -1514,10 +1544,16 @@
           "x": 4,
           "y": 0,
           "z": -44
+        },
+        {
+          "mapKey": "library",
+          "x": -44,
+          "y": 0,
+          "z": 40
         }
       ],
       "avgScore": 85,
-      "lastSuccess": "2026-09-13T20:56:44.692Z"
+      "lastSuccess": "2026-09-13T21:17:06.925Z"
     }
   },
   "errorRateTracker": {

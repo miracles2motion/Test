@@ -21,6 +21,7 @@ import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
 import { getLearningCache, recordLearnedPattern, recordDreamRun, getErrorRate } from './map-learning.js';
 import { broadcastHelpBeacon } from './help-beacon.js';
+import { openConsultationTicket } from './dream-consultant.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -165,6 +166,24 @@ function runStage(stageName, cmd) {
     stages[stageName] = { status: 'fail', error: err.message?.slice(0, 200), timestamp: new Date().toISOString() };
     if (isVerbose) console.error(`❌ ${stageName} — FAILED: ${err.message?.slice(0, 100)}`);
     else console.error(`  ❌ ${stageName}: FAILED`);
+
+    const designStages = ['Macro Building Injection', 'Prop Injection', 'Enemy Synthesis', 'Self-Healing Audit'];
+    if (designStages.includes(stageName)) {
+      console.log(`\n🚨 FATAL DESIGN PIPELINE FAILURE in [${stageName}]`);
+      openConsultationTicket({
+        topic: `Design Pipeline Failure: ${stageName}`,
+        mapName: key,
+        context: `The God Mode orchestrator encountered a critical failure during ${stageName}.\nCommand: ${cmd}\nError: ${err.message}`,
+        dilemma: `Dream does not know how to complete the ${stageName} phase.`,
+        questions: [
+          `How should Dream resolve the failure in ${stageName}?`,
+          `Are there any geometry or memory constraints blocking this?`
+        ]
+      });
+      console.log(`\n❌ [ABORTING] God Mode pipeline halted. Please resolve the consultation ticket above.`);
+      process.exit(88);
+    }
+
     return { success: false, code };
   }
 }
