@@ -2,7 +2,7 @@
 
 **CRITICAL INSTRUCTION FOR AI STUDIO:** 
 You are receiving a deeply complex, fragile, and highly optimized codebase. The previous agent spent an entire Epic merely stabilizing the UI architecture. 
-**DO NOT ATTEMPT TO EXECUTE MULTIPLE EPICS AT ONCE.** You are explicitly restricted to working on **ONE Epic at a time**, starting exclusively with **Epic B**. 
+**DO NOT ATTEMPT TO EXECUTE MULTIPLE EPICS AT ONCE.** You must execute these Epics **strictly sequentially**, starting exclusively with **Epic B**, and you must not begin Epic C until Epic B is 100% complete and verified by the user.
 
 ---
 
@@ -22,12 +22,12 @@ Before writing a single line of code, you MUST gather context. Run terminal comm
 ---
 
 ## 🚀 CURRENT ACTIVE EPIC: Epic B (Optimization & Caching Engine)
-**STATUS:** NOT STARTED. (You are explicitly forbidden from looking at Epics C or D until this is flawlessly executed and verified).
+**STATUS:** NOT STARTED. (Execute this first).
 
 ### Goal
 Eliminate garbage collection (GC) stutters and maintain a locked 60FPS on mobile and 144FPS on desktop. 
 
-### Implementation Steps (Execute Sequentially)
+### Implementation Steps
 1. **Geometry Instancing & Pooling (`src/graphics.js`)**
    - **Context:** Currently, projectiles and repeated props are dynamically allocated/destroyed, causing massive GC spikes.
    - **Task:** Implement a global Object Pool for projectiles. Convert repetitive map geometry (crates, barrels) into `THREE.InstancedMesh`.
@@ -40,11 +40,36 @@ Eliminate garbage collection (GC) stutters and maintain a locked 60FPS on mobile
 
 ---
 
-## 🔒 LOCKED EPICS (Do Not Execute Yet)
-*These are provided strictly for high-level architectural awareness so you don't build Epic B in a way that blocks future features.*
+## ⚔️ FUTURE EPIC: Epic C (Enemy AI & Tactical Expansion)
+**STATUS:** NOT STARTED. (Do not begin until Epic B is complete).
 
-- **Epic C (Tactical AI Expansion):** Introducing the 'Heavy' (Shielded) and 'Sniper' (Evasive) enemies based on the `enemy-intelligence-design` tags in `AGENTS.md`.
-- **Epic D (Colossal Map Architecture):** Building "The Library" using prefabs and the `universal-detailing-standard`. 
+### Goal
+Expand the enemy roster using the strict `enemy-intelligence-design` guidelines to introduce tactical depth.
+
+### Implementation Steps
+1. **The 'Heavy' (Shielded Bruiser):**
+   - High HP, slow movement.
+   - Requires flanking; highly resistant to frontal assault.
+2. **The 'Sniper' (Evasive Marksman):**
+   - Retreats when approached (`canRetreat: true`).
+   - High damage hitscan, clearly telegraphed by a laser sight.
+3. **NavMesh Upgrades:**
+   - Implement basic A* pathfinding nodes on the maps to allow enemies to navigate vertically and avoid getting stuck on corners.
+
+---
+
+## 🗺️ FUTURE EPIC: Epic D (The Level Architecture)
+**STATUS:** NOT STARTED. (Do not begin until Epic C is complete).
+
+### Goal
+Add massive new maps built upon the `universal-detailing-standard`.
+
+### Implementation Steps
+1. **Colossal Scale Map (The Library):**
+   - A map taking place on a giant desk with towering books as buildings and pencils as sniper bridges.
+   - Utilize prefabs (`src/prefabs.js`) for complex props rather than raw geometry coding.
+2. **Multiplayer Spawn Logic:**
+   - Optimize spawn points to prevent spawn-trapping. Add an algorithmic check to spawn players in the safest quadrant.
 
 ---
 
