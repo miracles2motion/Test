@@ -27,6 +27,7 @@ import { buildLevel, MAP_BUILDERS } from './level.js';
 import { recordLearnedPattern, blacklistTemplate, isTemplateBlacklisted, registerSuccess, isCoordinateBlacklisted, getLearningCache } from './map-learning.js';
 import { GeometryValidator } from './geometry-validator.js';
 import { StairSanitizer } from './stair-sanitizer.js';
+import { NegativeSpaceProfiler } from './negative-space.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -403,6 +404,7 @@ function getMacroTemplates(theme) {
 
 const templates = getMacroTemplates(themeArg || 'zen');
 const selectedStructures = [];
+const profiler = new NegativeSpaceProfiler();
 
 // GOD MODE: Up to 4 buildings, consult blacklist, min spacing 15m
 let templateIdx = 0;
@@ -414,10 +416,14 @@ for (const pocket of voidCandidates) {
   const tooClose = selectedStructures.some(s => Math.hypot(s.x - pocket.x, s.z - pocket.z) < 15);
   if (tooClose) continue;
 
+  const profile = profiler.profileVoid(pocket);
+  const recommendedTemplates = profiler.recommendPrefabs(profile.archetype, templates);
+  console.log(`   🔍 Profiled void at (X: ${pocket.x}, Z: ${pocket.z}) as ${profile.archetype}. Recommended ${recommendedTemplates.length} templates.`);
+
   // Find a non-blacklisted template that fits
   let placed = false;
-  for (let attempt = 0; attempt < templates.length; attempt++) {
-    const tpl = templates[(templateIdx + attempt) % templates.length];
+  for (let attempt = 0; attempt < recommendedTemplates.length; attempt++) {
+    const tpl = recommendedTemplates[(templateIdx + attempt) % recommendedTemplates.length];
 
     // GOD MODE: Check blacklist
     if (isTemplateBlacklisted(tpl.id)) {
@@ -444,9 +450,10 @@ for (const pocket of voidCandidates) {
         x: finalX,
         y: 0,
         z: finalZ,
-        voidTier: pocket.tier
+        voidTier: pocket.tier,
+        archetype: profile.archetype
       });
-      templateIdx = (templateIdx + attempt + 1) % templates.length;
+      templateIdx = (templateIdx + attempt + 1) % recommendedTemplates.length;
       placed = true;
       break;
     }
@@ -456,7 +463,7 @@ for (const pocket of voidCandidates) {
 
 console.log(`\n🏗️ Synthesized Interactive Macro-Structures (${selectedStructures.length}/${MAX_BUILDINGS} max):`);
 selectedStructures.forEach((s, i) => {
-  console.log(`   [${i + 1}] ${s.title} at (X: ${s.x}, Z: ${s.z}) [${s.voidTier}]`);
+  console.log(`   [${i + 1}] ${s.title} at (X: ${s.x}, Z: ${s.z}) [${s.voidTier} | ${s.archetype}]`);
   console.log(`       Features: ${s.description}`);
 });
 

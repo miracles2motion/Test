@@ -19,6 +19,7 @@ import { fileURLToPath } from 'url';
 import * as THREE from 'three';
 import { buildLevel, LEVELS, MAP_BUILDERS } from './level.js';
 import { blacklistCoordinate } from './map-learning.js';
+import { ExploitDetector } from './exploit-detector.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -317,6 +318,27 @@ export function simulateAndScoreMap(mapKey) {
   console.log(`  ${densityScore >= 80 ? '✓' : '✗'} Collider Density: ${metrics.colliderDensity.score}/100 (${solidColliders.length}/${minTarget} colliders)`);
 
   // ============================================================
+  // EXPLOIT DETECTION
+  // ============================================================
+  const exploitDetector = new ExploitDetector();
+  const exploits = exploitDetector.detectExploits(solidColliders, bounds, snipers);
+  let exploitPenalty = 0;
+  
+  if (exploits.totalExploits > 0) {
+    console.log(`\n  🚨 EXPLOIT DETECTOR: Found ${exploits.totalExploits} gameplay exploit(s)!`);
+    for (const hg of exploits.headGlitches) {
+      console.log(`     - [Head Glitch] at X:${hg.position.x}, Z:${hg.position.z}`);
+      blacklistCoordinate(mapKey, hg.position.x, hg.position.z, 5.0, 'head-glitch');
+      exploitPenalty += 10;
+    }
+    for (const gs of exploits.godSpots) {
+      console.log(`     - [God Spot] at X:${gs.position.x}, Z:${gs.position.z}`);
+      blacklistCoordinate(mapKey, gs.position.x, gs.position.z, 8.0, 'god-spot');
+      exploitPenalty += 15;
+    }
+  }
+
+  // ============================================================
   // CALCULATE WEIGHTED TOTAL SCORE
   // ============================================================
   let totalScore = 0;
@@ -329,7 +351,8 @@ export function simulateAndScoreMap(mapKey) {
   totalScore += (metrics.coverDistribution.score * weights.coverDistribution);
   totalScore += (metrics.pickupSpread.score * weights.pickupSpread);
   totalScore += (metrics.colliderDensity.score * weights.colliderDensity);
-  totalScore = Math.round(totalScore);
+  totalScore -= exploitPenalty;
+  totalScore = Math.max(0, Math.round(totalScore));
 
   const passed = totalScore >= 75;
   const grade = totalScore >= 90 ? 'S' : totalScore >= 80 ? 'A' : totalScore >= 70 ? 'B' : totalScore >= 60 ? 'C' : totalScore >= 50 ? 'D' : 'F';

@@ -22,6 +22,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import * as THREE from 'three';
+import { RhythmPlacer } from './rhythm-placer.js';
 import { buildLevel, MAP_BUILDERS } from './level.js';
 import { recordLearnedPattern } from './map-learning.js';
 
@@ -211,15 +212,37 @@ for (const y of tiers) {
 
 console.log(`✨ Found ${safePockets.length} potential City Lots.`);
 
-// Scatter some small cover barrels along the pathways (Y=0)
-for(let i=0; i<120; i++) {
-  const bx = bounds.minX + Math.random() * (bounds.maxX - bounds.minX);
-  const bz = bounds.minZ + Math.random() * (bounds.maxZ - bounds.minZ);
-  if (isBoxCollisionFree(bx, 0.0, bz, 1.0, 1.0, 1.0, 1.0)) {
-     safePockets.push({
-       x: bx, y: 0, z: bz,
-       template: { gen: (x,y,z) => `  box(${x}, ${y}, ${z}, 1.0, 1.0, 1.0, { ink: OR }); // Pathway Cover` }
-     });
+// Generate combat lanes (corners to center)
+const lanes = [
+  // NW to center
+  [{x: bounds.minX+10, y:0, z: bounds.minZ+10}, {x: midX, y:0, z: midZ}],
+  // NE to center
+  [{x: bounds.maxX-10, y:0, z: bounds.minZ+10}, {x: midX, y:0, z: midZ}],
+  // SW to center
+  [{x: bounds.minX+10, y:0, z: bounds.maxZ-10}, {x: midX, y:0, z: midZ}],
+  // SE to center
+  [{x: bounds.maxX-10, y:0, z: bounds.maxZ-10}, {x: midX, y:0, z: midZ}]
+];
+
+const rhythmPlacer = new RhythmPlacer();
+console.log(`🥁 Placing rhythm-based cover along ${lanes.length} combat lanes...`);
+
+for (const lane of lanes) {
+  const placements = rhythmPlacer.placeAlongLane(lane);
+  for (const p of placements) {
+    if (isBoxCollisionFree(p.position.x, 0.0, p.position.z, 2.0, 2.0, 2.0, 1.0)) {
+      if (p.type === 'HARD_COVER') {
+        safePockets.push({
+          x: p.position.x, y: 0, z: p.position.z,
+          template: { gen: (x,y,z) => `  box(${x.toFixed(1)}, ${y}, ${z.toFixed(1)}, 2.0, 2.5, 2.0, { ink: OR }); // Hard Cover` }
+        });
+      } else {
+        safePockets.push({
+          x: p.position.x, y: 0, z: p.position.z,
+          template: { gen: (x,y,z) => `  barrel(${x.toFixed(1)}, ${y}, ${z.toFixed(1)}, 0.8, 1.2, { ink: OR }); // Soft Cover` }
+        });
+      }
+    }
   }
 }
 

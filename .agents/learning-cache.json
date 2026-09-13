@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-09-13T01:40:20.560Z",
+  "updatedAt": "2026-09-13T07:39:48.653Z",
   "rules": {
     "stairway": {
       "minRise": 0.2,
@@ -65,8 +65,8 @@
       "description": "Synthesized 2 multi-story interactive buildings",
       "trigger": "macro-dream-building",
       "autoRemedy": "macroSpatialInjection",
-      "occurrences": 43,
-      "lastObserved": "2026-09-13T01:40:20.560Z"
+      "occurrences": 44,
+      "lastObserved": "2026-09-13T07:38:50.292Z"
     },
     {
       "patternId": "macro-syntax-failure",
@@ -83,6 +83,14 @@
       "autoRemedy": "macroCity",
       "occurrences": 9,
       "lastObserved": "2026-09-12T22:31:50.148Z"
+    },
+    {
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (0, 26.6) due to head-glitch",
+      "trigger": "dead-zone-identified",
+      "autoRemedy": "blacklistCoordinate",
+      "occurrences": 19,
+      "lastObserved": "2026-09-13T07:39:48.653Z"
     }
   ],
   "history": [
@@ -589,6 +597,126 @@
       "mapKey": "pirate_cove",
       "patternId": "macro-dream-building",
       "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
+    },
+    {
+      "timestamp": "2026-09-13T07:38:50.292Z",
+      "mapKey": "pirate_cove",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
+    },
+    {
+      "timestamp": "2026-09-13T07:39:48.533Z",
+      "mapKey": "pirate_cove",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (0, 26.6) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-13T07:39:48.541Z",
+      "mapKey": "pirate_cove",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-6, 0) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-13T07:39:48.546Z",
+      "mapKey": "pirate_cove",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (6, 0) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-13T07:39:48.552Z",
+      "mapKey": "pirate_cove",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-35, -37.4) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-13T07:39:48.559Z",
+      "mapKey": "pirate_cove",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-35, 37.4) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-13T07:39:48.566Z",
+      "mapKey": "pirate_cove",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-32, -15) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-13T07:39:48.574Z",
+      "mapKey": "pirate_cove",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-38, 0) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-13T07:39:48.580Z",
+      "mapKey": "pirate_cove",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-32, 15) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-13T07:39:48.592Z",
+      "mapKey": "pirate_cove",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (35, -31.000000000000004) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-13T07:39:48.598Z",
+      "mapKey": "pirate_cove",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (35, 31.000000000000004) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-13T07:39:48.604Z",
+      "mapKey": "pirate_cove",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (1, -47) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-13T07:39:48.610Z",
+      "mapKey": "pirate_cove",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-27.5, -22.5) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-13T07:39:48.616Z",
+      "mapKey": "pirate_cove",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-22.5, -22.5) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-13T07:39:48.622Z",
+      "mapKey": "pirate_cove",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-27.5, -4.5) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-13T07:39:48.628Z",
+      "mapKey": "pirate_cove",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-22.5, -4.5) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-13T07:39:48.633Z",
+      "mapKey": "pirate_cove",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-16.211913760188004, -35.52771831732997) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-13T07:39:48.640Z",
+      "mapKey": "pirate_cove",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-11.211913760188004, -35.52771831732997) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-13T07:39:48.647Z",
+      "mapKey": "pirate_cove",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-15.5, 31.5) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-13T07:39:48.653Z",
+      "mapKey": "pirate_cove",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-10.5, 31.5) due to head-glitch"
     }
   ],
   "failureBlacklist": {},
@@ -988,8 +1116,8 @@
       "lastSuccess": "2026-09-12T10:39:43.614Z"
     },
     "torii_overlook": {
-      "count": 5,
-      "totalScore": 425,
+      "count": 9,
+      "totalScore": 765,
       "positions": [
         {
           "mapKey": "zen",
@@ -1020,10 +1148,34 @@
           "x": -13,
           "y": 0,
           "z": 17
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -25,
+          "y": 0,
+          "z": -25
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -25,
+          "y": 0,
+          "z": -7
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -13.711913760188004,
+          "y": 0,
+          "z": -38.02771831732997
+        },
+        {
+          "mapKey": "pirate_cove",
+          "x": -13,
+          "y": 0,
+          "z": 29
         }
       ],
       "avgScore": 85,
-      "lastSuccess": "2026-09-12T10:39:43.619Z"
+      "lastSuccess": "2026-09-13T07:38:50.289Z"
     }
   },
   "errorRateTracker": {
@@ -1173,5 +1325,158 @@
     "currentRate": 0
   },
   "ruleTighteningLog": [],
-  "deadZones": []
+  "deadZones": [
+    {
+      "mapKey": "pirate_cove",
+      "x": 0,
+      "z": 26.6,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-13T07:39:48.529Z"
+    },
+    {
+      "mapKey": "pirate_cove",
+      "x": -6,
+      "z": 0,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-13T07:39:48.536Z"
+    },
+    {
+      "mapKey": "pirate_cove",
+      "x": 6,
+      "z": 0,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-13T07:39:48.543Z"
+    },
+    {
+      "mapKey": "pirate_cove",
+      "x": -35,
+      "z": -37.4,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-13T07:39:48.549Z"
+    },
+    {
+      "mapKey": "pirate_cove",
+      "x": -35,
+      "z": 37.4,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-13T07:39:48.556Z"
+    },
+    {
+      "mapKey": "pirate_cove",
+      "x": -32,
+      "z": -15,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-13T07:39:48.563Z"
+    },
+    {
+      "mapKey": "pirate_cove",
+      "x": -38,
+      "z": 0,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-13T07:39:48.569Z"
+    },
+    {
+      "mapKey": "pirate_cove",
+      "x": -32,
+      "z": 15,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-13T07:39:48.577Z"
+    },
+    {
+      "mapKey": "pirate_cove",
+      "x": 35,
+      "z": -31.000000000000004,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-13T07:39:48.582Z"
+    },
+    {
+      "mapKey": "pirate_cove",
+      "x": 35,
+      "z": 31.000000000000004,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-13T07:39:48.595Z"
+    },
+    {
+      "mapKey": "pirate_cove",
+      "x": 1,
+      "z": -47,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-13T07:39:48.601Z"
+    },
+    {
+      "mapKey": "pirate_cove",
+      "x": -27.5,
+      "z": -22.5,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-13T07:39:48.608Z"
+    },
+    {
+      "mapKey": "pirate_cove",
+      "x": -22.5,
+      "z": -22.5,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-13T07:39:48.613Z"
+    },
+    {
+      "mapKey": "pirate_cove",
+      "x": -27.5,
+      "z": -4.5,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-13T07:39:48.618Z"
+    },
+    {
+      "mapKey": "pirate_cove",
+      "x": -22.5,
+      "z": -4.5,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-13T07:39:48.625Z"
+    },
+    {
+      "mapKey": "pirate_cove",
+      "x": -16.211913760188004,
+      "z": -35.52771831732997,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-13T07:39:48.630Z"
+    },
+    {
+      "mapKey": "pirate_cove",
+      "x": -11.211913760188004,
+      "z": -35.52771831732997,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-13T07:39:48.636Z"
+    },
+    {
+      "mapKey": "pirate_cove",
+      "x": -15.5,
+      "z": 31.5,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-13T07:39:48.644Z"
+    },
+    {
+      "mapKey": "pirate_cove",
+      "x": -10.5,
+      "z": 31.5,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-13T07:39:48.650Z"
+    }
+  ]
 }

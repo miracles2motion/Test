@@ -5,8 +5,8 @@
 It acts as an intelligent AI colleague capable of understanding natural language requests, synthesizing multi-story game environments, running "God Mode" simulations to score map flow, self-healing geometric collisions, and learning from its failures over time.
 
 This document outlines the entire architecture, capabilities, and learning mechanisms of the Dream system.
-
 ---
+
 
 ## 1. Core Architecture
 
