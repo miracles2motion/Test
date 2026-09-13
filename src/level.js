@@ -1,6 +1,7 @@
 // Level construction. Two maps share one builder: everything is merged ink geometry plus
 // axis-aligned box colliders, which is what the navigation grid is generated from.
 import { buildPirateCove } from './levels/pirate_cove.js';
+import { buildLibrary } from './levels/library.js';
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { makeInkMaterial, INK } from './render.js';
@@ -77,7 +78,8 @@ export const LEVELS = [
       }
     }, name: 'THE ZEN GARDEN', blurb: 'serene pagodas, cherry blossoms and koi ponds', category: 'anomalous', tags: ['FAST CQB', 'MEDIUM', 'EARTH'], env: 'Temple Sanctuary', engagement: 'Stealth / CQB', hazard: 'None', scale: 'Tier 1-2' },
   ...(MEXICO_READY ? [{ key: 'mexico', name: 'DOODLE MEXICO', blurb: 'a sun-baked plaza · piñatas, tacos and mariachi', category: 'urban', tags: ['FAST CQB', 'MEDIUM', 'EARTH'], env: 'Sun-baked Plaza', engagement: 'CQB / Cover', hazard: 'None', scale: 'Tier 1-2' }] : []),
-  { key: 'pirate_cove', name: 'PIRATE COVE', blurb: 'sunken grottos, shanty towns and shipwrecks', category: 'colossal', tags: ['GROTTO', 'SHIPWRECK', 'VERTICAL'], env: 'Sunken Grotto', engagement: 'Verticality / Hazards', hazard: 'Deep Water', scale: 'Tier 1-4' }
+  { key: 'pirate_cove', name: 'PIRATE COVE', blurb: 'sunken grottos, shanty towns and shipwrecks', category: 'colossal', tags: ['GROTTO', 'SHIPWRECK', 'VERTICAL'], env: 'Sunken Grotto', engagement: 'Verticality / Hazards', hazard: 'Deep Water', scale: 'Tier 1-4' },
+  { key: 'library', name: 'THE LIBRARY', blurb: 'towering tomes, grand desk arena, bookmark catwalks & inkwells', category: 'colossal', tags: ['VERTICAL', '3-LANE', 'COLOSSAL'], env: 'Colossal Study', engagement: '3-Lane / Vertical / Sniping', hazard: 'None', scale: 'Tier 1-4' }
 ];
 
 function createBuilder(scene, world) {
@@ -1441,6 +1443,8 @@ export const MAP_BUILDERS = {
   studio: buildStudio,
   mexico: buildMexico,
   pirate_cove: buildPirateCove,
+  library: buildLibrary,
+  tomes: buildLibrary,
 };
 
 export function registerMapBuilder(key, builderFn) {

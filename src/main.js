@@ -20,6 +20,7 @@ import { Rifle, Shotgun, Sniper, Revolver, Katana } from './weapons.js';
 import { perfMonitor } from './perf/perf-monitor.js';
 import { lodManager } from './perf/lod-manager.js';
 import { instanceManager } from './perf/instance-manager.js';
+import { spawnManager } from './spawns.js';
 
 // Attempt to lock screen orientation to landscape on mobile
 try {
@@ -490,8 +491,8 @@ function pickSpawn(type) {
   }
   let cands = spots.filter((s) => { const d = s.distanceTo(pp); return d > 14 && d < 48; });
   if (cands.length < 2) cands = spots.filter((s) => s.distanceTo(pp) > 14);
-  const hidden = cands.filter((s) => !world.hasLineOfSight(player.eye, new THREE.Vector3(s.x, s.y + 1.2, s.z)));
-  return (choose(hidden.length ? hidden : cands.length ? cands : spots)).clone();
+  const threats = [{ pos: player.body.pos, eye: player.eye }];
+  return spawnManager.pickBestSpawn(cands.length ? cands : spots, threats, world);
 }
 function updateWaves(dt) {
   if (game.intermission > 0) {
@@ -602,10 +603,11 @@ const HOW = { rifle: 'rifle', shotgun: 'shotgun', sniper: 'sniper', katana: 'kat
 const howWord = (src) => HOW[src] || null;
 const spawnSpots = () => (level.arenaSpawns && level.arenaSpawns.length ? level.arenaSpawns : level.spawns);
 function arenaSpawn() {
-  const spots = spawnSpots(); const others = [...remote.values()].filter((r) => r.alive && r.root && r.root.visible);
-  const scored = spots.map((s) => ({ s, d: others.reduce((a, r) => Math.min(a, r.body.pos.distanceTo(s)), 999) }));
-  scored.sort((a, b) => b.d - a.d);
-  return choose(scored.slice(0, Math.min(3, scored.length))).s.clone();
+  const spots = spawnSpots();
+  const others = [...remote.values()]
+    .filter((r) => r.alive && r.root && r.root.visible)
+    .map((r) => ({ pos: r.body.pos, eye: new THREE.Vector3(r.body.pos.x, r.body.pos.y + 1.6, r.body.pos.z), team: r.team }));
+  return spawnManager.pickBestSpawn(spots, others, world, player.team);
 }
 // a spot for a late joiner: the one farthest from everybody already in the match
 function farthestSpawnIndex() {
@@ -1383,6 +1385,43 @@ function getMapSVG(key, isDossier = false) {
     paths = `<path d="M20 80 L80 80" stroke="${c}" stroke-width="4"/>
              <path d="M40 80 L40 30 A10 10 0 0 1 60 30 L60 80" fill="none" stroke="${c}" stroke-width="3"/>
              <path d="M40 50 L20 50 L20 40 M60 60 L80 60 L80 50" fill="none" stroke="${c}" stroke-width="3"/>`;
+  } else if (key === 'library') {
+    if (isDossier) {
+      return `<svg viewBox="0 0 200 100" class="map-svg blueprint" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: ${isDossier ? '200px' : '90px'};">
+        <!-- Grand Desk Arena -->
+        <rect x="55" y="25" width="90" height="50" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <!-- Central Inkwell -->
+        <circle cx="100" cy="50" r="8" fill="none" stroke="${c}" stroke-width="1.5"/>
+        <line x1="97" y1="46" x2="114" y2="35" stroke="${c}" stroke-width="1.2"/>
+        <!-- Open Book Ramps North & South -->
+        <path d="M85 25 L100 15 L115 25" fill="none" stroke="${c}" stroke-width="1.2"/>
+        <path d="M85 75 L100 85 L115 75" fill="none" stroke="${c}" stroke-width="1.2"/>
+        <!-- West Bookcase Tier Stacks -->
+        <rect x="20" y="20" width="22" height="28" fill="none" stroke="${c}" stroke-width="1.5"/>
+        <rect x="18" y="52" width="24" height="28" fill="none" stroke="${c}" stroke-width="1.5"/>
+        <line x1="42" y1="34" x2="55" y2="40" stroke="${c}" stroke-dasharray="2 2" stroke-width="1"/>
+        <!-- East Under-Desk Catacombs -->
+        <line x1="155" y1="30" x2="185" y2="30" stroke="${c}" stroke-dasharray="3 3" stroke-width="1.5"/>
+        <line x1="155" y1="70" x2="185" y2="70" stroke="${c}" stroke-dasharray="3 3" stroke-width="1.5"/>
+        <circle cx="170" cy="50" r="12" fill="none" stroke="${c}" stroke-width="1.2"/>
+        <!-- Desk Lamps -->
+        <circle cx="68" cy="32" r="4" fill="${c}"/>
+        <circle cx="132" cy="68" r="4" fill="${c}"/>
+        <text x="100" y="96" font-family="monospace" font-size="6" text-anchor="middle" fill="${c}">112m COLOSSAL STUDY</text>
+      </svg>`;
+    } else {
+      return `<svg viewBox="0 0 100 100" class="map-svg thumb" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: 90px; max-height: 90px;">
+        <!-- Stacked books icon -->
+        <rect x="25" y="65" width="50" height="12" rx="2" fill="none" stroke="${c}" stroke-width="2"/>
+        <rect x="30" y="50" width="45" height="12" rx="2" fill="none" stroke="${c}" stroke-width="2"/>
+        <rect x="22" y="35" width="55" height="12" rx="2" fill="none" stroke="${c}" stroke-width="2"/>
+        <!-- Desk Lamp Silhouette -->
+        <path d="M72 65 Q85 30 65 20 L58 26" fill="none" stroke="${c}" stroke-width="2"/>
+        <path d="M52 22 L66 16 L62 30 Z" fill="${c}"/>
+        <!-- Quill -->
+        <line x1="28" y1="28" x2="42" y2="12" stroke="${c}" stroke-width="1.5"/>
+      </svg>`;
+    }
   } else {
     if (isDossier) {
       return `<svg viewBox="0 0 200 100" class="map-svg blueprint" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: 200px;">
