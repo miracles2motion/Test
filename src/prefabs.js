@@ -1,4 +1,5 @@
 import { INK } from './render.js';
+import { createRNG } from './rebuild/prng.js';
 
 // ============================================================================
 // DOODLE STRIKE MASTER PREFABRICATED PROCEDURAL GEOMETRY LIBRARY
@@ -1294,8 +1295,346 @@ export const PREFAB_REGISTRY = {
     tags: ['universal', 'sign', 'hazard', 'caution'],
     builder: buildWarningSign,
     footprint: [0.6, 1.4, 0.2]
+  },
+  parametric_tree: {
+    id: 'parametric_tree',
+    name: 'Parametric Organic Tree (Titan/Slender/Gnarled)',
+    tags: ['forest', 'organic', 'tree', 'canopy', 'colossal', 'cover', 'grapple'],
+    builder: generateParametricTree,
+    footprint: [12.0, 30.0, 12.0]
+  },
+  curved_hollow_log: {
+    id: 'curved_hollow_log',
+    name: 'Curved Hollow Log Sprint Tunnel',
+    tags: ['forest', 'log', 'tunnel', 'cqb', 'catwalk', 'corridor', 'cover'],
+    builder: buildCurvedHollowLog,
+    footprint: [6.0, 4.0, 18.0]
+  },
+  boulder_field: {
+    id: 'boulder_field',
+    name: 'Faceted Boulder Cover Field',
+    tags: ['universal', 'rock', 'boulder', 'cover', 'tactical'],
+    builder: buildBoulderField,
+    footprint: [8.0, 3.0, 8.0]
   }
 };
+
+/**
+ * Procedural Parametric Organic Tree Generator (Blueprint 2)
+ * Kills the Static Clone Problem: generates Titan, Slender, or Gnarled trees
+ * using continuous parameter spaces, da Vinci branch area preservation, and
+ * rich tactical furniture (buttress root ramps, hollow trunk niche, canopy deck).
+ */
+export function generateParametricTree(B, x, y, z, o = {}) {
+  const { box, slab, cyl, sphere, ring, rail, wedge, facetedRock, arch } = B;
+  const numSeed = typeof o.seed === 'number' ? o.seed : (typeof o === 'number' ? o : 1337);
+  const rng = createRNG(numSeed);
+  const next = rng.next;
+
+  const inkBark = o.inkBark ?? INK.BLACK;
+  const inkLeaves = o.inkLeaves ?? INK.GREEN;
+  const inkCover = o.inkCover ?? INK.ORANGE;
+
+  // Phase A: Body Plan / Archetype Selection
+  let archetype = o.archetype;
+  if (!archetype) {
+    const roll = next();
+    if (roll < 0.40) archetype = 'titan';
+    else if (roll < 0.75) archetype = 'slender';
+    else archetype = 'gnarled';
+  }
+
+  let height, trunkR, leanDeg, taper, branches, crownR;
+  if (archetype === 'titan') {
+    height = o.height ?? (25 + next() * 10);      // 25 - 35m
+    trunkR = o.trunkR ?? (2.4 + next() * 1.0);     // 2.4 - 3.4m
+    leanDeg = o.lean ?? (next() * 4);             // 0 - 4 deg
+    taper = 0.35;
+    branches = 4 + Math.floor(next() * 3);        // 4 - 6 branches
+    crownR = trunkR * 3.2;
+  } else if (archetype === 'slender') {
+    height = o.height ?? (9 + next() * 4);        // 9 - 13m
+    trunkR = o.trunkR ?? (0.3 + next() * 0.2);     // 0.3 - 0.5m
+    leanDeg = o.lean ?? (15 + next() * 10);       // 15 - 25 deg
+    taper = 0.85;
+    branches = 2 + Math.floor(next() * 3);        // 2 - 4 branches
+    crownR = 3.2;
+  } else {
+    // Gnarled / Stout
+    height = o.height ?? (5.5 + next() * 2.5);    // 5.5 - 8m
+    trunkR = o.trunkR ?? (0.9 + next() * 0.5);     // 0.9 - 1.4m
+    leanDeg = o.lean ?? (5 + next() * 10);        // 5 - 15 deg
+    taper = 0.60;
+    branches = 3 + Math.floor(next() * 2);        // 3 - 4 major limbs
+    crownR = 4.2;
+  }
+
+  const leanAzimuth = next() * Math.PI * 2;
+  const leanDirX = Math.cos(leanAzimuth);
+  const leanDirZ = Math.sin(leanAzimuth);
+  const totalLeanM = Math.tan(leanDeg * (Math.PI / 180)) * height;
+
+  // Phase B: Segmented Trunk with smoothstep ease
+  const segCount = archetype === 'titan' ? 7 : (archetype === 'slender' ? 5 : 4);
+  const segH = height / segCount;
+  let currY = y;
+  const trunkNodes = [];
+
+  for (let i = 0; i < segCount; i++) {
+    const t = i / segCount;
+    const r_i = Math.max(0.3, trunkR * Math.pow(Math.max(0.01, 1 - t * 0.7), taper));
+    
+    // Smoothstep ease profile for organic lean
+    const ease = 3 * t * t - 2 * t * t * t;
+    const drift = ease * totalLeanM;
+    const noise = (next() - 0.5) * 0.3;
+    const segX = x + leanDirX * (drift + noise);
+    const segZ = z + leanDirZ * (drift + noise);
+
+    cyl(segX, currY, segZ, r_i, segH, { seg: 10, ink: inkBark });
+    trunkNodes.push({ x: segX, y: currY + segH / 2, z: segZ, r: r_i });
+    currY += segH;
+  }
+
+  // Phase C: Branches using Leonardo da Vinci area preservation
+  const branchSlots = Math.min(branches, trunkNodes.length - 1);
+  for (let b = 0; b < branchSlots; b++) {
+    const nodeIdx = Math.min(trunkNodes.length - 1, Math.floor(segCount * 0.45) + b);
+    const parentNode = trunkNodes[nodeIdx];
+    const bAngle = leanAzimuth + (b * (Math.PI * 2 / branchSlots)) + (next() - 0.5) * 0.4;
+    const bLen = Math.max(3.0, (height - (parentNode.y - y)) * 0.55);
+    // da Vinci area-preservation: child girth = parent * sqrt(1 / siblings)
+    const bGirth = Math.max(0.35, parentNode.r * Math.sqrt(1 / Math.max(2, branchSlots)));
+    const bx = parentNode.x + Math.cos(bAngle) * (bLen / 2 + parentNode.r);
+    const bz = parentNode.z + Math.sin(bAngle) * (bLen / 2 + parentNode.r);
+    const by = parentNode.y + bLen * 0.35;
+
+    // Branch limb
+    cyl(bx, by, bz, bGirth, bLen, { axis: Math.abs(Math.cos(bAngle)) > Math.abs(Math.sin(bAngle)) ? 'x' : 'z', ink: inkBark });
+
+    // Standable branch tip perches
+    if (archetype === 'titan' || next() > 0.4) {
+      const tipX = parentNode.x + Math.cos(bAngle) * (bLen + parentNode.r);
+      const tipZ = parentNode.z + Math.sin(bAngle) * (bLen + parentNode.r);
+      slab(tipX - 1.2, tipZ - 1.2, tipX + 1.2, tipZ + 1.2, by + 0.3, 0.25, { ink: inkBark });
+      ring(tipX, by + 4.5, tipZ, 'y');
+    }
+  }
+
+  // Phase D: Foliage Crown
+  const apexNode = trunkNodes[trunkNodes.length - 1];
+  const crownOffset = archetype === 'slender' ? crownR * 0.3 : 0;
+  const crownCenterX = apexNode.x + leanDirX * crownOffset;
+  const crownCenterZ = apexNode.z + leanDirZ * crownOffset;
+  const crownCenterY = currY;
+
+  const clusterCount = archetype === 'titan' ? 8 : 5;
+  for (let c = 0; c < clusterCount; c++) {
+    const cAngle = (c / clusterCount) * Math.PI * 2 + next() * 0.5;
+    const cDist = next() * (crownR * 0.7);
+    const clX = crownCenterX + Math.cos(cAngle) * cDist;
+    const clZ = crownCenterZ + Math.sin(cAngle) * cDist;
+    const clY = crownCenterY + (next() - 0.3) * (crownR * 0.6);
+    const clR = crownR * (0.55 + next() * 0.45);
+    sphere(clX, clY, clZ, clR, { seg: 8, ink: inkLeaves, noCollide: true });
+  }
+
+  // Phase E: Tactical Furniture
+  if (archetype === 'titan') {
+    // 1. Buttress Root Spiral Ramp
+    const revSteps = 16;
+    for (let s = 0; s < revSteps; s++) {
+      const sAngle = s * 0.42;
+      const sY = y + s * 0.28;
+      const sDist = trunkR + 0.9;
+      const stepX = x + Math.cos(sAngle) * sDist;
+      const stepZ = z + Math.sin(sAngle) * sDist;
+      box(stepX, sY, stepZ, 1.8, 0.28, 1.8, { ink: inkBark, tag: 'stairs' });
+    }
+
+    // Intermediate rest landing at climb Y = 4.5m
+    const landAngle = revSteps * 0.42;
+    const landX = x + Math.cos(landAngle) * (trunkR + 1.4);
+    const landZ = z + Math.sin(landAngle) * (trunkR + 1.4);
+    slab(landX - 1.8, landZ - 1.8, landX + 1.8, landZ + 1.8, y + 4.5, 0.4, { ink: inkBark });
+
+    // 2. Hollow Trunk Niche (CQB room inside trunk base)
+    arch(x + trunkR * 0.95, y, z, 2.6, 3.2, 0.8, { ink: inkBark });
+    facetedRock(x, y, z, 0.9, 1.0, 0.9, { ink: inkBark, cover: 'waist' });
+
+    // 3. Canopy Combat Deck (Y = y + height * 0.68)
+    const deckY = y + height * 0.68;
+    const deckW = Math.max(8.0, trunkR * 3.5);
+    slab(apexNode.x - deckW / 2, apexNode.z - deckW / 2, apexNode.x + deckW / 2, apexNode.z + deckW / 2, deckY, 0.45, { ink: inkBark });
+    
+    // Safety railings
+    rail(apexNode.x - deckW / 2, apexNode.z - deckW / 2, apexNode.x + deckW / 2, apexNode.z - deckW / 2, deckY, { ink: inkBark });
+    rail(apexNode.x - deckW / 2, apexNode.z + deckW / 2, apexNode.x + deckW / 2, apexNode.z + deckW / 2, deckY, { ink: inkBark });
+    rail(apexNode.x - deckW / 2, apexNode.z - deckW / 2, apexNode.x - deckW / 2, apexNode.z + deckW / 2, deckY, { ink: inkBark });
+    rail(apexNode.x + deckW / 2, apexNode.z - deckW / 2, apexNode.x + deckW / 2, apexNode.z + deckW / 2, deckY, { ink: inkBark });
+
+    // Waist cover parapet rocks on deck
+    facetedRock(apexNode.x - deckW * 0.3, deckY, apexNode.z, 1.2, 1.1, 1.0, { ink: inkCover, cover: 'waist' });
+    facetedRock(apexNode.x + deckW * 0.3, deckY, apexNode.z, 1.2, 1.1, 1.0, { ink: inkCover, cover: 'waist' });
+
+    // Overhead Grapple Rings (+7m)
+    ring(apexNode.x, deckY + 7.5, apexNode.z, 'y');
+    ring(apexNode.x + 3.0, deckY + 6.5, apexNode.z + 3.0, 'x');
+
+    // Root skirt waist cover rocks
+    for (let r = 0; r < 4; r++) {
+      const rAngle = (r / 4) * Math.PI * 2 + 0.3;
+      const rx = x + Math.cos(rAngle) * (trunkR + 1.8);
+      const rz = z + Math.sin(rAngle) * (trunkR + 1.8);
+      facetedRock(rx, y, rz, 1.4, 1.1, 1.4, { ink: inkBark, cover: 'waist', seed: (numSeed + r * 17) });
+    }
+  } else if (archetype === 'gnarled') {
+    facetedRock(x + trunkR + 1.2, y, z, 1.3, 1.0, 1.3, { ink: inkBark, cover: 'waist' });
+    facetedRock(x - trunkR - 1.2, y, z, 1.3, 1.0, 1.3, { ink: inkBark, cover: 'waist' });
+    ring(x, currY + 4.0, z, 'y');
+  } else {
+    ring(apexNode.x, currY + 3.5, apexNode.z, 'y');
+  }
+
+  return {
+    archetype,
+    height,
+    trunkR,
+    apex: { x: apexNode.x, y: currY, z: apexNode.z },
+    deckY: archetype === 'titan' ? (y + height * 0.68) : null
+  };
+}
+
+/**
+ * Curved Hollow Log Sprint Tunnel (Blueprint 2 & 3)
+ * Multi-segment fallen log corridor with honest 1.8m/2.2m clearance bore,
+ * exterior shelf-fungus spiral stairs, and elevated top catwalk with parapets.
+ */
+export function buildCurvedHollowLog(B, x, y, z, o = {}) {
+  const { hollowCyl, box, slab, rail, ring, facetedRock } = B;
+  const numSeed = typeof o.seed === 'number' ? o.seed : (typeof o === 'number' ? o : 1337);
+  const rng = createRNG(numSeed);
+  const next = rng.next;
+
+  const inkBark = o.inkBark ?? INK.BLACK;
+  const inkFoliage = o.inkFoliage ?? INK.GREEN;
+  const inkCover = o.inkCover ?? INK.ORANGE;
+
+  const rInner = o.rInner ?? 1.5;   // Guaranteed 2.2m+ clear headroom
+  const rOuter = o.rOuter ?? 1.9;
+  const segCount = Math.max(2, Math.min(4, o.segments ?? (2 + Math.floor(next() * 2))));
+  const segLen = o.segLen ?? (7.0 + next() * 3.0);
+
+  let currX = x;
+  let currY = y + rInner;
+  let currZ = z;
+  let angle = (o.initialAngle ?? (next() * Math.PI * 2));
+
+  const logCenters = [];
+
+  for (let s = 0; s < segCount; s++) {
+    const dx = Math.cos(angle);
+    const dz = Math.sin(angle);
+    const dominantAxis = Math.abs(dx) > Math.abs(dz) ? 'x' : 'z';
+
+    hollowCyl(currX, currY, currZ, rInner, rOuter, segLen, {
+      axis: dominantAxis,
+      floor: true,
+      f: 0.5,
+      bands: 3,
+      ink: inkBark,
+      bandInk: inkFoliage
+    });
+
+    logCenters.push({ x: currX, y: currY, z: currZ, axis: dominantAxis, len: segLen });
+
+    // Top catwalk slab on the outer chord
+    const catY = currY + rOuter;
+    if (dominantAxis === 'x') {
+      slab(currX - segLen / 2, currZ - rOuter * 0.6, currX + segLen / 2, currZ + rOuter * 0.6, catY, 0.3, { ink: inkBark });
+      rail(currX - segLen / 2, currZ - rOuter * 0.6, currX + segLen / 2, currZ - rOuter * 0.6, catY, { ink: inkCover });
+      rail(currX - segLen / 2, currZ + rOuter * 0.6, currX + segLen / 2, currZ + rOuter * 0.6, catY, { ink: inkCover });
+      ring(currX, catY + 6.5, currZ, 'x');
+    } else {
+      slab(currX - rOuter * 0.6, currZ - segLen / 2, currX + rOuter * 0.6, currZ + segLen / 2, catY, 0.3, { ink: inkBark });
+      rail(currX - rOuter * 0.6, currZ - segLen / 2, currX - rOuter * 0.6, currZ + segLen / 2, catY, { ink: inkCover });
+      rail(currX + rOuter * 0.6, currZ - segLen / 2, currX + rOuter * 0.6, currZ + segLen / 2, catY, { ink: inkCover });
+      ring(currX, catY + 6.5, currZ, 'z');
+    }
+
+    // Step to next segment with a 20-35 deg kink
+    const kink = (next() > 0.5 ? 1 : -1) * (0.35 + next() * 0.25);
+    angle += kink;
+    currX += dx * (segLen * 0.85);
+    currZ += dz * (segLen * 0.85);
+  }
+
+  // Exterior shelf-fungus spiral stairs climbing up the first segment
+  const firstSeg = logCenters[0];
+  const shelfCount = 7;
+  for (let sh = 0; sh < shelfCount; sh++) {
+    const sTheta = sh * 0.35;
+    const shY = y + sh * 0.28;
+    const shDist = rOuter + 0.4;
+    const shX = firstSeg.x - (firstSeg.len / 3) + sh * 0.8;
+    const shZ = firstSeg.z + Math.sin(sTheta) * shDist;
+    box(shX, shY, shZ, 1.2, 0.25, 0.8, { ink: inkFoliage, tag: 'stairs' });
+  }
+
+  // Entrance and exit tactical cover boulders
+  facetedRock(x - 2.5, y, z, 1.4, 1.0, 1.4, { ink: inkBark, cover: 'waist', seed: numSeed });
+  const lastSeg = logCenters[logCenters.length - 1];
+  facetedRock(lastSeg.x + 2.5, y, lastSeg.z, 1.4, 1.0, 1.4, { ink: inkBark, cover: 'waist', seed: numSeed + 55 });
+
+  return {
+    segmentCount: segCount,
+    totalLength: segCount * segLen,
+    rInner,
+    rOuter,
+    catwalkY: currY + rOuter
+  };
+}
+
+/**
+ * Faceted Boulder Cover Field (Blueprint 2 & 4)
+ * Places a tactical cluster of faceted sketched boulders providing
+ * waist cover, full cover, and unobstructed movement channels.
+ */
+export function buildBoulderField(B, x, y, z, o = {}) {
+  const { facetedRock } = B;
+  const numSeed = typeof o.seed === 'number' ? o.seed : (typeof o === 'number' ? o : 1337);
+  const rng = createRNG(numSeed);
+  const next = rng.next;
+
+  const count = Math.max(3, Math.min(8, o.count ?? (4 + Math.floor(next() * 3))));
+  const radius = o.radius ?? (5.0 + next() * 3.0);
+  const ink = o.ink ?? INK.BLACK;
+
+  // 1 Full cover anchor rock in center
+  facetedRock(x + (next() - 0.5) * 2, y, z + (next() - 0.5) * 2, 2.0, 2.8, 2.0, {
+    ink,
+    cover: 'full',
+    seed: numSeed + 1
+  });
+
+  // Surrounding waist cover rocks positioned with >= 1.8m clearance
+  for (let i = 1; i < count; i++) {
+    const angle = (i / count) * Math.PI * 2 + (next() - 0.5) * 0.4;
+    const dist = 2.4 + next() * (radius - 2.4);
+    const rx = x + Math.cos(angle) * dist;
+    const rz = z + Math.sin(angle) * dist;
+    const isWaist = i < count - 1;
+    const rockSeed = numSeed + i * 23;
+
+    facetedRock(rx, y, rz, 1.2 + next() * 0.6, isWaist ? 1.0 : 0.5, 1.2 + next() * 0.6, {
+      ink,
+      cover: isWaist ? 'waist' : 'decor',
+      seed: rockSeed
+    });
+  }
+
+  return { count, radius };
+}
 
 /**
  * Instantiates any registered prefab by ID or thematic keyword.

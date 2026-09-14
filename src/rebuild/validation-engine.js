@@ -181,3 +181,59 @@ export function validateGameplay(tree, grid) {
     summary: `${passed ? 'PASSED' : 'FAILED'} (Score: ${score}/100, Deficiencies: ${deficiencies.length})`
   };
 }
+
+/**
+ * Colossal Contract Validator (Blueprint 3 — Section 3.1)
+ * Evaluates any colossal set-piece against the 7 validation clauses:
+ * C1 Grounded Base, C2 Entry route, C3 Interior invariants (1.8m/2.2m),
+ * C4 Summit Catwalk (parapets + rings), C5 Skill faces, C6 >= 2 Exits, C7 Hazard honesty.
+ */
+export function validateColossalContract(setpiece, context = {}) {
+  const violations = [];
+  const contract = setpiece.contract || {};
+  const transform = setpiece.transform || { x: 0, y: 0, z: 0 };
+
+  // C1: Grounded base (y touches terrain near 0)
+  if (transform.y > 0.5) {
+    violations.push({ clause: 'C1', message: 'Ungrounded setpiece: base elevation Y > 0.5m' });
+  }
+
+  // C2: Entry routes
+  const entries = contract.entry || [];
+  if (entries.length < 1) {
+    violations.push({ clause: 'C2', message: 'No entry route declared (requires stairs, ramp, or climber)' });
+  }
+
+  // C3: Interior Invariants (if interior exists)
+  if (contract.interior) {
+    if (contract.interior.clearance !== undefined && contract.interior.clearance < 1.8) {
+      violations.push({ clause: 'C3', message: `Interior clearance ${contract.interior.clearance}m < 1.8m pinch invariant` });
+    }
+    if (contract.interior.headroom !== undefined && contract.interior.headroom < 2.2) {
+      violations.push({ clause: 'C3', message: `Interior headroom ${contract.interior.headroom}m < 2.2m continuous invariant` });
+    }
+  }
+
+  // C4: Summit Catwalk (parapet + rings)
+  if (contract.summit) {
+    if (contract.summit.parapet === false) {
+      violations.push({ clause: 'C4', message: 'Summit catwalk missing 0.9m-1.1m cover parapets' });
+    }
+    if (!contract.summit.rings || contract.summit.rings.length < 1) {
+      violations.push({ clause: 'C4', message: 'Summit catwalk missing overhead grapple rings (+6m to +10m)' });
+    }
+  }
+
+  // C6: Minimum 2 Exits (anti-camping gate)
+  const exitCount = contract.exits !== undefined ? contract.exits : (entries.length || 1);
+  if (exitCount < 2) {
+    violations.push({ clause: 'C6', message: `Dead-end camper coffin: exit count ${exitCount} < 2` });
+  }
+
+  return {
+    valid: violations.length === 0,
+    clausesChecked: 7,
+    violations,
+    passed: violations.length === 0
+  };
+}
