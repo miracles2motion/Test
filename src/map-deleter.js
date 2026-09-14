@@ -35,9 +35,58 @@ if (fs.existsSync(mainLevelFile)) {
   const builderRegex = new RegExp(`[\\s\\r\\n]+${mapName}:\\s*\\w+,?`, 'g');
   levelCode = levelCode.replace(builderRegex, '');
 
-  // Remove from LEVELS array (assumes no nested objects within the level config)
-  const objRegex = new RegExp(`[\\s\\r\\n]*,?\\s*\\{[^{}]*?key:\\s*['"]${mapName}['"][^{}]*?\\},?`, 'g');
-  levelCode = levelCode.replace(objRegex, '');
+  // Remove from LEVELS array (with robust balanced brace matching for nested customEnemies)
+  const keyPattern = new RegExp(`key:\\s*['"]${mapName}['"]`);
+  const match = levelCode.match(keyPattern);
+  if (match) {
+    const keyPos = match.index;
+    // Find the opening brace '{' before this keyPos
+    let startPos = -1;
+    let braceDepth = 0;
+    for (let i = keyPos; i >= 0; i--) {
+      if (levelCode[i] === '}') braceDepth++;
+      else if (levelCode[i] === '{') {
+        if (braceDepth === 0) {
+          startPos = i;
+          break;
+        } else {
+          braceDepth--;
+        }
+      }
+    }
+
+    if (startPos !== -1) {
+      // Find matching closing brace
+      let endPos = -1;
+      let depth = 0;
+      for (let i = startPos; i < levelCode.length; i++) {
+        if (levelCode[i] === '{') depth++;
+        else if (levelCode[i] === '}') {
+          depth--;
+          if (depth === 0) {
+            endPos = i + 1;
+            break;
+          }
+        }
+      }
+
+      if (endPos !== -1) {
+        // Also consume trailing comma and whitespace
+        while (endPos < levelCode.length && (levelCode[endPos] === ',' || levelCode[endPos] === ' ' || levelCode[endPos] === '\t')) {
+          endPos++;
+        }
+        // If there was a preceding comma and no trailing comma, consume preceding comma
+        while (startPos > 0 && (levelCode[startPos - 1] === ' ' || levelCode[startPos - 1] === '\t')) {
+          startPos--;
+        }
+        if (startPos > 0 && levelCode[startPos - 1] === ',') {
+          startPos--;
+        }
+
+        levelCode = levelCode.slice(0, startPos) + levelCode.slice(endPos);
+      }
+    }
+  }
 
   fs.writeFileSync(mainLevelFile, levelCode);
   console.log(`   ✓ Removed ${mapName} from src/level.js`);
