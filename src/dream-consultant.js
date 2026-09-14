@@ -8,6 +8,7 @@ output questions to the user/chat, ingest human teaching, permanently store lear
 
 import fs from 'fs';
 import path from 'path';
+import { ingestRecipe } from './rebuild/recipe-ingestion.js';
 
 const LESSONS_DIR = path.resolve('.agents/lessons');
 const CACHE_FILE = path.resolve('.agents/learning-cache.json');
@@ -239,11 +240,39 @@ export function resolveConsultationTicket(ticketIdOrName, resolutionData = null)
   return true;
 }
 
+/**
+ * Resolves a ticket by ingesting a declarative dream-recipe/1.0 JSON string or file.
+ */
+export function resolveRecipeTicket(ticketIdOrName, recipeJsonOrFile) {
+  let recipeContent = recipeJsonOrFile;
+  if (typeof recipeJsonOrFile === 'string' && fs.existsSync(recipeJsonOrFile)) {
+    recipeContent = fs.readFileSync(recipeJsonOrFile, 'utf8');
+  }
+
+  const result = ingestRecipe(recipeContent);
+  if (!result.success) {
+    console.error(`❌ Recipe Ingestion Failed (Step ${result.stepFailed}): ${result.message}`);
+    if (result.errors) {
+      result.errors.forEach(err => console.error(`   - ${err}`));
+    }
+    return false;
+  }
+
+  console.log(`✅ Recipe [${result.recipe.id}] ingested successfully!`);
+  resolveConsultationTicket(ticketIdOrName, {
+    kind: 'recipe_absorbed',
+    recipeId: result.recipe.id,
+    schema: result.recipe.schema,
+    summary: result.message
+  });
+  return true;
+}
+
 // CLI handler
 if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve('src/dream-consultant.js')) {
   const command = process.argv[2] || 'list';
   const target = process.argv[3];
-  const resolutionArg = process.argv.slice(4).join(' ');
+  const remainingArgs = process.argv.slice(4);
 
   if (command === 'list' || command === 'pending') {
     const pending = listPendingTickets();
@@ -256,8 +285,32 @@ if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve('src/dream
         console.log(`     File: .agents/lessons/pending_${t.ticketId}.json\n`);
       });
     }
+  } else if (command === 'recipe' || command === 'ingest') {
+    const filePath = target;
+    if (!filePath || !fs.existsSync(filePath)) {
+      console.error(`❌ File not found: ${filePath}`);
+      process.exit(1);
+    }
+    const content = fs.readFileSync(filePath, 'utf8');
+    const result = ingestRecipe(content);
+    if (!result.success) {
+      console.error(`❌ Ingestion failed: ${result.message}`);
+      process.exit(1);
+    } else {
+      console.log(`✅ Recipe successfully ingested: ${result.message}`);
+    }
   } else if (command === 'resume' || command === 'resolve') {
-    resolveConsultationTicket(target, resolutionArg || null);
+    const fileIdx = remainingArgs.indexOf('--file');
+    if (fileIdx !== -1 && remainingArgs[fileIdx + 1]) {
+      resolveRecipeTicket(target, remainingArgs[fileIdx + 1]);
+    } else {
+      const resArg = remainingArgs.join(' ');
+      if (resArg.trim().startsWith('{') && resArg.includes('dream-recipe/1.0')) {
+        resolveRecipeTicket(target, resArg);
+      } else {
+        resolveConsultationTicket(target, resArg || null);
+      }
+    }
   } else if (command === 'ask' || command === 'test') {
     openConsultationTicket({
       topic: 'thematic_architecture',

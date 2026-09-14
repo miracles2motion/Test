@@ -1637,6 +1637,21 @@ export function buildBoulderField(B, x, y, z, o = {}) {
 }
 
 /**
+ * Registers a new prefab or declarative recipe dynamically into the registry.
+ */
+export function registerPrefab(id, builderFn, metadata = {}) {
+  PREFAB_REGISTRY[id] = {
+    id,
+    name: metadata.name || id,
+    tags: metadata.tags || ['recipe', 'taught'],
+    builder: builderFn,
+    footprint: metadata.footprint || [4.0, 4.0, 4.0],
+    ...metadata
+  };
+  return PREFAB_REGISTRY[id];
+}
+
+/**
  * Instantiates any registered prefab by ID or thematic keyword.
  */
 export function instantiatePrefab(B, prefabId, x, y, z, o = {}) {
