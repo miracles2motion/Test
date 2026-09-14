@@ -562,9 +562,18 @@ export function createBuilder(scene, world) {
   // ---------------- shared finish ----------------
   function finish() {
     for (const ink in geos) {
-      const merged = mergeGeometries(geos[ink], false);
-      const mesh = new THREE.Mesh(merged, makeInkMaterial({ ink: Number(ink) }));
-      mesh.matrixAutoUpdate = false; scene.add(mesh); L.meshes.push(mesh);
+      const list = geos[ink];
+      if (!list || list.length === 0) continue;
+      const hasIndexed = list.some(g => !!g.index);
+      const hasNonIndexed = list.some(g => !g.index);
+      const uniformList = (hasIndexed && hasNonIndexed)
+        ? list.map(g => g.index ? g.toNonIndexed() : g)
+        : list;
+      const merged = mergeGeometries(uniformList, false);
+      if (merged) {
+        const mesh = new THREE.Mesh(merged, makeInkMaterial({ ink: Number(ink) }));
+        mesh.matrixAutoUpdate = false; scene.add(mesh); L.meshes.push(mesh);
+      }
     }
     world.finalize();
     return L;

@@ -1491,9 +1491,9 @@ export function generateParametricTree(B, x, y, z, o = {}) {
     facetedRock(apexNode.x - deckW * 0.3, deckY, apexNode.z, 1.2, 1.1, 1.0, { ink: inkCover, cover: 'waist' });
     facetedRock(apexNode.x + deckW * 0.3, deckY, apexNode.z, 1.2, 1.1, 1.0, { ink: inkCover, cover: 'waist' });
 
-    // Overhead Grapple Rings (+7m)
-    ring(apexNode.x, deckY + 7.5, apexNode.z, 'y');
-    ring(apexNode.x + 3.0, deckY + 6.5, apexNode.z + 3.0, 'x');
+    // Overhead Grapple Rings (cleanly above tree crown and outward on branch)
+    ring(apexNode.x, currY + 3.5, apexNode.z, 'y');
+    ring(apexNode.x + trunkR + 2.5, deckY + 4.5, apexNode.z + trunkR + 2.5, 'x');
 
     // Root skirt waist cover rocks
     for (let r = 0; r < 4; r++) {

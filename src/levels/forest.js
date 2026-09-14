@@ -1,37 +1,65 @@
-import { buildPineTree, buildGiantMushroom, buildHollowLog, buildCampfire, buildWoodStack, buildTrailSign, buildChoppingBlock, buildLoggingCart, buildHollowStump, buildSurveyTable, buildGiantGrass, buildTreehouse, buildToadstoolCluster } from '../prefabs.js';
 import * as THREE from 'three';
 import { INK } from '../render.js';
+import {
+  buildTreehouse,
+  buildGiantGrass,
+  buildPineTree,
+  buildAncientTree,
+  generateParametricTree,
+  buildCurvedHollowLog,
+  buildBoulderField,
+  buildToadstoolCluster,
+  buildHollowLog,
+  buildHollowStump,
+  buildWoodStack,
+  buildCampfire,
+  buildTrailSign,
+  buildLoggingCart,
+  buildSurveyTable
+} from '../prefabs.js';
 
 /**
- * Map: FOREST (forest)
- * God Mode Scaffolding — Bounds and tiers synced with concept
+ * THE COLOSSAL CANOPY (Forest)
+ * A monumental, organic, hand-drawn 3D woodland sanctuary.
+ * Features a 26m Titan Redwood Treehouse with spiral trunk stairs, 
+ * high-altitude timber canopy bridges, curved hollow sprint logs,
+ * giant stalk grasses with momentum grapple rings, mountain streams, and boulder defilade.
  */
 export function buildForest(B, arena = false) {
   const { L, box, slab, wallX, wallZ, stairs, rail, cyl, sphere, ring, spawn, sniper, pickup, planes, addGeo, collider, scene } = B;
   const OR = INK.ORANGE ?? 3, GR = INK.GREEN ?? 4, BK = INK.BLACK ?? 2, BL = INK.BLUE ?? 0, RD = INK.RED ?? 1;
 
   L.key = 'forest';
-  const P = arena ? 68 : 55, PH = arena ? 30 : 18, T = 6;
+  const P = arena ? 68 : 55, PH = arena ? 30 : 20, T = 6;
   const D = P - 3;
   L.bounds = { minX: -P, maxX: P, minZ: -P, maxZ: P };
 
-  // 1. Foundation & Perimeter Walls
+  // ==================== 1. FOREST BED & PERIMETER BOUNDS ====================
+  // Deep mossy forest ground floor (rich green & earth)
   box(0, -1.0, 0, 2 * P + T, 1.0, 2 * P + T, { ink: GR });
-  box(0, 0, -P, 2 * P + T, PH, T, { ink: GR });
-  box(0, 0, P, 2 * P + T, PH, T, { ink: GR });
-  box(-P, 0, 0, T, PH, 2 * P + T, { ink: GR });
-  box(P, 0, 0, T, PH, 2 * P + T, { ink: GR });
 
-  // Perimeter Doorways
+  // Perimeter Ancient Redwood Trunk Palisades (replaces sterile flat walls with vertical log palisades)
+  box(0, 0, -P, 2 * P + T, PH, T, { ink: BK });
+  box(0, 0, P, 2 * P + T, PH, T, { ink: BK });
+  box(-P, 0, 0, T, PH, 2 * P + T, { ink: BK });
+  box(P, 0, 0, T, PH, 2 * P + T, { ink: BK });
+
+  // Overhanging perimeter foliage canopy eaves (Trim)
+  box(0, PH, -P, 2 * P + T + 2.0, 1.2, T + 2.0, { noCollide: true, ink: GR });
+  box(0, PH, P, 2 * P + T + 2.0, 1.2, T + 2.0, { noCollide: true, ink: GR });
+  box(-P, PH, 0, T + 2.0, 1.2, 2 * P + T + 2.0, { noCollide: true, ink: GR });
+  box(P, PH, 0, T + 2.0, 1.2, 2 * P + T + 2.0, { noCollide: true, ink: GR });
+
+  // Rustic Timber Arch Gateways
   const doorFrame = (x, z, alongX) => {
     if (alongX) {
-      box(x - 1.4, 0, z, 0.4, 3.4, 0.6, { noCollide: true, ink: BK });
-      box(x + 1.4, 0, z, 0.4, 3.4, 0.6, { noCollide: true, ink: BK });
-      box(x, 3.2, z, 3.2, 0.4, 0.6, { noCollide: true, ink: BK });
+      box(x - 1.6, 0, z, 0.6, 3.8, 0.8, { noCollide: true, ink: OR });
+      box(x + 1.6, 0, z, 0.6, 3.8, 0.8, { noCollide: true, ink: OR });
+      box(x, 3.6, z, 3.8, 0.6, 0.8, { noCollide: true, ink: OR });
     } else {
-      box(x, 0, z - 1.4, 0.6, 3.4, 0.4, { noCollide: true, ink: BK });
-      box(x, 0, z + 1.4, 0.6, 3.4, 0.4, { noCollide: true, ink: BK });
-      box(x, 3.2, z, 0.6, 0.4, 3.2, { noCollide: true, ink: BK });
+      box(x, 0, z - 1.6, 0.8, 3.8, 0.6, { noCollide: true, ink: OR });
+      box(x, 0, z + 1.6, 0.8, 3.8, 0.6, { noCollide: true, ink: OR });
+      box(x, 3.6, z, 0.8, 0.6, 3.8, { noCollide: true, ink: OR });
     }
   };
   doorFrame(-D, 0, false); doorFrame(D, 0, false);
@@ -44,140 +72,206 @@ export function buildForest(B, arena = false) {
     collider(0, PH + 38, 0, 2 * P + 40, 8.0, 2 * P + 40, NG);
   }
 
-  // 2. Base Spawns & Vantages
+  // ==================== 2. MOUNTAIN STREAM BED (EAST FLANK) ====================
+  // Winding clear blue mountain stream carving through the east glade
+  slab(16.0, -45.0, 26.0, 45.0, 0.05, 0.05, { ink: BL });
+  // Stepping stones across the stream
+  slab(18.0, -2.0, 24.0, 2.0, 0.35, 0.35, { ink: BK });
+  // Rustic timber arched footbridge spanning the river at Z = -15
+  slab(15.0, -18.0, 27.0, -14.0, 0.8, 0.3, { ink: OR });
+  rail(15.0, -18.0, 27.0, -18.0, 0.8, { ink: BK });
+  rail(15.0, -14.0, 27.0, -14.0, 0.8, { ink: BK });
+
+  // ==================== 3. HERO CENTERPIECE: COLOSSAL TITAN TREEHOUSE ====================
+  // 26m Monumental Redwood with 20 spiral stairs, 10m timber deck at Y=9.5m, constructed cabin & 5-point grapple network
+  buildTreehouse(B, 0, 0, 0, {
+    trunkR: 3.2,
+    height: 28.0,
+    deckY: 9.5,
+    inkBark: BK,
+    inkWood: OR,
+    inkLeaves: GR
+  });
+
+  // ==================== 4. HIGH-ALTITUDE CANOPY SKY-BRIDGES (Y = 9.5m) ====================
+  // Timber catwalks radiating from the central Treehouse deck to outer tree bastions
+  // North Skybridge: Center (0, 9.5, -5) -> North Bastion (0, 9.5, -26)
+  slab(-1.5, -26.0, 1.5, -5.0, 9.5, 0.35, { ink: OR });
+  rail(-1.5, -26.0, -1.5, -5.0, 9.5, { ink: BK });
+  rail(1.5, -26.0, 1.5, -5.0, 9.5, { ink: BK });
+
+  // South Skybridge: Center (0, 9.5, 5) -> South Outpost (0, 9.5, 26)
+  slab(-1.5, 5.0, 1.5, 26.0, 9.5, 0.35, { ink: OR });
+  rail(-1.5, 5.0, -1.5, 26.0, 9.5, { ink: BK });
+  rail(1.5, 5.0, 1.5, 26.0, 9.5, { ink: BK });
+
+  // West Skybridge: Center (-5, 9.5, 0) -> West Tree Perch (-24, 9.5, 0)
+  slab(-24.0, -1.5, -5.0, 1.5, 9.5, 0.35, { ink: OR });
+  rail(-24.0, -1.5, -5.0, -1.5, 9.5, { ink: BK });
+  rail(-24.0, 1.5, -5.0, 1.5, 9.5, { ink: BK });
+
+  // East Skybridge: Center (5, 9.5, 0) -> East Watchtower (24, 9.5, 0)
+  slab(5.0, -1.5, 24.0, 1.5, 9.5, 0.35, { ink: OR });
+  rail(5.0, -1.5, 24.0, -1.5, 9.5, { ink: BK });
+  rail(5.0, 1.5, 24.0, 1.5, 9.5, { ink: BK });
+
+  // Skybridge Overlook Platforms & Dual Stair Access to Ground
+  // North Bastion Deck
+  slab(-6.0, -32.0, 6.0, -26.0, 9.5, 0.4, { ink: OR });
+  rail(-6.0, -32.0, 6.0, -32.0, 9.5, { ink: BK });
+  rail(-6.0, -32.0, -6.0, -26.0, 9.5, { ink: BK });
+  rail(6.0, -32.0, 6.0, -26.0, 9.5, { ink: BK });
+  stairs(0, 0, -32.5, '-z', 18, 3.0, { rise: 0.28, run: 0.48, ink: OR });
+
+  // South Outpost Deck
+  slab(-6.0, 26.0, 6.0, 32.0, 9.5, 0.4, { ink: OR });
+  rail(-6.0, 32.0, 6.0, 32.0, 9.5, { ink: BK });
+  rail(-6.0, 26.0, -6.0, 32.0, 9.5, { ink: BK });
+  rail(6.0, 26.0, 6.0, 32.0, 9.5, { ink: BK });
+  stairs(0, 0, 32.5, '+z', 18, 3.0, { rise: 0.28, run: 0.48, ink: OR });
+
+  // West Flank Tree Deck & Stairs
+  slab(-30.0, -6.0, -24.0, 6.0, 9.5, 0.4, { ink: OR });
+  rail(-30.0, -6.0, -30.0, 6.0, 9.5, { ink: BK });
+  rail(-30.0, -6.0, -24.0, -6.0, 9.5, { ink: BK });
+  rail(-30.0, 6.0, -24.0, 6.0, 9.5, { ink: BK });
+  stairs(-30.5, 0, 0, '-x', 18, 3.0, { rise: 0.28, run: 0.48, ink: OR });
+
+  // East Glade River Overlook Deck & Stairs
+  slab(24.0, -6.0, 30.0, 6.0, 9.5, 0.4, { ink: OR });
+  rail(30.0, -6.0, 30.0, 6.0, 9.5, { ink: BK });
+  rail(24.0, -6.0, 30.0, -6.0, 9.5, { ink: BK });
+  rail(24.0, 6.0, 30.0, 6.0, 9.5, { ink: BK });
+  stairs(30.5, 0, 0, '+x', 18, 3.0, { rise: 0.28, run: 0.48, ink: OR });
+
+  // ==================== 5. ANCIENT REDWOODS & PARAMETRIC TREES ====================
+  // NW Titan Tree with spiral buttress roots
+  generateParametricTree(B, -34.0, 0, -32.0, {
+    archetype: 'titan',
+    height: 28.0,
+    trunkR: 2.8,
+    seed: 201,
+    inkBark: BK,
+    inkLeaves: GR,
+    inkCover: OR
+  });
+
+  // NE Ancient Pine Grove
+  buildPineTree(B, 34.0, 0, -32.0, { h: 22.0, inkBark: BK, inkLeaves: GR });
+  buildPineTree(B, 40.0, 0, -24.0, { h: 18.0, inkBark: BK, inkLeaves: GR });
+
+  // SW Gnarled Redwood with hollow niche
+  generateParametricTree(B, -34.0, 0, 32.0, {
+    archetype: 'gnarled',
+    height: 22.0,
+    trunkR: 2.6,
+    seed: 305,
+    inkBark: BK,
+    inkLeaves: GR,
+    inkCover: OR
+  });
+
+  // SE Ancient Banyan Spire
+  buildAncientTree(B, 34.0, 0, 32.0, { r: 2.2, h: 20.0, inkBark: BK, inkLeaves: GR });
+
+  // Flanking perimeter pines (offset from cardinal stair corridors)
+  buildPineTree(B, -44.0, 0, -18.0, { h: 24.0, inkBark: BK, inkLeaves: GR });
+  buildPineTree(B, 44.0, 0, 18.0, { h: 24.0, inkBark: BK, inkLeaves: GR });
+  buildPineTree(B, -18.0, 0, -44.0, { h: 24.0, inkBark: BK, inkLeaves: GR });
+  buildPineTree(B, 18.0, 0, 44.0, { h: 24.0, inkBark: BK, inkLeaves: GR });
+
+  // ==================== 6. CURVED HOLLOW LOG SPRINT TUNNEL (WEST LANE) ====================
+  // Multi-segment sprint tube with 2.2m clear interior corridor & shelf-fungus steps
+  buildCurvedHollowLog(B, -20.0, 0, -18.0, {
+    segments: 3,
+    segLen: 8.0,
+    rInner: 1.6,
+    rOuter: 2.1,
+    initialAngle: Math.PI * 0.45,
+    seed: 777,
+    inkBark: BK,
+    inkFoliage: GR,
+    inkCover: OR
+  });
+
+  // Second straight hollow log on South Flank
+  buildHollowLog(B, -15.0, 0, 22.0, 12.0);
+
+  // ==================== 7. GIANT STALK GRASSES WITH MOMENTUM GRAPPLE RINGS ====================
+  // Massive blades giving waist defilade crowned with aerial momentum grapple rings
+  buildGiantGrass(B, -12.0, 0, -16.0, { height: 7.2, ink: GR, inkStem: BK });
+  buildGiantGrass(B, 12.0, 0, -16.0, { height: 7.0, ink: GR, inkStem: BK });
+  buildGiantGrass(B, -12.0, 0, 16.0, { height: 7.5, ink: GR, inkStem: BK });
+  buildGiantGrass(B, 12.0, 0, 16.0, { height: 7.2, ink: GR, inkStem: BK });
+  buildGiantGrass(B, -28.0, 0, 12.0, { height: 6.8, ink: GR, inkStem: BK });
+  buildGiantGrass(B, 28.0, 0, -12.0, { height: 6.8, ink: GR, inkStem: BK });
+  buildGiantGrass(B, 0.0, 0, -22.0, { height: 8.0, ink: GR, inkStem: BK });
+  buildGiantGrass(B, 0.0, 0, 22.0, { height: 8.0, ink: GR, inkStem: BK });
+
+  // ==================== 8. GRANITE BOULDER FIELDS & ROCK COVER ====================
+  // Natural sketched granite cover rocks along riverbank and glades
+  buildBoulderField(B, 24.0, 0, -2.0, { count: 6, radius: 7.0, seed: 88, ink: BK });
+  buildBoulderField(B, -24.0, 0, 20.0, { count: 5, radius: 6.0, seed: 142, ink: BK });
+
+  // ==================== 9. WOODLAND TACTICAL SET DRESSING ====================
+  // Fly Agaric spotted toadstools (waist cover clusters)
+  buildToadstoolCluster(B, -16.0, 0, -8.0, 4);
+  buildToadstoolCluster(B, 16.0, 0, 8.0, 4);
+  buildToadstoolCluster(B, -8.0, 0, 24.0, 3);
+
+  // Natural ambush bunker stump
+  buildHollowStump(B, -8.0, 0, -24.0);
+  buildHollowStump(B, 8.0, 0, 24.0);
+
+  // Cordwood fuel stacks (waist cover)
+  buildWoodStack(B, -22.0, 0, -4.0);
+  buildWoodStack(B, 22.0, 0, 4.0);
+
+  // Campfires with crackling embers
+  buildCampfire(B, -6.0, 0, -8.0);
+  buildCampfire(B, 6.0, 0, 8.0);
+
+  // Ranger trail signs & logging carts
+  buildTrailSign(B, -4.0, 0, -18.0);
+  buildTrailSign(B, 4.0, 0, 18.0);
+  buildLoggingCart(B, -20.0, 0, 28.0);
+  buildSurveyTable(B, 20.0, 0, -28.0);
+
+  // ==================== 10. SPAWNS, PICKUPS & COMBAT NAVIGATION ====================
   spawn(0, 0.2, D - 5);
   spawn(0, 0.2, -D + 5);
   spawn(-D + 5, 0.2, 0);
   spawn(D - 5, 0.2, 0);
 
-  sniper(0, 9.3, 12);
-  sniper(0, 9.3, -12);
-  sniper(-30, 9.2, -D + 3);
-  sniper(30, 9.2, D - 3);
+  // Snipers stationed on elevated tree decks
+  sniper(0, 10.0, -29.0);
+  sniper(0, 10.0, 29.0);
+  sniper(-27.0, 10.0, 0);
+  sniper(27.0, 10.0, 0);
 
-  // Pickups
-  pickup(0, 4.7, 0);
-  pickup(0, 9.3, 0);
-  pickup(-25, 3.9, -25);
-  pickup(25, 3.9, 25);
-  pickup(-14, 0.2, 6);
-  pickup(14, 0.2, -6);
+  // High-value pickups
+  pickup(0, 10.0, 0);           // Inside central Treehouse cabin
+  pickup(0, 0.3, 0);            // Base of titan trunk
+  pickup(20.0, 1.2, -16.0);     // On river footbridge
+  pickup(-20.0, 4.0, -18.0);    // On curved hollow log roof
+  pickup(-34.0, 12.0, -32.0);   // High in NW Titan redwood
+  pickup(34.0, 12.0, 32.0);     // High in SE Banyan spire
 
-  // 3. Narrative Sector Topology & Central Feature
-  // Centerpiece Crossing: Elevated combat terrace with perimeter circulation and dual access
-  const centerW = 20, centerD = 20, centerH = 4.5;
-  slab(-centerW / 2, -centerD / 2, centerW / 2, centerD / 2, centerH, 0.45, { ink: OR });
-  rail(-centerW / 2, -centerD / 2, centerW / 2, -centerD / 2, centerH, { ink: BK });
-  rail(-centerW / 2, centerD / 2, centerW / 2, centerD / 2, centerH, { ink: BK });
-  rail(-centerW / 2, -centerD / 2, -centerW / 2, centerD / 2, centerH, { ink: BK });
-  rail(centerW / 2, -centerD / 2, centerW / 2, centerD / 2, centerH, { ink: BK });
+  // High Canopy Aerial Grapple Highway (allows rapid gliding and zapping across the map)
+  ring(0, 31.0, 0, 'y');        // Apex Treehouse swing (above 28m crown)
+  ring(0, 16.0, -18.0, 'z');    // North airway
+  ring(0, 16.0, 18.0, 'z');     // South airway
+  ring(-18.0, 16.0, 0, 'x');    // West airway
+  ring(18.0, 16.0, 0, 'x');     // East airway
+  ring(-25.0, 18.0, -25.0, 'y');
+  ring(25.0, 18.0, -25.0, 'y');
+  ring(-25.0, 18.0, 25.0, 'y');
+  ring(25.0, 18.0, 25.0, 'y');
 
-  // Center Cover nodes (waist-high)
-  box(-4, centerH, 0, 1.4, 1.1, 3.2, { ink: GR, tag: 'cover' });
-  box(4, centerH, 0, 1.4, 1.1, 3.2, { ink: GR, tag: 'cover' });
-  box(0, centerH, -4, 3.2, 1.1, 1.4, { ink: GR, tag: 'cover' });
-  box(0, centerH, 4, 3.2, 1.1, 1.4, { ink: GR, tag: 'cover' });
-  
-  // Dual Ascending Stairways connecting ground to center deck
-  const rs = 0.2857, rn = 0.45;
-  stairs(0, 0, -17.2, '+z', 16, 3.2, { rise: 0.2813, run: 0.45, ink: OR });
-  stairs(0, 0, 17.2, '-z', 16, 3.2, { rise: 0.2813, run: 0.45, ink: OR });
-
-  // 4. Tactical Quadrant Platforms & Flanking Lanes
-  // NW Quadrant: Elevated Base Platform
-  slab(-38, -38, -20, -20, 3.6, 0.4, { ink: GR });
-  stairs(-14.15, 0, -29, '-x', 13, 2.8, { rise: 0.2769, run: 0.45, ink: OR });
-  box(-29, 3.6, -23, 2.0, 1.1, 2.0, { ink: BK, tag: 'cover' });
-
-  // NE Quadrant: Sniper Lookout Bastion
-  slab(20, -38, 38, -20, 7.6499999999999995, 0.4, { ink: GR });
-  stairs(7.85, 0, -29, '+x', 27, 2.8, { rise: 0.2833, run: 0.45, ink: OR });
-  box(29, 7.6499999999999995, -23, 2.2, 1.1, 2.2, { ink: BK, tag: 'cover' });
-
-  // SW Quadrant: CQB Crucible Defilade
-  slab(-38, 20, -20, 38, 3.6, 0.4, { ink: GR });
-  stairs(-14.15, 0, 29, '-x', 13, 2.8, { rise: 0.2769, run: 0.45, ink: OR });
-  box(-29, 3.6, 23, 2.0, 1.1, 2.0, { ink: BK, tag: 'cover' });
-
-  // SE Quadrant: Flank Anchor Platform
-  slab(20, 20, 38, 38, 3.6, 0.4, { ink: GR });
-  stairs(14.15, 0, 29, '+x', 13, 2.8, { rise: 0.2769, run: 0.45, ink: OR });
-  box(29, 3.6, 23, 2.0, 1.1, 2.0, { ink: BK, tag: 'cover' });
-
-  // 5. Overhead Traversal Ring Network
-  ring(0, 12.5, 0, 'y');
-  ring(-29, 12, -29, 'y');
-  ring(29, 12, -29, 'y');
-  ring(-29, 12, 29, 'y');
-  ring(29, 12, 29, 'y');
-
-  // Ground collision floor
+  // Solid ground foundation collider
   collider(0, -2, 0, 2 * P + 20, 2, 2 * P + 20);
-  L.playerStart.set(0, 0.2, D - 5); 
-  
-  
-  
+  L.playerStart.set(0, 0.2, D - 5);
 
-  
-  
-  
-  // === DREAM AUTO-INJECTED MACRO STRUCTURES ===
-
-  // === MACRO STRUCTURE: Stonehenge Hollow Altar at (-36.092696469966754, 0, -42.29160233842477) ===
-  box(-36.092696469966754 - 2.8, 0, -42.29160233842477, 1.2, 4.5, 1.2, { ink: BK });
-  box(-36.092696469966754 + 2.8, 0, -42.29160233842477, 1.2, 4.5, 1.2, { ink: BK });
-  slab(-36.092696469966754 - 3.5, -42.29160233842477 - 1.5, -36.092696469966754 + 3.5, -42.29160233842477 + 1.5, 0 + 4.5, 0.6, { ink: BK });
-  cyl(-36.092696469966754, 0, -42.29160233842477, 1.6, 1.4, { seg: 8, ink: GR });
-  slab(-36.092696469966754 - 2.0, -42.29160233842477 - 2.0, -36.092696469966754 + 2.0, -42.29160233842477 + 2.0, 0 + 1.4, 0.3, { ink: OR });
-  ring(-36.092696469966754, 0 + 7.8, -42.29160233842477, 'z');
-  pickup(-36.092696469966754, 0 + 1.6, -42.29160233842477);
-
-  // === MACRO STRUCTURE: Stonehenge Hollow Altar at (-31, 0, 11) ===
-  box(-31 - 2.8, 0, 11, 1.2, 4.5, 1.2, { ink: BK });
-  box(-31 + 2.8, 0, 11, 1.2, 4.5, 1.2, { ink: BK });
-  slab(-31 - 3.5, 11 - 1.5, -31 + 3.5, 11 + 1.5, 0 + 4.5, 0.6, { ink: BK });
-  cyl(-31, 0, 11, 1.6, 1.4, { seg: 8, ink: GR });
-  slab(-31 - 2.0, 11 - 2.0, -31 + 2.0, 11 + 2.0, 0 + 1.4, 0.3, { ink: OR });
-  ring(-31, 0 + 7.8, 11, 'z');
-  pickup(-31, 0 + 1.6, 11);
-
-  // === MACRO STRUCTURE: Stonehenge Hollow Altar at (-24.201343854197933, 0, -13.467528440829113) ===
-  box(-24.201343854197933 - 2.8, 0, -13.467528440829113, 1.2, 4.5, 1.2, { ink: BK });
-  box(-24.201343854197933 + 2.8, 0, -13.467528440829113, 1.2, 4.5, 1.2, { ink: BK });
-  slab(-24.201343854197933 - 3.5, -13.467528440829113 - 1.5, -24.201343854197933 + 3.5, -13.467528440829113 + 1.5, 0 + 4.5, 0.6, { ink: BK });
-  cyl(-24.201343854197933, 0, -13.467528440829113, 1.6, 1.4, { seg: 8, ink: GR });
-  slab(-24.201343854197933 - 2.0, -13.467528440829113 - 2.0, -24.201343854197933 + 2.0, -13.467528440829113 + 2.0, 0 + 1.4, 0.3, { ink: OR });
-  ring(-24.201343854197933, 0 + 7.8, -13.467528440829113, 'z');
-  pickup(-24.201343854197933, 0 + 1.6, -13.467528440829113);
-
-  // === MACRO STRUCTURE: Stonehenge Hollow Altar at (-19, 0, -43) ===
-  box(-19 - 2.8, 0, -43, 1.2, 4.5, 1.2, { ink: BK });
-  box(-19 + 2.8, 0, -43, 1.2, 4.5, 1.2, { ink: BK });
-  slab(-19 - 3.5, -43 - 1.5, -19 + 3.5, -43 + 1.5, 0 + 4.5, 0.6, { ink: BK });
-  cyl(-19, 0, -43, 1.6, 1.4, { seg: 8, ink: GR });
-  slab(-19 - 2.0, -43 - 2.0, -19 + 2.0, -43 + 2.0, 0 + 1.4, 0.3, { ink: OR });
-  ring(-19, 0 + 7.8, -43, 'z');
-  pickup(-19, 0 + 1.6, -43);
-  // === END DREAM AUTO-INJECTED MACRO STRUCTURES ===
-
-  
-  // === DREAM AUTO-INJECTED THEMATIC PROPS ===
-
-  // Prefab: Fly Agaric Toadstool Cluster
-  buildToadstoolCluster(B, -47.0, 0, -31.0, 3);
-
-  // Prefab: Canopy Survey Table & Field Instruments
-  buildSurveyTable(B, -47.0, 0, -15.0);
-
-  // Prefab: Run-Through Hollow Log Tunnel
-  buildHollowLog(B, -47.0, 0, 17.0, 10);
-
-  // Prefab: Cordwood Fuel Stack (Waist-High Tactical Cover)
-  buildWoodStack(B, -31.0, 0, -31.0);
-
-  // Prefab: Woodcutter's Chopping Block & Embedded Axe
-  buildChoppingBlock(B, 17.0, 0, -47.0);
-  // === END DREAM AUTO-INJECTED PROPS ===
   B.finish();
   return L;
 }
