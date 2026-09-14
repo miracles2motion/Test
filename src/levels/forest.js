@@ -8,7 +8,15 @@ import {
   buildHollowLog,
   buildGrassClump,
   buildFernCluster,
-  buildSuspensionBridge
+  buildSuspensionBridge,
+  buildCampfire,
+  buildWoodStack,
+  buildTrailSign,
+  buildChoppingBlock,
+  buildLoggingCart,
+  buildHollowStump,
+  buildToadstoolCluster,
+  buildSurveyTable
 } from '../prefabs.js';
 
 /**
@@ -16,6 +24,9 @@ import {
  * A colossal, multi-tiered primeval rainforest arena built entirely of
  * procedural biro ink geometry, gnarled ancient trees, climbable spiral trunk stairs,
  * hollow log tunnels, suspension rope bridges, and high-velocity canopy grapple swings.
+ * Richly densified with small tactical structures: ranger campfires, cordwood stacks,
+ * woodcutter chopping blocks, logging carts, trail signposts, toadstool clusters,
+ * stone cairns, and river boulders.
  */
 export function buildForest(B, arena = false) {
   const { L, box, slab, wallX, wallZ, stairs, rail, cyl, sphere, ring, spawn, sniper, pickup, planes, addGeo, collider, scene } = B;
@@ -89,9 +100,20 @@ export function buildForest(B, arena = false) {
   pickup(29.0, 8.7, -26.0);  // Sector 2 Ammo Cache inside Ranger Blind
   pickup(-24.0, 0.2, 18.0);  // Sector 3 Health Core in Hollow Log Tunnel
   pickup(29.0, 0.4, 29.0);   // Sector 4 Druid Boon at base of Weeping Willow
+  pickup(0.0, 0.2, 40.0);    // Trailhead starter health pickup
 
   // ==========================================================================
-  // 3. THE CENTRAL SECTOR: THE GRAND REDWOOD CROSSING & MID DECK
+  // 3. SOUTH TRAILHEAD: RANGER WAYPOINT & OUTPOST ENCOUNTER
+  // ==========================================================================
+  buildTrailSign(B, 3.5, 0, 42.0); // Directional fingerboard
+  buildCampfire(B, -6.0, 0, 42.0);  // Stone hearth with charred logs & warm light
+  buildChoppingBlock(B, -8.5, 0, 43.0); // Tree round with embedded woodcutter's axe
+  buildWoodStack(B, -8.0, 0, 39.0, 2.6, 1.1, 1.2); // Trailhead cordwood cover
+  buildToadstoolCluster(B, 4.5, 0, 44.0, 3); // Fly agaric toadstools
+  sphere(-2.5, 0.35, 36.0, 0.65, { ink: BK, tag: 'cover' }); // Mossy trail boulder
+
+  // ==========================================================================
+  // 4. THE CENTRAL SECTOR: THE GRAND REDWOOD CROSSING & MID DECK
   // ==========================================================================
   // Colossal Titan Redwood Trunk extending from ground to upper canopy
   cyl(0, 0, 0, 2.8, 24.0, { seg: 16, ink: BK });
@@ -106,20 +128,35 @@ export function buildForest(B, arena = false) {
   rail(-10, -10, -10, 10, midY, { ink: BK });
   rail(10, -10, 10, 10, midY, { ink: BK });
 
-  // 4 Carved timber parapet cover bunkers on the center deck (waist-high 1.1m)
-  box(-5.5, midY, 0, 1.4, 1.1, 3.4, { ink: GR, tag: 'cover' });
-  box(5.5, midY, 0, 1.4, 1.1, 3.4, { ink: GR, tag: 'cover' });
-  box(0, midY, -5.5, 3.4, 1.1, 1.4, { ink: GR, tag: 'cover' });
-  box(0, midY, 5.5, 3.4, 1.1, 1.4, { ink: GR, tag: 'cover' });
+  // Mid Deck Tactical Furniture & Field Headquarters
+  buildSurveyTable(B, 0, midY, -4.5); // Survey table with rolled maps, telescope, lantern
+  buildWoodStack(B, -5.5, midY, 0, 1.4, 1.1, 3.2); // Cedar timber stack cover
+  buildWoodStack(B, 5.5, midY, 0, 1.4, 1.1, 3.2);  // Cedar timber stack cover
+  box(0, midY, 5.5, 3.4, 1.1, 1.4, { ink: GR, tag: 'cover' }); // South timber parapet
+
+  // 4 Corner Timber Barrels with iron bands on Mid Deck
+  const midBarrels = [[-7.5, -7.5], [7.5, -7.5], [-7.5, 7.5], [7.5, 7.5]];
+  for (const [bx, bz] of midBarrels) {
+    cyl(bx, midY, bz, 0.55, 1.2, { ink: OR, tag: 'cover' });
+    cyl(bx, midY + 0.3, bz, 0.57, 0.08, { ink: BK, noCollide: true });
+    cyl(bx, midY + 0.9, bz, 0.57, 0.08, { ink: BK, noCollide: true });
+  }
+
+  // Supply Crates on Mid Deck corners
+  box(6.0, midY, -6.0, 1.2, 0.9, 1.2, { ink: OR, tag: 'cover' });
+  box(-6.0, midY, 6.0, 1.2, 0.9, 1.2, { ink: OR, tag: 'cover' });
+
+  // Stepped bracket fungus steps spiraling up the titan redwood trunk (parkour route)
+  slab(2.8, -1.2, 4.6, 1.2, 2.0, 0.25, { ink: OR });
+  slab(-1.2, 2.8, 1.2, 4.6, 3.5, 0.25, { ink: OR });
+  slab(-4.6, -1.2, -2.8, 1.2, 5.0, 0.25, { ink: OR });
 
   // Dual Grand Stairways connecting ground to center deck
-  const stepRise = 0.2857, stepRun = 0.45;
-  const numSteps = Math.round(midY / stepRise); // ~23 steps
-  stairs(0, 0, -10 - numSteps * stepRun, '+z', numSteps, 3.2, { rise: midY / numSteps, run: stepRun, ink: OR });
-  stairs(0, 0, 10 + numSteps * stepRun, '-z', numSteps, 3.2, { rise: midY / numSteps, run: stepRun, ink: OR });
+  stairs(0, 0, -20.35, '+z', 23, 3.2, { rise: 0.2826, run: 0.45, ink: OR });
+  stairs(0, 0, 20.35, '-z', 23, 3.2, { rise: 0.2826, run: 0.45, ink: OR });
 
   // ==========================================================================
-  // 4. SECTOR 1 (NW): THE GREAT BANYAN BASTION & SPIRAL ASCENT
+  // 5. SECTOR 1 (NW): THE GREAT BANYAN BASTION & DRUID STONE CIRCLE
   // ==========================================================================
   // Colossal Ancient Banyan with buttress roots, climbable spiral steps, and canopy deck
   buildAncientTree(B, -29.0, 0, -29.0, {
@@ -133,13 +170,27 @@ export function buildForest(B, arena = false) {
   box(-35.0, 0, -29.0, 1.2, 1.1, 3.0, { ink: BK, tag: 'cover' });
   box(-29.0, 0, -35.0, 3.0, 1.1, 1.2, { ink: BK, tag: 'cover' });
 
+  // Micro-Props: Hollow stump bunker, stone cairns & druid campfire
+  buildHollowStump(B, -20.0, 0, -35.0, 1.3, 1.2);
+  buildCampfire(B, -24.0, 0, -22.0); // Druid stone hearth
+  buildTrailSign(B, -15.0, 0, -18.0);
+  buildToadstoolCluster(B, -27.0, 0, -27.0, 3);
+  
+  // Stone Cairns (stacked river megaliths)
+  sphere(-20.0, 0.35, -20.0, 0.55, { ink: BK, tag: 'cover' });
+  sphere(-20.0, 0.85, -20.0, 0.4, { ink: BK, tag: 'cover' });
+  sphere(-36.0, 0.35, -20.0, 0.55, { ink: BK, tag: 'cover' });
+  sphere(-36.0, 0.85, -20.0, 0.4, { ink: BK, tag: 'cover' });
+
+  // Decaying mossy log cover
+  box(-34.0, 0, -34.0, 1.2, 0.9, 4.5, { ink: BK, tag: 'cover' });
+
   // ==========================================================================
-  // 5. SECTOR 2 (NE): THE ALPINE CONIFER RIDGE & RANGER BLIND
+  // 6. SECTOR 2 (NE): THE ALPINE CONIFER RIDGE & LUMBER OUTPOST
   // ==========================================================================
   // Elevated Granite Ridge base
   slab(20, -38, 38, -20, 3.5, 0.4, { ink: BK });
-  const numSteps2 = Math.round(3.5 / stepRise);
-  stairs(20 - numSteps2 * stepRun, 0, -29, '+x', numSteps2, 2.8, { rise: 3.5 / numSteps2, run: stepRun, ink: OR });
+  stairs(14.6, 0, -29, '+x', 12, 2.8, { rise: 0.2917, run: 0.45, ink: OR });
 
   // Conifer Trio (Pine spires providing vertical snipers and natural cover)
   buildPineTree(B, 25.0, 3.5, -25.0, { h: 14.0, inkBark: BK, inkLeaves: GR });
@@ -150,9 +201,23 @@ export function buildForest(B, arena = false) {
   box(29.0, 8.5, -29.0, 4.5, 0.4, 4.5, { ink: OR });
   rail(26.75, -31.25, 31.25, -31.25, 8.5, { ink: BK });
   rail(26.75, -26.75, 31.25, -26.75, 8.5, { ink: BK });
+  // Ranger blind gear: supply crate & lantern
+  box(29.0, 8.5, -27.5, 1.2, 0.9, 1.2, { ink: OR, tag: 'cover' });
+  cyl(30.2, 8.5, -27.5, 0.15, 0.45, { ink: BK, noCollide: true });
+
+  // Ridge toadstools & mossy boulder
+  buildToadstoolCluster(B, 23.5, 3.5, -23.5, 3);
+  buildToadstoolCluster(B, 34.0, 3.5, -26.0, 3);
+  sphere(22.0, 3.85, -34.0, 0.75, { ink: BK, tag: 'cover' });
+
+  // Ground lumber outpost props at foot of ridge
+  buildLoggingCart(B, 14.0, 0, -22.0); // Two-wheeled logging cart
+  buildWoodStack(B, 14.0, 0, -35.0, 2.8, 1.1, 1.2); // Cordwood stack
+  buildHollowStump(B, 22.0, 0, -14.0, 1.3, 1.2);
+  buildTrailSign(B, 18.0, 0, -18.0);
 
   // ==========================================================================
-  // 6. SECTOR 3 (SW): SUNKEN BROOK & HOLLOW LOG LABYRINTH
+  // 7. SECTOR 3 (SW): SUNKEN BROOK & HOLLOW LOG LABYRINTH
   // ==========================================================================
   // Dual Hollow Log sprint-through tunnels (10-12m long defilade in open brook)
   buildHollowLog(B, -12.0, 0, 22.0, 12, { ink: BK });
@@ -164,11 +229,26 @@ export function buildForest(B, arena = false) {
 
   // Flank platform connecting to western logging flume
   slab(-38, 20, -20, 38, 3.2, 0.4, { ink: GR });
-  const numSteps3 = Math.round(3.2 / stepRise);
-  stairs(-20 + numSteps3 * stepRun, 0, 29, '-x', numSteps3, 2.8, { rise: 3.2 / numSteps3, run: stepRun, ink: OR });
+  stairs(-15.05, 0, 29, '-x', 11, 2.8, { rise: 0.2909, run: 0.45, ink: OR });
+
+  // Micro-Props: Hollow stump, cordwood cover, chopping block & stream boulders
+  buildHollowStump(B, -34.0, 0, 24.0, 1.4, 1.2);
+  buildWoodStack(B, -15.0, 0, 32.0, 2.4, 1.1, 1.2);
+  buildChoppingBlock(B, -26.0, 0, 34.0);
+  buildTrailSign(B, -16.0, 0, 14.0);
+  buildToadstoolCluster(B, -11.0, 0, 36.0, 3);
+  
+  // Sunken stream river boulders
+  sphere(-16.0, 0.45, 16.0, 0.75, { ink: BK, tag: 'cover' });
+  sphere(-20.0, 0.4, 28.0, 0.65, { ink: BK, tag: 'cover' });
+
+  // Rustic footbridge over the brook depression
+  box(-20.0, 0.25, 14.0, 3.8, 0.2, 1.6, { ink: OR, tag: 'cover' });
+  rail(-21.9, 13.2, -18.1, 13.2, 0.45, { ink: BK });
+  rail(-21.9, 14.8, -18.1, 14.8, 0.45, { ink: BK });
 
   // ==========================================================================
-  // 7. SECTOR 4 (SE): WEEPING WILLOW BOWER & SHROOM GLADE
+  // 8. SECTOR 4 (SE): WEEPING WILLOW BOWER & SHROOM GLADE
   // ==========================================================================
   // Majestic Weeping Willow with trailing vine curtains breaking sightlines
   buildWillowTree(B, 29.0, 0, 29.0, {
@@ -181,13 +261,29 @@ export function buildForest(B, arena = false) {
   buildFernCluster(B, 34.0, 0, 34.0, { ink: GR });
   box(29.0, 0, 35.0, 2.4, 1.1, 1.4, { ink: BK, tag: 'cover' });
 
+  // Micro-Props: Logging cart, cordwood stack, hollow stump & boulders
+  buildLoggingCart(B, 18.0, 0, 35.0);
+  buildWoodStack(B, 34.0, 0, 20.0, 2.6, 1.1, 1.2);
+  buildHollowStump(B, 22.0, 0, 18.0, 1.3, 1.2);
+  buildToadstoolCluster(B, 30.0, 0, 27.5, 3);
+  sphere(16.0, 0.45, 24.0, 0.75, { ink: BK, tag: 'cover' });
+  sphere(35.0, 0.4, 38.0, 0.65, { ink: BK, tag: 'cover' });
+
   // Southeast anchor platform
   slab(20, 20, 38, 38, 3.2, 0.4, { ink: GR });
-  const numSteps4 = Math.round(3.2 / stepRise);
-  stairs(20 - numSteps4 * stepRun, 0, 29, '+x', numSteps4, 2.8, { rise: 3.2 / numSteps4, run: stepRun, ink: OR });
+  stairs(15.05, 0, 29, '+x', 11, 2.8, { rise: 0.2909, run: 0.45, ink: OR });
 
   // ==========================================================================
-  // 8. SUSPENSION SKY-BRIDGES CONNECTING CANOPY DECK TO SECTORS
+  // 9. NORTH TRAILHEAD & WATERFALL APPROACH
+  // ==========================================================================
+  buildTrailSign(B, 3.0, 0, -42.0);
+  buildWoodStack(B, -6.0, 0, -40.0, 2.8, 1.1, 1.2);
+  buildHollowStump(B, 6.0, 0, -38.0, 1.3, 1.2);
+  buildToadstoolCluster(B, -4.0, 0, -44.0, 3);
+  sphere(0, 0.45, -34.0, 0.75, { ink: BK, tag: 'cover' });
+
+  // ==========================================================================
+  // 10. SUSPENSION SKY-BRIDGES CONNECTING CANOPY DECK TO SECTORS
   // ==========================================================================
   // 4 Rope suspension walkways radiating from Mid to the 4 sectors at Y = 6.5m
   buildSuspensionBridge(B, -10.0, -10.0, -22.0, -22.0, midY, { inkWood: OR, inkRope: BK }); // To Sector 1
@@ -196,7 +292,7 @@ export function buildForest(B, arena = false) {
   buildSuspensionBridge(B, 10.0, 10.0, 22.0, 22.0, midY, { inkWood: OR, inkRope: BK });    // To Sector 4
 
   // ==========================================================================
-  // 9. PROCEDURAL GROUND UNDERSTORY FLORA (CARPET OF REEDS & FERNS)
+  // 11. PROCEDURAL GROUND UNDERSTORY FLORA (CARPET OF REEDS & FERNS)
   // ==========================================================================
   const grassLocs = [
     [-15, -15], [15, -15], [-15, 15], [15, 15],
@@ -208,7 +304,7 @@ export function buildForest(B, arena = false) {
   }
 
   // ==========================================================================
-  // 10. OVERHEAD 12-RING GRAPPLE SWING HIGHWAY & KINETIC PLANES
+  // 12. OVERHEAD 12-RING GRAPPLE SWING HIGHWAY & KINETIC PLANES
   // ==========================================================================
   // Master Central Apex Ring for colossal pendulum swings (above tree apex)
   ring(0, 25.5, 0, 'y');

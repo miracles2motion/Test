@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-09-14T03:18:00Z",
+  "updatedAt": "2026-09-14T04:00:00Z",
   "thematicArchetypes": {
     "forest": {
       "keywords": [
@@ -19,34 +19,42 @@
       "hazardInk": "INK.RED",
       "props": {
         "tier1_micro": [
-          "mossy fallen log (horizontal cyl 1.2m)",
+          "campfire (stone hearth with charred logs & glowing embers)",
+          "wood_stack (cordwood fuel stack with end stakes waist-high cover)",
+          "chopping_block (tree round with embedded woodcutter's axe and wood chips)",
+          "logging_cart (two-wheeled timber transport handcart with harvested logs)",
+          "hollow_stump (natural 1.2m ambush bunker stump with mossy rim)",
+          "toadstool_cluster (fly agaric red spotted umbrella mushrooms)",
+          "trail_sign (weathered directional cedar post with fingerboards)",
+          "river_boulder (mossy granite cover rock)",
           "ballpoint grass clump (stippled blades)",
-          "radiating fern cluster (waist-high cover)",
-          "granite boulder cover slab"
+          "radiating fern cluster (waist-high frond cover)"
         ],
         "tier2_meso": [
-          "hollow log defilade tunnel (10m pass-through)",
-          "suspended timber rope bridge (canopy connector)",
-          "giant umbrella mushroom platform (bounce/sniper)",
-          "canopy treehouse combat deck (slab + railings)"
+          "hollow log defilade tunnel (10-12m pass-through sprint tube)",
+          "suspended timber rope bridge (canopy connector with guard rails)",
+          "giant umbrella mushroom platform (bounce/sniper perch)",
+          "survey_table (canopy headquarters map table with telescope & lantern)",
+          "bracket_mushroom_steps (stepped shelf fungus climbing tree trunk)",
+          "rustic_footbridge (timber planks and log handrails crossing creek)"
         ],
         "tier3_macro": [
-          "towering ancient banyan with spiral trunk stairs",
-          "alpine conifer needle spire (tiered cones)",
-          "weeping willow vine bower (sightline baffles)",
-          "great redwood central crossing (multi-level hub)"
+          "towering ancient banyan with spiral trunk stairs and canopy deck",
+          "alpine conifer needle spire (tiered conical skirts)",
+          "weeping willow vine bower (trailing vine sightline baffles)",
+          "great redwood central crossing (multi-level titan hub with quad parapets)"
         ],
         "tier4_kinetic": [
           "swaying pine canopy boughs",
-          "gliding paper leaf gliders",
-          "momentum swing vines and rope rings"
+          "gliding paper leaf gliders catching thermal drafts",
+          "momentum swing vines and aerial grapple highway"
         ]
       }
     }
   },
   "safetyClearances": {
     "walkwayPinch": 1.8,
-    "stairHeadroom": 2,
+    "stairHeadroom": 2.0,
     "ringWallClearance": 1.5,
     "coverMinHeight": 0.8,
     "coverMaxHeight": 1.3

@@ -240,6 +240,194 @@ export function buildSuspensionBridge(B, x1, z1, x2, z2, y, o = {}) {
 }
 
 /**
+ * Procedural Ranger Campfire Pit
+ * Circle of 8 river stones around charred wood embers with warm atmospheric light.
+ */
+export function buildCampfire(B, x, y, z, o = {}) {
+  const { sphere, cyl, box, scene } = B;
+  const stoneR = 0.85;
+
+  // 1. Cobblestone Hearth Ring (8 river rocks)
+  for (let i = 0; i < 8; i++) {
+    const angle = i * (Math.PI / 4);
+    const sx = x + Math.cos(angle) * stoneR;
+    const sz = z + Math.sin(angle) * stoneR;
+    sphere(sx, y + 0.22, sz, 0.22, { ink: INK.BLACK, tag: 'cover' });
+  }
+
+  // 2. Charred Wood Ash Bed
+  cyl(x, y, z, 0.75, 0.1, { ink: INK.BLACK, noCollide: true });
+
+  // 3. Crossed Charred Logs
+  box(x, y + 0.25, z, 1.3, 0.18, 0.22, { ink: INK.BLACK, noCollide: true });
+  box(x, y + 0.35, z, 0.22, 0.18, 1.3, { ink: INK.BLACK, noCollide: true });
+
+  // 4. Glowing Red/Orange Embers Core
+  sphere(x, y + 0.28, z, 0.35, { ink: INK.ORANGE, noCollide: true });
+  sphere(x, y + 0.32, z, 0.18, { ink: INK.RED, noCollide: true });
+
+  // 5. Firelight Point Light
+  if (scene && typeof THREE !== 'undefined') {
+    const fireLight = new THREE.PointLight(0xff7722, 1.8, 18);
+    fireLight.position.set(x, y + 0.8, z);
+    scene.add(fireLight);
+  }
+}
+
+/**
+ * Procedural Cordwood Fuel Stack
+ * Stack of cut timber logs creating reliable waist-high (1.1m) tactical cover.
+ */
+export function buildWoodStack(B, x, y, z, w = 2.4, h = 1.1, d = 1.2, o = {}) {
+  const { box } = B;
+  const ink = o.ink ?? INK.ORANGE;
+
+  // Main solid stacked log collider & visual body
+  box(x, y, z, w, h, d, { ink, tag: 'cover' });
+
+  // Lateral End Stakes holding the pile together
+  box(x - w / 2 - 0.08, y, z, 0.12, h + 0.25, d + 0.1, { ink: INK.BLACK, noCollide: true });
+  box(x + w / 2 + 0.08, y, z, 0.12, h + 0.25, d + 0.1, { ink: INK.BLACK, noCollide: true });
+
+  // Top log trim
+  box(x, y + h, z, w * 0.75, 0.16, d * 0.7, { ink, noCollide: true });
+}
+
+/**
+ * Procedural Weathered Trail Signpost
+ * Vertical post with directional fingerboards pointing toward map sectors.
+ */
+export function buildTrailSign(B, x, y, z, o = {}) {
+  const { cyl, box } = B;
+  const postH = o.h ?? 2.4;
+
+  // Vertical wooden cedar post
+  cyl(x, y, z, 0.12, postH, { ink: INK.ORANGE });
+
+  // Primary Signboard
+  box(x, y + postH - 0.3, z, 1.4, 0.28, 0.08, { ink: INK.ORANGE, noCollide: true });
+  // Arrow tip
+  box(x + 0.65, y + postH - 0.3, z, 0.2, 0.2, 0.09, { ink: INK.BLACK, noCollide: true });
+
+  // Secondary Cross Signboard pointing in perpendicular direction
+  box(x, y + postH - 0.65, z, 0.08, 0.26, 1.2, { ink: INK.ORANGE, noCollide: true });
+
+  // Cobblestone ground base support
+  cyl(x, y, z, 0.45, 0.25, { ink: INK.BLACK, tag: 'cover' });
+}
+
+/**
+ * Procedural Chopping Block with Embedded Woodcutter's Axe
+ */
+export function buildChoppingBlock(B, x, y, z, o = {}) {
+  const { cyl, box } = B;
+
+  // Tree round chopping stump
+  cyl(x, y, z, 0.55, 0.85, { ink: INK.ORANGE, tag: 'cover' });
+
+  // Embedded Axe: Iron head embedded into top face
+  box(x, y + 0.95, z, 0.38, 0.22, 0.08, { ink: INK.BLACK, noCollide: true });
+  // Slanted wooden axe handle
+  box(x + 0.25, y + 1.25, z, 0.65, 0.08, 0.06, { ink: INK.ORANGE, noCollide: true });
+
+  // Scattered wood chips around base
+  box(x + 0.6, y, z + 0.3, 0.3, 0.06, 0.2, { ink: INK.ORANGE, noCollide: true });
+  box(x - 0.5, y, z - 0.4, 0.25, 0.05, 0.35, { ink: INK.ORANGE, noCollide: true });
+}
+
+/**
+ * Procedural Timber Logging Handcart
+ * 2 spoked wheels, wooden bed, axle, push bars, carrying harvested wood.
+ */
+export function buildLoggingCart(B, x, y, z, o = {}) {
+  const { box, cyl } = B;
+
+  // Cart bed
+  box(x, y + 0.6, z, 2.2, 0.6, 1.4, { ink: INK.ORANGE, tag: 'cover' });
+
+  // Left & Right Wooden Spoked Wheels
+  cyl(x, y + 0.55, z - 0.85, 0.55, 0.15, { axis: 'z', ink: INK.BLACK, tag: 'cover' });
+  cyl(x, y + 0.55, z + 0.85, 0.55, 0.15, { axis: 'z', ink: INK.BLACK, tag: 'cover' });
+
+  // Cargo: Split logs piled on cart (waist-high cover top at Y = y + 1.2m)
+  box(x, y + 0.95, z, 2.0, 0.45, 1.2, { ink: INK.ORANGE, tag: 'cover' });
+
+  // Push poles / handles extending backwards
+  box(x - 1.5, y + 0.7, z - 0.4, 1.1, 0.08, 0.08, { ink: INK.BLACK, noCollide: true });
+  box(x - 1.5, y + 0.7, z + 0.4, 1.1, 0.08, 0.08, { ink: INK.BLACK, noCollide: true });
+}
+
+/**
+ * Procedural Hollow Tree Stump
+ * Natural hollow wooden cylinder acting as a 1.2m ambush bunker.
+ */
+export function buildHollowStump(B, x, y, z, o = {}) {
+  const { cyl, slab, box } = B;
+  const r = o.r ?? 1.3;
+  const h = o.h ?? 1.2;
+
+  // Outer bark cylinder
+  cyl(x, y, z, r, h, { ink: INK.ORANGE, tag: 'cover' });
+
+  // Stepped moss lip on top
+  box(x + r * 0.6, y + h, z, 0.6, 0.15, 0.6, { ink: INK.GREEN, noCollide: true });
+  box(x - r * 0.6, y + h, z, 0.6, 0.15, 0.6, { ink: INK.GREEN, noCollide: true });
+}
+
+/**
+ * Procedural Toadstool / Fly Agaric Cluster
+ * Red spotted umbrella caps decorating forest floor and tree roots.
+ */
+export function buildToadstoolCluster(B, x, y, z, count = 3, o = {}) {
+  const { cyl, sphere } = B;
+
+  const offsets = [
+    [0, 0, 0.7, 0.35],
+    [0.55, 0.35, 0.5, 0.28],
+    [-0.45, -0.4, 0.4, 0.22]
+  ];
+
+  for (let i = 0; i < Math.min(count, offsets.length); i++) {
+    const [ox, oz, sh, cr] = offsets[i];
+    const sx = x + ox, sz = z + oz;
+    // White stipe stalk
+    cyl(sx, y, sz, cr * 0.4, sh, { ink: INK.BLACK, noCollide: true });
+    // Red dome cap
+    sphere(sx, y + sh, sz, cr, { ink: INK.RED, noCollide: true });
+    // White spot on cap apex
+    sphere(sx, y + sh + cr * 0.85, sz, cr * 0.25, { ink: INK.ORANGE, noCollide: true });
+  }
+}
+
+/**
+ * Procedural Canopy Survey Table & Field Instruments
+ * Tactical table on Mid deck with navigation map, brass telescope & lantern.
+ */
+export function buildSurveyTable(B, x, y, z, o = {}) {
+  const { box, cyl } = B;
+
+  // 4 Table legs
+  box(x - 1.1, y, z - 0.6, 0.14, 1.0, 0.14, { ink: INK.BLACK, noCollide: true });
+  box(x + 1.1, y, z - 0.6, 0.14, 1.0, 0.14, { ink: INK.BLACK, noCollide: true });
+  box(x - 1.1, y, z + 0.6, 0.14, 1.0, 0.14, { ink: INK.BLACK, noCollide: true });
+  box(x + 1.1, y, z + 0.6, 0.14, 1.0, 0.14, { ink: INK.BLACK, noCollide: true });
+
+  // Cedar Tabletop (Y = y + 1.0)
+  box(x, y + 1.0, z, 2.6, 0.12, 1.5, { ink: INK.ORANGE, tag: 'cover' });
+
+  // Rolled parchment map on table
+  cyl(x - 0.3, y + 1.1, z - 0.2, 0.12, 1.2, { axis: 'x', ink: INK.ORANGE, noCollide: true });
+
+  // Brass surveyor's sighting compass / telescope on tripod
+  cyl(x + 0.6, y + 1.1, z + 0.2, 0.14, 0.45, { ink: INK.BLACK, noCollide: true });
+  box(x + 0.6, y + 1.45, z + 0.2, 0.65, 0.12, 0.12, { ink: INK.ORANGE, noCollide: true });
+
+  // Kerosene Hurricane Lantern
+  cyl(x - 0.8, y + 1.1, z + 0.3, 0.15, 0.4, { ink: INK.BLACK, noCollide: true });
+  cyl(x - 0.8, y + 1.25, z + 0.3, 0.12, 0.22, { ink: INK.ORANGE, noCollide: true });
+}
+
+/**
  * Full Multi-Deck Pirate Galleon Warship
  * Curved wedge bow with bowsprit, open gun deck with broadside cannons,
  * raised forecastle, raised sterncastle with captain's cabin and aft balcony,
@@ -526,6 +714,62 @@ export const PREFAB_REGISTRY = {
     tags: ['colossal', 'classroom', 'inkwell', 'cover'],
     builder: buildInkwellCover,
     footprint: [6.0, 3.0, 6.0]
+  },
+  campfire: {
+    id: 'campfire',
+    name: 'Ranger Campfire Pit',
+    tags: ['forest', 'camp', 'fire', 'light', 'outpost'],
+    builder: buildCampfire,
+    footprint: [2.0, 0.8, 2.0]
+  },
+  wood_stack: {
+    id: 'wood_stack',
+    name: 'Cordwood Fuel Stack',
+    tags: ['forest', 'wood', 'cover', 'lumber'],
+    builder: buildWoodStack,
+    footprint: [2.6, 1.2, 1.4]
+  },
+  trail_sign: {
+    id: 'trail_sign',
+    name: 'Weathered Trail Signpost',
+    tags: ['forest', 'sign', 'waypoint', 'trail'],
+    builder: buildTrailSign,
+    footprint: [1.6, 2.5, 1.6]
+  },
+  chopping_block: {
+    id: 'chopping_block',
+    name: 'Woodcutters Chopping Block & Axe',
+    tags: ['forest', 'camp', 'axe', 'lumber', 'cover'],
+    builder: buildChoppingBlock,
+    footprint: [1.4, 1.4, 1.4]
+  },
+  logging_cart: {
+    id: 'logging_cart',
+    name: 'Timber Logging Handcart',
+    tags: ['forest', 'cart', 'lumber', 'transport', 'cover'],
+    builder: buildLoggingCart,
+    footprint: [3.4, 1.3, 2.0]
+  },
+  hollow_stump: {
+    id: 'hollow_stump',
+    name: 'Hollow Tree Stump Bunker',
+    tags: ['forest', 'stump', 'cover', 'bunker'],
+    builder: buildHollowStump,
+    footprint: [2.8, 1.3, 2.8]
+  },
+  toadstools: {
+    id: 'toadstools',
+    name: 'Fly Agaric Toadstool Cluster',
+    tags: ['forest', 'mushroom', 'flora', 'decoration'],
+    builder: buildToadstoolCluster,
+    footprint: [1.5, 0.8, 1.5]
+  },
+  survey_table: {
+    id: 'survey_table',
+    name: 'Canopy Survey Table & Instruments',
+    tags: ['forest', 'table', 'survey', 'furniture', 'cover'],
+    builder: buildSurveyTable,
+    footprint: [2.8, 1.5, 1.8]
   }
 };
 

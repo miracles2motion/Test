@@ -57,8 +57,19 @@ if (action === 'detail' && isDense) {
 let modifications = 0;
 
 if (action === 'detail') {
-  // MICRO-DETAILING: Find large flat surfaces (tables, platforms) and scatter static props
-  // Rule 4: Surface-Stack Pattern
+  // Determine map theme from memory
+  let theme = 'colossal';
+  try {
+    const memory = JSON.parse(fs.readFileSync(path.join(ROOT_DIR, '.agents', 'thematic-memory.json'), 'utf8'));
+    for (const [tKey, arch] of Object.entries(memory.thematicArchetypes || {})) {
+      if (tKey === mapArg || (arch.keywords && arch.keywords.some(k => mapArg.includes(k)))) {
+        theme = tKey;
+        break;
+      }
+    }
+  } catch (e) {}
+
+  // MICRO-DETAILING: Find large flat surfaces (tables, platforms) and scatter theme-authentic static props
   const largeFlatBoxRegex = /box\(([^,]+),\s*([^,]+),\s*([^,]+),\s*([^,]+),\s*([^,]+),\s*([^,]+)(?:,\s*(\{.*?\}))?\);/g;
   
   code = code.replace(largeFlatBoxRegex, (match, x, y, z, w, h, d, opts) => {
@@ -68,16 +79,40 @@ if (action === 'detail') {
     // If it's a large flat surface (e.g. a desk or wide platform)
     if (width >= 4 && depth >= 4 && parseFloat(h) < 2) {
       modifications++;
-      // Add static books, pencils (collision enabled per user request)
       const topY = parseFloat(y) + parseFloat(h);
-      return `${match}
+      
+      if (theme === 'forest') {
+        return `${match}
+  // Dream Detail: Scattered Forest Micro-Props
+  buildToadstoolCluster(B, ${x} - 1.2, ${topY}, ${z} + 0.5, 3);
+  sphere(${x} + 0.8, ${topY} + 0.35, ${z} - 0.8, 0.45, { ink: BK, tag: 'cover' }); // River Stone
+  box(${x} - 0.2, ${topY}, ${z} + 1.2, 0.6, 0.15, 0.4, { ink: OR, noCollide: true }); // Cedar Woodchip`;
+      } else if (theme === 'maritime') {
+        return `${match}
+  // Dream Detail: Maritime Flotsam Props
+  barrel(${x} - 1.0, ${topY}, ${z} + 0.5, 0.6, 1.0, { ink: OR }); // Rum Barrel
+  cyl(${x} + 0.8, ${topY}, ${z} - 0.8, 0.25, 0.6, { ink: BK }); // Mooring Bollard
+  sphere(${x} - 0.2, ${topY} + 0.2, ${z} + 1.0, 0.25, { ink: BK, noCollide: true }); // Cannonball`;
+      } else if (theme === 'zen') {
+        return `${match}
+  // Dream Detail: Zen Garden Micro Props
+  cyl(${x} - 1.0, ${topY}, ${z} + 0.5, 0.35, 0.7, { ink: BK, tag: 'cover' }); // Stone Lantern
+  cyl(${x} + 0.8, ${topY}, ${z} - 0.8, 0.1, 1.4, { ink: GR, noCollide: true }); // Bamboo Shoot
+  sphere(${x} - 0.2, ${topY} + 0.15, ${z} + 1.0, 0.3, { ink: BK, noCollide: true }); // River Rock`;
+      } else {
+        return `${match}
   // Dream Detail: Scattered Desk Props (Static collision geometry)
   box(${x} - 1.2, ${topY}, ${z} + 0.5, 0.6, 0.2, 0.8, { ink: BL }); // Book
   box(${x} + 0.8, ${topY}, ${z} - 1.0, 0.8, 0.1, 0.1, { ink: OR }); // Pencil
   cyl(${x} - 0.2, ${topY}, ${z} + 1.2, 0.2, 0.6, { ink: BK }); // Ink Well`;
+      }
     }
     return match;
   });
+
+  if (theme === 'forest' && modifications > 0 && !code.includes('buildToadstoolCluster')) {
+    code = `import { buildToadstoolCluster } from '../prefabs.js';\n` + code;
+  }
 
   if (modifications > 0) {
     fs.writeFileSync(levelFilePath, code, 'utf8');

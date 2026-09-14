@@ -229,25 +229,57 @@ const propCatalog = {
     }
   ],
   forest: [
-    { type: 'ancient_oak_tree', w: 11, h: 16, d: 11, tier: 1, gen: (x, y, z) => `
+    { type: 'ancient_oak_tree', w: 11, h: 16, d: 11, tier: 3, gen: (x, y, z) => `
   // Prefab: Ancient Oak / Banyan Tree
   buildAncientTree(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
     },
-    { type: 'alpine_pine_tree', w: 8, h: 14, d: 8, tier: 1, gen: (x, y, z) => `
+    { type: 'alpine_pine_tree', w: 8, h: 14, d: 8, tier: 3, gen: (x, y, z) => `
   // Prefab: Alpine Conifer / Pine Tree
   buildPineTree(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
     },
-    { type: 'weeping_willow_tree', w: 10, h: 12, d: 10, tier: 1, gen: (x, y, z) => `
+    { type: 'weeping_willow_tree', w: 10, h: 12, d: 10, tier: 3, gen: (x, y, z) => `
   // Prefab: Weeping Willow Tree
   buildWillowTree(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
     },
-    { type: 'hollow_log_defilade', w: 4, h: 3.5, d: 10, tier: 1, gen: (x, y, z) => `
+    { type: 'hollow_log_defilade', w: 4, h: 3.5, d: 10, tier: 2, gen: (x, y, z) => `
   // Prefab: Run-Through Hollow Log Tunnel
   buildHollowLog(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)}, 10);`
     },
-    { type: 'giant_mushroom_platform', w: 6, h: 6.5, d: 6, tier: 1, gen: (x, y, z) => `
+    { type: 'giant_mushroom_platform', w: 6, h: 6.5, d: 6, tier: 2, gen: (x, y, z) => `
   // Prefab: Giant Umbrella Mushroom Platform
   buildGiantMushroom(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
+    },
+    { type: 'wood_stack_cover', w: 2.6, h: 1.2, d: 1.4, tier: 1, gen: (x, y, z) => `
+  // Prefab: Cordwood Fuel Stack (Waist-High Tactical Cover)
+  buildWoodStack(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
+    },
+    { type: 'logging_cart_cover', w: 3.4, h: 1.3, d: 2.0, tier: 1, gen: (x, y, z) => `
+  // Prefab: Timber Logging Handcart (Tactical Barricade)
+  buildLoggingCart(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
+    },
+    { type: 'hollow_stump_bunker', w: 2.8, h: 1.3, d: 2.8, tier: 1, gen: (x, y, z) => `
+  // Prefab: Hollow Tree Stump Ambush Bunker
+  buildHollowStump(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
+    },
+    { type: 'ranger_campfire_hearth', w: 2.2, h: 0.8, d: 2.2, tier: 1, gen: (x, y, z) => `
+  // Prefab: Ranger Campfire Hearth & Warm Ambient Light
+  buildCampfire(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
+    },
+    { type: 'chopping_block_prop', w: 1.4, h: 1.4, d: 1.4, tier: 1, gen: (x, y, z) => `
+  // Prefab: Woodcutter's Chopping Block & Embedded Axe
+  buildChoppingBlock(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
+    },
+    { type: 'trail_signpost', w: 1.6, h: 2.5, d: 1.6, tier: 1, gen: (x, y, z) => `
+  // Prefab: Weathered Trail Signpost
+  buildTrailSign(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
+    },
+    { type: 'survey_table_hq', w: 2.8, h: 1.5, d: 1.8, tier: 1, gen: (x, y, z) => `
+  // Prefab: Canopy Survey Table & Field Instruments
+  buildSurveyTable(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
+    },
+    { type: 'toadstool_cluster', w: 1.5, h: 0.8, d: 1.5, tier: 1, gen: (x, y, z) => `
+  // Prefab: Fly Agaric Toadstool Cluster
+  buildToadstoolCluster(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)}, 3);`
     },
     { type: 'fern_and_grass_grove', w: 4, h: 1.5, d: 4, tier: 1, gen: (x, y, z) => `
   // Prefab: Fern Cluster & Ballpoint Grass Tufts
@@ -338,16 +370,37 @@ for (const lane of lanes) {
     if (safePockets.some(s => Math.hypot(s.x - p.position.x, s.z - p.position.z) < 3.0)) continue;
 
     if (isBoxCollisionFree(p.position.x, 0.0, p.position.z, 2.0, 2.0, 2.0, 1.0)) {
-      if (p.type === 'HARD_COVER') {
-        safePockets.push({
-          x: p.position.x, y: 0, z: p.position.z,
-          template: { gen: (x,y,z) => `  box(${x.toFixed(1)}, ${y}, ${z.toFixed(1)}, 2.0, 2.5, 2.0, { ink: OR }); // Hard Cover` }
-        });
+      if (themeArg === 'forest' || mapArg === 'forest') {
+        if (p.type === 'HARD_COVER') {
+          const hardTemplates = [
+            (x, y, z) => `  buildWoodStack(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`,
+            (x, y, z) => `  buildHollowStump(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`,
+            (x, y, z) => `  buildLoggingCart(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
+          ];
+          const fn = hardTemplates[Math.floor(Math.random() * hardTemplates.length)];
+          safePockets.push({ x: p.position.x, y: 0, z: p.position.z, template: { gen: fn } });
+        } else {
+          const softTemplates = [
+            (x, y, z) => `  buildChoppingBlock(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`,
+            (x, y, z) => `  buildFernCluster(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`,
+            (x, y, z) => `  buildToadstoolCluster(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)}, 3);`,
+            (x, y, z) => `  buildCampfire(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
+          ];
+          const fn = softTemplates[Math.floor(Math.random() * softTemplates.length)];
+          safePockets.push({ x: p.position.x, y: 0, z: p.position.z, template: { gen: fn } });
+        }
       } else {
-        safePockets.push({
-          x: p.position.x, y: 0, z: p.position.z,
-          template: { gen: (x,y,z) => `  barrel(${x.toFixed(1)}, ${y}, ${z.toFixed(1)}, 0.8, 1.2, { ink: OR }); // Soft Cover` }
-        });
+        if (p.type === 'HARD_COVER') {
+          safePockets.push({
+            x: p.position.x, y: 0, z: p.position.z,
+            template: { gen: (x,y,z) => `  box(${x.toFixed(1)}, ${y}, ${z.toFixed(1)}, 2.0, 2.5, 2.0, { ink: OR }); // Hard Cover` }
+          });
+        } else {
+          safePockets.push({
+            x: p.position.x, y: 0, z: p.position.z,
+            template: { gen: (x,y,z) => `  barrel(${x.toFixed(1)}, ${y}, ${z.toFixed(1)}, 0.8, 1.2, { ink: OR }); // Soft Cover` }
+          });
+        }
       }
     }
   }
@@ -381,7 +434,12 @@ ${selectedProps.map(p => p.template.gen(p.x, p.y, p.z)).join('\n')}
   }
 
   // Ensure procedural prefabs are imported from src/prefabs.js if used
-  const prefabsToImport = ['buildAncientTree', 'buildPineTree', 'buildWillowTree', 'buildGiantMushroom', 'buildHollowLog', 'buildFernCluster', 'buildGrassClump', 'buildFullGalleon'];
+  const prefabsToImport = [
+    'buildAncientTree', 'buildPineTree', 'buildWillowTree', 'buildGiantMushroom',
+    'buildHollowLog', 'buildFernCluster', 'buildGrassClump', 'buildFullGalleon',
+    'buildCampfire', 'buildWoodStack', 'buildTrailSign', 'buildChoppingBlock',
+    'buildLoggingCart', 'buildHollowStump', 'buildToadstoolCluster', 'buildSurveyTable'
+  ];
   const neededPrefabs = prefabsToImport.filter(p => code.includes(p) && !code.includes(`from '../prefabs.js'`));
   if (neededPrefabs.length > 0) {
     const importStmt = `import { ${neededPrefabs.join(', ')} } from '../prefabs.js';\n`;

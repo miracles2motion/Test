@@ -152,9 +152,26 @@ let allPassed = true;
   if (!ok) allPassed = false;
 }
 
+// [TEST 9] Small Forest Tactical Structures & Micro-Props
+{
+  const { B, colliders, boxes, cyls } = createMockBuilder();
+  const { buildCampfire, buildWoodStack, buildTrailSign, buildChoppingBlock, buildLoggingCart, buildHollowStump, buildToadstoolCluster, buildSurveyTable } = await import('../src/prefabs.js');
+  buildCampfire(B, 0, 0, 0);
+  buildWoodStack(B, 5, 0, 5);
+  buildTrailSign(B, 10, 0, 10);
+  buildChoppingBlock(B, 15, 0, 15);
+  buildLoggingCart(B, 20, 0, 20);
+  buildHollowStump(B, 25, 0, 25);
+  buildToadstoolCluster(B, 30, 0, 30);
+  buildSurveyTable(B, 35, 0, 35);
+  const ok = colliders.length >= 8 && boxes.length >= 10 && cyls.length >= 8;
+  console.log(`[TEST 9] Small Tactical Structures (Campfire, WoodStack, Cart, Stump, Table): ${colliders.length} colliders, ${boxes.length} boxes, ${cyls.length} cyls => ${ok ? 'PASS' : 'FAIL'}`);
+  if (!ok) allPassed = false;
+}
+
 console.log('\n' + '='.repeat(60));
 if (allPassed) {
-  console.log('🎉 ALL 8 PROCEDURAL PREFAB VERIFICATION TESTS PASSED!');
+  console.log('🎉 ALL 9 PROCEDURAL PREFAB VERIFICATION TESTS PASSED!');
   process.exit(0);
 } else {
   console.error('❌ SOME PREFAB VERIFICATION TESTS FAILED!');
