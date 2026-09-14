@@ -960,7 +960,9 @@ export class EnemyManager {
     if (e.cool <= 0 && e.los) {
       // Titanic Leap Slam on God / Hard mode if player is camping or far
       if (diff >= 3 && (dist > 12 || Math.abs(dy) > 2.5) && b.onGround && Math.random() < 0.75) {
-        b.vel.x = (dx / dist) * 16; b.vel.z = (dz / dist) * 16; b.vel.y = 8.5; b.onGround = false;
+        let jumpY = 8.5;
+        if (dy > 1.5) jumpY = Math.max(8.5, Math.sqrt(48 * dy) + 2);
+        b.vel.x = ((pp.x - b.pos.x) / dist) * 16; b.vel.z = ((pp.z - b.pos.z) / dist) * 16; b.vel.y = jumpY; b.onGround = false;
         e.cool = rand(2.8, 4.0);
         audio.bossRoar(e.center); ctx.effects.shakeAmt += 0.8;
         return;
