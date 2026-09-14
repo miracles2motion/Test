@@ -288,3 +288,10 @@ Every element in The Colossal Canopy complies 100% with the Universal Detailing 
 - [x] **Grapple Ring Clearances**: All 12 grapple rings maintain $\ge 1.8\text{m}$ clearance from walls and $\ge 0.8\text{m}$ from ceilings.
 - [x] **Dense Tactical Geometry**: Total colliders exceed 220, ensuring high tactical cover density.
 - [x] **Dual Access Guarantee**: Every elevated sniper perch and treehouse blind features at least two distinct ascent routes to prevent camping.
+
+
+## 14. Interactive Macro-Structures (Tier 3 & 4)
+- **Ancient Oak Canopy (X=-43, Z=-43)**: Colossal ancient oak trunk with wrap-around canopy observation deck and high grapple vine.
+- **Canopy Treehouse Outpost (X=-43, Z=-19)**: Elevated timber watchtower on massive tree trunks with thatched green canopy roof.
+- **Stonehenge Hollow Altar (X=-43, Z=5)**: Megalithic moss-covered standing stone portal with central glade hollow altar.
+- **Stonehenge Hollow Altar (X=-43, Z=23)**: Megalithic moss-covered standing stone portal with central glade hollow altar.
