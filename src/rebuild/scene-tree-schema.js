@@ -23,6 +23,12 @@ export const NODE_TYPES = {
   PICKUP_POINT: 'pickupPoint',
   GRAPPLE_RING: 'grappleRing',
 
+  // Organic & Primitives
+  HOLLOW_CYL: 'hollowCyl',
+  FACETED_ROCK: 'facetedRock',
+  ARCH: 'arch',
+  WEDGE: 'wedge',
+
   // Dressing
   VIGNETTE_REF: 'vignetteRef',
   PROP_INSTANCE: 'propInstance',
@@ -39,11 +45,15 @@ export const TYPE_RANK = {
   [NODE_TYPES.ROOM]: 30,
   [NODE_TYPES.PLATFORM]: 35,
   [NODE_TYPES.CORRIDOR]: 40,
+  [NODE_TYPES.HOLLOW_CYL]: 45,
+  [NODE_TYPES.ARCH]: 46,
   [NODE_TYPES.LANDING]: 50,
   [NODE_TYPES.STAIR_RUN]: 60,
+  [NODE_TYPES.WEDGE]: 65,
   [NODE_TYPES.DOORWAY]: 70,
   [NODE_TYPES.RAILING]: 80,
   [NODE_TYPES.COVER_BLOCK]: 90,
+  [NODE_TYPES.FACETED_ROCK]: 95,
   [NODE_TYPES.SPAWN_POINT]: 100,
   [NODE_TYPES.SNIPER_POST]: 110,
   [NODE_TYPES.PICKUP_POINT]: 120,

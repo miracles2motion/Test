@@ -220,6 +220,75 @@ const EMITTERS = {
     };
   },
 
+  [NODE_TYPES.HOLLOW_CYL]: (node) => {
+    const { x, y, z } = node.transform;
+    const rInner = node.params.rInner || 1.5;
+    const rOuter = node.params.rOuter || 1.9;
+    const length = node.params.length || node.transform.d || 8;
+    const axis = node.params.axis || 'z';
+    const ink = node.tags.ink || 'BK';
+    const floor = node.params.floor !== false;
+    const bands = node.params.bands || 0;
+    return {
+      lines: [
+        `  hollowCyl(${f(x)}, ${f(y)}, ${f(z)}, ${f(rInner)}, ${f(rOuter)}, ${f(length)}, { axis: '${axis}', ink: ${ink}, floor: ${floor}, bands: ${bands} }); // ${node.id}`
+      ],
+      imports: [],
+      geometryCalls: 2,
+      colliders: 4
+    };
+  },
+
+  [NODE_TYPES.FACETED_ROCK]: (node) => {
+    const { x, y, z } = node.transform;
+    const rx = node.params.rx || (node.transform.w ? node.transform.w / 2 : 1.2);
+    const ry = node.params.ry || node.transform.h || 1.0;
+    const rz = node.params.rz || (node.transform.d ? node.transform.d / 2 : 1.2);
+    const ink = node.tags.ink || 'BK';
+    const cover = node.params.cover || node.tags.cover || 'waist';
+    const seed = node.params.seed || 1337;
+    return {
+      lines: [
+        `  facetedRock(${f(x)}, ${f(y)}, ${f(z)}, ${f(rx)}, ${f(ry)}, ${f(rz)}, { ink: ${ink}, cover: '${cover}', seed: ${seed} }); // ${node.id}`
+      ],
+      imports: [],
+      geometryCalls: 1,
+      colliders: 1
+    };
+  },
+
+  [NODE_TYPES.ARCH]: (node) => {
+    const { x, y, z } = node.transform;
+    const span = node.params.span || node.transform.w || 3.0;
+    const height = node.params.height || node.transform.h || 3.6;
+    const depth = node.params.depth || node.transform.d || 1.0;
+    const axis = node.params.axis || 'z';
+    const ink = node.tags.ink || 'BL';
+    return {
+      lines: [
+        `  arch(${f(x)}, ${f(y)}, ${f(z)}, ${f(span)}, ${f(height)}, ${f(depth)}, { axis: '${axis}', ink: ${ink} }); // ${node.id}`
+      ],
+      imports: [],
+      geometryCalls: 10,
+      colliders: 10
+    };
+  },
+
+  [NODE_TYPES.WEDGE]: (node) => {
+    const { x, y, z, w, h, d } = node.transform;
+    const dir = node.params.dir || '+x';
+    const ink = node.tags.ink || 'BL';
+    const colliderType = node.params.collider || 'stepped';
+    return {
+      lines: [
+        `  wedge(${f(x)}, ${f(y)}, ${f(z)}, ${f(w)}, ${f(h)}, ${f(d)}, { dir: '${dir}', ink: ${ink}, collider: '${colliderType}' }); // ${node.id}`
+      ],
+      imports: [],
+      geometryCalls: 1,
+      colliders: 4
+    };
+  },
+
   [NODE_TYPES.SPAWN_POINT]: (node) => {
     const { x, y, z } = node.transform;
     return {
@@ -390,7 +459,7 @@ export function injectCompiledLevel(existingCode, tree, levelName = 'custom_map'
       `import { INK } from '../render.js';`,
       importHeader,
       `export function buildLevel_${tree.map}(B) {`,
-      `  const { box, slab, stairs, rail, cyl, sphere, ring, spawn, sniper, pickup, barrel, planes } = B;`,
+      `  const { box, slab, stairs, rail, cyl, sphere, ring, spawn, sniper, pickup, barrel, planes, wedge, hollowCyl, facetedRock, arch } = B;`,
       `  const BL = INK.BLUE, BK = INK.BLACK, OR = INK.ORANGE, GR = INK.GREEN, RD = INK.RED;`,
       '',
       `  ${HAND_REGION_HEADER}`,

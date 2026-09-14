@@ -179,7 +179,7 @@ export const LEVELS = [
   }
 ];
 
-function createBuilder(scene, world) {
+export function createBuilder(scene, world) {
   const geos = {}; const L = { rings: [], spawns: [], snipers: [], pickups: [], animated: [], meshes: [], playerStart: new THREE.Vector3(0, 0, 42), bounds: { minX: -55, maxX: 55, minZ: -55, maxZ: 55 }, arenaSpawns: [], grappleMovers: [], breakables: [], key: 'district' };
   const addGeo = (g, ink) => (geos[ink] || (geos[ink] = [])).push(g);
   const collider = (x, y, z, w, h, d, o = {}) => {
@@ -306,6 +306,10 @@ function createBuilder(scene, world) {
     const sh = Number.isFinite(h) && h > 0 ? h : 1;
     const sd = Number.isFinite(d) && d > 0 ? d : 1;
     
+    // Normalize direction notation: +x, -x, +z, -z, x+, x-, z+, z-
+    const rawDir = String(o.dir || '+x').toLowerCase();
+    const dir = rawDir === 'x+' ? '+x' : rawDir === 'x-' ? '-x' : rawDir === 'z+' ? '+z' : rawDir === 'z-' ? '-z' : rawDir;
+    
     // Use BoxGeometry and deform it so it remains indexed and compatible with mergeGeometries
     const g = new THREE.BoxGeometry(sw, sh, sd);
     const pos = g.attributes.position;
@@ -317,13 +321,233 @@ function createBuilder(scene, world) {
     g.computeVertexNormals();
     g.translate(0, sh / 2, 0); 
     
-    if (o.dir === '-x') g.rotateY(Math.PI);
-    else if (o.dir === '+z') g.rotateY(-Math.PI/2);
-    else if (o.dir === '-z') g.rotateY(Math.PI/2);
+    if (dir === '-x') g.rotateY(Math.PI);
+    else if (dir === '+z') g.rotateY(-Math.PI / 2);
+    else if (dir === '-z') g.rotateY(Math.PI / 2);
     
     g.translate(x, y, z);
     addGeo(g, o.ink ?? INK.BLUE);
-    if (!o.noCollide) collider(x, y, z, sw, sh, sd, o);
+    
+    if (!o.noCollide) {
+      if (o.collider === 'solid') {
+        collider(x, y, z, sw, sh, sd, o);
+      } else {
+        // Stepped collider approximation hugging the slope to eliminate phantom under-ramp blockers
+        if (dir === '+x' || dir === '-x') {
+          const K = Math.max(2, Math.min(16, Math.max(Math.ceil(sw / 0.5), Math.ceil(sh / 0.30))));
+          const stepW = sw / K;
+          for (let i = 0; i < K; i++) {
+            const stepH = dir === '+x' ? ((K - i) / K) * sh : ((i + 1) / K) * sh;
+            const cx = (x - sw / 2) + (i + 0.5) * stepW;
+            collider(cx, y, z, stepW + 0.004, Math.max(0.1, stepH), sd, o);
+          }
+        } else {
+          // +z or -z slope
+          const K = Math.max(2, Math.min(16, Math.max(Math.ceil(sd / 0.5), Math.ceil(sh / 0.30))));
+          const stepD = sd / K;
+          for (let i = 0; i < K; i++) {
+            const stepH = dir === '+z' ? ((K - i) / K) * sh : ((i + 1) / K) * sh;
+            const cz = (z - sd / 2) + (i + 0.5) * stepD;
+            collider(x, y, cz, sw, Math.max(0.1, stepH), stepD + 0.004, o);
+          }
+        }
+      }
+    }
+  }
+
+  function hollowCyl(x, y, z, rInner, rOuter, length, o = {}) {
+    const ri = Number.isFinite(rInner) && rInner > 0 ? rInner : 1.5;
+    const ro = Number.isFinite(rOuter) && rOuter > ri ? rOuter : ri + 0.4;
+    const len = Number.isFinite(length) && length > 0 ? length : 8;
+    const seg = o.seg ?? 10;
+    const halfLen = len / 2;
+    const axis = o.axis === 'x' ? 'x' : 'z';
+
+    // Annular profile rotated around Lathe Y axis
+    const pts = [
+      new THREE.Vector2(ri, -halfLen),
+      new THREE.Vector2(ro, -halfLen),
+      new THREE.Vector2(ro, halfLen),
+      new THREE.Vector2(ri, halfLen),
+      new THREE.Vector2(ri, -halfLen)
+    ];
+    const g = new THREE.LatheGeometry(pts, seg);
+    if (axis === 'x') {
+      g.rotateZ(Math.PI / 2);
+    } else {
+      g.rotateX(Math.PI / 2);
+    }
+    g.translate(x, y, z);
+    addGeo(g, o.ink ?? INK.BLACK);
+
+    // Optional decorative exterior bark / moss bands
+    if (o.bands && o.bands > 0) {
+      const bandCount = Math.min(8, o.bands);
+      const bandSpacing = len / (bandCount + 1);
+      for (let b = 1; b <= bandCount; b++) {
+        const bg = new THREE.CylinderGeometry(ro + 0.06, ro + 0.06, 0.2, seg);
+        if (axis === 'x') {
+          bg.rotateZ(Math.PI / 2);
+          bg.translate(x - halfLen + b * bandSpacing, y, z);
+        } else {
+          bg.rotateX(Math.PI / 2);
+          bg.translate(x, y, z - halfLen + b * bandSpacing);
+        }
+        addGeo(bg, o.bandInk ?? INK.GREEN);
+      }
+    }
+
+    // Walkable flat floor slab inside tube
+    const f = o.f ?? 0.5;
+    const floorW = Math.max(1.8, 2 * Math.sqrt(Math.max(0.1, ri * ri - Math.pow(Math.max(0, ri - f), 2))));
+    const floorY = y - ri + f;
+    if (o.floor !== false) {
+      if (axis === 'x') {
+        box(x, floorY - 0.25, z, len, 0.25, floorW, { ink: o.floorInk ?? (o.ink ?? INK.BLACK), tag: 'walkway' });
+      } else {
+        box(x, floorY - 0.25, z, floorW, 0.25, len, { ink: o.floorInk ?? (o.ink ?? INK.BLACK), tag: 'walkway' });
+      }
+    }
+
+    // Honest AABB collision blockers: ceiling and side walls
+    if (!o.noCollide) {
+      const ceilY = y + ri - 0.25;
+      const wallOffset = floorW / 2 + (ro - ri) / 2;
+      const wallThick = Math.max(0.3, ro - ri + 0.1);
+      const wallH = ro * 2;
+      if (axis === 'x') {
+        // Ceiling blocker
+        collider(x, ceilY, z, len, 0.3, floorW, { noNav: true });
+        // Side walls along traversal chord
+        collider(x, y - ro, z - wallOffset, len, wallH, wallThick, { noNav: true });
+        collider(x, y - ro, z + wallOffset, len, wallH, wallThick, { noNav: true });
+      } else {
+        // Ceiling blocker
+        collider(x, ceilY, z, floorW, 0.3, len, { noNav: true });
+        // Side walls along traversal chord
+        collider(x - wallOffset, y - ro, z, wallThick, wallH, len, { noNav: true });
+        collider(x + wallOffset, y - ro, z, wallThick, wallH, len, { noNav: true });
+      }
+    }
+  }
+
+  function facetedRock(x, y, z, rx, ry, rz, o = {}) {
+    let sx = Number.isFinite(rx) && rx > 0 ? rx : 1.2;
+    let sy = Number.isFinite(ry) && ry > 0 ? ry : 1.0;
+    let sz = Number.isFinite(rz) && rz > 0 ? rz : 1.2;
+
+    // Tactical cover role height clamping
+    if (o.cover === 'waist') {
+      sy = Math.max(0.85, Math.min(1.25, sy));
+    } else if (o.cover === 'full') {
+      sy = Math.max(2.5, Math.min(3.0, sy));
+    }
+
+    const g = new THREE.IcosahedronGeometry(1, 0); // Subdivision 0: 12 vertices, 20 large facets
+    g.scale(sx, sy, sz);
+
+    const pos = g.attributes.position;
+    const seed = o.seed ?? 1337;
+    const amp = o.amp ?? 0.25;
+
+    // Deterministic radial vertex displacement (keyed by position hash to preserve face joints)
+    for (let i = 0; i < pos.count; i++) {
+      const vx = pos.getX(i), vy = pos.getY(i), vz = pos.getZ(i);
+      const h = Math.abs(Math.sin(vx * 12.9898 + vy * 78.233 + vz * 37.719 + seed) * 43758.5453) % 1;
+      const disp = 1.0 + (h - 0.5) * 2 * amp;
+      pos.setXYZ(i, vx * disp, vy * disp, vz * disp);
+    }
+
+    // Planar cut clamping to create sharp hand-drawn crystalline facets
+    const planeCount = Math.max(3, Math.min(6, o.facets ?? 4));
+    const planes = [];
+    for (let p = 0; p < planeCount; p++) {
+      const angle = (p / planeCount) * Math.PI * 2 + (seed % 7) * 0.2;
+      const nx = Math.cos(angle);
+      const ny = (p % 2 === 0 ? 0.3 : -0.2);
+      const nz = Math.sin(angle);
+      const len = Math.hypot(nx, ny, nz);
+      planes.push({ nx: nx / len, ny: ny / len, nz: nz / len, d: 0.8 * Math.min(sx, sz) });
+    }
+
+    for (let i = 0; i < pos.count; i++) {
+      let vx = pos.getX(i), vy = pos.getY(i), vz = pos.getZ(i);
+      for (const pl of planes) {
+        const dot = vx * pl.nx + vy * pl.ny + vz * pl.nz;
+        if (dot > pl.d) {
+          const excess = dot - pl.d;
+          vx -= pl.nx * excess;
+          vy -= pl.ny * excess;
+          vz -= pl.nz * excess;
+        }
+      }
+      // Grounding: flatten underside so rocks sit cleanly on terrain
+      if (vy < 0) vy = 0;
+      pos.setXYZ(i, vx, vy, vz);
+    }
+
+    // Ensure non-indexed geometry so each face maintains distinct normals for pen-ink crosshatching
+    const finalGeo = g.index ? g.toNonIndexed() : g;
+    finalGeo.computeVertexNormals();
+    finalGeo.translate(x, y, z);
+    addGeo(finalGeo, o.ink ?? INK.BLACK);
+
+    if (!o.noCollide && o.cover !== 'decor') {
+      collider(x, y, z, sx * 1.5, sy, sz * 1.5, { tag: o.cover === 'waist' ? 'cover' : (o.tag ?? 'rock') });
+    }
+  }
+
+  function arch(x, y, z, span, height, depth, o = {}) {
+    const s = Math.max(2.4, Number.isFinite(span) ? span : 3.0);
+    const h = Math.max(2.6, Number.isFinite(height) ? height : 3.6);
+    const d = Number.isFinite(depth) ? depth : 1.0;
+    const thick = o.thick ?? 0.6;
+    const axis = o.axis === 'x' ? 'x' : 'z';
+
+    // Roman semicircular arch: spring line at height hs
+    const R = s / 2;
+    const hs = Math.max(0.6, h - R);
+
+    // Flanking pillars
+    if (axis === 'z') {
+      box(x - (s / 2 + thick / 2), y, z, thick, hs, d, { ink: o.ink ?? INK.BLUE });
+      box(x + (s / 2 + thick / 2), y, z, thick, hs, d, { ink: o.ink ?? INK.BLUE });
+    } else {
+      box(x, y, z - (s / 2 + thick / 2), d, hs, thick, { ink: o.ink ?? INK.BLUE });
+      box(x, y, z + (s / 2 + thick / 2), d, hs, thick, { ink: o.ink ?? INK.BLUE });
+    }
+
+    // Semicircular chorded arc segments
+    const N = Math.max(6, Math.min(16, o.seg ?? 8));
+    const arcR = R + thick / 2;
+    const chordLen = 2 * arcR * Math.sin(Math.PI / (2 * N)) + 0.04;
+
+    for (let i = 0; i < N; i++) {
+      const a = ((i + 0.5) / N) * Math.PI; // from 0 to PI
+      const cosA = Math.cos(a);
+      const sinA = Math.sin(a);
+      const arcX = -arcR * cosA;
+      const arcY = hs + arcR * sinA;
+
+      const chord = new THREE.BoxGeometry(chordLen, thick, d);
+      chord.rotateZ(a - Math.PI / 2);
+      if (axis === 'x') {
+        chord.rotateY(Math.PI / 2);
+        chord.translate(x, y + arcY, z + arcX);
+      } else {
+        chord.translate(x + arcX, y + arcY, z);
+      }
+      addGeo(chord, o.ink ?? INK.BLUE);
+
+      if (!o.noCollide) {
+        if (axis === 'x') {
+          collider(x, y + arcY - thick / 2, z + arcX, d, thick, chordLen, { noNav: true });
+        } else {
+          collider(x + arcX, y + arcY - thick / 2, z, chordLen, thick, d, { noNav: true });
+        }
+      }
+    }
+    // OPENING EMITS ZERO COLLIDERS: player and bot nav path straight through the portal
   }
 
   function sphere(x, y, z, r, o = {}) { const g = new THREE.SphereGeometry(r, o.seg ?? 10, o.seg ?? 8); g.translate(x, y, z); addGeo(g, o.ink ?? INK.BLUE); }
@@ -357,7 +581,7 @@ function createBuilder(scene, world) {
       L.animated.push({ mesh: m, update: (t) => { const a = t * sp + ph; m.position.set(Math.cos(a) * r, h + Math.sin(a * 2.3) * 3, Math.sin(a) * r * 0.7); m.lookAt(Math.cos(a + 0.05) * r, h + Math.sin((a + 0.05) * 2.3) * 3, Math.sin(a + 0.05) * r * 0.7); m.rotateZ(Math.sin(a * 3) * 0.6); } });
     }
   }
-  return { L, addGeo, collider, box, slab, wallX, wallZ, stairs, rail, cyl, sphere, barrel, cone, wedge, cone, wedge, ring, spawn, sniper, pickup, finish, planes, scene, world };
+  return { L, addGeo, collider, box, slab, wallX, wallZ, stairs, rail, cyl, sphere, barrel, cone, wedge, hollowCyl, facetedRock, arch, ring, spawn, sniper, pickup, finish, planes, scene, world };
 }
 
 // ============================ map 1: Doodle District ============================
