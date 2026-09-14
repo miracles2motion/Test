@@ -51,20 +51,22 @@ else if (prompt.includes('delete') || prompt.includes('remove')) action = 'delet
 else if (prompt.includes('inspect') || prompt.includes('audit') || prompt.includes('check')) action = 'inspect';
 else if (prompt.includes('graduate') || prompt.includes('promote')) action = 'graduate';
 
-// 3. Detect Theme
-const themes = ["urban", "cyber", "steampunk", "colossal", "maritime", "zen", "anomalous"];
-let theme = 'urban';
-for (const t of themes) {
+import fs from 'fs';
+import path from 'path';
+
+// 3. Load Thematic Memory & Archetypes
+let memory = { thematicArchetypes: {} };
+try {
+  memory = JSON.parse(fs.readFileSync(path.resolve('.agents/thematic-memory.json'), 'utf8'));
+} catch (e) {}
+
+const knownThemes = Object.keys(memory.thematicArchetypes || {});
+let theme = null;
+for (const t of knownThemes) {
   if (prompt.includes(t)) {
     theme = t;
     break;
   }
-}
-if (theme === 'urban') {
-  if (prompt.includes('pirate') || prompt.includes('sea') || prompt.includes('ship')) theme = 'maritime';
-  if (prompt.includes('shrine') || prompt.includes('garden') || prompt.includes('temple')) theme = 'zen';
-  if (prompt.includes('factory') || prompt.includes('clock') || prompt.includes('gear')) theme = 'steampunk';
-  if (prompt.includes('neon') || prompt.includes('tech') || prompt.includes('hacker')) theme = 'cyber';
 }
 
 // 4. Detect Map Name
@@ -78,20 +80,28 @@ if (calledMatch) {
   
   if (mapIndex !== -1 && mapIndex + 1 < words.length) {
     mapName = words[mapIndex + 1].replace(/[^a-z0-9_]/g, '');
-  } else if (prompt.includes('pirate cove')) {
+  } else if (prompt.includes('pirate cove') || prompt.includes('pirate_cove')) {
     mapName = 'pirate_cove';
   } else if (prompt.includes('ink seas') || prompt.includes('the seas') || prompt.includes('seas')) {
     mapName = 'seas';
-  } else if (prompt.includes('zen garden')) {
+  } else if (prompt.includes('zen garden') || prompt.includes('zen')) {
     mapName = 'zen';
-  } else if (prompt.includes('clockwork tower')) {
+  } else if (prompt.includes('clockwork tower') || prompt.includes('clockwork')) {
     mapName = 'clockwork';
-  } else if (prompt.includes('blueprint castle')) {
+  } else if (prompt.includes('blueprint castle') || prompt.includes('castle')) {
     mapName = 'castle';
-  } else if (prompt.includes('giant classroom')) {
+  } else if (prompt.includes('giant classroom') || prompt.includes('classroom')) {
     mapName = 'classroom';
+  } else if (prompt.includes('forest') || prompt.includes('woodland')) {
+    mapName = 'forest';
+  } else if (prompt.includes('paradise')) {
+    mapName = 'paradise';
+  } else if (prompt.includes('library')) {
+    mapName = 'library';
+  } else if (prompt.includes('cover')) {
+    mapName = 'cover';
   } else {
-    const candidateWords = words.filter(w => !themes.includes(w) && !['the', 'a', 'an'].includes(w));
+    const candidateWords = words.filter(w => !['god', 'godmode', 'detail', 'heal', 'macro', 'inject', 'inspect', 'graduate', 'the', 'a', 'an'].includes(w));
     if (candidateWords.length > 0) {
       mapName = candidateWords[candidateWords.length - 1].replace(/[^a-z0-9_]/g, '');
     } else {
@@ -140,16 +150,25 @@ const MAP_THEMES = {
   district: 'urban',
   castle: 'urban',
   mexico: 'urban',
-  paradise: 'urban'
+  paradise: 'urban',
+  forest: 'forest'
 };
 
-if (MAP_THEMES[mapName] && !themes.some(t => prompt.includes(t))) {
+if (MAP_THEMES[mapName] && !theme) {
   theme = MAP_THEMES[mapName];
+} else if (!theme && memory.thematicArchetypes) {
+  for (const [tKey, arch] of Object.entries(memory.thematicArchetypes)) {
+    if (tKey === mapName || (arch.keywords && arch.keywords.some(k => mapName.includes(k) || prompt.includes(k)))) {
+      theme = tKey;
+      break;
+    }
+  }
 }
 
 try {
   let command = '';
-  if (action === 'god_mode') command = `npm run dream:god ${mapName} ${theme}`;
+  const themeParam = theme ? ` ${theme}` : '';
+  if (action === 'god_mode') command = `npm run dream:god ${mapName}${themeParam}`;
   else if (action === 'detail') command = `node src/map-refiner.js ${mapName} detail`;
   else if (action === 'heal') command = `node src/map-refiner.js ${mapName} heal`;
   else if (action === 'inspect') command = `node tools/dream_inspect_cli.js ${mapName}`;

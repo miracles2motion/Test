@@ -15,11 +15,11 @@ export function buildForest(B, arena = false) {
   L.bounds = { minX: -P, maxX: P, minZ: -P, maxZ: P };
 
   // 1. Foundation & Perimeter Walls
-  box(0, -1.0, 0, 2 * P + T, 1.0, 2 * P + T, { ink: BL });
-  box(0, 0, -P, 2 * P + T, PH, T, { ink: BL });
-  box(0, 0, P, 2 * P + T, PH, T, { ink: BL });
-  box(-P, 0, 0, T, PH, 2 * P + T, { ink: BL });
-  box(P, 0, 0, T, PH, 2 * P + T, { ink: BL });
+  box(0, -1.0, 0, 2 * P + T, 1.0, 2 * P + T, { ink: GR });
+  box(0, 0, -P, 2 * P + T, PH, T, { ink: GR });
+  box(0, 0, P, 2 * P + T, PH, T, { ink: GR });
+  box(-P, 0, 0, T, PH, 2 * P + T, { ink: GR });
+  box(P, 0, 0, T, PH, 2 * P + T, { ink: GR });
 
   // Perimeter Doorways
   const doorFrame = (x, z, alongX) => {
@@ -63,7 +63,7 @@ export function buildForest(B, arena = false) {
   pickup(14, 0.2, -6);
 
   // 3. Central Tier Dais
-  box(0, 0, 0, 24, 4.5, 24, { ink: BL });
+  box(0, 0, 0, 24, 4.5, 24, { ink: GR });
   slab(-12.5, -12.5, 12.5, 12.5, 4.5, 0.5, { ink: OR });
   
   // Connect stairs using learned math (Bottom of stairs starts away from dais and builds towards it)
@@ -77,13 +77,13 @@ export function buildForest(B, arena = false) {
   const scatterCount = 30;
   for (let i = 0; i < scatterCount; i++) {
     // NW Quadrant
-    box(-20 - (i % 5) * 4, 0, -20 - Math.floor(i / 5) * 4, 1.2, 1.1, 1.2, { ink: BL });
+    box(-20 - (i % 5) * 4, 0, -20 - Math.floor(i / 5) * 4, 1.2, 1.1, 1.2, { ink: GR });
     // NE Quadrant
-    box(20 + (i % 5) * 4, 0, -20 - Math.floor(i / 5) * 4, 1.2, 1.1, 1.2, { ink: BL });
+    box(20 + (i % 5) * 4, 0, -20 - Math.floor(i / 5) * 4, 1.2, 1.1, 1.2, { ink: GR });
     // SW Quadrant
-    box(-20 - (i % 5) * 4, 0, 20 + Math.floor(i / 5) * 4, 1.2, 1.1, 1.2, { ink: BL });
+    box(-20 - (i % 5) * 4, 0, 20 + Math.floor(i / 5) * 4, 1.2, 1.1, 1.2, { ink: GR });
     // SE Quadrant
-    box(20 + (i % 5) * 4, 0, 20 + Math.floor(i / 5) * 4, 1.2, 1.1, 1.2, { ink: BL });
+    box(20 + (i % 5) * 4, 0, 20 + Math.floor(i / 5) * 4, 1.2, 1.1, 1.2, { ink: GR });
   }
 
   // Ground collision floor
@@ -91,72 +91,141 @@ export function buildForest(B, arena = false) {
   L.playerStart.set(0, 0.2, D - 5); 
   
   
-  
-
-  
-  
-  
   // === DREAM AUTO-INJECTED MACRO STRUCTURES ===
 
-  // === MACRO STRUCTURE: Neon Data Vault at (-43, 0, 23) ===
-  box(-43, 0, 23, 8.0, 3.5, 8.0, { ink: BL });
-  slab(-43 - 4.2, 23 - 4.2, -43 + 4.2, 23 + 4.2, 0 + 3.5, 0.4, { ink: BL });
-  box(-43 - 3.6, 0 + 3.9, 23, 0.3, 1.8, 7.4, { ink: BK });
-  box(-43 + 3.6, 0 + 3.9, 23, 0.3, 1.8, 7.4, { ink: BK });
-  box(-43, 0 + 3.9, 23 - 3.6, 7.4, 1.8, 0.3, { ink: BK });
-  slab(-43 - 4.0, 23 - 4.0, -43 + 4.0, 23 + 4.0, 0 + 5.8, 0.3, { ink: OR });
-  rail(-43 - 4.0, 23 - 4.0, -43 + 4.0, 23 - 4.0, 0 + 5.8, { ink: OR });
-  rail(-43 - 4.0, 23 + 4.0, -43 + 4.0, 23 + 4.0, 0 + 5.8, { ink: OR });
-  box(-43, 0 + 1.5, 23 + 3.6, 3.0, 1.2, 0.3, { noCollide: true, ink: OR });
-  ring(-43, 0 + 8.8, 23, 'z');
-  pickup(-43, 0 + 3.7, 23);
+  // === MACRO STRUCTURE: Ancient Oak Canopy at (-43, 0, -43) ===
+  cyl(-43, 0, -43, 2.2, 7.0, { seg: 10, ink: BK });
+  box(-43 - 2.8, 0, -43, 1.2, 2.0, 1.2, { ink: BK });
+  box(-43 + 2.8, 0, -43, 1.2, 2.0, 1.2, { ink: BK });
+  slab(-43 - 3.8, -43 - 3.8, -43 + 3.8, -43 + 3.8, 0 + 4.5, 0.4, { ink: GR });
+  rail(-43 - 3.8, -43 - 3.8, -43 + 3.8, -43 - 3.8, 0 + 4.5, { ink: BK });
+  rail(-43 - 3.8, -43 + 3.8, -43 + 3.8, -43 + 3.8, 0 + 4.5, { ink: BK });
+  box(-43, 0 + 6.8, -43, 6.0, 2.0, 6.0, { noCollide: true, ink: GR });
+  ring(-43, 0 + 9.2, -43, 'z');
+  pickup(-43, 0 + 4.7, -43 + 2.0);
 
-  // === MACRO STRUCTURE: Holo Kiosk Tower at (-43, 0, 41) ===
-  box(-43, 0, 41, 4.0, 5.5, 4.0, { ink: BL });
-  slab(-43 - 2.8, 41 - 2.8, -43 + 2.8, 41 + 2.8, 0 + 5.5, 0.3, { ink: OR });
-  rail(-43 - 2.8, 41 - 2.8, -43 + 2.8, 41 - 2.8, 0 + 5.5, { ink: OR });
-  rail(-43 - 2.8, 41 + 2.8, -43 + 2.8, 41 + 2.8, 0 + 5.5, { ink: OR });
-  box(-43, 0 + 3.0, 41 + 1.8, 2.0, 1.5, 0.2, { noCollide: true, ink: OR });
-  ring(-43, 0 + 8.8, 41, 'z');
+  // === MACRO STRUCTURE: Canopy Treehouse Outpost at (-43, 0, -19) ===
+  box(-43 - 2.5, 0, -19 - 2.5, 0.6, 5.0, 0.6, { ink: BK });
+  box(-43 + 2.5, 0, -19 - 2.5, 0.6, 5.0, 0.6, { ink: BK });
+  box(-43 - 2.5, 0, -19 + 2.5, 0.6, 5.0, 0.6, { ink: BK });
+  box(-43 + 2.5, 0, -19 + 2.5, 0.6, 5.0, 0.6, { ink: BK });
+  slab(-43 - 3.0, -19 - 3.0, -43 + 3.0, -19 + 3.0, 0 + 5.0, 0.3, { ink: OR });
+  rail(-43 - 3.0, -19 - 3.0, -43 + 3.0, -19 - 3.0, 0 + 5.0, { ink: BK });
+  rail(-43 - 3.0, -19 + 3.0, -43 + 3.0, -19 + 3.0, 0 + 5.0, { ink: BK });
+  box(-43, 0 + 7.2, -19, 6.5, 0.5, 6.5, { noCollide: true, ink: GR });
+  ring(-43, 0 + 9.2, -19, 'y');
+  pickup(-43, 0 + 5.2, -19);
 
-  // === MACRO STRUCTURE: Neon Data Vault at (-31, 0, -13) ===
-  box(-31, 0, -13, 8.0, 3.5, 8.0, { ink: BL });
-  slab(-31 - 4.2, -13 - 4.2, -31 + 4.2, -13 + 4.2, 0 + 3.5, 0.4, { ink: BL });
-  box(-31 - 3.6, 0 + 3.9, -13, 0.3, 1.8, 7.4, { ink: BK });
-  box(-31 + 3.6, 0 + 3.9, -13, 0.3, 1.8, 7.4, { ink: BK });
-  box(-31, 0 + 3.9, -13 - 3.6, 7.4, 1.8, 0.3, { ink: BK });
-  slab(-31 - 4.0, -13 - 4.0, -31 + 4.0, -13 + 4.0, 0 + 5.8, 0.3, { ink: OR });
-  rail(-31 - 4.0, -13 - 4.0, -31 + 4.0, -13 - 4.0, 0 + 5.8, { ink: OR });
-  rail(-31 - 4.0, -13 + 4.0, -31 + 4.0, -13 + 4.0, 0 + 5.8, { ink: OR });
-  box(-31, 0 + 1.5, -13 + 3.6, 3.0, 1.2, 0.3, { noCollide: true, ink: OR });
-  ring(-31, 0 + 8.8, -13, 'z');
-  pickup(-31, 0 + 3.7, -13);
+  // === MACRO STRUCTURE: Stonehenge Hollow Altar at (-43, 0, -1) ===
+  box(-43 - 2.8, 0, -1, 1.2, 4.5, 1.2, { ink: BK });
+  box(-43 + 2.8, 0, -1, 1.2, 4.5, 1.2, { ink: BK });
+  slab(-43 - 3.5, -1 - 1.5, -43 + 3.5, -1 + 1.5, 0 + 4.5, 0.6, { ink: BK });
+  cyl(-43, 0, -1, 1.6, 1.4, { seg: 8, ink: GR });
+  slab(-43 - 2.0, -1 - 2.0, -43 + 2.0, -1 + 2.0, 0 + 1.4, 0.3, { ink: OR });
+  ring(-43, 0 + 7.8, -1, 'z');
+  pickup(-43, 0 + 1.6, -1);
 
-  // === MACRO STRUCTURE: Skybridge Junction at (-31, 0, 11) ===
-  box(-31 - 3.0, 0, 11, 1.2, 5.0, 1.2, { ink: BK });
-  box(-31 + 3.0, 0, 11, 1.2, 5.0, 1.2, { ink: BK });
-  slab(-31 - 4.0, 11 - 2.0, -31 + 4.0, 11 + 2.0, 0 + 4.5, 0.4, { ink: BL });
-  rail(-31 - 4.0, 11 - 2.0, -31 + 4.0, 11 - 2.0, 0 + 4.5, { ink: OR });
-  rail(-31 - 4.0, 11 + 2.0, -31 + 4.0, 11 + 2.0, 0 + 4.5, { ink: OR });
-  box(-31, 0 + 4.9, 11, 2.0, 1.0, 1.2, { ink: BL });
-  ring(-31, 0 + 8.3, 11, 'y');
-  pickup(-31, 0 + 5.0, 11);
+  // === MACRO STRUCTURE: Ancient Oak Canopy at (-43, 0, 17) ===
+  cyl(-43, 0, 17, 2.2, 7.0, { seg: 10, ink: BK });
+  box(-43 - 2.8, 0, 17, 1.2, 2.0, 1.2, { ink: BK });
+  box(-43 + 2.8, 0, 17, 1.2, 2.0, 1.2, { ink: BK });
+  slab(-43 - 3.8, 17 - 3.8, -43 + 3.8, 17 + 3.8, 0 + 4.5, 0.4, { ink: GR });
+  rail(-43 - 3.8, 17 - 3.8, -43 + 3.8, 17 - 3.8, 0 + 4.5, { ink: BK });
+  rail(-43 - 3.8, 17 + 3.8, -43 + 3.8, 17 + 3.8, 0 + 4.5, { ink: BK });
+  box(-43, 0 + 6.8, 17, 6.0, 2.0, 6.0, { noCollide: true, ink: GR });
+  ring(-43, 0 + 9.2, 17, 'z');
+  pickup(-43, 0 + 4.7, 17 + 2.0);
   // === END DREAM AUTO-INJECTED MACRO STRUCTURES ===
 
   
   // === DREAM AUTO-INJECTED THEMATIC PROPS ===
 
-  // Macro: Cyber Server Terminal
-  box(-47, 0, -47, 6.0, 3.0, 6.0, { ink: BL });
-  slab(-47 - 3.2, -47 - 3.2, -47 + 3.2, -47 + 3.2, 0 + 3.0, 0.3, { ink: OR });
-  box(-47, 0 + 3.0, -47, 2.0, 1.5, 2.0, { ink: BK });
-  ring(-47, 0 + 6.8, -47, 'y');
+  // Macro: Granite Boulder Cluster
+  sphere(-47, 0 + 1.0, -31, 1.2, { ink: BK });
+  sphere(-47 - 1.0, 0 + 0.7, -31 + 0.7, 0.9, { ink: BK });
+  box(-47, 0 + 1.8, -31, 1.4, 0.2, 1.4, { ink: GR, noCollide: true });
 
-  // Macro: Cyber Server Terminal
-  box(-47, 0, -31, 6.0, 3.0, 6.0, { ink: BL });
-  slab(-47 - 3.2, -31 - 3.2, -47 + 3.2, -31 + 3.2, 0 + 3.0, 0.3, { ink: OR });
-  box(-47, 0 + 3.0, -31, 2.0, 1.5, 2.0, { ink: BK });
-  ring(-47, 0 + 6.8, -31, 'y');
+  // Macro: Canopy Treehouse Platform
+  box(-47 - 2.2, 0, 33 - 2.2, 0.6, 5.0, 0.6, { ink: BK });
+  box(-47 + 2.2, 0, 33 - 2.2, 0.6, 5.0, 0.6, { ink: BK });
+  box(-47 - 2.2, 0, 33 + 2.2, 0.6, 5.0, 0.6, { ink: BK });
+  box(-47 + 2.2, 0, 33 + 2.2, 0.6, 5.0, 0.6, { ink: BK });
+  slab(-47 - 2.8, 33 - 2.8, -47 + 2.8, 33 + 2.8, 0 + 4.8, 0.3, { ink: OR });
+  rail(-47 - 2.8, 33 - 2.8, -47 + 2.8, 33 - 2.8, 0 + 4.8, { ink: BK });
+  rail(-47 - 2.8, 33 + 2.8, -47 + 2.8, 33 + 2.8, 0 + 4.8, { ink: BK });
+  box(-47, 0 + 7.0, 33, 6.0, 0.4, 6.0, { noCollide: true, ink: GR });
+  ring(-47, 0 + 9.0, 33, 'y');
+
+  // Macro: Granite Boulder Cluster
+  sphere(-31, 0 + 1.0, -47, 1.2, { ink: BK });
+  sphere(-31 - 1.0, 0 + 0.7, -47 + 0.7, 0.9, { ink: BK });
+  box(-31, 0 + 1.8, -47, 1.4, 0.2, 1.4, { ink: GR, noCollide: true });
+
+  // Macro: Canopy Treehouse Platform
+  box(-31 - 2.2, 0, 1 - 2.2, 0.6, 5.0, 0.6, { ink: BK });
+  box(-31 + 2.2, 0, 1 - 2.2, 0.6, 5.0, 0.6, { ink: BK });
+  box(-31 - 2.2, 0, 1 + 2.2, 0.6, 5.0, 0.6, { ink: BK });
+  box(-31 + 2.2, 0, 1 + 2.2, 0.6, 5.0, 0.6, { ink: BK });
+  slab(-31 - 2.8, 1 - 2.8, -31 + 2.8, 1 + 2.8, 0 + 4.8, 0.3, { ink: OR });
+  rail(-31 - 2.8, 1 - 2.8, -31 + 2.8, 1 - 2.8, 0 + 4.8, { ink: BK });
+  rail(-31 - 2.8, 1 + 2.8, -31 + 2.8, 1 + 2.8, 0 + 4.8, { ink: BK });
+  box(-31, 0 + 7.0, 1, 6.0, 0.4, 6.0, { noCollide: true, ink: GR });
+  ring(-31, 0 + 9.0, 1, 'y');
+
+  // Macro: Ancient Oak Tree
+  cyl(-15, 0, -47, 2.0, 7.0, { seg: 10, ink: BK });
+  box(-15 - 2.5, 0, -47, 1.0, 1.8, 1.0, { ink: BK });
+  box(-15 + 2.5, 0, -47, 1.0, 1.8, 1.0, { ink: BK });
+  slab(-15 - 3.2, -47 - 3.2, -15 + 3.2, -47 + 3.2, 0 + 4.5, 0.4, { ink: GR });
+  box(-15, 0 + 6.8, -47, 5.5, 1.8, 5.5, { noCollide: true, ink: GR });
+  ring(-15, 0 + 8.8, -47 + 2.0, 'z');
+
+  // Macro: Granite Boulder Cluster
+  sphere(-15, 0 + 1.0, -31, 1.2, { ink: BK });
+  sphere(-15 - 1.0, 0 + 0.7, -31 + 0.7, 0.9, { ink: BK });
+  box(-15, 0 + 1.8, -31, 1.4, 0.2, 1.4, { ink: GR, noCollide: true });
+
+  // Macro: Fallen Mossy Log
+  cyl(1, 0 + 0.6, -31, 0.8, 5.5, { axis: 'x', ink: BK });
+  box(1, 0 + 1.1, -31, 5.0, 0.2, 1.2, { ink: GR });
+  sphere(1 + 2.2, 0 + 0.5, -31 + 1.0, 0.6, { ink: BK });
+
+  // Macro: Granite Boulder Cluster
+  sphere(1, 0 + 1.0, 33, 1.2, { ink: BK });
+  sphere(1 - 1.0, 0 + 0.7, 33 + 0.7, 0.9, { ink: BK });
+  box(1, 0 + 1.8, 33, 1.4, 0.2, 1.4, { ink: GR, noCollide: true });
+
+  // Macro: Granite Boulder Cluster
+  sphere(17, 0 + 1.0, -47, 1.2, { ink: BK });
+  sphere(17 - 1.0, 0 + 0.7, -47 + 0.7, 0.9, { ink: BK });
+  box(17, 0 + 1.8, -47, 1.4, 0.2, 1.4, { ink: GR, noCollide: true });
+
+  // Macro: Granite Boulder Cluster
+  sphere(17, 0 + 1.0, 1, 1.2, { ink: BK });
+  sphere(17 - 1.0, 0 + 0.7, 1 + 0.7, 0.9, { ink: BK });
+  box(17, 0 + 1.8, 1, 1.4, 0.2, 1.4, { ink: GR, noCollide: true });
+
+  // Macro: Canopy Treehouse Platform
+  box(33 - 2.2, 0, -47 - 2.2, 0.6, 5.0, 0.6, { ink: BK });
+  box(33 + 2.2, 0, -47 - 2.2, 0.6, 5.0, 0.6, { ink: BK });
+  box(33 - 2.2, 0, -47 + 2.2, 0.6, 5.0, 0.6, { ink: BK });
+  box(33 + 2.2, 0, -47 + 2.2, 0.6, 5.0, 0.6, { ink: BK });
+  slab(33 - 2.8, -47 - 2.8, 33 + 2.8, -47 + 2.8, 0 + 4.8, 0.3, { ink: OR });
+  rail(33 - 2.8, -47 - 2.8, 33 + 2.8, -47 - 2.8, 0 + 4.8, { ink: BK });
+  rail(33 - 2.8, -47 + 2.8, 33 + 2.8, -47 + 2.8, 0 + 4.8, { ink: BK });
+  box(33, 0 + 7.0, -47, 6.0, 0.4, 6.0, { noCollide: true, ink: GR });
+  ring(33, 0 + 9.0, -47, 'y');
+
+  // Macro: Canopy Treehouse Platform
+  box(33 - 2.2, 0, 1 - 2.2, 0.6, 5.0, 0.6, { ink: BK });
+  box(33 + 2.2, 0, 1 - 2.2, 0.6, 5.0, 0.6, { ink: BK });
+  box(33 - 2.2, 0, 1 + 2.2, 0.6, 5.0, 0.6, { ink: BK });
+  box(33 + 2.2, 0, 1 + 2.2, 0.6, 5.0, 0.6, { ink: BK });
+  slab(33 - 2.8, 1 - 2.8, 33 + 2.8, 1 + 2.8, 0 + 4.8, 0.3, { ink: OR });
+  rail(33 - 2.8, 1 - 2.8, 33 + 2.8, 1 - 2.8, 0 + 4.8, { ink: BK });
+  rail(33 - 2.8, 1 + 2.8, 33 + 2.8, 1 + 2.8, 0 + 4.8, { ink: BK });
+  box(33, 0 + 7.0, 1, 6.0, 0.4, 6.0, { noCollide: true, ink: GR });
+  ring(33, 0 + 9.0, 1, 'y');
   // === END DREAM AUTO-INJECTED PROPS ===
   B.finish();
   return L;

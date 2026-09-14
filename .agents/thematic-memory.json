@@ -61,6 +61,19 @@
         "tier3_macro": ["galleon sterncastle deck", "rigging mast apex spar", "harbor crane jib boom", "lighthouse beacon cupola"],
         "tier4_kinetic": ["buoyant dock bobbing on swell", "paper seagulls banking on wind shear", "swinging cargo hoist hook"]
       }
+    },
+    "forest": {
+      "keywords": ["forest", "woodland", "woods", "trees", "grove", "timber", "canopy", "jungle", "arbor"],
+      "primaryInk": "INK.GREEN",
+      "secondaryInk": "INK.BLACK",
+      "accentInk": "INK.ORANGE",
+      "hazardInk": "INK.RED",
+      "props": {
+        "tier1_micro": ["mossy fallen log (horizontal cyl 1.2m)", "ink-stippled granite boulder cluster", "hollow tree stump defilade", "tangled root barrier"],
+        "tier2_meso": ["elevated canopy treehouse platform", "suspended timber rope bridge", "wooden corduroy trail walkway", "ranger lookout blind"],
+        "tier3_macro": ["towering ancient oak trunk with spiral ramp", "monolithic banyan root archway", "elevated canopy watchtower platform", "sunken glade stone altar"],
+        "tier4_kinetic": ["swaying pine canopy boughs", "falling paper leaves spiraling in breeze", "creaking timber bridge ropes"]
+      }
     }
   },
   "safetyClearances": {

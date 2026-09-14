@@ -168,6 +168,36 @@ export function resolveConsultationTicket(ticketIdOrName, resolutionData = null)
   fs.writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2) + '\n', 'utf8');
 
   console.log('✅ Lesson permanently written to .agents/learning-cache.json (humanLessons)');
+
+  // If the lesson is about an unknown concept/theme, also write it into thematic-memory.json
+  const THEMATIC_MEMORY_FILE = path.resolve('.agents/thematic-memory.json');
+  if (ticket.topic.includes('thematic') && fs.existsSync(THEMATIC_MEMORY_FILE)) {
+    try {
+      const memory = JSON.parse(fs.readFileSync(THEMATIC_MEMORY_FILE, 'utf8'));
+      if (!memory.thematicArchetypes) memory.thematicArchetypes = {};
+      
+      const themeKey = (ticket.mapName || 'custom').toLowerCase().replace(/[^a-z0-9_]/g, '_');
+      if (typeof ticket.humanResolution === 'object' && ticket.humanResolution !== null) {
+        memory.thematicArchetypes[themeKey] = {
+          keywords: ticket.humanResolution.keywords || [themeKey],
+          primaryInk: ticket.humanResolution.primaryInk || 'INK.BLUE',
+          secondaryInk: ticket.humanResolution.secondaryInk || 'INK.BLACK',
+          accentInk: ticket.humanResolution.accentInk || 'INK.ORANGE',
+          hazardInk: ticket.humanResolution.hazardInk || 'INK.RED',
+          props: ticket.humanResolution.props || {
+            tier1_micro: ["cover prop", "barrier block"],
+            tier2_meso: ["tactical platform", "walkway ramp"],
+            tier3_macro: ["central landmark spire", "watchtower"],
+            tier4_kinetic: ["swaying boughs", "gliding paper elements"]
+          }
+        };
+      }
+      fs.writeFileSync(THEMATIC_MEMORY_FILE, JSON.stringify(memory, null, 2) + '\n', 'utf8');
+      console.log(`✅ Thematic archetype "${themeKey}" registered into .agents/thematic-memory.json`);
+    } catch (e) {
+      console.warn(`Could not update thematic-memory.json: ${e.message}`);
+    }
+  }
   
   // Auto-cleanup: remove temporary pending file
   fs.unlinkSync(targetFile);

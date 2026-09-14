@@ -280,17 +280,17 @@ export const LEVELS = [
   {
     key: 'forest',
     customEnemies: {
-      theme_rusher: {
+      canopy_stalker: {
         role: "melee",
         canDodge: true,
         canCover: true,
         canRetreat: false,
         canFlank: true,
         berserker: true,
-        hp: 60,
-        speed: 8.5,
+        hp: 65,
+        speed: 8.8,
         weapon: "blade",
-        lunge: 3.5,
+        lunge: 3.6,
         reach: 3,
         standoff: 1.5,
         cool: [
@@ -303,35 +303,35 @@ export const LEVELS = [
           headS: 0.9,
           limbR: 0.03
         },
-        name: "[THEME] RUSHER",
+        name: "CANOPY STALKER",
         score: 150,
         scale: 1
       },
-      theme_sniper: {
+      treehouse_marksman: {
         role: "ranged",
         canDodge: true,
         canCover: true,
         canRetreat: true,
         canFlank: false,
         stationary: true,
-        hp: 50,
-        speed: 3,
+        hp: 45,
+        speed: 3.2,
         weapon: "sniper",
         range: 80,
         stop: 80,
-        keep: 20,
-        aimTime: 1.5,
+        keep: 22,
+        aimTime: 1.4,
         cool: [
-          2.5,
-          3.5
+          2.2,
+          3.2
         ],
-        dmg: 25,
+        dmg: 26,
         build: {
           bodyW: 0.7,
           headS: 0.8,
           limbR: 0.02
         },
-        name: "[THEME] SNIPER",
+        name: "TREEHOUSE MARKSMAN",
         score: 150,
         scale: 1
       }

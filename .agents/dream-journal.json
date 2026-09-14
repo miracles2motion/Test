@@ -2152,13 +2152,47 @@
           "timestamp": "2026-09-14T01:22:06.924Z"
         }
       }
+    },
+    {
+      "id": "dream-062",
+      "timestamp": "2026-09-14T01:45:29.818Z",
+      "mapKey": "forest",
+      "mode": "MAP",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "spatial-doctor": {
+          "status": "pass",
+          "fixes": 0
+        },
+        "Macro Building Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-14T01:45:27.118Z"
+        },
+        "Prop Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-14T01:45:27.489Z"
+        },
+        "Enemy Synthesis": {
+          "status": "pass",
+          "timestamp": "2026-09-14T01:45:27.713Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-14T01:45:29.046Z"
+        },
+        "Self-Healing Audit": {
+          "status": "pass",
+          "timestamp": "2026-09-14T01:45:29.812Z"
+        }
+      }
     }
   ],
   "stats": {
-    "totalRuns": 61,
-    "successes": 60,
+    "totalRuns": 62,
+    "successes": 61,
     "failures": 1,
-    "errorRate": "1/61 (2%)",
+    "errorRate": "1/62 (2%)",
     "avgScore": 0
   }
 }

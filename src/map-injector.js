@@ -227,6 +227,41 @@ const propCatalog = {
   cyl(${x}, ${y} + 3.2, ${z}, 1.8, 1.8, { seg: 8, ink: BK });
   ring(${x}, ${y} + 7.0, ${z}, 'z');`
     }
+  ],
+  forest: [
+    { type: 'ancient_oak_tree', w: 8, h: 7, d: 8, tier: 1, gen: (x, y, z) => `
+  // Macro: Ancient Oak Tree
+  cyl(${x}, ${y}, ${z}, 2.0, 7.0, { seg: 10, ink: BK });
+  box(${x} - 2.5, ${y}, ${z}, 1.0, 1.8, 1.0, { ink: BK });
+  box(${x} + 2.5, ${y}, ${z}, 1.0, 1.8, 1.0, { ink: BK });
+  slab(${x} - 3.2, ${z} - 3.2, ${x} + 3.2, ${z} + 3.2, ${y} + 4.5, 0.4, { ink: GR });
+  box(${x}, ${y} + 6.8, ${z}, 5.5, 1.8, 5.5, { noCollide: true, ink: GR });
+  ring(${x}, ${y} + 8.8, ${z} + 2.0, 'z');`
+    },
+    { type: 'canopy_treehouse', w: 7, h: 6, d: 7, tier: 1, gen: (x, y, z) => `
+  // Macro: Canopy Treehouse Platform
+  box(${x} - 2.2, ${y}, ${z} - 2.2, 0.6, 5.0, 0.6, { ink: BK });
+  box(${x} + 2.2, ${y}, ${z} - 2.2, 0.6, 5.0, 0.6, { ink: BK });
+  box(${x} - 2.2, ${y}, ${z} + 2.2, 0.6, 5.0, 0.6, { ink: BK });
+  box(${x} + 2.2, ${y}, ${z} + 2.2, 0.6, 5.0, 0.6, { ink: BK });
+  slab(${x} - 2.8, ${z} - 2.8, ${x} + 2.8, ${z} + 2.8, ${y} + 4.8, 0.3, { ink: OR });
+  rail(${x} - 2.8, ${z} - 2.8, ${x} + 2.8, ${z} - 2.8, ${y} + 4.8, { ink: BK });
+  rail(${x} - 2.8, ${z} + 2.8, ${x} + 2.8, ${z} + 2.8, ${y} + 4.8, { ink: BK });
+  box(${x}, ${y} + 7.0, ${z}, 6.0, 0.4, 6.0, { noCollide: true, ink: GR });
+  ring(${x}, ${y} + 9.0, ${z}, 'y');`
+    },
+    { type: 'fallen_mossy_log', w: 7, h: 3, d: 5, tier: 1, gen: (x, y, z) => `
+  // Macro: Fallen Mossy Log
+  cyl(${x}, ${y} + 0.6, ${z}, 0.8, 5.5, { axis: 'x', ink: BK });
+  box(${x}, ${y} + 1.1, ${z}, 5.0, 0.2, 1.2, { ink: GR });
+  sphere(${x} + 2.2, ${y} + 0.5, ${z} + 1.0, 0.6, { ink: BK });`
+    },
+    { type: 'granite_boulder_cluster', w: 6, h: 3, d: 6, tier: 1, gen: (x, y, z) => `
+  // Macro: Granite Boulder Cluster
+  sphere(${x}, ${y} + 1.0, ${z}, 1.2, { ink: BK });
+  sphere(${x} - 1.0, ${y} + 0.7, ${z} + 0.7, 0.9, { ink: BK });
+  box(${x}, ${y} + 1.8, ${z}, 1.4, 0.2, 1.4, { ink: GR, noCollide: true });`
+    }
   ]
 };
 
@@ -254,6 +289,8 @@ for (const y of tiers) {
         else if (x > midX && z <= midZ) activeCatalog = propCatalog['leviathan_graveyard'];
         else if (x <= midX && z > midZ) activeCatalog = propCatalog['gunpowder_grotto'];
         else activeCatalog = propCatalog['broken_galleon'];
+      } else if (mapArg === 'forest' || themeArg === 'forest') {
+        activeCatalog = propCatalog['forest'];
       }
       
       const propTemplate = activeCatalog[Math.floor(Math.random() * activeCatalog.length)];

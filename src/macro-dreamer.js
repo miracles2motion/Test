@@ -394,6 +394,59 @@ function getMacroTemplates(theme) {
   ring(${x}, ${y} + 8.3, ${z} + 4.0, 'z');
   pickup(${x}, ${y} + 6.1, ${z} - 1.5);`
       }
+    ],
+
+    forest: [
+      {
+        id: 'ancient_oak_canopy',
+        title: 'Ancient Oak Canopy',
+        description: 'Colossal ancient oak trunk with wrap-around canopy observation deck and high grapple vine.',
+        minSize: [8, 6, 8],
+        codeGenerator: (x, y, z) => `
+  // === MACRO STRUCTURE: Ancient Oak Canopy at (${x}, ${y}, ${z}) ===
+  cyl(${x}, ${y}, ${z}, 2.2, 7.0, { seg: 10, ink: BK });
+  box(${x} - 2.8, ${y}, ${z}, 1.2, 2.0, 1.2, { ink: BK });
+  box(${x} + 2.8, ${y}, ${z}, 1.2, 2.0, 1.2, { ink: BK });
+  slab(${x} - 3.8, ${z} - 3.8, ${x} + 3.8, ${z} + 3.8, ${y} + 4.5, 0.4, { ink: GR });
+  rail(${x} - 3.8, ${z} - 3.8, ${x} + 3.8, ${z} - 3.8, ${y} + 4.5, { ink: BK });
+  rail(${x} - 3.8, ${z} + 3.8, ${x} + 3.8, ${z} + 3.8, ${y} + 4.5, { ink: BK });
+  box(${x}, ${y} + 6.8, ${z}, 6.0, 2.0, 6.0, { noCollide: true, ink: GR });
+  ring(${x}, ${y} + 9.2, ${z}, 'z');
+  pickup(${x}, ${y} + 4.7, ${z} + 2.0);`
+      },
+      {
+        id: 'canopy_treehouse_outpost',
+        title: 'Canopy Treehouse Outpost',
+        description: 'Elevated timber watchtower on massive tree trunks with thatched green canopy roof.',
+        minSize: [7, 6, 7],
+        codeGenerator: (x, y, z) => `
+  // === MACRO STRUCTURE: Canopy Treehouse Outpost at (${x}, ${y}, ${z}) ===
+  box(${x} - 2.5, ${y}, ${z} - 2.5, 0.6, 5.0, 0.6, { ink: BK });
+  box(${x} + 2.5, ${y}, ${z} - 2.5, 0.6, 5.0, 0.6, { ink: BK });
+  box(${x} - 2.5, ${y}, ${z} + 2.5, 0.6, 5.0, 0.6, { ink: BK });
+  box(${x} + 2.5, ${y}, ${z} + 2.5, 0.6, 5.0, 0.6, { ink: BK });
+  slab(${x} - 3.0, ${z} - 3.0, ${x} + 3.0, ${z} + 3.0, ${y} + 5.0, 0.3, { ink: OR });
+  rail(${x} - 3.0, ${z} - 3.0, ${x} + 3.0, ${z} - 3.0, ${y} + 5.0, { ink: BK });
+  rail(${x} - 3.0, ${z} + 3.0, ${x} + 3.0, ${z} + 3.0, ${y} + 5.0, { ink: BK });
+  box(${x}, ${y} + 7.2, ${z}, 6.5, 0.5, 6.5, { noCollide: true, ink: GR });
+  ring(${x}, ${y} + 9.2, ${z}, 'y');
+  pickup(${x}, ${y} + 5.2, ${z});`
+      },
+      {
+        id: 'stone_henge_hollow',
+        title: 'Stonehenge Hollow Altar',
+        description: 'Megalithic moss-covered standing stone portal with central glade hollow altar.',
+        minSize: [7, 5, 7],
+        codeGenerator: (x, y, z) => `
+  // === MACRO STRUCTURE: Stonehenge Hollow Altar at (${x}, ${y}, ${z}) ===
+  box(${x} - 2.8, ${y}, ${z}, 1.2, 4.5, 1.2, { ink: BK });
+  box(${x} + 2.8, ${y}, ${z}, 1.2, 4.5, 1.2, { ink: BK });
+  slab(${x} - 3.5, ${z} - 1.5, ${x} + 3.5, ${z} + 1.5, ${y} + 4.5, 0.6, { ink: BK });
+  cyl(${x}, ${y}, ${z}, 1.6, 1.4, { seg: 8, ink: GR });
+  slab(${x} - 2.0, ${z} - 2.0, ${x} + 2.0, ${z} + 2.0, ${y} + 1.4, 0.3, { ink: OR });
+  ring(${x}, ${y} + 7.8, ${z}, 'z');
+  pickup(${x}, ${y} + 1.6, ${z});`
+      }
     ]
   };
 

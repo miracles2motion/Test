@@ -98,17 +98,51 @@ if (conceptFile) {
   const tier3Match = md.match(/Tier 3.*Y\s*=\s*([+\d.]+)/i);
   if (tier3Match) conf.tier3Y = parseFloat(tier3Match[1]);
 
-  // Extract Stair Math
-  const riseMatch = md.match(/Step Rise.*?([.\d]+)m/i);
-  if (riseMatch) conf.recRise = parseFloat(riseMatch[1]);
-  const runMatch = md.match(/Step Run.*?([.\d]+)m/i);
-  if (runMatch) conf.recRun = parseFloat(runMatch[1]);
+  // Extract Inks
+  let primaryInkVar = 'BL';
+  let secondaryInkVar = 'BK';
+  let accentInkVar = 'OR';
+  const pMatch = md.match(/Primary Ink[*\s:]*INK\.(\w+)/i);
+  if (pMatch) {
+    const name = pMatch[1].toUpperCase();
+    if (name === 'GREEN') primaryInkVar = 'GR';
+    else if (name === 'RED') primaryInkVar = 'RD';
+    else if (name === 'BLACK') primaryInkVar = 'BK';
+    else if (name === 'ORANGE') primaryInkVar = 'OR';
+    else if (name === 'BLUE') primaryInkVar = 'BL';
+  }
+  const sMatch = md.match(/Secondary Ink[*\s:]*INK\.(\w+)/i);
+  if (sMatch) {
+    const name = sMatch[1].toUpperCase();
+    if (name === 'BLACK') secondaryInkVar = 'BK';
+    else if (name === 'BLUE') secondaryInkVar = 'BL';
+    else if (name === 'GREEN') secondaryInkVar = 'GR';
+  }
+  const aMatch = md.match(/Accent Ink[s]?[*\s:]*INK\.(\w+)/i);
+  if (aMatch) {
+    const name = aMatch[1].toUpperCase();
+    if (name === 'ORANGE') accentInkVar = 'OR';
+    else if (name === 'RED') accentInkVar = 'RD';
+    else if (name === 'GREEN') accentInkVar = 'GR';
+  }
+
+  conf.primaryInkVar = primaryInkVar;
+  conf.secondaryInkVar = secondaryInkVar;
+  conf.accentInkVar = accentInkVar;
 
   console.log(`   ✓ Applied concept bounds: P=${conf.bounds.P}m, PH=${conf.bounds.PH}m`);
   console.log(`   ✓ Applied concept tiers: T2=${conf.tier2Y}m, T3=${conf.tier3Y}m`);
+  console.log(`   ✓ Applied concept inks: Primary=${primaryInkVar}, Secondary=${secondaryInkVar}, Accent=${accentInkVar}`);
 } else {
+  conf.primaryInkVar = 'BL';
+  conf.secondaryInkVar = 'BK';
+  conf.accentInkVar = 'OR';
   console.log(`\n⚠️ No concept found. Using fallback ${presetArg} presets.`);
 }
+
+const primaryInk = conf.primaryInkVar;
+const secondaryInk = conf.secondaryInkVar;
+const accentInk = conf.accentInkVar;
 
 // 3. Generate Level Code
 const levelCode = `import * as THREE from 'three';
@@ -128,22 +162,22 @@ export function build${pascalName}(B, arena = false) {
   L.bounds = { minX: -P, maxX: P, minZ: -P, maxZ: P };
 
   // 1. Foundation & Perimeter Walls
-  box(0, -1.0, 0, 2 * P + T, 1.0, 2 * P + T, { ink: BL });
-  box(0, 0, -P, 2 * P + T, PH, T, { ink: BL });
-  box(0, 0, P, 2 * P + T, PH, T, { ink: BL });
-  box(-P, 0, 0, T, PH, 2 * P + T, { ink: BL });
-  box(P, 0, 0, T, PH, 2 * P + T, { ink: BL });
+  box(0, -1.0, 0, 2 * P + T, 1.0, 2 * P + T, { ink: ${primaryInk} });
+  box(0, 0, -P, 2 * P + T, PH, T, { ink: ${primaryInk} });
+  box(0, 0, P, 2 * P + T, PH, T, { ink: ${primaryInk} });
+  box(-P, 0, 0, T, PH, 2 * P + T, { ink: ${primaryInk} });
+  box(P, 0, 0, T, PH, 2 * P + T, { ink: ${primaryInk} });
 
   // Perimeter Doorways
   const doorFrame = (x, z, alongX) => {
     if (alongX) {
-      box(x - 1.4, 0, z, 0.4, 3.4, 0.6, { noCollide: true, ink: BK });
-      box(x + 1.4, 0, z, 0.4, 3.4, 0.6, { noCollide: true, ink: BK });
-      box(x, 3.2, z, 3.2, 0.4, 0.6, { noCollide: true, ink: BK });
+      box(x - 1.4, 0, z, 0.4, 3.4, 0.6, { noCollide: true, ink: ${secondaryInk} });
+      box(x + 1.4, 0, z, 0.4, 3.4, 0.6, { noCollide: true, ink: ${secondaryInk} });
+      box(x, 3.2, z, 3.2, 0.4, 0.6, { noCollide: true, ink: ${secondaryInk} });
     } else {
-      box(x, 0, z - 1.4, 0.6, 3.4, 0.4, { noCollide: true, ink: BK });
-      box(x, 0, z + 1.4, 0.6, 3.4, 0.4, { noCollide: true, ink: BK });
-      box(x, 3.2, z, 0.6, 0.4, 3.2, { noCollide: true, ink: BK });
+      box(x, 0, z - 1.4, 0.6, 3.4, 0.4, { noCollide: true, ink: ${secondaryInk} });
+      box(x, 0, z + 1.4, 0.6, 3.4, 0.4, { noCollide: true, ink: ${secondaryInk} });
+      box(x, 3.2, z, 0.6, 0.4, 3.2, { noCollide: true, ink: ${secondaryInk} });
     }
   };
   doorFrame(-D, 0, false); doorFrame(D, 0, false);
@@ -176,8 +210,8 @@ export function build${pascalName}(B, arena = false) {
   pickup(14, 0.2, -6);
 
   // 3. Central Tier Dais
-  box(0, 0, 0, 24, ${conf.tier2Y}, 24, { ink: BL });
-  slab(-12.5, -12.5, 12.5, 12.5, ${conf.tier2Y}, 0.5, { ink: OR });
+  box(0, 0, 0, 24, ${conf.tier2Y}, 24, { ink: ${primaryInk} });
+  slab(-12.5, -12.5, 12.5, 12.5, ${conf.tier2Y}, 0.5, { ink: ${accentInk} });
   
   // Connect stairs using learned math (Bottom of stairs starts away from dais and builds towards it)
   const rs = ${conf.recRise}, rn = ${conf.recRun};
@@ -190,13 +224,13 @@ export function build${pascalName}(B, arena = false) {
   const scatterCount = 30;
   for (let i = 0; i < scatterCount; i++) {
     // NW Quadrant
-    box(-20 - (i % 5) * 4, 0, -20 - Math.floor(i / 5) * 4, 1.2, 1.1, 1.2, { ink: BL });
+    box(-20 - (i % 5) * 4, 0, -20 - Math.floor(i / 5) * 4, 1.2, 1.1, 1.2, { ink: ${primaryInk} });
     // NE Quadrant
-    box(20 + (i % 5) * 4, 0, -20 - Math.floor(i / 5) * 4, 1.2, 1.1, 1.2, { ink: BL });
+    box(20 + (i % 5) * 4, 0, -20 - Math.floor(i / 5) * 4, 1.2, 1.1, 1.2, { ink: ${primaryInk} });
     // SW Quadrant
-    box(-20 - (i % 5) * 4, 0, 20 + Math.floor(i / 5) * 4, 1.2, 1.1, 1.2, { ink: BL });
+    box(-20 - (i % 5) * 4, 0, 20 + Math.floor(i / 5) * 4, 1.2, 1.1, 1.2, { ink: ${primaryInk} });
     // SE Quadrant
-    box(20 + (i % 5) * 4, 0, 20 + Math.floor(i / 5) * 4, 1.2, 1.1, 1.2, { ink: BL });
+    box(20 + (i % 5) * 4, 0, 20 + Math.floor(i / 5) * 4, 1.2, 1.1, 1.2, { ink: ${primaryInk} });
   }
 
   // Ground collision floor
