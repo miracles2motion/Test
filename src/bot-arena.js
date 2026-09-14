@@ -241,6 +241,7 @@ export class BotArenaManager {
     }
 
     let killerTeam = killer?.team;
+    const killerStats = this.stats.get(killerId);
     if (killerStats) {
       killerStats.kills++;
       killerStats.streak++;
@@ -284,17 +285,18 @@ export class BotArenaManager {
     if (this.killfeed.length > 5) this.killfeed.pop();
 
     // Killstreak Callout
-    const killerStats = this.stats.get(killerId);
     if (killerStats && killerStats.streak >= 3) {
       const streakTitle = killerStats.streak === 3 ? 'TRIPLE KILL!' : (killerStats.streak === 4 ? 'ULTRA KILL!' : 'GOD-LIKE STREAK!');
       this.ctx.hud?.tip(`${killerName} — ${streakTitle}`, 2.2);
     }
 
-    // Queue victim for respawn after 3.0s
-    this.respawnQueue.push({
-      entity: victim,
-      timer: 3.0
-    });
+    // Queue victim for respawn after 3.0s (bots only; player respawns via respawnLocal in main.js)
+    if (victim !== this.ctx.player) {
+      this.respawnQueue.push({
+        entity: victim,
+        timer: 3.0
+      });
+    }
   }
 
   handleBanter(speaker, line, category) {
@@ -373,5 +375,31 @@ export class BotArenaManager {
         stats: Array.from(this.stats.values())
       });
     }
+  }
+
+  getHudScoreHTML() {
+    if (this.format === 'ffa') {
+      const statsList = Array.from(this.stats.values()).sort((a, b) => b.kills - a.kills).slice(0, 3);
+      return statsList.map((s, idx) => {
+        const isPlayer = s.team === 'player' || s.name === (this.ctx.player?.name || 'YOU') || s.name === 'YOU';
+        return `<div class="row${isPlayer ? ' me' : ''}"><span class="rank">${idx + 1}.</span><span>${s.name}${isPlayer ? ' (you)' : ''}</span><b>${s.kills}</b></div>`;
+      }).join('') + `<div class="target">FIRST TO ${this.targetScore}</div>`;
+    } else {
+      return `<div class="row me"><span class="rank">🔷</span><span>TEAM ALPHA</span><b>${this.scoreAlpha}</b></div>` +
+             `<div class="row"><span class="rank">🔶</span><span>TEAM BRAVO</span><b>${this.scoreBravo}</b></div>` +
+             `<div class="target">FIRST TO ${this.targetScore}</div>`;
+    }
+  }
+
+  boardHTML() {
+    const statsList = Array.from(this.stats.values()).sort((a, b) => b.kills - a.kills || a.deaths - b.deaths);
+    const title = this.format === 'ffa' ? 'SOLO FFA BOT ARENA' : `${this.format.toUpperCase()} TEAM DEATHMATCH`;
+    const mm = Math.floor(Math.max(0, this.timeLeft) / 60);
+    const ss = String(Math.floor(Math.max(0, this.timeLeft) % 60)).padStart(2, '0');
+    return `<h3>${title}</h3>${statsList.map(s => {
+      const isPlayer = s.team === 'player' || s.name === (this.ctx.player?.name || 'YOU') || s.name === 'YOU';
+      const teamBadge = this.format === 'ffa' ? '' : `[${(s.team || 'bot').toUpperCase()}] `;
+      return `<div class="${isPlayer ? 'me' : ''}"><span>${teamBadge}${s.name}${isPlayer ? ' (you)' : ''}</span><span>${s.kills} kills · ${s.deaths} deaths</span></div>`;
+    }).join('')}<div class="foot">Target: ${this.targetScore} kills · ${mm}:${ss} left · Alpha ${this.scoreAlpha} - ${this.scoreBravo} Bravo</div>`;
   }
 }

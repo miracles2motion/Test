@@ -451,8 +451,8 @@ function updatePickups(dt) {
 }
 let pickupClock = 0;
 function updateArenaPickups(dt) {
-  if (!net.isHost) return; pickupClock -= dt;
-  if (pickupClock <= 0 && pickups.length < 10) { pickupClock = 7; spawnPickup('ammo', choose(level.pickups)); }
+  if (!net.isHost && game.mode !== 'arena') return; pickupClock -= dt;
+  if (pickupClock <= 0 && pickups.length < 10) { pickupClock = 7; spawnPickup(Math.random() < 0.35 ? 'health' : 'ammo', choose(level.pickups)); }
 }
 
 // ---------------- solo waves ----------------
@@ -1686,7 +1686,6 @@ function mapSelectHTML() {
 
   const bestScore = Number(localStorage.getItem(`doodle_best_${mapKey}`)) || 0;
   const isLocked = !!curMap.comingSoon;
-  const deployLabel = isLocked ? 'MISSION IN DEVELOPMENT' : 'DEPLOY TO MISSION';
   const deployDisabled = isLocked ? 'disabled' : '';
   
   const diffStyle = (d) => {
@@ -2497,10 +2496,10 @@ function startMatch(late, spawnIdx) {
   // a match started by someone else's click cannot grab the mouse: ask for a click
   setTimeout(() => { if (game.state === 'play' && !input.pointerLocked && !input.usingGamepad && !input.isTouch && !mobile.enabled) { game.menu = true; showClickToPlay(); } }, 250);
 }
-function pause() { if ((game.state !== 'play' && !(game.state === 'dying' && online())) || game.menu) return; if (!online()) game.state = 'pause'; game.menu = true; showPause(); audio.reelLoop(false); }
+function pause() { if ((game.state !== 'play' && !(game.state === 'dying' && (online() || game.mode === 'arena'))) || game.menu) return; if (!online() && game.mode !== 'arena') game.state = 'pause'; game.menu = true; showPause(); audio.reelLoop(false); }
 function resume() {
   if (game.state === 'start' || game.state === 'dead' || game.state === 'over' || game.state === 'lobby') return;
-  if (online()) {
+  if (online() || game.mode === 'arena') {
     game.menu = false;
     if (game.state === 'dying' && game.respawnT <= 0) game.respawnArm = input.lastActive;
     hud.hideScreen();
@@ -2533,7 +2532,7 @@ hud.onScreenClick = () => {
   if (st === 'pause') resume();
 };
 canvas.addEventListener('click', () => { if (game.state === 'play' && !game.menu && !input.pointerLocked && !input.usingGamepad && !input.isTouch && !mobile.enabled) input.requestLock(); });
-input.onLockChange = (locked) => { if (!locked && (game.state === 'play' || (game.state === 'dying' && online())) && !game.menu && !input.usingGamepad && !input.isTouch && !mobile.enabled) pause(); };
+input.onLockChange = (locked) => { if (!locked && (game.state === 'play' || (game.state === 'dying' && (online() || game.mode === 'arena'))) && !game.menu && !input.usingGamepad && !input.isTouch && !mobile.enabled) pause(); };
 input.onDeviceChange = (pad) => { hud.setDevice(pad); hud.setWeapon(player.weapon.name, player.weapon.hint); };
 window.addEventListener('pagehide', () => { if (net.active) net.leave(); });
 window.addEventListener('beforeunload', (e) => { if (game.state === 'play' || game.state === 'dying') { e.preventDefault(); e.returnValue = ''; } });
@@ -2553,13 +2552,20 @@ function step(now) {
   input.update(dt);
   const st = game.state; const playing = st === 'play' || st === 'dying';
   if (st === 'start' || st === 'pause' || st === 'dead' || st === 'over') { if (input.pressed('jump') || input.pressed('confirm') || (st === 'pause' && input.pressed('pause'))) hud.onScreenClick(); }
-  else if ((st === 'play' || (st === 'dying' && online())) && input.pressed('pause')) { if (game.menu) resume(); else { pause(); input.exitLock(); } }
+  else if ((st === 'play' || (st === 'dying' && (online() || game.mode === 'arena'))) && input.pressed('pause')) { if (game.menu) resume(); else { pause(); input.exitLock(); } }
   else if ((st === 'play' || st === 'dying') && game.menu && (input.pressed('jump') || input.pressed('confirm'))) resume();
   if (input.pressed('music')) { musicWanted = !musicWanted; localStorage.setItem('doodle_music', musicWanted ? '1' : '0'); audio.musicOn(musicWanted); hud.tip(musicWanted ? 'music on' : 'music off', 1.5); }
   if (input.pressed('screenshot')) triggerScreenshot();
-  if (online() && playing) {
+  if ((online() || game.mode === 'arena') && playing) {
     if (input.usingGamepad && input.pressed('score')) boardToggle = !boardToggle;
-    const want = ((input.down('score') && !input.usingGamepad) || boardToggle) && !game.menu; if (want !== !hud.el.board.hidden) hud.setBoard(want ? boardHTML() : null);
+    const want = ((input.down('score') && !input.usingGamepad) || boardToggle) && !game.menu;
+    if (want !== !hud.el.board.hidden) {
+      if (game.mode === 'arena') {
+        hud.setBoard(want ? botArena.boardHTML() : null);
+      } else {
+        hud.setBoard(want ? boardHTML() : null);
+      }
+    }
   } else boardToggle = false;
   if (st === 'play' && !game.menu && !input.pointerLocked && !input.usingGamepad && !input.isTouch && !mobile.enabled) { lockTipT -= dt; if (lockTipT <= 0) { lockTipT = 2.5; hud.tip('click the page to grab the mouse', 2); } }
   if (mobile && mobile.enabled && mobile.setActiveWeapon) mobile.setActiveWeapon(player.weaponIndex);
@@ -2594,18 +2600,22 @@ function step(now) {
       }
     }
     player.update(sdt); enemies.update(sdt); effects.update(sdt); updatePickups(sdt); netUpdate(dt);
-    if (st === 'play' && !online() && game.mode !== 'explore' && game.mode !== 'duel') updateWaves(sdt);
+    if (game.mode === 'arena') {
+      botArena.update(sdt);
+      hud.setPvpScore(botArena.getHudScoreHTML());
+    }
+    if (st === 'play' && !online() && game.mode !== 'explore' && game.mode !== 'duel' && game.mode !== 'arena') updateWaves(sdt);
     if (st === 'play' && !online() && game.mode === 'duel') {
       if (enemies.alive <= 0 && game.time > 1) {
         game.state = 'over'; game.overT = 0;
         showDuelEnd(true); input.exitLock();
       }
     }
-    if (online()) updateArenaPickups(dt);
+    if (online() || game.mode === 'arena') updateArenaPickups(dt);
     if (game.comboT > 0) { game.comboT -= sdt; if (game.comboT <= 0) { game.combo = 0; hud.setScore(game.score, 0); } }
     if (st === 'dying') {
       game.deathT += dt;
-      if (online()) {
+      if (online() || game.mode === 'arena') {
         const before = Math.ceil(game.respawnT); game.respawnT -= dt; const left = Math.ceil(game.respawnT);
         if (left > 0) { if (left !== before || game.deathT <= dt) hud.message(String(left), 'back on the page in', 1.1); }
         else if (before > 0) { game.respawnArm = input.lastActive; game.promptT = 0; }
