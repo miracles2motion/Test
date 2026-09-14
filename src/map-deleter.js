@@ -104,18 +104,25 @@ if (fs.existsSync(snapshotsDir)) {
   });
 }
 
-// 4. Delete concepts
-const conceptsDir = path.join(ROOT_DIR, 'map_concepts');
-if (fs.existsSync(conceptsDir)) {
-  const files = fs.readdirSync(conceptsDir);
-  files.forEach(f => {
-    // Exact match: 10_cove.md, not 10_pirate_cove.md
-    if (f.match(new RegExp(`^\\d+_${mapName}\\.md$`)) || f === `${mapName}.md`) {
-      fs.unlinkSync(path.join(conceptsDir, f));
-      console.log(`   ✓ Deleted concept ${f}`);
-    }
-  });
-}
+// 4. Delete concepts & map descriptions
+const docDirs = [
+  path.join(ROOT_DIR, 'map_concepts'),
+  path.join(ROOT_DIR, 'Map Description')
+];
+
+docDirs.forEach(dir => {
+  if (fs.existsSync(dir)) {
+    const files = fs.readdirSync(dir);
+    const normalizedTarget = mapName.toLowerCase().replace(/[-_]/g, '');
+    files.forEach(f => {
+      const normalizedFile = f.toLowerCase().replace(/[-_]/g, '').replace(/\.md$/, '').replace(/^\d+/, '');
+      if (normalizedFile === normalizedTarget || f.match(new RegExp(`^\\d+_${mapName}\\.md$`)) || f === `${mapName}.md` || f === `${mapName.replace(/_/g, '-')}.md`) {
+        fs.unlinkSync(path.join(dir, f));
+        console.log(`   ✓ Deleted description/concept: ${path.basename(dir)}/${f}`);
+      }
+    });
+  }
+});
 
 console.log(`\n✅ ${mapName} has been completely removed from the Dream Engine.\n`);
 process.exit(0);
