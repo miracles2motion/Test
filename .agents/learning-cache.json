@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-09-14T00:55:57.019Z",
+  "updatedAt": "2026-09-14T00:58:24.993Z",
   "rules": {
     "stairway": {
       "minRise": 0.2,
@@ -65,8 +65,8 @@
       "description": "Synthesized 2 multi-story interactive buildings",
       "trigger": "macro-dream-building",
       "autoRemedy": "macroSpatialInjection",
-      "occurrences": 54,
-      "lastObserved": "2026-09-14T00:55:55.682Z"
+      "occurrences": 55,
+      "lastObserved": "2026-09-14T00:58:23.761Z"
     },
     {
       "patternId": "macro-syntax-failure",
@@ -81,16 +81,16 @@
       "description": "Injected 0 macro structures (City Planner)",
       "trigger": "dream-city-planner",
       "autoRemedy": "macroCity",
-      "occurrences": 19,
-      "lastObserved": "2026-09-14T00:55:56.024Z"
+      "occurrences": 20,
+      "lastObserved": "2026-09-14T00:58:24.048Z"
     },
     {
       "patternId": "dead-zone-identified",
       "description": "Identified dead zone at (0, 26.6) due to head-glitch",
       "trigger": "dead-zone-identified",
       "autoRemedy": "blacklistCoordinate",
-      "occurrences": 56,
-      "lastObserved": "2026-09-14T00:49:28.296Z"
+      "occurrences": 69,
+      "lastObserved": "2026-09-14T00:58:24.699Z"
     }
   ],
   "history": [
@@ -1059,6 +1059,96 @@
       "mapKey": "library",
       "patternId": "dream-city-planner",
       "description": "Injected 7 macro structures (City Planner)"
+    },
+    {
+      "timestamp": "2026-09-14T00:58:23.761Z",
+      "mapKey": "god",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
+    },
+    {
+      "timestamp": "2026-09-14T00:58:24.048Z",
+      "mapKey": "god",
+      "patternId": "dream-city-planner",
+      "description": "Injected 10 macro structures (City Planner)"
+    },
+    {
+      "timestamp": "2026-09-14T00:58:24.633Z",
+      "mapKey": "god",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-43, -25) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T00:58:24.639Z",
+      "mapKey": "god",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-47, -15) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T00:58:24.644Z",
+      "mapKey": "god",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-47, 33) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T00:58:24.650Z",
+      "mapKey": "god",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-31, -47) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T00:58:24.656Z",
+      "mapKey": "god",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-31, 1) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T00:58:24.661Z",
+      "mapKey": "god",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-15, -47) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T00:58:24.667Z",
+      "mapKey": "god",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (1, -31) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T00:58:24.672Z",
+      "mapKey": "god",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (1, 33) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T00:58:24.677Z",
+      "mapKey": "god",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (17, -47) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T00:58:24.682Z",
+      "mapKey": "god",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (33, -47) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T00:58:24.688Z",
+      "mapKey": "god",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (33, 1) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T00:58:24.693Z",
+      "mapKey": "god",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (0, 12) due to god-spot"
+    },
+    {
+      "timestamp": "2026-09-14T00:58:24.699Z",
+      "mapKey": "god",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (0, -12) due to god-spot"
     }
   ],
   "failureBlacklist": {},
@@ -1710,18 +1800,59 @@
       ],
       "avgScore": 85,
       "lastSuccess": "2026-09-14T00:49:40.434Z"
+    },
+    "neon_data_vault": {
+      "count": 2,
+      "totalScore": 170,
+      "positions": [
+        {
+          "mapKey": "god",
+          "x": -43,
+          "y": 0,
+          "z": -43
+        },
+        {
+          "mapKey": "god",
+          "x": -43,
+          "y": 0,
+          "z": 11
+        }
+      ],
+      "avgScore": 85,
+      "lastSuccess": "2026-09-14T00:58:23.758Z"
+    },
+    "skybridge_junction": {
+      "count": 1,
+      "totalScore": 85,
+      "positions": [
+        {
+          "mapKey": "god",
+          "x": -43,
+          "y": 0,
+          "z": -25
+        }
+      ],
+      "avgScore": 85,
+      "lastSuccess": "2026-09-14T00:58:23.752Z"
+    },
+    "holo_kiosk_tower": {
+      "count": 1,
+      "totalScore": 85,
+      "positions": [
+        {
+          "mapKey": "god",
+          "x": -43,
+          "y": 0,
+          "z": -7
+        }
+      ],
+      "avgScore": 85,
+      "lastSuccess": "2026-09-14T00:58:23.755Z"
     }
   },
   "errorRateTracker": {
     "windowSize": 20,
     "runs": [
-      {
-        "timestamp": "2026-09-12T22:30:49.222Z",
-        "mapKey": "5x",
-        "success": true,
-        "score": 0,
-        "mode": "MAP"
-      },
       {
         "timestamp": "2026-09-12T22:30:50.187Z",
         "mapKey": "5x",
@@ -1854,6 +1985,13 @@
         "success": true,
         "score": 0,
         "mode": "MAP"
+      },
+      {
+        "timestamp": "2026-09-14T00:58:24.993Z",
+        "mapKey": "god",
+        "success": true,
+        "score": 0,
+        "mode": "NOTHING"
       }
     ],
     "currentRate": 5
@@ -2307,6 +2445,110 @@
       "radius": 5,
       "reason": "head-glitch",
       "timestamp": "2026-09-14T00:49:28.293Z"
+    },
+    {
+      "mapKey": "god",
+      "x": -43,
+      "z": -25,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T00:58:24.629Z"
+    },
+    {
+      "mapKey": "god",
+      "x": -47,
+      "z": -15,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T00:58:24.636Z"
+    },
+    {
+      "mapKey": "god",
+      "x": -47,
+      "z": 33,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T00:58:24.642Z"
+    },
+    {
+      "mapKey": "god",
+      "x": -31,
+      "z": -47,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T00:58:24.647Z"
+    },
+    {
+      "mapKey": "god",
+      "x": -31,
+      "z": 1,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T00:58:24.653Z"
+    },
+    {
+      "mapKey": "god",
+      "x": -15,
+      "z": -47,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T00:58:24.658Z"
+    },
+    {
+      "mapKey": "god",
+      "x": 1,
+      "z": -31,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T00:58:24.663Z"
+    },
+    {
+      "mapKey": "god",
+      "x": 1,
+      "z": 33,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T00:58:24.669Z"
+    },
+    {
+      "mapKey": "god",
+      "x": 17,
+      "z": -47,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T00:58:24.674Z"
+    },
+    {
+      "mapKey": "god",
+      "x": 33,
+      "z": -47,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T00:58:24.679Z"
+    },
+    {
+      "mapKey": "god",
+      "x": 33,
+      "z": 1,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T00:58:24.685Z"
+    },
+    {
+      "mapKey": "god",
+      "x": 0,
+      "z": 12,
+      "radius": 8,
+      "reason": "god-spot",
+      "timestamp": "2026-09-14T00:58:24.691Z"
+    },
+    {
+      "mapKey": "god",
+      "x": 0,
+      "z": -12,
+      "radius": 8,
+      "reason": "god-spot",
+      "timestamp": "2026-09-14T00:58:24.696Z"
     }
   ]
 }

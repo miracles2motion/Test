@@ -87,6 +87,29 @@ if (calledMatch) {
   }
 }
 
+const ACTION_KEYWORDS = ['god', 'godmode', 'mode', 'detail', 'heal', 'macro', 'inject', 'delete', 'inspect', 'audit', 'check', 'the'];
+if (ACTION_KEYWORDS.includes(mapName) || mapName === 'unknown_map' || !mapName) {
+  console.log(`
+🔱 [DREAM NLP ROUTER] Please specify a map name!
+
+Usage:
+  npm run dream "god <mapName> [theme]"
+  npm run dream "heal <mapName>"
+  npm run dream "detail <mapName>"
+  npm run dream "inspect <mapName>"
+
+Registered Maps:
+  - library (colossal)
+  - pirate_cove (maritime)
+  - clockwork (steampunk)
+  - zen (zen)
+  - classroom (colossal)
+  - district (urban)
+  - cover (urban)
+`);
+  process.exit(0);
+}
+
 // 4.1 Authoritative Map-to-Theme Lookup (prevents theme mismatches)
 const MAP_THEMES = {
   library: 'colossal',

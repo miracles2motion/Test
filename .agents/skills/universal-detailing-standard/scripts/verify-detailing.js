@@ -56,6 +56,7 @@ assert(fs.existsSync(path.join(ROOT_DIR, '.agents/rules/universal-detailing.md')
 
 // 2. Map-Specific Physical and Structural Audit
 function auditMap(mapKey) {
+  errors = [];
   if (isVerbose) {
     console.log(`\n============================================================`);
     console.log(`🔍 AUDITING MAP: [${mapKey.toUpperCase()}]`);
