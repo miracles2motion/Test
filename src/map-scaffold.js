@@ -80,29 +80,40 @@ if (conceptFile) {
   console.log(`\n📖 Parsing Concept: ${path.basename(conceptFile)}`);
   const md = fs.readFileSync(conceptFile, 'utf8');
 
-  // Extract bounds: X: [-55.0m, +55.0m], Z: [-55.0m, +55.0m], Y: [0.0m, 18.0m]
-  const boundsMatch = md.match(/X:\s*\[([-\d.]+)[m]?,\s*([+\d.]+)[m]?\]/i);
-  if (boundsMatch) {
-    const minX = Math.abs(parseFloat(boundsMatch[1]));
-    const maxX = Math.abs(parseFloat(boundsMatch[2]));
-    conf.bounds.P = Math.max(minX, maxX);
+  // Extract bounds: check Half-Span in table first, or Coordinate Boundary
+  const spanMatch = md.match(/Half-Span[^\d]*(\d+)/i);
+  if (spanMatch) {
+    conf.bounds.P = parseFloat(spanMatch[1]);
+  } else {
+    const boundsMatch = md.match(/Coordinate Boundary[^\n]*X:\s*\[([-\d.]+)[m]?,\s*([+\d.]+)[m]?\]/i);
+    if (boundsMatch) {
+      const minX = Math.abs(parseFloat(boundsMatch[1]));
+      const maxX = Math.abs(parseFloat(boundsMatch[2]));
+      conf.bounds.P = Math.max(minX, maxX);
+    }
   }
-  const heightMatch = md.match(/Y:\s*\[([-\d.]+)[m]?,\s*([+\d.]+)[m]?\]/i);
-  if (heightMatch) {
-    conf.bounds.PH = Math.abs(parseFloat(heightMatch[2]));
+
+  const phMatch = md.match(/Wall Height[^\d]*(\d+)/i);
+  if (phMatch) {
+    conf.bounds.PH = parseFloat(phMatch[1]);
+  } else {
+    const heightMatch = md.match(/Coordinate Boundary[^\n]*Y:\s*\[([-\d.]+)[m]?,\s*([+\d.]+)[m]?\]/i);
+    if (heightMatch) {
+      conf.bounds.PH = Math.abs(parseFloat(heightMatch[2]));
+    }
   }
 
   // Extract Tiers
-  const tier2Match = md.match(/Tier 2.*Y\s*=\s*([+\d.]+)/i);
+  const tier2Match = md.match(/Tier 2.*Y\s*=\s*([+\d.]+)/i) || md.match(/y\s*=\s*([+\d.]+)[^\n]*Tier 2/i);
   if (tier2Match) conf.tier2Y = parseFloat(tier2Match[1]);
-  const tier3Match = md.match(/Tier 3.*Y\s*=\s*([+\d.]+)/i);
+  const tier3Match = md.match(/Tier 3.*Y\s*=\s*([+\d.]+)/i) || md.match(/y\s*=\s*([+\d.]+)[^\n]*Tier 3/i);
   if (tier3Match) conf.tier3Y = parseFloat(tier3Match[1]);
 
-  // Extract Inks
+  // Extract Inks (handles both "Primary Ink: INK.GREEN" and "`INK.GREEN` (Primary Ink)")
   let primaryInkVar = 'BL';
   let secondaryInkVar = 'BK';
   let accentInkVar = 'OR';
-  const pMatch = md.match(/Primary Ink[*\s:]*INK\.(\w+)/i);
+  const pMatch = md.match(/Primary Ink[*\s:]*INK\.(\w+)/i) || md.match(/INK\.(\w+)[^\n]*Primary Ink/i);
   if (pMatch) {
     const name = pMatch[1].toUpperCase();
     if (name === 'GREEN') primaryInkVar = 'GR';
@@ -111,14 +122,14 @@ if (conceptFile) {
     else if (name === 'ORANGE') primaryInkVar = 'OR';
     else if (name === 'BLUE') primaryInkVar = 'BL';
   }
-  const sMatch = md.match(/Secondary Ink[*\s:]*INK\.(\w+)/i);
+  const sMatch = md.match(/Secondary Ink[*\s:]*INK\.(\w+)/i) || md.match(/INK\.(\w+)[^\n]*Secondary Ink/i);
   if (sMatch) {
     const name = sMatch[1].toUpperCase();
     if (name === 'BLACK') secondaryInkVar = 'BK';
     else if (name === 'BLUE') secondaryInkVar = 'BL';
     else if (name === 'GREEN') secondaryInkVar = 'GR';
   }
-  const aMatch = md.match(/Accent Ink[s]?[*\s:]*INK\.(\w+)/i);
+  const aMatch = md.match(/Accent Ink[s]?[*\s:]*INK\.(\w+)/i) || md.match(/INK\.(\w+)[^\n]*Accent Ink/i);
   if (aMatch) {
     const name = aMatch[1].toUpperCase();
     if (name === 'ORANGE') accentInkVar = 'OR';

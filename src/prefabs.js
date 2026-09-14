@@ -145,8 +145,8 @@ export function buildGiantMushroom(B, x, y, z, o = {}) {
   // Step-stool micro spore cap at base
   cyl(x + 1.6, y, z + 0.4, 0.65, 1.2, { ink: inkCap, tag: 'cover' });
 
-  // Grapple ring suspended under the cap
-  ring(x, y + stalkH - 0.6, z, 'y');
+  // Grapple ring suspended under the cap brim with safe clearance
+  ring(x + 2.2, y + stalkH - 1.2, z, 'y');
 }
 
 /**

@@ -1,6 +1,7 @@
 // Level construction. Two maps share one builder: everything is merged ink geometry plus
 // axis-aligned box colliders, which is what the navigation grid is generated from.
 import { buildLibrary } from './levels/library.js';
+import { buildForest } from './levels/forest.js';
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { makeInkMaterial, INK } from './render.js';
@@ -14,6 +15,7 @@ export const MEXICO_READY = false;
 export const LEVELS = [
   { key: 'district', name: 'DOODLE DISTRICT', blurb: 'streets, rooftops and fire escapes', category: 'urban', tags: ['FAST CQB', 'MEDIUM', 'EARTH'], env: 'Urban Streets', engagement: 'CQB / Grapple', hazard: 'Lethal Abyss', scale: 'Tier 1-3' },
   { key: 'classroom', name: 'THE GIANT CLASSROOM', blurb: 'towering desks, crashed paper planes, staplers & science lab', category: 'colossal', tags: ['VERTICAL', 'MASSIVE', 'EARTH'], env: 'Colossal', engagement: 'Sniping / Grapple', hazard: 'Fall Damage', scale: 'Tier 1-4' },
+  { key: 'forest', name: 'THE COLOSSAL CANOPY', blurb: 'primeval redwoods, banyan roots, hollow log tunnels & high suspension bridges', category: 'colossal', tags: ['VERTICAL', 'MASSIVE', 'CANOPY'], env: 'Primeval Redwood Forest', engagement: '3-Lane / Sniping / Grapple', hazard: 'Abyssal Chasm below Y=-10.0m', scale: 'Tier 1-4' },
 
   { key: 'clockwork', name: 'CLOCKWORK TOWER', blurb: 'monolithic gears, pendulums and grinding cogs', category: 'anomalous', tags: ['FAST CQB', 'MEDIUM', 'HOROLOGICAL'], env: 'Kinetic Machinery', engagement: 'Platforming / CQB', hazard: 'Grinding Cogs below Y=-4.0m', scale: 'Tier 1-5' },
   { key: 'castle', name: 'BLUEPRINT CASTLE', comingSoon: true, blurb: 'drawbridges, donjon keeps and siege engines', category: 'urban', tags: ['LONG-RANGE', 'MASSIVE', 'EARTH'], env: 'Medieval Fortress', engagement: 'Siege / Sniping', hazard: 'Moat Abyss', scale: 'Tier 1-4' },
@@ -1446,6 +1448,7 @@ export const MAP_BUILDERS = {
   mexico: buildMexico,
   library: buildLibrary,
   tomes: buildLibrary,
+  forest: buildForest,
 };
 
 export function registerMapBuilder(key, builderFn) {
