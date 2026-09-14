@@ -23,6 +23,8 @@ export const TYPES = {
   boss: { role: 'boss', canDodge: false, canCover: false, canRetreat: false, canFlank: false, hp: 2600, speed: 3.2, weapon: 'boss', bossKind: 'doodler', range: 32, stop: 6, keep: 0, cool: [2.6, 3.6], dmg: 22, score: 2500, scale: 2.7, name: 'THE DOODLER', boss: true, ink: INK.BLACK, hat: 'crown', build: { bodyW: 1.35, headS: 1.15, limbR: 0.06 } },
   eraser: { role: 'boss', canDodge: false, canCover: false, canRetreat: false, canFlank: false, hp: 3400, speed: 4.2, weapon: 'boss', bossKind: 'eraser', range: 30, stop: 8, keep: 0, cool: [2.2, 3.2], dmg: 26, score: 3200, scale: 2.6, name: 'THE ERASER', boss: true, ink: INK.PINK, model: 'blob', build: {} },
   inkblot: { role: 'boss', canDodge: false, canCover: false, canRetreat: false, canFlank: false, hp: 3000, speed: 3.0, weapon: 'boss', bossKind: 'inkblot', range: 34, stop: 10, keep: 0, cool: [2.4, 3.4], dmg: 20, score: 3600, scale: 2.4, name: 'THE INKBLOT', boss: true, ink: INK.BLACK, model: 'blob', build: {} },
+  forest_monkey: { role: 'ranged', canDodge: true, canCover: true, canRetreat: true, canFlank: true, leaper: true, tail: true, hp: 85, speed: 7.2, weapon: 'rifle', range: 26, stop: 12, keep: 6, burst: 3, burstInt: 0.12, cool: [1.2, 1.8], dmg: 5, spread: 0.06, pspeed: 40, score: 180, scale: 0.82, name: 'TREE MONKEY', hat: 'monkey', build: { bodyW: 0.72, headS: 0.88, limbR: 0.024 } },
+  bamboo_stalker: { role: 'ranged', canDodge: true, canCover: true, canRetreat: true, canFlank: false, hp: 65, speed: 5.2, weapon: 'sniper', range: 85, stop: 85, keep: 16, aimTime: 1.4, cool: [2.2, 3.2], dmg: 22, spread: 0.006, pspeed: 92, score: 220, scale: 0.95, name: 'BAMBOO STALKER', stationary: false, hat: 'conical', build: { bodyW: 0.76, headS: 0.90, limbR: 0.025 } },
 };
 
 // ---------------- doodle model kit ----------------
@@ -66,6 +68,8 @@ function buildHat(headG, mat, solid, T) {
   else if (h === 'helmet') { const c = new THREE.Mesh(new THREE.SphereGeometry(0.32, 10, 6, 0, TAU, 0, Math.PI * 0.55), mat); c.position.y = 0.0; c.scale.y = 0.85; headG.add(c); const rim = new THREE.Mesh(new THREE.TorusGeometry(0.315, 0.03, 4, 14), mat); rim.rotation.x = Math.PI / 2; rim.position.y = -0.02; headG.add(rim); }
   else if (h === 'hood') { const c = new THREE.Mesh(new THREE.SphereGeometry(0.33, 10, 7, 0, TAU, 0, Math.PI * 0.62), mat); c.position.y = -0.02; c.scale.set(1.03, 1.15, 0.95); headG.add(c); const tail = new THREE.Mesh(new THREE.ConeGeometry(0.13, 0.5, 5), mat); tail.position.set(0, 0.16, -0.3); tail.rotation.x = 1.5; headG.add(tail); }
   else if (h === 'crown') { for (let i = 0; i < 6; i++) { const a = (i / 6) * TAU; const sp = new THREE.Mesh(new THREE.ConeGeometry(0.07, 0.26, 4), mat); sp.position.set(Math.cos(a) * 0.22, 0.34, Math.sin(a) * 0.22); headG.add(sp); } const b = new THREE.Mesh(new THREE.TorusGeometry(0.24, 0.035, 4, 14), mat); b.rotation.x = Math.PI / 2; b.position.y = 0.24; headG.add(b); }
+  else if (h === 'monkey') { for (const sx of [-1, 1]) { const ear = sph(0.11, sx * 0.28, 0.04, 0, mat, headG, 6); ear.scale.set(0.65, 1.1, 0.8); const inner = sph(0.06, sx * 0.28, 0.04, 0.02, solid, headG, 5); inner.scale.set(0.5, 0.9, 0.7); } }
+  else if (h === 'conical') { const cone = new THREE.Mesh(new THREE.ConeGeometry(0.38, 0.16, 8), mat); cone.position.y = 0.32; headG.add(cone); const band = new THREE.Mesh(new THREE.TorusGeometry(0.28, 0.022, 4, 12), solid); band.rotation.x = Math.PI / 2; band.position.y = 0.26; headG.add(band); }
 }
 export function buildWeaponProp(gun, mat, solid, T) {
   if (T.weapon === 'blade') { bx(0.02, 0.05, 0.95, 0, 0.04, 0.42, mat, gun); bx(0.11, 0.11, 0.03, 0, 0.04, -0.06, solid, gun); bx(0.035, 0.045, 0.24, 0, 0.04, -0.19, solid, gun); }
@@ -83,6 +87,10 @@ export function buildHumanoid(mat, solid, T) {
   const jit = rand(0.95, 1.06); // every figure is drawn slightly differently
   const hips = new THREE.Group(); hips.position.y = 0.86; root.add(hips);
   parts.hips = new THREE.Object3D(); hips.add(parts.hips);
+  if (T.tail) {
+    const tailC = new THREE.QuadraticBezierCurve3(V3(0, 0, -0.16), V3(0, 0.28, -0.45), V3(0, 0.48, -0.32));
+    hips.add(new THREE.Mesh(new THREE.TubeGeometry(tailC, 6, 0.024, 6, false), mat));
+  }
   const torso = new THREE.Group(); torso.position.y = 0.04; hips.add(torso);
   blob(0.3 * bodyW, 0.3, 0.19 * bodyW, 0, 0.26, 0, mat, torso);
   parts.torso = new THREE.Object3D(); parts.torso.position.y = 0.26; torso.add(parts.torso);
@@ -641,8 +649,8 @@ export class EnemyManager {
     const slideSpeed = diff === 4 ? 12 : 9.5;
     b.vel.x += perpX * slideSpeed;
     b.vel.z += perpZ * slideSpeed;
-    // Ground slide impulse - low profile slide, NO vertical rocket jump!
-    b.vel.y = Math.max(b.vel.y, 0.4);
+    // Ground slide impulse - low profile slide, or acrobatic leap for tree monkeys!
+    b.vel.y = (e.T && e.T.leaper) ? Math.max(b.vel.y, 7.8) : Math.max(b.vel.y, 0.4);
   }
   _retreatToCover(e, dt, pp) {
     const b = e.body;

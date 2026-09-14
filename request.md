@@ -699,6 +699,33 @@ In hand-authored gold-standard maps like **The Giant Classroom** and **The Libra
 - A book is a multi-story fortress with pages forming stepped terraces.
 - In contrast, Dream currently drops objects onto a flat floor as small decorative clutter, rather than turning them into **walkable, multi-tiered combat highways**.
 
+### 8.5 The Hardcoding Fallback Reflex
+Whenever Dream's procedural output produces bad geometry, human developers and AI assistants instinctively bypass the generator and manually hand-write 300 lines of static `box()`, `slab()`, and `stairs()` coordinates inside the map files.
+- **Why this fails**:
+  - Hand-coded coordinates are blind to dynamic connections: e.g., placing a solid `slab` over spiral stairs without calculating an opening, leaving the player to bonk their head against the ceiling.
+  - It freezes the map in static numbers, meaning Dream never learns and the next map generated is just as broken and barren.
+
+### 8.6 The Disconnected Rebuild Pipeline (Legacy Scaffolder Hijack)
+Although a modern, modular procedural rebuild pipeline was engineered in `src/rebuild/` (PRNG, Zone Graph G1-G5, Surface Grid, Mathematical Stair Router, Vignette Composer), the God Mode orchestrator in `src/dream-orchestrator.js` was **never connected to it**:
+- `dream god <map>` still called legacy 2024 scripts:
+  - `src/map-scaffold.js` (which only knows how to stamp out a generic 4-quadrant urban box blockout).
+  - `src/macro-dreamer.js` (which falls back to stamping 4 identical prehistoric "Stonehenge Hollow Altars" into every corner).
+- The entire R0-R6 algorithmic foundation was sitting idle while users were served barren concrete courtyards.
+
+### 8.7 The "Checklist Blindness" Audit Trap
+The Universal Detailing audit tool (`verify-detailing.js`) enforces numerical quotas without evaluating experiential quality:
+- It checks: `colliders.length >= 150`, `stairs.length >= 2`, `rings.length >= 1`.
+- Generators responded by spamming bulky stone altar compounds and random straight staircases into a forest just to clear the 150 collider quota and achieve a **"12/12 Quality Score"**.
+- The computer declares the map a 100% certified masterpiece, while a human player tests it and experiences an 18/100 barren disaster.
+
+### 8.8 The Weak, Fluffy Concept Generator
+Current concept synthesis produces brief, generic 80-line markdown summaries that lack mechanical and spatial weight:
+- Maps need **500+ line deeply sectorized master architectural blueprints**:
+  - 5 to 7 distinct, non-overlapping sectors with clear tactical roles (e.g. a dense Bamboo Plantation, a River Gorge, a Fallen Trunk Run, a Canopy High-Way).
+  - A monumental **Centerpiece Eye-Catcher** (e.g. a 28m climbable Redwood Treehouse with functioning hatches, interior cabins, and crown overlooks).
+  - Bespoke, thematic enemy rosters (e.g. agile weaponized tree monkeys leaping branch-to-branch, bamboo phantom snipers).
+  - Explicit 3D spatial envelopes, step rise/run ratios, and zero urban stairs in natural biomes.
+
 ---
 
 ## 9. WHAT WE NEED FROM YOU: THE 4 CORE ARCHITECTURAL BLUEPRINTS

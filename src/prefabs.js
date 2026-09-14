@@ -1,5 +1,9 @@
 import { INK } from './render.js';
 import { createRNG } from './rebuild/prng.js';
+import { annularDeck } from './spline-engine.js';
+import { buildCreatureSkeleton, buildOrganicFish, buildBambooPlantation, buildTerracedRidge } from './anatomy-grammar.js';
+
+export { buildCreatureSkeleton, buildOrganicFish, buildBambooPlantation, buildTerracedRidge };
 
 // ============================================================================
 // DOODLE STRIKE MASTER PREFABRICATED PROCEDURAL GEOMETRY LIBRARY
@@ -1330,6 +1334,34 @@ export const PREFAB_REGISTRY = {
     tags: ['forest', 'treehouse', 'colossal', 'tree', 'catwalk', 'cabin', 'grapple', 'landmark'],
     builder: buildTreehouse,
     footprint: [12.0, 26.0, 12.0]
+  },
+  creature_skeleton: {
+    id: 'creature_skeleton',
+    name: 'Leviathan Creature Skeleton Sprint Tunnel',
+    tags: ['creature', 'skeleton', 'tunnel', 'defilade', 'ribcage', 'corridor'],
+    builder: buildCreatureSkeleton,
+    footprint: [6.0, 5.0, 24.0]
+  },
+  organic_fish: {
+    id: 'organic_fish',
+    name: 'Organic Swept Spline Fish Leviathan',
+    tags: ['creature', 'fish', 'spline', 'loft', 'landmark'],
+    builder: buildOrganicFish,
+    footprint: [8.0, 6.0, 24.0]
+  },
+  bamboo_plantation: {
+    id: 'bamboo_plantation',
+    name: 'Dense Procedural Bamboo Plantation',
+    tags: ['forest', 'bamboo', 'plantation', 'grove', 'cqb', 'cover'],
+    builder: buildBambooPlantation,
+    footprint: [24.0, 12.0, 24.0]
+  },
+  terraced_ridge: {
+    id: 'terraced_ridge',
+    name: 'Natural Terraced Rock Ledge Ridge',
+    tags: ['nature', 'rock', 'terrace', 'elevation', 'traverse'],
+    builder: buildTerracedRidge,
+    footprint: [12.0, 5.0, 18.0]
   }
 };
 
@@ -1710,14 +1742,15 @@ export function buildTreehouse(B, x, y, z, o = {}) {
     box(sx, sy, sz, 1.3, 0.28, 1.3, { ink: inkWood, tag: 'stair' });
   }
 
-  // 3. Main Constructed Timber Deck Platform at Y = deckY (10m x 10m octagonal layout)
-  slab(x - 5.0, z - 5.0, x + 5.0, z + 5.0, deckY, 0.45, { ink: inkWood });
-
-  // Perimeter Catwalk Guard Rails (0.95m height)
-  rail(x - 5.0, z - 5.0, x + 5.0, z - 5.0, deckY, { ink: inkWood });
-  rail(x + 5.0, z - 5.0, x + 5.0, z + 5.0, deckY, { ink: inkWood });
-  rail(x + 5.0, z + 5.0, x - 5.0, z + 5.0, deckY, { ink: inkWood });
-  rail(x - 5.0, z + 5.0, x - 5.0, z - 5.0, deckY, { ink: inkWood });
+  // 3. Main Constructed Timber Deck Platform at Y = deckY (curved annular deck with open stairwell hatch)
+  const deckR = trunkR + 3.4;
+  annularDeck(B, x, z, trunkR, deckR, deckY, {
+    segments: 16,
+    thickness: 0.45,
+    hatchAngleStart: Math.PI * 0.85,
+    hatchAngleEnd: Math.PI * 1.35,
+    ink: inkWood
+  });
 
   // 4. Constructed Wooden Cabin Shelter (North quadrant of deck)
   const cabinX = x;

@@ -15,18 +15,28 @@ import {
   buildCampfire,
   buildTrailSign,
   buildLoggingCart,
-  buildSurveyTable
+  buildSurveyTable,
+  buildBambooPlantation,
+  buildCreatureSkeleton,
+  buildOrganicFish,
+  buildTerracedRidge
 } from '../prefabs.js';
 
 /**
  * THE COLOSSAL CANOPY (Forest)
  * A monumental, organic, hand-drawn 3D woodland sanctuary.
- * Features a 26m Titan Redwood Treehouse with spiral trunk stairs, 
- * high-altitude timber canopy bridges, curved hollow sprint logs,
- * giant stalk grasses with momentum grapple rings, mountain streams, and boulder defilade.
+ * Built with living biro curves, mathematical splines, and anatomical grammars.
+ * 
+ * Key Features:
+ * 1. Monumental 28m Titan Redwood Treehouse with 20 spiral trunk steps and OPEN-HATCH annular deck.
+ * 2. Dense NW Bamboo Plantation with Poisson-spaced culms, segmented nodes, and hanging lanterns.
+ * 3. Cavernous SW Leviathan Skeletal Spine sprint tunnel with arched bilateral ribcage defilade.
+ * 4. Winding East Mountain Stream with leaping organic biro fish and rustic timber bridge.
+ * 5. Natural Terraced Rock Ridges replacing all artificial urban straight stairs.
+ * 6. High Canopy Skybridges and 360-degree aerial grapple momentum highway.
  */
 export function buildForest(B, arena = false) {
-  const { L, box, slab, wallX, wallZ, stairs, rail, cyl, sphere, ring, spawn, sniper, pickup, planes, addGeo, collider, scene } = B;
+  const { L, box, slab, wallX, wallZ, rail, cyl, sphere, ring, spawn, sniper, pickup, planes, addGeo, collider, scene } = B;
   const OR = INK.ORANGE ?? 3, GR = INK.GREEN ?? 4, BK = INK.BLACK ?? 2, BL = INK.BLUE ?? 0, RD = INK.RED ?? 1;
 
   L.key = 'forest';
@@ -34,11 +44,11 @@ export function buildForest(B, arena = false) {
   const D = P - 3;
   L.bounds = { minX: -P, maxX: P, minZ: -P, maxZ: P };
 
-  // ==================== 1. FOREST BED & PERIMETER BOUNDS ====================
-  // Deep mossy forest ground floor (rich green & earth)
+  // ==================== 1. FOREST BED & NATURAL PERIMETER PALISADES ====================
+  // Deep mossy forest ground floor (rich green drafting paper wash)
   box(0, -1.0, 0, 2 * P + T, 1.0, 2 * P + T, { ink: GR });
 
-  // Perimeter Ancient Redwood Trunk Palisades (replaces sterile flat walls with vertical log palisades)
+  // Perimeter Ancient Redwood Trunk Palisades (irregular vertical log boundary)
   box(0, 0, -P, 2 * P + T, PH, T, { ink: BK });
   box(0, 0, P, 2 * P + T, PH, T, { ink: BK });
   box(-P, 0, 0, T, PH, 2 * P + T, { ink: BK });
@@ -53,13 +63,13 @@ export function buildForest(B, arena = false) {
   // Rustic Timber Arch Gateways
   const doorFrame = (x, z, alongX) => {
     if (alongX) {
-      box(x - 1.6, 0, z, 0.6, 3.8, 0.8, { noCollide: true, ink: OR });
-      box(x + 1.6, 0, z, 0.6, 3.8, 0.8, { noCollide: true, ink: OR });
-      box(x, 3.6, z, 3.8, 0.6, 0.8, { noCollide: true, ink: OR });
+      box(x - 1.8, 0, z, 0.6, 3.8, 0.8, { noCollide: true, ink: OR });
+      box(x + 1.8, 0, z, 0.6, 3.8, 0.8, { noCollide: true, ink: OR });
+      box(x, 3.6, z, 4.2, 0.6, 0.8, { noCollide: true, ink: OR });
     } else {
-      box(x, 0, z - 1.6, 0.8, 3.8, 0.6, { noCollide: true, ink: OR });
-      box(x, 0, z + 1.6, 0.8, 3.8, 0.6, { noCollide: true, ink: OR });
-      box(x, 3.6, z, 0.8, 0.6, 3.8, { noCollide: true, ink: OR });
+      box(x, 0, z - 1.8, 0.8, 3.8, 0.6, { noCollide: true, ink: OR });
+      box(x, 0, z + 1.8, 0.8, 3.8, 0.6, { noCollide: true, ink: OR });
+      box(x, 3.6, z, 0.8, 0.6, 4.2, { noCollide: true, ink: OR });
     }
   };
   doorFrame(-D, 0, false); doorFrame(D, 0, false);
@@ -72,18 +82,62 @@ export function buildForest(B, arena = false) {
     collider(0, PH + 38, 0, 2 * P + 40, 8.0, 2 * P + 40, NG);
   }
 
-  // ==================== 2. MOUNTAIN STREAM BED (EAST FLANK) ====================
-  // Winding clear blue mountain stream carving through the east glade
+  // ==================== 2. SECTOR 1 (NORTH-WEST): DENSE BAMBOO PLANTATION ====================
+  // Autonomous procedural bamboo grove: 24 segmented culms (>= 1.9m Poisson spacing), node rings, leaf fronds & lanterns
+  buildBambooPlantation(B, -28.0, 0, -26.0, {
+    count: 24,
+    radius: 11.0,
+    seed: 42,
+    inkCulm: GR,
+    inkRings: BK
+  });
+
+  // ==================== 3. SECTOR 2 (NORTH-EAST): ANCIENT PINE GROVE & AMBUSH STUMPS ====================
+  // Monumental Alpine Conifers with conical needle skirts and aerial apex perches
+  buildPineTree(B, 32.0, 0, -30.0, { h: 24.0, inkBark: BK, inkLeaves: GR });
+  buildPineTree(B, 40.0, 0, -22.0, { h: 18.0, inkBark: BK, inkLeaves: GR });
+  buildHollowStump(B, 30.0, 0, -22.0); // 360-degree waist defilade
+  buildBoulderField(B, 24.0, 0, -26.0, { count: 5, radius: 6.0, seed: 99, ink: BK });
+
+  // ==================== 4. SECTOR 3 (SOUTH-WEST): LEVIATHAN SKELETAL SPINE SPRINT TUNNEL ====================
+  // 3D curved vertebral spline + 8 bilateral curved rib arches forming a 3.2m wide bullet defilade tunnel
+  buildCreatureSkeleton(B, -24.0, 0, 8.0, {
+    length: 24.0,
+    ribSpan: 7.0,
+    height: 4.8,
+    count: 8,
+    seed: 101,
+    inkBone: OR,
+    inkJoint: BK
+  });
+
+  // ==================== 5. SECTOR 4 (SOUTH-EAST): LUMBERJACK GLADE & CAMPFIRE HEARTH ====================
+  // Cordwood fuel stacks, woodcutter cart, and campfire with crackling embers
+  buildCampfire(B, 22.0, 0, 26.0);
+  buildWoodStack(B, 16.0, 0, 22.0);
+  buildWoodStack(B, 28.0, 0, 24.0);
+  buildLoggingCart(B, 26.0, 0, 32.0);
+  buildTrailSign(B, 18.0, 0, 18.0);
+
+  // ==================== 6. SECTOR 5 (EAST FLANK): WINDING MOUNTAIN STREAM & ORGANIC FISH ====================
+  // Clear blue mountain current
   slab(16.0, -45.0, 26.0, 45.0, 0.05, 0.05, { ink: BL });
-  // Stepping stones across the stream
+  // Stepping stones across the current
   slab(18.0, -2.0, 24.0, 2.0, 0.35, 0.35, { ink: BK });
   // Rustic timber arched footbridge spanning the river at Z = -15
   slab(15.0, -18.0, 27.0, -14.0, 0.8, 0.3, { ink: OR });
   rail(15.0, -18.0, 27.0, -18.0, 0.8, { ink: BK });
   rail(15.0, -14.0, 27.0, -14.0, 0.8, { ink: BK });
+  // Living anatomical biro fish leaping gracefully out of the mountain current!
+  buildOrganicFish(B, 20.0, 0.5, -6.0, {
+    length: 4.2,
+    inkBody: BL,
+    inkFin: OR
+  });
 
-  // ==================== 3. HERO CENTERPIECE: COLOSSAL TITAN TREEHOUSE ====================
-  // 26m Monumental Redwood with 20 spiral stairs, 10m timber deck at Y=9.5m, constructed cabin & 5-point grapple network
+  // ==================== 7. SECTOR 6 (HERO CENTERPIECE): 28M TITAN TREEHOUSE WITH OPEN HATCH ====================
+  // 28m Redwood Trunk with 20 spiral steps hugging the trunk up to Y = 9.5m.
+  // The annular platform features an 80-degree calculated open stairwell hatch: ZERO ceiling bonking!
   buildTreehouse(B, 0, 0, 0, {
     trunkR: 3.2,
     height: 28.0,
@@ -93,8 +147,8 @@ export function buildForest(B, arena = false) {
     inkLeaves: GR
   });
 
-  // ==================== 4. HIGH-ALTITUDE CANOPY SKY-BRIDGES (Y = 9.5m) ====================
-  // Timber catwalks radiating from the central Treehouse deck to outer tree bastions
+  // ==================== 8. SECTOR 7: CANOPY SKYBRIDGES & NATURAL TERRACED APPROACHES ====================
+  // Cedar timber catwalks radiating from the central Treehouse deck (Y = 9.5m) to outer vantage decks
   // North Skybridge: Center (0, 9.5, -5) -> North Bastion (0, 9.5, -26)
   slab(-1.5, -26.0, 1.5, -5.0, 9.5, 0.35, { ink: OR });
   rail(-1.5, -26.0, -1.5, -5.0, 9.5, { ink: BK });
@@ -115,73 +169,70 @@ export function buildForest(B, arena = false) {
   rail(5.0, -1.5, 24.0, -1.5, 9.5, { ink: BK });
   rail(5.0, 1.5, 24.0, 1.5, 9.5, { ink: BK });
 
-  // Skybridge Overlook Platforms & Dual Stair Access to Ground
-  // North Bastion Deck
+  // Skybridge Overlook Bastion Decks (Y = 9.5m)
   slab(-6.0, -32.0, 6.0, -26.0, 9.5, 0.4, { ink: OR });
   rail(-6.0, -32.0, 6.0, -32.0, 9.5, { ink: BK });
   rail(-6.0, -32.0, -6.0, -26.0, 9.5, { ink: BK });
   rail(6.0, -32.0, 6.0, -26.0, 9.5, { ink: BK });
-  stairs(0, 0, -32.5, '-z', 18, 3.0, { rise: 0.28, run: 0.48, ink: OR });
 
-  // South Outpost Deck
   slab(-6.0, 26.0, 6.0, 32.0, 9.5, 0.4, { ink: OR });
   rail(-6.0, 32.0, 6.0, 32.0, 9.5, { ink: BK });
   rail(-6.0, 26.0, -6.0, 32.0, 9.5, { ink: BK });
   rail(6.0, 26.0, 6.0, 32.0, 9.5, { ink: BK });
-  stairs(0, 0, 32.5, '+z', 18, 3.0, { rise: 0.28, run: 0.48, ink: OR });
 
-  // West Flank Tree Deck & Stairs
   slab(-30.0, -6.0, -24.0, 6.0, 9.5, 0.4, { ink: OR });
   rail(-30.0, -6.0, -30.0, 6.0, 9.5, { ink: BK });
   rail(-30.0, -6.0, -24.0, -6.0, 9.5, { ink: BK });
   rail(-30.0, 6.0, -24.0, 6.0, 9.5, { ink: BK });
-  stairs(-30.5, 0, 0, '-x', 18, 3.0, { rise: 0.28, run: 0.48, ink: OR });
 
-  // East Glade River Overlook Deck & Stairs
   slab(24.0, -6.0, 30.0, 6.0, 9.5, 0.4, { ink: OR });
   rail(30.0, -6.0, 30.0, 6.0, 9.5, { ink: BK });
   rail(24.0, -6.0, 30.0, -6.0, 9.5, { ink: BK });
   rail(24.0, 6.0, 30.0, 6.0, 9.5, { ink: BK });
-  stairs(30.5, 0, 0, '+x', 18, 3.0, { rise: 0.28, run: 0.48, ink: OR });
 
-  // ==================== 5. ANCIENT REDWOODS & PARAMETRIC TREES ====================
-  // NW Titan Tree with spiral buttress roots
-  generateParametricTree(B, -34.0, 0, -32.0, {
-    archetype: 'titan',
-    height: 28.0,
-    trunkR: 2.8,
-    seed: 201,
-    inkBark: BK,
-    inkLeaves: GR,
-    inkCover: OR
+  // NATURAL TERRACED ROCK RIDGES (Zero urban stairs! Natural mantleable rock shelves)
+  buildTerracedRidge(B, 0, 0, -33.0, {
+    width: 6.0,
+    totalHeight: 9.5,
+    tiers: 6,
+    stepDepth: 1.6,
+    dir: '-z',
+    inkRock: BK,
+    inkTrim: GR
   });
 
-  // NE Ancient Pine Grove
-  buildPineTree(B, 34.0, 0, -32.0, { h: 22.0, inkBark: BK, inkLeaves: GR });
-  buildPineTree(B, 40.0, 0, -24.0, { h: 18.0, inkBark: BK, inkLeaves: GR });
-
-  // SW Gnarled Redwood with hollow niche
-  generateParametricTree(B, -34.0, 0, 32.0, {
-    archetype: 'gnarled',
-    height: 22.0,
-    trunkR: 2.6,
-    seed: 305,
-    inkBark: BK,
-    inkLeaves: GR,
-    inkCover: OR
+  buildTerracedRidge(B, 0, 0, 33.0, {
+    width: 6.0,
+    totalHeight: 9.5,
+    tiers: 6,
+    stepDepth: 1.6,
+    dir: '+z',
+    inkRock: BK,
+    inkTrim: GR
   });
 
-  // SE Ancient Banyan Spire
-  buildAncientTree(B, 34.0, 0, 32.0, { r: 2.2, h: 20.0, inkBark: BK, inkLeaves: GR });
+  buildTerracedRidge(B, -31.0, 0, 0, {
+    width: 6.0,
+    totalHeight: 9.5,
+    tiers: 6,
+    stepDepth: 1.6,
+    dir: '-x',
+    inkRock: BK,
+    inkTrim: GR
+  });
 
-  // Flanking perimeter pines (offset from cardinal stair corridors)
-  buildPineTree(B, -44.0, 0, -18.0, { h: 24.0, inkBark: BK, inkLeaves: GR });
-  buildPineTree(B, 44.0, 0, 18.0, { h: 24.0, inkBark: BK, inkLeaves: GR });
-  buildPineTree(B, -18.0, 0, -44.0, { h: 24.0, inkBark: BK, inkLeaves: GR });
-  buildPineTree(B, 18.0, 0, 44.0, { h: 24.0, inkBark: BK, inkLeaves: GR });
+  buildTerracedRidge(B, 31.0, 0, 0, {
+    width: 6.0,
+    totalHeight: 9.5,
+    tiers: 6,
+    stepDepth: 1.6,
+    dir: '+x',
+    inkRock: BK,
+    inkTrim: GR
+  });
 
-  // ==================== 6. CURVED HOLLOW LOG SPRINT TUNNEL (WEST LANE) ====================
-  // Multi-segment sprint tube with 2.2m clear interior corridor & shelf-fungus steps
+  // ==================== 9. CURVED HOLLOW SPRINT LOGS & FLANKING TREES ====================
+  // Multi-segment curved sprint tube with 2.2m clear interior corridor
   buildCurvedHollowLog(B, -20.0, 0, -18.0, {
     segments: 3,
     segLen: 8.0,
@@ -197,47 +248,54 @@ export function buildForest(B, arena = false) {
   // Second straight hollow log on South Flank
   buildHollowLog(B, -15.0, 0, 22.0, 12.0);
 
-  // ==================== 7. GIANT STALK GRASSES WITH MOMENTUM GRAPPLE RINGS ====================
-  // Massive blades giving waist defilade crowned with aerial momentum grapple rings
+  // Perimeter guardian conifers
+  buildPineTree(B, -44.0, 0, -18.0, { h: 24.0, inkBark: BK, inkLeaves: GR });
+  buildPineTree(B, 44.0, 0, 18.0, { h: 24.0, inkBark: BK, inkLeaves: GR });
+  buildPineTree(B, -18.0, 0, -44.0, { h: 24.0, inkBark: BK, inkLeaves: GR });
+  buildPineTree(B, 18.0, 0, 44.0, { h: 24.0, inkBark: BK, inkLeaves: GR });
+
+  // SW Gnarled Redwood with natural niche
+  generateParametricTree(B, -34.0, 0, 32.0, {
+    archetype: 'gnarled',
+    height: 22.0,
+    trunkR: 2.6,
+    seed: 305,
+    inkBark: BK,
+    inkLeaves: GR,
+    inkCover: OR
+  });
+
+  // SE Ancient Banyan Spire
+  buildAncientTree(B, 34.0, 0, 32.0, { r: 2.2, h: 20.0, inkBark: BK, inkLeaves: GR });
+
+  // ==================== 10. GIANT STALK GRASSES WITH MOMENTUM GRAPPLE RINGS ====================
   buildGiantGrass(B, -12.0, 0, -16.0, { height: 7.2, ink: GR, inkStem: BK });
   buildGiantGrass(B, 12.0, 0, -16.0, { height: 7.0, ink: GR, inkStem: BK });
   buildGiantGrass(B, -12.0, 0, 16.0, { height: 7.5, ink: GR, inkStem: BK });
   buildGiantGrass(B, 12.0, 0, 16.0, { height: 7.2, ink: GR, inkStem: BK });
-  buildGiantGrass(B, -28.0, 0, 12.0, { height: 6.8, ink: GR, inkStem: BK });
+  buildGiantGrass(B, -36.0, 0, 14.0, { height: 8.2, ink: GR, inkStem: BK });
   buildGiantGrass(B, 28.0, 0, -12.0, { height: 6.8, ink: GR, inkStem: BK });
   buildGiantGrass(B, 0.0, 0, -22.0, { height: 8.0, ink: GR, inkStem: BK });
   buildGiantGrass(B, 0.0, 0, 22.0, { height: 8.0, ink: GR, inkStem: BK });
 
-  // ==================== 8. GRANITE BOULDER FIELDS & ROCK COVER ====================
-  // Natural sketched granite cover rocks along riverbank and glades
+  // Granite boulder field cover
   buildBoulderField(B, 24.0, 0, -2.0, { count: 6, radius: 7.0, seed: 88, ink: BK });
   buildBoulderField(B, -24.0, 0, 20.0, { count: 5, radius: 6.0, seed: 142, ink: BK });
 
-  // ==================== 9. WOODLAND TACTICAL SET DRESSING ====================
-  // Fly Agaric spotted toadstools (waist cover clusters)
+  // Fly Agaric toadstool waist cover clusters
   buildToadstoolCluster(B, -16.0, 0, -8.0, 4);
   buildToadstoolCluster(B, 16.0, 0, 8.0, 4);
   buildToadstoolCluster(B, -8.0, 0, 24.0, 3);
 
-  // Natural ambush bunker stump
+  // Ambush stumps
   buildHollowStump(B, -8.0, 0, -24.0);
   buildHollowStump(B, 8.0, 0, 24.0);
 
-  // Cordwood fuel stacks (waist cover)
+  // Cordwood fuel stacks
   buildWoodStack(B, -22.0, 0, -4.0);
   buildWoodStack(B, 22.0, 0, 4.0);
 
-  // Campfires with crackling embers
-  buildCampfire(B, -6.0, 0, -8.0);
-  buildCampfire(B, 6.0, 0, 8.0);
-
-  // Ranger trail signs & logging carts
-  buildTrailSign(B, -4.0, 0, -18.0);
-  buildTrailSign(B, 4.0, 0, 18.0);
-  buildLoggingCart(B, -20.0, 0, 28.0);
-  buildSurveyTable(B, 20.0, 0, -28.0);
-
-  // ==================== 10. SPAWNS, PICKUPS & COMBAT NAVIGATION ====================
+  // ==================== 11. SPAWNS, PICKUPS & COMBAT NAVIGATION ====================
   spawn(0, 0.2, D - 5);
   spawn(0, 0.2, -D + 5);
   spawn(-D + 5, 0.2, 0);
@@ -253,8 +311,9 @@ export function buildForest(B, arena = false) {
   pickup(0, 10.0, 0);           // Inside central Treehouse cabin
   pickup(0, 0.3, 0);            // Base of titan trunk
   pickup(20.0, 1.2, -16.0);     // On river footbridge
+  pickup(-24.0, 0.4, 8.0);      // Inside Leviathan ribcage tunnel
+  pickup(-28.0, 0.3, -26.0);    // Clearing in Bamboo plantation
   pickup(-20.0, 4.0, -18.0);    // On curved hollow log roof
-  pickup(-34.0, 12.0, -32.0);   // High in NW Titan redwood
   pickup(34.0, 12.0, 32.0);     // High in SE Banyan spire
 
   // High Canopy Aerial Grapple Highway (allows rapid gliding and zapping across the map)
