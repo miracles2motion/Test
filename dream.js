@@ -87,6 +87,27 @@ if (calledMatch) {
   }
 }
 
+// 4.1 Authoritative Map-to-Theme Lookup (prevents theme mismatches)
+const MAP_THEMES = {
+  library: 'colossal',
+  classroom: 'colossal',
+  desk: 'colossal',
+  tomes: 'colossal',
+  pirate_cove: 'maritime',
+  seas: 'maritime',
+  clockwork: 'steampunk',
+  tower: 'steampunk',
+  zen: 'zen',
+  garden: 'zen',
+  district: 'urban',
+  castle: 'urban',
+  mexico: 'urban'
+};
+
+if (MAP_THEMES[mapName] && !themes.some(t => prompt.includes(t))) {
+  theme = MAP_THEMES[mapName];
+}
+
 try {
   let command = '';
   if (action === 'god_mode') command = `npm run dream:god ${mapName} ${theme}`;

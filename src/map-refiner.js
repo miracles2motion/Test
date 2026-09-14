@@ -69,11 +69,12 @@ if (action === 'detail') {
     if (width >= 4 && depth >= 4 && parseFloat(h) < 2) {
       modifications++;
       // Add static books, pencils (collision enabled per user request)
+      const topY = parseFloat(y) + parseFloat(h);
       return `${match}
   // Dream Detail: Scattered Desk Props (Static collision geometry)
-  box(${x} - 1.2, ${y} + ${parseFloat(h) / 2 + 0.1}, ${z} + 0.5, 0.6, 0.2, 0.8, { ink: BL }); // Book
-  box(${x} + 0.8, ${y} + ${parseFloat(h) / 2 + 0.05}, ${z} - 1.0, 0.8, 0.1, 0.1, { ink: OR }); // Pencil
-  cyl(${x} - 0.2, ${y} + ${parseFloat(h) / 2 + 0.3}, ${z} + 1.2, 0.2, 0.6, { ink: BK }); // Ink Well`;
+  box(${x} - 1.2, ${topY}, ${z} + 0.5, 0.6, 0.2, 0.8, { ink: BL }); // Book
+  box(${x} + 0.8, ${topY}, ${z} - 1.0, 0.8, 0.1, 0.1, { ink: OR }); // Pencil
+  cyl(${x} - 0.2, ${topY}, ${z} + 1.2, 0.2, 0.6, { ink: BK }); // Ink Well`;
     }
     return match;
   });
