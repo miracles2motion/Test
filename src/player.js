@@ -45,6 +45,15 @@ export class Player {
     for (const w of this.weapons) if (w.isGun) { w.mag = w.magSize; w.reserve = w.startReserve; w.reloading = false; w.pumpT = 0; }
     this.switchTo(0, true); this.rig.visible = true; this.eyeH = EYE_STAND; this.grenades = 3; this.clearNades();
   }
+  teleport(x, y, z) {
+    if (x && typeof x === 'object' && 'x' in x) {
+      this.body.pos.set(x.x, x.y, x.z);
+    } else {
+      this.body.pos.set(x, y, z);
+    }
+    this.body.vel.set(0, 0, 0);
+    this.body.onGround = false;
+  }
   clearNades() { for (const n of this.nades) this.ctx.scene.remove(n.mesh); this.nades.length = 0; }
   get isBlocking() { return this.weapon.kind === 'katana' && this.weapon.blocking; }
   aimDir(spread = 0) {

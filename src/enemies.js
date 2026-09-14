@@ -1101,16 +1101,16 @@ export class EnemyManager {
             targetPos.addScaledVector(P.body.vel, leadTime);
           }
         }
+        let aimTimeMod = 1.0;
+        if (diff >= 2) aimTimeMod = Math.max(0.2, 1.0 - (0.05 * waveMult));
+        else if (diff === 0) aimTimeMod = Math.min(2.5, 1.2 + (0.1 * waveMult));
+        const targetAimTime = T.aimTime * aimTimeMod * (suppress ? 0.7 : 1.0);
+
         if (!e.aimPoint) { e.aimPoint = targetPos.clone(); }
         else if (e.aimT < targetAimTime - 0.22) {
           // Track player smoothly until 0.22s grace dodge window locks the beam
           e.aimPoint.lerp(targetPos, 1 - Math.exp(-2.8 * dt * (diff >= 2 ? Math.min(3, 1 + waveMult * 0.1) : 1))); 
         }
-        
-        let aimTimeMod = 1.0;
-        if (diff >= 2) aimTimeMod = Math.max(0.2, 1.0 - (0.05 * waveMult));
-        else if (diff === 0) aimTimeMod = Math.min(2.5, 1.2 + (0.1 * waveMult));
-        const targetAimTime = T.aimTime * aimTimeMod * (suppress ? 0.7 : 1.0);
         
         this._showLaser(e, muzzle, e.aimPoint, clamp(e.aimT / targetAimTime, 0, 1));
         if (e.aimT > targetAimTime * 0.45 && !e.aimWarned) {

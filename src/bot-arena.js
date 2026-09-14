@@ -119,7 +119,13 @@ export class BotArenaManager {
     // Spawn player at primary Alpha spawn
     if (this.format !== 'ffa' && alphaSpawns.length > 0) {
       const pSpawn = alphaSpawns[0];
-      this.ctx.player.teleport(pSpawn.x, pSpawn.y + 0.5, pSpawn.z);
+      if (typeof this.ctx.player?.teleport === 'function') {
+        this.ctx.player.teleport(pSpawn.x, pSpawn.y + 0.5, pSpawn.z);
+      } else if (typeof this.ctx.player?.reset === 'function') {
+        this.ctx.player.reset(new THREE.Vector3(pSpawn.x, pSpawn.y + 0.5, pSpawn.z));
+      } else if (this.ctx.player?.body?.pos) {
+        this.ctx.player.body.pos.set(pSpawn.x, pSpawn.y + 0.5, pSpawn.z);
+      }
     }
 
     if (this.format === '1v1') {
@@ -327,7 +333,13 @@ export class BotArenaManager {
     const targetPos = new THREE.Vector3(spawnPt.x + jitterX, (spawnPt.y || 0) + 0.8, spawnPt.z + jitterZ);
 
     if (entity === this.ctx.player) {
-      this.ctx.player.teleport(targetPos.x, targetPos.y, targetPos.z);
+      if (typeof this.ctx.player?.teleport === 'function') {
+        this.ctx.player.teleport(targetPos.x, targetPos.y, targetPos.z);
+      } else if (typeof this.ctx.player?.reset === 'function') {
+        this.ctx.player.reset(targetPos);
+      } else if (this.ctx.player?.body?.pos) {
+        this.ctx.player.body.pos.copy(targetPos);
+      }
       this.ctx.player.hp = this.ctx.player.maxHp || 100;
       this.ctx.player.alive = true;
       this.ctx.hud?.tip('RESPAWNED - GET REVENGE!', 2.0);

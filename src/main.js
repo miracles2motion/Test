@@ -2430,6 +2430,7 @@ function beginArenaMatch(format = arenaFormat, diff = window.currentDifficulty) 
     setArena(true);
     beginCommon();
     resetGame();
+    player.reset(arenaSpawn());
     game.state = 'play';
     player.grenades = 5;
     for (const w of player.weapons) {
