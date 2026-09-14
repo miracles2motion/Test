@@ -413,7 +413,7 @@ export class BotPlayer {
     _d.subVectors(aimTarget, this.eye).normalize();
 
     // Muzzle flash & audio
-    this.ctx.audio?.shoot(this.eye, this.weapon);
+    this.ctx.audio?.remoteShot(this.weapon, this.eye);
     this.ctx.effects?.tracer(this.eye, aimTarget, this.ink, 0.02, 0.12);
 
     // Damage Raycast
