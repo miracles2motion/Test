@@ -49,6 +49,7 @@ else if (prompt.includes('macro') || prompt.includes('building')) action = 'macr
 else if (prompt.includes('inject') || prompt.includes('prop')) action = 'inject';
 else if (prompt.includes('delete') || prompt.includes('remove')) action = 'delete';
 else if (prompt.includes('inspect') || prompt.includes('audit') || prompt.includes('check')) action = 'inspect';
+else if (prompt.includes('graduate') || prompt.includes('promote')) action = 'graduate';
 
 // 3. Detect Theme
 const themes = ["urban", "cyber", "steampunk", "colossal", "maritime", "zen", "anomalous"];
@@ -87,19 +88,21 @@ if (calledMatch) {
   }
 }
 
-const ACTION_KEYWORDS = ['god', 'godmode', 'mode', 'detail', 'heal', 'macro', 'inject', 'delete', 'inspect', 'audit', 'check', 'the'];
+const ACTION_KEYWORDS = ['god', 'godmode', 'mode', 'detail', 'heal', 'macro', 'inject', 'delete', 'inspect', 'audit', 'check', 'the', 'graduate', 'promote'];
 if (ACTION_KEYWORDS.includes(mapName) || mapName === 'unknown_map' || !mapName) {
   console.log(`
 🔱 [DREAM NLP ROUTER] Please specify a map name!
 
 Usage:
   npm run dream "god <mapName> [theme]"
+  npm run dream "graduate <mapName>"
   npm run dream "heal <mapName>"
   npm run dream "detail <mapName>"
   npm run dream "inspect <mapName>"
 
 Registered Maps:
   - library (colossal)
+  - paradise (urban)
   - pirate_cove (maritime)
   - clockwork (steampunk)
   - zen (zen)
@@ -124,7 +127,8 @@ const MAP_THEMES = {
   garden: 'zen',
   district: 'urban',
   castle: 'urban',
-  mexico: 'urban'
+  mexico: 'urban',
+  paradise: 'urban'
 };
 
 if (MAP_THEMES[mapName] && !themes.some(t => prompt.includes(t))) {
@@ -140,6 +144,7 @@ try {
   else if (action === 'macro') command = `npm run dream:macro ${mapName} ${theme}`;
   else if (action === 'inject') command = `npm run dream:inject ${mapName} ${theme}`;
   else if (action === 'delete') command = `node src/map-deleter.js ${mapName}`;
+  else if (action === 'graduate') command = `node graduate-map.js ${mapName}`;
 
   console.log(`✨ Dream understood your intent! Routing to:`);
   console.log(`   > ${command} (Running ${multiplier}x times)\n`);

@@ -14,7 +14,7 @@
 - **Engagement Profile**: CQB Corridors & Apex Catwalk Grapple Flanking
 - **Primary Ink**: INK.BLUE (Structural geometry, foundational slabs, perimeter enclosure)
 - **Secondary Ink**: INK.BLACK (Iron frames, safety railings, mechanical linework)
-- **Accent Inks**: INK.ORANGE (High-hazard zones, grapple anchors, vantage markers)
+- **Accent Inks**: INK.ORANGE, INK.RED (High-hazard zones, grapple anchors, vantage markers, alert conduits)
 
 ### 2.1 Thematic Prop Taxonomy (Detailing Tiers 1-4)
 - **Tier 1 (Cover Props — 3-5 meshes each)**: holo-terminal console, conduit junction box, neon billboard frame, cooling vent register.
