@@ -842,6 +842,7 @@ let settingsTab = 'camera'; // 'camera' | 'graphics' | 'touch' | 'audio'
 let settingsReturnTo = 'main'; // 'main' | 'pause'
 
 function settingsScreenHTML() {
+  const isGameActive = settingsReturnTo === 'pause' || (typeof game !== 'undefined' && game.state === 'play' && !game.over);
   const currentDpi = (typeof R !== 'undefined' && R.pixelRatio) ? R.pixelRatio.toFixed(2) : '1.50';
   const currentWidth = (typeof R !== 'undefined' && R.rt) ? R.rt.width : Math.round(window.innerWidth * ((typeof window !== 'undefined' && window.devicePixelRatio) || 1));
   const currentHeight = (typeof R !== 'undefined' && R.rt) ? R.rt.height : Math.round(window.innerHeight * ((typeof window !== 'undefined' && window.devicePixelRatio) || 1));
@@ -856,7 +857,7 @@ function settingsScreenHTML() {
     <div style="display: flex; gap: 16px; border-bottom: 2px solid var(--ink); margin-bottom: 24px;">
       <div class="ds-tabs" style="display:flex; gap:16px;">
         <button type="button" class="tab-btn ds-btn ghost ${settingsTab === 'camera' ? 'active' : ''}" data-tab="camera">CONTROLS</button>
-        <button type="button" class="tab-btn ds-btn ghost ${settingsTab === 'graphics' ? 'active' : ''}" data-tab="graphics">GRAPHICS</button>
+        <button type="button" class="tab-btn ds-btn ghost ${settingsTab === 'graphics' ? 'active' : ''}" data-tab="graphics">GRAPHICS${isGameActive ? ' 🔒' : ''}</button>
         <button type="button" class="tab-btn ds-btn ghost ${settingsTab === 'touch' ? 'active' : ''}" data-tab="touch">LAYOUT</button>
         <button type="button" class="tab-btn ds-btn ghost ${settingsTab === 'audio' ? 'active' : ''}" data-tab="audio">AUDIO</button>
       </div>
@@ -865,26 +866,35 @@ function settingsScreenHTML() {
     <div class="settings-body">
       <!-- 1. GRAPHICS -->
       <div class="tab-pane ${settingsTab === 'graphics' ? 'active' : ''}" id="pane-graphics" style="${settingsTab === 'graphics' ? 'display:block' : 'display:none'}">
+        ${isGameActive ? `
+        <div class="ds-panel" style="display:flex; align-items:flex-start; gap:12px; background:var(--paper-dim, #efe9d8); border:2px dashed var(--pencil, #55524a); border-radius:var(--r-sketch-md, 8px); padding:12px 16px; margin-bottom:20px;">
+          <span style="font-size:24px; line-height:1; user-select:none;">🔒</span>
+          <div style="font-family:var(--font-display, cursive); font-size:16px; line-height:1.3; color:var(--pencil, #55524a);">
+            <b style="color:var(--ink, #1a30c0); font-size:18px; letter-spacing:0.04em;">GRAPHICS LOCKED DURING ACTIVE GAMEPLAY</b><br>
+            To maintain a steady framerate and prevent WebGL shader recompiles during combat, graphics quality and resolution scale can only be adjusted from the Main Menu.
+          </div>
+        </div>
+        ` : ''}
         <div style="margin-bottom: 24px;">
           <h3 style="margin: 0 0 8px 0; font-family: var(--font-display);">Quality Preset</h3>
           <div class="ds-seg" id="setPreset">
-            <button class="${settings.graphicsQuality === 'auto' ? 'active' : ''}" data-val="auto">AUTO</button>
-            <button class="${settings.graphicsQuality === 'low' ? 'active' : ''}" data-val="low">PERFORMANCE</button>
-            <button class="${settings.graphicsQuality === 'medium' ? 'active' : ''}" data-val="medium">BALANCED</button>
-            <button class="${settings.graphicsQuality === 'high' ? 'active' : ''}" data-val="high">QUALITY</button>
+            <button class="${settings.graphicsQuality === 'auto' ? 'active' : ''}" data-val="auto" ${isGameActive ? 'disabled' : ''}>AUTO</button>
+            <button class="${settings.graphicsQuality === 'low' ? 'active' : ''}" data-val="low" ${isGameActive ? 'disabled' : ''}>PERFORMANCE</button>
+            <button class="${settings.graphicsQuality === 'medium' ? 'active' : ''}" data-val="medium" ${isGameActive ? 'disabled' : ''}>BALANCED</button>
+            <button class="${settings.graphicsQuality === 'high' ? 'active' : ''}" data-val="high" ${isGameActive ? 'disabled' : ''}>QUALITY</button>
           </div>
         </div>
 
         <div style="margin-bottom: 24px;">
           <h3 style="margin: 0 0 8px 0; font-family: var(--font-display);">Resolution Scale</h3>
           <div style="display: flex; align-items: center; gap: 16px;">
-            <input type="range" class="ds-slider" id="setResScale" min="50" max="150" step="5" value="${settings.resScale}">
+            <input type="range" class="ds-slider" id="setResScale" min="50" max="150" step="5" value="${settings.resScale}" ${isGameActive ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>
             <b style="font-family: var(--font-display); font-size: 20px;" id="setResScaleV">${settings.resScale}%</b>
           </div>
           <div style="font-size: 14px; opacity: 0.8; margin-top: 4px;">Render Target: ${currentWidth} × ${currentHeight}</div>
         </div>
 
-        <button class="ds-btn danger" id="resetSettingsBtn">RESET TO RECOMMENDED</button>
+        <button class="ds-btn danger" id="resetSettingsBtn" ${isGameActive ? 'disabled' : ''}>RESET TO RECOMMENDED</button>
       </div>
 
       <!-- 2. CAMERA -->
@@ -974,11 +984,14 @@ function wireSettingsScreen() {
     });
   });
 
+  const isGameActive = settingsReturnTo === 'pause' || (typeof game !== 'undefined' && game.state === 'play' && !game.over);
+
   // Graphics Preset
   const presetBtns = box.querySelectorAll('#setPreset button');
   presetBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
+      if (isGameActive || btn.disabled) return;
       const p = btn.dataset.val;
       if (!p) return;
       settings.graphicsQuality = p;
@@ -992,6 +1005,7 @@ function wireSettingsScreen() {
     const el = box.querySelector('#' + id);
     const out = box.querySelector('#' + id + 'V');
     if (el) el.addEventListener('input', () => {
+      if (isGameActive && id === 'setResScale') return;
       settings[prop] = Number(el.value);
       if (out) out.textContent = settings[prop] + '%';
       applySettings();
@@ -1039,6 +1053,7 @@ function wireSettingsScreen() {
   fastClick(box.querySelector('#closeSettingsX'), closeMenu);
   fastClick(box.querySelector('#backSettingsBtn'), closeMenu);
   fastClick(box.querySelector('#resetSettingsBtn'), () => {
+    if (isGameActive) return;
     settings.graphicsQuality = 'auto';
     settings.resScale = 100;
     settings.sens = 100;
@@ -1722,10 +1737,14 @@ function lockButtons(box) { for (const b of box.querySelectorAll('button')) if (
 function unlockButtons() { const box = hud.el.panel.querySelector('#online'); if (box) for (const b of box.querySelectorAll('button')) b.disabled = false; }
 function renderLobby() { if (game.state === 'lobby') showStart(); }
 function showStart() {
+  hud.el.screen.onclick = null;
   hud.setGameplayVisible(false);
   if (game.state === 'lobby') screen = 'lobby';
-  if (screen === 'main') setLevel('studio', false);
-  else setLevel(mapKey, false);
+  if (screen === 'main') {
+    game.state = 'start';
+    game.menu = false;
+    setLevel('studio', false);
+  } else setLevel(mapKey, false);
   
   let carouselScrollLeft = 0;
   if (screen === 'map_select') {
@@ -1876,7 +1895,9 @@ function showPause() {
       </div>
     </div>`);
     
-    fastClick(hud.el.panel.querySelector('#resumeBtn'), () => {
+    fastClick(hud.el.panel.querySelector('#resumeBtn'), (e) => {
+        if (e && e.stopPropagation) e.stopPropagation();
+        hud.el.screen.onclick = null;
         if(this.onScreenClick) this.onScreenClick();
         else { game.menu = false; game.state = 'play'; hud.hideScreen(); audio.reelLoop(true); }
     });
@@ -1885,12 +1906,6 @@ function showPause() {
     if (psb) fastClick(psb, (e) => { settingsReturnTo = 'pause'; screen = 'settings'; showStart(); });
     const lb = hud.el.panel.querySelector('#leaveBtn');
     if (lb) fastClick(lb, (e) => { lobby.rejoinCode = null; leaveOnline(''); });
-    
-    hud.el.screen.onclick = (e) => {
-        if(e.target === hud.el.screen) {
-            game.menu = false; game.state = 'play'; hud.hideScreen(); audio.reelLoop(true);
-        }
-    };
     return;
   }
   
@@ -1907,12 +1922,14 @@ function showPause() {
       </div>
     </div>`);
     
-    fastClick(hud.el.panel.querySelector('#resumeBtn'), () => { game.menu = false; game.state = 'play'; hud.hideScreen(); audio.reelLoop(true); });
+    fastClick(hud.el.panel.querySelector('#resumeBtn'), (e) => {
+      if (e && e.stopPropagation) e.stopPropagation();
+      hud.el.screen.onclick = null;
+      game.menu = false; game.state = 'play'; hud.hideScreen(); audio.reelLoop(true);
+    });
     const psb = hud.el.panel.querySelector('#pauseSettingsBtn');
     if (psb) fastClick(psb, (e) => { settingsReturnTo = 'pause'; screen = 'settings'; showStart(); });
     wireMenuBtn();
-    
-    hud.el.screen.onclick = (e) => { if(e.target === hud.el.screen) { game.menu = false; game.state = 'play'; hud.hideScreen(); audio.reelLoop(true); } };
     return;
   }
   
@@ -1928,12 +1945,14 @@ function showPause() {
     </div>
   </div>`);
   
-  fastClick(hud.el.panel.querySelector('#resumeBtn'), () => { game.menu = false; game.state = 'play'; hud.hideScreen(); audio.reelLoop(true); });
+  fastClick(hud.el.panel.querySelector('#resumeBtn'), (e) => {
+    if (e && e.stopPropagation) e.stopPropagation();
+    hud.el.screen.onclick = null;
+    game.menu = false; game.state = 'play'; hud.hideScreen(); audio.reelLoop(true);
+  });
   const psb = hud.el.panel.querySelector('#pauseSettingsBtn');
   if (psb) fastClick(psb, (e) => { settingsReturnTo = 'pause'; screen = 'settings'; showStart(); });
   wireMenuBtn();
-  
-  hud.el.screen.onclick = (e) => { if(e.target === hud.el.screen) { game.menu = false; game.state = 'play'; hud.hideScreen(); audio.reelLoop(true); } };
 
 }
 function showClickToPlay() {
@@ -1948,7 +1967,7 @@ function showClickToPlay() {
 
 }
 function showDead() {
-
+  hud.el.screen.onclick = null;
   hud.setGameplayVisible(false); 
   const nb = game.score > best; 
   if (nb) { best = game.score; localStorage.setItem('doodle_best', String(best)); }
@@ -1971,17 +1990,24 @@ function showDead() {
     </div>
     
     <div style="display: flex; flex-direction: column; gap: 12px;">
+      <button type="button" class="ds-btn primary md" id="deadRetryBtn">RETRY (WAVE 1)</button>
       ${checkpointHTML()}
       <button type="button" class="ds-btn secondary md" id="menuBtn">MAIN MENU</button>
     </div>
   </div>`);
   
+  const retryBtn = hud.el.panel.querySelector('#deadRetryBtn');
+  if (retryBtn) fastClick(retryBtn, (e) => {
+    if (e && e.stopPropagation) e.stopPropagation();
+    if (e && e.preventDefault) e.preventDefault();
+    begin();
+  });
   wireCheckpoints((w) => beginAtWave(w)); 
   wireMenuBtn();
 
 }
 function showDuelEnd(won) {
-
+  hud.el.screen.onclick = null;
   hud.setGameplayVisible(false);
   const getStyle = (d) => {
     if (window.currentDifficulty === d) return d === 4 ? 'background:var(--ink-red); color:var(--paper); border-color:var(--ink-red);' : 'background:var(--ink); color:var(--paper);';
@@ -2015,13 +2041,46 @@ function showDuelEnd(won) {
       showDuelEnd(won);
     });
   });
-  fastClick(hud.el.screen.querySelector('#retryBtn'), () => { beginDuel(); });
+  fastClick(hud.el.screen.querySelector('#retryBtn'), (e) => {
+    if (e && e.stopPropagation) e.stopPropagation();
+    if (e && e.preventDefault) e.preventDefault();
+    beginDuel();
+  });
   wireMenuBtn();
 
 }
 function menuBtnHTML() { return '<div class="online menubtn"><div class="row"><button type="button" class="alt" id="menuBtn">MAIN MENU</button></div></div>'; }
-function wireMenuBtn() { const b = hud.el.panel.querySelector('#menuBtn'); if (b) fastClick(b, (e) => { toMainMenu(); }); }
-function toMainMenu() { game.state = 'start'; game.mode = 'solo'; game.menu = false; setArena(false); resetGame(); audio.reelLoop(false); input.exitLock(); hud.setGameplayVisible(false); screen = 'main'; showStart(); }
+function wireMenuBtn() {
+  const b = hud.el.panel.querySelector('#menuBtn');
+  if (b) fastClick(b, (e) => {
+    if (e && e.stopPropagation) e.stopPropagation();
+    if (e && e.preventDefault) e.preventDefault();
+    toMainMenu();
+  });
+}
+function toMainMenu() {
+  hud.el.screen.onclick = null;
+  game.state = 'start';
+  game.mode = 'solo';
+  game.menu = false;
+  game.over = null;
+  game.intermission = 0;
+  game.queue.length = 0;
+  audio.reelLoop(false);
+  input.exitLock();
+  enemies.clear();
+  effects.clear();
+  for (const p of pickups) R.scene.remove(p.mesh);
+  pickups.length = 0;
+  pickupClock = 0;
+  setLevel('studio', false, true);
+  player.reset(level.playerStart);
+  player.hp = player.maxHp;
+  hud.setGameplayVisible(false);
+  hud.hideScreen();
+  screen = 'main';
+  showStart();
+}
 function toLobbyScreen() { net.inMatch = false; for (const r of remote.values()) r.lastSeen = performance.now(); setArena(true); resetGame(); game.state = 'lobby'; game.over = null; game.menu = false; hud.setGameplayVisible(false); hud.setBoard(null); screen = 'lobby'; showStart(); }
 
 // ---------------- run control ----------------
@@ -2123,6 +2182,7 @@ function startMatch(late, spawnIdx) {
 }
 function pause() { if ((game.state !== 'play' && !(game.state === 'dying' && online())) || game.menu) return; if (!online()) game.state = 'pause'; game.menu = true; showPause(); audio.reelLoop(false); }
 function resume() {
+  if (game.state === 'start' || game.state === 'dead' || game.state === 'over' || game.state === 'lobby') return;
   if (online()) {
     game.menu = false;
     if (game.state === 'dying' && game.respawnT <= 0) game.respawnArm = input.lastActive;
@@ -2136,16 +2196,24 @@ function resume() {
     game.state = 'play';
     return;
   }
+  if (game.state === 'pause') {
+    game.menu = false;
+    game.state = 'play';
+    hud.hideScreen();
+    hud.setGameplayVisible(true);
+    audio.reelLoop(true);
+    if (!input.usingGamepad && !input.isTouch && !mobile.enabled) input.requestLock();
+    return;
+  }
   begin();
 }
 Object.assign(window.__game, { startWave, updateWaves, begin, beginDuel, beginExplore, beginAtWave, jumpToWave, resetGame, spawnPickup, focusCandidate, enterFocus, pickSpawn, startMatch, createLobby, joinLobby, quickPlay, leaveOnline, hostStart });
 hud.onScreenClick = () => {
   const st = game.state;
   if (st === 'over') { if (net.isHost) { net.send('backtolobby', {}); toLobbyScreen(); } return; }
-  if (st === 'lobby') return;
-  if (st === 'start') return; // Only explicit START button launches game from main menu
+  if (st === 'lobby' || st === 'start' || st === 'dead') return;
   if ((st === 'play' || st === 'dying') && game.menu) { resume(); return; }
-  if (st === 'pause' || st === 'dead') resume();
+  if (st === 'pause') resume();
 };
 canvas.addEventListener('click', () => { if (game.state === 'play' && !game.menu && !input.pointerLocked && !input.usingGamepad && !input.isTouch && !mobile.enabled) input.requestLock(); });
 input.onLockChange = (locked) => { if (!locked && (game.state === 'play' || (game.state === 'dying' && online())) && !game.menu && !input.usingGamepad && !input.isTouch && !mobile.enabled) pause(); };
