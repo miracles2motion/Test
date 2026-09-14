@@ -135,32 +135,33 @@ Registered Maps:
   process.exit(0);
 }
 
-// 4.1 Authoritative Map-to-Theme Lookup (prevents theme mismatches)
-const MAP_THEMES = {
-  library: 'colossal',
-  classroom: 'colossal',
-  desk: 'colossal',
-  tomes: 'colossal',
-  pirate_cove: 'maritime',
-  seas: 'maritime',
-  clockwork: 'steampunk',
-  tower: 'steampunk',
-  zen: 'zen',
-  garden: 'zen',
-  district: 'urban',
-  castle: 'urban',
-  mexico: 'urban',
-  paradise: 'urban',
-  forest: 'forest'
-};
-
-if (MAP_THEMES[mapName] && !theme) {
-  theme = MAP_THEMES[mapName];
-} else if (!theme && memory.thematicArchetypes) {
+// 4.1 Dynamic Map Theme Resolution (no hardcoding: derived from learned memory or concept docs)
+if (!theme && memory.thematicArchetypes) {
   for (const [tKey, arch] of Object.entries(memory.thematicArchetypes)) {
     if (tKey === mapName || (arch.keywords && arch.keywords.some(k => mapName.includes(k) || prompt.includes(k)))) {
       theme = tKey;
       break;
+    }
+  }
+}
+
+// 4.2 Check existing concept files if still unknown
+if (!theme) {
+  const conceptDirs = [path.resolve('map_concepts'), path.resolve('Map Description')];
+  for (const cDir of conceptDirs) {
+    if (fs.existsSync(cDir)) {
+      const files = fs.readdirSync(cDir);
+      const matchFile = files.find(f => f.toLowerCase().includes(mapName.toLowerCase()) && f.endsWith('.md'));
+      if (matchFile) {
+        try {
+          const content = fs.readFileSync(path.join(cDir, matchFile), 'utf8');
+          const catMatch = content.match(/tactical category[:\s]*`?(\w+)`?/i) || content.match(/thematic archetype[:\s]*`?(\w+)`?/i);
+          if (catMatch) {
+            theme = catMatch[1].toLowerCase().trim();
+            break;
+          }
+        } catch {}
+      }
     }
   }
 }

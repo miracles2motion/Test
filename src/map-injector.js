@@ -229,38 +229,46 @@ const propCatalog = {
     }
   ],
   forest: [
-    { type: 'ancient_oak_tree', w: 8, h: 7, d: 8, tier: 1, gen: (x, y, z) => `
-  // Macro: Ancient Oak Tree
-  cyl(${x}, ${y}, ${z}, 2.0, 7.0, { seg: 10, ink: BK });
-  box(${x} - 2.5, ${y}, ${z}, 1.0, 1.8, 1.0, { ink: BK });
-  box(${x} + 2.5, ${y}, ${z}, 1.0, 1.8, 1.0, { ink: BK });
-  slab(${x} - 3.2, ${z} - 3.2, ${x} + 3.2, ${z} + 3.2, ${y} + 4.5, 0.4, { ink: GR });
-  box(${x}, ${y} + 6.8, ${z}, 5.5, 1.8, 5.5, { noCollide: true, ink: GR });
-  ring(${x}, ${y} + 8.8, ${z} + 2.0, 'z');`
+    { type: 'ancient_oak_tree', w: 11, h: 16, d: 11, tier: 1, gen: (x, y, z) => `
+  // Prefab: Ancient Oak / Banyan Tree
+  buildAncientTree(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
     },
-    { type: 'canopy_treehouse', w: 7, h: 6, d: 7, tier: 1, gen: (x, y, z) => `
-  // Macro: Canopy Treehouse Platform
-  box(${x} - 2.2, ${y}, ${z} - 2.2, 0.6, 5.0, 0.6, { ink: BK });
-  box(${x} + 2.2, ${y}, ${z} - 2.2, 0.6, 5.0, 0.6, { ink: BK });
-  box(${x} - 2.2, ${y}, ${z} + 2.2, 0.6, 5.0, 0.6, { ink: BK });
-  box(${x} + 2.2, ${y}, ${z} + 2.2, 0.6, 5.0, 0.6, { ink: BK });
-  slab(${x} - 2.8, ${z} - 2.8, ${x} + 2.8, ${z} + 2.8, ${y} + 4.8, 0.3, { ink: OR });
-  rail(${x} - 2.8, ${z} - 2.8, ${x} + 2.8, ${z} - 2.8, ${y} + 4.8, { ink: BK });
-  rail(${x} - 2.8, ${z} + 2.8, ${x} + 2.8, ${z} + 2.8, ${y} + 4.8, { ink: BK });
-  box(${x}, ${y} + 7.0, ${z}, 6.0, 0.4, 6.0, { noCollide: true, ink: GR });
-  ring(${x}, ${y} + 9.0, ${z}, 'y');`
+    { type: 'alpine_pine_tree', w: 8, h: 14, d: 8, tier: 1, gen: (x, y, z) => `
+  // Prefab: Alpine Conifer / Pine Tree
+  buildPineTree(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
     },
-    { type: 'fallen_mossy_log', w: 7, h: 3, d: 5, tier: 1, gen: (x, y, z) => `
-  // Macro: Fallen Mossy Log
-  cyl(${x}, ${y} + 0.6, ${z}, 0.8, 5.5, { axis: 'x', ink: BK });
-  box(${x}, ${y} + 1.1, ${z}, 5.0, 0.2, 1.2, { ink: GR });
-  sphere(${x} + 2.2, ${y} + 0.5, ${z} + 1.0, 0.6, { ink: BK });`
+    { type: 'weeping_willow_tree', w: 10, h: 12, d: 10, tier: 1, gen: (x, y, z) => `
+  // Prefab: Weeping Willow Tree
+  buildWillowTree(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
     },
-    { type: 'granite_boulder_cluster', w: 6, h: 3, d: 6, tier: 1, gen: (x, y, z) => `
-  // Macro: Granite Boulder Cluster
-  sphere(${x}, ${y} + 1.0, ${z}, 1.2, { ink: BK });
-  sphere(${x} - 1.0, ${y} + 0.7, ${z} + 0.7, 0.9, { ink: BK });
-  box(${x}, ${y} + 1.8, ${z}, 1.4, 0.2, 1.4, { ink: GR, noCollide: true });`
+    { type: 'hollow_log_defilade', w: 4, h: 3.5, d: 10, tier: 1, gen: (x, y, z) => `
+  // Prefab: Run-Through Hollow Log Tunnel
+  buildHollowLog(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)}, 10);`
+    },
+    { type: 'giant_mushroom_platform', w: 6, h: 6.5, d: 6, tier: 1, gen: (x, y, z) => `
+  // Prefab: Giant Umbrella Mushroom Platform
+  buildGiantMushroom(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
+    },
+    { type: 'fern_and_grass_grove', w: 4, h: 1.5, d: 4, tier: 1, gen: (x, y, z) => `
+  // Prefab: Fern Cluster & Ballpoint Grass Tufts
+  buildFernCluster(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});
+  buildGrassClump(B, ${x.toFixed(1)} + 1.2, ${y}, ${z.toFixed(1)} - 0.8, 6);
+  buildGrassClump(B, ${x.toFixed(1)} - 1.2, ${y}, ${z.toFixed(1)} + 0.8, 6);`
+    }
+  ],
+  maritime: [
+    { type: 'full_pirate_warship', w: 14, h: 26, d: 36, tier: 1, gen: (x, y, z) => `
+  // Prefab: Multi-Deck Pirate Galleon Warship
+  buildFullGalleon(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
+    },
+    { type: 'galleon_stern', w: 12, h: 10, d: 12, tier: 1, gen: (x, y, z) => `
+  // Macro: The Captains Quarters (Stern)
+  box(${x.toFixed(1)}, ${y}, ${z.toFixed(1)}, 10, 3, 10, { ink: OR });
+  stairs(${x.toFixed(1)}, ${y}, ${z.toFixed(1)} + 9.5, '-z', 10, 2.0, { rise: 0.3, run: 0.45, ink: OR });
+  box(${x.toFixed(1)}, ${y} + 3, ${z.toFixed(1)} - 2, 8, 3, 6, { ink: OR });
+  box(${x.toFixed(1)}, ${y} + 6, ${z.toFixed(1)} - 2, 10, 1, 6, { ink: OR });
+  cyl(${x.toFixed(1)}, ${y} + 7, ${z.toFixed(1)} - 2, 0.4, 6, { ink: OR });
+  ring(${x.toFixed(1)}, ${y} + 14.5, ${z.toFixed(1)} - 2, 'y');`
     }
   ]
 };
@@ -370,6 +378,14 @@ ${selectedProps.map(p => p.template.gen(p.x, p.y, p.z)).join('\n')}
     code = code.replace('B.finish();', `${generatedBlock}\n  B.finish();`);
   } else {
     code += `\n${generatedBlock}`;
+  }
+
+  // Ensure procedural prefabs are imported from src/prefabs.js if used
+  const prefabsToImport = ['buildAncientTree', 'buildPineTree', 'buildWillowTree', 'buildGiantMushroom', 'buildHollowLog', 'buildFernCluster', 'buildGrassClump', 'buildFullGalleon'];
+  const neededPrefabs = prefabsToImport.filter(p => code.includes(p) && !code.includes(`from '../prefabs.js'`));
+  if (neededPrefabs.length > 0) {
+    const importStmt = `import { ${neededPrefabs.join(', ')} } from '../prefabs.js';\n`;
+    code = importStmt + code;
   }
   
   // Also clear WH from ink as requested previously just in case

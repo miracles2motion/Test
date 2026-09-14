@@ -177,8 +177,10 @@ export function resolveConsultationTicket(ticketIdOrName, resolutionData = null)
       if (!memory.thematicArchetypes) memory.thematicArchetypes = {};
       
       const themeKey = (ticket.mapName || 'custom').toLowerCase().replace(/[^a-z0-9_]/g, '_');
+      let archData = null;
+
       if (typeof ticket.humanResolution === 'object' && ticket.humanResolution !== null) {
-        memory.thematicArchetypes[themeKey] = {
+        archData = {
           keywords: ticket.humanResolution.keywords || [themeKey],
           primaryInk: ticket.humanResolution.primaryInk || 'INK.BLUE',
           secondaryInk: ticket.humanResolution.secondaryInk || 'INK.BLACK',
@@ -191,6 +193,31 @@ export function resolveConsultationTicket(ticketIdOrName, resolutionData = null)
             tier4_kinetic: ["swaying boughs", "gliding paper elements"]
           }
         };
+      } else if (typeof ticket.humanResolution === 'string') {
+        const text = ticket.humanResolution.toLowerCase();
+        const priInk = text.includes('green') ? 'INK.GREEN' : (text.includes('red') ? 'INK.RED' : (text.includes('orange') ? 'INK.ORANGE' : 'INK.BLUE'));
+        const accInk = text.includes('orange') && priInk !== 'INK.ORANGE' ? 'INK.ORANGE' : (text.includes('red') && priInk !== 'INK.RED' ? 'INK.RED' : 'INK.BLUE');
+        
+        // Extract comma-separated phrases or bullet items as props
+        const items = text.split(/[,;\n•]+/).map(s => s.trim()).filter(s => s.length > 3 && !s.includes('color') && !s.includes('ink'));
+        
+        archData = {
+          keywords: [themeKey, ...items.slice(0, 5).map(w => w.split(' ')[0])],
+          primaryInk: priInk,
+          secondaryInk: 'INK.BLACK',
+          accentInk: accInk,
+          hazardInk: 'INK.RED',
+          props: {
+            tier1_micro: items.slice(0, 3).length > 0 ? items.slice(0, 3) : ["tactical micro cover", "waist-high block"],
+            tier2_meso: items.slice(3, 6).length > 0 ? items.slice(3, 6) : ["elevated platform", "connecting bridge walkway"],
+            tier3_macro: items.slice(6, 9).length > 0 ? items.slice(6, 9) : ["central landmark centerpiece", "overlook tower"],
+            tier4_kinetic: items.slice(9, 11).length > 0 ? items.slice(9, 11) : ["gliding paper planes", "kinetic swaying elements"]
+          }
+        };
+      }
+
+      if (archData) {
+        memory.thematicArchetypes[themeKey] = archData;
       }
       fs.writeFileSync(THEMATIC_MEMORY_FILE, JSON.stringify(memory, null, 2) + '\n', 'utf8');
       console.log(`✅ Thematic archetype "${themeKey}" registered into .agents/thematic-memory.json`);

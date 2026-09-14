@@ -70,7 +70,27 @@ if (!matchedArchetypeKey || !memory.thematicArchetypes[matchedArchetypeKey]) {
   }
 }
 if (!matchedArchetypeKey || !memory.thematicArchetypes[matchedArchetypeKey]) {
-  matchedArchetypeKey = 'cyber'; // Default fallback
+  import('./dream-consultant.js').then(({ openConsultationTicket }) => {
+    console.log(`\n🚨 UNKNOWN THEMATIC CONCEPT: Dream does not know the thematic rules for "${key}"!`);
+    console.log(`   Refusing to guess or default to unrelated themes.\n`);
+    openConsultationTicket({
+      topic: 'unknown_concept_thematics',
+      mapName: key,
+      context: `Map "${key}" does not match any known thematic archetype in .agents/thematic-memory.json.`,
+      dilemma: `Dream needs human teaching on the palette, materials, and props for "${key}".`,
+      questions: [
+        `What is "${key}"? (Describe setting & environment)`,
+        `What are the primary, secondary, and accent ink colors?`,
+        `What are the Tier 1-4 props (micro cover, meso walkways, macro landmarks, kinetic elements)?`
+      ],
+      options: [
+        `Teach Dream via CLI: npm run dream:teach resume <ticketId> "Thematic details..."`,
+        `Register archetype directly in .agents/thematic-memory.json`
+      ],
+      actionPayload: { mapName: key, themeArg }
+    });
+  });
+  process.exit(0);
 }
 
 const arch = memory.thematicArchetypes[matchedArchetypeKey];

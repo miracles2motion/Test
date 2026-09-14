@@ -209,32 +209,57 @@ export function build${pascalName}(B, arena = false) {
   pickup(-14, 0.2, 6);
   pickup(14, 0.2, -6);
 
-  // 3. Central Tier Dais
-  box(0, 0, 0, 24, ${conf.tier2Y}, 24, { ink: ${primaryInk} });
-  slab(-12.5, -12.5, 12.5, 12.5, ${conf.tier2Y}, 0.5, { ink: ${accentInk} });
-  
-  // Connect stairs using learned math (Bottom of stairs starts away from dais and builds towards it)
-  const rs = ${conf.recRise}, rn = ${conf.recRun};
-  const stepCount = Math.ceil(${conf.tier2Y} / rs);
-  const stairLength = stepCount * rn;
-  stairs(0, 0, -12 - stairLength, stepCount, rs, rn, 3.2, 'S'); // North stair (builds South towards -12)
-  stairs(0, 0, 12 + stairLength, stepCount, rs, rn, 3.2, 'N');  // South stair (builds North towards 12)
+  // 3. Narrative Sector Topology & Central Feature
+  // Centerpiece Crossing: Elevated combat terrace with perimeter circulation and dual access
+  const centerW = 20, centerD = 20, centerH = ${conf.tier2Y};
+  slab(-centerW / 2, -centerD / 2, centerW / 2, centerD / 2, centerH, 0.45, { ink: ${accentInk} });
+  rail(-centerW / 2, -centerD / 2, centerW / 2, -centerD / 2, centerH, { ink: ${secondaryInk} });
+  rail(-centerW / 2, centerD / 2, centerW / 2, centerD / 2, centerH, { ink: ${secondaryInk} });
+  rail(-centerW / 2, -centerD / 2, -centerW / 2, centerD / 2, centerH, { ink: ${secondaryInk} });
+  rail(centerW / 2, -centerD / 2, centerW / 2, centerD / 2, centerH, { ink: ${secondaryInk} });
 
-  // 4. Perimeter Scatter Cover (Ensure > 150 colliders for dense audit)
-  const scatterCount = 30;
-  for (let i = 0; i < scatterCount; i++) {
-    // NW Quadrant
-    box(-20 - (i % 5) * 4, 0, -20 - Math.floor(i / 5) * 4, 1.2, 1.1, 1.2, { ink: ${primaryInk} });
-    // NE Quadrant
-    box(20 + (i % 5) * 4, 0, -20 - Math.floor(i / 5) * 4, 1.2, 1.1, 1.2, { ink: ${primaryInk} });
-    // SW Quadrant
-    box(-20 - (i % 5) * 4, 0, 20 + Math.floor(i / 5) * 4, 1.2, 1.1, 1.2, { ink: ${primaryInk} });
-    // SE Quadrant
-    box(20 + (i % 5) * 4, 0, 20 + Math.floor(i / 5) * 4, 1.2, 1.1, 1.2, { ink: ${primaryInk} });
-  }
+  // Center Cover nodes (waist-high)
+  box(-4, centerH, 0, 1.4, 1.1, 3.2, { ink: ${primaryInk}, tag: 'cover' });
+  box(4, centerH, 0, 1.4, 1.1, 3.2, { ink: ${primaryInk}, tag: 'cover' });
+  box(0, centerH, -4, 3.2, 1.1, 1.4, { ink: ${primaryInk}, tag: 'cover' });
+  box(0, centerH, 4, 3.2, 1.1, 1.4, { ink: ${primaryInk}, tag: 'cover' });
+  
+  // Dual Ascending Stairways connecting ground to center deck
+  const rs = ${conf.recRise}, rn = ${conf.recRun};
+  const stepCount = Math.max(6, Math.round(centerH / rs));
+  stairs(0, 0, -centerD / 2 - stepCount * rn, '+z', stepCount, 3.2, { rise: centerH / stepCount, run: rn, ink: ${accentInk} });
+  stairs(0, 0, centerD / 2 + stepCount * rn, '-z', stepCount, 3.2, { rise: centerH / stepCount, run: rn, ink: ${accentInk} });
+
+  // 4. Tactical Quadrant Platforms & Flanking Lanes
+  // NW Quadrant: Elevated Base Platform
+  slab(-38, -38, -20, -20, ${conf.tier2Y * 0.8}, 0.4, { ink: ${primaryInk} });
+  stairs(-20, 0, -29, '-x', Math.round((${conf.tier2Y * 0.8}) / rs), 2.8, { rise: (${conf.tier2Y * 0.8}) / Math.round((${conf.tier2Y * 0.8}) / rs), run: rn, ink: ${accentInk} });
+  box(-29, ${conf.tier2Y * 0.8}, -29, 2.0, 1.1, 2.0, { ink: ${secondaryInk}, tag: 'cover' });
+
+  // NE Quadrant: Sniper Lookout Bastion
+  slab(20, -38, 38, -20, ${conf.tier3Y * 0.85}, 0.4, { ink: ${primaryInk} });
+  stairs(20, 0, -29, '+x', Math.round((${conf.tier3Y * 0.85}) / rs), 2.8, { rise: (${conf.tier3Y * 0.85}) / Math.round((${conf.tier3Y * 0.85}) / rs), run: rn, ink: ${accentInk} });
+  box(29, ${conf.tier3Y * 0.85}, -29, 2.2, 1.1, 2.2, { ink: ${secondaryInk}, tag: 'cover' });
+
+  // SW Quadrant: CQB Crucible Defilade
+  slab(-38, 20, -20, 38, ${conf.tier2Y * 0.8}, 0.4, { ink: ${primaryInk} });
+  stairs(-20, 0, 29, '-x', Math.round((${conf.tier2Y * 0.8}) / rs), 2.8, { rise: (${conf.tier2Y * 0.8}) / Math.round((${conf.tier2Y * 0.8}) / rs), run: rn, ink: ${accentInk} });
+  box(-29, ${conf.tier2Y * 0.8}, 29, 2.0, 1.1, 2.0, { ink: ${secondaryInk}, tag: 'cover' });
+
+  // SE Quadrant: Flank Anchor Platform
+  slab(20, 20, 38, 38, ${conf.tier2Y * 0.8}, 0.4, { ink: ${primaryInk} });
+  stairs(20, 0, 29, '+x', Math.round((${conf.tier2Y * 0.8}) / rs), 2.8, { rise: (${conf.tier2Y * 0.8}) / Math.round((${conf.tier2Y * 0.8}) / rs), run: rn, ink: ${accentInk} });
+  box(29, ${conf.tier2Y * 0.8}, 29, 2.0, 1.1, 2.0, { ink: ${secondaryInk}, tag: 'cover' });
+
+  // 5. Overhead Traversal Ring Network
+  ring(0, ${conf.tier3Y + 3.5}, 0, 'y');
+  ring(-29, ${conf.tier3Y + 3.0}, -29, 'y');
+  ring(29, ${conf.tier3Y + 3.0}, -29, 'y');
+  ring(-29, ${conf.tier3Y + 3.0}, 29, 'y');
+  ring(29, ${conf.tier3Y + 3.0}, 29, 'y');
 
   // Ground collision floor
-  collider(0, -2, 0, 100, 2, 100);
+  collider(0, -2, 0, 2 * P + 20, 2, 2 * P + 20);
   L.playerStart.set(0, 0.2, D - 5); 
   
   B.finish();

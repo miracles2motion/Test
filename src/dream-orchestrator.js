@@ -123,30 +123,52 @@ if ((!theme || !memory.thematicArchetypes[theme]) && hasConcept) {
 }
 
 // STRICT CONCEPT DETERMINANT: Never guess or default to unrelated themes!
+if ((!theme || !memory.thematicArchetypes[theme]) && hasConcept) {
+  try {
+    const md = fs.readFileSync(conceptFile, 'utf8');
+    const catMatch = md.match(/tactical category[:\s]*`?(\w+)`?/i) || md.match(/thematic archetype[:\s]*`?(\w+)`?/i);
+    const themeKey = (catMatch ? catMatch[1] : key).toLowerCase().trim();
+    
+    // Dynamically learn from concept document into thematic-memory
+    if (!memory.thematicArchetypes) memory.thematicArchetypes = {};
+    memory.thematicArchetypes[themeKey] = {
+      keywords: [themeKey, key],
+      primaryInk: md.includes('INK.GREEN') ? 'INK.GREEN' : (md.includes('INK.RED') ? 'INK.RED' : 'INK.BLUE'),
+      secondaryInk: 'INK.BLACK',
+      accentInk: md.includes('INK.ORANGE') ? 'INK.ORANGE' : 'INK.RED',
+      props: {
+        tier1_micro: ["cover prop", "barrier block"],
+        tier2_meso: ["tactical platform", "walkway ramp"],
+        tier3_macro: ["central landmark spire", "watchtower"],
+        tier4_kinetic: ["swaying boughs", "gliding paper elements"]
+      }
+    };
+    fs.writeFileSync(MEMORY_FILE, JSON.stringify(memory, null, 2), 'utf8');
+    theme = themeKey;
+    console.log(`💡 Learned archetype "${theme}" dynamically from concept document: ${path.basename(conceptFile)}`);
+  } catch (e) {}
+}
+
 if (!theme || !memory.thematicArchetypes[theme]) {
-  if (mode === 'NOTHING') {
-    console.log(`\n🚨 UNKNOWN THEMATIC CONCEPT: Dream does not know what a "${key}" is!`);
-    console.log(`   Refusing to generate random/unrelated props.\n`);
-    openConsultationTicket({
-      topic: 'unknown_concept_thematics',
-      mapName: key,
-      context: `User requested to dream map "${key}", but "${key}" does not match any known thematic archetype in .agents/thematic-memory.json and has no existing concept file.`,
-      dilemma: `Dream cannot proceed without human teaching on the authentic theme, materials, ink palette, and Tier 1-4 prop catalog for "${key}".`,
-      questions: [
-        `What is "${key}"? (Thematic setting & environment description)`,
-        `What are the primary, secondary, and accent ink colors? (e.g. INK.GREEN for trees, INK.BLUE for ocean, INK.RED for magma)`,
-        `What are the authentic Tier 1 (cover props), Tier 2 (walkways/furniture), Tier 3 (landmarks), and Tier 4 (aerial/kinetic) elements for "${key}"?`
-      ],
-      options: [
-        `Teach Dream via CLI: npm run dream:teach resume <ticketId> "Thematic details..."`,
-        `Create an architectural concept in map_concepts/ or Map Description/`
-      ],
-      actionPayload: { mapName: key, themeArg }
-    });
-    process.exit(0);
-  } else {
-    theme = 'urban';
-  }
+  console.log(`\n🚨 UNKNOWN THEMATIC CONCEPT: Dream does not know what a "${key}" is!`);
+  console.log(`   Refusing to guess or generate unrelated props.\n`);
+  openConsultationTicket({
+    topic: 'unknown_concept_thematics',
+    mapName: key,
+    context: `User requested to dream map "${key}", but "${key}" does not match any known thematic archetype in .agents/thematic-memory.json and has no concept file.`,
+    dilemma: `Dream cannot proceed without human teaching on the authentic theme, materials, ink palette, and Tier 1-4 prop catalog for "${key}".`,
+    questions: [
+      `What is "${key}"? (Thematic setting & environment description)`,
+      `What are the primary, secondary, and accent ink colors? (e.g. INK.GREEN for trees, INK.BLUE for ocean, INK.RED for magma)`,
+      `What are the authentic Tier 1 (cover props), Tier 2 (walkways/furniture), Tier 3 (landmarks), and Tier 4 (aerial/kinetic) elements for "${key}"?`
+    ],
+    options: [
+      `Teach Dream via CLI: npm run dream:teach resume <ticketId> "Thematic details..."`,
+      `Create an architectural concept in map_concepts/ or Map Description/`
+    ],
+    actionPayload: { mapName: key, themeArg }
+  });
+  process.exit(0);
 }
 
 const modeLabels = {
