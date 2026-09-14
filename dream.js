@@ -78,10 +78,22 @@ if (calledMatch) {
   
   if (mapIndex !== -1 && mapIndex + 1 < words.length) {
     mapName = words[mapIndex + 1].replace(/[^a-z0-9_]/g, '');
+  } else if (prompt.includes('pirate cove')) {
+    mapName = 'pirate_cove';
+  } else if (prompt.includes('ink seas') || prompt.includes('the seas') || prompt.includes('seas')) {
+    mapName = 'seas';
+  } else if (prompt.includes('zen garden')) {
+    mapName = 'zen';
+  } else if (prompt.includes('clockwork tower')) {
+    mapName = 'clockwork';
+  } else if (prompt.includes('blueprint castle')) {
+    mapName = 'castle';
+  } else if (prompt.includes('giant classroom')) {
+    mapName = 'classroom';
   } else {
-    // Check if pirate cove is in prompt
-    if (prompt.includes('pirate cove')) {
-      mapName = 'pirate_cove';
+    const candidateWords = words.filter(w => !themes.includes(w) && !['the', 'a', 'an'].includes(w));
+    if (candidateWords.length > 0) {
+      mapName = candidateWords[candidateWords.length - 1].replace(/[^a-z0-9_]/g, '');
     } else {
       mapName = words[words.length - 1].replace(/[^a-z0-9_]/g, '');
     }

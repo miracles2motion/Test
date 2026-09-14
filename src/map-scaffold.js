@@ -187,7 +187,7 @@ export function build${pascalName}(B, arena = false) {
   stairs(0, 0, 12 + stairLength, stepCount, rs, rn, 3.2, 'N');  // South stair (builds North towards 12)
 
   // 4. Perimeter Scatter Cover (Ensure > 150 colliders for dense audit)
-  const scatterCount = 20;
+  const scatterCount = 30;
   for (let i = 0; i < scatterCount; i++) {
     // NW Quadrant
     box(-20 - (i % 5) * 4, 0, -20 - Math.floor(i / 5) * 4, 1.2, 1.1, 1.2, { ink: BL });

@@ -365,3 +365,8 @@ High-elevation tactical vantage points assigned to AI sniper units:
    - Apply `{ noNav: true }` to sloped rope rigging, bowsprit tightropes, cannon barrels, and moving wave crests.
    - Apply `{ noGrapple: true }` to the outer perimeter sea walls and the sky containment ceiling.
    - Apply `{ noCollide: true }` to loose hanging sail canvas, decorative ship pennants, and water foam decals.
+
+## 14. Map-Specific Bestiary (Enemy Intelligence Design)
+- **Enemy 1: Buccaneer Raider**: `{ role: 'melee', canDodge: true, canCover: true, canRetreat: false, canFlank: true, berserker: true, hp: 65, speed: 8.2, weapon: 'blade', lunge: 3.2, reach: 2.8, standoff: 1.5, cool: [0.8, 1.2], dmg: 16, build: { bodyW: 0.85, headS: 0.9, limbR: 0.035 } }`
+- **Enemy 2: Rigging Marksman**: `{ role: 'ranged', canDodge: true, canCover: true, canRetreat: true, canFlank: false, stationary: true, hp: 45, speed: 3.2, weapon: 'sniper', range: 75, stop: 75, keep: 22, aimTime: 1.4, cool: [2.2, 3.2], dmg: 26, build: { bodyW: 0.7, headS: 0.8, limbR: 0.02 } }`
+

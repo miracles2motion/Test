@@ -1272,10 +1272,59 @@ function getMapSVG(key, isDossier = false) {
   }
 
   if (key === 'seas') {
-    paths = `<path d="M10 60 Q30 80 50 60 T90 60" fill="none" stroke="${c}" stroke-width="3"/>
-             <path d="M20 60 L30 80 L70 80 L80 60" fill="none" stroke="${c}" stroke-width="3"/>
-             <path d="M40 60 L40 20 L60 40 L40 40" fill="none" stroke="${c}" stroke-width="2"/>
-             <path d="M60 60 L60 30 L75 45 L60 45" fill="none" stroke="${c}" stroke-width="2"/>`;
+    if (isDossier) {
+      return `<svg viewBox="0 0 200 100" class="map-svg blueprint" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: ${isDossier ? '200px' : '90px'};">
+        <!-- Ocean Bounds & Wave Grid -->
+        <rect x="20" y="15" width="160" height="70" fill="none" stroke="${c}" stroke-width="1.5" stroke-dasharray="2 3"/>
+        <path d="M25 50 Q60 48 95 50 T165 50" fill="none" stroke="${c}" stroke-width="0.8" stroke-dasharray="1 3"/>
+
+        <!-- West Galleon 'El Dorado' Hull & Quarterdeck -->
+        <path d="M40 28 L62 30 L66 70 L44 72 Z" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <circle cx="53" cy="38" r="3" fill="none" stroke="${c}" stroke-width="1.2"/>
+        <circle cx="53" cy="50" r="3.5" fill="none" stroke="${c}" stroke-width="1.4"/>
+        <circle cx="53" cy="62" r="3" fill="none" stroke="${c}" stroke-width="1.2"/>
+        <line x1="38" y1="50" x2="68" y2="50" stroke="${c}" stroke-width="1"/>
+
+        <!-- East Clipper 'Invincible' Hull & Decks -->
+        <path d="M138 30 L160 28 L156 72 L134 70 Z" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <circle cx="147" cy="38" r="3" fill="none" stroke="${c}" stroke-width="1.2"/>
+        <circle cx="147" cy="50" r="3.5" fill="none" stroke="${c}" stroke-width="1.4"/>
+        <circle cx="147" cy="62" r="3" fill="none" stroke="${c}" stroke-width="1.2"/>
+        <line x1="132" y1="50" x2="162" y2="50" stroke="${c}" stroke-width="1"/>
+
+        <!-- Central Shattered Mainmast Boarding Bridge -->
+        <line x1="66" y1="50" x2="134" y2="50" stroke="${c}" stroke-width="2.5"/>
+        <rect x="94" y="46" width="12" height="8" fill="none" stroke="${c}" stroke-width="1.2"/>
+        <circle cx="100" cy="50" r="1.5" fill="${c}"/>
+
+        <!-- Kraken Tentacles & Flotsam -->
+        <path d="M96 26 Q108 18 102 12" fill="none" stroke="${c}" stroke-width="1.5"/>
+        <path d="M104 74 Q112 82 106 88" fill="none" stroke="${c}" stroke-width="1.5"/>
+        <circle cx="88" cy="36" r="2" fill="none" stroke="${c}" stroke-width="1"/>
+        <circle cx="112" cy="64" r="2" fill="none" stroke="${c}" stroke-width="1"/>
+
+        <text x="100" y="94" font-family="monospace" font-size="6" text-anchor="middle" fill="${c}">INK SEAS NAVAL CHART - 110m</text>
+      </svg>`;
+    } else {
+      return `<svg viewBox="0 0 100 100" class="map-svg thumb" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: 90px; max-height: 90px;">
+        <!-- Waves -->
+        <path d="M10 74 Q25 66 40 74 T70 74 T95 74" fill="none" stroke="${c}" stroke-width="2"/>
+        <path d="M15 82 Q30 76 45 82 T75 82 T95 82" fill="none" stroke="${c}" stroke-width="1.5"/>
+
+        <!-- Galleon Hull Silhouette -->
+        <path d="M22 62 L32 74 L72 74 L80 62 Z" fill="none" stroke="${c}" stroke-width="2.5"/>
+        <!-- Mainmast & Crow's Nest -->
+        <line x1="50" y1="22" x2="50" y2="62" stroke="${c}" stroke-width="2.5"/>
+        <line x1="34" y1="36" x2="66" y2="36" stroke="${c}" stroke-width="2"/>
+        <line x1="38" y1="48" x2="62" y2="48" stroke="${c}" stroke-width="1.8"/>
+        <rect x="46" y="30" width="8" height="6" fill="${c}"/>
+
+        <!-- Jolly Roger Pennant -->
+        <path d="M50 22 L62 27 L50 32 Z" fill="${c}"/>
+        <!-- Kraken Tentacle Rise -->
+        <path d="M82 72 Q92 56 86 44" fill="none" stroke="${c}" stroke-width="2"/>
+      </svg>`;
+    }
   } else if (key === 'clockwork') {
     if (isDossier) {
       return `<svg viewBox="0 0 200 100" class="map-svg blueprint" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: ${isDossier ? '200px' : '90px'};">

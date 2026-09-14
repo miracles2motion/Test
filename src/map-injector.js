@@ -107,11 +107,11 @@ const propCatalog = {
     { type: 'shanty_tower', w: 10, h: 10, d: 10, tier: 1, gen: (x, y, z) => `
   // Macro: Vertical Shanty Tower
   box(${x}, ${y}, ${z}, 8, 3, 8, { ink: OR }); // Base shack
-  stairs(${x}-4.5, ${y}, ${z}, 1, 3, 2, 3, { ink: OR }); // Rickety steps up
+  stairs(${x}-4.5, ${y}, ${z}, '+z', 6, 1.2, { rise: 0.3, run: 0.45, ink: OR }); // Rickety steps up
   box(${x}-1, ${y}+3, ${z}-1, 6, 3, 6, { ink: BL }); // Second floor offset
-  stairs(${x}+2.5, ${y}+3, ${z}, 1, 3, 2, 1, { ink: OR }); // Steps to roof
+  stairs(${x}+2.5, ${y}+3, ${z}, '+z', 6, 1.2, { rise: 0.3, run: 0.45, ink: OR }); // Steps to roof
   box(${x}+1, ${y}+6, ${z}+1, 4, 3, 4, { ink: OR }); // Crows nest shack
-  ring(${x}, ${y}+10, ${z}, 1.5, { ink: OR }); // Rope swing anchor` },
+  ring(${x}, ${y}+11.5, ${z}, 'y'); // Rope swing anchor` },
     { type: 'plank_bridge', w: 12, h: 4, d: 4, tier: 1, gen: (x, y, z) => `
   // Macro: Suspended Plank Bridge
   box(${x}, ${y}+3, ${z}, 10, 0.2, 2, { ink: OR }); // Wood plank
@@ -123,18 +123,18 @@ const propCatalog = {
   // Macro: Leviathan Ribcage & Cursed Treasure
   box(${x}, ${y}, ${z}, 12, 0.5, 8, { ink: OR }); // Sand mound
   // Left Ribs
-  cyl(${x}-3, ${y}+3, ${z}-2, 0.4, 6, { ink: WH });
-  cyl(${x}-3, ${y}+3, ${z}+2, 0.4, 6, { ink: WH });
+  cyl(${x}-3, ${y}+3, ${z}-2, 0.4, 6, { ink: OR });
+  cyl(${x}-3, ${y}+3, ${z}+2, 0.4, 6, { ink: OR });
   // Right Ribs
-  cyl(${x}+3, ${y}+3, ${z}-2, 0.4, 6, { ink: WH });
-  cyl(${x}+3, ${y}+3, ${z}+2, 0.4, 6, { ink: WH });
+  cyl(${x}+3, ${y}+3, ${z}-2, 0.4, 6, { ink: OR });
+  cyl(${x}+3, ${y}+3, ${z}+2, 0.4, 6, { ink: OR });
   // Top Spines (Connecting Ribs)
-  box(${x}, ${y}+6, ${z}-2, 6.6, 0.4, 0.4, { ink: WH });
-  box(${x}, ${y}+6, ${z}+2, 6.6, 0.4, 0.4, { ink: WH });
+  box(${x}, ${y}+6, ${z}-2, 6.6, 0.4, 0.4, { ink: OR });
+  box(${x}, ${y}+6, ${z}+2, 6.6, 0.4, 0.4, { ink: OR });
   // The Cursed Treasure
   box(${x}, ${y}+0.5, ${z}, 1.5, 1, 1, { ink: OR }); // Gold Chest
   box(${x}, ${y}+1.5, ${z}, 0.5, 0.5, 0.5, { ink: OR }); // Iron Lock
-  ring(${x}, ${y}+5, ${z}, 1.5, { ink: WH }); // Grapple to escape` }
+  ring(${x}, ${y}+8.5, ${z}, 'y'); // Grapple to escape` }
   ],
   gunpowder_grotto: [
     { type: 'explosive_cavern', w: 12, h: 8, d: 10, tier: 1, gen: (x, y, z) => `
@@ -149,27 +149,25 @@ const propCatalog = {
   cyl(${x}-2.5, ${y}+1.7, ${z}-1.5, 0.8, 1.5, { ink: GR }); // Stacked
   // Crane & Suspended Barrel
   box(${x}+4, ${y}+7, ${z}, 5, 0.4, 0.4, { ink: OR }); // Wood crane arm
-  cyl(${x}+1.5, ${y}+4, ${z}, 0.1, 3, { ink: WH }); // Rope
+  cyl(${x}+1.5, ${y}+4, ${z}, 0.1, 3, { ink: OR }); // Rope
   cyl(${x}+1.5, ${y}+3, ${z}, 1.0, 1.5, { ink: OR }); // Hanging explosive
-  ring(${x}+1.5, ${y}+2, ${z}, 1.5, { ink: OR }); // Grapple onto the explosive!
+  ring(${x}+1.5, ${y}+10.0, ${z}, 'z'); // High crane grapple anchor
   ` }
   ],
   broken_galleon: [
     { type: 'galleon_stern', w: 12, h: 10, d: 12, tier: 1, gen: (x, y, z) => `
   // Macro: The Captains Quarters (Stern)
   box(${x}, ${y}, ${z}, 10, 3, 10, { ink: OR }); // Lower hull
-  stairs(${x}, ${y}, ${z}+6, 2, 3, 2, 0, { ink: OR }); // Ramp into ship
+  stairs(${x}, ${y}, ${z}+9.5, '-z', 10, 2.0, { rise: 0.3, run: 0.45, ink: OR }); // Ramp up to hull deck at y=3.0
   box(${x}, ${y}+3, ${z}-2, 8, 3, 6, { ink: OR }); // Captains Cabin
-  stairs(${x}-4.5, ${y}+3, ${z}+1, 1, 3, 2, 3, { ink: OR }); // Left stairs to poop deck
-  stairs(${x}+4.5, ${y}+3, ${z}+1, 1, 3, 2, 1, { ink: OR }); // Right stairs to poop deck
   box(${x}, ${y}+6, ${z}-2, 10, 1, 6, { ink: OR }); // Poop deck roof
   cyl(${x}, ${y}+7, ${z}-2, 0.4, 6, { ink: OR }); // Broken rear mast
-  ring(${x}, ${y}+13, ${z}-2, 1.5, { ink: OR }); // Crows nest grapple
+  ring(${x}, ${y}+14.5, ${z}-2, 'y'); // Crows nest grapple
   ` },
     { type: 'galleon_bow', w: 10, h: 8, d: 12, tier: 1, gen: (x, y, z) => `
   // Macro: The Shattered Bow
   box(${x}, ${y}, ${z}, 8, 3, 10, { ink: OR }); // Front hull
-  stairs(${x}, ${y}+3, ${z}-6, '+z', 6, 2, { rise: 0.3, run: 0.45, ink: OR }); // Ramps down
+  stairs(${x}, ${y}, ${z}-9.5, '+z', 10, 2.0, { rise: 0.3, run: 0.45, ink: OR }); // Ramp up to hull deck at y=3.0
   cyl(${x}, ${y}+3, ${z}+2, 0.4, 8, { ink: OR }); // Main mast
   box(${x}, ${y}+7, ${z}+2, 6, 0.2, 0.2, { ink: OR }); // Yardarm
   box(${x}, ${y}+5, ${z}+2.2, 5, 4, 0.1, { ink: BL, noCollide: true }); // Torn sail

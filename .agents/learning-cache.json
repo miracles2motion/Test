@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-09-14T01:01:49.930Z",
+  "updatedAt": "2026-09-14T01:14:18.401Z",
   "rules": {
     "stairway": {
       "minRise": 0.2,
@@ -65,8 +65,8 @@
       "description": "Synthesized 2 multi-story interactive buildings",
       "trigger": "macro-dream-building",
       "autoRemedy": "macroSpatialInjection",
-      "occurrences": 56,
-      "lastObserved": "2026-09-14T01:01:48.664Z"
+      "occurrences": 61,
+      "lastObserved": "2026-09-14T01:14:16.987Z"
     },
     {
       "patternId": "macro-syntax-failure",
@@ -81,73 +81,19 @@
       "description": "Injected 0 macro structures (City Planner)",
       "trigger": "dream-city-planner",
       "autoRemedy": "macroCity",
-      "occurrences": 21,
-      "lastObserved": "2026-09-14T01:01:48.916Z"
+      "occurrences": 26,
+      "lastObserved": "2026-09-14T01:14:17.236Z"
     },
     {
       "patternId": "dead-zone-identified",
       "description": "Identified dead zone at (0, 26.6) due to head-glitch",
       "trigger": "dead-zone-identified",
       "autoRemedy": "blacklistCoordinate",
-      "occurrences": 82,
-      "lastObserved": "2026-09-14T01:01:49.625Z"
+      "occurrences": 90,
+      "lastObserved": "2026-09-14T01:14:18.045Z"
     }
   ],
   "history": [
-    {
-      "timestamp": "2026-09-12T02:38:41.598Z",
-      "mapKey": "zen",
-      "patternId": "dream-auto-injection",
-      "description": "Injected 9 safe 3D props into level code"
-    },
-    {
-      "timestamp": "2026-09-12T02:47:32.814Z",
-      "mapKey": "zen",
-      "patternId": "macro-dream-building",
-      "description": "Synthesized 2 multi-story interactive buildings"
-    },
-    {
-      "timestamp": "2026-09-12T02:52:00.874Z",
-      "mapKey": "zen",
-      "patternId": "macro-dream-building",
-      "description": "Synthesized 2 multi-story interactive buildings"
-    },
-    {
-      "timestamp": "2026-09-12T02:59:16.833Z",
-      "mapKey": "zen",
-      "patternId": "macro-dream-building",
-      "description": "Synthesized 2 multi-story interactive buildings"
-    },
-    {
-      "timestamp": "2026-09-12T03:07:27.834Z",
-      "mapKey": "zen",
-      "patternId": "macro-syntax-failure",
-      "description": "box() has too few arguments (3): \"box(-27, 0 + s * 0.25, -43 + 4.2 + (3 - s)\""
-    },
-    {
-      "timestamp": "2026-09-12T03:07:27.834Z",
-      "mapKey": "zen",
-      "patternId": "macro-syntax-failure",
-      "description": "box() has too few arguments (3): \"box(-27, 0 + s * 0.3, 29 + 4.5 + (7 - s)\""
-    },
-    {
-      "timestamp": "2026-09-12T03:07:44.904Z",
-      "mapKey": "zen",
-      "patternId": "macro-dream-building",
-      "description": "Synthesized 2 multi-story interactive buildings"
-    },
-    {
-      "timestamp": "2026-09-12T03:11:11.329Z",
-      "mapKey": "zen",
-      "patternId": "macro-dream-building",
-      "description": "Synthesized 2 multi-story interactive buildings"
-    },
-    {
-      "timestamp": "2026-09-12T03:17:02.577Z",
-      "mapKey": "zen",
-      "patternId": "macro-dream-building",
-      "description": "Synthesized 2 multi-story interactive buildings"
-    },
     {
       "timestamp": "2026-09-12T03:21:31.219Z",
       "mapKey": "zen",
@@ -1239,68 +1185,122 @@
       "mapKey": "paradise",
       "patternId": "dead-zone-identified",
       "description": "Identified dead zone at (0, -12) due to god-spot"
+    },
+    {
+      "timestamp": "2026-09-14T01:09:38.821Z",
+      "mapKey": "seas",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
+    },
+    {
+      "timestamp": "2026-09-14T01:09:39.106Z",
+      "mapKey": "seas",
+      "patternId": "dream-city-planner",
+      "description": "Injected 9 macro structures (City Planner)"
+    },
+    {
+      "timestamp": "2026-09-14T01:09:39.832Z",
+      "mapKey": "seas",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-33, -1) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T01:09:39.843Z",
+      "mapKey": "seas",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (1, -31) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T01:09:39.851Z",
+      "mapKey": "seas",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (17, -47) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T01:09:39.860Z",
+      "mapKey": "seas",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (33, -47) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T01:09:39.867Z",
+      "mapKey": "seas",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (0, 12) due to god-spot"
+    },
+    {
+      "timestamp": "2026-09-14T01:09:39.875Z",
+      "mapKey": "seas",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (0, -12) due to god-spot"
+    },
+    {
+      "timestamp": "2026-09-14T01:10:48.722Z",
+      "mapKey": "seas",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
+    },
+    {
+      "timestamp": "2026-09-14T01:10:48.994Z",
+      "mapKey": "seas",
+      "patternId": "dream-city-planner",
+      "description": "Injected 0 macro structures (City Planner)"
+    },
+    {
+      "timestamp": "2026-09-14T01:11:06.691Z",
+      "mapKey": "seas",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
+    },
+    {
+      "timestamp": "2026-09-14T01:11:06.985Z",
+      "mapKey": "seas",
+      "patternId": "dream-city-planner",
+      "description": "Injected 7 macro structures (City Planner)"
+    },
+    {
+      "timestamp": "2026-09-14T01:11:38.903Z",
+      "mapKey": "seas",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
+    },
+    {
+      "timestamp": "2026-09-14T01:11:39.182Z",
+      "mapKey": "seas",
+      "patternId": "dream-city-planner",
+      "description": "Injected 1 macro structures (City Planner)"
+    },
+    {
+      "timestamp": "2026-09-14T01:14:16.987Z",
+      "mapKey": "seas",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
+    },
+    {
+      "timestamp": "2026-09-14T01:14:17.236Z",
+      "mapKey": "seas",
+      "patternId": "dream-city-planner",
+      "description": "Injected 7 macro structures (City Planner)"
+    },
+    {
+      "timestamp": "2026-09-14T01:14:18.035Z",
+      "mapKey": "seas",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (1, 25.525) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T01:14:18.045Z",
+      "mapKey": "seas",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (33, -6.475) due to head-glitch"
     }
   ],
   "failureBlacklist": {},
   "successRegistry": {
     "galleon_sterncastle": {
-      "count": 34,
-      "totalScore": 2890,
+      "count": 43,
+      "totalScore": 3655,
       "positions": [
-        {
-          "mapKey": "pirate_cove",
-          "x": -43,
-          "y": 0,
-          "z": 29
-        },
-        {
-          "mapKey": "pirate_cove",
-          "x": -43,
-          "y": 0,
-          "z": 41
-        },
-        {
-          "mapKey": "pirate_cove",
-          "x": -31,
-          "y": 0,
-          "z": 17
-        },
-        {
-          "mapKey": "pirate_cove",
-          "x": -25,
-          "y": 0,
-          "z": 29
-        },
-        {
-          "mapKey": "pirate_cove",
-          "x": -31,
-          "y": 0,
-          "z": -1
-        },
-        {
-          "mapKey": "pirate_cove",
-          "x": -43,
-          "y": 0,
-          "z": -43
-        },
-        {
-          "mapKey": "pirate_cove",
-          "x": -31,
-          "y": 0,
-          "z": -25
-        },
-        {
-          "mapKey": "pirate_cove",
-          "x": -43,
-          "y": 0,
-          "z": -37
-        },
-        {
-          "mapKey": "pirate_cove",
-          "x": -43,
-          "y": 0,
-          "z": 17
-        },
         {
           "mapKey": "pirate_cove",
           "x": -43,
@@ -1366,14 +1366,68 @@
           "x": -43,
           "y": 0,
           "z": -25
+        },
+        {
+          "mapKey": "seas",
+          "x": -43,
+          "y": 0,
+          "z": -43
+        },
+        {
+          "mapKey": "seas",
+          "x": -43,
+          "y": 0,
+          "z": 11
+        },
+        {
+          "mapKey": "seas",
+          "x": -43,
+          "y": 0,
+          "z": 23
+        },
+        {
+          "mapKey": "seas",
+          "x": -25,
+          "y": 0,
+          "z": 41
+        },
+        {
+          "mapKey": "seas",
+          "x": -43,
+          "y": 0,
+          "z": -43
+        },
+        {
+          "mapKey": "seas",
+          "x": -43,
+          "y": 0,
+          "z": 11
+        },
+        {
+          "mapKey": "seas",
+          "x": -43,
+          "y": 0,
+          "z": 23
+        },
+        {
+          "mapKey": "seas",
+          "x": -43,
+          "y": 0,
+          "z": -43
+        },
+        {
+          "mapKey": "seas",
+          "x": -42.98772873212393,
+          "y": 0,
+          "z": 10.982829203509649
         }
       ],
       "avgScore": 85,
-      "lastSuccess": "2026-09-12T21:20:27.140Z"
+      "lastSuccess": "2026-09-14T01:14:16.983Z"
     },
     "lighthouse_beacon": {
-      "count": 12,
-      "totalScore": 1020,
+      "count": 17,
+      "totalScore": 1445,
       "positions": [
         {
           "mapKey": "pirate_cove",
@@ -1446,51 +1500,45 @@
           "x": -43,
           "y": 0,
           "z": -25
+        },
+        {
+          "mapKey": "seas",
+          "x": -43,
+          "y": 0,
+          "z": -25
+        },
+        {
+          "mapKey": "seas",
+          "x": -44.490027611145486,
+          "y": 0,
+          "z": 41.02725182398888
+        },
+        {
+          "mapKey": "seas",
+          "x": -43,
+          "y": 0,
+          "z": -25
+        },
+        {
+          "mapKey": "seas",
+          "x": -44.42143453378383,
+          "y": 0,
+          "z": 41.33938441821882
+        },
+        {
+          "mapKey": "seas",
+          "x": -43,
+          "y": 0,
+          "z": -25
         }
       ],
       "avgScore": 85,
-      "lastSuccess": "2026-09-12T21:04:08.655Z"
+      "lastSuccess": "2026-09-14T01:14:16.975Z"
     },
     "cargo_crane": {
-      "count": 87,
-      "totalScore": 7395,
+      "count": 93,
+      "totalScore": 7905,
       "positions": [
-        {
-          "mapKey": "pirate_cove",
-          "x": -25,
-          "y": 0,
-          "z": -37
-        },
-        {
-          "mapKey": "pirate_cove",
-          "x": -25,
-          "y": 0,
-          "z": -19
-        },
-        {
-          "mapKey": "pirate_cove",
-          "x": -25,
-          "y": 0,
-          "z": -1
-        },
-        {
-          "mapKey": "pirate_cove",
-          "x": -13,
-          "y": 0,
-          "z": 11
-        },
-        {
-          "mapKey": "pirate_cove",
-          "x": -25,
-          "y": 0,
-          "z": 11
-        },
-        {
-          "mapKey": "pirate_cove",
-          "x": -25,
-          "y": 0,
-          "z": 35
-        },
         {
           "mapKey": "pirate_cove",
           "x": -7,
@@ -1574,10 +1622,46 @@
           "x": -1,
           "y": 0,
           "z": -37
+        },
+        {
+          "mapKey": "seas",
+          "x": -43.0533317224576,
+          "y": 0,
+          "z": -7.033364478770137
+        },
+        {
+          "mapKey": "seas",
+          "x": -31,
+          "y": 0,
+          "z": 11
+        },
+        {
+          "mapKey": "seas",
+          "x": -43,
+          "y": 0,
+          "z": -7
+        },
+        {
+          "mapKey": "seas",
+          "x": -31,
+          "y": 0,
+          "z": -43
+        },
+        {
+          "mapKey": "seas",
+          "x": -31,
+          "y": 0,
+          "z": 11
+        },
+        {
+          "mapKey": "seas",
+          "x": -43.34507700315045,
+          "y": 0,
+          "z": -7.139076447026996
         }
       ],
       "avgScore": 85,
-      "lastSuccess": "2026-09-13T08:04:22.838Z"
+      "lastSuccess": "2026-09-14T01:14:16.979Z"
     },
     "bell_pavilion": {
       "count": 5,
@@ -1968,13 +2052,6 @@
     "windowSize": 20,
     "runs": [
       {
-        "timestamp": "2026-09-12T22:30:51.123Z",
-        "mapKey": "5x",
-        "success": true,
-        "score": 0,
-        "mode": "MAP"
-      },
-      {
         "timestamp": "2026-09-12T22:31:25.742Z",
         "mapKey": "pirate_cove",
         "success": true,
@@ -2106,6 +2183,13 @@
         "success": true,
         "score": 0,
         "mode": "NOTHING"
+      },
+      {
+        "timestamp": "2026-09-14T01:14:18.401Z",
+        "mapKey": "seas",
+        "success": true,
+        "score": 0,
+        "mode": "MAP"
       }
     ],
     "currentRate": 5
@@ -2767,6 +2851,70 @@
       "radius": 8,
       "reason": "god-spot",
       "timestamp": "2026-09-14T01:01:49.620Z"
+    },
+    {
+      "mapKey": "seas",
+      "x": -33,
+      "z": -1,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T01:09:39.828Z"
+    },
+    {
+      "mapKey": "seas",
+      "x": 1,
+      "z": -31,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T01:09:39.840Z"
+    },
+    {
+      "mapKey": "seas",
+      "x": 17,
+      "z": -47,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T01:09:39.846Z"
+    },
+    {
+      "mapKey": "seas",
+      "x": 33,
+      "z": -47,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T01:09:39.857Z"
+    },
+    {
+      "mapKey": "seas",
+      "x": 0,
+      "z": 12,
+      "radius": 8,
+      "reason": "god-spot",
+      "timestamp": "2026-09-14T01:09:39.863Z"
+    },
+    {
+      "mapKey": "seas",
+      "x": 0,
+      "z": -12,
+      "radius": 8,
+      "reason": "god-spot",
+      "timestamp": "2026-09-14T01:09:39.871Z"
+    },
+    {
+      "mapKey": "seas",
+      "x": 1,
+      "z": 25.525,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T01:14:18.032Z"
+    },
+    {
+      "mapKey": "seas",
+      "x": 33,
+      "z": -6.475,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T01:14:18.042Z"
     }
   ]
 }
