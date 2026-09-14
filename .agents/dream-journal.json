@@ -2080,13 +2080,85 @@
           "timestamp": "2026-09-14T01:14:18.398Z"
         }
       }
+    },
+    {
+      "id": "dream-060",
+      "timestamp": "2026-09-14T01:17:09.647Z",
+      "mapKey": "forest",
+      "mode": "NOTHING",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "concept-generation": {
+          "status": "pass",
+          "lines": 106
+        },
+        "Level Scaffolding": {
+          "status": "pass",
+          "timestamp": "2026-09-14T01:17:07.702Z"
+        },
+        "Macro Building Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-14T01:17:08.239Z"
+        },
+        "Prop Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-14T01:17:08.524Z"
+        },
+        "Enemy Synthesis": {
+          "status": "pass",
+          "timestamp": "2026-09-14T01:17:08.688Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-14T01:17:09.338Z"
+        },
+        "Self-Healing Audit": {
+          "status": "pass",
+          "timestamp": "2026-09-14T01:17:09.643Z"
+        }
+      }
+    },
+    {
+      "id": "dream-061",
+      "timestamp": "2026-09-14T01:22:06.931Z",
+      "mapKey": "forest",
+      "mode": "MAP",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "spatial-doctor": {
+          "status": "pass",
+          "fixes": 0
+        },
+        "Macro Building Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-14T01:22:05.804Z"
+        },
+        "Prop Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-14T01:22:06.062Z"
+        },
+        "Enemy Synthesis": {
+          "status": "pass",
+          "timestamp": "2026-09-14T01:22:06.196Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-14T01:22:06.660Z"
+        },
+        "Self-Healing Audit": {
+          "status": "pass",
+          "timestamp": "2026-09-14T01:22:06.924Z"
+        }
+      }
     }
   ],
   "stats": {
-    "totalRuns": 59,
-    "successes": 58,
+    "totalRuns": 61,
+    "successes": 60,
     "failures": 1,
-    "errorRate": "1/59 (2%)",
+    "errorRate": "1/61 (2%)",
     "avgScore": 0
   }
 }

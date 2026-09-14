@@ -1521,6 +1521,38 @@ function getMapSVG(key, isDossier = false) {
         <line x1="68" y1="24" x2="74" y2="18" stroke="${c}" stroke-width="2"/>
       </svg>`;
     }
+  } else if (key === 'forest') {
+    if (isDossier) {
+      return `<svg viewBox="0 0 200 100" class="map-svg blueprint" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: ${isDossier ? '200px' : '90px'};">
+        <!-- Forest Perimeter Bounds -->
+        <rect x="25" y="15" width="150" height="70" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <!-- Central Arbor Core / Ancient Tree Dais -->
+        <circle cx="100" cy="50" r="16" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <circle cx="100" cy="50" r="5" fill="${c}"/>
+        <!-- Canopy Bridges -->
+        <line x1="50" y1="50" x2="84" y2="50" stroke="${c}" stroke-width="1.5"/>
+        <line x1="116" y1="50" x2="150" y2="50" stroke="${c}" stroke-width="1.5"/>
+        <line x1="100" y1="20" x2="100" y2="34" stroke="${c}" stroke-width="1.5"/>
+        <line x1="100" y1="66" x2="100" y2="80" stroke="${c}" stroke-width="1.5"/>
+        <!-- Pine Tree Groves -->
+        <path d="M45 32 L50 22 L55 32 Z M42 40 L50 30 L58 40 Z" fill="none" stroke="${c}" stroke-width="1.2"/>
+        <path d="M145 32 L150 22 L155 32 Z M142 40 L150 30 L158 40 Z" fill="none" stroke="${c}" stroke-width="1.2"/>
+        <path d="M45 68 L50 58 L55 68 Z M42 76 L50 66 L58 76 Z" fill="none" stroke="${c}" stroke-width="1.2"/>
+        <path d="M145 68 L150 58 L155 68 Z M142 76 L150 66 L158 76 Z" fill="none" stroke="${c}" stroke-width="1.2"/>
+        <text x="100" y="94" font-family="monospace" font-size="6" text-anchor="middle" fill="${c}">INK FOREST CANOPY - 110m</text>
+      </svg>`;
+    } else {
+      return `<svg viewBox="0 0 100 100" class="map-svg thumb" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: 90px; max-height: 90px;">
+        <!-- Forest Ground Line -->
+        <line x1="15" y1="80" x2="85" y2="80" stroke="${c}" stroke-width="2.5"/>
+        <!-- Central Sprawling Pine Tree -->
+        <line x1="50" y1="45" x2="50" y2="80" stroke="${c}" stroke-width="2.5"/>
+        <path d="M50 20 L36 42 L42 42 L30 62 L44 62 L50 62 L56 62 L70 62 L58 42 L64 42 Z" fill="none" stroke="${c}" stroke-width="2"/>
+        <!-- Background Pines -->
+        <path d="M28 40 L18 56 L24 56 L15 72 L41 72 L32 56 L38 56 Z" fill="none" stroke="${c}" stroke-width="1.5"/>
+        <path d="M72 40 L62 56 L68 56 L59 72 L85 72 L76 56 L82 56 Z" fill="none" stroke="${c}" stroke-width="1.5"/>
+      </svg>`;
+    }
   } else {
     if (isDossier) {
       return `<svg viewBox="0 0 200 100" class="map-svg blueprint" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: 200px;">

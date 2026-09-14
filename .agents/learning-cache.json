@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-09-14T01:14:18.401Z",
+  "updatedAt": "2026-09-14T01:22:06.927Z",
   "rules": {
     "stairway": {
       "minRise": 0.2,
@@ -65,8 +65,8 @@
       "description": "Synthesized 2 multi-story interactive buildings",
       "trigger": "macro-dream-building",
       "autoRemedy": "macroSpatialInjection",
-      "occurrences": 61,
-      "lastObserved": "2026-09-14T01:14:16.987Z"
+      "occurrences": 63,
+      "lastObserved": "2026-09-14T01:22:05.780Z"
     },
     {
       "patternId": "macro-syntax-failure",
@@ -81,139 +81,19 @@
       "description": "Injected 0 macro structures (City Planner)",
       "trigger": "dream-city-planner",
       "autoRemedy": "macroCity",
-      "occurrences": 26,
-      "lastObserved": "2026-09-14T01:14:17.236Z"
+      "occurrences": 28,
+      "lastObserved": "2026-09-14T01:22:06.043Z"
     },
     {
       "patternId": "dead-zone-identified",
       "description": "Identified dead zone at (0, 26.6) due to head-glitch",
       "trigger": "dead-zone-identified",
       "autoRemedy": "blacklistCoordinate",
-      "occurrences": 90,
-      "lastObserved": "2026-09-14T01:14:18.045Z"
+      "occurrences": 106,
+      "lastObserved": "2026-09-14T01:22:06.632Z"
     }
   ],
   "history": [
-    {
-      "timestamp": "2026-09-12T03:21:31.219Z",
-      "mapKey": "zen",
-      "patternId": "macro-dream-building",
-      "description": "Synthesized 2 multi-story interactive buildings"
-    },
-    {
-      "timestamp": "2026-09-12T06:26:17.599Z",
-      "mapKey": "pirate_cove",
-      "patternId": "macro-dream-building",
-      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
-    },
-    {
-      "timestamp": "2026-09-12T06:26:18.205Z",
-      "mapKey": "pirate_cove",
-      "patternId": "dream-auto-injection",
-      "description": "Injected 32 safe 3D props (God Mode, theme: maritime)"
-    },
-    {
-      "timestamp": "2026-09-12T06:28:12.956Z",
-      "mapKey": "harbor_port",
-      "patternId": "macro-dream-building",
-      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
-    },
-    {
-      "timestamp": "2026-09-12T06:28:13.324Z",
-      "mapKey": "harbor_port",
-      "patternId": "dream-auto-injection",
-      "description": "Injected 32 safe 3D props (God Mode, theme: maritime)"
-    },
-    {
-      "timestamp": "2026-09-12T06:29:39.006Z",
-      "mapKey": "harbor_port",
-      "patternId": "macro-dream-building",
-      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
-    },
-    {
-      "timestamp": "2026-09-12T06:29:39.332Z",
-      "mapKey": "harbor_port",
-      "patternId": "dream-auto-injection",
-      "description": "Injected 32 safe 3D props (God Mode, theme: maritime)"
-    },
-    {
-      "timestamp": "2026-09-12T06:37:54.941Z",
-      "mapKey": "zen",
-      "patternId": "macro-dream-building",
-      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
-    },
-    {
-      "timestamp": "2026-09-12T06:37:55.387Z",
-      "mapKey": "zen",
-      "patternId": "dream-auto-injection",
-      "description": "Injected 32 safe 3D props (God Mode, theme: zen)"
-    },
-    {
-      "timestamp": "2026-09-12T06:50:46.216Z",
-      "mapKey": "zen",
-      "patternId": "macro-dream-building",
-      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
-    },
-    {
-      "timestamp": "2026-09-12T06:50:46.717Z",
-      "mapKey": "zen",
-      "patternId": "dream-auto-injection",
-      "description": "Injected 32 safe 3D props (God Mode, theme: zen)"
-    },
-    {
-      "timestamp": "2026-09-12T10:39:43.623Z",
-      "mapKey": "zen",
-      "patternId": "macro-dream-building",
-      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
-    },
-    {
-      "timestamp": "2026-09-12T10:39:44.146Z",
-      "mapKey": "zen",
-      "patternId": "dream-auto-injection",
-      "description": "Injected 32 safe 3D props (God Mode, theme: zen)"
-    },
-    {
-      "timestamp": "2026-09-12T19:56:57.794Z",
-      "mapKey": "cove",
-      "patternId": "macro-dream-building",
-      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
-    },
-    {
-      "timestamp": "2026-09-12T19:56:58.082Z",
-      "mapKey": "cove",
-      "patternId": "dream-auto-injection",
-      "description": "Injected 32 safe 3D props (God Mode, theme: maritime)"
-    },
-    {
-      "timestamp": "2026-09-12T19:57:23.730Z",
-      "mapKey": "cove",
-      "patternId": "macro-dream-building",
-      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
-    },
-    {
-      "timestamp": "2026-09-12T19:57:23.983Z",
-      "mapKey": "cove",
-      "patternId": "dream-auto-injection",
-      "description": "Injected 32 safe 3D props (God Mode, theme: maritime)"
-    },
-    {
-      "timestamp": "2026-09-12T20:11:38.957Z",
-      "mapKey": "pirate_cove",
-      "patternId": "macro-dream-building",
-      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
-    },
-    {
-      "timestamp": "2026-09-12T20:11:39.193Z",
-      "mapKey": "pirate_cove",
-      "patternId": "dream-auto-injection",
-      "description": "Injected 32 safe 3D props (God Mode, theme: maritime)"
-    },
-    {
-      "timestamp": "2026-09-12T20:12:15.637Z",
-      "mapKey": "pirate_cove",
-      "patternId": "macro-dream-building",
-      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
-    },
     {
       "timestamp": "2026-09-12T20:12:15.882Z",
       "mapKey": "pirate_cove",
@@ -1293,6 +1173,126 @@
       "mapKey": "seas",
       "patternId": "dead-zone-identified",
       "description": "Identified dead zone at (33, -6.475) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T01:17:08.214Z",
+      "mapKey": "forest",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
+    },
+    {
+      "timestamp": "2026-09-14T01:17:08.502Z",
+      "mapKey": "forest",
+      "patternId": "dream-city-planner",
+      "description": "Injected 10 macro structures (City Planner)"
+    },
+    {
+      "timestamp": "2026-09-14T01:17:09.235Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-43.62978993048531, -24.800798841953682) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T01:17:09.243Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-47, -15) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T01:17:09.251Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-47, 33) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T01:17:09.260Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-31, -47) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T01:17:09.268Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-31, 1) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T01:17:09.274Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-15, -47) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T01:17:09.279Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (1, -31) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T01:17:09.285Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (1, 33) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T01:17:09.291Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (17, -47) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T01:17:09.296Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (33, -47) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T01:17:09.303Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (33, 1) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T01:17:09.308Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (0, 12) due to god-spot"
+    },
+    {
+      "timestamp": "2026-09-14T01:17:09.313Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (0, -12) due to god-spot"
+    },
+    {
+      "timestamp": "2026-09-14T01:22:05.780Z",
+      "mapKey": "forest",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
+    },
+    {
+      "timestamp": "2026-09-14T01:22:06.043Z",
+      "mapKey": "forest",
+      "patternId": "dream-city-planner",
+      "description": "Injected 2 macro structures (City Planner)"
+    },
+    {
+      "timestamp": "2026-09-14T01:22:06.617Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-31, 11) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T01:22:06.625Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-47, -47) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T01:22:06.632Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-47, -31) due to head-glitch"
     }
   ],
   "failureBlacklist": {},
@@ -1976,8 +1976,8 @@
       "lastSuccess": "2026-09-14T00:49:40.434Z"
     },
     "neon_data_vault": {
-      "count": 4,
-      "totalScore": 340,
+      "count": 8,
+      "totalScore": 680,
       "positions": [
         {
           "mapKey": "god",
@@ -2002,14 +2002,38 @@
           "x": -43,
           "y": 0,
           "z": 11
+        },
+        {
+          "mapKey": "forest",
+          "x": -41.72188088696099,
+          "y": 0,
+          "z": -41.778018399879194
+        },
+        {
+          "mapKey": "forest",
+          "x": -43,
+          "y": 0,
+          "z": 11
+        },
+        {
+          "mapKey": "forest",
+          "x": -43,
+          "y": 0,
+          "z": 23
+        },
+        {
+          "mapKey": "forest",
+          "x": -31,
+          "y": 0,
+          "z": -13
         }
       ],
       "avgScore": 85,
-      "lastSuccess": "2026-09-14T01:01:48.661Z"
+      "lastSuccess": "2026-09-14T01:22:05.771Z"
     },
     "skybridge_junction": {
-      "count": 2,
-      "totalScore": 170,
+      "count": 4,
+      "totalScore": 340,
       "positions": [
         {
           "mapKey": "god",
@@ -2022,14 +2046,26 @@
           "x": -43,
           "y": 0,
           "z": -25
+        },
+        {
+          "mapKey": "forest",
+          "x": -43.62978993048531,
+          "y": 0,
+          "z": -24.800798841953682
+        },
+        {
+          "mapKey": "forest",
+          "x": -31,
+          "y": 0,
+          "z": 11
         }
       ],
       "avgScore": 85,
-      "lastSuccess": "2026-09-14T01:01:48.655Z"
+      "lastSuccess": "2026-09-14T01:22:05.775Z"
     },
     "holo_kiosk_tower": {
-      "count": 2,
-      "totalScore": 170,
+      "count": 4,
+      "totalScore": 340,
       "positions": [
         {
           "mapKey": "god",
@@ -2042,29 +2078,27 @@
           "x": -43.530299244196435,
           "y": 0,
           "z": -7.1662010884757645
+        },
+        {
+          "mapKey": "forest",
+          "x": -43,
+          "y": 0,
+          "z": -7
+        },
+        {
+          "mapKey": "forest",
+          "x": -43,
+          "y": 0,
+          "z": 41
         }
       ],
       "avgScore": 85,
-      "lastSuccess": "2026-09-14T01:01:48.659Z"
+      "lastSuccess": "2026-09-14T01:22:05.768Z"
     }
   },
   "errorRateTracker": {
     "windowSize": 20,
     "runs": [
-      {
-        "timestamp": "2026-09-12T22:31:25.742Z",
-        "mapKey": "pirate_cove",
-        "success": true,
-        "score": 0,
-        "mode": "MAP"
-      },
-      {
-        "timestamp": "2026-09-12T22:31:26.593Z",
-        "mapKey": "pirate_cove",
-        "success": true,
-        "score": 0,
-        "mode": "MAP"
-      },
       {
         "timestamp": "2026-09-12T22:31:27.450Z",
         "mapKey": "pirate_cove",
@@ -2187,6 +2221,20 @@
       {
         "timestamp": "2026-09-14T01:14:18.401Z",
         "mapKey": "seas",
+        "success": true,
+        "score": 0,
+        "mode": "MAP"
+      },
+      {
+        "timestamp": "2026-09-14T01:17:09.645Z",
+        "mapKey": "forest",
+        "success": true,
+        "score": 0,
+        "mode": "NOTHING"
+      },
+      {
+        "timestamp": "2026-09-14T01:22:06.927Z",
+        "mapKey": "forest",
         "success": true,
         "score": 0,
         "mode": "MAP"
@@ -2915,6 +2963,134 @@
       "radius": 5,
       "reason": "head-glitch",
       "timestamp": "2026-09-14T01:14:18.042Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": -43.62978993048531,
+      "z": -24.800798841953682,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T01:17:09.231Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": -47,
+      "z": -15,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T01:17:09.239Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": -47,
+      "z": 33,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T01:17:09.246Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": -31,
+      "z": -47,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T01:17:09.255Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": -31,
+      "z": 1,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T01:17:09.263Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": -15,
+      "z": -47,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T01:17:09.271Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": 1,
+      "z": -31,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T01:17:09.276Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": 1,
+      "z": 33,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T01:17:09.282Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": 17,
+      "z": -47,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T01:17:09.288Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": 33,
+      "z": -47,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T01:17:09.294Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": 33,
+      "z": 1,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T01:17:09.300Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": 0,
+      "z": 12,
+      "radius": 8,
+      "reason": "god-spot",
+      "timestamp": "2026-09-14T01:17:09.306Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": 0,
+      "z": -12,
+      "radius": 8,
+      "reason": "god-spot",
+      "timestamp": "2026-09-14T01:17:09.310Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": -31,
+      "z": 11,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T01:22:06.614Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": -47,
+      "z": -47,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T01:22:06.621Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": -47,
+      "z": -31,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T01:22:06.628Z"
     }
   ]
 }

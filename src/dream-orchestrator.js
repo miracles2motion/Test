@@ -350,7 +350,7 @@ function generateRichConcept() {
 - **Engagement Profile**: CQB Corridors & Apex Catwalk Grapple Flanking
 - **Primary Ink**: ${arch.primaryInk} (Structural geometry, foundational slabs, perimeter enclosure)
 - **Secondary Ink**: ${arch.secondaryInk} (Iron frames, safety railings, mechanical linework)
-- **Accent Inks**: ${arch.accentInk} (High-hazard zones, grapple anchors, vantage markers)
+- **Accent Inks**: ${arch.accentInk}, INK.RED (High-hazard zones, grapple anchors, vantage markers, warning runes)
 
 ### 2.1 Thematic Prop Taxonomy (Detailing Tiers 1-4)
 - **Tier 1 (Cover Props — 3-5 meshes each)**: ${arch.props.tier1_micro.join(', ')}.
