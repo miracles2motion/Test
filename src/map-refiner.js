@@ -97,7 +97,7 @@ if (action === 'detail') {
         return `${match}
   // Dream Detail: Zen Garden Micro Props
   cyl(${x} - 1.0, ${topY}, ${z} + 0.5, 0.35, 0.7, { ink: BK, tag: 'cover' }); // Stone Lantern
-  cyl(${x} + 0.8, ${topY}, ${z} - 0.8, 0.1, 1.4, { ink: GR, noCollide: true }); // Bamboo Shoot
+  cyl(${x} + 0.8, ${topY}, ${z} - 0.8, 0.1, 1.4, { ink: GR, noCollide: true }); // Bamboo Shoot`;
       } else if (theme === 'space_station' || theme === 'station') {
         return `${match}
   // Dream Detail: Scattered Space Station Micro-Props
