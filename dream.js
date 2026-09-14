@@ -43,7 +43,8 @@ if (timesMatch) {
 
 // 2. Detect Action
 let action = 'god_mode';
-if (prompt.includes('detail') || prompt.includes('micro')) action = 'detail';
+if (prompt.includes('populate') || prompt.includes('discover') || prompt.includes('archetype')) action = 'populate';
+else if (prompt.includes('detail') || prompt.includes('micro')) action = 'detail';
 else if (prompt.includes('heal') || prompt.includes('improve') || prompt.includes('upgrade') || prompt.includes('refine')) action = 'heal';
 else if (prompt.includes('macro') || prompt.includes('building')) action = 'macro';
 else if (prompt.includes('inject') || prompt.includes('prop')) action = 'inject';
@@ -179,6 +180,7 @@ try {
   else if (action === 'inject') command = `npm run dream:inject ${mapName} ${theme}`;
   else if (action === 'delete') command = `node src/map-deleter.js ${mapName}`;
   else if (action === 'graduate') command = `node graduate-map.js ${mapName}`;
+  else if (action === 'populate') command = `node src/thematic-populator.js ${mapName}`;
 
   console.log(`✨ Dream understood your intent! Routing to:`);
   console.log(`   > ${command} (Running ${multiplier}x times)\n`);

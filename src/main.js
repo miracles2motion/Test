@@ -21,6 +21,9 @@ import { perfMonitor } from './perf/perf-monitor.js';
 import { lodManager } from './perf/lod-manager.js';
 import { instanceManager } from './perf/instance-manager.js';
 import { spawnManager } from './spawns.js';
+import { synthesizeMapSVG } from './svg-synthesizer.js';
+import { RECIPE as pirateCoveRecipe } from './levels/pirate_cove.js';
+import { BotArenaManager } from './bot-arena.js';
 
 // Attempt to lock screen orientation to landscape on mobile
 try {
@@ -281,14 +284,23 @@ const remote = new Map();      // peer id -> RemotePlayer
 const lobby = { players: new Map(), hostId: null, isPublic: true, status: '', code: '', map: null };
 const scores = new Map();      // peer id -> { name, kills, deaths }
 let screen = 'main';           // which start-screen panel is showing: main | online | lobby
-window.__game = { ctx, game, player, enemies, nav, world, level, hud, effects, input, mobile, net, remote, lobby, scores };
+export const botArena = new BotArenaManager(ctx);
+let arenaFormat = localStorage.getItem('doodle_arena_format') || '5v5';
+window.__game = { ctx, game, player, enemies, nav, world, level, hud, effects, input, mobile, net, remote, lobby, scores, botArena };
 
 // anything a bullet or a blade can hit besides enemies
-ctx.targets = () => [player, ...remote.values()];
-ctx.canHurt = (t) => online() && t !== player;
+ctx.targets = () => [player, ...botArena.bots.filter((b) => b.alive), ...remote.values()];
+ctx.canHurt = (t) => {
+  if (game.mode === 'arena') {
+    if (!t.alive || t === player) return false;
+    return botArena.format === 'ffa' || t.team !== player.team;
+  }
+  return online() && t !== player;
+};
 ctx.raycastPlayers = (o, d, maxDist) => {
   let best = null;
-  for (const t of remote.values()) {
+  const pool = [...remote.values(), ...botArena.bots];
+  for (const t of pool) {
     if (!t.alive || !ctx.canHurt(t)) continue;
     for (let i = 0; i < t.hit.length; i++) {
       const c = t.hitSpheres[i], r = t.hit[i][1];
@@ -307,9 +319,34 @@ ctx.raycastPlayers = (o, d, maxDist) => {
   return best;
 };
 const _bc = new THREE.Vector3();
-ctx.playersInArc = (pos, dir, range, cosHalf) => { const out = []; for (const t of remote.values()) { if (!t.alive || !ctx.canHurt(t)) continue; _v.subVectors(t.center, pos); const d = _v.length(); if (d > range + 0.3) continue; if (d > 0.3 && _v.normalize().dot(dir) < cosHalf) continue; if (!world.hasLineOfSight(pos, t.center)) continue; out.push(t); } return out; };
+ctx.playersInArc = (pos, dir, range, cosHalf) => {
+  const out = [];
+  const pool = [...remote.values(), ...botArena.bots];
+  for (const t of pool) {
+    if (!t.alive || !ctx.canHurt(t)) continue;
+    _v.subVectors(t.center, pos);
+    const d = _v.length();
+    if (d > range + 0.3) continue;
+    if (d > 0.3 && _v.normalize().dot(dir) < cosHalf) continue;
+    if (!world.hasLineOfSight(pos, t.center)) continue;
+    out.push(t);
+  }
+  return out;
+};
 ctx.hitPlayer = (t, dmg, info) => {
   if (!ctx.canHurt(t) || !t.alive) return;
+  // Bot target hit handling
+  if (t.isBot) {
+    effects.blood(info.point, info.dir, clamp(0.4 + dmg / 80, 0.4, 1.6), { ink: INK.RED });
+    hud.hitmarker(false, info.crit);
+    audio.hitEnemy(t.center);
+    t.flash();
+    t.takeDamage(dmg, player.center, info.source || 'gun');
+    if (!t.alive) {
+      botArena.handlePlayerKill(t);
+    }
+    return;
+  }
   // a raised katana facing you parries a slash outright and turns some bullets aside
   // the bullet met the blade itself: it glances off, and now and then comes straight back at you
   if (info.part === 'blade') {
@@ -606,19 +643,30 @@ const HOW = { rifle: 'rifle', shotgun: 'shotgun', sniper: 'sniper', katana: 'kat
 const howWord = (src) => HOW[src] || null;
 const spawnSpots = () => (level.arenaSpawns && level.arenaSpawns.length ? level.arenaSpawns : level.spawns);
 function arenaSpawn() {
-  const spots = spawnSpots();
-  const others = [...remote.values()]
+  let spots = spawnSpots();
+  if (game.mode === 'arena' && botArena.format !== 'ffa' && level.teamSpawns) {
+    spots = player.team === 'alpha' ? level.teamSpawns[0] : level.teamSpawns[1];
+  }
+  const others = [...remote.values(), ...botArena.bots]
     .filter((r) => r.alive && r.root && r.root.visible)
-    .map((r) => ({ pos: r.body.pos, eye: new THREE.Vector3(r.body.pos.x, r.body.pos.y + 1.6, r.body.pos.z), team: r.team }));
+    .map((r) => ({ pos: r.body.pos, eye: r.eye || new THREE.Vector3(r.body.pos.x, r.body.pos.y + 1.6, r.body.pos.z), team: r.team }));
   return spawnManager.pickBestSpawn(spots, others, world, player.team);
 }
 // a spot for a late joiner: the one farthest from everybody already in the match
 function farthestSpawnIndex() {
-  const spots = spawnSpots(); const bodies = [player, ...remote.values()].filter((r) => r.alive); let best = 0, bd = -1;
+  const spots = spawnSpots(); const bodies = [player, ...remote.values(), ...botArena.bots].filter((r) => r.alive); let best = 0, bd = -1;
   spots.forEach((s, i) => { const d = bodies.reduce((a, r) => Math.min(a, r.body.pos.distanceTo(s)), 999); if (d > bd) { bd = d; best = i; } });
   return best;
 }
 function onLocalDeath() {
+  if (game.mode === 'arena') {
+    game.respawnT = 3.0;
+    game.state = 'dying';
+    game.deathT = 0;
+    const killer = player.lastHitBy || null;
+    botArena.handleDeath(player, null, killer);
+    return;
+  }
   if (!online()) { 
     game.state = 'dying'; game.deathT = 0; 
     if (enemies.brain) enemies.brain.saveIfGodMode();
@@ -1174,6 +1222,9 @@ function weaponsPreviewHTML() {
 }
 
 function getMapSVG(key, isDossier = false) {
+  if (key === 'pirate_cove') {
+    return synthesizeMapSVG(pirateCoveRecipe, isDossier);
+  }
   const c = 'currentColor';
   const alpha = isDossier ? '0.85' : '0.7';
   let paths = '';
@@ -1598,17 +1649,8 @@ function getMapSVG(key, isDossier = false) {
       </svg>`;
     }
   } else {
-    if (isDossier) {
-      return `<svg viewBox="0 0 200 100" class="map-svg blueprint" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: 200px;">
-        <rect x="20" y="15" width="160" height="70" fill="none" stroke="${c}" stroke-width="1.5" stroke-dasharray="6 4"/>
-        <circle cx="100" cy="50" r="16" fill="none" stroke="${c}" stroke-width="1.5"/>
-        <path d="M100 30 L100 70 M80 50 L120 50" stroke="${c}" stroke-width="1"/>
-        <line x1="20" y1="50" x2="180" y2="50" stroke="${c}" stroke-dasharray="2 4" stroke-width="0.8"/>
-        <text x="100" y="80" font-family="monospace" font-size="8" text-anchor="middle" fill="${c}">SURVEY IN PROGRESS</text>
-      </svg>`;
-    }
-    paths = `<rect x="20" y="20" width="60" height="60" fill="none" stroke="${c}" stroke-width="3" stroke-dasharray="10 5"/>
-             <circle cx="50" cy="50" r="10" fill="${c}"/>`;
+    const curLevel = LEVELS.find((m) => m.key === key);
+    return synthesizeMapSVG({ id: key, name: curLevel?.name || key, palette: curLevel?.env || '' }, isDossier);
   }
   return `<svg viewBox="0 0 100 100" class="map-svg" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: ${isDossier ? '140px' : '90px'}; max-height: ${isDossier ? '140px' : '90px'};">${paths}</svg>`;
 }
@@ -1653,17 +1695,46 @@ function mapSelectHTML() {
   };
   const diffBtn = (d, label) => `<button class="tactical-filter-btn ds-btn secondary sm" data-diff="${d}" style="${diffStyle(d)}">${label}</button>`;
 
+  const formatStyle = (f) => {
+    if (arenaFormat === f) return 'background:var(--ink-blue, #1a30c0); color:var(--paper); border-color:var(--ink-blue, #1a30c0); font-weight:bold;';
+    return 'color:var(--ink); border-color:var(--pencil); background:transparent;';
+  };
+  const formatBtn = (f, label) => `<button class="tactical-format-btn ds-btn secondary sm" data-format="${f}" style="${formatStyle(f)}">${label}</button>`;
+
+  const isArenaMode = game.mode === 'arena' || game.mode === 'duel';
+  const deployLabel = isLocked ? 'MISSION IN DEVELOPMENT' : (isArenaMode ? `DEPLOY TO ${arenaFormat.toUpperCase()} ARENA` : 'DEPLOY TO MISSION');
+
   return `
   <div id="mapsel" style="width: 100%; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; justify-content: center; gap: 24px; pointer-events: auto; height: 100%;">
     
-    ${game.mode === 'solo' || game.mode === 'duel' ? `
+    ${isArenaMode ? `
+    <div style="background: var(--ink-wash); border-radius: var(--r-sketch-md); padding: 12px 24px; display: flex; flex-direction: column; gap: 10px; align-items: center;">
+      <div style="display: flex; gap: 14px; align-items: center; flex-wrap: wrap; justify-content: center;">
+        <div style="font-size: 13px; opacity: 0.85; font-weight: bold; font-family: var(--font-display); letter-spacing: 2px;">ARENA FORMAT</div>
+        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+          ${formatBtn('1v1', '1v1 DUEL')}
+          ${formatBtn('2v2', '2v2 SQUAD')}
+          ${formatBtn('3v3', '3v3 SQUAD')}
+          ${formatBtn('4v4', '4v4 SQUAD')}
+          ${formatBtn('5v5', '5v5 TEAM')}
+          ${formatBtn('ffa', 'FREE FOR ALL')}
+        </div>
+      </div>
+      <div style="display: flex; gap: 14px; align-items: center; flex-wrap: wrap; justify-content: center;">
+        <div style="font-size: 13px; opacity: 0.85; font-weight: bold; font-family: var(--font-display); letter-spacing: 2px;">AI DIFFICULTY</div>
+        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+          ${diffBtn(0, 'STUPID')}${diffBtn(1, 'EASY')}${diffBtn(2, 'HARD')}${diffBtn(3, 'EXTREME')}${diffBtn(4, 'GOD MODE')}
+        </div>
+      </div>
+    </div>
+    ` : (game.mode === 'solo' ? `
     <div style="background: var(--ink-wash); border-radius: var(--r-sketch-md); padding: 12px 24px; display: flex; justify-content: center; gap: 24px; align-items: center;">
       <div style="font-size: 14px; opacity: 0.8; font-weight: bold; font-family: var(--font-display); letter-spacing: 2px;">AI DIFFICULTY</div>
       <div style="display: flex; gap: 8px; flex-wrap: wrap;">
         ${diffBtn(0, 'STUPID')}${diffBtn(1, 'EASY')}${diffBtn(2, 'HARD')}${diffBtn(3, 'EXTREME')}${diffBtn(4, 'GOD MODE')}
       </div>
     </div>
-    ` : ''}
+    ` : '')}
 
     <div style="display: flex; gap: 24px; align-items: stretch; flex-grow: 1; min-height: 0;">
       
@@ -1731,8 +1802,8 @@ function mainHTML() {
         <span style="font-size: 14px; font-family: var(--font-mono); opacity: 0.9; margin-top: 8px;">Wave Defense</span>
       </button>
       <button type="button" id="duelBtn" class="ds-btn secondary hero" style="transform: rotate(var(--tilt-b)); padding: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 120px;">
-        <span style="font-size: 32px; letter-spacing: 2px;">1v1 DUEL</span>
-        <span style="font-size: 14px; font-family: var(--font-mono); opacity: 0.9; margin-top: 8px;">vs AI Boss</span>
+        <span style="font-size: 32px; letter-spacing: 2px;">BOT ARENA</span>
+        <span style="font-size: 14px; font-family: var(--font-mono); opacity: 0.9; margin-top: 8px;">1v1 to 5v5 &amp; FFA</span>
       </button>
       <button type="button" id="onlineBtn" class="ds-btn secondary hero" style="transform: rotate(var(--tilt-c)); padding: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 120px;">
         <span style="font-size: 32px; letter-spacing: 2px;">MULTIPLAYER</span>
@@ -1928,10 +1999,8 @@ function showStart() {
   else p.classList.remove('tactical-layout');
 
   if (screen === 'main') {
-
-
     fastClick(p.querySelector('#soloBtn'), () => { game.mode = 'solo'; screen = 'map_select'; showStart(); });
-    fastClick(p.querySelector('#duelBtn'), () => { game.mode = 'duel'; screen = 'map_select'; showStart(); });
+    fastClick(p.querySelector('#duelBtn'), () => { game.mode = 'arena'; screen = 'map_select'; showStart(); });
     fastClick(p.querySelector('#exploreBtn'), () => { game.mode = 'explore'; screen = 'map_select'; showStart(); });
     fastClick(p.querySelector('#onlineBtn'), () => { screen = 'online'; showStart(); });
     fastClick(p.querySelector('#settingsBtn'), () => { settingsReturnTo = 'main'; screen = 'settings'; showStart(); });
@@ -1970,14 +2039,22 @@ function showStart() {
         return;
       }
       if (game.mode === 'explore') beginExplore(); 
-      else if (game.mode === 'duel') beginDuel();
+      else if (game.mode === 'arena' || game.mode === 'duel') beginArenaMatch(arenaFormat, window.currentDifficulty);
       else begin();
     });
     fastClick(p.querySelector('#backBtn'), () => { screen = 'main'; showStart(); });
     fastClick(p.querySelector('#weaponsBtn'), () => { weaponsReturnTo = 'map_select'; screen = 'weapons_preview'; showStart(); });
-    
 
-    
+    p.querySelectorAll('.tactical-format-btn').forEach(btn => {
+      fastClick(btn, () => {
+        if (btn.hasAttribute('data-format')) {
+          arenaFormat = btn.dataset.format;
+          localStorage.setItem('doodle_arena_format', arenaFormat);
+          showStart();
+        }
+      });
+    });
+
     p.querySelectorAll('.tactical-filter-btn').forEach(btn => {
       fastClick(btn, () => {
         if (btn.hasAttribute('data-diff')) {
@@ -2206,6 +2283,71 @@ function showDuelEnd(won) {
   wireMenuBtn();
 
 }
+function showArenaEnd(results) {
+  hud.el.screen.onclick = null;
+  hud.setGameplayVisible(false);
+  input.exitLock();
+  game.state = 'over';
+
+  const isPlayerWin = (results.winner === 'TEAM ALPHA') || (results.winner === (player.name || 'YOU'));
+  const isDraw = results.winner === 'DRAW';
+  const headerColor = isPlayerWin ? 'var(--ink-blue, #1a30c0)' : (isDraw ? 'var(--ink)' : 'var(--ink-red, #c02020)');
+  const headerTitle = isPlayerWin ? 'VICTORY!' : (isDraw ? 'MATCH DRAW!' : 'DEFEAT!');
+
+  const sortedStats = [...(results.stats || [])].sort((a, b) => b.kills - a.kills || a.deaths - b.deaths);
+  const mvp = sortedStats[0] || { name: 'UNKNOWN', kills: 0 };
+
+  const rowsHTML = sortedStats.map((s, idx) => {
+    const isMe = s.team === 'player' || s.name === (player.name || 'YOU');
+    const teamColor = s.team === 'alpha' ? 'color:var(--ink-blue, #1a30c0);' : (s.team === 'bravo' ? 'color:var(--ink-red, #c02020);' : '');
+    return `
+      <div style="display:flex; justify-content:space-between; padding:5px 8px; border-bottom:1px dashed var(--pencil); font-family:var(--font-mono); font-size:13px; ${isMe ? 'background:rgba(26,48,192,0.12); font-weight:bold;' : ''}">
+        <span style="${teamColor}">${idx + 1}. ${s.name}${isMe ? ' (YOU)' : ''}</span>
+        <span>${s.kills} K / ${s.deaths} D</span>
+      </div>
+    `;
+  }).join('');
+
+  hud.showScreen(`
+    <div class="ds-panel modal" style="width:500px; max-width:95vw; margin:auto; text-align:center; display:flex; flex-direction:column; gap:16px;">
+      <div>
+        <h1 style="font-family:var(--font-display); font-size:44px; margin:0; color:${headerColor}; letter-spacing:2px;">${headerTitle}</h1>
+        <h2 style="font-family:var(--font-mono); font-size:14px; margin:4px 0 0 0; color:var(--ink);">${results.winner} WON THE MATCH</h2>
+      </div>
+
+      ${botArena.format !== 'ffa' ? `
+      <div style="display:flex; justify-content:center; gap:24px; font-family:var(--font-mono); font-size:22px; font-weight:bold; background:var(--ink-wash); padding:10px 20px; border-radius:var(--r-sketch-md);">
+        <span style="color:var(--ink-blue, #1a30c0);">ALPHA: ${results.scoreAlpha}</span>
+        <span style="opacity:0.5;">-</span>
+        <span style="color:var(--ink-red, #c02020);">BRAVO: ${results.scoreBravo}</span>
+      </div>
+      ` : ''}
+
+      <div style="font-size:12px; font-family:var(--font-mono); color:var(--ink-orange); font-weight:bold;">
+        ⭐ MATCH MVP: ${mvp.name} (${mvp.kills} KILLS)
+      </div>
+
+      <div style="max-height:180px; overflow-y:auto; border:1px solid var(--ink); border-radius:4px; padding:4px;">
+        ${rowsHTML}
+      </div>
+
+      <div style="display:flex; gap:12px; justify-content:center; margin-top:8px;">
+        <button type="button" class="ds-btn primary md" id="arenaRetryBtn">PLAY AGAIN</button>
+        <button type="button" class="ds-btn secondary md" id="menuBtn">MAIN MENU</button>
+      </div>
+    </div>
+  `);
+
+  const retryBtn = hud.el.panel.querySelector('#arenaRetryBtn');
+  if (retryBtn) {
+    fastClick(retryBtn, (e) => {
+      if (e?.stopPropagation) e.stopPropagation();
+      if (e?.preventDefault) e.preventDefault();
+      beginArenaMatch(botArena.format, window.currentDifficulty);
+    });
+  }
+  wireMenuBtn();
+}
 function menuBtnHTML() { return '<div class="online menubtn"><div class="row"><button type="button" class="alt" id="menuBtn">MAIN MENU</button></div></div>'; }
 function wireMenuBtn() {
   const b = hud.el.panel.querySelector('#menuBtn');
@@ -2243,6 +2385,13 @@ function toLobbyScreen() { net.inMatch = false; for (const r of remote.values())
 // ---------------- run control ----------------
 function resetGame() {
   if (level.breakables.some((b) => !b.alive)) setLevel(loadedKey, arenaLoaded, true);
+  if (typeof botArena !== 'undefined' && botArena.active) {
+    for (const b of botArena.bots) {
+      if (b.root && b.root.parent) R.scene.remove(b.root);
+    }
+    botArena.bots = [];
+    botArena.active = false;
+  }
   enemies.clear(); effects.clear(); for (const p of pickups) R.scene.remove(p.mesh); pickups.length = 0; pickupClock = 0;
   player.maxHp = online() ? 110 : 120; player.regenDelay = online() ? 4 : 4.5; player.regenRate = online() ? 14 : 11;
   player.reset(level.playerStart); player.name = myName; player.lastHitBy = null; player.lastHit = null; enemies.mods.speed = 1; enemies.mods.damage = 1; hud.setModifier(''); hud.setBoss(null, null); game.boss = null; endFocus(); game.katanaStreak = 0;
@@ -2276,24 +2425,35 @@ function begin() {
     hud.tip('Failed to start mission: ' + err.message, 5);
   }
 }
-function beginDuel() { 
+function beginArenaMatch(format = arenaFormat, diff = window.currentDifficulty) {
   try {
-    game.mode = 'duel'; setArena(false); beginCommon(); resetGame(); game.state = 'play'; 
+    game.mode = 'arena';
+    setArena(true);
+    beginCommon();
+    resetGame();
+    game.state = 'play';
     player.grenades = 5;
-    for (const w of player.weapons) { if (w.isGun) { w.mag = w.magSize; w.reserve = 999; } }
-    hud.setWave('DUEL', 0, 'duel'); hud.message('1 V 1', 'Defeat the AI', 3.5);
-    hud.tip('AI Difficulty: ' + (window.currentDifficulty === 4 ? 'GOD MODE' : window.currentDifficulty === 3 ? 'EXTREME' : window.currentDifficulty === 0 ? 'STUPID' : 'STANDARD'), 4);
-    const diff = window.currentDifficulty ?? 2;
-    const normalPool = ['rusher', 'heavy', 'shield', 'sniper', 'grunt'];
-    const t = Math.random() < 0.1 ? 'boss' : normalPool[Math.floor(Math.random() * normalPool.length)];
-    const spots = (typeof spawnSpots === 'function' ? spawnSpots() : []);
-    const spawnPt = spots.length > 0 ? spots[Math.floor(Math.random()*spots.length)] : (typeof arenaSpawn === 'function' ? arenaSpawn() : level.playerStart.clone());
-    spawnPt.y += 2;
-    enemies.spawn(t, spawnPt);
+    for (const w of player.weapons) {
+      if (w.isGun) {
+        w.mag = w.magSize;
+        w.reserve = 999;
+      }
+    }
+    botArena.startMatch(format, diff ?? 4);
+    botArena.onMatchEnd = (results) => showArenaEnd(results);
+    hud.setWave('ARENA', 0, 'roam');
+    hud.message(
+      (format || arenaFormat).toUpperCase() + ' ARENA',
+      'Defeat the enemy squad · First to ' + botArena.targetScore + ' kills',
+      3.5
+    );
   } catch (err) {
-    console.error('[Launch] Duel Start Error:', err);
-    hud.tip('Failed to start duel: ' + err.message, 5);
+    console.error('[Launch] Arena Match Error:', err);
+    hud.tip('Failed to start arena match: ' + err.message, 5);
   }
+}
+function beginDuel() { 
+  beginArenaMatch('1v1', window.currentDifficulty);
 }
 function beginExplore() {
   try {

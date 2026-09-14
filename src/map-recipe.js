@@ -14,6 +14,7 @@ import {
   buildLeafLitter,
   buildWaterRipples
 } from './prefabs.js';
+import { sweptRibbon } from './spline-engine.js';
 import {
   createRuleContext,
   reserveCorridor,
@@ -116,6 +117,60 @@ export function buildMapFromRecipe(B, recipe, arena = false) {
     }
   }
 
+  // 2b. Procedural 3D Topography / Multi-Tier Terracing
+  if (recipe.ground?.terraces && Array.isArray(recipe.ground.terraces)) {
+    for (const terr of recipe.ground.terraces) {
+      const tx = terr.x ?? 0;
+      const tz = terr.z ?? 0;
+      const rx = terr.rx ?? 12.0;
+      const rz = terr.rz ?? 12.0;
+      const ty = terr.y ?? 2.8;
+      const tInk = terr.ink === 'OR' ? OR : (terr.ink === 'BK' ? BK : GR);
+
+      // Elevated terrace plateau slab
+      slab(tx - rx, tz - rz, tx + rx, tz + rz, ty, 0.45, { ink: tInk });
+
+      // Reserve elevated space in placement context
+      reserveAscent(context, tx, tz, Math.max(rx, rz) + 1.0, ty + 4.0);
+
+      // Stepped contour rock borders
+      const borderStep = terr.borderStep ?? 4.0;
+      for (let bx = tx - rx; bx <= tx + rx; bx += borderStep) {
+        box(bx, ty * 0.5, tz - rz - 0.4, borderStep * 0.95, ty, 0.8, { ink: BK });
+        box(bx, ty * 0.5, tz + rz + 0.4, borderStep * 0.95, ty, 0.8, { ink: BK });
+      }
+      for (let bz = tz - rz; bz <= tz + rz; bz += borderStep) {
+        box(tx - rx - 0.4, ty * 0.5, bz, 0.8, ty, borderStep * 0.95, { ink: BK });
+        box(tx + rx + 0.4, ty * 0.5, bz, 0.8, ty, borderStep * 0.95, { ink: BK });
+      }
+
+      // Calculated access steps conforming to detailing standard (rise <= 0.28m, run >= 0.45m)
+      const stepRise = 0.28;
+      const stepRun = 0.48;
+      const numSteps = Math.ceil(ty / stepRise);
+      const stairDir = terr.stairDir ?? '+z';
+      const stairW = terr.stairW ?? 3.2;
+
+      for (let s = 0; s < numSteps; s++) {
+        const sy = (s + 0.5) * stepRise;
+        let sx = tx, sz = tz;
+        if (stairDir === '+z') {
+          sz = (tz + rz) + (s + 0.5) * stepRun;
+        } else if (stairDir === '-z') {
+          sz = (tz - rz) - (s + 0.5) * stepRun;
+        } else if (stairDir === '+x') {
+          sx = (tx + rx) + (s + 0.5) * stepRun;
+        } else {
+          sx = (tx - rx) - (s + 0.5) * stepRun;
+        }
+        box(sx, sy, sz, stairDir.includes('z') ? stairW : stepRun, stepRise, stairDir.includes('z') ? stepRun : stairW, {
+          ink: BK,
+          tag: 'stairs'
+        });
+      }
+    }
+  }
+
   // 3. Water Ribbon, Riverbanks & Crossings
   if (recipe.water && recipe.water.ribbon) {
     const wRib = recipe.water.ribbon;
@@ -169,26 +224,46 @@ export function buildMapFromRecipe(B, recipe, arena = false) {
   }
 
   // 4. Trails & Arteries (Reserve corridors early so props yield)
-  if (recipe.trails && Array.isArray(recipe.trails.routes)) {
+  if (recipe.trails) {
     const trailInk = recipe.trails.ink === 'OR' ? OR : BK;
     const trailW = recipe.trails.width ?? 2.4;
 
-    for (const route of recipe.trails.routes) {
-      if (Array.isArray(route.via)) {
-        for (let i = 0; i < route.via.length - 1; i++) {
-          const [x1, z1] = route.via[i];
-          const [x2, z2] = route.via[i + 1];
-          const mx = (x1 + x2) / 2;
-          const mz = (z1 + z2) / 2;
-          const segLen = Math.hypot(x2 - x1, z2 - z1);
-          const angle = Math.atan2(x2 - x1, z2 - z1);
-
-          box(mx, 0.012, mz, Math.max(trailW, Math.abs(x2 - x1) + 0.4), 0.01, Math.max(trailW, Math.abs(z2 - z1) + 0.4), {
-            ink: trailInk,
-            noCollide: true
+    // 4a. Spline-based smooth organic trail ribbons
+    if (Array.isArray(recipe.trails.splines)) {
+      for (const sp of recipe.trails.splines) {
+        if (Array.isArray(sp.points) && sp.points.length >= 2) {
+          const sInk = sp.ink === 'OR' ? OR : (sp.ink === 'BK' ? BK : trailInk);
+          sweptRibbon(B, sp.points, {
+            ink: sInk,
+            width: sp.width ?? trailW,
+            samples: sp.samples ?? 16
           });
+          for (let i = 0; i < sp.points.length - 1; i++) {
+            const p1 = sp.points[i];
+            const p2 = sp.points[i + 1];
+            reserveCorridor(context, p1[0], p1[2], p2[0], p2[2], (sp.width ?? trailW) + 0.8);
+          }
+        }
+      }
+    }
 
-          reserveCorridor(context, x1, z1, x2, z2, trailW + 0.6);
+    // 4b. Segment-based linear routes
+    if (Array.isArray(recipe.trails.routes)) {
+      for (const route of recipe.trails.routes) {
+        if (Array.isArray(route.via)) {
+          for (let i = 0; i < route.via.length - 1; i++) {
+            const [x1, z1] = route.via[i];
+            const [x2, z2] = route.via[i + 1];
+            const mx = (x1 + x2) / 2;
+            const mz = (z1 + z2) / 2;
+
+            box(mx, 0.012, mz, Math.max(trailW, Math.abs(x2 - x1) + 0.4), 0.01, Math.max(trailW, Math.abs(z2 - z1) + 0.4), {
+              ink: trailInk,
+              noCollide: true
+            });
+
+            reserveCorridor(context, x1, z1, x2, z2, trailW + 0.6);
+          }
         }
       }
     }
@@ -344,11 +419,63 @@ export function buildMapFromRecipe(B, recipe, arena = false) {
     box(P, 0, 0, T, PH, 2 * P + T, { ink: BK });
   }
 
-  // 10. Cardinal Base Spawns, Snipers & Designated Pickups
+  // 10. Cardinal Base Spawns, 5v5 Team Spawns & Arena Parity
   spawn(0, 0.2, D - 5);
   spawn(0, 0.2, -D + 5);
   spawn(D - 5, 0.2, 0);
   spawn(-D + 5, 0.2, 0);
+
+  // Set default player start
+  if (L.playerStart) {
+    L.playerStart.set(0, 0.2, D - 5);
+  }
+
+  // Symmetric 5v5 Multiplayer Team Spawns
+  const teamAlpha = [
+    [0, 0.2, -D + 6],
+    [-16, 0.2, -D + 10],
+    [16, 0.2, -D + 10],
+    [-24, 0.2, -D + 16],
+    [24, 0.2, -D + 16]
+  ].map(([x, y, z]) => new THREE.Vector3(x, y, z));
+
+  const teamBravo = [
+    [0, 0.2, D - 6],
+    [16, 0.2, D - 10],
+    [-16, 0.2, D - 10],
+    [24, 0.2, D - 16],
+    [-24, 0.2, D - 16]
+  ].map(([x, y, z]) => new THREE.Vector3(x, y, z));
+
+  L.teamSpawns = [teamAlpha, teamBravo];
+
+  // Extended Arena Mode Feature Set (Vaulted Ribs & Balance Grapple Platforms)
+  if (arena) {
+    // Aerial Ceiling Containment Dome / Vaulted Arch Ribs
+    const domeY = PH - 2.0;
+    const domeR = P * 0.82;
+    for (let rib = 0; rib < 4; rib++) {
+      const ang = (rib / 4) * Math.PI;
+      const rx1 = Math.cos(ang) * domeR;
+      const rz1 = Math.sin(ang) * domeR;
+      const rx2 = -rx1;
+      const rz2 = -rz1;
+      rail(rx1, rz1, rx2, rz2, domeY, { ink: BK, noCollide: true });
+    }
+
+    // Flanking Balance Grapple Platforms over Mid-Chokepoint (Y >= 8.5m)
+    slab(-13, -3.5, -6, 3.5, 8.5, 0.4, { ink: OR });
+    rail(-13, -3.5, -6, -3.5, 8.5, { ink: OR });
+    rail(-13, 3.5, -6, 3.5, 8.5, { ink: OR });
+    ring(-9.5, 12.5, 0, 'y');
+    report.grapplesCount++;
+
+    slab(6, -3.5, 13, 3.5, 8.5, 0.4, { ink: OR });
+    rail(6, -3.5, 13, -3.5, 8.5, { ink: OR });
+    rail(6, 3.5, 13, 3.5, 8.5, { ink: OR });
+    ring(9.5, 12.5, 0, 'y');
+    report.grapplesCount++;
+  }
 
   if (Array.isArray(recipe.snipers) && recipe.snipers.length > 0) {
     for (const s of recipe.snipers) {

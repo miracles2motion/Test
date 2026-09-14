@@ -87,6 +87,62 @@
           "leaping_fish (animated water ripples and paper trout)"
         ]
       }
+    },
+    "clockwork": {
+      "keywords": [
+        "clockwork",
+        "clockwork-tower"
+      ],
+      "layoutPrior": "kinetic",
+      "primaryInk": "INK.GREEN",
+      "secondaryInk": "INK.BLACK",
+      "accentInk": "INK.ORANGE",
+      "hazardInk": "INK.RED",
+      "props": {
+        "tier1_micro": [
+          "clockwork_cover_prop",
+          "sketched_barrier"
+        ],
+        "tier2_meso": [
+          "clockwork_walkway_ramp",
+          "tactical_terrace"
+        ],
+        "tier3_macro": [
+          "clockwork_central_landmark"
+        ],
+        "tier4_kinetic": [
+          "clockwork_ambient_planes"
+        ]
+      }
+    },
+    "pirate_cove": {
+      "keywords": [
+        "pirate_cove"
+      ],
+      "layoutPrior": "tactical",
+      "primaryInk": "INK.BLUE",
+      "secondaryInk": "INK.BLACK",
+      "accentInk": "INK.ORANGE",
+      "hazardInk": "INK.RED",
+      "guidance": "Smugglers cutlass cove: maritime pirate docks, wooden rum barrels for waist cover, black iron cannons on catwalks, tall galleon ship masts for crow nests and grapples, cargo cranes on docks, and tropical palm trees.",
+      "props": {
+        "tier1_micro": [
+          "rum_barrel_stack (tightly grouped wooden barrels with iron hoops)",
+          "mooring_bollard (cast iron docking bollard micro-cover)"
+        ],
+        "tier2_meso": [
+          "tactical_cannon (black iron cannon barrel on weathered oak carriage)",
+          "cargo_crane (L-shaped wooden boom suspending shipping crates)"
+        ],
+        "tier3_macro": [
+          "tall_ship_mast (colossal spruce mast with crow nest and grapple ring)",
+          "dock_warehouse_hangar (timber-framed storehouse with loading dock)"
+        ],
+        "tier4_kinetic": [
+          "circling_seagulls (atmospheric gliding seabirds)",
+          "swaying_mooring_lantern (swinging dock lantern)"
+        ]
+      }
     }
   },
   "recipes": {},

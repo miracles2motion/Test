@@ -1928,16 +1928,123 @@ export function registerPrefab(id, builderFn, metadata = {}) {
 }
 
 /**
+ * Compiles and instantiates a declarative compound prefab definition (parts array).
+ */
+export function buildCompoundParts(B, parts, rootX, rootY, rootZ, o = {}) {
+  if (!Array.isArray(parts) || parts.length === 0) return false;
+  const scale = o.scale ?? 1.0;
+  const rotY = o.rotY ?? 0;
+  const cos = Math.cos(rotY);
+  const sin = Math.sin(rotY);
+
+  const resolveInk = (inkVal) => {
+    if (inkVal === 'OR') return INK.ORANGE ?? 3;
+    if (inkVal === 'BK') return INK.BLACK ?? 2;
+    if (inkVal === 'GR') return INK.GREEN ?? 4;
+    if (inkVal === 'BL') return INK.BLUE ?? 0;
+    if (inkVal === 'RD') return INK.RED ?? 1;
+    if (typeof inkVal === 'number') return inkVal;
+    return o.ink ?? (INK.BLACK ?? 2);
+  };
+
+  for (const part of parts) {
+    const rawDx = (part.dx ?? 0) * scale;
+    const rawDz = (part.dz ?? 0) * scale;
+    const px = rootX + (rawDx * cos - rawDz * sin);
+    const py = rootY + (part.dy ?? 0) * scale;
+    const pz = rootZ + (rawDx * sin + rawDz * cos);
+
+    const partInk = resolveInk(part.ink);
+    const partOpts = {
+      ink: partInk,
+      noCollide: !!part.noCollide,
+      tag: part.tag,
+      ...part.opts
+    };
+
+    const type = (part.type || 'box').toLowerCase();
+    if (type === 'box') {
+      const bw = (part.w ?? part.sx ?? 1.0) * scale;
+      const bh = (part.h ?? part.sy ?? 1.0) * scale;
+      const bd = (part.d ?? part.sz ?? 1.0) * scale;
+      B.box(px, py, pz, bw, bh, bd, partOpts);
+    } else if (type === 'slab') {
+      const halfW = ((part.w ?? part.sx ?? 2.0) * scale) * 0.5;
+      const halfD = ((part.d ?? part.sz ?? 2.0) * scale) * 0.5;
+      const th = (part.thickness ?? 0.4) * scale;
+      B.slab(px - halfW, pz - halfD, px + halfW, pz + halfD, py, th, partOpts);
+    } else if (type === 'cyl') {
+      const cr = (part.r ?? 0.5) * scale;
+      const ch = (part.h ?? 2.0) * scale;
+      B.cyl(px, py, pz, cr, ch, { ...partOpts, axis: part.axis || 'y', seg: part.seg || 8 });
+    } else if (type === 'sphere') {
+      const sr = (part.r ?? 1.0) * scale;
+      B.sphere(px, py, pz, sr, partOpts);
+    } else if (type === 'barrel') {
+      const br = (part.r ?? 0.8) * scale;
+      const bh = (part.h ?? 1.5) * scale;
+      if (typeof B.barrel === 'function') {
+        B.barrel(px, py, pz, br, bh, partOpts);
+      } else {
+        B.cyl(px, py, pz, br, bh, { ...partOpts, axis: 'y' });
+      }
+    } else if (type === 'ring') {
+      B.ring(px, py, pz, part.axis || 'y');
+    } else if (type === 'rail') {
+      const halfW = ((part.w ?? 2.0) * scale) * 0.5;
+      const halfD = ((part.d ?? 2.0) * scale) * 0.5;
+      B.rail(px - halfW, pz - halfD, px + halfW, pz + halfD, py, partOpts);
+    } else if (type === 'wedge') {
+      const ww = (part.w ?? 1.0) * scale;
+      const wh = (part.h ?? 1.0) * scale;
+      const wd = (part.d ?? 1.0) * scale;
+      B.wedge(px, py, pz, ww, wh, wd, { ...partOpts, dir: part.dir || '+z' });
+    } else if (PREFAB_REGISTRY[part.type]) {
+      // Recursive sub-prefab assembly
+      instantiatePrefab(B, part.type, px, py, pz, {
+        ...part.opts,
+        scale: scale * (part.scale ?? 1.0),
+        rotY: rotY + (part.rotY ?? 0),
+        ink: partInk
+      });
+    }
+  }
+  return true;
+}
+
+/**
  * Instantiates any registered prefab by ID or thematic keyword.
+ * Supports procedural builder functions and declarative compound prefab recipes.
  */
 export function instantiatePrefab(B, prefabId, x, y, z, o = {}) {
+  // Direct compound object pass { parts: [...] }
+  if (typeof prefabId === 'object' && Array.isArray(prefabId.parts)) {
+    return buildCompoundParts(B, prefabId.parts, x, y, z, o);
+  }
+
+  // Caller passed parts override in options
+  if (Array.isArray(o.parts)) {
+    return buildCompoundParts(B, o.parts, x, y, z, o);
+  }
+
   const entry = PREFAB_REGISTRY[prefabId];
-  if (!entry || typeof entry.builder !== 'function') {
+  if (!entry) {
     console.warn(`[PREFAB] Unknown prefab ID "${prefabId}". Available:`, Object.keys(PREFAB_REGISTRY));
     return false;
   }
-  entry.builder(B, x, y, z, o);
-  return true;
+
+  // Compound parts array on registered prefab
+  if (Array.isArray(entry.parts)) {
+    return buildCompoundParts(B, entry.parts, x, y, z, { ...entry.opts, ...o });
+  }
+
+  if (typeof entry.builder === 'function') {
+    entry.builder(B, x, y, z, o);
+    return true;
+  }
+
+  console.warn(`[PREFAB] Registered prefab ID "${prefabId}" has neither builder function nor parts definition.`);
+  return false;
 }
 
 // ============================================================================
