@@ -1,0 +1,103 @@
+=====================================================================
+FILE 15 — INSPIRATION & STUDY LIST
+The real Three.js work (and neighbors) worth studying — with WHAT
+exactly to steal from each. Study = open DevTools, take notes,
+rebuild one small piece, THEN move on.
+=====================================================================
+
+THE THREE.JS CANON
+------------------
+  threejs.org/examples — the official example zoo. Steal:
+    webgl_postprocessing/* (compare your single-pass approach vs
+    EffectComposer — you're a custom pipeline; know both),
+    webgl_instancing_* (scatter perf patterns for File 10),
+    webgl_buffergeometry_* (your hand-rolled tube/ribbon can
+    borrow indexing patterns)
+  three.js Editor (threejs.org/editor) — inspect scenes live;
+  also a good sanity rig for testing imported geometry.
+  Bruno Simon — bruno-simon.com (the portfolio that launched a
+    thousand careers). Steal: how PHYSICS + charm > graphical
+    fidelity; his Threejs Journey (paid) covers loops, shaders,
+    performance — the closest thing to a canon textbook.
+  Discover three.js (discoverthreejs.com) — free chapters on
+    scenes, transforms, animation loops: solid fundamentals with
+    real project structure (compare with File 07's layering).
+
+SHADER EDUCATION (your pipeline's next level lives here)
+--------------------------------------------------------
+  The Book of Shaders (thebookofshaders.com) — pattern/noise
+    fluency; your paper grain and future scribble jitter are
+    chapter exercises in disguise.
+  Inigo Quilez articles (iquilezles.org) — SDFs, distance
+    functions, 2D shadertoy tricks. His 2D distance functions
+    page can generate INK SHAPES procedurally (wobbly circles for
+    splats without geometry).
+  Shadertoy — search "pen", "sketch", "hatching", "crosshatch".
+    Concrete study targets: how others do stroke noise and line
+    wavering; compare their cost vs your world-space approach.
+  Artem Posenenskiy... (skip obscure names — instead:)
+  abstract/artsy three demos get posted weekly on r/threejs —
+    save the best 10 in a folder; when stuck, ask "which saved
+    demo is closest to my problem?"
+
+PROCEDURAL GENERATION (Dream's field)
+-------------------------------------
+  r/proceduralgeneration + the procgen Discord/weekly threads —
+    the community for your File 07-09 architecture
+  "Polygonal Map Generation" (Red Blob Games, redblobgames.com) —
+    THE classic interactive article; maps, Voronoi, noise. Read
+    before any terrain/region work beyond sectors.
+  Fast Poisson Disk Sampling (Bridson 2007 paper + web
+    implementations) — upgrade your rejection sampling (File 08
+    G1) when you need guaranteed-density scatter
+  Simulated annealing / genetic algorithm primers — File 16 uses
+    them as Dream's "no-LLM" optimization brain
+  watabou's generators (watabou.github.io) — one-person procgen
+    tools (villages, dungeons) with immaculate UX; study how a
+    generator exposes KNOBS instead of options
+
+GAME FEEL & LEVEL DESIGN (the craft layer)
+------------------------------------------
+  "Juice it or lose it" + "The art of screenshake" (YouTube,
+    Martin Jonasson & Petri Purho / Jan Willem Nijman) — the two
+    canonical 15-minute game-feel talks; File 11 is their spirit
+    in ink form
+  Level Design Workshop talks (GDC, YouTube channel) — start with
+    "Level Design Workshop: Blockmesh and sightlines"
+  "An Architectural Approach to Level Design" (Christopher W.
+    Totten, book) — your tier/choke/beacon language, formalized
+  Scott Rogers "Level Up!" (book) — the vocabulary book; cheap,
+    fast, foundational
+
+AUDIO (File 12's sources, repeated as reference)
+------------------------------------------------
+  freesound.org (CC0 filter), Kenney.nl packs, jsfxr/ChipTone
+  Howler.js — if raw WebAudio ever fights you (you may not need it)
+  SunVox/Bosca Ceoil/Reaper — free-ish music routes; or commission
+    one 70bpm pencil-percussion loop from a jam musician for $30
+
+TOOLS & LIBS TO KNOW ABOUT (borrow, don't adopt by default)
+-----------------------------------------------------------
+  GSAP — menu/title animation polish (SVG stroke writing)
+  cannon-es / Rapier — physics, IF the game ever needs rigid
+    bodies (your controller may not; measure first)
+  pmndrs ecosystem (drei/postprocessing) — even if you stay
+    vanilla three, reading their postprocessing lib teaches the
+    EffectComposer idioms your custom pipeline parallels
+  Ajv or Zod — recipe JSON schema validation (File 16, today)
+  Spector.js — frame capture (File 10's microscope)
+  Puppeteer/Playwright — headless screenshot CI (File 09)
+
+THE STUDY METHOD (so this list doesn't become tab hoarding)
+-----------------------------------------------------------
+  1. One source at a time. 30-60 minutes, capped.
+  2. Produce ONE artifact per session: a note, a fragment, a
+     benchmark, or a shipped tweak. Reading without shipping
+     doesn't count.
+  3. Keep a STUDY.md: source, one insight, what you changed.
+  4. Re-derive before copy-paste: rebuild the idea small, then
+     adapt — your ink pipeline is custom; most borrowed code
+     needs translation to it anyway.
+  5. Rule of three: if an idea appears in 3+ independent sources
+     (e.g., "budget before optimizing"), it's law — do it.
+=====================================================================

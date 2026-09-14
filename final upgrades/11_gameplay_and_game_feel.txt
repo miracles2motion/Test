@@ -1,0 +1,138 @@
+=====================================================================
+FILE 11 — GAMEPLAY & GAME FEEL
+The bestiary, the feedback, and the economy — turning a beautiful
+map into a game people finish a run in.
+=====================================================================
+
+PART 1 — BESTIARY: ASYMMETRY IS DIFFICULTY DESIGN
+-------------------------------------------------
+Your two forest enemies are well-differentiated on paper:
+
+  TREE MONKEY  — rifle, range 26, keep 6, burst 3 @ 0.12s, dmg 5,
+                 leaps, flanks, dodges, retreats, hp 85, speed 7.2
+  BAMBOO STALKER — sniper, range 85, stop 85 (stands off!), keep 16,
+                 aimTime 1.4s, dmg 22, spread 0.006, hp 65, speed 5.2
+
+That is a REAL design: pressure vs punishment. Push it further:
+
+  1. TELEGRAPHS IN INK (readability = fairness)
+     - Stalker's 1.4s aim must be VISIBLE: a thin RED ruled laser
+       line that draws itself along its aim ray (your RED = danger
+       ink semantics, diegetic). Aim line locks -> shot lands
+       where the line pointed 0.25s LATER (grace dodge window).
+       Damage 22 with spread 0.006 at 85m is a near-hitscan; the
+       telegraph is what makes it fun instead of cheap.
+     - Monkey burst: 3 muzzle scribble flashes (tiny BLACK starbursts,
+       File 06 U7 geometry) + audible tik-tik-tik (File 12).
+       Players should read WHAT hit them without a UI.
+
+  2. ROLE SPECIALIZATION BY SECTOR (the map teaches the enemy)
+     - Monkeys never spawn in bamboo (can't leap between culms
+       believably?) — no: LET them, but bamboo negates flanking
+       (culms block) so they switch to ambush-from-above: drop
+       from lantern height. Same stats, different BEHAVIOR FLAG
+       per sector: monkey.aggressionMode = 'canopy' inside
+       sector:bamboo. The sector system (File 07) gains
+       enemyPosture per sector — Dream inherits real tactical
+       variety for free.
+     - Stalkers own long lanes: place 2-3 at perimeter conifer
+       mid-heights overlooking N-S lanes (they punish the exact
+       open lane File 04 Rule 7 complains about — the map's flaw
+       becomes its teaching moment).
+
+  3. THE DODGE/COVER LOOP (already spec'd: canDodge/canCover/
+     canRetreat) — verify with a behavior LOG, not vibes: run a
+     60s sim, log % time in each state. Healthy: <35% shooting,
+     >20% repositioning. If a monkey never retreats, its Retreat
+     flag is decorative — add a trigger (hp<40% AND reload AND
+     cover within 8m).
+
+  4. ESCALATION FOR SOLO WAVES (concept: treehouse ascent waves)
+     Wave grammar: intro (monkeys only) -> mix + first stalker at
+     wave 3 -> canopy monkeys wave 5 -> stalker PAIR with crossing
+     lanes wave 6 -> alpha monkey (scale 1.15, hp x3, no retreat,
+     drum burst) on the DECK at wave 8. Every 3rd wave drops ammo
+     at the altar (pulls players through the bamboo — map tour by
+     economy). Never spawn mid-combat within 12m of the player
+     (spawn safety rule, File 08 V5 — reuse it for actors).
+
+PART 2 — HIT FEEL IN A PAPER WORLD
+----------------------------------
+Your style forbids normal juice (no sparks, no blood) — so invent
+paper juice. Every strike below is cheap in your pipeline:
+
+  - INK SPLATS on surfaces (File 06 U7) — implemented? then hits
+    already feel 2x better. Add the KILL version: 1.4m starburst
+    + 3 droplet actors with gravity, page remembers for 6s.
+  - HITSTOP: 40-60ms time-scale dip (0.15x) on kill, 25ms on
+    headshot-hit. One variable in your loop: dt *= timeScale.
+    Costs nothing, changes everything.
+  - THE PEN PRESSES (screen response without camera shake nausea):
+    on player damage — instead of generic shake, spike a new
+    uniform uScribble: for ~0.3s the post pass adds hand-drawn
+    jitter to line positions (wob amplitude = uScribble * noise).
+    The WORLD visibly redraws itself shakier — the paper is
+    nervous. This is the kind of idea only YOUR pipeline can do;
+    it reads as style, not effect.
+  - DAMAGE NUMBERS AS PENCIL SCRAWL: tiny canvas-textured quads,
+    0.4s float, graphite ink, slight rotation — diegetic, no HUD
+    numbers needed. Cap 8 live.
+  - PICKUP MOMENT: page-white flash (uFlash exists!) at 0.35 +
+    a RED circle drawn around the player position in world space
+    (reuse File 06 U2 ring shader — instant). The game literally
+    circles the moment like a grader's pen. Signature move.
+
+PART 3 — THE PICKUP ECONOMY (currently 7 pickups, all free)
+-----------------------------------------------------------
+Rules that make pickups MEAN something:
+  - Value vs risk: legendary in the cabin (highest ground, exposed
+    approach) is correct. Armor shard in the skeleton belly (dark,
+    enclosed, campable) — add a monkey pod nearby so it is contested.
+  - Respawn cadence: health 20s, ammo 15s, legendary 45s AND
+    announced (map-wide RED ripple at its ring — File 06 U2 with a
+    bigger radius for 3s). Contested objectives create fights:
+    the map already has sightlines to the cabin — now it has a
+    REASON to watch them.
+  - No pickup within 6m of a spawn (V5 extension).
+  - Vertical pickups (banyan 12m, log roof 4m) reward the File 04
+    vertical grammar — they are the tutorial that teaches Tier 1
+    exists. Place 1 ammo on a Tier-1 boulder shelf.
+
+PART 4 — SPAWN LOGIC & FLOW (solo + arena)
+------------------------------------------
+- The 94m open N-S spawn lane (File 04 Rule 7): fix with geometry
+  AND logic — spawn selection must reject any spawn with LOS to a
+  live enemy (ray, spatial hash) and prefer spawns near < 40% of
+  the desired fight tier height for progression waves.
+- Wave spawns in glades (concept's 8 solo spawns): use G2 cluster
+  scatter with field masks so pods arrive FROM sectors, walking in
+  through their sector's movement style (monkeys leap the berms,
+  stalkers stalk the lanes). Enemies should ENTER like they live
+  there — it sells the world more than any prop.
+
+PART 5 — ACCESSIBILITY (the invisible masterpiece layer)
+--------------------------------------------------------
+- Your semantics are COLOR (5 inks). Add redundancy: RED danger
+  elements also carry a scribble texture (uFill pattern or a glyph
+  decal), BLUE water always animates (already will, File 06 U4) —
+  a deuteranope player must be able to read danger/safe without
+  hue. Cost: one pattern in the post shader.
+- Settings: the graphics presets exist — surface them + add:
+  camera FOV (80 base — offer 70-100), screenshake/scribble
+  intensity 0-100%, hitstop toggle, damage numbers toggle.
+  Every toggle is 3 lines and a lifetime of goodwill.
+- Colorblind preview: a dev-only post toggle that desaturates inks
+  to grayscale EXCEPT structure — screenshot it each release.
+
+THE FEEL CHECKLIST (test after each)
+------------------------------------
+[ ] Telegraphed stalker laser (draw->lock->fire)
+[ ] Monkey canopy posture in bamboo
+[ ] Hitstop on kill/headshot
+[ ] uScribble damage response
+[ ] Pencil damage numbers
+[ ] Pickup respawn + announcement ripple
+[ ] Wave grammar (8-wave arc) + sector postures
+[ ] Spawn LOS rejection
+[ ] Accessibility toggles in settings
+=====================================================================

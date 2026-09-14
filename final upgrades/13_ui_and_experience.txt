@@ -1,0 +1,93 @@
+=====================================================================
+FILE 13 — UI & EXPERIENCE
+The finishing layer people judge FIRST — menus, settings, onboarding.
+=====================================================================
+
+THE 10-SECOND RULE
+------------------
+New players judge the MENU before the map. Your world is a
+sketchbook — so the UI must live IN the sketchbook, not float on
+generic glassmorphism panels:
+
+  - Menus are drawn: pencil-outline panels (your post shader
+    already outlines 3D; UI gets the same look with 2px wobbly
+    CSS/SVG borders + paper background + ruled lines)
+  - Buttons react with a biro tick + fill scribble on hover
+    (CSS + one audio tick, File 12)
+  - Behind the main menu: a slow camera drift through YOUR forest
+    (you own the whole scene — the menu is a diorama shot, maybe
+    orbiting the treehouse). Zero extra assets, instant wow.
+  - Title treatment: the logo is "written" — animate strokes on
+    load (SVG stroke-dashoffset, 0.8s). Cheapest signature moment
+    on this list.
+
+MAIN MENU CONTENTS (nothing more)
+---------------------------------
+  PLAY (map select) | SETTINGS | HOW TO PLAY | [your itch/profile]
+  Map select: one sketch thumbnail per map (screenshot from File
+  06 U8 pipeline, filtered sepia) + name + best score. That's it.
+
+LOADING (you have real work to hide: geometry build)
+  - Progress bar = a pencil filling in a doodle outline
+  - Rotating tips that TEACH: "Grapple rings blink at the apex",
+    "Trails lead somewhere — follow them", "RED means danger"
+  - Build the map during this screen (your scaffold is sync —
+    chunk it with rAF yields or move to a worker, File 10).
+
+SETTINGS (all of this already half-exists in your code)
+  - Graphics: your quality presets (low/medium/high/ultra/extreme)
+    + resolution scale slider — both ALREADY implemented in
+    setGraphicsQuality + localStorage('doodle_graphics_quality') —
+    surface them in UI, add an auto-detect first-run default.
+  - Audio: master/sfx/music sliders (File 12 bus gains)
+  - Gameplay: FOV 70-100, scribble/shake intensity 0-100%,
+    hitstop toggle, damage numbers toggle (File 11 Part 5)
+  - Controls: rebindable keys table
+  Persist everything in the doodle_* localStorage family; add
+  "Reset to defaults".
+
+THE CROSSHAIR (drawn, not pasted)
+  A pencil dot + 4 hairline ticks that breathe (2px) and kick 3px
+  on fire. Hitmarker: a small ink X that appears 80ms. Kill:
+  the X gets a hand-drawn circle (matches File 11's circle motif).
+  30 lines of CSS/SVG, feels custom-made.
+
+ONBOARDING — FIRST 30 SECONDS (solo, no walls of text)
+  The map teaches through geometry (it was designed to):
+  1. Spawn on a trail → sign says walk (WASD prompt as a penciled
+     note in the world, not a modal)
+  2. First giant grass with grapple ring → "aim + grapple" prompt
+  3. Stepping stones → cross the river, pickup rewards
+  4. Terraced ridge visible to the deck → "ascend"
+  5. Deck: the 360 view IS the payoff moment; sniper contact
+  Rules: prompts die after 2 uses each; never block movement;
+  every lesson has the input PRINTED ON the note (localization =
+  swap the texture text).
+
+PAUSE / DEATH / RESULT SCREENS
+  - Pause: the page FLIPS (audio + a page-corner animation), map
+    freezes, sketch of controls on the facing page
+  - Death: red scribble vignette closes → "torn corner" transition
+    back to spawn (0.6s, not instant — but never longer)
+  - Wave clear / match end: the page gets a GRADER'S MARK — big
+    hand-drawn A+/B+ with score circled (File 11 motif again).
+    One motif, reused, becomes your identity.
+
+MOBILE & TOUCH (decide deliberately, don't drift)
+  The ink style is forgiving on weak GPUs (quality presets) but
+  twin-stick + grapple on touch is real work. Minimum viable:
+  - Detect touch → offer "landscape + two zones" layout, left
+    virtual stick, right drag = aim/fire, tap-right = jump,
+    dedicated grapple button when a ring is targeted
+  - If you deprioritize mobile: show a clean "best on desktop"
+    note instead of an unplayable page. Either is professional;
+    half-support is not.
+
+SMALL THINGS WITH BIG VOICES
+  - Pause the loop on tab blur (also mutes audio) — browsers
+    should never roar in a background tab
+  - Dev FPS/stats toggle (renderer.info) behind ~ key
+  - Version + seed shown in the corner of the pause page
+    ("Colossal Canopy — seed 1337") — bug reports become precise
+  - First-visit: quality auto-detect by measuring 60 frames, save
+=====================================================================

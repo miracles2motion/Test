@@ -214,16 +214,47 @@ export function annularDeck(B, cx, cz, rInner, rOuter, y, o = {}) {
     const sliceWidth = Math.hypot(ox2 - ox1, oz2 - oz1);
     const sliceDepth = rOuter - rInner;
 
-    // Place walkable timber slab wedge
-    slab(
-      sliceCenterX - sliceWidth * 0.55,
-      sliceCenterZ - sliceDepth * 0.55,
-      sliceCenterX + sliceWidth * 0.55,
-      sliceCenterZ + sliceDepth * 0.55,
-      y,
-      thickness,
-      { ink }
-    );
+    // Place true radial trapezoid deck slice (clean circular rim with zero box notches)
+    if (B.addGeo && typeof THREE !== 'undefined') {
+      const g = new THREE.BufferGeometry();
+      const pos = [];
+      const pushV = (px, py, pz) => pos.push(px, py, pz);
+
+      // Top face (counter-clockwise)
+      pushV(ix1, y, iz1); pushV(ox1, y, oz1); pushV(ox2, y, oz2);
+      pushV(ix1, y, iz1); pushV(ox2, y, oz2); pushV(ix2, y, iz2);
+
+      // Bottom face
+      pushV(ix1, y - thickness, iz1); pushV(ox2, y - thickness, oz2); pushV(ox1, y - thickness, oz1);
+      pushV(ix1, y - thickness, iz1); pushV(ix2, y - thickness, iz2); pushV(ox2, y - thickness, oz2);
+
+      // Outer curved perimeter rim
+      pushV(ox1, y, oz1); pushV(ox1, y - thickness, oz1); pushV(ox2, y - thickness, oz2);
+      pushV(ox1, y, oz1); pushV(ox2, y - thickness, oz2); pushV(ox2, y, oz2);
+
+      // Inner trunk-facing wall
+      pushV(ix1, y, iz1); pushV(ix2, y, iz2); pushV(ix2, y - thickness, iz2);
+      pushV(ix1, y, iz1); pushV(ix2, y - thickness, iz2); pushV(ix1, y - thickness, iz1);
+
+      g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+      g.computeVertexNormals();
+      B.addGeo(g, ink);
+
+      // Walking collider hull under this slice
+      if (collider) {
+        collider(sliceCenterX, y - thickness, sliceCenterZ, sliceWidth * 0.95, thickness, sliceDepth * 0.95);
+      }
+    } else {
+      slab(
+        sliceCenterX - sliceWidth * 0.5,
+        sliceCenterZ - sliceDepth * 0.5,
+        sliceCenterX + sliceWidth * 0.5,
+        sliceCenterZ + sliceDepth * 0.5,
+        y,
+        thickness,
+        { ink }
+      );
+    }
 
     // Perimeter balcony guard rail along outer edge
     rail(ox1, oz1, ox2, oz2, y, { ink: INK.BLACK ?? 2 });

@@ -1,0 +1,147 @@
+=====================================================================
+FILE 09 — THE VERIFICATION PIPELINE
+Making "100% PERFECT & INTACT" mean what it says.
+=====================================================================
+
+THE UNCOMFORTABLE QUESTION
+--------------------------
+Your verifier output said:
+
+  ✅ [PASS] [FOREST] Quality Score: 12/12 | Colliders: 884
+  🎉 ARCHITECTURE INTEGRITY VERIFIED: BUILD IS 100% PERFECT & INTACT!
+
+...while the code contained: sideways-climbing ridges, a hero
+staircase above max rise, bridges whose colliders don't match their
+planks, a trail through a river, and a dead light. Why did it pass?
+Because the verifier counts THINGS, not TRUTH:
+
+  - "Colliders: 884" — a count. A collider in the river counts.
+  - "Stairs: 0" — a count of a TAG. The treehouse steps are tagged
+    'stair' — apparently uncounted — and nothing checks their RISE.
+  - "Grapples: 75" — a count. Nothing checks clearance or chains.
+  - "Headroom violations: 0" — checked how? If it raycasts only
+    tag-flagged tunnels, it never looked at the deck.
+
+Count-based checks can't fail, so they can't protect you. Dream
+amplifies whatever you verify — including nothing.
+
+THE PRINCIPLE: VERIFY PROPERTIES, NOT COUNTS
+--------------------------------------------
+A good check is a sentence from the concept doc with a number in it:
+  "every ascent reaches the deck"  "no ceiling within 2.4m of a
+  walkable surface"  "spawns can't be shot at t=0"  "same seed =
+  same map". If a check can never fail, delete it. If a bug escapes,
+  the response is ALWAYS: new check (regression test), not just a fix.
+
+THE SUITE (src/verify/suite.js — all run on the built L object)
+---------------------------------------------------------------
+
+T1 — INVARIANT SWEEP (the concept doc's numbers, automated)
+  for each collider tagged/derived walkable:
+    - step rise vs nearest lower step <= preset.stepRiseMax
+    - headroom cast >= preset.headroomMin            (V2)
+  for each walkable gap between colliders: width >= corridorMin (V1)
+  for each grapple ring: 1.5m clearance + chain gap in preset band
+  for each spawn: footing, 2m disc, LOS rule                        (V5)
+  Budget: all AABB math over ~900 colliders — trivial, < 50ms.
+
+T2 — STRUCTURAL LINT
+  - collider overlaps: report pairs of solid colliders intersecting
+    > 60% volume at the SAME top-Y (the ridge-through-bridge bug,
+    F4 — z-fighting + bump detection)
+  - orphan visuals: noCollide geometry with no collider support
+    within 0.3m below IF it looks walkable (area > 1m² and flat —
+    catches the invisible-floor class, F2)
+  - duplicate pickups within 2.5m                                    (F14)
+  - registry lint V6 (schema present, no deprecated targets)
+  - source lint: grep Math.random|Date.now inside builders (F9)
+
+T3 — REACHABILITY GRAPH (the flow brain)
+  Nodes = walkable collider tops. Edges:
+    walk:  tops within stepRiseMax vertically and horizontal
+           overlap of >= 0.6m
+    mantle: rise <= 1.1m
+    drop:  falling is one-way OK (edge downward free)
+    grapple: ring positions connect tops within preset gaps
+  Then:
+    - from EVERY spawn, path exists to: every other spawn, the hub
+      deck, every pickup, every sniper deck        (hard fail if not)
+    - the 20-second respawn bound: shortest spawn->deck path
+      <= ~40m of accumulated travel (warning if violated)
+    - choke analysis: count graph cuts of width < corridorMin on
+      primary routes (the anti-pinch law at MAP scale)
+  This one test would have caught F3+F4 instantly: the W/E ridge
+  ascents led nowhere, so "bastion reachable from ground" FAILS.
+
+T4 — SIGHTLINE CHECKS
+  - beacon test (File 03): ray from each sector heart to its beacon
+    target must NOT hit a collider (4 rays — the treehouse crown
+    test, the skull-frame test)
+  - spawn LOS test at t=0 (part of V5, map-scale view)
+  - long-lane audit: every pair of spawns with mutual LOS and no
+    intervening cover within the first 15m -> warning (F "94m lane")
+
+T5 — DETERMINISM HASH
+  build(recipe) twice in one process with two fresh scaffold
+  instances -> serialize every mesh: geometry positions + ink id +
+  world transform -> FNV/xxhash. Hashes MUST be equal. Then a
+  checked-in GOLDEN HASH per recipe version: any accidental engine
+  change that silently alters maps trips here. (This is your safety
+  net for the whole File 07 migration — old pipeline vs recipe
+  pipeline hash-diff.)
+
+T6 — PERFORMANCE BUDGETS (fail the build, not the player)
+  - total meshes, total colliders, draw-call estimate (group by
+    material), L.animated entries <= 60, allocations probe: run
+    600 simulated update() ticks in node, assert heap delta ~ 0
+  - per-quality smoke: render 1 frame offscreen at each preset;
+    assert no errors and post uniforms wired (would have caught
+    uExtreme dead-wiring class of bugs)
+
+T7 — CRITICAL PATH (performance)
+  build+T1..T6 for ONE recipe must stay < 3-5s in node so it can
+  run per-commit and inside Dream's generation loop (Dream iterates
+  10s of candidates; slow verification kills the loop).
+
+SCORE = TRUTH, NOT VIBES
+------------------------
+Replace "Quality Score: 12/12" with a report that can fail:
+  INVARIANTS: 214 passed, 0 failed
+  REACHABILITY: 5/5 spawns -> hub OK; 7/7 pickups reachable
+  DETERMINISM: hash 9f3ab2 == golden 9f3ab2
+  BUDGETS: 1,412 meshes (limit 2,000), 61 draw mats, 44 actors
+  WARNINGS: 2 (long lane N-S; litter density low at pines belt)
+The moment a number CAN fail, it means something when it passes.
+
+CI WIRING (protects the masterpiece forever)
+--------------------------------------------
+- npm run verify -- --recipe recipes/colossal_canopy.json
+- Pre-commit hook: verify changed recipes only.
+- GitHub Actions (free): on PR — build + full suite + screenshot
+  6 canonical angles, upload as artifacts. You review MAPS in the
+  PR, not just code. (Your screenshot pipeline already exists —
+  takeScreenshot — drive it headless with puppeteer in CI.)
+- Dream integration: the orchestrator (File 07 L5) calls this suite
+  as its fitness function; critique = the warnings list verbatim.
+
+REGRESSION DISCIPLINE (the habit that compounds)
+------------------------------------------------
+Fix a bug -> add the check THAT WEEK:
+  F2 bridge sag  -> T2 orphan-visuals + segmented collider check
+  F3 ridge dir   -> T3 reachability + V7 truthful metrics
+  F5 stair rise  -> T1 step-rise sweep
+  F7 trail/river -> G3 reservation system + overlap lint
+  F9 Math.random -> source lint
+Six bugs in, six permanent guards out. In a year the suite knows
+every way a map can be wrong — that is the difference between a
+codebase and a studio asset.
+
+START TOMORROW
+--------------
+Smallest useful version, one evening:
+  1. step-rise sweep (T1)         — fails today on the treehouse
+  2. reachability from spawns to hub deck (T3 walk+mantle edges)
+  3. determinism double-build hash (T5)
+Those three would have caught 7 of the 14 findings in File 01.
+Everything else is iteration.
+=====================================================================

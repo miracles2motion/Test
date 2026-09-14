@@ -1,0 +1,188 @@
+=====================================================================
+FILE 06 — RENDER & SHADER UPGRADES
+Pushing the ink pipeline further (the crown jewel deserves it)
+=====================================================================
+
+Your G-buffer + pen-on-paper post pass is the best asset this
+project has. These upgrades all live INSIDE the existing postFrag —
+no new render targets, no new passes (except one optional), so the
+budget stays flat. Each includes where exactly in the shader it goes.
+
+Small audit note first: `uExtreme` is declared, written every frame
+by setGraphicsQuality, and NEVER read in postFrag. Either delete it
+or — better — use it as the "extreme tier" switch for the extras
+marked [EXTREME] below.
+
+---------------------------------------------------------------------
+UPGRADE 1 — FIRELIGHT (the real fix for the dead PointLight)
+---------------------------------------------------------------------
+Lighting in a hatched world = modulating HATCH DENSITY. That is the
+insight; everything else is plumbing. Your postFrag already
+reconstructs world position (wpos) for the hatching — reuse it.
+
+1) Renderer side: maintain a fire list uniform:
+
+   uFireCount: { value: 0 },
+   uFirePos:   { value: Array.from({length: 8}, () => new THREE.Vector3()) },
+   uFirePow:   { value: new Float32Array(8) },  // radius/intensity
+
+   // API on InkRenderer:
+   setFires(list) { /* list of {x,y,z,power}; cap 8; set uFireCount */ }
+
+   Register the campfire, the ember bed, and (later) torch pickups.
+   DELETE the THREE.PointLight in buildCampfire (Finding 8).
+
+2) In postFrag, right after wpos is computed (inside the !sky /
+   shade >= 0 branch so sky never glows):
+
+   float glow = 0.0;
+   for (int i = 0; i < 8; i++) {
+     if (i >= int(uFireCount)) break;
+     float fd = distance(wpos, uFirePos[i]);
+     glow += smoothstep(uFirePow[i], 0.0, fd);
+   }
+   glow = min(glow, 1.0);
+   // flicker: cheap hand-drawn candle waver
+   glow *= 0.88 + 0.12 * vnoise(vec2(uTime * 7.0, 3.7));
+
+3) Apply it in THREE places (this is what makes it physical):
+   a) Hatch suppression (brighter = fewer strokes):
+        hatch *= 1.0 - glow * 0.6;
+   b) Warm paper wash on lit surfaces:
+        col = mix(col, uPaper * vec3(1.06, 0.97, 0.86), glow * 0.22);
+   c) Ink color warms slightly near fire:
+        col = mix(col, uInks[3], glow * hatch * 0.18);
+      (orange-tinged strokes inside the lit zone)
+Also add a tiny ambient glow on the PAPER near fires even in sky/
+void areas (screen-space is wrong; skip if it misbehaves).
+
+Quality gating: compute the loop only when uQuality > 0.5; at low
+quality keep 2 fires max. [EXTREME]: add a second flicker octave
+and push suppression to 0.7.
+
+---------------------------------------------------------------------
+UPGRADE 2 — PICKUP BEACONS (RED ink pulse rings, world-space)
+---------------------------------------------------------------------
+You already reconstruct the world normal (wn) for hatching. Use it:
+
+1) Uniforms: uPickCount + uPickPos[8] (same pattern as fires).
+2) After col is composed, for ground-facing fragments only:
+
+   if (wn.y > 0.85) {
+     for (int i = 0; i < 8; i++) {
+       if (i >= int(uPickCount)) break;
+       float pd = distance(wpos, uPickPos[i]);
+       float ring = fract(uTime * 0.45 + float(i) * 0.37) * 2.6;
+       float band = 1.0 - smoothstep(0.05, 0.28, abs(pd - ring));
+       float core = 1.0 - smoothstep(0.0, 0.55, pd);   // soft center
+       col = mix(col, uInks[1], band * 0.45);
+       col = mix(col, uInks[1], core * 0.10);
+     }
+   }
+
+Expanding biro-red rings around every pickup, drawn on the paper
+itself — diegetic wayfinding, zero UI, zero draw calls. Game side:
+renderer.setPickups(level.pickupPositions) once per map load.
+
+---------------------------------------------------------------------
+UPGRADE 3 — INK WEIGHT BY DEPTH (the hand-presses-harder effect)
+---------------------------------------------------------------------
+Real pen pressure: foreground lines heavier, distance lighter.
+You already have dFront at edges. Change the edge mix:
+
+    float press = mix(1.30, 0.65, smoothstep(2.0, 70.0, dFront));
+    col = mix(col, inkColor(inkId) * (0.86 + 0.10 * press),
+              clamp(edge * ew * press, 0.0, 1.0) * fadeE);
+
+Also let close hatching darken slightly:
+    col = mix(col, inkColor(s.g), hatch * 0.55 * fade * mix(1.15, 0.9, smoothstep(2.0, 40.0, d)));
+Foreground silhouettes gain weight, the page keeps its air. This is
+the single most "drawn by a human" upgrade in this file.
+
+---------------------------------------------------------------------
+UPGRADE 4 — LIVING WATER HATCHING
+---------------------------------------------------------------------
+Water is currently static BLUE with the standard hatch. Inside the
+hatch branch, detect water (inkId == BLUE && wn.y > 0.9 — you have
+both already):
+
+    if (s.g < 0.5 && wn.y > 0.9) {          // ink 0 = BLUE
+      hp += vec2(uTime * 0.55, uTime * 0.22) * sp;   // drift strokes
+    }
+
+Drifting diagonal strokes = current. Cost: 2 adds. [EXTREME]:
+add a second counter-drifting stripe set at 30% weight — interference
+shimmer, like two pen passes. Also worth 3 lines: darken water
+hatch where d < 3m (the player's own reflection shadow reads as a
+wobbly dark patch thanks to world-anchored lines).
+
+---------------------------------------------------------------------
+UPGRADE 5 — PAPER PERSONALITY PER MAP (the system hook)
+---------------------------------------------------------------------
+uPaper already exists — make it part of the MAP DATA (File 07):
+  forest:     warm cream (current #f6f3e7)
+  pirate cove: aged yellowed page + slightly stronger grain
+  cyberpunk:  cool blue-white graph paper (grid instead of rules —
+              swap the rule color uniform to a light grid pattern)
+  classroom:  wide-ruled + red margin (you have this — vary uLineSpacing per map)
+Implementation: one uniform set from the map recipe; zero shader
+changes. [EXTREME]: per-map margin doodle mask (skip — geometry
+doodles from File 02 are better).
+
+---------------------------------------------------------------------
+UPGRADE 6 — LOW-QUALITY POST PATH (speed where it counts)
+---------------------------------------------------------------------
+At uQuality < 0.5 you still pay for: 5 depth taps, 4 scene taps,
+inverse-depth Laplacian, invProj/invView reconstruction. On weak
+devices this pass is the frame budget. Cheap variants:
+  - Skip nEdge (normal edges) — saves 4 scene taps:
+      edge = laplacian only
+  - Replace inverse-depth Laplacian with a plain depth difference:
+      float lap = abs(zl - z) + abs(zr - z) + abs(zu - z) + abs(zd - z);
+    (scale-dependent, but at 0.85 DPI on a phone nobody compares)
+  - Skip wpos reconstruction by hatching in SCREEN space with the
+    current pow2 distance quantization (you lose surface anchoring;
+    acceptable at low).
+Bundle these as one `if (uQuality < 0.5)` early branch. Expected
+saving: 20-35% of post pass cost on integrated GPUs.
+
+---------------------------------------------------------------------
+UPGRADE 7 — HIT FEEDBACK IN THE WORLD (ink splats)
+---------------------------------------------------------------------
+Bullets should leave INK on the page, not particles:
+  - On hit, spawn a small noCollide splat decal (4-7 tiny BLACK
+    boxes in a starburst around the impact point, aligned to the
+    surface normal — you have normals cheaply via raycast) into the
+    merged geometry bucket, fading by LIFETIME not alpha: after
+    6s, scale to 0 in 3 frames then remove. Cap: 40 live splats
+    (ring buffer).
+  - Kills: a 1.2m splat burst + 3 flying droplets (actor pattern
+    from File 05). The world accumulates the battle like a real
+    sketchbook session. Players will notice the PAGE remembers.
+
+---------------------------------------------------------------------
+UPGRADE 8 — SKETCHBOOK SCREENSHOT MODE (polish your existing feature)
+---------------------------------------------------------------------
+takeScreenshot exists. Upgrade it to a share-mode:
+  - Compose offscreen: full-res frame + white border + handwritten
+    caption ("The Colossal Canopy — page 7") drawn via a 2D canvas
+    in a handwriting-ish font (fallback cursive) + date stamp.
+  - Optional [EXTREME]: capture 2 frames 100ms apart and blend 50%
+    — soft pencil-double-exposure look, very shareable.
+One button, distinct art output — this is social-media ammo for
+File 14's launch plan.
+
+---------------------------------------------------------------------
+QUALITY TIER MAP (wire these into setGraphicsQuality)
+---------------------------------------------------------------------
+  low:     cheap post path (U6), no glow/rings/waver, 0 fires
+  medium:  + waver, + 3rd hatch dir (existing), fire glow 4 max
+  high:    + pickup rings, ink weight, water drift, all 8 fires
+  ultra:   + double paper grain octave (existing), ring buffer 40
+  extreme: + uExtreme extras: 2nd flicker octave, counter-water
+           stripes, double-exposure screenshots
+
+EVERYTHING IN THIS FILE IS UNIFORMS OR POST-SHADER MATH: no new
+passes, no new render targets, no scene traversals per frame. The
+style stays yours — it just learns to breathe.
+=====================================================================

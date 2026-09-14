@@ -1,0 +1,124 @@
+=====================================================================
+FILE 12 — AUDIO & AMBIENCE ON A ZERO BUDGET
+The notebook world is silent. Here is its voice — cheap, legal, and
+spatialized.
+=====================================================================
+
+WHY AUDIO IS THE CHEAPEST WOW LEFT
+----------------------------------
+Visuals: you compete with everyone. Sound: most browser games ship
+SILENT. A pencil-scratch footstep layer alone puts Doodle Strike in
+the top 5% of web game feel. Budget: one afternoon + 0 dollars.
+
+THE SOUND IDENTITY (decide it before downloading anything)
+----------------------------------------------------------
+Everything is MADE OF PAPER AND INK, so every sound is:
+  - dry and close (paper, pencil, cardboard — no reverb tails),
+  - small (the player is a doodle miniature; events are tiny),
+  - handwritten (wobbly, imperfect — layer a human vocal "skrch"
+    under synth sounds rather than polishing them out).
+Consistency law: if a sound wouldn't exist on a desk (metal ping,
+deep explosions), pass it through the paper filter of this identity
+or replace it: explosion = paper CRUMPLE + low thump, not Hollywood.
+
+THE SOUND PALETTE (what maps to what)
+-------------------------------------
+  footsteps     short pencil strokes; per surface: grass = soft
+                double-scratch, dirt/trail = dry single tap, wood
+                (decks/bridges) = light knock + creak every 4th
+                step, water/stepping stones = plip + tiny splat
+  fire/heartbeat of the map: crackle loop (paper crinkle, granular)
+  grapple fire  pen CLICK + zip = biro spring + fast scratch sweep
+  landing       soft THUD = palm on desk (record your own!)
+  hit confirm   short pencil tick + tiny splat
+  kill          pencil SCRIBE (a fast circle) + tear snippet
+  stalker laser thin sustained pen-roll while aiming (see File 11)
+  player hurt   one page RIP + muffled low rub
+  pickups       biro circle drawn around a note: rising two-tone +
+                scratch (the sound literally draws the File 11 circle)
+  UI            page flips (open/close menus), pencil tick on
+                hover, a small satisfied scratch on confirm
+  ambience beds wind (filtered noise, swells with File 05 gusts),
+                distant birds every 20-60s, river surface loop
+                near water with distance rolloff, bamboo clatter
+                ticks in the grove when gusts peak
+
+WHERE TO GET THEM FREE & LEGAL
+------------------------------
+  - Record your own (BEST for identity): phone mic + desk + paper
+    + a biro. 30 minutes makes footsteps, UI, kills, picks. Your
+    own desk IS your foley studio — nobody can clone it.
+  - freesound.org — filter CC0; check license per file (CC0 = use
+    freely; CC-BY = credit in an in-game screen)
+  - Kenney.nl audio packs — CC0, game-ready, consistent volumes
+  - OpenGameArt — mixed licenses, read carefully
+  - Sonniss GDC bundles — pro quality, royalty-free, big files
+  - jsfxr / ChipTone — synth SFX in browser for ticks/zaps
+  - Music: search "lo-fi CC0 ambient" on frecensubecho/free labels;
+    or generate ambient beds yourself: 2 chords + noise wind + a
+    pencil-percussion loop at 70bpm = instant notebook mood.
+  ALWAYS: keep an AUDIO_CREDITS.txt from day one.
+
+IMPLEMENTATION (Web Audio, no libraries needed)
+-----------------------------------------------
+  - ONE AudioContext, created/resumed on FIRST user gesture
+    (click/keydown) — browsers block autoplay; resume() in the
+    click handler of your start screen.
+  - THREE.AudioListener on the camera + THREE.PositionalAudio
+    for world sounds (fire crackle at campfire, river, enemies'
+    weapon sounds). PositionalAudio is INDEPENDENT of your custom
+    renderer — your ink pipeline needs zero changes; audio just
+    works with the scene graph.
+  - Voice pool: max ~24 simultaneous; steal the oldest quiet voice.
+  - Preload into AudioBuffers at load screen; play via
+    BufferSource (no <audio> tags — no latency).
+  - Distance model: linear rolloff, refDistance 3, maxDistance 60
+    (fog ends at 110 — sounds should die before visuals do, or
+    the paper world feels haunted).
+  - Bus layout ( GainNodes ): master -> [sfx, ambience, music, ui];
+    a 1-line mute each + settings sliders (File 11 Part 5).
+  - Footsteps: no per-step events needed — drive from movement
+    speed with a step-cycle timer; swap buffer set by ground ink
+    (you KNOW the surface: trail decals = OR ink underfoot —
+    query your own collider/decal data; no raycast needed if you
+    track region by sector fields from File 03).
+
+DYNAMIC LAYERS (the pro touch)
+------------------------------
+  - GUST SYNC: your wind gust function (File 05 U2) already knows
+    when a gust rolls — scale ambience wind gain with the SAME
+    value. World breathes in stereo.
+  - COMBAT DUCKING: music/ambience gain -30% while enemies in
+    combat state; back up on calm. 6 lines, huge feel.
+  - LOW-HP TENSION: at low HP, thin the music (lowpass down) +
+    faint page-rustle pulse — matches your red scribble vignette
+    (uLowHp) so sight AND sound say the same thing.
+  - THE TROUT SPLASH: sync a plip+ripple-crackle to the fish's
+    landing frame (same phase variable as File 05's ripple ring —
+    one event, two senses).
+
+PERFORMANCE & POLISH RULES
+--------------------------
+  - Audio thread is cheap; the risks are: too many BufferSource
+    starts per second (pool them), and unbounded looping nodes
+    (always stop+disconnect on world unload — the map loader must
+    own an audio manifest per level: fires, river, sector beds).
+  - Persist mute/volumes in localStorage next to your graphics
+    quality keys ('doodle_*' family).
+  - iOS: context.sampleRate quirks + silent-switch — test once on
+    a real iPhone early, not at launch.
+  - The screenshot mode (File 06 U8) can't carry audio — but the
+    shareable REPLAY clip idea can: even 5s of gameplay with the
+    scratch-kill sound IS the trailer.
+
+BUILD ORDER (one weekend, in this order)
+----------------------------------------
+[ ] AudioManager skeleton + gesture unlock + bus gains
+[ ] Record/download the 12 core sounds (palette above)
+[ ] Footsteps by surface + landing + grapple (movement voice)
+[ ] Campfire crackle + river loop as PositionalAudio
+[ ] UI set (page flips, ticks)
+[ ] Kill/hit/pickup feedback set
+[ ] Gust sync + combat ducking + low-HP treatment
+[ ] Sector beds (wind, birds, bamboo) + credits file
+=====================================================================

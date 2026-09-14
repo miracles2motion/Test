@@ -1,0 +1,175 @@
+{
+  "id": "colossal_canopy",
+  "name": "The Colossal Canopy",
+  "version": 3,
+  "seed": 1337,
+  "scale": "colossal",
+  "bounds": {
+    "half": 55,
+    "wallH": 20,
+    "arenaHalf": 68,
+    "arenaWallH": 30
+  },
+  "palette": "forest",
+  "paper": {
+    "tint": "#f6f3e7",
+    "rules": true,
+    "lineSpacing": 60
+  },
+  "ground": {
+    "ink": "GREEN",
+    "clearing": { "r": 8.0, "ink": "OR" }
+  },
+  "water": {
+    "ribbon": {
+      "axis": "z",
+      "x": 21,
+      "from": -48,
+      "to": 48,
+      "width": 9.6,
+      "sink": 0.04,
+      "ink": "BLUE"
+    },
+    "banks": {
+      "ink": "BLACK",
+      "step": 6,
+      "len": 7.2
+    },
+    "crossings": [
+      { "type": "stepping_stones", "z": 0 },
+      { "type": "arched_bridge", "z": -16 },
+      { "type": "stepping_stones", "z": 24 }
+    ]
+  },
+  "sectors": [
+    {
+      "id": "bamboo",
+      "shape": "disc",
+      "c": [-28, -26],
+      "rIn": 9,
+      "rOut": 15,
+      "core": {
+        "prefab": "bamboo_plantation",
+        "opts": { "count": 26, "radius": 11, "seed": 42 }
+      },
+      "props": [
+        { "prefab": "fern_cluster", "n": 4 }
+      ],
+      "tint": { "ink": "OR", "rx": 12, "rz": 11 },
+      "reward": { "pickup": true }
+    },
+    {
+      "id": "pines",
+      "shape": "disc",
+      "c": [34, -26],
+      "rIn": 8,
+      "rOut": 14,
+      "props": [
+        { "prefab": "pine_tree", "n": 3, "opts": { "h": 22 } },
+        { "prefab": "fern_cluster", "n": 4 },
+        { "prefab": "grass_clump", "n": 6 }
+      ],
+      "tint": { "ink": "GREEN", "rx": 12, "rz": 12 }
+    },
+    {
+      "id": "skeleton",
+      "shape": "capsule",
+      "a": [-24, -4],
+      "b": [-24, 20],
+      "rIn": 4,
+      "rOut": 8,
+      "core": {
+        "prefab": "creature_skeleton",
+        "opts": { "length": 24, "ribPairs": 7, "seed": 101 }
+      },
+      "props": [
+        { "prefab": "grass_clump", "n": 5 }
+      ],
+      "tint": { "ink": "BLACK", "rx": 7, "rz": 14 },
+      "reward": { "pickup": true }
+    },
+    {
+      "id": "glade",
+      "shape": "disc",
+      "c": [23, 27],
+      "rIn": 8,
+      "rOut": 13,
+      "core": {
+        "prefab": "campfire",
+        "opts": { "r": 2.2 }
+      },
+      "props": [
+        { "prefab": "fern_cluster", "n": 4 },
+        { "prefab": "grass_clump", "n": 6 }
+      ],
+      "tint": { "ink": "OR", "rx": 10, "rz": 10 },
+      "actors": ["smoke"]
+    }
+  ],
+  "landmarks": [
+    {
+      "prefab": "treehouse",
+      "at": [0, 0, 0],
+      "opts": { "height": 28, "deckY": 9.5 },
+      "role": "hub",
+      "beacon": true
+    },
+    {
+      "prefab": "ancient_tree",
+      "at": [-34, 0, 32],
+      "opts": { "h": 16, "r": 2.0 },
+      "role": "vantage"
+    },
+    {
+      "prefab": "ancient_tree",
+      "at": [34, 0, 32],
+      "opts": { "h": 16, "r": 2.0 },
+      "role": "vantage"
+    }
+  ],
+  "beltProps": [
+    {
+      "between": ["bamboo", "pines"],
+      "prefabs": ["pine_tree", "fern_cluster"]
+    },
+    {
+      "between": ["skeleton", "glade"],
+      "prefabs": ["fern_cluster", "grass_clump"]
+    }
+  ],
+  "trails": {
+    "ink": "OR",
+    "width": 2.4,
+    "routes": [
+      {
+        "from": "spawn:N",
+        "to": "landmark:hub",
+        "via": [[0, -50], [-1.8, -42], [2.2, -32], [-1.2, -22], [0.8, -14], [0, 0]]
+      },
+      {
+        "from": "spawn:W",
+        "to": "landmark:hub",
+        "via": [[-50, 0], [-42, -2], [-33, -8], [-27, -14], [-18, -8], [-12, -2], [0, 0]]
+      }
+    ]
+  },
+  "perimeter": {
+    "style": "conifer_wall",
+    "rows": 2,
+    "heights": [20, 24, 28]
+  },
+  "vertical": {
+    "grappleChains": [
+      { "name": "apex", "from": [0, 26, -5], "to": [0, 31, 0] },
+      { "name": "canopy_nw", "from": [-10, 15, -10], "to": [-28, 12, -26] },
+      { "name": "canopy_ne", "from": [10, 15, -10], "to": [28, 12, -26] }
+    ]
+  },
+  "pickups": [
+    { "at": [0, 10.4, 2.4], "tier": "legendary" },
+    { "at": [21, 2.8, -16], "tier": "health" },
+    { "at": [-24, 0.4, 8], "tier": "armor" },
+    { "at": [-28, 0.4, -26], "tier": "ammo" }
+  ],
+  "actors": ["smoke", "birds"]
+}

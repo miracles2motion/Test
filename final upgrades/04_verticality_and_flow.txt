@@ -1,0 +1,187 @@
+=====================================================================
+FILE 04 — VERTICALITY & GAMEPLAY FLOW
+Answers Dossier Question 3: "Are the 4 skybridges and terraced
+ridges sufficient, or should we add secondary mid-canopy boughs,
+root ramps, and grapple swings?"
+=====================================================================
+
+THE DIAGNOSIS
+-------------
+Plot your walkable surfaces by height and a brutal hole appears:
+
+  Y 31.0  apex swing ring                    (1 point, grapple-only)
+  Y 22-18  airway rings                      (grapple-only)
+  Y 14-12  banyan pickup, conifer grapples   (grapple-only)
+  Y  9.5  deck highway: treehouse + 4 bridges + 4 bastions   ✔ built
+  Y  3.5-5  ** CONCEPT PROMISES THIS TIER — ALMOST NOTHING BUILT **
+  Y  0     ground                            ✔ built
+
+The middle is missing in TWO ways:
+1. Tier 1 (3.5-5m) exists in the concept doc ("mantleable rock
+   berms, curved log rooftops, stream footbridges") but barely in
+   geometry. Ground players have essentially ONE floor.
+2. Between ground and deck there is no PLAY-space — only vertical
+   transport (stairs/ridges). You cannot FIGHT on the way up.
+
+An arena shooter with a 9.5m dead layer wastes its own map. Here is
+the full vertical plan.
+
+---------------------------------------------------------------------
+RULE 1 — THE 2-UP-1-DOWN CONTRACT (every elevated position)
+---------------------------------------------------------------------
+Any platform above Y=3 must offer:
+  - 2+ independent ways UP (so a blocked/broken route never traps
+    the tier),
+  - at least 1 fast way DOWN (drop, slide, or grapple release),
+  - and no route may pass through a single choke narrower than the
+    anti-pinch 1.8m.
+Audit today:
+  - Treehouse deck: stairs + west egress slab + 5 grapples + drop
+    from hatch edge → PASSES (this is why it feels good).
+  - Bastion decks: 1 bridge + 1 ridge → exactly 2, but after File 01
+    fixes the ridge directions, VERIFY each of the 4 actually
+    connects (N and S do; E/W ridges were climbing sideways).
+  - Giant grass grapple rings: 1 way up (grapple), drop = down →
+    OK for a perch, but nothing links them. See Rule 4.
+
+---------------------------------------------------------------------
+RULE 2 — BUILD TIER 1 (the 3.5-5m meso layer)
+---------------------------------------------------------------------
+Five cheap builders create the missing middle:
+
+  a) BOULDER STACK SHELVES: 2 faceted rocks (1.2m + 0.9m) side by
+     side = a 2-step natural mantle to a 3.6m vantage. Place 6-8
+     near sector borders (they also serve File 03's blend belts).
+  b) LOG-ROOF ROUTES: buildCurvedHollowLog already has a top
+     catwalk at ~4m with shelf-stairs — you built the asset and
+     never connected it. Add a stepping boulder so the shelf-stairs
+     are actually reachable, and point the catwalk's grapple ring
+     chain at the NW bastion.
+  c) STREAM FOOTBRIDGE (3.5-4m arched): your current footbridge is
+     ground-level. Add ONE higher arched crossing upstream (z≈24,
+     beside the second stepping stones): arch of 5 slab segments,
+     apex 3.8m, with a wedge at each end. It gives the SE quadrant
+     a Tier-1 vantage over the glade AND reads beautifully.
+  d) FALLEN LEVIATHAN VERTEBRA: one giant disc (r=1.6, h=1.2) lying
+     on its side at the skeleton tunnel's north exit + one at 2.4m
+     leaning on it = free mantle steps matching the story.
+  e) STUMP+MUSHROOM STEP: buildHollowStump (1.3m) next to a
+     toadstool cap (2.4m) next to giant grass (grapple at 7m) —
+     a 3-beat "vertical sentence" teaching the ascent language.
+     Place this trio pattern in all 4 quadrants (vary rotation).
+
+Result: a player can now hop between Tier-1 points across most of
+the map without touching the deck highway — low-tier fights exist.
+
+---------------------------------------------------------------------
+RULE 3 — MID-CANOPY BOUGHS (the 5-7m organic layer)
+---------------------------------------------------------------------
+From the titan trunk, grow 2 horizontal boughs (this is THE upgrade
+that makes the treehouse feel like a tree):
+  - Bough = tapered cyl (r 0.5→0.3, len 8-10m, axis x or z) at
+    Y 5.2 and 6.4, exiting opposite sides.
+  - Top surface made walkable with a 1.2m-wide foliage slab
+    (GREEN, walkable) along the upper edge.
+  - Ends in a 5m "leaf balcony" (green slab + skirt cone below it).
+  - From balcony A: grapple ring chain (3 rings, +2.5m each) rises
+    toward the NW bastion deck. From balcony B: a root ramp
+    (wedge, 20° slope) descends to a Tier-1 boulder shelf.
+Do the same mini-version on the SW gnarled tree (one bough at 4.5m).
+Now the trunk has activity at 0 / 5-7 / 9.5 / 28 — the tree is a
+vertical MAP, not an elevator.
+
+---------------------------------------------------------------------
+RULE 4 — GRAPPLE CHAINS, NOT RINGS (fix the network topology)
+---------------------------------------------------------------------
+Current rings are mostly isolated. A ring is only useful if the
+NEXT ring is visible and reachable from the swing. Rules:
+  - Same-height chain: max horizontal gap 12-14m.
+  - Ascending chain: gap 8-10m, +2 to 3m height per ring (matches
+    swing-release arcs).
+  - Every ring must have its successor within a ~55-degree cone of
+    the swing direction; verify by raycast (File 09 automates).
+Missing links to add:
+  - Bamboo lantern line (File 02 Kit 8 IS this chain): lanterns at
+    Y=9 spaced 8m → grove gets its missing aerial layer.
+  - Skeleton spine chain: apex ring at ~7.7 → add rings at 10.5
+    and 13 stepping NW toward the west bastion. The bone tunnel
+    becomes an aerial on-ramp.
+  - Low river line: rings at Y=6 over the water at x=21, z=-20/-8/4
+    → a "skimming the stream" low route that contrasts the 9.5m
+    bridges. Falling = splash zone, not death: fun.
+  - Titan crown: the 31m apex ring is unreachable from any chain
+    (nearest below: 16m airways = 15m gap). Add 22m and 26.5m
+    rings above the bastions (2 of them) so there is a full
+    ground→31m chain. Reward: full-arena glide + the margin
+    doodles from File 02 are up there.
+
+---------------------------------------------------------------------
+RULE 5 — BOUNCE MUSHROOMS (concept Tier-2 taxonomy, never built)
+---------------------------------------------------------------------
+The concept lists "giant_umbrella_mushroom_platform — elevated
+bounce/sniper perch". Build buildBounceMushroom:
+  - stalk cyl (r0.5, h 2.6) + cap = squashed sphere (r 2.2, half
+    height 0.9), GREEN top with ORANGE gill ring underneath,
+    noCollide cap top; game-side: standing on cap = launch impulse
+    (set velocity +Y ~9.5 → reaches ~4.5m) with squash animation
+    (scale.y 0.6→1 over 0.25s — one L.animated entry).
+Place 3:
+  - Glade → south bastion shortcut (lands on ridge top tier).
+  - East riverbank → east bridge (banks Tier-1 → 9.5 needs the
+    boost; place cap on a 3m boulder shelf).
+  - Bamboo edge → lantern chain start.
+Bounces are directional-funnel geometry: put a "landing intention"
+around each (rail or fronds) so players know where they'll go.
+
+---------------------------------------------------------------------
+RULE 6 — ONE-WAY DROPS & DROP ZONES
+---------------------------------------------------------------------
+Going down must be FASTER than going up (it's the reward for height):
+  - Mark 4 official drop edges: bastion inner corners, deck hatch
+    rim (outside the railing), bridge ends.
+  - Below each: a MOSS PILE (flat GREEN squashed sphere, 2.2m wide,
+    walkable) = land soft, zero fall damage, tiny dust puff
+    (File 05 animation). Land anywhere else from 9.5m = damage.
+  - This creates legitimate "yeet off the deck to escape" gameplay
+    and teaches the map's drop vocabulary in one try.
+
+---------------------------------------------------------------------
+RULE 7 — COUNTER-SNUIPING THE SKY HIGHWAY
+---------------------------------------------------------------------
+Test from each bastion deck: how much ground can an anchored sniper
+cover? N/S bastions see the whole N/S trails (50m+ lanes). Fixes:
+  - Needle-skirt curtains: on the 2 interior conifers nearest each
+    bastion, drop the lowest skirt tier to 3m above ground (block
+    the long lane without blocking movement).
+  - Skim cover: 2 giant grass tufts repositioned 6-8m out from each
+    bastion so the ground approach always has a final sprint gap.
+  - The deck rail (0.95m) blocks crouched players — good; verify
+    bots use the cover blocks on decks (they exist — keep them
+    away from rail edges so bots don't silhouette).
+
+---------------------------------------------------------------------
+RULE 8 — THE 30-SECOND LOOP TEST (flow metric)
+---------------------------------------------------------------------
+Define the core loop: SPAWN → reach deck (any route) → cross one
+bridge → drop off → engage. Playtest with a timer:
+  - Any leg > 12s = add a shortcut (bounce mushroom, root ramp, or
+    extra ridge).
+  - Count CHOICES at each junction: 1 choice = corridor, 2 = path,
+    3+ = playground. The ascent to the deck should offer ≥3 routes
+    from each spawn quadrant: ridge / stairs / Tier-1 hop-line /
+    grapple chain / bounce. After this file: it does.
+  - The "respawn loop": after dying on the deck, a respawned player
+    should be back in the deck fight within 20s. That bound decides
+    how many ascents each quadrant needs (answer: at least 2).
+
+CHECKLIST
+---------
+[ ] Tier-1 kit: boulder shelves, log-roof link, arched footbridge,
+    vertebra steps, stump-trio x4 quadrants            (Rule 2)
+[ ] Titan boughs x2 + gnarled bough                    (Rule 3)
+[ ] Grapple chain audit + 4 missing chains             (Rule 4)
+[ ] buildBounceMushroom + 3 placements                 (Rule 5)
+[ ] Moss-pile drop zones x4                            (Rule 6)
+[ ] Skirt curtains + skim cover near bastions          (Rule 7)
+[ ] Run the 30-second loop test, fix slowest leg       (Rule 8)
+=====================================================================

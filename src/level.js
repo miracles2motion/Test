@@ -1,5 +1,6 @@
 // Level construction. Two maps share one builder: everything is merged ink geometry plus
 // axis-aligned box colliders, which is what the navigation grid is generated from.
+import { buildPirateCove } from './levels/pirate_cove.js';
 import { buildForest } from './levels/forest.js';
 import { buildSpaceStation } from './levels/space_station.js';
 import { buildLibrary } from './levels/library.js';
@@ -238,6 +239,17 @@ export const LEVELS = [
     category: 'anomalous',
     tags: ['DREAM MODE', 'AUTO-GENERATED'],
     env: 'SPACE STATION Environment',
+    engagement: 'CQB & Vertical',
+    hazard: 'TBD',
+    scale: 'Tier 1-4',
+    comingSoon: false
+  },
+  {
+    key: 'pirate_cove',
+    name: 'PIRATE COVE',
+    category: 'urban',
+    tags: ['DREAM MODE', 'AUTO-GENERATED'],
+    env: 'PIRATE COVE Environment',
     engagement: 'CQB & Vertical',
     hazard: 'TBD',
     scale: 'Tier 1-4',
@@ -1863,7 +1875,8 @@ export const MAP_BUILDERS = {
   library: buildLibrary,
   tomes: buildLibrary,
   space_station: buildSpaceStation,
-  forest: buildForest
+  forest: buildForest,
+  pirate_cove: buildPirateCove
 };
 
 export function registerMapBuilder(key, builderFn) {

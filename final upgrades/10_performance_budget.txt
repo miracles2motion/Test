@@ -1,0 +1,134 @@
+=====================================================================
+FILE 10 — THE PERFORMANCE BUDGET
+884 colliders, 36 giant conifers, and one post pass — the real
+numbers, the real risks, and the fixes that fit YOUR pipeline.
+=====================================================================
+
+FIRST: MEASURE, DON'T GUESS
+---------------------------
+Three instruments, in order of usefulness:
+  1. renderer.info.render.calls — log once per second in dev:
+       console.log('calls', r.info.render.calls,
+                   'tris', r.info.render.triangles);
+  2. Chrome DevTools Performance tab — record 5s of gameplay on
+     your WORST target device, look for long tasks in your
+     update() loop and the render pass.
+  3. Spector.js (browser extension) — one-click frame capture,
+     shows every draw call and its state. This is how you will SEE
+     the draw-call problem below.
+Rule: no optimization PR without a before/after number.
+
+WHERE YOUR FRAME ACTUALLY GOES (audit of the current build)
+-----------------------------------------------------------
+Estimated from the code you sent:
+  - Perimeter conifers: 36 trees x ~12-15 meshes each
+    (2 trunk cyls, 3 bark strips, 4-5 cones, rock, ring, flares)
+    = ~450-540 meshes for the SKYLINE ALONE.
+  - Total map is plausibly 1,500-2,500 meshes.
+  - CRITICAL QUESTION: does each of those become a draw call?
+    Check whether B.box/cyl/cone route into merged per-ink buffers
+    (B.addGeo suggests SOME geometry merges). If cyl/box create
+    individual meshes with individual makeInkMaterial() calls —
+    you are paying 2,000 draw calls + 2,000 ShaderMaterial
+    instances. THE FIX below is the biggest perf win available
+    to this project, and your renderer makes it uniquely easy.
+
+FIX 1 — MERGE STATIC GEOMETRY PER INK (the flagship win)
+--------------------------------------------------------
+Your G-buffer material needs exactly: ink id + normals + world
+position. No textures, no UVs, no per-object uniforms (ink is a
+uniform per MATERIAL). Therefore:
+  - All static world geometry of one ink can merge into ONE
+    BufferGeometry (positions baked in WORLD space — your hatching
+    and edges are world-anchored anyway, so NOTHING visually
+    changes).
+  - Result: 6 giant static meshes (one per ink) + dynamic actors.
+    Draw calls: 2,000 -> ~10-30. CPU scene-graph cost collapses.
+  - Implementation: ensure EVERY static helper (box, cyl, sphere,
+    cone, slab, rail, wedge, arch) funnels through one
+    mergeBucket(ink) accumulator; flush to 6 meshes at build end.
+    Prefab exceptions (fish, embers) stay separate — they animate.
+  - Frustum culling note: 6 giant meshes never cull. That is fine
+    — vertex cost is trivial for this style; the GPU is idle
+    compared to 2,000 driver calls. (Verify with Spector.)
+
+FIX 2 — INSTANCEDMESH FOR REPEATERS (your shader is READY)
+----------------------------------------------------------
+Your inkVert ALREADY has the USE_INSTANCING + USE_INSTANCING_COLOR
+branches — you built instancing support and the level code barely
+uses it. Everything placed N>5 times is an instancing candidate:
+  conifer skirts/cones, litter pieces, pebbles, grass tufts,
+  fence segments, lanterns, stepping stones, fern clusters.
+  InstancedMesh(cylinderGeo, inkMat, 300) + per-instance matrix;
+  instanceColor carries ink via vColorData (already wired!).
+  Bonus: sway via uSway keeps working (instancing branch is in the
+  same vertex shader).
+Rule of thumb: merged buffers for unique statics, InstancedMesh
+for repeated modules, individual meshes ONLY for animated actors.
+
+FIX 3 — COLLIDER BUDGET & BROADPHASE
+------------------------------------
+884 AABB colliders is a fine count — IF physics/nav uses a spatial
+hash (4m cells) instead of scanning all colliders per query. Audit:
+  - movement queries, bullet rays, grapple searches, nav sampling
+    must all be O(neighbors), not O(884).
+  - Merge contiguous static colliders at build time (river banks
+    are 24 boxes -> 2 long boxes after File 01 F12 fix; berms
+    similarly). Target < 500 colliders without losing fidelity.
+  - Keep colliders OUT of the render scene entirely if they are
+    invisible (they should be data, not meshes — verify).
+
+FIX 4 — MICRO-DETAIL DISTANCE CULLING (build-time, free forever)
+----------------------------------------------------------------
+File 02's litter + File 05's actors must respect the fog law:
+  fog fully swallows detail by ~40m (fade 14->110, but small marks
+  vanish visually by 30-45m). So: detailRadius() already scales
+  density; additionally SKIP spawning litter/tufts/pebbles beyond
+  45m from map center EXCEPT inside sectors (players fly there).
+  Saves hundreds of meshes nobody would ever see. This is a BUILD
+  filter, not a runtime cost.
+
+FIX 5 — QUALITY PRESET BUDGETS (wire into setGraphicsQuality)
+-------------------------------------------------------------
+  low:    pixelRatio cap 0.85 (exists), cheap post path (File 06
+          U6), actors tier-3 off, litter -50% at build,
+          draw calls < 150, 60fps on integrated graphics
+  medium: DPI 1.15, 3rd hatch dir on, actors on,
+          draw calls < 300
+  high:   DPI 1.8, everything on, draw calls < 500
+          (post-fix 1, expect ~30-80 — budget becomes trivial)
+  ultra/extreme: DPI 2.5/3.5 — the DPI multiplier is your real
+          cost driver here; each step roughly doubles fragment
+          work. Cap extreme to 4K displays only (window size check).
+Also: your camera far is 420 and fog ends at 110 — pull far plane
+to ~160 and gain depth-precision + a few % on early-z.
+
+FIX 6 — THE POST PASS ON WEAK DEVICES
+-------------------------------------
+The full postFrag (5 depth taps + 4 scene taps + invProj/invView
+reconstruction) runs at pixelRatio^2 cost. At DPI 3.5 on a 4K
+screen that is ~33M fragments of pen math. The File 06 U6 low path
+(plain-depth edges, no reconstruction) + the existing DPI caps are
+the answer; measure with the Perf tab and record ms per preset in
+the README (know your floor: e.g. "M1 Air: low 0.8ms, extreme 4.1ms").
+
+FIX 7 — ALLOCATION DISCIPLINE (GC spikes are frame drops)
+---------------------------------------------------------
+- Scratch vectors at module scope: const _v1 = new THREE.Vector3()
+  reused everywhere; NEVER new inside per-frame loops (your fish/
+  ember updates already pass — keep the law).
+- Strings: no template literals in update() logs (dev only, gated).
+- GC check: Chrome Perf tab Memory view during 60s play; sawtooth
+  amplitude should stay tiny.
+
+THE BUDGET CARD (put this in the repo, enforce in CI — File 09 T6)
+------------------------------------------------------------------
+  metric            low     medium   high    ultra
+  draw calls        <150    <300     <500    <800
+  triangles         <0.8M   <1.5M    <2.5M   <4M
+  colliders         <500    <600     <700    <700
+  L.animated        <=30    <=50     <=60    <=60
+  post cost (1080p) <1.2ms  <2ms     <3.5ms  <6ms
+  fps target        60      60       60      60 (120 capable)
+Every number is testable (renderer.info + offscreen render in CI).
+=====================================================================

@@ -17,6 +17,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { getLearningCache } from './map-learning.js';
+import { BIOME_PALETTES } from './palettes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -169,8 +170,70 @@ const neStairX = parseFloat((20 - sniperStepCount * conf.recRun).toFixed(3));
 const swStairX = parseFloat((-20 + quadStepCount * conf.recRun).toFixed(3));
 const seStairX = parseFloat((20 - quadStepCount * conf.recRun).toFixed(3));
 
+const isRecipeMode = process.argv.includes('--recipe');
+const recipesDir = path.join(ROOT_DIR, 'recipes');
+const recipeFilePath = path.join(recipesDir, `${key}.json`);
+
+let activeRecipe = null;
+if (fs.existsSync(recipeFilePath)) {
+  try { activeRecipe = JSON.parse(fs.readFileSync(recipeFilePath, 'utf8')); } catch (e) {}
+}
+
+if (!activeRecipe && isRecipeMode) {
+  if (!fs.existsSync(recipesDir)) fs.mkdirSync(recipesDir, { recursive: true });
+  const memoryFile = path.join(ROOT_DIR, '.agents', 'thematic-memory.json');
+  let mem = {};
+  try { mem = JSON.parse(fs.readFileSync(memoryFile, 'utf8')); } catch (e) {}
+  const arch = mem.thematicArchetypes?.[presetArg] || mem.thematicArchetypes?.[key];
+  const landmarkPrefab = arch?.props?.tier3_macro?.[0] || (conf.category === 'colossal' ? 'ancient_tree' : 'book_stack');
+  const paletteKey = BIOME_PALETTES[presetArg] ? presetArg : (conf.category === 'colossal' ? 'forest' : 'urban');
+
+  activeRecipe = {
+    id: key,
+    name: displayName,
+    version: 1,
+    seed: 1337,
+    scale: conf.category === 'colossal' ? 'colossal' : (conf.category === 'urban' ? 'urban' : 'anomalous'),
+    bounds: { half: conf.bounds.P, wallH: conf.bounds.PH },
+    palette: paletteKey,
+    paper: { tint: '#f6f3e7', rules: true, lineSpacing: 50 },
+    ground: { ink: conf.primaryInkVar || 'BL' },
+    sectors: [
+      { id: 'alpha', shape: 'disc', c: [-20, -20], rIn: 8, rOut: 14, reward: { pickup: true } },
+      { id: 'beta', shape: 'disc', c: [20, 20], rIn: 8, rOut: 14, reward: { pickup: true } }
+    ],
+    landmarks: [
+      { prefab: landmarkPrefab, at: [0, 0, 0], opts: {}, role: 'hub', beacon: true }
+    ],
+    spawns: { cardinal: 4, offset: 5 },
+    pickups: [
+      { at: [0, 0.4, 0], tier: 'legendary' }
+    ]
+  };
+  fs.writeFileSync(recipeFilePath, JSON.stringify(activeRecipe, null, 2), 'utf8');
+  console.log(`📜 Declarative Recipe compiled: recipes/${key}.json (100% data-driven, zero box walls)`);
+}
+
 // 3. Generate Level Code
-const levelCode = `import * as THREE from 'three';
+let levelCode = '';
+if (activeRecipe) {
+  levelCode = `import { buildMapFromRecipe } from '../map-recipe.js';
+
+/**
+ * Map: ${displayName} (${key})
+ * Pure Declarative Recipe Implementation (Dream Master Architecture)
+ * 100% Data-Driven, Biome-Adaptive, and Standard-Compliant.
+ */
+export const RECIPE = ${JSON.stringify(activeRecipe, null, 2)};
+
+export function build${pascalName}(B, arena = false) {
+  const result = buildMapFromRecipe(B, RECIPE, arena);
+  B.finish();
+  return result.L;
+}
+`;
+} else {
+  levelCode = `import * as THREE from 'three';
 import { INK } from '../render.js';
 
 /**
@@ -235,7 +298,6 @@ export function build${pascalName}(B, arena = false) {
   pickup(14, 0.2, -6);
 
   // 3. Narrative Sector Topology & Central Feature
-  // Centerpiece Crossing: Elevated combat terrace with perimeter circulation and dual access
   const centerW = 20, centerD = 20, centerH = ${conf.tier2Y};
   slab(-centerW / 2, -centerD / 2, centerW / 2, centerD / 2, centerH, 0.45, { ink: ${accentInk} });
   rail(-centerW / 2, -centerD / 2, centerW / 2, -centerD / 2, centerH, { ink: ${secondaryInk} });
@@ -255,22 +317,18 @@ export function build${pascalName}(B, arena = false) {
   stairs(0, 0, ${centerNorthZ}, '-z', ${centerStepCount}, 3.2, { rise: ${centerRise}, run: ${conf.recRun}, ink: ${accentInk} });
 
   // 4. Tactical Quadrant Platforms & Flanking Lanes
-  // NW Quadrant: Elevated Base Platform
   slab(-38, -38, -20, -20, ${conf.tier2Y * 0.8}, 0.4, { ink: ${primaryInk} });
   stairs(${nwStairX}, 0, -29, '-x', ${quadStepCount}, 2.8, { rise: ${quadRise}, run: ${conf.recRun}, ink: ${accentInk} });
   box(-29, ${conf.tier2Y * 0.8}, -23, 2.0, 1.1, 2.0, { ink: ${secondaryInk}, tag: 'cover' });
 
-  // NE Quadrant: Sniper Lookout Bastion
   slab(20, -38, 38, -20, ${conf.tier3Y * 0.85}, 0.4, { ink: ${primaryInk} });
   stairs(${neStairX}, 0, -29, '+x', ${sniperStepCount}, 2.8, { rise: ${sniperRise}, run: ${conf.recRun}, ink: ${accentInk} });
   box(29, ${conf.tier3Y * 0.85}, -23, 2.2, 1.1, 2.2, { ink: ${secondaryInk}, tag: 'cover' });
 
-  // SW Quadrant: CQB Crucible Defilade
   slab(-38, 20, -20, 38, ${conf.tier2Y * 0.8}, 0.4, { ink: ${primaryInk} });
   stairs(${swStairX}, 0, 29, '-x', ${quadStepCount}, 2.8, { rise: ${quadRise}, run: ${conf.recRun}, ink: ${accentInk} });
   box(-29, ${conf.tier2Y * 0.8}, 23, 2.0, 1.1, 2.0, { ink: ${secondaryInk}, tag: 'cover' });
 
-  // SE Quadrant: Flank Anchor Platform
   slab(20, 20, 38, 38, ${conf.tier2Y * 0.8}, 0.4, { ink: ${primaryInk} });
   stairs(${seStairX}, 0, 29, '+x', ${quadStepCount}, 2.8, { rise: ${quadRise}, run: ${conf.recRun}, ink: ${accentInk} });
   box(29, ${conf.tier2Y * 0.8}, 23, 2.0, 1.1, 2.0, { ink: ${secondaryInk}, tag: 'cover' });
@@ -290,6 +348,7 @@ export function build${pascalName}(B, arena = false) {
   return L;
 }
 `;
+}
 
 const levelFilePath = path.join(ROOT_DIR, 'src', 'levels', `${key}.js`);
 if (!fs.existsSync(levelFilePath)) {
@@ -297,7 +356,12 @@ if (!fs.existsSync(levelFilePath)) {
   fs.writeFileSync(levelFilePath, levelCode, 'utf8');
   console.log(`✅ Scaffolded level module: src/levels/${key}.js`);
 } else {
-  console.log(`⚠️ Level file already exists, skipping scaffold creation.`);
+  if (isRecipeMode && activeRecipe) {
+    fs.writeFileSync(levelFilePath, levelCode, 'utf8');
+    console.log(`🔄 Updated level module with declarative recipe: src/levels/${key}.js`);
+  } else {
+    console.log(`⚠️ Level file already exists, skipping scaffold creation.`);
+  }
 }
 
 // 4. Register in src/level.js

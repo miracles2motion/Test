@@ -1,0 +1,323 @@
+=====================================================================
+FILE 01 — AUDIT FINDINGS & BUGS (READ THIS FIRST)
+Doodle Strike — "The Colossal Canopy" code review
+=====================================================================
+
+Your dossier asks "what flaws still remain?" — this file answers it
+with 14 concrete findings from a line-by-line read of the code you
+sent. Each one has: WHERE, WHAT, WHY IT MATTERS, and THE FIX.
+
+Severity scale:
+  [CRITICAL] breaks gameplay or will break Dream
+  [HIGH]     visible flaw players will notice
+  [MEDIUM]   quality/consistency issue
+  [LOW]      hygiene, cheap to fix
+
+---------------------------------------------------------------------
+FINDING 1 — West Trail copy-paste landmine
+---------------------------------------------------------------------
+WHERE: forest_level_code.js, "West Trail" loop
+WHAT:
+    const [x1, z1] = nTrailNodes[i] ? wTrailNodes[i] : [0, 0], ...
+It references nTrailNodes (the NORTH trail) inside the WEST trail
+loop. It only works today because both arrays happen to have 6
+entries. Change the north trail's length and the west trail starts
+warping to [0,0].
+SEVERITY: [MEDIUM] (latent bug, zero cost to fix)
+FIX: it should simply be:
+    const [x1, z1] = wTrailNodes[i], [x2, z2] = wTrailNodes[i + 1];
+
+---------------------------------------------------------------------
+FINDING 2 — Rope bridges: the floor is invisible, the planks are a lie
+---------------------------------------------------------------------
+WHERE: prefabs_code.js, buildSuspendedRopeBridge()
+WHAT: You place ONE flat collider hull at the bridge midpoint:
+    collider(midX, y - maxSag*0.4, midZ, ...)   // top surface ~ y + 0.03
+But the visual planks follow a sine sag:
+    py = y - sin(t*PI) * maxSag                  // midspan: y - 0.42
+So at midspan the plank TOP is at y - 0.31 while the player's feet
+ride the collider at y + 0.03 — the player floats ~0.35m ABOVE the
+visible planks exactly at the deepest sag point, and planks visually
+"tunnel" underfoot. On a 21m bridge this is impossible not to notice.
+SEVERITY: [CRITICAL] (visible every crossing, on all 4 skybridges)
+FIX (either):
+  a) Segmented colliders that follow the same sine:
+       const segCount = Math.max(4, Math.round(len / 3));
+       for (let s = 0; s < segCount; s++) {
+         const tA = s / segCount, tB = (s + 1) / segCount;
+         const tm = (tA + tB) / 2;
+         const ym = y - Math.sin(tm * Math.PI) * maxSag;
+         const sx = x1 + dx * tm, sz = z1 + dz * tm;
+         const segLen = (len / segCount) + 0.15; // small overlap, no gaps
+         collider(sx, ym - 0.1, sz,
+           Math.abs(dirX) > 0.5 ? segLen : width, 0.3,
+           Math.abs(dirX) > 0.5 ? width : segLen);
+       }
+     (delete the single flat hull)
+  b) Or keep the flat hull and reduce maxSag to <= 0.12 so the
+     mismatch is under ~10cm. Option (a) is better — keep the drama.
+
+---------------------------------------------------------------------
+FINDING 3 — buildTerracedRidge ignores its own `dir` option
+---------------------------------------------------------------------
+WHERE: prefabs_code.js, buildTerracedRidge()
+WHAT: The function only ever does `currZ += tierRun` — it builds in
+the +z direction no matter what. You call it 4 times with
+dir '-z', '+z', '-x', '+x'. Result:
+  - North ridge (z=-33, '+z' by luck): works — climbs toward center.
+  - South ridge (z=+33): climbs AWAY from center toward the wall.
+  - West/East ridges (x=±31): climb NORTHWARD (sideways!), not
+    toward the center.
+So 3 of 4 ground-to-deck ascents do not connect anything.
+SEVERITY: [CRITICAL] (level flow is broken on 3 of 4 flanks)
+FIX — resolve a direction unit vector from `dir`:
+    const dirs = {
+      '+z': [0, 1], '-z': [0, -1], '+x': [1, 0], '-x': [-1, 0]
+    };
+    const [ddx, ddz] = dirs[o.dir ?? '+z'];
+    let currX = x, currZ = z;
+    for (let t = 0; t < steps; t++) {
+      currY += tierRise;
+      currX += ddx * tierRun;
+      currZ += ddz * tierRun;
+      // slab from (currX, currZ) back one run along the direction:
+      slab(
+        Math.min(currX - ddx * tierRun, currX + (ddz !== 0 ? width/2 : 0)),
+        ... // simplest robust form:
+      );
+    }
+Cleaner concrete version — center each shelf at the advanced point
+and size it across the walk axis:
+    for (let t = 0; t < steps; t++) {
+      currY += tierRise;
+      currX += ddx * tierRun;
+      currZ += ddz * tierRun;
+      const cx0 = currX - ddx * tierRun * 0.5;
+      const cz0 = currZ - ddz * tierRun * 0.5;
+      const x1 = cx0 - (ddx !== 0 ? tierRun * 0.5 : width / 2);
+      const x2 = cx0 + (ddx !== 0 ? tierRun * 0.5 : width / 2);
+      const z1 = cz0 - (ddz !== 0 ? tierRun * 0.5 : width / 2);
+      const z2 = cz0 + (ddz !== 0 ? tierRun * 0.5 : width / 2);
+      slab(x1, z1, x2, z2, currY, 0.4, { ink: inkGrass });
+      // rocks + wedge as before, but offset along (ddx, ddz)
+    }
+Also swap the wedge `dir` to match the ridge direction.
+
+---------------------------------------------------------------------
+FINDING 4 — The north terraced ridge punches THROUGH the north
+skybridge at the same height
+---------------------------------------------------------------------
+WHERE: forest_level_code.js sector 9 + result of Finding 3
+WHAT: The north bridge deck runs z in [-32,-26] and the bridge spans
+z in [-26,-5], both at Y = 9.5. The north ridge's top tiers land at
+Y = 9.5 around z in [-19,-15.5] — exactly where the bridge passes.
+Two solid surfaces at the same height = mid-bridge bump/wall and
+z-fighting (same ink so it flickers on edges).
+SEVERITY: [HIGH]
+FIX: after fixing dir, make ridges end 0.3m BELOW deck height and
+place them offset from the bridge axis (or make the ridge the last
+step UP to the bridge, which is nicer):
+    totalHeight: 9.5 - 0.3, and shift the ridge 3m off the
+    bridge centerline so they meet side-by-side, not overlapped.
+
+---------------------------------------------------------------------
+FINDING 5 — Treehouse stairs violate your own stair spec
+---------------------------------------------------------------------
+WHERE: prefabs_code.js, buildTreehouse() step loop
+WHAT: Your concept spec (section 10.1) mandates step rise 0.28m, max
+0.35m. The code does:
+    const sy = y + s * 0.45;    // rise = 0.45m — above your own max!
+...and the top step tops out at y + 8.69 while the deck surface is
+at ~9.5–9.72 — a final jump of ~0.8–1.0m. That is a mantle, not a
+step. If the game's step-up limit is < 0.45m, the "20-step spiral"
+may not be walkable at all, and bots' nav will refuse it.
+SEVERITY: [CRITICAL] (this is the hero centerpiece ascent)
+FIX:
+    const stepCount = 26;                    // was 20
+    const rise = (deckY - y) / stepCount;    // 9.5/26 = 0.365 — hmm
+    // Better: keep rise 0.28 exactly and start the stair lower or
+    // add a landing:
+    const stepCount = Math.round((deckY - y) / 0.28);  // 34 steps
+    const sweep = Math.PI * 2.2;             // a bit more than 1 turn
+    for (let s = 0; s < stepCount; s++) {
+      const angle = -Math.PI * 0.4 + (s / stepCount) * sweep;
+      const stepY = y + (s + 1) * 0.28;
+      // place box as before at trunkR + 0.7
+    }
+    // Ensure the FINAL step top is exactly deckY so there is no
+    // last jump: stepY of last step should equal deckY.
+Also update the hatch angular window to cover the new arrival angle
+(steps end at -0.4π + 2.2π = 1.8π → set hatch ~1.6π–2.0π).
+Then re-run your own invariant: rise <= 0.35 (File 09 automates this).
+
+---------------------------------------------------------------------
+FINDING 6 — buildAncientTree "stairs" are 0.8m mantle blocks
+---------------------------------------------------------------------
+WHERE: prefabs_code.js, buildAncientTree() step loop
+WHAT: stepY = y + (i + 1) * 0.8 — eight steps each rising 0.8m.
+Nobody walks those; they are mantle ledges. Either rename them
+(tag: 'mantle') or re-space:
+    const stepCount = Math.round(6.5 / 0.3);  // ~22 steps at 0.3m
+SEVERITY: [MEDIUM] (it contradicts the "no urban stairs, natural
+ascension" rule in a confusing way — 0.8m boxes ARE stair-blocks)
+
+---------------------------------------------------------------------
+FINDING 7 — The east trail runs through the river, under the bridge
+---------------------------------------------------------------------
+WHERE: forest_level_code.js, eTrailNodes
+WHAT: East trail nodes go [30,-14] -> [20,-16] -> [12,-8], painting a
+beaten-earth decal at Y = 0.01 straight across the river channel
+(water at Y = 0.04, x 15.2–26.8). The trail decal runs UNDER the
+water surface and UNDER the arched footbridge (which sits at
+z -18..-14, deck ~0.85m up). So: dirt stripe visible through the
+water, ignoring the bridge it was supposed to lead to.
+SEVERITY: [HIGH]
+FIX: route the trail OVER the bridge and clip it at the banks:
+    const eTrailNodes = [
+      [50, 0], [42, -2], [34, -10], [29, -15],   // approach east bank
+      // bridge span: no ground decal here (bridge IS the path)
+      [13, -16], [8, -8], [7, 0]                 // resume west bank
+    ];
+Then build two trail stubs (west of 14.5 and east of 27.5) and skip
+the segment crossing x 15–27. Simplest robust rule: after computing
+each segment, drop it if it intersects the river x-band while its
+y is ground level. In Dream this becomes a general rule: "decal
+paths yield to water" (File 08).
+
+---------------------------------------------------------------------
+FINDING 8 — The campfire PointLight does absolutely nothing
+---------------------------------------------------------------------
+WHERE: prefabs_code.js, buildCampfire()
+WHAT: You add a THREE.PointLight(0xff7722, 1.8, 18). But every
+surface in the game uses your custom ink ShaderMaterial, which only
+reads uLightDir — raw ShaderMaterials ignore scene lights entirely.
+The light costs scene-graph overhead and renders nothing. Worse, the
+concept doc promises "glowing red embers" — currently the ember
+spheres are just static orange ink.
+SEVERITY: [HIGH] (broken promise + wasted work) — and it's a
+ gorgeous opportunity, see File 06: pass fire positions into the
+ post shader as uniforms and do a warm paper-glow + ink-color shift
+ radially around each fire. That is a REAL light in your pipeline.
+FIX (immediate): delete the PointLight. FIX (proper): File 06.
+
+---------------------------------------------------------------------
+FINDING 9 — Math.random() determinism leak
+---------------------------------------------------------------------
+WHERE: prefabs_code.js, buildGiantGrass():
+    const height = o.height ?? (5.5 + Math.random() * 2.5);
+Everything else in the library carefully uses createRNG(seed). This
+one call breaks reproducibility the moment anyone omits height —
+and Dream REQUIRES byte-identical rebuilds from a seed (File 07).
+SEVERITY: [MEDIUM today, CRITICAL for Dream]
+FIX:
+    const rng = createRNG(o.seed ?? 9001); const next = rng.next;
+    const height = o.height ?? (5.5 + next() * 2.5);
+Audit the whole library for Math.random with:
+    grep -n "Math.random" src/prefabs.js src/anatomy-grammar.js src/levels/*.js
+Target: zero matches outside prng.js.
+
+---------------------------------------------------------------------
+FINDING 10 — The legacy flat bridge is still registered for Dream
+---------------------------------------------------------------------
+WHERE: prefabs_code.js, buildSuspensionBridge() + PREFAB_REGISTRY
+WHAT: You have TWO bridges: the new catenary buildSuspendedRopeBridge
+(great) and the old buildSuspensionBridge — a flat slab with rails
+(the "rigid skybridge" your own results.md boasts about replacing).
+The registry entry 'suspension_bridge' still points at the OLD one
+with tags ['forest','maritime','bridge','walkway']. When Dream
+queries "forest + bridge" it can happily pick the inferior flat one
+and regress the map.
+SEVERITY: [HIGH for Dream]
+FIX: delete the old builder (or keep as deprecated alias):
+    PREFAB_REGISTRY.suspension_bridge = {
+      ..., builder: buildSuspendedRopeBridge,   // alias to the good one
+      deprecated: 'use suspended_rope_bridge'
+    };
+And add a registry lint (File 09): every registry entry must map to
+the current best-in-class builder.
+
+---------------------------------------------------------------------
+FINDING 11 — annularDeck uses axis-aligned rectangles for arc slices
+---------------------------------------------------------------------
+WHERE: spline_engine.js, annularDeck()
+WHAT: Each of the 16 deck slices is placed as an axis-aligned
+rectangle sized from chord/depth — the rectangle corners poke past
+the true arc, so the deck rim is subtly notched/wavy instead of a
+clean circle, and adjacent slices overlap each other (same ink, so
+you mostly see the notches at the outer rail line).
+SEVERITY: [MEDIUM] (hero centerpiece — worth the upgrade)
+FIX: emit one radial-trapezoid geometry per slice via B.addGeo:
+    const g = new THREE.BufferGeometry();
+    const v = [];
+    const push = (r, a) => v.push(
+      cx + Math.cos(a) * r, y, cz + Math.sin(a) * r);
+    push(rInner, a1); push(rOuter, a1); push(rOuter, a2);
+    push(rInner, a1); push(rOuter, a2); push(rInner, a2);
+    g.setAttribute('position', new THREE.Float32BufferAttribute(v, 3));
+    g.computeVertexNormals();
+    addGeo(g, ink);
+    // keep ONE box collider under the slice center (already fine)
+This gives a perfectly circular rim and makes the hatch edge crisp.
+
+---------------------------------------------------------------------
+FINDING 12 — Riverbank boxes form a dashed line
+---------------------------------------------------------------------
+WHERE: forest_level_code.js, riverbank loop
+WHAT: Banks are 6.5m-long boxes placed every 8m → 1.5m gaps. From
+combat height it reads as a dotted line of pillows rather than a
+continuous granite bank.
+SEVERITY: [LOW]
+FIX: step 8 -> 6 (overlap 0.5m), or lengthen boxes to 8.5. Two lines
+changed. Optionally jitter each box ±0.4m in x for a hand-drawn rim.
+
+---------------------------------------------------------------------
+FINDING 13 — Ember particles: 6 materials + 6 draw calls for 6 cubes
+---------------------------------------------------------------------
+WHERE: forest_level_code.js, ember animation block
+WHAT: Each ember calls makeInkMaterial() separately (6 ShaderMaterial
+instances, 6 meshes). They can share ONE material (all are ORANGE
+ink) and, better, one merged/instanced mesh.
+SEVERITY: [LOW]
+FIX:
+    const emberMat = makeInkMaterial({ ink: OR }); // share
+    ... new THREE.Mesh(eg, emberMat) ...
+(Your G-buffer reads ink from the material uniform — sharing one
+material across meshes is safe and cuts state changes.)
+
+---------------------------------------------------------------------
+FINDING 14 — Duplicate pickup at the treehouse
+---------------------------------------------------------------------
+WHERE: forest_level_code.js, pickups
+WHAT: pickup(0, 10.0, 0) is described as "inside central cabin", but
+the cabin is at (0, ~10.4, +2.4) and buildTreehouse ALREADY drops its
+own cabin pickup at (0, deckY+0.85, 2.4). The L.pickup call lands on
+the open deck 2.4m away — two pickups within arm's reach.
+SEVERITY: [LOW]
+FIX: delete pickup(0,10,0) or move it somewhere starved of pickups
+(e.g., the north bastion deck at (0, 10, -29)).
+
+---------------------------------------------------------------------
+BONUS OBSERVATIONS (not bugs, but verify)
+---------------------------------------------------------------------
+- Conifer "ragged skyline": your loops place trees every exactly
+  12m with ±2m jitter — regular enough to feel stamped. File 02 has
+  the two-row staggered + clustered replacement.
+- Spawns at ±47 vs conifer line at ±50: check sniper sightlines from
+  opposite spawns down the N-S trail (94m of open lane). File 11.
+- Concept promises bamboo overhead lanterns at Y=9 — not built.
+  Easy win, File 02 includes it (they double as grapple anchors).
+
+---------------------------------------------------------------------
+ORDER OF OPERATIONS
+---------------------------------------------------------------------
+1. Fix Findings 3 + 4 (terraced ridge) — biggest flow win.
+2. Fix Finding 5 (treehouse stairs) — hero ascent must be walkable.
+3. Fix Finding 2 (bridge colliders) — most visible artifact.
+4. Fix 1, 7, 8, 10 — quick surgical wins.
+5. Fix 5, 6, 9, 11-14 in one cleanup pass.
+6. Then extend verify-integrity.js so these NEVER come back (File 09).
+
+After the fixes, re-run your two verification scripts. The scorecard
+should stay 12/12 — this time it will be true in the places the
+scripts currently can't see.
+=====================================================================

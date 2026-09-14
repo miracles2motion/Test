@@ -319,39 +319,65 @@ export function buildTerracedRidge(B, arg1, arg2, arg3, arg4, arg5) {
   const inkRock = o.inkRock ?? (INK.BLACK ?? 2);
   const inkGrass = o.inkGrass ?? (INK.GREEN ?? 4);
 
+  const dirMap = {
+    '+z': [0, 1],
+    '-z': [0, -1],
+    '+x': [1, 0],
+    '-x': [-1, 0]
+  };
+  const rawDir = String(o.dir || '+z').toLowerCase();
+  const dirKey = dirMap[rawDir] ? rawDir : '+z';
+  const [ddx, ddz] = dirMap[dirKey];
+
   let currY = 0;
+  let currX = x;
   let currZ = z;
 
   for (let t = 0; t < steps; t++) {
     currY += tierRise;
-    currZ += tierRun;
+    currX += ddx * tierRun;
+    currZ += ddz * tierRun;
+
+    const cx0 = currX - ddx * tierRun * 0.5;
+    const cz0 = currZ - ddz * tierRun * 0.5;
+    const halfX = ddx !== 0 ? tierRun * 0.5 : width / 2;
+    const halfZ = ddz !== 0 ? tierRun * 0.5 : width / 2;
 
     // Broad walkable earthen/rock shelf
     slab(
-      x - width / 2,
-      currZ - tierRun,
-      x + width / 2,
-      currZ,
+      cx0 - halfX,
+      cz0 - halfZ,
+      cx0 + halfX,
+      cz0 + halfZ,
       currY,
       0.4,
       { ink: inkGrass }
     );
 
     // Natural faceted rock boulders lining the terrace perimeter (crouch cover)
-    facetedRock(x - width * 0.4, currY, currZ - tierRun * 0.5, 1.4, 1.0, 1.4, {
+    const perpX = -ddz * (width * 0.4);
+    const perpZ = ddx * (width * 0.4);
+    facetedRock(cx0 + perpX, currY, cz0 + perpZ, 1.4, 1.0, 1.4, {
       ink: inkRock,
       cover: 'waist'
     });
-    facetedRock(x + width * 0.4, currY, currZ - tierRun * 0.5, 1.4, 1.0, 1.4, {
+    facetedRock(cx0 - perpX, currY, cz0 - perpZ, 1.4, 1.0, 1.4, {
       ink: inkRock,
       cover: 'waist'
     });
 
-    // Sloped transition wedge along the edge for smooth mantling
-    wedge(x, currY - tierRise, currZ - tierRun, width * 0.8, tierRise, 0.6, {
-      dir: '+z',
-      ink: inkRock
-    });
+    // Sloped transition wedge along the step edge for smooth mantling
+    const wedgeX = currX - ddx * tierRun;
+    const wedgeZ = currZ - ddz * tierRun;
+    wedge(wedgeX, currY - tierRise, wedgeZ,
+      ddx !== 0 ? 0.6 : width * 0.8,
+      tierRise,
+      ddz !== 0 ? 0.6 : width * 0.8,
+      {
+        dir: dirKey,
+        ink: inkRock
+      }
+    );
   }
 
   return {

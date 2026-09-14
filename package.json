@@ -17,6 +17,7 @@
     "help": "node help.js",
     "verify:integrity": "node .agents/skills/doodle-strike-architect/scripts/verify-integrity.js",
     "audit:map": "node .agents/skills/universal-detailing-standard/scripts/verify-detailing.js",
+    "audit:dream": "node src/verify-suite.js",
     "audit:concept": "node audit-concept.js",
     "graduate": "node graduate-map.js",
     "map:scaffold": "node src/map-scaffold.js",

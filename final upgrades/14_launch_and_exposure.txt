@@ -1,0 +1,106 @@
+=====================================================================
+FILE 14 — LAUNCH & EXPOSURE
+The "people are cooking nice things with three.js" part — how to
+get YOURS in the feed.
+=====================================================================
+
+THE TRUTH ABOUT THOSE VIRAL THREE.JS CLIPS
+------------------------------------------
+Nobody goes viral from code quality. They go viral from ONE
+legible moment, 8-20 seconds, that a stranger understands with the
+sound OFF. Inventory yours (you are rich):
+  - The gust wave rolling through bamboo (File 05)
+  - The grapple swing from treehouse apex, full-arena glide
+  - The trout leaping as you cross the stepping stones
+  - A firefight where the page fills with ink splats
+  - The paper world pulling back to reveal notebook margins
+Pick ONE. Ship the clip before the feature list.
+
+THE CLIP FORMAT (steal it — it works)
+-------------------------------------
+  9:16 AND 16:9 versions, 10-15s:
+  0-2s: the money shot IMMEDIATELY (no logos, no menus)
+  2-10s: two more beats, cut on motion
+  last 1s: title written in your handwriting style + "Wishlist/
+  Play: [link]" penciled in the margin
+  Always: capture at 'ultra' quality, 60fps, real cursor OFF,
+  DevTools closed. Your takeScreenshot pipeline + a browser
+  screen recorder is enough; OBS for free if you need more.
+
+WHERE TO POST (in order of return on effort)
+--------------------------------------------
+  1. X/Twitter + Bluesky: #screenshotsaturday, #indiedev,
+     #threejs tags; post the SAME clip natively (no YouTube links
+     in the post itself)
+  2. r/threejs + r/proceduralgeneration + r/IndieDev + r/WebGames:
+     title formula that works: "[WIP] hand-drawn arena shooter,
+     everything procedural — the bamboo actually sways" (specific,
+     honest, one hook). Reply to every comment; Reddit rewards
+     authors who show up for 2 hours after posting.
+  3. itch.io: publish EARLY as "browser prototype, free". An
+     itch page with your zip/HTML5 build + 4 screenshots + the
+     clip = a real link you can put everywhere. (HTML5 build:
+     zip index.html — itch hosts it in an iframe; test once.)
+  4. three.js showcase + r/threejs "built with three" threads +
+     the three.js Discord/forum (discourse.threejs.org) —
+     technical audience; post the TECH angle: your G-buffer ink
+     shader breakdown is genuinely interesting to them.
+  5. Hacker News "Show HN" when the shader post is written
+     (technical depth carries HN; gameplay alone does not)
+  6. TikTok/YouTube Shorts: same clip, pencil-scratch ASMR audio
+     on top — the sound identity (File 12) doubles as retention.
+  7. Portal submissions once polished: CrazyGames, Poki, Yandex
+     Games (they license browser games; real traffic, real
+     feedback — apply when the onboarding exists, File 13).
+
+CADENCE (the compounding part)
+------------------------------
+  - 1 clip or screenshot set per week, same handles, same name.
+    Account for: 60% gameplay moments, 25% tech breakdowns
+    (shader gifs, before/after of File 01 fixes), 15% process
+    (timelapse of a map being drawn by Dream — File 16's gold).
+  - Tech breakdowns are your cheat code: a short post titled
+    "Rendering a shooter on ruled notebook paper" with your
+    inverse-depth edge trick + hatch LOD will travel FAR on
+    dev Twitter/HN — and devs are the audience that amplifies
+    games to everyone else.
+
+GAME JAMS ARE LAUNCHPADS (not detours)
+--------------------------------------
+  js13kGames (September, 13kB limit — your procedural grammar is
+  MADE for this: recipes not assets), Ludum Dare (48h, ratings =
+  real feedback), GMTK jam (huge visibility). A jam build of
+  Doodle Strike with ONE map and the grapple alone would place
+  well on style. Rule: jam scope = 1 map, 1 weapon, 1 enemy type.
+
+THE PAGE THAT CONVERTS (whether itch or your own site)
+------------------------------------------------------
+  - Above the fold: clip autoplay muted + PLAY NOW (no account)
+  - 4 screenshots max, captions that name a feeling not a feature
+  - One paragraph story: "a doodle warrior on an ancient page"
+  - Controls table + "runs on a potato" line (quality presets)
+  - Feedback link FIRST-CLASS (you want the comments)
+  - A devlog section: Dream generating map #2 is devlog gold
+    (File 16 again — the factory building the worlds IS the
+    marketing story. Procedural engines that SHOW their process
+    always out-perform silent ones.)
+
+MEASUREMENT (so effort goes where it returns)
+---------------------------------------------
+  - itch analytics + a tiny privacy-friendly counter (umami/
+    plausible self-host or free tier) on your own domain
+  - Track: plays, median session time, % finishing wave 3
+  - The one metric that matters at this stage: % of players who
+    REACH the treehouse deck (your hero moment). If it's < 40%,
+    File 13's onboarding needs work before any more marketing.
+
+DON'TS
+------
+  - Don't launch on Steam/Early Access or charge before: 3 maps,
+    onboarding, settings, and 100 organic players' worth of
+    feedback. Free browser first; the world will tell you.
+  - Don't buy ads yet. Don't argue with trolls. Don't post and
+    vanish — every post, 2 hours of replies.
+  - Don't wait for "finished". The plan in these files IS the
+    devlog content; building in public is the marketing.
+=====================================================================

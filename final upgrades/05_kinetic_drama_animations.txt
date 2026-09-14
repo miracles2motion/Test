@@ -1,0 +1,169 @@
+=====================================================================
+FILE 05 — KINETIC DRAMA: PROCEDURAL LIFE WITHOUT PERFORMANCE COST
+Answers Dossier Question 4: "What other subtle procedural animations
+(bring the arena to life) without hurting performance?"
+=====================================================================
+
+THE HEADLINE DISCOVERY — YOUR SHADER HAS A FREE WIND ENGINE
+-----------------------------------------------------------
+Look at inkVert in render_pipeline.js:
+
+    uniform float uTime;   // <-- declared, passed via shared.uTime,
+    ...                    //     but NEVER used to move anything
+
+Every mesh in the world already receives uTime every frame and you
+never spend it. That means you can add VERTEX WIND SWAY to the whole
+forest for ZERO extra draw calls, ZERO CPU cost, ZERO allocations —
+the GPU is already running this shader.
+
+---------------------------------------------------------------------
+UPGRADE 1 — THE WIND MACRO (do this first)
+---------------------------------------------------------------------
+In makeInkMaterial, add one option:
+
+    const m = new THREE.ShaderMaterial({ ...
+      uniforms: { ..., uSway: { value: opts.sway ?? 0.0 }, ... },
+    });
+
+In inkVert, after `vec3 transformed = position;` add:
+
+    #ifdef USE_INSTANCING
+      ... (existing instance code) ...
+    #endif
+    // biro wind: gentle sway, stronger higher up, phase varies by
+    // world position so no two plants ever move in sync
+    if (uSway > 0.0) {
+      vec3 wp = (modelMatrix * vec4(transformed, 1.0)).xyz;
+      float ph = wp.x * 0.35 + wp.z * 0.27;
+      float hFac = smoothstep(0.0, 7.0, transformed.y);
+      transformed.x += sin(uTime * 1.3 + ph) * 0.09 * uSway * hFac;
+      transformed.z += cos(uTime * 1.1 + ph * 1.3) * 0.06 * uSway * hFac;
+    }
+
+(Builders pass { sway: 1.0 } on FOLIAGE materials only — trunks and
+buildings stay rigid, which is physically right and visually stable.)
+
+Wind budget by category (uSway value):
+  bamboo leaf fans & tufts ....... 1.4
+  giant grass fronds ............. 1.8
+  fern clusters .................. 1.2
+  hanging moss strands ........... 1.6
+  lantern hangers ................ 0.8
+  pine/conifer skirts ............ 0.35  (subtle or they pulse)
+  canopies (leaf spheres) ........ 0.25
+  trails, rocks, structures ...... 0     (never)
+Never sway colliders' visual shells beyond ~10cm — hatching is
+world-anchored so lines stay put while silhouettes breathe: that
+contrast is exactly the hand-drawn-on-a-breeze look.
+
+UPGRADE 2 — GUST WAVES (the flagship effect)
+--------------------------------------------
+Add shared.uWind = { value: 1.0 } and multiply uSway displacement
+by it. Then animate ONCE per frame (in your game loop, 1 line):
+
+    shared.uWind.value =
+      1.0 + 1.6 * Math.max(0, Math.sin(t * 0.13) - 0.82) * 5.5;
+
+Every ~48s a gust rolls across the whole forest: culms lean, fronds
+lift, lanterns swing, it fades. Players will screenshot it. Cost:
+one sin() per frame on CPU + existing shader math.
+
+---------------------------------------------------------------------
+CPU ANIMATIONS — THE L.animated BUDGET
+---------------------------------------------------------------------
+Your L.animated pattern (fish, embers) is the right tool for ACTORS.
+Rules to keep it cheap:
+  - Budget: <= 60 animated entries total, <= 120 meshes moved.
+  - NEVER allocate inside update(): no `new THREE.Vector3()` per
+    frame (your fish/ember updates already do this correctly —
+    keep the discipline).
+  - Toggle .visible instead of fading (no alpha in the ink
+    pipeline anyway — the fish already does this: correct).
+  - Early-out by distance: skip the math when the player is far:
+
+      update: (t, playerPos) => {
+        if (this._far(playerPos)) return;   // squared-dist check
+        ...
+      }
+
+  - Quality gate: at quality 'low', drop tier-3 actors (birds,
+    butterflies, falling leaves) — check localStorage flag once.
+
+---------------------------------------------------------------------
+THE ACTOR SHOPPING LIST (in priority order)
+---------------------------------------------------------------------
+1. CAMPFIRE SMOKE (Sector 4 heart, highest dwell time)
+   3 puffs: small GRAY-BLUE ink cubes rising 2.2m over ~3.5s on a
+   cycle, x-wiggle = sin, scale grows 0.12→0.4, then .visible=false
+   and restart. Stagger phases. Reuse your ember update pattern.
+
+2. WATER RIPPLE RINGS (sells the whole river)
+   Thin BLUE flat rectangles (frame outline style) at the 2
+   stepping-stone crossings: scale 0.6→1.6 over 2.2s then hide.
+   THE DETAIL THAT WINS: sync one to the trout — your fish lands
+   when cycle >= PI; at that moment show a ring at (21, 0.05, 1.0).
+   One shared phase variable between the two updates. Free story.
+
+3. FIREFLIES (dusk magic around the glade)
+   6 tiny ORANGE cubes, wandering = 2 slow sines at different
+   frequencies per axis around the campfire (radius 2-4m, Y 0.5-2),
+   blink via scale pulse (visible heartbeat). 1 L.animated entry
+   drives all 6 (one group, per-child offsets — like your embers).
+
+4. FALLING LEAVES (under connector canopies from File 03)
+   8 GREEN mini-boxes: y loops 7→0 over ~6s with x = x0 +
+   sin(t)*0.8 drift and rotation.z spin. Placed in the 2 busiest
+   belts only. Toggle visible below ground.
+
+5. SECOND TROUT (south reach, z≈30, smaller arc, phase offset π*0.7)
+   You already wrote the hard part — this is 15 lines and makes the
+   river feel inhabited instead of featuring one stunt fish.
+
+6. SWAYING LANTERNS (bamboo lanterns from File 02)
+   Build each lantern geometry so its origin is at the POLE
+   attachment, then rotation.z = sin(t * 0.9 + phase) * 0.1.
+   6 lanterns, one group, one update entry.
+
+7. CANOPY BIRDS (sky life)
+   4 chevrons (2 thin BLACK boxes each, joined in a group) on a
+   wide slow circle (r 35-45m, Y 24-29, 60-90s per lap) with a
+   gentle bob. Visible against the paper fog — the sky currently
+   has zero motion and it's the first thing the eye scans.
+
+8. BUTTERFLIES x2 (near the campfire and the altar)
+   Two planes (0.22 x 0.18, ORANGE) flapping via scale.y =
+   |sin(t*9)| on a wandering path between toadstool clusters.
+   Tiny, local, charming.
+
+9. ROPE BRIDGE BREATHING (cheap version)
+   Your planks are individual meshes (they're in L.meshes). Do NOT
+   animate all 21 per bridge. Animate only the 3 CENTER planks of
+   each bridge: y += sin(t * 1.7 + i) * 0.035. Underfoot it reads
+   as the bridge yielding; CPU cost: 12 meshes per frame.
+
+10. BAMBOO FOUNTAIN EASTER EGG (you own the prefab!)
+    Your zen bamboo_fountain rocker: rotation.x fills slowly
+    (t%4.5 in [0,3.2] → tilt 0→0.5rad), dumps (0.3s → back), with
+    a WATER droplet box dropping into the stone bowl on the dump
+    beat. Place one at the bamboo altar. Pure charm, 1 entry.
+
+---------------------------------------------------------------------
+WHAT NOT TO ANIMATE (learned the hard way by everyone)
+---------------------------------------------------------------------
+- Do not animate world-anchored hatching frequency — crawl ruins
+  the illusion (you already solved this with pow2 LOD — protect it).
+- Do not animate colliders (visual sway != physics sway; the match
+  error reads as "hitboxes are lies").
+- Do not add per-frame material.uniforms writes for static props —
+  uSway lives in the shader, not in JS loops.
+- Do not animate more than ~2% of world meshes on CPU. 2% of this
+  map ≈ 100 meshes — your budget above.
+
+FINAL NUMBERS (aim)
+-------------------
+  Shader-swayed material instances:  ~10 (shared per category)
+  CPU actor entries:                 <= 60
+  Allocations per frame:             0 (scratch vectors at module scope)
+  Added draw calls:                  0 (sway) + ~30 (new actors, merged)
+  Target frame cost:                 < 0.4ms on mid GPU at 'high'
+=====================================================================

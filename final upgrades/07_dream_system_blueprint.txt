@@ -1,0 +1,305 @@
+=====================================================================
+FILE 07 — THE DREAM SYSTEM BLUEPRINT
+Answers Dossier Question 5: "What core mathematical patterns from
+this forest should be baked into Dream's automated scaffolder so any
+map (pirate cove, cyberpunk, desert canyon) automatically inherits
+this level of organic quality?"
+
+This is the file that makes ONE map become INFINITE maps.
+=====================================================================
+
+THE ONE-SENTENCE ARCHITECTURE
+-----------------------------
+  The map is DATA. The engine is an INTERPRETER. The forest is
+  your first compiled program — not your last.
+
+Everything you hand-placed in forest_level_code.js — sector centers,
+fields, trails, rivers, the treehouse, the skeleton, chains of
+grapples — is a RECIPE waiting to be written down. Dream's job is to
+read recipes and run the same placement grammar you just exercised
+by hand. Nothing in the engine may know the word "forest".
+
+THE FIVE LAYERS (build them in this order)
+-------------------------------------------
+  L1  Builder Contract      every prefab speaks the same language
+  L2  Map Recipe            the map as a JSON document
+  L3  The Scaffold          the interpreter that builds maps from L2
+  L4  Palettes & Presets    biome skins + scale knobs (pure data)
+  L5  The Orchestrator      generates + verifies + critiques recipes
+
+=====================================================================
+L1 — THE BUILDER CONTRACT (the grammar's alphabet)
+=====================================================================
+Every prefab — existing and future — must satisfy ONE signature:
+
+    build(B, x, y, z, options) -> metrics
+
+Contract rules (enforce with a lint, File 09):
+
+  1. SEEDED RANDOMNESS ONLY
+     const rng = createRNG(options.seed ?? hash(x, y, z));
+     Zero Math.random anywhere. Same seed + same options = byte-
+     identical output. This is what makes recipes reproducible and
+     verifiable (File 09 hashes geometry).
+
+  2. OPTIONS SCHEMA WITH DEFAULTS
+     Every tunable number is a named option with a default that
+     lives in the builder — never buried in a call site. The schema
+     is DECLARED so Dream can mutate it:
+       buildBambooPlantation.schema = {
+         count:  { type:'int', min:16, max:48, def:28 },
+         radius: { type:'num', min:6,  max:20, def:12 },
+         seed:   { type:'int', def:4421 },
+         inkCulm:{ type:'ink', def:'GREEN' }
+       };
+     Declare the schema object NEXT to each builder. It costs 5
+     minutes per prefab and it is what turns "a function Dream can
+     call" into "a knob Dream can turn".
+
+  3. NO HARDCODED INK
+     Every builder receives its palette entries through options
+     (with defaults). No builder may import INK directly for its
+     colors — the map recipe owns the palette (L4).
+
+  4. DECLARED FOOTPRINT + CLEARANCES
+     footprint: [w, h, d] (registry has this — good) plus:
+     clearZone: radius that must stay free of other colliders,
+     grappleHooks: [{dx, dy, dz, axis}] so the scaffold knows what
+     connectivity a prefab provides WITHOUT raycasting it later.
+
+  5. RETURN METRICS, TRUTHFULLY
+     Return what was actually built: { culmCount, height } etc.
+     The scaffold logs metrics and the verifier compares promises
+     vs reality (this is exactly the check that would have caught
+     buildTerracedRidge ignoring `dir` — promised 9.5m, built
+     somewhere else).
+
+AUDIT YOUR EXISTING LIBRARY AGAINST THIS (scorecard)
+  buildGiantGrass ......... fails rule 1 (Math.random) — File 01 F9
+  buildTerracedRidge ...... fails rule 5 (lies about direction)
+  buildSuspensionBridge ... deprecated alias (File 01 F10)
+  buildTreehouse .......... fails rule 2 (steps/hatch magic numbers)
+  Everything else ......... close; needs schema declarations.
+One afternoon of retrofit makes the whole library Dream-native.
+
+=====================================================================
+L2 — THE MAP RECIPE (the forest, written down)
+=====================================================================
+One JSON document completely describes a map. This is YOUR map,
+distilled — proof the format is expressive enough:
+
+{
+  "id": "colossal_canopy",
+  "version": 3,
+  "seed": 1337,
+
+  "scale": "colossal",              // L4 preset
+  "bounds": { "half": 55, "wallH": 20, "arenaHalf": 68, "arenaWallH": 30 },
+
+  "palette": "forest",              // L4: ink assignments + paper
+  "paper": { "tint": "#f6f3e7", "rules": true, "lineSpacing": 60 },
+
+  "ground": { "ink": "GREEN", "clearing": { "r": 7, "ink": "OR" } },
+
+  "water": {
+    "ribbon": { "axis": "z", "x": 21, "from": -48, "to": 48,
+                "width": 9.6, "sink": 0.04, "ink": "BLUE" },
+    "banks":  { "ink": "BLACK", "step": 6, "len": 7 },
+    "crossings": [
+      { "type": "stepping_stones", "z": 0 },
+      { "type": "arched_bridge",  "z": -16 },
+      { "type": "stepping_stones", "z": 24 }
+    ]
+  },
+
+  "sectors": [
+    { "id": "bamboo", "shape": "disc", "c": [-28,-26], "rIn": 9, "rOut": 15,
+      "core": { "prefab": "bamboo_plantation", "opts": { "count": 26, "seed": 42 } },
+      "props": [ { "prefab": "bamboo_lantern", "n": 6, "place": "inField", "minH": 9 } ],
+      "tint": { "ink": "OR", "rx": 10, "rz": 9 },
+      "reward": { "pickup": true } },
+
+    { "id": "pines", "shape": "disc", "c": [34,-26], "rIn": 8, "rOut": 13,
+      "props": [ { "prefab": "pine_tree", "n": 2, "place": "heart", "opts": { "h": [20,25] } },
+                 { "prefab": "hollow_stump", "n": 1 },
+                 { "prefab": "boulder_field", "n": 1, "opts": { "count": 5, "seed": 99 } } ] },
+
+    { "id": "skeleton", "shape": "capsule", "a": [-24,-4], "b": [-24,20],
+      "rIn": 4, "rOut": 7,
+      "core": { "prefab": "creature_skeleton", "opts": { "length": 24, "seed": 101 } },
+      "reward": { "pickup": true } },
+
+    { "id": "glade", "shape": "disc", "c": [23,27], "rIn": 8, "rOut": 12,
+      "props": [ { "prefab": "campfire", "n": 1, "place": "heart" },
+                 { "prefab": "wood_stack", "n": 2 },
+                 { "prefab": "logging_cart", "n": 1 },
+                 { "prefab": "trail_sign", "n": 1 } ],
+      "actors": [ "embers", "smoke", "fireflies" ] }
+  ],
+
+  "landmarks": [
+    { "prefab": "treehouse", "at": [0,0], "opts": { "height": 28, "deckY": 9.5 },
+      "role": "hub", "beacon": true },
+    { "prefab": "parametric_tree", "at": [-34,32],
+      "opts": { "archetype": "gnarled", "height": 22, "seed": 305 } },
+    { "prefab": "ancient_tree", "at": [34,32], "opts": { "h": 20 } }
+  ],
+
+  "beltProps": [
+    { "between": ["bamboo","pines"], "prefabs": ["pine_tree","fern_cluster","fallen_log"] },
+    { "between": ["pines","water"],  "prefabs": ["boulder_field","reeds"] },
+    { "between": ["skeleton","glade"],"prefabs": ["bone_shard","wood_stack"] }
+  ],
+
+  "trails": {
+    "ink": "OR", "width": 2.4,
+    "routes": [
+      { "from": "spawn:N", "to": "landmark:hub",
+        "via": [[0,-50],[-1.8,-42],[2.2,-32],[-1.2,-22],[0.8,-14]] },
+      { "from": "spawn:W", "to": "landmark:hub",
+        "via": [[-50,0],[-42,-2],[-33,-8],[-27,-14],[-18,-8],[-12,-2]] }
+    ],
+    "furniture": { "every": 12, "prefabs": ["grass_clump","trail_sign","leaf_litter"] }
+  },
+
+  "perimeter": { "style": "conifer_wall", "rows": 2,
+                 "heights": [20,24,28], "gaps": 2, "leanBeacon": true },
+
+  "vertical": {
+    "tiers": [ { "y": 0 }, { "y": 3.5, "kit": "tier1" },
+               { "y": 9.5, "link": "decks" }, { "y": 16 }, { "y": 26 } ],
+    "grappleChains": [
+      { "name": "apex", "from": [0,26,-5], "to": [0,31,0] },
+      { "name": "lanterns", "inSector": "bamboo", "y": 9, "gap": 8 },
+      { "name": "skim", "over": "water", "y": 6, "gap": 12 }
+    ],
+    "bouncePoints": [ { "at": [20,3,29], "to": "ridge:S" } ]
+  },
+
+  "spawns":  { "cardinal": 4, "offset": 5 },
+  "snipers": { "deckY": 10, "cardinal": 4 },
+  "pickups": [
+    { "at": "landmark:hub.cabin", "tier": "legendary" },
+    { "at": [20,1.2,-16], "tier": "health" },
+    { "at": [-24,0.4,8],  "tier": "armor" },
+    { "at": [-28,0.3,-26],"tier": "ammo" }
+  ],
+
+  "actors": [ "trout", "embers", "smoke", "fireflies", "birds", "leaves" ],
+  "detail": { "litter": "inner30", "shadows": "blob:all", "beacons": true }
+}
+
+Nothing here is code. A pirate cove recipe changes: palette
+"tropical", water -> lagoon + shipwreck landmark, bamboo -> palm
+grove (same buildBambooPlantation math, new skin options),
+skeleton -> beached whale ribs (same buildCreatureSkeleton with
+different radius profile + ink), trails -> sand paths, paper ->
+aged parchment. The GRAMMAR — fields, belts, tiers, chains, rules —
+is 100% shared. That is the whole trick.
+
+=====================================================================
+L3 — THE SCAFFOLD (the interpreter)
+=====================================================================
+src/map-scaffold.js — buildMapFromRecipe(recipe) does, in order:
+
+  1. resolve scale preset (L4) -> P, PH, corridor/step/headroom laws
+  2. lay ground + tint fields + trails (paint first, build later)
+  3. water ribbon + banks + crossings
+  4. place LANDMARKS first (they own space; everything yields)
+  5. for each sector: field-sample interior -> instantiate core +
+     props via instantiatePrefab(id, ...) with per-prop seeds
+     derived from recipe.seed + stable hash(sectorId, propIndex)
+  6. belt props between overlapping fields (File 03 Tech 3)
+  7. vertical pass: Tier-1 kit, grapple chains (respect
+     grappleHooks from L1 + gap rules from File 04 Rule 4)
+  8. perimeter, spawns, snipers, pickups (with clearance rules,
+     File 08)
+  9. actors + detail pass (litter/shadows by detail-radius rule)
+ 10. return L + a BUILD REPORT: every prefab, every option, every
+     metric, every rule violation (even non-fatal ones).
+
+Rules 4→5 ordering (landmarks before sectors) fixes a class of bug
+you already have: the north ridge/skybridge collision (File 01 F4)
+is impossible when placement goes through one reservation system —
+the ridge reserves its ascent column, the bridge reserves its deck
+band, the scaffold refuses overlaps or auto-offsets.
+
+Dream (src/dream-orchestrator.js) wraps the scaffold:
+  concept doc (like your forest_concept.md)
+    -> generate recipe JSON (schema-validated)
+    -> scaffold builds it
+    -> verifier runs (File 09)
+    -> failures return to generator as critique (exactly like the
+       results.md loop you already run with external LLMs — you are
+       automating YOUR OWN review process. That is the product.)
+
+=====================================================================
+L4 — PALETTES & PRESETS (pure data files)
+=====================================================================
+palettes.json:
+  forest:  { GREEN:#2e7d32, BLACK:#111, ORANGE:#c05621, BLUE:#1a365d,
+             RED:#b91c1c, paper:#f6f3e7, ruleColor: blue }
+  tropical:{ GREEN:#1b8a3f, BLACK:#123, ORANGE:#e0a03c, BLUE:#0e5a8a,
+             RED:#c22, paper:#f2ecd9, ruleColor: teal }
+  cyber:   { GREEN:#39d353, BLACK:#0b0e14, ORANGE:#ff9f1c, BLUE:#2b6cff,
+             RED:#ff3b5c, paper:#eef1f6, ruleColor: grid }
+  desert:  { GREEN:#7a8b3a, BLACK:#2b2320, ORANGE:#d98e32, BLUE:#2e6f8e, ... }
+(These feed makeInkMaterial through the recipe — remember rule 3.)
+
+scalePresets.json:
+  colossal: { half:55, corridorMin:1.8, stepRiseMax:0.35, headroomMin:2.4,
+              grappleGap:[10,14], tier1:3.5, deckY:9.5 }
+  standard: { half:38, corridorMin:1.6, stepRiseMax:0.32, headroomMin:2.2,
+              grappleGap:[8,11], tier1:3.0, deckY:7.5 }
+  compact:  { half:26, ... }
+Everything numeric the engine uses comes from the active preset.
+When someone says "make a smaller map", nothing in code changes.
+
+=====================================================================
+L5 — THE ORCHESTRATOR LOOP (how the masterpiece repeats)
+=====================================================================
+  1. GENERATE: concept -> recipe (LLM or template + mutation:
+     jitter seeds, swap palette, re-roll sector cores from the
+     registry by tag query: registry.query('forest','tunnel'))
+  2. BUILD: scaffold -> L + build report
+  3. VERIFY: full suite (File 09) — hard fails reject, warnings feed
+     back as critiques ("grapple chain 'lanterns' gap=11 > preset
+     max 10 at ring 4: move or add ring")
+  4. GRADE: screenshot 6 canonical angles (auto-fly camera), score
+     composition heuristics (skyline variance, silhouette contrast,
+     litter density near landmarks)
+  5. SHIP or ITERATE: pass -> map joins the rotation; fail -> back
+     to 1 with the critique attached.
+
+You already run steps 1/3/5 MANUALLY with external LLMs (that is
+literally what results.md is). Dream is just closing the loop.
+
+=====================================================================
+MIGRATION PLAN (do this without breaking the working forest)
+=====================================================================
+Week shape, strangler pattern:
+  1. Add schema declarations + fix the 4 contract violations
+     (File 01 findings) — no behavior change.
+  2. Write map-scaffold.js + recipes/colossal_canopy.json (the L2
+     example above, extended with EVERYTHING the .js still does).
+  3. Golden test: build old way + recipe way, hash geometry, diff.
+     Iterate on the recipe until the hash MATCHES the hand-built
+     map (or matches to a documented seed-diff). Now the recipe is
+     proven complete.
+  4. Flip the loader: game reads recipes/*, never levels/*.js.
+  5. Write recipes/zen_garden.json and recipes/pirate_cove.json
+     using ONLY existing prefabs + palettes. Ship 3 maps, one engine.
+  6. Delete forest_level_code.js (keep as a test fixture forever).
+
+THE TEST THAT YOU DID IT RIGHT
+-----------------------------
+A brand-new biome ships with: one palette entry, one recipe file,
+zero new engine code (reusing prefabs; new prefabs only for genuinely
+new shapes). If you wrote engine code for pirate cove, the grammar
+leaked — patch the grammar, not the map.
+
+"I don't want to be different" — no serious studio hardcodes levels
+in code. Minecraft has biomes as data. Valheim has biome configs.
+Hades encodes rooms as data. You are standing where they stood.
+This file is the door.
+=====================================================================

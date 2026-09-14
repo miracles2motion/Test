@@ -1,0 +1,235 @@
+=====================================================================
+FILE 16 — UPGRADING DREAM: THE ENGINE THAT DOES THE THINKING
+You are hardcoding map #1 by hand. After Files 07-09, Dream stops
+being a plan and becomes a FACTORY. This file is how to optimize and
+upgrade that factory — how Dream thinks, learns, and gets cheaper.
+=====================================================================
+
+FIRST: YOUR HAND-CODED MAP IS NOT WASTE — IT IS TRAINING DATA
+-------------------------------------------------------------
+The Colossal Canopy becomes three permanent assets for Dream:
+  1. THE GOLDEN EXAMPLE — colossal_canopy.json goes in the LLM
+     prompt as the few-shot exemplar of "what a great recipe is"
+  2. THE HASH FIXTURE — its geometry hash (File 09 T5) proves the
+     scaffold never regresses
+  3. THE SCORE BASELINE — it sets the bar: any generated map must
+     score >= ~85% of the hand-made one or Dream iterates again
+Hardcode once, teach forever.
+
+=====================================================================
+SECTION 1 — THE THREE BRAINS (decide what thinks, and when)
+=====================================================================
+The #1 architecture mistake for Dream: using an LLM for everything.
+Route every decision to the cheapest brain that handles it:
+
+  BRAIN 0 — RULES (free, instant, deterministic)
+    All placement: Poisson scatter, corridors, chains, clearance
+    (File 08). Physics of the world. NOTHING creative here.
+  BRAIN 1 — SEARCH (free, slow-ish, needs no internet)
+    Numeric/structural optimization: how many culms, where the
+    bridge goes, chain gaps. Simulated annealing over the recipe:
+    mutate one option -> rebuild -> verifier score -> keep if
+    better. Dream can optimize a layout overnight with ZERO API
+    cost. (see Section 2)
+  BRAIN 2 — LLM (paid, creative, occasionally wrong)
+    Concept -> theme -> recipe skeleton; naming; sector IDENTITY
+    choices ("this canyon needs a landmark: natural_stone_arch");
+    writing the critique-aware repair plan; flavor text.
+  LAW: never spend Brain 2 tokens on a decision Brain 0/1 can
+  make. The LLM picks WHICH prefab and WHY; the grammar decides
+  WHERE exactly; the verifier decides IF it ships.
+
+=====================================================================
+SECTION 2 — BEST-OF-N + MUTATION SEARCH (Dream's free thinking)
+=====================================================================
+Cheapest quality multiplier in existence:
+  1. Generate N=8 candidate recipes (variations of seeds/params,
+     with or without an LLM)
+  2. Build + verify + score ALL of them (your suite is < 5s/map
+     — 8 candidates in under a minute, parallel in workers)
+  3. Ship the best; feed the other 7 scores into the ledger
+Mutation operator (BRAIN 1 core loop):
+  mutate(recipe) = pick ONE axis at random:
+    - jitter an option within schema min/max
+    - move a sector center by 1-3m (fields re-sample)
+    - swap a sector core for another registry hit with same tags
+    - reroute one trail, add/remove one grapple chain
+    - swap palette/paper accents
+  then rebuild + rescore. hill-climb or anneal (accept worse moves
+  10% of the time early). Run 50-200 iterations in a worker while
+  you sleep; keep the champion. This alone produces "the forest
+  but better arranged" with no intelligence budget at all.
+
+=====================================================================
+SECTION 3 — LLM INTEGRATION THAT DOESN'T SET MONEY ON FIRE
+=====================================================================
+  A. SCHEMA-FIRST OUTPUT CONTRACT
+     The recipe JSON schema (File 07 L2) is the contract:
+     validate with Ajv/Zod on every response. Invalid -> retry
+     ONCE with the validation error pasted verbatim into the
+     prompt ("your 'sectors[2].rOut' is missing; schema: ...").
+     Never parse hope. Use the model's strict JSON mode if
+     available; temperature 0.2-0.4 for recipes (structure),
+     0.8+ only for names/flavor.
+
+  B. THE REGISTRY IS THE VOCABULARY
+     Include in the prompt: the PREFAB_REGISTRY catalog (id, tags,
+     footprint, option schema) — FILTERED to the biome's tags
+     (don't ship space-station prefabs in a forest prompt; smaller
+     prompt = cheaper + fewer hallucinated builders). If the LLM
+     invents a prefab id, registry lint (File 08 V6) rejects it
+     and the repair pass swaps the nearest tag match automatically.
+
+  C. THE REPAIR LOOP (Dream's self-correction)
+     verifier failures are the most valuable prompt text you own:
+       prompt += "Previous attempt failed: [chain 'lanterns'
+       gap=11 > preset max 10 at ring 4; spawn E has LOS to
+       sniper N]. Fix ONLY these issues; return full recipe."
+     Numeric violations should be fixed by the RULE-BASED FIXER
+     first (recompute step counts from preset.stepRiseMax, insert
+     rings for chain gaps, nudge props off reservations) — the
+     LLM repair call is for STRUCTURAL failures only (unreachable
+     tier, dead sector, palette nonsense). Budget: max 3 repair
+     rounds per candidate; then discard, not insist.
+
+  D. CONCEPT PROMPT TEMPLATE (what a generation call looks like)
+       SYSTEM: "You are the level-recipe compiler for Doodle
+       Strike. Output ONLY recipe JSON matching the schema.
+       Grammar minimums: 1 hub landmark, >=4 sectors with
+       distinct tactical identities, >=1 covered sprint route,
+       >=3 grapple chains, 1 water/feature line, >=4 pickups with
+       risk spread. Respect preset bounds."
+       USER: biome concept paragraph + registry subset + palette
+       + golden example ( colossal_canopy.json ) + any lessons
+       (Section 5).
+     One good concept in, one validated recipe out, ~2-4k tokens.
+
+=====================================================================
+SECTION 4 — THE FITNESS FUNCTION (how Dream grades maps alone)
+=====================================================================
+Hard gates (File 09 suite): any FAIL = score 0, ship never.
+Soft score (100 pts) — all computable without a human:
+  reachability richness (20): # of distinct spawn->hub routes the
+    graph search finds; distinct ascent types used
+  sightline variety (15): beacon tests + long/short lane mix,
+    no mutual-spawn stares
+  cover rhythm (15): cover objects per sector within band; no
+    dead 12m radius on primary routes; corridor ratio 0.3-0.6
+  vertical usage (15): % of pickups requiring tier >= 1; grapple
+    chain length distribution; # of one-way drops
+  economy spread (10): pickup risk-vs-value scatter; contested
+    center vs safe edges
+  silhouette score (15): render 6 canonical angles offscreen;
+    edge-pixel density + skyline height variance + ink-color
+    balance (chi-square against target palette weights)
+  novelty (10): distance from last K shipped recipes (Section 5)
+Calibrate weights against the hand-made forest's scores. Dream
+optimizes to YOUR taste, expressed as numbers.
+
+=====================================================================
+SECTION 5 — CRITIQUE MEMORY (Dream learns across maps)
+=====================================================================
+  - THE LEDGER: one JSONL row per attempt: { recipeHash, seed,
+    scores, failures, palette, LLM-call count }. Append-only.
+  - LESSONS: periodically distill recurring failures into one-line
+    rules and inject them into every future concept prompt
+    ("Lesson: stalker sightlines > 60m make wave 3 unwinnable —
+    cap lane length or add mid-lane cover"). This is a
+    poor-man's fine-tune: free, inspectable, instantly editable.
+  - FEW-SHOT LIBRARY: keep the top-scoring verified recipes; the
+    prompt ships with the champion + one runner-up as examples
+    (rotate; keep prompt small).
+  - NOVELTY GUARD: recipe distance = sector-center spread diff +
+    prefab-bag Jaccard + palette diff. If a new candidate is
+    within threshold of any of the last 5 shipped maps -> force
+    re-roll. Factories drift toward clones unless you tax clones.
+
+=====================================================================
+SECTION 6 — TELEMETRY: THE PLAYERS TEACH DREAM
+=====================================================================
+Ship maps with privacy-light, aggregate-only events:
+  position heatmap (bucketed 4m cells), deaths, pickups taken/
+  ignored, ascent-route usage, wave reached, session length.
+Then the loop closes:
+  "bamboo sector dwell < 4% of session" -> next generation's
+  critique: "increase bamboo through-traffic: add reward or
+  shortcut through it"
+  "bridge N deaths > 15%" -> "bridge railing/pinch check"
+  "pickup P taken < 2%" -> its risk/value is wrong; move it.
+Player behavior is the ground truth Dream can never simulate —
+it outranks your heuristics. Build the importer ONCE (a script
+that turns telemetry JSON into lesson lines), and every shipped
+map forever after makes Dream smarter.
+
+=====================================================================
+SECTION 7 — PERFORMANCE & COST OF THE FACTORY ITSELF
+=====================================================================
+  - WORKERS: build+verify each candidate in a worker thread
+    (recipe JSON in, score+report out). 8 workers = 8 candidates
+    in the wall-time of one. Node worker_threads or pool on web.
+  - CACHE BY HASH: hash(concept + seed + engineVersion). Every
+    verified recipe cached; engine version bumps invalidate.
+    Never pay twice for the same map.
+  - DETERMINISM = CACHEABILITY: this is why File 08's RNG
+    discipline matters economically — reproducible builds are
+    cacheable builds.
+  - TOKEN BUDGET PER MAP: concept(1) + repairs(<=3) + naming(1).
+    Hard cap. If a map needs more calls, the fix is in the
+    grammar/fixer, not more tokens. Log $ per shipped map; watch
+    it FALL over time as lessons accumulate (that falling line is
+    Dream learning).
+  - RUN OFFLINE, SHIP JSON: generation happens in CI/your machine
+    (or a nightly cron: "Dream dreams 5 maps a night"), never on
+    the player's device. Players download verified recipes.
+
+=====================================================================
+SECTION 8 — SAFETY RAILS (how the factory stays trustworthy)
+=====================================================================
+  1. THE PIPELINE IS THE ONLY PATH TO PRODUCTION. No manual map
+     overrides in the loader — hotfixes go through recipe +
+     verifier like everyone else. (Exceptions create the bug
+     class File 01 documents.)
+  2. VERSION EVERYTHING: recipe schema version, engine version,
+     golden hash per shipped map. A mismatch = loud failure, not
+     silent geometry drift.
+  3. HUMAN REVIEW GATE (30 seconds): Dream opens a review PR per
+     map: 6 canonical screenshots + scorecard + ledger link. You
+     approve with one key. You are the publisher; Dream is the
+     writing room. As your trust grows (measure it: % of maps
+     approved first-pass), relax the gate to spot-checks.
+  4. KILL SWITCH: env flag to freeze generation and ship from
+     the verified cache — game never depends on a live LLM.
+
+=====================================================================
+SECTION 9 — THE UPGRADE ROADMAP (each phase ships value alone)
+=====================================================================
+  PHASE 1 — NO LLM AT ALL (weeks 1-2)
+    scaffold + grammar + verifier + best-of-N mutation search.
+    Deliverable: "Forest variant pack" — 5 auto-optimized variants
+    of your map for weekend rotations. Dream already earns keep.
+  PHASE 2 — SINGLE LLM CALLS (weeks 3-4)
+    concept->recipe with schema validation + rule-based fixer +
+    LLM structural repair (cap 3). Deliverable: first NON-forest
+    map (zen garden or pirate cove) generated from one paragraph.
+  PHASE 3 — MEMORY (month 2)
+    ledger, lessons injection, few-shot library, novelty guard,
+    telemetry importer. Deliverable: weekly auto-generated event
+    map, visibly improving month over month.
+  PHASE 4 — TASTE (month 3+)
+    fine-tune a small model on your (recipe -> score) ledger, or
+    train a tiny scorer network on telemetry outcomes. Deliverable:
+    Dream that argues with your rubric and usually wins.
+  ANTI-GOAL: do not build Dream 2.0. Every phase above is additive
+  to the same loop: PROPOSE -> BUILD -> VERIFY -> GRADE -> LEARN.
+  Upgrade the parts, never the loop.
+
+=====================================================================
+THE ONE-FILE SUMMARY
+---------------------------------------------------------------------
+  - Route thinking: rules > search > LLM. Pay only for creativity.
+  - Best-of-N beats better-prompts, every time, for free.
+  - Verifier critiques are Dream's curriculum. Log everything.
+  - The hand-made forest is the teacher; the telemetry is the
+    tutor; the rubric is your taste in numbers.
+  - The loop never changes. Only the brains inside it upgrade.
+=====================================================================

@@ -1,0 +1,181 @@
+=====================================================================
+FILE 03 — BIOME COHESION & TRANSITIONS
+Answers Dossier Question 2: "How can the transition between the
+bamboo plantation, redwood treehouse, and mountain stream feel more
+natural and continuous rather than compartmentalized quadrants?"
+=====================================================================
+
+THE DIAGNOSIS
+-------------
+Your map is four sectors placed at four fixed centers with props
+INSIDE their rectangles, on one uniform green floor. Nothing in the
+GROUND or the SKY says where one region ends and the next begins —
+so the eye reads "four islands in a green box" the moment you stop
+looking at the hero pieces. The props are great; the FIELD between
+them is empty. Real biomes are FIELDS (density fades continuously),
+not RECTANGLES (density steps at a border).
+
+The fix has 6 techniques. All of them become Dream rules in File 07/
+08 — here you apply them by hand to the forest, but write the code
+as generic functions from day one.
+
+---------------------------------------------------------------------
+TECHNIQUE 1 — SECTOR INFLUENCE FIELDS (kill the hard border)
+---------------------------------------------------------------------
+Every sector stops being a rectangle and becomes a FIELD:
+  influence(x, z) = smoothstep(R_outer, R_inner, dist(x, z, center))
+  - R_inner = the tight zone (full density)
+  - R_outer = the fade edge (zero density), typically 1.4x R_inner
+Any scatter/prop placement multiplies its probability by the summed
+influence of its sector. Result: bamboo culms thin out gradually
+into scattered individual stalks between the grove and the pine
+grove — exactly how real vegetation behaves.
+
+Code seed (put it in a shared module NOW, Dream reuses it):
+  function makeField(cx, cz, rIn, rOut) {
+    return (x, z) => {
+      const d = Math.hypot(x - cx, z - cz);
+      return 1 - smoothstep(rIn, rOut, d);   // 1 inside, 0 outside
+    };
+  }
+  // combined weight at a point:
+  const w = fields.reduce((acc, f) => acc + f(x, z), 0);
+
+Forest application:
+  bamboo  field: center (-28,-26), rIn 9,  rOut 15
+  pines   field: center (34,-26),  rIn 8,  rOut 13
+  skeleton: center (-24, 8), rIn 10, rOut 14 (elongated: use
+           an elliptical distance — dist to segment, not point)
+  glade  field: center (23, 27),  rIn 8,  rOut 12
+  river  field: ribbon along x ≈ 21, half-width 4->7 (dist |x-21|)
+
+---------------------------------------------------------------------
+TECHNIQUE 2 — GROUND-TINT WASHES (paint the floor like a mapmaker)
+---------------------------------------------------------------------
+The single loudest "box" signal is the uniform green floor. Real
+mapmakers wash the paper: dirt around the campfire, paler moss near
+the river, darker green under dense canopy.
+- Add 8-12 large, thin, noCollide ellipse decals (y 0.008-0.015,
+  layered under trails) in 3 tints:
+    beaten earth (OR) — extends each sector's heart beyond trails
+    dark moss   (GR, deeper green box under existing floor? no —
+                 use a slightly DARKER green thin decal above floor)
+    silt/pale   (BLUE-GRAY wash along both riverbanks, 2-3m wide)
+- Rules: washes overlap each other freely; their edges are never
+  circles — superellipse or 2 overlapping offset ellipses each.
+- The campfire gets a charred ring (BLACK wash + the ember bed).
+- This is data, not code per map: each sector spec gains
+    groundTint: { ink, rx, rz, offset } (File 07).
+Cost: ~12 merged decals. Visual win: the floor stops being a box.
+
+---------------------------------------------------------------------
+TECHNIQUE 3 — TRANSITION BELTS (stage the handshake explicitly)
+---------------------------------------------------------------------
+Where two fields overlap (influence of both > 0.25), place BLEND
+PROPS — things that legitimately belong to both sides:
+  - NW bamboo x N pines belt: 3-4 lone pine trees amid the outermost
+    bamboo culms + fern clusters + a fallen bamboo culm lying on the
+    ground (a 3-segment kinked thin cylinder chain — gorgeous
+    10-minute build, huge believability).
+  - Pines x river belt: boulders getting progressively rounder/mossy
+    toward the water + reeds (File 02 Kit 6) + a fallen log bridging
+    a bank gap.
+  - Skeleton x glade belt: bone shards half-buried (small OR wedge
+    tips poking from the ground, tilted 30-50°) + cordwood.
+  - Glade x river belt: the logging cart + plank offcuts + sawdust
+    wash (pale OR decal).
+Rule of thumb: 4-8 blend props per shared border, placed IN the
+overlap band (not inside either heart).
+
+---------------------------------------------------------------------
+TECHNIQUE 4 — CANOPY CONTINUITY (unify the sky)
+---------------------------------------------------------------------
+From the deck at Y=9.5 the player sees sector roofs. If canopies
+don't overlap, sectors read as separate dioramas from above.
+- Add 4-6 "connector canopy" clusters: 2-3 mid-height trees
+  (14-18m, slender archetype) planted IN the belts between sectors,
+  crowns overlapping both sides.
+- Raise 2-3 existing giant grass tufts near belt edges to 9-10m
+  with drooping apex fronds — cheap "bridge" silhouettes.
+- The trail-side conifers (currently 4 lonely interior pines at
+  ±40/±16) are good — add 6-8 more at half-density along the N and
+  W belts so the tree line continues between regions.
+Rule: from the treehouse deck, the horizon should be a CONTINUOUS
+ragged tree line in every direction — no green-floor gaps.
+
+---------------------------------------------------------------------
+TECHNIQUE 5 — TRAILS THAT STORYTELL (routing, not just decals)
+---------------------------------------------------------------------
+Your trails currently skirt sector edges (the west trail passes 14m
+south of the bamboo grove it claims to lead to). Trails should
+thread the sector hearts — they are the guided tour:
+  - West trail: add nodes clipping the grove's south edge
+      [-50,0], [-42,-2], [-33,-8], [-27,-14] (enters bamboo),
+      then exits [-18,-8], [-12,-2], [-7,0]
+  - North trail: jog it through the pine grove's west edge:
+      [0,-50], [-2,-44], [6,-38], [10,-32] (clips NE sector),
+      [-2,-24], [0,-16], [0,-7]
+  - South trail already passes the campfire heart — good.
+  - East trail: fixed in File 01 Finding 7 (bridge routing).
+Plus trail FURNITURE every ~12m (alternate sides, never blocking
+the 1.8m channel): flat stone (stepping-stone reuse), trail sign
+(exists — add 2 more at sector boundaries pointing sector-to-
+sector; hand-drawn arrows = diegetic wayfinding), fern cluster,
+leaf-litter pocket (Kit 1 density bump).
+
+---------------------------------------------------------------------
+TECHNIQUE 6 — LANDMARK SIGHTLINE BEACONS (cohesion through views)
+---------------------------------------------------------------------
+Disorientation is what makes sectors feel disconnected. Give every
+sector ONE guaranteed sightline to the center crown and ONE to a
+neighboring sector's silhouette:
+  - From bamboo heart: see the titan crown over the culm tips
+    (culms 8-14m at rIn 9 — crown at 28m: ensure one south-facing
+    culm gap corridor, then VERIFY with a raycast in your verifier,
+    File 09).
+  - From skeleton tunnel mouth (north portal): align the skull's
+    hollow eyes to frame the treehouse trunk 32m away. Free drama.
+  - From pine grove: a pinned-back curtain view toward the east
+    bridge (fell 1 perimeter conifer, leave the stump + a "chopped"
+    wedge notch — environmental storytelling AND a window).
+  - From glade: sightline up the south trail to the south bridge.
+Implementation: after build, run 4 raycasts from sector hearts to
+the 4 beacon targets; log PASS/FAIL. (File 09 turns this into an
+automated invariant — "every sector sees the crown".)
+
+---------------------------------------------------------------------
+THE SECTOR SPEC (bridge to the Dream system)
+---------------------------------------------------------------------
+Encode everything above as data — this exact shape is what File 07
+blows up into full map recipes:
+  sectors: [
+    { id: 'bamboo', center: [-28,-26], rIn: 9, rOut: 15,
+      palette: 'grove', core: 'bamboo_plantation',
+      props: [ {id:'bamboo_lantern', n:6, placement:'ridge'},
+               {id:'mossy_altar', n:1, placement:'heart'} ],
+      tint: { ink:'OR', rx:10, rz:9 },
+      blendWith: [
+        { other:'pines', props:['lone_pine','fallen_culm','fern'] } ],
+      beacon: { target:'crown', mustSee:true } },
+    ...
+  ]
+Nothing here is hardcoded geometry — it is a recipe any biome can
+eat. Pirate cove: same spec, palette 'tropical', core 'shipwreck'.
+
+---------------------------------------------------------------------
+APPLY-IN-ORDER CHECKLIST
+---------------------------------------------------------------------
+[ ] Implement makeField() + per-sector fields
+[ ] Ground-tint wash pass (8-12 decals)              (Tech 2)
+[ ] Reroute west + north trails through sector hearts(Tech 5)
+[ ] Blend props in the 4 overlap belts               (Tech 3)
+[ ] Connector canopies in belts                      (Tech 4)
+[ ] Trail furniture every ~12m                       (Tech 5)
+[ ] 4 beacon sightlines + raycast check              (Tech 6)
+[ ] Re-run detailing verifier; new "cohesion" checks (File 09)
+
+Playtest signal that it worked: stand at the center clearing, close
+one direction off with your hand — the remaining three directions
+should each LOOK like they lead somewhere specific. Today two of
+them lead to "green". After this file, all four lead somewhere.
+=====================================================================

@@ -1,0 +1,165 @@
+=====================================================================
+FILE 08 — THE PLACEMENT GRAMMAR: RULES AS CODE
+The spatial rulebook your concept doc promises — enforced by the
+engine instead of by hope. These functions become the scaffold's
+immune system: nothing gets placed that breaks a rule.
+=====================================================================
+
+WHY THIS FILE EXISTS
+--------------------
+forest_concept.md promises: Poisson spacing >= 1.9m, anti-pinch
+corridors >= 1.8m, headroom >= 2.4m, grapple clearance >= 1.5m,
+grounded spawns with zero clipping. Today those are PROSE. Half of
+them are true only because you were careful. Dream cannot be
+careful — it can only obey rules that are CODE. Every rule below is
+a small, testable function. Build them once, inherit forever.
+
+THE SHAPE OF THE SYSTEM
+-----------------------
+src/grammar/rules.js exports two kinds of functions:
+  GENERATORS  decide WHERE things may go
+  VALIDATORS  decide whether something already placed is LEGAL
+Both take a RuleContext: { colliders, grapples, spawns, fields,
+preset, rng, recipe } — the live state of the build.
+
+=====================================================================
+GENERATORS
+=====================================================================
+
+G1 — poissonScatter(field, count, minDist, rng)
+------------------------------------------------
+Your bamboo grove already does rejection sampling — generalize it:
+
+  function poissonScatter(field, count, minDist, rng, bounds) {
+    const pts = [];
+    for (let i = 0; i < count * 6 && pts.length < count; i++) {
+      const x = lerp(bounds.minX, bounds.maxX, rng());
+      const z = lerp(bounds.minZ, bounds.maxZ, rng());
+      if (field && field(x, z) < 0.15) continue;          // R1: field mask
+      if (pts.some(p => Math.hypot(p.x-x, p.z-z) < minDist)) continue;
+      if (!corridorClear(x, z, minDist)) continue;        // R2: reserved
+      pts.push({ x, z });
+    }
+    return pts;
+  }
+Upgrades over the bamboo version: field masking (File 03), corridor
+reservation check, and max-attempts bound. Every scatter in every
+biome goes through THIS function — one place to tune density laws.
+
+G2 — clusterScatter(field, rng, { clusters, perCluster, radius })
+-----------------------------------------------------------------
+Anti-uniformity rule: nature clusters. Pick `clusters` anchor points
+via G1, then scatter perCluster points around each with gaussian
+offset * radius. Litter, pebbles, toadstools, and enemies-per-pod
+all use this. (Uniform scatter is the #1 procedural smell.)
+
+G3 — reserveCorridor(x1, z1, x2, z2, width)
+-----------------------------------------------------------------
+Trails, sprint tunnels, and spawn->center lanes write RESERVATIONS
+into the context. Any later placement (props, litter, enemy pods)
+checks corridorClear(x, z, r) and yields. This is the code that
+would have prevented the "trail through the river" and "ridge
+through the bridge" bugs (File 01 F4/F7): water, bridges, and
+ascent columns are reservations too:
+  reserveWater(ribbon), reserveAscent(x, z, toY), reserveDrop(...)
+
+G4 — grappleChain(from, to, preset)
+--------------------------------------------------------------------
+Builds ring positions obeying File 04 Rule 4 as LAW:
+  gap between preset.grappleGap[0..1]
+  ascending: dy <= 3.0 per ring
+  every ring: clearance check V1-c below, else insert waypoint
+  returns positions + fails with a DIAGNOSTIC, never silently.
+
+G5 — detailRadius(x, z)
+--------------------------------------------------------------------
+The File 02 density multiplier as a function:
+  base 1.0; x1.5 near trails (distance < 4m of a route);
+  x3.0 within 8m of a landmark; x0.3 above tier1 Y; x0 on reservations.
+Litter, tufts, splats, and future ambience all multiply by this.
+
+=====================================================================
+VALIDATORS (run after every placement; violations log + optionally
+auto-fix by nudging the prop along the failure gradient)
+=====================================================================
+
+V1 — CORRIDOR ANTI-PINCH (>= preset.corridorMin, e.g. 1.8m)
+--------------------------------------------------------------------
+When placing any collider, compute free width between it and the
+NEAREST other colliders on both sides (sample the 4 axis directions
++ the 8 neighbors at knee height y=0.9). If min free width across a
+WALKABLE gap < corridorMin -> REJECT or shrink. Implementation is a
+sweep over nearby AABBs (you have all colliders as boxes — cheap).
+Concept doc: "strict minimum 1.8m" — this is where it stops being a
+suggestion.
+
+V2 — HEADROOM (>= preset.headroomMin above every walkable surface)
+--------------------------------------------------------------------
+For each walkable collider top: cast up 2.4m; if blocked by another
+collider whose top is NOT itself walkable-connected -> violation
+(this is the "ceiling bonk" class of bug — the original treehouse
+hatch bug — generalized into a permanent law).
+
+V3 — STEP RISE (<= preset.stepRiseMax, e.g. 0.35m)
+--------------------------------------------------------------------
+Every collider tagged 'stair'/'step'/part of an ascent chain must
+have its top within stepRiseMax of the previous step's top. Walk the
+chain by nearest-neighbor from the base. Catches the 0.45m treehouse
+steps (File 01 F5) and the 0.8m ancient-tree blocks (F6) instantly,
+at build time, forever.
+
+V4 — GRAPPLE CLEARANCE (>= 1.5m radial from solid geometry)
+--------------------------------------------------------------------
+Sphere test each ring position against colliders (shrink colliders
+by 1.5, test containment). Concept promises this; the code currently
+trusts hand placement. Also validates chain gaps (G4 output).
+
+V5 — SPAWN SAFETY
+--------------------------------------------------------------------
+For each spawn: grounded footing (collider within 0.4m below),
+2m-diameter clear disc at torso band, no enemy/sniper LOS at t=0
+(ray to each sniper deck must be blocked OR distance > 30m — your
+cardinal spawns currently stare down 94m of open N-S trail at each
+other; File 04 Rule 7 covers the fix, this rule enforces it).
+
+V6 — REGISTRY LINT
+--------------------------------------------------------------------
+Every PREFAB_REGISTRY entry: has schema (L1 rule 2), has footprint,
+has clearZone, builder passes determinism test (below), and is not
+marked deprecated (kills the flat-bridge regression class, F10).
+
+V7 — TRUTHFUL METRICS (L1 rule 5)
+--------------------------------------------------------------------
+After each prefab instantiation, verify returned metrics match
+observable state (e.g. returned headroom 2.8 — cast at the tunnel
+midpoint and confirm). Builders that lie get flagged in the build
+report. This single validator would have caught F3 (terraced ridge)
+the day it was written.
+
+=====================================================================
+DETERMINISM DISCIPLINE (the glue)
+=====================================================================
+- ONE RNG STREAM PER NAMED SUBSYSTEM, seeded from recipe.seed:
+    rng('scatter:bamboo'), rng('litter'), rng('actors'), ...
+  Implementation: hash the name + seed -> createRNG. Streams never
+  share state, so adding a prop to sector A can never change where
+  sector B's rocks land (this WILL bite you otherwise — adding any
+  prop currently shifts every later Math/createRNG draw).
+- Stable placement order: sort placements by id string before
+  building, not by array/object iteration order.
+- No Date.now() / Math.random / performance-based branching anywhere
+  inside build. (grep lint, File 09.)
+- Result: recipe.seed alone reproduces the map byte-for-byte, which
+  is what makes golden-hash testing (File 09) possible at all.
+
+=====================================================================
+HOW DREAM USES ALL THIS
+=====================================================================
+scaffold build steps pull GENERATORS; after each phase it runs the
+VALIDATORS for that phase; every violation becomes either:
+  auto-fix (nudge/skip — logged) or build-report warning or
+  hard fail (spawn safety, step rise, pinch on primary routes).
+The concept doc's "Level Designer Checklist" section stops being a
+human chore — the map checks ITSELF, and the checklist becomes the
+verifier's config (File 09 wires the last step).
+=====================================================================

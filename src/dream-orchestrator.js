@@ -528,7 +528,7 @@ function scaffoldFromConcept(conceptPath) {
   };
   const preset = presetMap[effectiveTheme] || 'urban';
 
-  return runStage('Concept-Aware Scaffold', `node src/map-scaffold.js ${key} ${preset}`);
+  return runStage('Concept-Aware Scaffold', `node src/map-scaffold.js ${key} ${preset} --recipe`);
 }
 
 // ============================================================
@@ -623,18 +623,20 @@ async function main() {
         station: 'kinetic'
       };
       const scaffoldPreset = presetMap[theme] || 'urban';
-      if (!runStage('Level Scaffolding', `node src/map-scaffold.js ${key} ${scaffoldPreset}`)) {
+      if (!runStage('Level Scaffolding', `node src/map-scaffold.js ${key} ${scaffoldPreset} --recipe`)) {
         overallSuccess = false;
         throw new Error('Scaffolding failed');
       }
 
-      // Stage 3: Register in level.js if not already
-      // (scaffold prints instructions, we continue to populate)
+      // Stage 3: Simulated Annealing Mutation Search (Brain 1 Layout Optimization)
+      const recipeFile = path.join(ROOT_DIR, 'recipes', `${key}.json`);
+      if (fs.existsSync(recipeFile)) {
+        runStage('Dream Mutation Optimization', `node src/dream-mutator.js ${key}`);
+        runStage('Recipe Sync', `node src/map-scaffold.js ${key} ${scaffoldPreset} --recipe`);
+      }
 
-      // Stage 4: Macro buildings
+      // Stage 4: Enemy Synthesis
       if (fs.existsSync(path.join(LEVELS_DIR, `${key}.js`))) {
-        runStage('Macro Building Injection', `node src/macro-dreamer.js ${key} ${theme}`);
-        runStage('Prop Injection', `node src/map-injector.js ${key} ${theme}`);
         runStage('Enemy Synthesis', `node src/enemy-synthesizer.js ${key}`);
       }
     }
@@ -657,10 +659,27 @@ async function main() {
         throw new Error('Concept-aware scaffolding failed');
       }
 
-      // Stage 3: Populate
+      // Stage 3: Simulated Annealing Mutation Search (Brain 1 Layout Optimization)
+      const recipeFile = path.join(ROOT_DIR, 'recipes', `${key}.json`);
+      if (fs.existsSync(recipeFile)) {
+        runStage('Dream Mutation Optimization', `node src/dream-mutator.js ${key}`);
+        const effectiveTheme = parsed.theme || theme;
+        const presetMap = {
+          zen: 'urban',
+          cyber: 'urban',
+          steampunk: 'kinetic',
+          colossal: 'colossal',
+          maritime: 'urban',
+          forest: 'anomalous',
+          space_station: 'kinetic',
+          station: 'kinetic'
+        };
+        const scaffoldPreset = presetMap[effectiveTheme] || 'urban';
+        runStage('Recipe Sync', `node src/map-scaffold.js ${key} ${scaffoldPreset} --recipe`);
+      }
+
+      // Stage 4: Enemy Synthesis
       if (fs.existsSync(path.join(LEVELS_DIR, `${key}.js`))) {
-        runStage('Macro Building Injection', `node src/macro-dreamer.js ${key} ${theme}`);
-        runStage('Prop Injection', `node src/map-injector.js ${key} ${theme}`);
         runStage('Enemy Synthesis', `node src/enemy-synthesizer.js ${key}`);
       }
     }
@@ -715,14 +734,34 @@ async function main() {
         stages['spatial-doctor'] = { status: 'warn', error: err.message };
       }
 
-      // Stage 2: Fill voids with macro buildings + props
-      runStage('Macro Building Injection', `node src/macro-dreamer.js ${key} ${theme}`);
-      const propResult = runStage('Prop Injection', `node src/map-injector.js ${key} ${theme}`);
-      runStage('Enemy Synthesis', `node src/enemy-synthesizer.js ${key}`);
-      
-      if (propResult && propResult.code === 2) {
-        // Map is full. Trigger interactive Refinement Mode.
-        console.log(`\n🛑 [MAP IS FULL] Dream detected that the map has reached maximum spatial density.`);
+      // Stage 2: Fill voids & optimize structures
+      const recipeFile = path.join(ROOT_DIR, 'recipes', `${key}.json`);
+      const isRecipeBased = fs.existsSync(recipeFile) || code.includes('buildMapFromRecipe');
+
+      if (isRecipeBased) {
+        // Evolved declarative pipeline (Zero Hardcoding)
+        const presetMap = {
+          zen: 'urban',
+          cyber: 'urban',
+          steampunk: 'kinetic',
+          colossal: 'colossal',
+          maritime: 'urban',
+          forest: 'anomalous',
+          space_station: 'kinetic',
+          station: 'kinetic'
+        };
+        runStage('Dream Mutation Optimization', `node src/dream-mutator.js ${key}`);
+        runStage('Recipe Sync', `node src/map-scaffold.js ${key} ${presetMap[theme] || 'urban'} --recipe`);
+        runStage('Enemy Synthesis', `node src/enemy-synthesizer.js ${key}`);
+      } else {
+        // Legacy fallback for old imperative maps
+        runStage('Macro Building Injection', `node src/macro-dreamer.js ${key} ${theme}`);
+        const propResult = runStage('Prop Injection', `node src/map-injector.js ${key} ${theme}`);
+        runStage('Enemy Synthesis', `node src/enemy-synthesizer.js ${key}`);
+        
+        if (propResult && propResult.code === 2) {
+          // Map is full. Trigger interactive Refinement Mode.
+          console.log(`\n🛑 [MAP IS FULL] Dream detected that the map has reached maximum spatial density.`);
         
         const readline = await import('readline/promises');
         const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
@@ -743,6 +782,7 @@ async function main() {
         }
       }
     }
+  }
 
     // ==================== UNIVERSAL STAGES (all modes) ====================
 
@@ -751,6 +791,9 @@ async function main() {
     let qualityScore = 0;
 
     if (levelExists) {
+      // 100-Point Universal Dream Verification Suite
+      runStage('Universal Dream Verification', `node src/verify-suite.js ${key}`);
+
       // Run simulation
       runStage('Bot Flow Simulation', `node src/map-simulate.js ${key}`);
 

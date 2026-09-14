@@ -1,0 +1,198 @@
+=====================================================================
+FILE 02 — VISUAL POLISH & MICRO-DETAILS
+Answers Dossier Question 1: "Where do shapes still look like basic
+boxes? What micro-details are missing?"
+=====================================================================
+
+THE DIAGNOSIS
+-------------
+Your large forms are now excellent (spline skeleton tunnel, catenary
+bridges, open-hatch treehouse). What still reads "procedural" is the
+ABSENCE of small things. Real hand-drawn pages are DENSE with tiny
+marks; your forest floor between props is empty paper. The fix is
+not new mega-prefabs — it is a micro-detail kit and a placement
+discipline.
+
+THE CORE PRINCIPLE — THREE READS
+--------------------------------
+Every prop must survive three inspection distances:
+  40m (silhouette read): distinct outline against sky/fog
+  10m (shape read):      recognizable form + correct scale
+  2m  (texture read):    surface marks — hatch bands, moss, litter
+Your trees pass 40m and 10m. Most fail 2m: the titan trunk is a bare
+cylinder, boulders have no base debris, the ground has no litter.
+Players feel this as "something is fake" without knowing why.
+
+---------------------------------------------------------------------
+KIT 1 — GROUND LITTER (biggest win per line of code)
+---------------------------------------------------------------------
+The forest bed is ~11,000 m² of flat green with 4 trail decals.
+Real forest floors are 60% litter. Build these four tiny builders
+(all noCollide, all via addGeo so they merge into ink buckets):
+
+  buildLeafLitter(x, z): 3-7 tiny flat boxes, 0.15-0.4 long, GREEN
+    and BLACK, rotated random, y = 0.015-0.03, slight tilt.
+  buildTwig(x, z): thin brown-black box 0.5-1.2 long, 0.04 thick,
+    sometimes 2 segments with a 20-40° kink (2 boxes).
+  buildPebble(x, z): small facetedRock scale 0.15-0.3, BLACK.
+  buildPinecone(x, z): tiny cone, ORANGE/BROWN, under conifers only.
+
+DISCIPLINE — scatter rules (Dream will automate this, File 08):
+  - Litter density is highest at sector edges and prop bases,
+    lowest on trails and the central clearing (trails swept clean
+    = they READ as trails even harder).
+  - Under every tree: 5-10 litter pieces + 1-2 twigs inside a
+    2.5m radius. Under every boulder: pebbles at the base ring.
+  - Along trail edges (not on them): grass tufts every 3-4m —
+    buildGrassClump already exists; just call it along the trail
+    splines with a 1.2-2m side offset.
+
+Cost check: ~1,500 litter pieces across the map ≈ merged geometry
+in your ink buckets — near-zero draw cost since addGeo merges.
+
+---------------------------------------------------------------------
+KIT 2 — BARK & SURFACE MARKS (the 2m read for the hero pieces)
+---------------------------------------------------------------------
+- TITAN TRUNK CROSSHATCH (concept promises "deeply crosshatched
+  black ironwood bark" — the trunk is currently a bare 12-segment
+  cylinder). Add 8-12 shallow noCollide band boxes wrapped at
+  varying heights and angles around the trunk: thin (0.08-0.15)
+  BLACK boxes slightly proud of the surface, alternate ±15° tilt.
+  At 2m this reads as crosshatch; at 40m invisible. ~20 boxes.
+- HORIZONTAL BARK RINGS on the redwood every 2-3m of height
+  (redwoods have furrowed horizontal bands) — same trick, rings
+  instead of vertical strips. buildPineTree already does vertical
+  ridge strips — good — add 2 more strips (3 is sparse).
+- ROOT FLARES at every significant tree base: 4-6 low wedges
+  radiating out (you already do this in buildAncientTree — reuse
+  the same 6 lines for buildPineTree and the titan trunk, scaled).
+  Roots ground a tree like nothing else. Highest-value 20 boxes
+  in the whole map.
+- MOSS PATCHES: thin GREEN flat boxes (0.6-1.4, y+0.02) on the
+  NORTH side of trunks and boulders (moss grows shaded-north in
+  the real world — players who know will smile; it also subtly
+  teaches navigation).
+
+---------------------------------------------------------------------
+KIT 3 — CANOPY UNDERSIDE & HANGING LIFE
+---------------------------------------------------------------------
+Looking UP in your forest: cones and spheres from outside. Looking
+up FROM below is currently empty between skirts.
+- UNDERSIDE FOLIAGE DISC: a flat GREEN polygon/box cluster just
+  under each conifer skirt tier and under the banyan crown —
+  so vertical fights see leaf-cover overhead, and it doubles as
+  real shade geometry.
+- HANGING MOSS STRANDS: 0.03-thin GREEN boxes, 0.5-1.2 long,
+  hanging from rope-bridge ropes, banyan limbs, and perimeter
+  eaves. 2-4 per bridge. They also sell "old and heavy".
+- VINES on the banyan: 3-5 vertical thin cylinders from lower
+  limbs to ground with a slight lean — bonus: they read as soft
+  cover even if noCollide.
+
+---------------------------------------------------------------------
+KIT 4 — FAKE BLOB SHADOWS (single biggest "grounded" upgrade)
+---------------------------------------------------------------------
+Your world has NO shadows (ink pipeline). Objects float slightly
+optically. Hand-drawn art solves this with a scribble shadow:
+- Under every significant prop (trees, boulders, bridges ends,
+  cabin, cordwood): a flat ellipse of BLACK ink at y = 0.02-0.03,
+  noCollide, using your fill=1 mode at ~25-35% coverage — your
+  hatch system treats fill as solid ink; a THIN ellipse will read
+  as a hatched shadow patch.
+- Implementation: one buildBlobShadow(x, z, rx, rz, inkOpacity)
+  emitting a flat box or ellipse geometry into the merged bucket.
+- Offset it 0.3-0.6m opposite your LIGHT_WORLD direction so the
+  whole map's shadows agree with your light — instant coherence.
+- Cost: near zero (merged decal geometry). Impact: enormous —
+  this is the #1 "why does it look expensive" trick for a
+  shadowless renderer.
+
+---------------------------------------------------------------------
+KIT 5 — SKY & PAPER WORLD (the frame around the diorama)
+---------------------------------------------------------------------
+Your fog-to-paper fade is great. Now populate the paper:
+- PAPER CLOUDS: 4-7 flat white blobs high up (fill=1, WHITE-ish
+  ink via a 7th ink slot or paper-colored), with one BLACK outline
+  edge box each — classic notebook clouds. Slow drift: 0.2 m/s
+  (File 05 shows the animation hook).
+- BIRO SUN: one ORANGE disc + 8 short radiating strokes, fixed
+  opposite LIGHT_WORLD so light direction is diegetic.
+- DISTANT BIRDS: 3-5 tiny black "V" chevrons (two thin boxes each)
+  drifting in a slow loop at Y 25-30 — motion in the sky sells
+  life more than any ground detail.
+- MARGIN DOODLES: outside the play bounds, a couple of giant faint
+  sketch doodles (a tic-tac-toe grid, a spiral, "LVL 1" scrawl)
+  drawn as noCollide BLUE thin boxes on the paper — visible only
+  when you grapple high. Reward for looking around.
+
+---------------------------------------------------------------------
+KIT 6 — WATER & BANK DETAILS
+---------------------------------------------------------------------
+- RIPPLE RINGS: 3-4 thin BLUE ellipse outlines (flat boxes) around
+  stepping stones, and one at the trout landing point (sync with
+  the fish timer — spawn ring when the fish lands, File 05).
+- REEDS: 5-8 thin GREEN cylinders, 0.6-1.1 tall, clustered at 6-8
+  bank spots, slight random lean.
+- LILY PADS: 3-5 flat GREEN small discs near the south reach.
+- STONE WET-LINE: a 0.15-tall BLACK band box at each stepping
+  stone's waterline (stones look "in" the water, not "on" it).
+
+---------------------------------------------------------------------
+KIT 7 — THE CONIFER SKYLINE, DONE PROPERLY RAGGED
+---------------------------------------------------------------------
+Replace the every-12m loop with clustered blue-noise:
+  - Two depth rows: row A at ±(P-4), row B at ±(P-10), row B only
+    ~60% density and taller (24-28m) — depth = majesty.
+  - Heights clustered: use 3 height bands (20/24/28) with runs of
+    2-4 same-band neighbors — skylines cluster in real forests.
+  - Leave 2-3 deliberate GAPS where distant paper-fog shows
+    through (a gap is a landmark; "the notch" becomes nav language).
+  - One BROKEN/leaning giant near a corner (lean 8-12°, no collapse)
+    — every real forest has one; players will use it as a beacon.
+
+---------------------------------------------------------------------
+KIT 8 — LANTERNS IN THE BAMBOO (already specced, never built)
+---------------------------------------------------------------------
+Concept 4.2 promises overhead paper lanterns at Y=9. Build:
+  buildBambooLantern(x, z, y): horizontal pole box between two
+  culms + hanging 0.35 cube lantern (paper fill=1, warm ORANGE
+  outline) + short drop rope. 5-7 lanterns along the grove's
+  diagonal. They are grapple anchors (so the grove gets the aerial
+  layer it currently lacks) AND a beautiful night-light story for
+  File 06's fire-glow shader.
+
+---------------------------------------------------------------------
+THE DETAIL-RADIUS RULE (budget your effort like real studios)
+---------------------------------------------------------------------
+Spend micro-detail budget by player-dwell probability:
+  - Radius 0-8m around LANDMARKS (treehouse, skull portal, campfire,
+    altar): 3x detail density. Players congregate here.
+  - Along trails: 1.5x (eyes move fast but always see it).
+  - Sector mid-zones: 1x.
+  - Above Y=12 (flyover-only zones): silhouette only, skip litter.
+Make it a multiplier parameter in your scatter function NOW so
+Dream inherits it (File 07): density = base * detailRadius(x, z).
+
+---------------------------------------------------------------------
+WHAT NOT TO DO
+---------------------------------------------------------------------
+- Do not add detail by raising poly counts on big shapes — your
+  style lives on flat inked planes; keep silhouettes clean.
+- Do not scatter uniformly. Uniform scatter is the "procedural"
+  smell. Cluster + clear.
+- Do not detail what the fog already hides (14m-110m fade covers
+  most of the perimeter interior — detail the inner 30m first).
+
+DELIVERABLE CHECKLIST (apply in this order, playtest between)
+-------------------------------------------------------------
+[ ] Blob shadows under all landmark + mid props          (Kit 4)
+[ ] Root flares on all 40+ trees                          (Kit 2)
+[ ] Titan trunk crosshatch bands                          (Kit 2)
+[ ] Ground litter pass, inner 30m                         (Kit 1)
+[ ] Trail-edge grass tufts                                (Kit 1)
+[ ] Underside canopy + hanging moss                       (Kit 3)
+[ ] Bamboo lanterns with grapple anchors                  (Kit 8)
+[ ] Conifer skyline v2 (two rows, clustered, gaps)        (Kit 7)
+[ ] Water details (ripples, reeds, wet-lines)             (Kit 6)
+[ ] Paper clouds, sun, birds, margin doodles              (Kit 5)
+=====================================================================

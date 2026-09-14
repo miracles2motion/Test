@@ -1101,8 +1101,11 @@ export class EnemyManager {
             targetPos.addScaledVector(P.body.vel, leadTime);
           }
         }
-        if (!e.aimPoint) { e.aimPoint = targetPos; }
-        else e.aimPoint.lerp(targetPos, 1 - Math.exp(-2.8 * dt * (diff >= 2 ? Math.min(3, 1 + waveMult * 0.1) : 1))); 
+        if (!e.aimPoint) { e.aimPoint = targetPos.clone(); }
+        else if (e.aimT < targetAimTime - 0.22) {
+          // Track player smoothly until 0.22s grace dodge window locks the beam
+          e.aimPoint.lerp(targetPos, 1 - Math.exp(-2.8 * dt * (diff >= 2 ? Math.min(3, 1 + waveMult * 0.1) : 1))); 
+        }
         
         let aimTimeMod = 1.0;
         if (diff >= 2) aimTimeMod = Math.max(0.2, 1.0 - (0.05 * waveMult));
@@ -1110,7 +1113,10 @@ export class EnemyManager {
         const targetAimTime = T.aimTime * aimTimeMod * (suppress ? 0.7 : 1.0);
         
         this._showLaser(e, muzzle, e.aimPoint, clamp(e.aimT / targetAimTime, 0, 1));
-        if (e.aimT > targetAimTime * 0.5 && !e.aimWarned) { e.aimWarned = true; audio.sniperAim(e.center); }
+        if (e.aimT > targetAimTime * 0.45 && !e.aimWarned) {
+          e.aimWarned = true;
+          if (audio.stalkerAim) audio.stalkerAim(e.center); else audio.sniperAim(e.center);
+        }
         if (e.aimT >= targetAimTime) {
           e.aimT = 0; e.aimWarned = false; e.cool = suppress ? rand(0.5, 1.0) : rand(T.cool[0], T.cool[1]);
           this._fireOne(e, muzzle, e.aimPoint, T.spread, T.pspeed, T.dmg, 0.07, P); audio.sniperShot(e.center);
@@ -1118,7 +1124,18 @@ export class EnemyManager {
         }
         return;
       }
-      if (e.burstLeft > 0) { e.burstT -= dt; if (e.burstT <= 0) { e.burstT = suppress ? (T.burstInt * 0.7) : T.burstInt; e.burstLeft--; this._fireOne(e, muzzle, pc, T.spread, T.pspeed, T.dmg, 0.045, P); audio.enemyShot(e.center); if (e.burstLeft === 0) e.cool = suppress ? rand(0.2, 0.6) : rand(T.cool[0], T.cool[1]); } return; }
+      if (e.burstLeft > 0) {
+        e.burstT -= dt;
+        if (e.burstT <= 0) {
+          e.burstT = suppress ? (T.burstInt * 0.7) : T.burstInt;
+          e.burstLeft--;
+          this._fireOne(e, muzzle, pc, T.spread, T.pspeed, T.dmg, 0.045, P);
+          audio.enemyShot(e.center);
+          if (T.leaper) ctx.effects.strokeBurst(muzzle, INK.BLACK, 3, 2, { life: 0.08, size: 0.035 });
+          if (e.burstLeft === 0) e.cool = suppress ? rand(0.2, 0.6) : rand(T.cool[0], T.cool[1]);
+        }
+        return;
+      }
       if (e.cool <= 0) {
         if (T.weapon === 'shotgun') {
           for (let i = 0; i < T.pellets; i++) this._fireOne(e, muzzle, pc, T.spread, T.pspeed * rand(0.85, 1.1), T.dmg, 0.05, P);

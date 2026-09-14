@@ -102,19 +102,59 @@ class Sfx {
     if (on && !this._reel) { const ctx = this.ctx; const o = ctx.createBufferSource(); o.buffer = this.noiseBuf; o.loop = true; const f = ctx.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 380; f.Q.value = 0.7; const g = ctx.createGain(); g.gain.value = 0.0001; g.gain.setTargetAtTime(0.05, ctx.currentTime, 0.12); o.connect(f); f.connect(g); g.connect(this.master); o.start(); this._reel = { o, g }; }
     else if (!on && this._reel) { const r = this._reel; this._reel = null; r.g.gain.setTargetAtTime(0, this.ctx.currentTime, 0.05); r.o.stop(this.ctx.currentTime + 0.3); }
   }
-  footstep(speedFrac = 1) { this.noise({ dur: 0.07, gain: 0.12 * speedFrac, type: 'lowpass', freq: rand(400, 800) }); }
+  footstep(speedFrac = 1, surface = 'dirt') {
+    if (surface === 'grass') {
+      this.noise({ dur: 0.05, gain: 0.09 * speedFrac, type: 'bandpass', freq: 1600, q: 1.2 });
+      this.noise({ dur: 0.04, gain: 0.06 * speedFrac, type: 'highpass', freq: 3200, delay: 0.03 });
+    } else if (surface === 'wood') {
+      this.noise({ dur: 0.06, gain: 0.14 * speedFrac, type: 'lowpass', freq: 450 });
+      this.tone({ freq: 140, dur: 0.04, gain: 0.08 * speedFrac, type: 'triangle' });
+    } else if (surface === 'water') {
+      this.noise({ dur: 0.08, gain: 0.12 * speedFrac, type: 'bandpass', freq: 1200, q: 1.5 });
+      this.tone({ freq: 480, freqEnd: 240, dur: 0.06, gain: 0.08 * speedFrac, type: 'sine' });
+    } else {
+      // Default crisp paper / graphite stroke
+      this.noise({ dur: 0.06, gain: 0.11 * speedFrac, type: 'bandpass', freq: rand(800, 1400), q: 1.0 });
+    }
+  }
   jump() { this.tone({ freq: 260, freqEnd: 480, dur: 0.1, gain: 0.1, type: 'triangle' }); this.noise({ dur: 0.05, gain: 0.1, type: 'lowpass', freq: 600 }); }
   land(hard = 0.5) { this.noise({ dur: 0.14, gain: 0.15 + 0.35 * hard, type: 'lowpass', freq: 350 }); }
   slide() { this.noise({ dur: 0.45, gain: 0.18, type: 'lowpass', freq: 1200, freqEnd: 300 }); }
   wallJump() { this.noise({ dur: 0.08, gain: 0.25, type: 'lowpass', freq: 700 }); this.tone({ freq: 300, freqEnd: 600, dur: 0.12, gain: 0.12, type: 'triangle' }); }
   mantle() { this.noise({ dur: 0.2, gain: 0.2, type: 'lowpass', freq: 900, freqEnd: 300 }); }
   dash() { this.noise({ dur: 0.25, gain: 0.3, type: 'bandpass', freq: 800, freqEnd: 2500, q: 1 }); }
-  hurt() { this.tone({ freq: 200, freqEnd: 90, dur: 0.2, gain: 0.35, type: 'sawtooth' }); this.noise({ dur: 0.12, gain: 0.3, type: 'lowpass', freq: 500 }); }
+  hurt() {
+    this.tone({ freq: 200, freqEnd: 90, dur: 0.2, gain: 0.35, type: 'sawtooth' });
+    this.noise({ dur: 0.15, gain: 0.38, type: 'bandpass', freq: 1800, q: 1.2 }); // paper rip
+  }
   death() { this.tone({ freq: 220, freqEnd: 30, dur: 1.2, gain: 0.4, type: 'sawtooth' }); this.noise({ dur: 0.8, gain: 0.35, type: 'lowpass', freq: 800, freqEnd: 80 }); }
-  hitEnemy(pos) { this.noise({ dur: 0.06, gain: 0.3, type: 'lowpass', freq: 900, pos }); this.tone({ freq: rand(200, 260), freqEnd: 120, dur: 0.1, gain: 0.15, type: 'square', pos }); }
-  headshot(pos) { this.noise({ dur: 0.05, gain: 0.5, type: 'highpass', freq: 3000, pos }); this.tone({ freq: 1500, freqEnd: 500, dur: 0.09, gain: 0.2, type: 'triangle', pos }); }
-  // a kill: a short two-note ping over a thump, the kind of sound you want to hear again
-  kill(strong = false) { this.tone({ freq: 880, freqEnd: 880, dur: 0.07, gain: 0.22, type: 'square' }); this.tone({ freq: 1320, freqEnd: 1320, dur: 0.16, gain: 0.2, type: 'square', delay: 0.07 }); this.tone({ freq: 140, freqEnd: 50, dur: 0.16, gain: strong ? 0.6 : 0.35, type: 'sine' }); if (strong) this.tone({ freq: 1760, dur: 0.22, gain: 0.12, type: 'triangle', delay: 0.14 }); }
+  hitEnemy(pos) {
+    this.noise({ dur: 0.04, gain: 0.32, type: 'highpass', freq: 2400, pos }); // pencil tick
+    this.tone({ freq: rand(220, 280), freqEnd: 140, dur: 0.08, gain: 0.18, type: 'square', pos });
+  }
+  headshot(pos) {
+    this.noise({ dur: 0.06, gain: 0.55, type: 'highpass', freq: 3400, pos });
+    this.tone({ freq: 1600, freqEnd: 600, dur: 0.1, gain: 0.25, type: 'triangle', pos });
+  }
+  // a kill: a short two-note ping over a thump + pencil scribe
+  kill(strong = false) {
+    this.tone({ freq: 880, freqEnd: 880, dur: 0.07, gain: 0.22, type: 'square' });
+    this.tone({ freq: 1320, freqEnd: 1320, dur: 0.16, gain: 0.2, type: 'square', delay: 0.07 });
+    this.tone({ freq: 140, freqEnd: 50, dur: 0.16, gain: strong ? 0.6 : 0.35, type: 'sine' });
+    this.noise({ dur: 0.12, gain: 0.3, type: 'bandpass', freq: 2200, q: 1.5, delay: 0.04 }); // scribe tear
+    if (strong) this.tone({ freq: 1760, dur: 0.22, gain: 0.12, type: 'triangle', delay: 0.14 });
+  }
+  scribbleKill(strong = false) { this.kill(strong); }
+  stalkerAim(pos) {
+    this.tone({ freq: 1400, freqEnd: 2400, dur: 0.28, gain: 0.16, type: 'sine', pos });
+    this.noise({ dur: 0.18, gain: 0.12, type: 'bandpass', freq: 3000, q: 2.0, pos });
+  }
+  paperTear(pos = null) {
+    this.noise({ dur: 0.18, gain: 0.4, type: 'bandpass', freq: 1900, q: 1.4, pos });
+  }
+  pageFlip() {
+    this.noise({ dur: 0.14, gain: 0.28, type: 'bandpass', freq: 1400, freqEnd: 2600, q: 1.0 });
+  }
   enemyDie(pos) {
     this.tone({ freq: rand(160, 220), freqEnd: 40, dur: 0.4, gain: 0.3, type: 'sawtooth', pos });
     this.noise({ dur: 0.3, gain: 0.4, type: 'lowpass', freq: 600, freqEnd: 100, pos });
@@ -126,7 +166,12 @@ class Sfx {
   lunge(pos) { this.tone({ freq: 200, freqEnd: 700, dur: 0.3, gain: 0.25, type: 'sawtooth', pos }); }
   bulletImpact(pos) { this.noise({ dur: 0.05, gain: 0.25, type: 'highpass', freq: 1500, pos }); }
   ricochet(pos) { this.tone({ freq: rand(2000, 3500), freqEnd: 800, dur: 0.15, gain: 0.12, type: 'sine', pos }); }
-  pickup() { this.tone({ freq: 700, freqEnd: 1100, dur: 0.1, gain: 0.2, type: 'triangle' }); this.tone({ freq: 1100, freqEnd: 1500, dur: 0.15, gain: 0.2, type: 'triangle', delay: 0.09 }); }
+  pickup() {
+    this.tone({ freq: 700, freqEnd: 1100, dur: 0.1, gain: 0.2, type: 'triangle' });
+    this.tone({ freq: 1100, freqEnd: 1500, dur: 0.15, gain: 0.2, type: 'triangle', delay: 0.09 });
+    this.noise({ dur: 0.08, gain: 0.18, type: 'bandpass', freq: 2400, q: 1.5, delay: 0.05 }); // biro circling scratch
+  }
+  pickupCircle() { this.pickup(); }
   wave() { const notes = [440, 554, 659, 880]; notes.forEach((f, i) => this.tone({ freq: f, dur: 0.22, gain: 0.18, type: 'triangle', delay: i * 0.11 })); }
   waveClear() { const notes = [659, 880, 1108, 1318]; notes.forEach((f, i) => this.tone({ freq: f, dur: 0.3, gain: 0.16, type: 'triangle', delay: i * 0.13 })); }
   tick() { this.noise({ dur: 0.02, gain: 0.2, type: 'highpass', freq: 4000 }); }

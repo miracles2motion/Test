@@ -1,0 +1,107 @@
+// src/palettes.js
+// Universal Biome Palettes & Paper Styling Tokens for Dream Engine (File 07 Layer 4)
+
+export const BIOME_PALETTES = {
+  forest: {
+    GREEN: 4,
+    BLACK: 2,
+    ORANGE: 3,
+    BLUE: 0,
+    RED: 1,
+    hex: {
+      GREEN: '#2e7d32',
+      BLACK: '#111111',
+      ORANGE: '#c05621',
+      BLUE: '#1a365d',
+      RED: '#b91c1c'
+    },
+    paper: '#f6f3e7',
+    ruleColor: 'blue',
+    lineSpacing: 60
+  },
+  tropical: {
+    GREEN: 4,
+    BLACK: 2,
+    ORANGE: 3,
+    BLUE: 0,
+    RED: 1,
+    hex: {
+      GREEN: '#1b8a3f',
+      BLACK: '#112233',
+      ORANGE: '#e0a03c',
+      BLUE: '#0e5a8a',
+      RED: '#cc2222'
+    },
+    paper: '#f2ecd9',
+    ruleColor: 'teal',
+    lineSpacing: 50
+  },
+  cyber: {
+    GREEN: 4,
+    BLACK: 2,
+    ORANGE: 3,
+    BLUE: 0,
+    RED: 1,
+    hex: {
+      GREEN: '#39d353',
+      BLACK: '#0b0e14',
+      ORANGE: '#ff9f1c',
+      BLUE: '#2b6cff',
+      RED: '#ff3b5c'
+    },
+    paper: '#eef1f6',
+    ruleColor: 'grid',
+    lineSpacing: 40
+  },
+  desert: {
+    GREEN: 4,
+    BLACK: 2,
+    ORANGE: 3,
+    BLUE: 0,
+    RED: 1,
+    hex: {
+      GREEN: '#7a8b3a',
+      BLACK: '#2b2320',
+      ORANGE: '#d98e32',
+      BLUE: '#2e6f8e',
+      RED: '#c2410c'
+    },
+    paper: '#fbf5e6',
+    ruleColor: 'sepia',
+    lineSpacing: 55
+  },
+  urban: {
+    GREEN: 4,
+    BLACK: 2,
+    ORANGE: 3,
+    BLUE: 0,
+    RED: 1,
+    hex: {
+      GREEN: '#2f855a',
+      BLACK: '#1a202c',
+      ORANGE: '#dd6b20',
+      BLUE: '#2b6cb0',
+      RED: '#e53e3e'
+    },
+    paper: '#f7fafc',
+    ruleColor: 'graph',
+    lineSpacing: 45
+  },
+  anomalous: {
+    GREEN: 4,
+    BLACK: 2,
+    ORANGE: 3,
+    BLUE: 0,
+    RED: 1,
+    hex: {
+      GREEN: '#10b981',
+      BLACK: '#0f172a',
+      ORANGE: '#f59e0b',
+      BLUE: '#6366f1',
+      RED: '#ef4444'
+    },
+    paper: '#f8fafc',
+    ruleColor: 'isometric',
+    lineSpacing: 50
+  }
+};

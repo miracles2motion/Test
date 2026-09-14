@@ -1,0 +1,53 @@
+// src/scale-presets.js
+// Scale Presets & Architectural Bounds for Dream Engine (File 07 Layer 4)
+
+export const SCALE_PRESETS = {
+  colossal: {
+    half: 55,
+    wallH: 20,
+    arenaHalf: 68,
+    arenaWallH: 30,
+    corridorMin: 1.8,
+    stepRiseMax: 0.28,
+    headroomMin: 2.4,
+    grappleGap: [6.0, 14.0],
+    grappleClearance: 1.5,
+    sniperDeckY: 10.0
+  },
+  urban: {
+    half: 40,
+    wallH: 16,
+    arenaHalf: 50,
+    arenaWallH: 24,
+    corridorMin: 1.8,
+    stepRiseMax: 0.28,
+    headroomMin: 2.4,
+    grappleGap: [5.0, 12.0],
+    grappleClearance: 1.5,
+    sniperDeckY: 8.0
+  },
+  anomalous: {
+    half: 48,
+    wallH: 18,
+    arenaHalf: 60,
+    arenaWallH: 26,
+    corridorMin: 1.8,
+    stepRiseMax: 0.28,
+    headroomMin: 2.4,
+    grappleGap: [5.0, 14.0],
+    grappleClearance: 1.5,
+    sniperDeckY: 9.0
+  },
+  kinetic: {
+    half: 50,
+    wallH: 22,
+    arenaHalf: 64,
+    arenaWallH: 28,
+    corridorMin: 1.8,
+    stepRiseMax: 0.28,
+    headroomMin: 2.4,
+    grappleGap: [6.0, 15.0],
+    grappleClearance: 1.5,
+    sniperDeckY: 10.0
+  }
+};

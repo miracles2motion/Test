@@ -46,6 +46,47 @@
           "gliding_paper_leaf_gliders (paper thermal gliders high above the forest)"
         ]
       }
+    },
+    "maritime": {
+      "keywords": [
+        "maritime",
+        "pirate_cove",
+        "pirate",
+        "cove",
+        "docks",
+        "harbor",
+        "ship",
+        "galleon"
+      ],
+      "layoutPrior": "colossal",
+      "primaryInk": "INK.BLUE",
+      "secondaryInk": "INK.BLACK",
+      "accentInk": "INK.ORANGE",
+      "hazardInk": "INK.RED",
+      "props": {
+        "tier1_micro": [
+          "barrel (rum and gunpowder cask clusters providing waist defilade)",
+          "mooring_bollard (iron nautical bollards along water edges)",
+          "cargo_crate (stacked wooden tea and spice shipping crates)",
+          "weathered_trail_sign (driftwood wayfinding signpost)"
+        ],
+        "tier2_meso": [
+          "dock_ramp (elevated timber pier platforms with rope railings)",
+          "suspended_rope_bridge (catenary rope bridges connecting ship to docks)",
+          "cargo_crane (L-frame timber dock crane blocking sniper lanes)",
+          "tactical_cannons (black iron swivel gun battery on timber carriages)"
+        ],
+        "tier3_macro": [
+          "full_galleon (monumental multi-deck pirate warship with poop deck and crow's nests)",
+          "creature_skeleton (ancient leviathan whale ribcage sprint tunnel)",
+          "harbor_watchtower (elevated lookout spire with signal brazier)"
+        ],
+        "tier4_kinetic": [
+          "crows_nest_grapple_chain (apex vertical aerial hitching rings on masts)",
+          "circling_seagulls (paper bird gliders circling the harbor)",
+          "leaping_fish (animated water ripples and paper trout)"
+        ]
+      }
     }
   },
   "recipes": {},

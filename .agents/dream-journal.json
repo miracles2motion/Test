@@ -71,13 +71,90 @@
           "timestamp": "2026-09-14T11:06:01.451Z"
         }
       }
+    },
+    {
+      "id": "dream-003",
+      "timestamp": "2026-09-14T14:49:01.679Z",
+      "mapKey": "pirate_cove",
+      "mode": "MAP",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "spatial-doctor": {
+          "status": "pass",
+          "fixes": 0
+        },
+        "Dream Mutation Optimization": {
+          "status": "fail",
+          "error": "Command failed: node src/dream-mutator.js pirate_cove\nnode:fs:484\r\n    return binding.readFileUtf8(path, stringToFlags(options.flag));\r\n                   ^\r\n\r\nError: ENOENT: no such file or directory",
+          "timestamp": "2026-09-14T14:49:00.155Z"
+        },
+        "Recipe Sync": {
+          "status": "pass",
+          "timestamp": "2026-09-14T14:49:00.301Z"
+        },
+        "Enemy Synthesis": {
+          "status": "pass",
+          "timestamp": "2026-09-14T14:49:00.436Z"
+        },
+        "Universal Dream Verification": {
+          "status": "pass",
+          "timestamp": "2026-09-14T14:49:00.769Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-14T14:49:01.363Z"
+        },
+        "Self-Healing Audit": {
+          "status": "pass",
+          "timestamp": "2026-09-14T14:49:01.675Z"
+        }
+      }
+    },
+    {
+      "id": "dream-004",
+      "timestamp": "2026-09-14T14:50:12.214Z",
+      "mapKey": "pirate_cove",
+      "mode": "MAP",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "spatial-doctor": {
+          "status": "pass",
+          "fixes": 0
+        },
+        "Dream Mutation Optimization": {
+          "status": "pass",
+          "timestamp": "2026-09-14T14:50:10.678Z"
+        },
+        "Recipe Sync": {
+          "status": "pass",
+          "timestamp": "2026-09-14T14:50:10.827Z"
+        },
+        "Enemy Synthesis": {
+          "status": "pass",
+          "timestamp": "2026-09-14T14:50:10.956Z"
+        },
+        "Universal Dream Verification": {
+          "status": "pass",
+          "timestamp": "2026-09-14T14:50:11.247Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-14T14:50:11.814Z"
+        },
+        "Self-Healing Audit": {
+          "status": "pass",
+          "timestamp": "2026-09-14T14:50:12.208Z"
+        }
+      }
     }
   ],
   "stats": {
-    "totalRuns": 2,
-    "successes": 2,
+    "totalRuns": 4,
+    "successes": 4,
     "failures": 0,
-    "errorRate": "0/2 (0%)",
+    "errorRate": "0/4 (0%)",
     "avgScore": 0
   }
 }

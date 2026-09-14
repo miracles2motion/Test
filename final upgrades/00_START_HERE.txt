@@ -1,0 +1,145 @@
+=====================================================================
+FINAL UPGRADES — MASTER PLAN & INDEX (v2, PROJECT-SPECIFIC)
+DOODLE STRIKE — "The Colossal Canopy" + The Dream Engine
+=====================================================================
+
+Your full source was reviewed line by line:
+  forest_level_code.js, prefabs_code.js, anatomy_grammar.js,
+  spline_engine.js, render_pipeline.js, forest_concept.md, results.md
+
+This folder now answers the exact 5 questions your results.md dossier
+asked, PLUS the bugs and upgrades found during the audit, PLUS the
+Dream System blueprint (map #1 -> infinite maps, zero hardcoding).
+
+THE 5 DOSSIER QUESTIONS -> WHERE THEY ARE ANSWERED
+--------------------------------------------------
+  Q1 Visual & aesthetic polish ............ FILE 02
+  Q2 Biome cohesion & transitions ......... FILE 03
+  Q3 Verticality & gameplay flow .......... FILE 04
+  Q4 Kinetic drama (cheap animations) ..... FILE 05
+  Q5 Procedural grammar extraction ........ FILES 07, 08, 09
+
+THE BATCHES — ALL DELIVERED ✅
+------------------------------
+  BATCH 1 — THE AUDIT + THE LOOK            (files 01-03)  ✅
+  BATCH 2 — FEEL & LIFE                     (files 04-06)  ✅
+  BATCH 3 — THE DREAM SYSTEM                (files 07-09)  ✅
+  BATCH 4 — PERFORMANCE, GAMEPLAY & SOUND   (files 10-12)  ✅
+  BATCH 5 — SHIP IT, STUDY & THE DREAM UPGRADE (files 13-16) ✅
+
+FULL FILE LIST
+--------------
+  00_START_HERE.txt ............ this index
+
+  --- BATCH 1: THE AUDIT + THE LOOK ---
+  01_audit_findings_and_bugs.txt
+      Real bugs found in your code with exact locations and fixes:
+      the west-trail copy-paste landmine, rope-bridge collider vs
+      plank sag mismatch, buildTerracedRidge ignoring its dir option,
+      the north ridge clipping the north skybridge, treehouse step
+      rise violating your own 0.28m spec, the dead PointLight in the
+      ink pipeline, the east trail running through the river, the
+      Math.random() determinism leak, the legacy flat bridge still
+      registered, and more. Every fix includes code.
+
+  02_visual_polish_micro_details.txt        [answers Q1]
+      Where it still reads "basic boxes" and the exact micro-detail
+      kit that fixes it: leaf litter, twigs, root flares, bark
+      crosshatch bands, hanging moss, blob shadows, paper clouds,
+      stippling, the 40m/10m/2m "three reads" rule, and the
+      landmark detail-radius rule.
+
+  03_biome_cohesion_transitions.txt         [answers Q2]
+      Killing the "four islands in a green box" effect: sector
+      influence fields, ground-tint washes, transition belts,
+      canopy continuity, edge erosion, trail routing through sector
+      hearts, and landmark sightline beacons. All data-driven.
+
+  --- BATCH 2: FEEL & LIFE ---
+  04_verticality_and_flow.txt               [answers Q3]
+      The mid-canopy gap between Y=0 and Y=9.5, secondary bough
+      routes, root ramps, bounce mushrooms, zipline/grapple chains,
+      one-way drops, and the respawn-loop flow test.
+
+  05_kinetic_drama_animations.txt           [answers Q4]
+      The uTime hook already in your inkVert shader (currently
+      unused) = free vertex wind sway for bamboo, ferns, grass and
+      bridges. Plus smoke curls, ripple rings, fireflies, falling
+      leaves, swaying lanterns, and the performance rules that keep
+      them free.
+
+  06_render_shader_upgrades.txt
+      Your post pipeline is the crown jewel — here is how to push
+      it: ink-weight by depth, blob shadows, animated water hatching,
+      firelight as a shader uniform (replacing the dead PointLight),
+      paper aging, margin doodles, RED-ink pulse for pickups.
+
+  --- BATCH 3: THE DREAM SYSTEM ---
+  07_dream_system_blueprint.txt             [answers Q5]
+      The big one. Turning map #1 into a RECIPE: map JSON, sector
+      specs, the builder contract (seeded RNG, options schema,
+      returned metrics), biome palettes, scale presets, and how
+      Dream assembles pirate cove / cyberpunk / desert from the
+      same grammar. No hardcoded numbers anywhere.
+
+  08_placement_grammar_rules.txt
+      The spatial rulebook as code: Poisson sampling, anti-pinch
+      corridors, headroom guarantees, grapple clearance, spawn
+      safety, trail-prop clearance, density falloff — the rules
+      your concept doc promises, enforced by the engine itself.
+
+  09_verification_pipeline.txt
+      Your verify-detailing.js caught nothing from File 01 — here
+      is the upgraded test suite that would have: step-rise checks,
+      collider-overlap sweeps, reachability graphs, determinism
+      hash tests, and CI so the "100% PERFECT" badge means it.
+
+  --- BATCH 4: PERFORMANCE, GAMEPLAY & SOUND ---
+  10_performance_budget.txt
+      884 colliders, 36 perimeter conifers x ~15 parts, per-mesh
+      ink materials: the real numbers, instancing/merging/LOD
+      strategy that fits your G-buffer pipeline, and budgets per
+      quality preset.
+
+  11_gameplay_and_game_feel.txt
+      Bestiary tuning (tree monkey vs bamboo stalker asymmetry),
+      hit feedback in an ink world (ink splats, paper tears),
+      spawn sightline fix, pickup economy, wave design for solo.
+
+  12_audio_and_ambient.txt
+      Zero-budget sound for a notebook world: pencil scratch on
+      fire, page flips in menus, biro circle on kill confirm,
+      free SFX/music sources, and Web Audio spatialization.
+
+  --- BATCH 5: SHIP IT & STUDY THE MASTERS ---
+  13_ui_and_experience.txt
+      Menu, loading, settings (your quality presets already exist —
+      surface them!), onboarding, screenshot mode you already
+      built, and the shareable replay clip idea.
+
+  14_launch_and_exposure.txt
+      Where to publish and how to get the attention the "cooking"
+      Three.js projects get: itch.io, X/Twitter clip format,
+      Reddit, showcase sites, game jams.
+
+  15_inspiration_and_study_list.txt
+      The real Three.js work worth studying (and what exactly to
+      steal from each), plus the libraries pros pair with it.
+
+  --- THE DREAM FACTORY (your special request) ---
+  16_upgrading_dream_engine.txt
+      How to optimize and upgrade Dream itself — the engine that
+      does the thinking when the hand-coding stops: the three
+      brains (rules > search > LLM), best-of-N mutation search at
+      zero API cost, schema-first LLM recipes with repair loops,
+      the 100-point fitness function, critique memory that learns
+      from failures, player telemetry that teaches Dream, cost
+      control, safety rails, and the 4-phase upgrade roadmap.
+
+HOW TO USE THIS FOLDER
+----------------------
+1. Read File 01 first. Apply the fixes. They are surgical and safe.
+2. One batch at a time. Apply, playtest, move on.
+3. Batch 3 is where map #1 becomes a system — read it twice.
+
+— Let's finish the masterpiece. 🔥

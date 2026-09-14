@@ -31,14 +31,15 @@ export function buildAncientTree(B, x, y, z, o = {}) {
   // 2. Vertical Core Trunk
   cyl(x, y, z, trunkR, trunkH, { seg: 12, ink: inkBark });
 
-  // 3. Climbable Spiral Trunk Steps (wrapping up to canopy platform at Y = y + 6.5)
-  const stepCount = 8;
+  // 3. Climbable Spiral Trunk Steps (wrapping up to canopy platform at Y = y + 6.5, rise = 0.28m)
+  const stepCount = 23;
+  const stairSweep = Math.PI * 2.2;
   for (let i = 0; i < stepCount; i++) {
-    const angle = i * 0.72;
-    const stepY = y + (i + 1) * 0.8;
+    const angle = (i / stepCount) * stairSweep;
+    const stepY = y + (i + 1) * 0.28;
     const sx = x + Math.cos(angle) * (trunkR + 0.9);
     const sz = z + Math.sin(angle) * (trunkR + 0.9);
-    box(sx, stepY, sz, 1.6, 0.28, 1.6, { ink: inkBark, tag: 'stairs' });
+    box(sx, stepY, sz, 1.4, 0.28, 1.4, { ink: inkBark, tag: 'stairs' });
   }
 
   // 4. Elevated Canopy Combat Deck (Y = y + 6.5)
@@ -146,12 +147,20 @@ export function buildSuspendedRopeBridge(B, x1, z1, x2, z2, y, o = {}) {
   const numPlanks = Math.max(3, Math.floor(len / plankSpacing));
   const plankThickness = 0.22;
 
-  // Solid walkable floor collider hull (continuous so player never snags)
-  collider((x1 + x2) / 2, y - maxSag * 0.4, (z1 + z2) / 2,
-    Math.abs(dirX) > 0.5 ? len : width,
-    0.4,
-    Math.abs(dirX) > 0.5 ? width : len
-  );
+  // Segmented walkable colliders closely hugging the catenary sag curve (zero player floating)
+  const segCount = Math.max(4, Math.round(len / 2.8));
+  for (let s = 0; s < segCount; s++) {
+    const tA = s / segCount, tB = (s + 1) / segCount;
+    const tm = (tA + tB) / 2;
+    const ym = y - Math.sin(tm * Math.PI) * maxSag;
+    const sx = x1 + dx * tm, sz = z1 + dz * tm;
+    const segLen = (len / segCount) + 0.15; // small overlap so player never falls through
+    collider(sx, ym - 0.15, sz,
+      Math.abs(dirX) > 0.5 ? segLen : width,
+      0.35,
+      Math.abs(dirX) > 0.5 ? width : segLen
+    );
+  }
 
   // Individual planks with downward catenary sag
   for (let i = 0; i <= numPlanks; i++) {
@@ -378,13 +387,7 @@ export function buildCampfire(B, x, y, z, o = {}) {
   // 4. Glowing Red/Orange Embers Core
   sphere(x, y + 0.28, z, 0.35, { ink: INK.ORANGE, noCollide: true });
   sphere(x, y + 0.32, z, 0.18, { ink: INK.RED, noCollide: true });
-
-  // 5. Firelight Point Light
-  if (scene && typeof THREE !== 'undefined') {
-    const fireLight = new THREE.PointLight(0xff7722, 1.8, 18);
-    fireLight.position.set(x, y + 0.8, z);
-    scene.add(fireLight);
-  }
+  sphere(x, y + 0.36, z, 0.12, { ink: INK.ORANGE, noCollide: true });
 }
 
 /**
@@ -582,35 +585,35 @@ export function buildFullGalleon(B, x, y, z, o = {}) {
     box(x + 6.6, y + 3.2, z + cz, 2.2, 0.9, 1.2, { ink: BK });
   }
 
-  // 7. Internal Stairways Connecting Decks
-  // Gun deck up to Forecastle
-  stairs(x, y + 5.5, z + 8.2, '+z', 7, 2.4, { rise: 0.31, run: 0.45, ink: W });
-  // Gun deck up to Poop Deck
-  stairs(x, y + 5.5, z - 4.2, '-z', 13, 2.4, { rise: 0.32, run: 0.45, ink: W });
+  // 7. Stairways Connecting Decks (Open gun deck with unobstructed vertical headroom)
+  // Starboard stair up to Forecastle deck (y + 7.7 at z + 8.5)
+  stairs(x + 2.8, y + 5.5, z + 5.35, '+z', 7, 1.8, { rise: 2.2 / 7, run: 0.45, ink: W });
+  // Port stair up to Poop deck (y + 9.7 at z - 4.5)
+  stairs(x - 2.8, y + 5.5, z + 1.8, '-z', 14, 1.8, { rise: 4.2 / 14, run: 0.45, ink: W });
 
   // 8. Triple Towering Masts
   // Foremast
   cyl(x, y + 7.7, z + 12, 0.6, 18, { ink: BK });
   box(x, y + 21, z + 12, 2.8, 1.0, 2.8, { ink: W }); // Crow's nest
-  ring(x, y + 23.5, z + 12, 'y');
+  ring(x, y + 26.8, z + 12, 'y');
 
   // Mainmast
   cyl(x, y + 5.5, z + 2, 0.85, 24, { ink: BK });
   box(x, y + 26, z + 2, 3.5, 1.2, 3.5, { ink: W }); // Crow's nest
-  ring(x, y + 28.5, z + 2, 'y');
+  ring(x, y + 30.8, z + 2, 'y');
   // Horizontal Sail Yard
   cyl(x, y + 18, z + 2, 0.4, 16, { axis: 'x', ink: BK });
 
   // Mizzenmast
   cyl(x, y + 9.7, z - 10, 0.6, 16, { ink: BK });
   box(x, y + 22, z - 10, 2.8, 1.0, 2.8, { ink: W }); // Crow's nest
-  ring(x, y + 24.5, z - 10, 'y');
+  ring(x, y + 26.8, z - 10, 'y');
 
   // 9. Cargo Hold & Barrels on Gun Deck
   barrel(x + 3.2, y + 5.5, z, 0.8, 1.5, { ink: INK.ORANGE });
   barrel(x + 3.2, y + 5.5, z + 2.0, 0.8, 1.5, { ink: INK.ORANGE });
   barrel(x + 3.2, y + 7.0, z + 1.0, 0.8, 1.5, { ink: INK.ORANGE });
-  box(x - 3.2, y + 5.5, z + 1.0, 1.8, 1.4, 1.8, { ink: BK, tag: 'cover' });
+  box(x - 4.5, y + 5.5, z - 2.0, 1.4, 1.4, 1.4, { ink: BK, tag: 'cover' });
 
   // High-Value Tactical Objective on Poop Deck
   pickup(x, y + 10.0, z - 10.0);
@@ -1174,7 +1177,14 @@ export const PREFAB_REGISTRY = {
     id: 'suspension_bridge',
     name: 'Suspended Timber Rope Bridge',
     tags: ['forest', 'maritime', 'bridge', 'walkway'],
-    builder: buildSuspensionBridge,
+    builder: buildSuspendedRopeBridge,
+    footprint: [3.0, 4.0, 14.0]
+  },
+  suspended_rope_bridge: {
+    id: 'suspended_rope_bridge',
+    name: 'Procedural Catenary Rope Bridge',
+    tags: ['forest', 'maritime', 'bridge', 'rope', 'walkway'],
+    builder: buildSuspendedRopeBridge,
     footprint: [3.0, 4.0, 14.0]
   },
   full_galleon: {
@@ -1799,7 +1809,8 @@ export function buildGiantGrass(B, x, y, z, o = {}) {
   const { box, wedge, cyl, ring } = B;
   const ink = o.ink ?? INK.GREEN;
   const inkStem = o.inkStem ?? INK.BLACK;
-  const height = o.height ?? (5.5 + Math.random() * 2.5); // 5.5m - 8.0m
+  const rng = createRNG(o.seed ?? Math.round(Math.abs(x * 31 + z * 17) + 101));
+  const height = o.height ?? (5.5 + rng.next() * 2.5); // 5.5m - 8.0m deterministic
 
   // 1. Waist-high radiating blade cluster (cover)
   box(x - 0.4, y, z, 0.8, 1.1, 0.2, { ink, tag: 'cover' });
@@ -1839,14 +1850,16 @@ export function buildTreehouse(B, x, y, z, o = {}) {
   // 1. Massive Redwood Trunk Base (Y = y to y + totalH)
   cyl(x, y, z, trunkR, totalH, { seg: 12, ink: inkBark });
 
-  // 2. Spiral Trunk Staircase (Ground to Deck: 20 steps, rise=0.28m, run=0.45m)
-  const stepCount = 20;
+  // 2. Spiral Trunk Staircase (Ground to Deck: 34 steps, rise=0.28m, flush deck exit)
+  const stepCount = 34;
+  const sweep = Math.PI * 2.2;
+  const startAngle = -Math.PI * 0.4;
   for (let s = 0; s < stepCount; s++) {
-    const angle = (s / stepCount) * Math.PI * 1.6 - Math.PI * 0.4;
+    const angle = startAngle + (s / stepCount) * sweep;
     const stepR = trunkR + 0.7;
     const sx = x + Math.cos(angle) * stepR;
     const sz = z + Math.sin(angle) * stepR;
-    const sy = y + s * 0.45;
+    const sy = y + s * 0.28;
     box(sx, sy, sz, 1.3, 0.28, 1.3, { ink: inkWood, tag: 'stair' });
   }
 
@@ -1855,8 +1868,8 @@ export function buildTreehouse(B, x, y, z, o = {}) {
   annularDeck(B, x, z, trunkR, deckR, deckY, {
     segments: 16,
     thickness: 0.45,
-    hatchAngleStart: Math.PI * 0.85,
-    hatchAngleEnd: Math.PI * 1.35,
+    hatchAngleStart: Math.PI * 1.55,
+    hatchAngleEnd: Math.PI * 1.95,
     ink: inkWood
   });
 
@@ -1926,3 +1939,109 @@ export function instantiatePrefab(B, prefabId, x, y, z, o = {}) {
   entry.builder(B, x, y, z, o);
   return true;
 }
+
+// ============================================================================
+// MICRO-DETAIL & POLISH GENERATORS (File 02 & File 03 Kits)
+// ============================================================================
+
+/**
+ * Procedural Scribble Blob Shadow
+ * Grounds 3D props in an ink-drawn world with a diegetic shadow footprint.
+ */
+export function buildBlobShadow(B, x, z, rx = 2.0, rz = 2.0, o = {}) {
+  const { box } = B;
+  // Offset slightly opposite light direction (+x, -z)
+  const ox = x + 0.35;
+  const oz = z - 0.35;
+  box(ox, 0.015, oz, rx * 2.0, 0.01, rz * 2.0, {
+    ink: o.ink ?? INK.BLACK,
+    noCollide: true
+  });
+}
+
+/**
+ * Procedural Ground Litter Cluster
+ * Tiny leaf flakes, twigs, and pebbles scattered around tree/boulder bases.
+ */
+export function buildLeafLitter(B, x, z, count = 5, radius = 1.6, o = {}) {
+  // File 10 Fix 4: Micro-detail build-time distance culling beyond fog engagement horizon
+  if (Math.hypot(x, z) > 50.0 && !o.force) return;
+  const { box } = B;
+  const rng = createRNG(o.seed ?? Math.round(Math.abs(x * 43 + z * 29) + 7));
+  const next = rng.next;
+  const inkLeaves = o.inkLeaves ?? INK.GREEN;
+  const inkDark = o.inkDark ?? INK.BLACK;
+
+  for (let i = 0; i < count; i++) {
+    const angle = next() * Math.PI * 2;
+    const dist = 0.4 + next() * radius;
+    const lx = x + Math.cos(angle) * dist;
+    const lz = z + Math.sin(angle) * dist;
+    const lw = 0.2 + next() * 0.25;
+    const ld = 0.15 + next() * 0.2;
+    box(lx, 0.018 + i * 0.002, lz, lw, 0.01, ld, {
+      ink: (i % 2 === 0) ? inkLeaves : inkDark,
+      noCollide: true
+    });
+  }
+
+  // 1 small fallen twig
+  const tang = next() * Math.PI * 2;
+  const tdist = 0.3 + next() * (radius * 0.8);
+  const tx = x + Math.cos(tang) * tdist;
+  const tz = z + Math.sin(tang) * tdist;
+  box(tx, 0.022, tz, 0.6 + next() * 0.4, 0.02, 0.04, {
+    ink: inkDark,
+    noCollide: true
+  });
+}
+
+/**
+ * Procedural Hanging Bamboo Lantern & Grapple Node
+ * Paper lantern strung between bamboo culms providing aerial grapple navigation.
+ */
+export function buildBambooLantern(B, x1, z1, x2, z2, y = 8.5, o = {}) {
+  const { box, cyl, ring } = B;
+  const inkLantern = o.inkLantern ?? INK.ORANGE;
+  const inkFrame = o.inkFrame ?? INK.BLACK;
+
+  const mx = (x1 + x2) / 2;
+  const mz = (z1 + z2) / 2;
+  const span = Math.hypot(x2 - x1, z2 - z1);
+
+  // Horizontal bamboo crossbar
+  box(mx, y, mz, Math.abs(x2 - x1) > Math.abs(z2 - z1) ? span : 0.08, 0.08, Math.abs(x2 - x1) > Math.abs(z2 - z1) ? 0.08 : span, {
+    ink: inkFrame,
+    noCollide: true
+  });
+
+  // Hanging cord
+  cyl(mx, y - 0.7, mz, 0.02, 0.7, { ink: inkFrame, noCollide: true });
+
+  // Paper lantern box (warm orange)
+  box(mx, y - 1.15, mz, 0.45, 0.55, 0.45, { ink: inkLantern, noCollide: true });
+  // Iron top & bottom cap
+  box(mx, y - 0.86, mz, 0.5, 0.04, 0.5, { ink: inkFrame, noCollide: true });
+  box(mx, y - 1.44, mz, 0.5, 0.04, 0.5, { ink: inkFrame, noCollide: true });
+
+  // Apical grapple ring for bamboo grove high-flying traversal
+  ring(mx, y - 1.8, mz, 'y');
+}
+
+/**
+ * Concentric Water Ripple Rings
+ * Visual ripples radiating around river stepping stones and splashing trout.
+ */
+export function buildWaterRipples(B, x, z, r = 1.4, o = {}) {
+  const { box } = B;
+  const ink = o.ink ?? INK.BLUE;
+  const y = 0.045; // Just flush above water surface
+
+  // 4 thin perimeter arc segments forming a circular ripple ring
+  const d = r * 0.707;
+  box(x, y, z + r, r * 1.2, 0.01, 0.05, { ink, noCollide: true });
+  box(x, y, z - r, r * 1.2, 0.01, 0.05, { ink, noCollide: true });
+  box(x + r, y, z, 0.05, 0.01, r * 1.2, { ink, noCollide: true });
+  box(x - r, y, z, 0.05, 0.01, r * 1.2, { ink, noCollide: true });
+}
+
