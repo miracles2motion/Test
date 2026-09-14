@@ -1553,6 +1553,50 @@ function getMapSVG(key, isDossier = false) {
         <path d="M72 40 L62 56 L68 56 L59 72 L85 72 L76 56 L82 56 Z" fill="none" stroke="${c}" stroke-width="1.5"/>
       </svg>`;
     }
+  } else if (key === 'space_station' || key === 'station') {
+    if (isDossier) {
+      return `<svg viewBox="0 0 200 100" class="map-svg blueprint" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: ${isDossier ? '200px' : '90px'};">
+        <!-- Station Centrifuge Ring & Hab Torus -->
+        <circle cx="100" cy="50" r="28" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <circle cx="100" cy="50" r="10" fill="none" stroke="${c}" stroke-width="1.5"/>
+        <circle cx="100" cy="50" r="3" fill="${c}"/>
+        <!-- Radial Connecting Spokes -->
+        <line x1="100" y1="22" x2="100" y2="78" stroke="${c}" stroke-width="1.5"/>
+        <line x1="72" y1="50" x2="128" y2="50" stroke="${c}" stroke-width="1.5"/>
+        <!-- Photovoltaic Solar Array Wings -->
+        <rect x="18" y="38" width="42" height="24" fill="none" stroke="${c}" stroke-width="1.5"/>
+        <line x1="28" y1="38" x2="28" y2="62" stroke="${c}" stroke-width="0.8"/>
+        <line x1="39" y1="38" x2="39" y2="62" stroke="${c}" stroke-width="0.8"/>
+        <line x1="50" y1="38" x2="50" y2="62" stroke="${c}" stroke-width="0.8"/>
+        <rect x="140" y="38" width="42" height="24" fill="none" stroke="${c}" stroke-width="1.5"/>
+        <line x1="150" y1="38" x2="150" y2="62" stroke="${c}" stroke-width="0.8"/>
+        <line x1="161" y1="38" x2="161" y2="62" stroke="${c}" stroke-width="0.8"/>
+        <line x1="172" y1="38" x2="172" y2="62" stroke="${c}" stroke-width="0.8"/>
+        <!-- Comms Dish Mast -->
+        <path d="M92 14 Q100 8 108 14" fill="none" stroke="${c}" stroke-width="1.5"/>
+        <line x1="100" y1="11" x2="100" y2="22" stroke="${c}" stroke-width="1.2"/>
+        <text x="100" y="94" font-family="monospace" font-size="6" text-anchor="middle" fill="${c}">ORBITAL CENTRIFUGE HABITAT - 120m</text>
+      </svg>`;
+    } else {
+      return `<svg viewBox="0 0 100 100" class="map-svg thumb" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: 90px; max-height: 90px;">
+        <!-- Habitat Torus Hub -->
+        <circle cx="50" cy="50" r="16" fill="none" stroke="${c}" stroke-width="2"/>
+        <circle cx="50" cy="50" r="5" fill="${c}"/>
+        <!-- Radial Spokes -->
+        <line x1="50" y1="34" x2="50" y2="66" stroke="${c}" stroke-width="1.5"/>
+        <line x1="34" y1="50" x2="66" y2="50" stroke="${c}" stroke-width="1.5"/>
+        <!-- Dual Solar Array Panels -->
+        <rect x="10" y="42" width="22" height="16" rx="1" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <line x1="21" y1="42" x2="21" y2="58" stroke="${c}" stroke-width="1"/>
+        <rect x="68" y="42" width="22" height="16" rx="1" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <line x1="79" y1="42" x2="79" y2="58" stroke="${c}" stroke-width="1"/>
+        <!-- Orbiting Stars -->
+        <circle cx="28" cy="22" r="1.5" fill="${c}"/>
+        <circle cx="76" cy="24" r="1.5" fill="${c}"/>
+        <circle cx="24" cy="76" r="1.5" fill="${c}"/>
+        <circle cx="74" cy="78" r="1.5" fill="${c}"/>
+      </svg>`;
+    }
   } else {
     if (isDossier) {
       return `<svg viewBox="0 0 200 100" class="map-svg blueprint" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: 200px;">

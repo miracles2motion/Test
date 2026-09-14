@@ -302,8 +302,43 @@ const propCatalog = {
   cyl(${x.toFixed(1)}, ${y} + 7, ${z.toFixed(1)} - 2, 0.4, 6, { ink: OR });
   ring(${x.toFixed(1)}, ${y} + 14.5, ${z.toFixed(1)} - 2, 'y');`
     }
+  ],
+  space_station: [
+    { type: 'solar_array_wing', w: 11, h: 7, d: 4, tier: 3, gen: (x, y, z) => `
+  // Prefab: Articulated Photovoltaic Solar Array
+  buildSolarArray(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
+    },
+    { type: 'centrifuge_hab_ring', w: 12, h: 11, d: 12, tier: 3, gen: (x, y, z) => `
+  // Prefab: Habitat Centrifuge Core Hub & Ring
+  buildCentrifugeRing(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
+    },
+    { type: 'comms_parabolic_dish', w: 7, h: 9, d: 7, tier: 3, gen: (x, y, z) => `
+  // Prefab: Deep-Space Communications Parabolic Dish
+  buildCommunicationsDish(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
+    },
+    { type: 'airlock_bulkhead_portal', w: 4, h: 5, d: 2, tier: 2, gen: (x, y, z) => `
+  // Prefab: Pressurized Airlock Hatch Bulkhead
+  buildAirlockHatch(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
+    },
+    { type: 'hydroponic_algae_bay', w: 3, h: 3, d: 2, tier: 2, gen: (x, y, z) => `
+  // Prefab: Hydroponic Algae Growth Bay
+  buildHydroponicTray(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
+    },
+    { type: 'cryo_stasis_capsule', w: 2, h: 2, d: 3, tier: 1, gen: (x, y, z) => `
+  // Prefab: Cryo-Stasis Sleeper Pod
+  buildCryoPod(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
+    },
+    { type: 'oxygen_manifold_rack', w: 3, h: 2, d: 2, tier: 1, gen: (x, y, z) => `
+  // Prefab: High-Pressure Oxygen Tank Rack
+  buildOxygenTankRack(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
+    },
+    { type: 'flight_telemetry_terminal', w: 3, h: 2, d: 2, tier: 1, gen: (x, y, z) => `
+  // Prefab: Telemetry Flight Station & Avionics Terminal
+  buildTelemetryConsole(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
+    }
   ]
 };
+propCatalog['station'] = propCatalog['space_station'];
 
 const defaultProps = [];
 const availableProps = propCatalog[themeArg] || propCatalog['colossal'] || propCatalog['broken_galleon'];
@@ -331,6 +366,8 @@ for (const y of tiers) {
         else activeCatalog = propCatalog['broken_galleon'];
       } else if (mapArg === 'forest' || themeArg === 'forest') {
         activeCatalog = propCatalog['forest'];
+      } else if (mapArg === 'space_station' || themeArg === 'space_station' || mapArg === 'station' || themeArg === 'station') {
+        activeCatalog = propCatalog['space_station'];
       }
       
       const propTemplate = activeCatalog[Math.floor(Math.random() * activeCatalog.length)];
@@ -389,6 +426,24 @@ for (const lane of lanes) {
           const fn = softTemplates[Math.floor(Math.random() * softTemplates.length)];
           safePockets.push({ x: p.position.x, y: 0, z: p.position.z, template: { gen: fn } });
         }
+      } else if (themeArg === 'space_station' || mapArg === 'space_station' || themeArg === 'station' || mapArg === 'station') {
+        if (p.type === 'HARD_COVER') {
+          const hardTemplates = [
+            (x, y, z) => `  buildCryoPod(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`,
+            (x, y, z) => `  buildOxygenTankRack(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`,
+            (x, y, z) => `  buildAirlockHatch(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
+          ];
+          const fn = hardTemplates[Math.floor(Math.random() * hardTemplates.length)];
+          safePockets.push({ x: p.position.x, y: 0, z: p.position.z, template: { gen: fn } });
+        } else {
+          const softTemplates = [
+            (x, y, z) => `  buildTelemetryConsole(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`,
+            (x, y, z) => `  buildHydroponicTray(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`,
+            (x, y, z) => `  buildSolarArray(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
+          ];
+          const fn = softTemplates[Math.floor(Math.random() * softTemplates.length)];
+          safePockets.push({ x: p.position.x, y: 0, z: p.position.z, template: { gen: fn } });
+        }
       } else {
         if (p.type === 'HARD_COVER') {
           safePockets.push({
@@ -438,7 +493,9 @@ ${selectedProps.map(p => p.template.gen(p.x, p.y, p.z)).join('\n')}
     'buildAncientTree', 'buildPineTree', 'buildWillowTree', 'buildGiantMushroom',
     'buildHollowLog', 'buildFernCluster', 'buildGrassClump', 'buildFullGalleon',
     'buildCampfire', 'buildWoodStack', 'buildTrailSign', 'buildChoppingBlock',
-    'buildLoggingCart', 'buildHollowStump', 'buildToadstoolCluster', 'buildSurveyTable'
+    'buildLoggingCart', 'buildHollowStump', 'buildToadstoolCluster', 'buildSurveyTable',
+    'buildSolarArray', 'buildCryoPod', 'buildAirlockHatch', 'buildCentrifugeRing',
+    'buildHydroponicTray', 'buildCommunicationsDish', 'buildOxygenTankRack', 'buildTelemetryConsole'
   ];
   const neededPrefabs = prefabsToImport.filter(p => code.includes(p) && !code.includes(`from '../prefabs.js'`));
   if (neededPrefabs.length > 0) {

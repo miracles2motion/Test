@@ -521,7 +521,10 @@ function scaffoldFromConcept(conceptPath) {
     cyber: 'urban',
     steampunk: 'kinetic',
     colossal: 'colossal',
-    maritime: 'urban'
+    maritime: 'urban',
+    forest: 'anomalous',
+    space_station: 'kinetic',
+    station: 'kinetic'
   };
   const preset = presetMap[effectiveTheme] || 'urban';
 
@@ -609,7 +612,18 @@ async function main() {
       stages['concept-generation'] = { status: 'pass', lines: fs.readFileSync(conceptPath, 'utf8').split('\n').length };
 
       // Stage 2: Scaffold level code
-      if (!runStage('Level Scaffolding', `node src/map-scaffold.js ${key} urban`)) {
+      const presetMap = {
+        zen: 'urban',
+        cyber: 'urban',
+        steampunk: 'kinetic',
+        colossal: 'colossal',
+        maritime: 'urban',
+        forest: 'anomalous',
+        space_station: 'kinetic',
+        station: 'kinetic'
+      };
+      const scaffoldPreset = presetMap[theme] || 'urban';
+      if (!runStage('Level Scaffolding', `node src/map-scaffold.js ${key} ${scaffoldPreset}`)) {
         overallSuccess = false;
         throw new Error('Scaffolding failed');
       }

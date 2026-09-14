@@ -619,6 +619,241 @@ export function buildInkwellCover(B, x, y, z, o = {}) {
   ring(x + 3.2, y + h + 3.2, z + 0.8, 'x');
 }
 
+/**
+ * Procedural Articulated Photovoltaic Solar Array
+ * Features dual rotatable solar wings with structural cross-struts,
+ * central actuator mast, foundation battery buffer (tactical cover), and apex grapple ring.
+ */
+export function buildSolarArray(B, x, y, z, o = {}) {
+  const { box, slab, cyl, sphere, ring } = B;
+  const inkHull = o.inkHull ?? INK.BLUE;
+  const inkFrame = o.inkFrame ?? INK.BLACK;
+  const inkAccent = o.inkAccent ?? INK.ORANGE;
+
+  // 1. Foundation Battery Buffer Block (Tactical Cover: Y = y to y + 1.2m)
+  box(x, y, z, 2.2, 1.2, 2.2, { ink: inkHull, tag: 'cover' });
+
+  // 2. Central Structural Spindle Mast
+  cyl(x, y + 1.2, z, 0.4, 4.2, { seg: 8, ink: inkFrame });
+
+  // 3. Dual-Axis Rotary Gimbal Joint
+  sphere(x, y + 4.8, z, 0.65, { ink: inkAccent });
+
+  // 4. Horizontal Transverse Boom Arm
+  box(x, y + 4.8, z, 10.8, 0.35, 0.35, { ink: inkFrame });
+
+  // 5. Dual Photovoltaic Collector Wings (Left & Right)
+  slab(x - 5.2, z - 1.2, x - 0.8, z + 1.2, y + 4.9, 0.12, { ink: inkHull, noCollide: true });
+  slab(x + 0.8, z - 1.2, x + 5.2, z + 1.2, y + 4.9, 0.12, { ink: inkHull, noCollide: true });
+
+  // Structural Grid Trusses
+  box(x - 3.0, y + 5.0, z, 4.2, 0.08, 0.08, { ink: inkFrame, noCollide: true });
+  box(x + 3.0, y + 5.0, z, 4.2, 0.08, 0.08, { ink: inkFrame, noCollide: true });
+
+  // 6. Apex Grapple Ring
+  ring(x, y + 6.2, z, 'y');
+}
+
+/**
+ * Procedural Cryo-Stasis Sleeper Pod
+ * Pressurized life-support stasis capsule with frost viewscreen,
+ * diagnostic telemetry readout column, and biological conduit lines. Ideal waist-high cover.
+ */
+export function buildCryoPod(B, x, y, z, o = {}) {
+  const { box, cyl } = B;
+  const inkHull = o.inkHull ?? INK.BLUE;
+  const inkFrame = o.inkFrame ?? INK.BLACK;
+  const inkAccent = o.inkAccent ?? INK.ORANGE;
+
+  // 1. Foundation Stasis Sled Cradle (Tactical Cover: 1.2m x 2.2m x 0.4m)
+  box(x, y, z, 1.2, 0.4, 2.2, { ink: inkHull, tag: 'cover' });
+
+  // 2. Sealed Capsule Chamber (Waist-high cover: 1.0m x 2.0m x 0.75m)
+  box(x, y + 0.4, z, 1.0, 0.75, 2.0, { ink: inkFrame, tag: 'cover' });
+
+  // 3. Frost Viewing Glass (Decorative visor)
+  box(x, y + 1.1, z, 0.65, 0.15, 1.4, { ink: INK.BLUE, noCollide: true });
+
+  // 4. Diagnostic Readout Column
+  box(x + 0.65, y, z + 0.6, 0.35, 1.25, 0.35, { ink: inkAccent, tag: 'cover' });
+
+  // 5. Cryo Refrigerant Conduit Lines
+  cyl(x - 0.55, y + 0.2, z, 0.08, 1.8, { axis: 'z', ink: inkAccent, noCollide: true });
+}
+
+/**
+ * Procedural Pressurized Airlock Hatch Bulkhead
+ * Heavy reinforced pressure door frame with manual rotary dogging wheel,
+ * emergency hazard beacon, and elevated grapple lintel.
+ */
+export function buildAirlockHatch(B, x, y, z, o = {}) {
+  const { box, cyl, sphere, ring } = B;
+  const inkHull = o.inkHull ?? INK.BLUE;
+  const inkFrame = o.inkFrame ?? INK.BLACK;
+  const inkAccent = o.inkAccent ?? INK.ORANGE;
+
+  // 1. Bulkhead Jamb Frame
+  box(x - 1.3, y, z, 0.6, 3.4, 0.8, { ink: inkHull });
+  box(x + 1.3, y, z, 0.6, 3.4, 0.8, { ink: inkHull });
+  box(x, y + 3.0, z, 3.2, 0.5, 0.8, { ink: inkHull });
+  box(x, y, z, 3.2, 0.2, 0.8, { ink: inkHull });
+
+  // 2. Reinforced Pressure Door (Full cover block)
+  box(x, y + 0.2, z, 1.8, 2.6, 0.35, { ink: inkFrame, tag: 'cover' });
+
+  // 3. Manual Rotary Wheel Lock
+  cyl(x, y + 1.5, z + 0.25, 0.42, 0.08, { axis: 'z', ink: inkAccent, noCollide: true });
+
+  // 4. Emergency Hazard Beacon
+  sphere(x, y + 3.4, z, 0.22, { ink: INK.RED, noCollide: true });
+
+  // 5. Overhead Grapple Ring
+  ring(x, y + 4.2, z, 'z');
+}
+
+/**
+ * Procedural Habitat Centrifuge Core Hub & Ring
+ * Landmark anchor set piece: central rotation hub column, 4 radial structural spokes,
+ * multi-tier walkable catwalk decks with safety railings, and high-altitude grapple ring.
+ */
+export function buildCentrifugeRing(B, x, y, z, o = {}) {
+  const { box, slab, cyl, ring, rail, pickup } = B;
+  const inkHull = o.inkHull ?? INK.BLUE;
+  const inkFrame = o.inkFrame ?? INK.BLACK;
+  const inkAccent = o.inkAccent ?? INK.ORANGE;
+
+  // 1. Central Core Torus Spindle
+  cyl(x, y, z, 1.8, 8.5, { seg: 10, ink: inkHull });
+
+  // 2. Four Radial Structural Spokes (At Y = y + 4.5)
+  box(x, y + 4.5, z, 11.0, 0.6, 0.6, { ink: inkFrame });
+  box(x, y + 4.5, z, 0.6, 0.6, 11.0, { ink: inkFrame });
+
+  // 3. Walkable Outer Habitat Deck Ring (North, South, East, West Slabs at Y = y + 4.5)
+  slab(x - 5.5, z - 2.5, x - 3.5, z + 2.5, y + 4.5, 0.4, { ink: inkHull });
+  slab(x + 3.5, z - 2.5, x + 5.5, z + 2.5, y + 4.5, 0.4, { ink: inkHull });
+  slab(x - 2.5, z - 5.5, x + 2.5, z - 3.5, y + 4.5, 0.4, { ink: inkHull });
+  slab(x - 2.5, z + 3.5, x + 2.5, z + 5.5, y + 4.5, 0.4, { ink: inkHull });
+
+  // Perimeter Guard Rails
+  rail(x - 5.5, z - 2.5, x - 5.5, z + 2.5, y + 4.5, { ink: inkAccent });
+  rail(x + 5.5, z - 2.5, x + 5.5, z + 2.5, y + 4.5, { ink: inkAccent });
+  rail(x - 2.5, z - 5.5, x + 2.5, z - 5.5, y + 4.5, { ink: inkAccent });
+  rail(x - 2.5, z + 5.5, x + 2.5, z + 5.5, y + 4.5, { ink: inkAccent });
+
+  // 4. Waist-High Tactical Cover Blocks on Deck
+  box(x - 4.5, y + 4.9, z, 0.8, 1.1, 0.8, { ink: inkAccent, tag: 'cover' });
+  box(x + 4.5, y + 4.9, z, 0.8, 1.1, 0.8, { ink: inkAccent, tag: 'cover' });
+
+  // 5. Apex Momentum Swing Ring & Tactical Reward
+  ring(x, y + 10.2, z, 'y');
+  pickup(x, y + 4.9, z);
+}
+
+/**
+ * Procedural Hydroponic Algae & Spirulina Growth Bay
+ * Pressurized nutrient tank tub with bioluminescent fluid surface,
+ * overhead UV grow light armature, and aeroponic valve manifold.
+ */
+export function buildHydroponicTray(B, x, y, z, o = {}) {
+  const { box, cyl } = B;
+  const inkHull = o.inkHull ?? INK.BLUE;
+  const inkFrame = o.inkFrame ?? INK.BLACK;
+  const inkAccent = o.inkAccent ?? INK.ORANGE;
+
+  // 1. Sealed Nutrient Tank Basin (Waist-high cover: 2.4m x 1.4m x 0.9m)
+  box(x, y, z, 2.4, 0.9, 1.4, { ink: inkHull, tag: 'cover' });
+
+  // 2. Algae Culture Surface (Bioluminescent green fluid)
+  box(x, y + 0.82, z, 2.1, 0.1, 1.1, { ink: INK.GREEN, noCollide: true });
+
+  // 3. Overhead UV Grow-Light Armature
+  cyl(x - 1.0, y + 0.9, z, 0.05, 1.2, { ink: inkFrame, noCollide: true });
+  cyl(x + 1.0, y + 0.9, z, 0.05, 1.2, { ink: inkFrame, noCollide: true });
+  box(x, y + 2.05, z, 2.1, 0.12, 0.35, { ink: inkAccent, noCollide: true });
+
+  // 4. Aeroponic Valve Manifold (Micro-cover side node)
+  cyl(x + 1.25, y + 0.25, z, 0.16, 0.65, { ink: INK.RED, tag: 'cover' });
+}
+
+/**
+ * Procedural Deep-Space Communications Parabolic Dish
+ * High-gain telemetry dish with lattice gimbal pedestal,
+ * central feed horn mast, sub-reflector tip, and grappling anchor.
+ */
+export function buildCommunicationsDish(B, x, y, z, o = {}) {
+  const { box, cyl, sphere, ring } = B;
+  const inkHull = o.inkHull ?? INK.BLUE;
+  const inkFrame = o.inkFrame ?? INK.BLACK;
+  const inkAccent = o.inkAccent ?? INK.ORANGE;
+
+  // 1. Structural Lattice Pedestal (Cover base: 2.2m x 3.0m x 2.2m)
+  box(x, y, z, 2.2, 3.0, 2.2, { ink: inkFrame, tag: 'cover' });
+
+  // 2. Gimbal Elevation Rotor
+  sphere(x, y + 3.0, z, 0.85, { ink: inkAccent });
+
+  // 3. Parabolic Reflector Dish
+  cyl(x, y + 4.4, z, 3.0, 0.55, { seg: 12, ink: inkHull });
+
+  // 4. Transceiver Feed Horn Mast
+  cyl(x, y + 4.9, z, 0.2, 2.0, { ink: inkFrame });
+  sphere(x, y + 6.9, z, 0.35, { ink: inkAccent });
+
+  // 5. Communications Grapple Ring
+  ring(x, y + 8.2, z, 'z');
+}
+
+/**
+ * Procedural High-Pressure Oxygen Tank Rack
+ * Cluster of 3 pressurized O2 cylinders secured inside a titanium protective roll-cage.
+ * Optimal waist-high defilade barricade (1.1m - 1.3m).
+ */
+export function buildOxygenTankRack(B, x, y, z, o = {}) {
+  const { box, cyl } = B;
+  const inkHull = o.inkHull ?? INK.BLUE;
+  const inkFrame = o.inkFrame ?? INK.BLACK;
+  const inkAccent = o.inkAccent ?? INK.ORANGE;
+
+  // 1. Skid Frame Cradle (Base foundation)
+  box(x, y, z, 2.2, 0.3, 1.0, { ink: inkHull, tag: 'cover' });
+
+  // 2. Three Pressurized Oxygen Cylinders (0.26m radius, 1.05m height)
+  cyl(x - 0.65, y + 0.3, z, 0.26, 1.05, { ink: INK.BLUE, tag: 'cover' });
+  cyl(x, y + 0.3, z, 0.26, 1.05, { ink: INK.BLUE, tag: 'cover' });
+  cyl(x + 0.65, y + 0.3, z, 0.26, 1.05, { ink: INK.BLUE, tag: 'cover' });
+
+  // 3. Manifold Pressure Distribution Pipe & Dial
+  box(x, y + 1.25, z, 1.6, 0.08, 0.08, { ink: inkAccent, noCollide: true });
+  cyl(x + 0.95, y + 1.25, z, 0.12, 0.06, { axis: 'x', ink: INK.RED, noCollide: true });
+
+  // 4. Protective Roll-Cage Tubing
+  box(x, y + 0.3, z - 0.45, 2.2, 1.1, 0.08, { ink: inkFrame, noCollide: true });
+}
+
+/**
+ * Procedural Telemetry Flight Station & Avionics Terminal
+ * Angled operator console with tactile keyboard, dual holo-monitors, and swivel seat.
+ */
+export function buildTelemetryConsole(B, x, y, z, o = {}) {
+  const { box, cyl, wedge } = B;
+  const inkHull = o.inkHull ?? INK.BLUE;
+  const inkFrame = o.inkFrame ?? INK.BLACK;
+
+  // 1. Avionics Equipment Base (Waist cover: 2.0m x 0.85m x 1.2m)
+  box(x, y, z, 2.0, 0.85, 1.2, { ink: inkHull, tag: 'cover' });
+
+  // 2. Sloped Instrument Panel
+  wedge(x, y + 0.85, z, 1.8, 0.3, 0.7, { dir: '+z', ink: inkFrame, noCollide: true });
+
+  // 3. Dual Diagnostic Holo-Monitors
+  box(x - 0.5, y + 1.15, z - 0.2, 0.55, 0.4, 0.06, { ink: INK.ORANGE, noCollide: true });
+  box(x + 0.5, y + 1.15, z - 0.2, 0.55, 0.4, 0.06, { ink: INK.BLUE, noCollide: true });
+
+  // 4. Operator Stool (Micro-cover node)
+  cyl(x, y, z + 0.9, 0.3, 0.65, { ink: inkFrame, tag: 'cover' });
+}
+
 // ============================================================================
 // DYNAMIC PREFAB REGISTRY & TEACHING CATALOG
 // Allows Dream to query, inspect, and instantiate any 3D compound structure.
@@ -770,6 +1005,62 @@ export const PREFAB_REGISTRY = {
     tags: ['forest', 'table', 'survey', 'furniture', 'cover'],
     builder: buildSurveyTable,
     footprint: [2.8, 1.5, 1.8]
+  },
+  solar_array: {
+    id: 'solar_array',
+    name: 'Articulated Photovoltaic Solar Array',
+    tags: ['space_station', 'station', 'space', 'solar', 'power', 'cover'],
+    builder: buildSolarArray,
+    footprint: [11.0, 6.5, 3.5]
+  },
+  cryo_pod: {
+    id: 'cryo_pod',
+    name: 'Cryo-Stasis Sleeper Pod',
+    tags: ['space_station', 'station', 'space', 'stasis', 'pod', 'cover'],
+    builder: buildCryoPod,
+    footprint: [1.8, 1.3, 2.4]
+  },
+  airlock_hatch: {
+    id: 'airlock_hatch',
+    name: 'Pressurized Airlock Hatch Bulkhead',
+    tags: ['space_station', 'station', 'space', 'airlock', 'door', 'hatch'],
+    builder: buildAirlockHatch,
+    footprint: [3.4, 4.2, 1.2]
+  },
+  centrifuge_ring: {
+    id: 'centrifuge_ring',
+    name: 'Habitat Centrifuge Core Hub & Ring',
+    tags: ['space_station', 'station', 'space', 'centrifuge', 'hab', 'landmark'],
+    builder: buildCentrifugeRing,
+    footprint: [12.0, 10.5, 12.0]
+  },
+  hydroponic_tray: {
+    id: 'hydroponic_tray',
+    name: 'Hydroponic Algae Growth Bay',
+    tags: ['space_station', 'station', 'space', 'hydroponic', 'algae', 'cover'],
+    builder: buildHydroponicTray,
+    footprint: [2.8, 2.2, 1.6]
+  },
+  communications_dish: {
+    id: 'communications_dish',
+    name: 'Deep-Space Communications Parabolic Dish',
+    tags: ['space_station', 'station', 'space', 'antenna', 'dish', 'comms'],
+    builder: buildCommunicationsDish,
+    footprint: [6.5, 8.5, 6.5]
+  },
+  oxygen_tank_rack: {
+    id: 'oxygen_tank_rack',
+    name: 'High-Pressure Oxygen Tank Rack',
+    tags: ['space_station', 'station', 'space', 'oxygen', 'gas', 'tank', 'cover'],
+    builder: buildOxygenTankRack,
+    footprint: [2.4, 1.4, 1.2]
+  },
+  telemetry_console: {
+    id: 'telemetry_console',
+    name: 'Telemetry Flight Station & Avionics Terminal',
+    tags: ['space_station', 'station', 'space', 'terminal', 'console', 'computer', 'cover'],
+    builder: buildTelemetryConsole,
+    footprint: [2.2, 1.4, 1.8]
   }
 };
 

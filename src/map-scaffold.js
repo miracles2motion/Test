@@ -155,6 +155,20 @@ const primaryInk = conf.primaryInkVar;
 const secondaryInk = conf.secondaryInkVar;
 const accentInk = conf.accentInkVar;
 
+const centerStepCount = Math.max(6, Math.round(conf.tier2Y / conf.recRise));
+const centerRise = parseFloat((conf.tier2Y / centerStepCount).toFixed(4));
+const quadStepCount = Math.max(6, Math.round((conf.tier2Y * 0.8) / conf.recRise));
+const quadRise = parseFloat(((conf.tier2Y * 0.8) / quadStepCount).toFixed(4));
+const sniperStepCount = Math.max(6, Math.round((conf.tier3Y * 0.85) / conf.recRise));
+const sniperRise = parseFloat(((conf.tier3Y * 0.85) / sniperStepCount).toFixed(4));
+
+const centerSouthZ = parseFloat((-10 - centerStepCount * conf.recRun).toFixed(3));
+const centerNorthZ = parseFloat((10 + centerStepCount * conf.recRun).toFixed(3));
+const nwStairX = parseFloat((-20 + quadStepCount * conf.recRun).toFixed(3));
+const neStairX = parseFloat((20 - sniperStepCount * conf.recRun).toFixed(3));
+const swStairX = parseFloat((-20 + quadStepCount * conf.recRun).toFixed(3));
+const seStairX = parseFloat((20 - quadStepCount * conf.recRun).toFixed(3));
+
 // 3. Generate Level Code
 const levelCode = `import * as THREE from 'three';
 import { INK } from '../render.js';
@@ -237,30 +251,29 @@ export function build${pascalName}(B, arena = false) {
   
   // Dual Ascending Stairways connecting ground to center deck
   const rs = ${conf.recRise}, rn = ${conf.recRun};
-  const stepCount = Math.max(6, Math.round(centerH / rs));
-  stairs(0, 0, -centerD / 2 - stepCount * rn, '+z', stepCount, 3.2, { rise: centerH / stepCount, run: rn, ink: ${accentInk} });
-  stairs(0, 0, centerD / 2 + stepCount * rn, '-z', stepCount, 3.2, { rise: centerH / stepCount, run: rn, ink: ${accentInk} });
+  stairs(0, 0, ${centerSouthZ}, '+z', ${centerStepCount}, 3.2, { rise: ${centerRise}, run: ${conf.recRun}, ink: ${accentInk} });
+  stairs(0, 0, ${centerNorthZ}, '-z', ${centerStepCount}, 3.2, { rise: ${centerRise}, run: ${conf.recRun}, ink: ${accentInk} });
 
   // 4. Tactical Quadrant Platforms & Flanking Lanes
   // NW Quadrant: Elevated Base Platform
   slab(-38, -38, -20, -20, ${conf.tier2Y * 0.8}, 0.4, { ink: ${primaryInk} });
-  stairs(-20, 0, -29, '-x', Math.round((${conf.tier2Y * 0.8}) / rs), 2.8, { rise: (${conf.tier2Y * 0.8}) / Math.round((${conf.tier2Y * 0.8}) / rs), run: rn, ink: ${accentInk} });
-  box(-29, ${conf.tier2Y * 0.8}, -29, 2.0, 1.1, 2.0, { ink: ${secondaryInk}, tag: 'cover' });
+  stairs(${nwStairX}, 0, -29, '-x', ${quadStepCount}, 2.8, { rise: ${quadRise}, run: ${conf.recRun}, ink: ${accentInk} });
+  box(-29, ${conf.tier2Y * 0.8}, -23, 2.0, 1.1, 2.0, { ink: ${secondaryInk}, tag: 'cover' });
 
   // NE Quadrant: Sniper Lookout Bastion
   slab(20, -38, 38, -20, ${conf.tier3Y * 0.85}, 0.4, { ink: ${primaryInk} });
-  stairs(20, 0, -29, '+x', Math.round((${conf.tier3Y * 0.85}) / rs), 2.8, { rise: (${conf.tier3Y * 0.85}) / Math.round((${conf.tier3Y * 0.85}) / rs), run: rn, ink: ${accentInk} });
-  box(29, ${conf.tier3Y * 0.85}, -29, 2.2, 1.1, 2.2, { ink: ${secondaryInk}, tag: 'cover' });
+  stairs(${neStairX}, 0, -29, '+x', ${sniperStepCount}, 2.8, { rise: ${sniperRise}, run: ${conf.recRun}, ink: ${accentInk} });
+  box(29, ${conf.tier3Y * 0.85}, -23, 2.2, 1.1, 2.2, { ink: ${secondaryInk}, tag: 'cover' });
 
   // SW Quadrant: CQB Crucible Defilade
   slab(-38, 20, -20, 38, ${conf.tier2Y * 0.8}, 0.4, { ink: ${primaryInk} });
-  stairs(-20, 0, 29, '-x', Math.round((${conf.tier2Y * 0.8}) / rs), 2.8, { rise: (${conf.tier2Y * 0.8}) / Math.round((${conf.tier2Y * 0.8}) / rs), run: rn, ink: ${accentInk} });
-  box(-29, ${conf.tier2Y * 0.8}, 29, 2.0, 1.1, 2.0, { ink: ${secondaryInk}, tag: 'cover' });
+  stairs(${swStairX}, 0, 29, '-x', ${quadStepCount}, 2.8, { rise: ${quadRise}, run: ${conf.recRun}, ink: ${accentInk} });
+  box(-29, ${conf.tier2Y * 0.8}, 23, 2.0, 1.1, 2.0, { ink: ${secondaryInk}, tag: 'cover' });
 
   // SE Quadrant: Flank Anchor Platform
   slab(20, 20, 38, 38, ${conf.tier2Y * 0.8}, 0.4, { ink: ${primaryInk} });
-  stairs(20, 0, 29, '+x', Math.round((${conf.tier2Y * 0.8}) / rs), 2.8, { rise: (${conf.tier2Y * 0.8}) / Math.round((${conf.tier2Y * 0.8}) / rs), run: rn, ink: ${accentInk} });
-  box(29, ${conf.tier2Y * 0.8}, 29, 2.0, 1.1, 2.0, { ink: ${secondaryInk}, tag: 'cover' });
+  stairs(${seStairX}, 0, 29, '+x', ${quadStepCount}, 2.8, { rise: ${quadRise}, run: ${conf.recRun}, ink: ${accentInk} });
+  box(29, ${conf.tier2Y * 0.8}, 23, 2.0, 1.1, 2.0, { ink: ${secondaryInk}, tag: 'cover' });
 
   // 5. Overhead Traversal Ring Network
   ring(0, ${conf.tier3Y + 3.5}, 0, 'y');
@@ -308,7 +321,7 @@ if (fs.existsSync(levelManagerFile)) {
     const buildersRegex = /export const MAP_BUILDERS = {([\s\S]*?)};/;
     const match = mgrCode.match(buildersRegex);
     if (match) {
-      const currentBuilders = match[1].replace(/\s+$/, '');
+      const currentBuilders = match[1].replace(/\s+$/, '').replace(/,+$/, '');
       const newBuildersBlock = `export const MAP_BUILDERS = {${currentBuilders},\n  ${key}: build${pascalName}\n};`;
       mgrCode = mgrCode.replace(buildersRegex, newBuildersBlock);
     }

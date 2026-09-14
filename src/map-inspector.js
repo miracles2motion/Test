@@ -38,11 +38,12 @@ export function inspectMap(mapPath) {
 
   // Extract stairs again to check against slabs
   const stairs = [];
-  let tempRegex = new RegExp(stairRegex);
+  const tempRegex = new RegExp(stairRegex.source, 'g');
   while ((match = tempRegex.exec(code)) !== null) {
     const sx = parseFloat(match[1]), sy = parseFloat(match[2]), sz = parseFloat(match[3]);
     const count = parseInt(match[5]), width = parseFloat(match[6]);
-    const rise = parseFloat(match[7]), run = parseFloat(match[8]);
+    const rise = isNaN(parseFloat(match[7])) ? 0.28 : parseFloat(match[7]);
+    const run = isNaN(parseFloat(match[8])) ? 0.45 : parseFloat(match[8]);
     const dir = match[4].replace(/['"]/g, '');
     
     // Very basic AABB approximation of the stair volume

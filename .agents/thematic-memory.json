@@ -50,11 +50,83 @@
           "momentum swing vines and aerial grapple highway"
         ]
       }
+    },
+    "space_station": {
+      "keywords": [
+        "space_station",
+        "space station",
+        "station",
+        "space",
+        "orbital",
+        "cosmos",
+        "satellite",
+        "centrifuge"
+      ],
+      "primaryInk": "INK.BLUE",
+      "secondaryInk": "INK.BLACK",
+      "accentInk": "INK.ORANGE",
+      "hazardInk": "INK.RED",
+      "props": {
+        "tier1_micro": [
+          "cryo_pod (stasis sleeper capsule with frost visor and diagnostic column)",
+          "oxygen_tank_rack (high-pressure O2 cylinders in titanium roll cage)",
+          "telemetry_console (angled flight terminal with holo-screens and operator stool)",
+          "diagnostic_data_slate (tactical cover workstation)",
+          "emergency_hazard_beacon (stroboscopic alert light)"
+        ],
+        "tier2_meso": [
+          "airlock_hatch (heavy reinforced bulkhead door with rotary wheel lock)",
+          "hydroponic_tray (pressurized algae synthesis bed with UV grow lights)",
+          "docking_corridor (cylindrical pressurized connecting passageway)",
+          "service_catwalk (grated magnetic gantry walkway with hazard rails)"
+        ],
+        "tier3_macro": [
+          "solar_array (articulated photovoltaic wings on rotational spindle mast)",
+          "centrifuge_ring (habitat centrifuge hub with 4 radial spokes and ring deck)",
+          "communications_dish (deep-space parabolic antenna with lattice pedestal)"
+        ],
+        "tier4_kinetic": [
+          "rotating centrifuge torus ring",
+          "drifting orbital micrometeoroids and space telemetry drones",
+          "docking umbilical grappling cables"
+        ]
+      }
+    },
+    "station": {
+      "keywords": [
+        "station",
+        "orbital",
+        "space"
+      ],
+      "primaryInk": "INK.BLUE",
+      "secondaryInk": "INK.BLACK",
+      "accentInk": "INK.ORANGE",
+      "hazardInk": "INK.RED",
+      "props": {
+        "tier1_micro": [
+          "cryo_pod (stasis sleeper capsule with frost visor and diagnostic column)",
+          "oxygen_tank_rack (high-pressure O2 cylinders in titanium roll cage)",
+          "telemetry_console (angled flight terminal with holo-screens and operator stool)"
+        ],
+        "tier2_meso": [
+          "airlock_hatch (heavy reinforced bulkhead door with rotary wheel lock)",
+          "hydroponic_tray (pressurized algae synthesis bed with UV grow lights)"
+        ],
+        "tier3_macro": [
+          "solar_array (articulated photovoltaic wings on rotational spindle mast)",
+          "centrifuge_ring (habitat centrifuge hub with 4 radial spokes and ring deck)",
+          "communications_dish (deep-space parabolic antenna with lattice pedestal)"
+        ],
+        "tier4_kinetic": [
+          "rotating centrifuge torus ring",
+          "drifting orbital micrometeoroids and space telemetry drones"
+        ]
+      }
     }
   },
   "safetyClearances": {
     "walkwayPinch": 1.8,
-    "stairHeadroom": 2.0,
+    "stairHeadroom": 2,
     "ringWallClearance": 1.5,
     "coverMinHeight": 0.8,
     "coverMaxHeight": 1.3

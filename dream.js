@@ -98,6 +98,8 @@ if (calledMatch) {
     mapName = 'paradise';
   } else if (prompt.includes('library')) {
     mapName = 'library';
+  } else if (prompt.includes('space station') || prompt.includes('space_station') || prompt.includes('space')) {
+    mapName = 'space_station';
   } else if (prompt.includes('cover')) {
     mapName = 'cover';
   } else {

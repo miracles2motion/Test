@@ -447,8 +447,65 @@ function getMacroTemplates(theme) {
   ring(${x}, ${y} + 7.8, ${z}, 'z');
   pickup(${x}, ${y} + 1.6, ${z});`
       }
+    ],
+
+    space_station: [
+      {
+        id: 'centrifuge_hab_module',
+        title: 'Orbital Centrifuge Habitat Hub',
+        description: 'Rotary centrifuge torus with central avionics core, dual radial walkways, safety railings, and high-altitude grapple ring.',
+        minSize: [8, 6, 8],
+        codeGenerator: (x, y, z) => `
+  // === MACRO STRUCTURE: Orbital Centrifuge Habitat Hub at (${x}, ${y}, ${z}) ===
+  box(${x}, ${y}, ${z}, 8.4, 0.8, 8.4, { ink: BL });
+  cyl(${x}, ${y} + 0.8, ${z}, 1.8, 4.5, { seg: 8, ink: BL });
+  slab(${x} - 4.2, ${z} - 4.2, ${x} + 4.2, ${z} + 4.2, ${y} + 4.0, 0.4, { ink: OR });
+  rail(${x} - 4.2, ${z} - 4.2, ${x} + 4.2, ${z} - 4.2, ${y} + 4.0, { ink: OR });
+  rail(${x} - 4.2, ${z} + 4.2, ${x} + 4.2, ${z} + 4.2, ${y} + 4.0, { ink: OR });
+  box(${x}, ${y} + 4.8, ${z}, 2.0, 1.2, 2.0, { ink: BK });
+  ring(${x}, ${y} + 8.8, ${z}, 'y');
+  pickup(${x}, ${y} + 4.4, ${z});`
+      },
+      {
+        id: 'solar_array_mast',
+        title: 'Photovoltaic Array Gantry',
+        description: 'Elevated solar wing tower with rotational gimbal, maintenance catwalk, and battery cover nodes.',
+        minSize: [8, 6, 8],
+        codeGenerator: (x, y, z) => `
+  // === MACRO STRUCTURE: Photovoltaic Array Gantry at (${x}, ${y}, ${z}) ===
+  box(${x}, ${y}, ${z}, 6.0, 2.0, 6.0, { ink: BL });
+  cyl(${x}, ${y} + 2.0, ${z}, 0.6, 5.0, { seg: 6, ink: BK });
+  slab(${x} - 3.8, ${z} - 3.8, ${x} + 3.8, ${z} + 3.8, ${y} + 4.5, 0.4, { ink: OR });
+  rail(${x} - 3.8, ${z} - 3.8, ${x} + 3.8, ${z} - 3.8, ${y} + 4.5, { ink: BK });
+  rail(${x} - 3.8, ${z} + 3.8, ${x} + 3.8, ${z} + 3.8, ${y} + 4.5, { ink: BK });
+  box(${x} - 2.5, ${y} + 4.5, ${z}, 1.2, 1.1, 1.2, { ink: BL, tag: 'cover' });
+  box(${x} + 2.5, ${y} + 4.5, ${z}, 1.2, 1.1, 1.2, { ink: BL, tag: 'cover' });
+  box(${x}, ${y} + 6.8, ${z}, 9.0, 0.3, 3.0, { noCollide: true, ink: BL });
+  ring(${x}, ${y} + 9.2, ${z}, 'z');
+  pickup(${x}, ${y} + 4.9, ${z});`
+      },
+      {
+        id: 'deep_space_comms_gantry',
+        title: 'Deep-Space Telemetry Bastion',
+        description: 'Massive parabolic reflector platform with operator redoubt, telemetry monitors, and antenna grapple hook.',
+        minSize: [7, 6, 7],
+        codeGenerator: (x, y, z) => `
+  // === MACRO STRUCTURE: Deep-Space Telemetry Bastion at (${x}, ${y}, ${z}) ===
+  box(${x} - 2.8, ${y}, ${z} - 2.8, 0.8, 5.0, 0.8, { ink: BK });
+  box(${x} + 2.8, ${y}, ${z} - 2.8, 0.8, 5.0, 0.8, { ink: BK });
+  box(${x} - 2.8, ${y}, ${z} + 2.8, 0.8, 5.0, 0.8, { ink: BK });
+  box(${x} + 2.8, ${y}, ${z} + 2.8, 0.8, 5.0, 0.8, { ink: BK });
+  slab(${x} - 3.5, ${z} - 3.5, ${x} + 3.5, ${z} + 3.5, ${y} + 4.5, 0.4, { ink: OR });
+  rail(${x} - 3.5, ${z} - 3.5, ${x} + 3.5, ${z} - 3.5, ${y} + 4.5, { ink: OR });
+  rail(${x} - 3.5, ${z} + 3.5, ${x} + 3.5, ${z} + 3.5, ${y} + 4.5, { ink: OR });
+  cyl(${x}, ${y} + 4.9, ${z}, 2.4, 0.8, { seg: 8, ink: BL });
+  cyl(${x}, ${y} + 5.7, ${z}, 0.25, 2.4, { ink: BK });
+  ring(${x}, ${y} + 8.8, ${z}, 'z');
+  pickup(${x}, ${y} + 4.9, ${z} + 2.0);`
+      }
     ]
   };
+  templates.station = templates.space_station;
 
   // Return theme-specific templates or fall back to a mix
   const themeKey = theme && templates[theme] ? theme : null;

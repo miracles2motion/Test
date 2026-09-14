@@ -169,11 +169,40 @@ let allPassed = true;
   if (!ok) allPassed = false;
 }
 
+// [TEST 10] Space Station Tactical Structures & Sci-Fi Prefabs
+{
+  const { B, colliders, boxes, cyls, rings } = createMockBuilder();
+  const {
+    buildSolarArray,
+    buildCryoPod,
+    buildAirlockHatch,
+    buildCentrifugeRing,
+    buildHydroponicTray,
+    buildCommunicationsDish,
+    buildOxygenTankRack,
+    buildTelemetryConsole
+  } = await import('../src/prefabs.js');
+
+  buildSolarArray(B, 0, 0, 0);
+  buildCryoPod(B, 15, 0, 0);
+  buildAirlockHatch(B, 30, 0, 0);
+  buildCentrifugeRing(B, 45, 0, 0);
+  buildHydroponicTray(B, 60, 0, 0);
+  buildCommunicationsDish(B, 75, 0, 0);
+  buildOxygenTankRack(B, 90, 0, 0);
+  buildTelemetryConsole(B, 105, 0, 0);
+
+  const ok = colliders.length >= 15 && boxes.length >= 15 && cyls.length >= 8 && rings.length >= 4;
+  console.log(`[TEST 10] Space Station Prefabs (SolarArray, CryoPod, Airlock, Centrifuge, Hydroponic, Comms, O2Rack, Console): ${colliders.length} colliders, ${boxes.length} boxes, ${rings.length} rings => ${ok ? 'PASS' : 'FAIL'}`);
+  if (!ok) allPassed = false;
+}
+
 console.log('\n' + '='.repeat(60));
 if (allPassed) {
-  console.log('🎉 ALL 9 PROCEDURAL PREFAB VERIFICATION TESTS PASSED!');
+  console.log('🎉 ALL 10 PROCEDURAL PREFAB VERIFICATION TESTS PASSED!');
   process.exit(0);
 } else {
   console.error('❌ SOME PREFAB VERIFICATION TESTS FAILED!');
   process.exit(1);
 }
+

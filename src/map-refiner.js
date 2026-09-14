@@ -98,7 +98,12 @@ if (action === 'detail') {
   // Dream Detail: Zen Garden Micro Props
   cyl(${x} - 1.0, ${topY}, ${z} + 0.5, 0.35, 0.7, { ink: BK, tag: 'cover' }); // Stone Lantern
   cyl(${x} + 0.8, ${topY}, ${z} - 0.8, 0.1, 1.4, { ink: GR, noCollide: true }); // Bamboo Shoot
-  sphere(${x} - 0.2, ${topY} + 0.15, ${z} + 1.0, 0.3, { ink: BK, noCollide: true }); // River Rock`;
+      } else if (theme === 'space_station' || theme === 'station') {
+        return `${match}
+  // Dream Detail: Scattered Space Station Micro-Props
+  box(${x} - 1.0, ${topY}, ${z} + 0.5, 0.7, 0.3, 0.5, { ink: BL, tag: 'cover' }); // Diagnostic Data Slate
+  cyl(${x} + 0.8, ${topY}, ${z} - 0.8, 0.22, 0.85, { ink: OR, tag: 'cover' }); // Pressurized Cryo Canister
+  sphere(${x} - 0.2, ${topY} + 0.25, ${z} + 0.9, 0.2, { ink: RD, noCollide: true }); // Emergency Warning Beacon`;
       } else {
         return `${match}
   // Dream Detail: Scattered Desk Props (Static collision geometry)

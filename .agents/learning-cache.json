@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-09-14T03:18:42.978Z",
+  "updatedAt": "2026-09-14T03:39:19.620Z",
   "rules": {
     "stairway": {
       "minRise": 0.2,
@@ -65,8 +65,8 @@
       "description": "Synthesized 2 multi-story interactive buildings",
       "trigger": "macro-dream-building",
       "autoRemedy": "macroSpatialInjection",
-      "occurrences": 66,
-      "lastObserved": "2026-09-14T03:18:41.363Z"
+      "occurrences": 70,
+      "lastObserved": "2026-09-14T03:39:18.299Z"
     },
     {
       "patternId": "macro-syntax-failure",
@@ -81,181 +81,19 @@
       "description": "Injected 0 macro structures (City Planner)",
       "trigger": "dream-city-planner",
       "autoRemedy": "macroCity",
-      "occurrences": 31,
-      "lastObserved": "2026-09-14T03:18:41.849Z"
+      "occurrences": 35,
+      "lastObserved": "2026-09-14T03:39:18.583Z"
     },
     {
       "patternId": "dead-zone-identified",
       "description": "Identified dead zone at (0, 26.6) due to head-glitch",
       "trigger": "dead-zone-identified",
       "autoRemedy": "blacklistCoordinate",
-      "occurrences": 117,
-      "lastObserved": "2026-09-14T03:18:42.622Z"
+      "occurrences": 136,
+      "lastObserved": "2026-09-14T03:39:19.278Z"
     }
   ],
   "history": [
-    {
-      "timestamp": "2026-09-12T20:31:32.733Z",
-      "mapKey": "pirate_cove",
-      "patternId": "dream-auto-injection",
-      "description": "Injected 80 safe 3D props (God Mode, theme: maritime)"
-    },
-    {
-      "timestamp": "2026-09-12T20:31:35.875Z",
-      "mapKey": "pirate_cove",
-      "patternId": "macro-dream-building",
-      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
-    },
-    {
-      "timestamp": "2026-09-12T20:31:36.121Z",
-      "mapKey": "pirate_cove",
-      "patternId": "dream-auto-injection",
-      "description": "Injected 80 safe 3D props (God Mode, theme: maritime)"
-    },
-    {
-      "timestamp": "2026-09-12T20:31:39.258Z",
-      "mapKey": "pirate_cove",
-      "patternId": "macro-dream-building",
-      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
-    },
-    {
-      "timestamp": "2026-09-12T20:31:39.499Z",
-      "mapKey": "pirate_cove",
-      "patternId": "dream-auto-injection",
-      "description": "Injected 80 safe 3D props (God Mode, theme: maritime)"
-    },
-    {
-      "timestamp": "2026-09-12T20:33:07.335Z",
-      "mapKey": "pirate_cove",
-      "patternId": "macro-dream-building",
-      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
-    },
-    {
-      "timestamp": "2026-09-12T20:33:07.604Z",
-      "mapKey": "pirate_cove",
-      "patternId": "dream-auto-injection",
-      "description": "Injected 80 safe 3D props (God Mode, theme: maritime)"
-    },
-    {
-      "timestamp": "2026-09-12T20:33:10.708Z",
-      "mapKey": "pirate_cove",
-      "patternId": "macro-dream-building",
-      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
-    },
-    {
-      "timestamp": "2026-09-12T20:33:10.955Z",
-      "mapKey": "pirate_cove",
-      "patternId": "dream-auto-injection",
-      "description": "Injected 80 safe 3D props (God Mode, theme: maritime)"
-    },
-    {
-      "timestamp": "2026-09-12T20:33:14.054Z",
-      "mapKey": "pirate_cove",
-      "patternId": "macro-dream-building",
-      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
-    },
-    {
-      "timestamp": "2026-09-12T20:33:14.313Z",
-      "mapKey": "pirate_cove",
-      "patternId": "dream-auto-injection",
-      "description": "Injected 80 safe 3D props (God Mode, theme: maritime)"
-    },
-    {
-      "timestamp": "2026-09-12T20:44:00.406Z",
-      "mapKey": "pirate_cove",
-      "patternId": "macro-dream-building",
-      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
-    },
-    {
-      "timestamp": "2026-09-12T20:44:00.676Z",
-      "mapKey": "pirate_cove",
-      "patternId": "dream-auto-injection",
-      "description": "Injected 515 safe 3D props (God Mode, theme: maritime)"
-    },
-    {
-      "timestamp": "2026-09-12T20:47:28.896Z",
-      "mapKey": "pirate_cove",
-      "patternId": "dream-auto-injection",
-      "description": "Injected 80 safe 3D props (God Mode, theme: maritime)"
-    },
-    {
-      "timestamp": "2026-09-12T20:49:06.537Z",
-      "mapKey": "pirate_cove",
-      "patternId": "macro-dream-building",
-      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
-    },
-    {
-      "timestamp": "2026-09-12T20:49:06.799Z",
-      "mapKey": "pirate_cove",
-      "patternId": "dream-auto-injection",
-      "description": "Injected 499 safe 3D props (God Mode, theme: maritime)"
-    },
-    {
-      "timestamp": "2026-09-12T20:54:44.526Z",
-      "mapKey": "pirate_cove",
-      "patternId": "dream-auto-injection",
-      "description": "Injected 50 safe 3D props (God Mode, theme: maritime)"
-    },
-    {
-      "timestamp": "2026-09-12T20:55:18.924Z",
-      "mapKey": "pirate_cove",
-      "patternId": "macro-dream-building",
-      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
-    },
-    {
-      "timestamp": "2026-09-12T20:55:19.200Z",
-      "mapKey": "pirate_cove",
-      "patternId": "dream-auto-injection",
-      "description": "Injected 457 safe 3D props (God Mode, theme: maritime)"
-    },
-    {
-      "timestamp": "2026-09-12T21:03:43.619Z",
-      "mapKey": "pirate_cove",
-      "patternId": "macro-dream-building",
-      "description": "Synthesized 1 multi-story interactive buildings (God Mode)"
-    },
-    {
-      "timestamp": "2026-09-12T21:03:43.926Z",
-      "mapKey": "pirate_cove",
-      "patternId": "dream-city-planner",
-      "description": "Injected 0 macro structures (City Planner)"
-    },
-    {
-      "timestamp": "2026-09-12T21:04:08.656Z",
-      "mapKey": "pirate_cove",
-      "patternId": "macro-dream-building",
-      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
-    },
-    {
-      "timestamp": "2026-09-12T21:04:08.852Z",
-      "mapKey": "pirate_cove",
-      "patternId": "dream-city-planner",
-      "description": "Injected 104 macro structures (City Planner)"
-    },
-    {
-      "timestamp": "2026-09-12T21:20:18.864Z",
-      "mapKey": "pirate_cove",
-      "patternId": "macro-dream-building",
-      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
-    },
-    {
-      "timestamp": "2026-09-12T21:20:19.096Z",
-      "mapKey": "pirate_cove",
-      "patternId": "dream-city-planner",
-      "description": "Injected 51 macro structures (City Planner)"
-    },
-    {
-      "timestamp": "2026-09-12T21:20:27.142Z",
-      "mapKey": "pirate_cove",
-      "patternId": "macro-dream-building",
-      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
-    },
-    {
-      "timestamp": "2026-09-12T21:20:27.332Z",
-      "mapKey": "pirate_cove",
-      "patternId": "dream-city-planner",
-      "description": "Injected 88 macro structures (City Planner)"
-    },
     {
       "timestamp": "2026-09-12T22:31:43.905Z",
       "mapKey": "pirate_cove",
@@ -1293,6 +1131,168 @@
       "mapKey": "forest",
       "patternId": "dead-zone-identified",
       "description": "Identified dead zone at (-25, -19) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T03:33:37.792Z",
+      "mapKey": "space_station",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
+    },
+    {
+      "timestamp": "2026-09-14T03:33:38.066Z",
+      "mapKey": "space_station",
+      "patternId": "dream-city-planner",
+      "description": "Injected 25 macro structures (City Planner)"
+    },
+    {
+      "timestamp": "2026-09-14T03:33:38.818Z",
+      "mapKey": "space_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (0, -13.375) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T03:33:38.845Z",
+      "mapKey": "space_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (0, 13.375) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T03:33:38.853Z",
+      "mapKey": "space_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-22.025, -29) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T03:33:38.860Z",
+      "mapKey": "space_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (22.025, -29) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T03:33:38.868Z",
+      "mapKey": "space_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (29, -29) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T03:33:38.886Z",
+      "mapKey": "space_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-22.025, 29) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T03:33:38.904Z",
+      "mapKey": "space_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (22.025, 29) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T03:33:38.912Z",
+      "mapKey": "space_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-15.65, -47) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T03:33:38.945Z",
+      "mapKey": "space_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-15.65, -31) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T03:33:38.958Z",
+      "mapKey": "space_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (0.35, 1) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T03:33:39.015Z",
+      "mapKey": "space_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (0.35, 33) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T03:33:39.027Z",
+      "mapKey": "space_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (16.35, 17) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T03:33:39.052Z",
+      "mapKey": "space_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (32.35, -47) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T03:34:34.727Z",
+      "mapKey": "space_station",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
+    },
+    {
+      "timestamp": "2026-09-14T03:34:35.006Z",
+      "mapKey": "space_station",
+      "patternId": "dream-city-planner",
+      "description": "Injected 19 macro structures (City Planner)"
+    },
+    {
+      "timestamp": "2026-09-14T03:34:35.641Z",
+      "mapKey": "space_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (12.575, -29) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T03:34:35.651Z",
+      "mapKey": "space_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-47.65, -47) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T03:34:35.662Z",
+      "mapKey": "space_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (16.35, -15) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T03:37:02.007Z",
+      "mapKey": "space_station",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
+    },
+    {
+      "timestamp": "2026-09-14T03:37:02.315Z",
+      "mapKey": "space_station",
+      "patternId": "dream-city-planner",
+      "description": "Injected 22 macro structures (City Planner)"
+    },
+    {
+      "timestamp": "2026-09-14T03:37:03.105Z",
+      "mapKey": "space_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (5.5, 33) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T03:37:03.111Z",
+      "mapKey": "space_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (16.35, 1) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T03:39:18.299Z",
+      "mapKey": "space_station",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
+    },
+    {
+      "timestamp": "2026-09-14T03:39:18.583Z",
+      "mapKey": "space_station",
+      "patternId": "dream-city-planner",
+      "description": "Injected 23 macro structures (City Planner)"
+    },
+    {
+      "timestamp": "2026-09-14T03:39:19.278Z",
+      "mapKey": "space_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-31.65, -47) due to head-glitch"
     }
   ],
   "failureBlacklist": {},
@@ -2190,32 +2190,123 @@
       ],
       "avgScore": 85,
       "lastSuccess": "2026-09-14T03:18:41.359Z"
+    },
+    "deep_space_comms_gantry": {
+      "count": 8,
+      "totalScore": 680,
+      "positions": [
+        {
+          "mapKey": "space_station",
+          "x": -43,
+          "y": 0,
+          "z": -13
+        },
+        {
+          "mapKey": "space_station",
+          "x": -25,
+          "y": 0,
+          "z": -13
+        },
+        {
+          "mapKey": "space_station",
+          "x": -42.724761132632054,
+          "y": 0,
+          "z": -13.617088020698706
+        },
+        {
+          "mapKey": "space_station",
+          "x": -24.19019294423976,
+          "y": 0,
+          "z": -14.05551477517485
+        },
+        {
+          "mapKey": "space_station",
+          "x": -43,
+          "y": 0,
+          "z": -13
+        },
+        {
+          "mapKey": "space_station",
+          "x": -25,
+          "y": 0,
+          "z": -13
+        },
+        {
+          "mapKey": "space_station",
+          "x": -43,
+          "y": 0,
+          "z": -13
+        },
+        {
+          "mapKey": "space_station",
+          "x": -24.25550381664977,
+          "y": 0,
+          "z": -14.34108568974164
+        }
+      ],
+      "avgScore": 85,
+      "lastSuccess": "2026-09-14T03:39:18.291Z"
+    },
+    "centrifuge_hab_module": {
+      "count": 8,
+      "totalScore": 680,
+      "positions": [
+        {
+          "mapKey": "space_station",
+          "x": -43,
+          "y": 0,
+          "z": 5
+        },
+        {
+          "mapKey": "space_station",
+          "x": -25,
+          "y": 0,
+          "z": 5
+        },
+        {
+          "mapKey": "space_station",
+          "x": -43,
+          "y": 0,
+          "z": 5
+        },
+        {
+          "mapKey": "space_station",
+          "x": -25,
+          "y": 0,
+          "z": 5
+        },
+        {
+          "mapKey": "space_station",
+          "x": -43,
+          "y": 0,
+          "z": 5
+        },
+        {
+          "mapKey": "space_station",
+          "x": -23.68409761489607,
+          "y": 0,
+          "z": 3.9174982886914482
+        },
+        {
+          "mapKey": "space_station",
+          "x": -41.5418709332926,
+          "y": 0,
+          "z": 5.435419258615266
+        },
+        {
+          "mapKey": "space_station",
+          "x": -25,
+          "y": 0,
+          "z": 5
+        }
+      ],
+      "avgScore": 85,
+      "lastSuccess": "2026-09-14T03:39:18.295Z"
     }
   },
   "errorRateTracker": {
     "windowSize": 20,
     "runs": [
-      {
-        "timestamp": "2026-09-12T22:31:44.866Z",
-        "mapKey": "pirate_cove",
-        "success": true,
-        "score": 0,
-        "mode": "MAP"
-      },
-      {
-        "timestamp": "2026-09-12T22:31:46.395Z",
-        "mapKey": "pirate_cove",
-        "success": true,
-        "score": 0,
-        "mode": "MAP"
-      },
-      {
-        "timestamp": "2026-09-12T22:31:47.869Z",
-        "mapKey": "pirate_cove",
-        "success": true,
-        "score": 0,
-        "mode": "MAP"
-      },
       {
         "timestamp": "2026-09-12T22:31:49.344Z",
         "mapKey": "pirate_cove",
@@ -2334,6 +2425,27 @@
         "success": true,
         "score": 0,
         "mode": "MAP"
+      },
+      {
+        "timestamp": "2026-09-14T03:34:36.002Z",
+        "mapKey": "space_station",
+        "success": true,
+        "score": 0,
+        "mode": "CONCEPT"
+      },
+      {
+        "timestamp": "2026-09-14T03:37:03.435Z",
+        "mapKey": "space_station",
+        "success": true,
+        "score": 0,
+        "mode": "CONCEPT"
+      },
+      {
+        "timestamp": "2026-09-14T03:39:19.620Z",
+        "mapKey": "space_station",
+        "success": true,
+        "score": 0,
+        "mode": "CONCEPT"
       }
     ],
     "currentRate": 5
@@ -3275,6 +3387,158 @@
       "radius": 5,
       "reason": "head-glitch",
       "timestamp": "2026-09-14T03:18:42.619Z"
+    },
+    {
+      "mapKey": "space_station",
+      "x": 0,
+      "z": -13.375,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T03:33:38.799Z"
+    },
+    {
+      "mapKey": "space_station",
+      "x": 0,
+      "z": 13.375,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T03:33:38.837Z"
+    },
+    {
+      "mapKey": "space_station",
+      "x": -22.025,
+      "z": -29,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T03:33:38.849Z"
+    },
+    {
+      "mapKey": "space_station",
+      "x": 22.025,
+      "z": -29,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T03:33:38.857Z"
+    },
+    {
+      "mapKey": "space_station",
+      "x": 29,
+      "z": -29,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T03:33:38.864Z"
+    },
+    {
+      "mapKey": "space_station",
+      "x": -22.025,
+      "z": 29,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T03:33:38.872Z"
+    },
+    {
+      "mapKey": "space_station",
+      "x": 22.025,
+      "z": 29,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T03:33:38.900Z"
+    },
+    {
+      "mapKey": "space_station",
+      "x": -15.65,
+      "z": -47,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T03:33:38.908Z"
+    },
+    {
+      "mapKey": "space_station",
+      "x": -15.65,
+      "z": -31,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T03:33:38.942Z"
+    },
+    {
+      "mapKey": "space_station",
+      "x": 0.35,
+      "z": 1,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T03:33:38.954Z"
+    },
+    {
+      "mapKey": "space_station",
+      "x": 0.35,
+      "z": 33,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T03:33:39.011Z"
+    },
+    {
+      "mapKey": "space_station",
+      "x": 16.35,
+      "z": 17,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T03:33:39.024Z"
+    },
+    {
+      "mapKey": "space_station",
+      "x": 32.35,
+      "z": -47,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T03:33:39.048Z"
+    },
+    {
+      "mapKey": "space_station",
+      "x": 12.575,
+      "z": -29,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T03:34:35.638Z"
+    },
+    {
+      "mapKey": "space_station",
+      "x": -47.65,
+      "z": -47,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T03:34:35.647Z"
+    },
+    {
+      "mapKey": "space_station",
+      "x": 16.35,
+      "z": -15,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T03:34:35.659Z"
+    },
+    {
+      "mapKey": "space_station",
+      "x": 5.5,
+      "z": 33,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T03:37:03.102Z"
+    },
+    {
+      "mapKey": "space_station",
+      "x": 16.35,
+      "z": 1,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T03:37:03.108Z"
+    },
+    {
+      "mapKey": "space_station",
+      "x": -31.65,
+      "z": -47,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T03:39:19.274Z"
     }
   ],
   "humanLessons": [
@@ -3326,6 +3590,14 @@
         }
       },
       "absorbedAt": "2026-09-14T02:36:26.715Z"
+    },
+    {
+      "id": "lesson_1789356107044",
+      "topic": "unknown_concept_thematics",
+      "mapName": "station",
+      "dilemma": "Dream cannot proceed without human teaching on the authentic theme, materials, ink palette, and Tier 1-4 prop catalog for \"station\".",
+      "resolution": "Theme: space_station. Archetype: space. Setting: Deep space orbital station, gravity centrifuge, airlocks, solar arrays, and communications dishes. Primary: INK.BLUE, Secondary: INK.BLACK, Accent: INK.ORANGE, Hazard: INK.RED. Tier 1: cryo pod, oxygen tank, holographic console, airlock hatch, hydroponic tray, meteor shield. Tier 2: solar panel wing, docking umbilical, centrifuge spoke, reactor core. Tier 3: command cupola dome, monolithic comms dish, centrifuge habitat wheel. Tier 4: circling orbital satellites, zero-G grapple highway.",
+      "absorbedAt": "2026-09-14T03:21:47.044Z"
     }
   ]
 }

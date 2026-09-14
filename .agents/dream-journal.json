@@ -2254,13 +2254,139 @@
           "timestamp": "2026-09-14T03:18:42.976Z"
         }
       }
+    },
+    {
+      "id": "dream-065",
+      "timestamp": "2026-09-14T03:34:36.005Z",
+      "mapKey": "space_station",
+      "mode": "CONCEPT",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "concept-parse": {
+          "status": "pass",
+          "lines": 301,
+          "sections": 13
+        },
+        "concept-enrichment": {
+          "status": "pass"
+        },
+        "Concept-Aware Scaffold": {
+          "status": "pass",
+          "timestamp": "2026-09-14T03:34:34.212Z"
+        },
+        "Macro Building Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-14T03:34:34.749Z"
+        },
+        "Prop Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-14T03:34:35.021Z"
+        },
+        "Enemy Synthesis": {
+          "status": "pass",
+          "timestamp": "2026-09-14T03:34:35.142Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-14T03:34:35.693Z"
+        },
+        "Self-Healing Audit": {
+          "status": "pass",
+          "timestamp": "2026-09-14T03:34:35.999Z"
+        }
+      }
+    },
+    {
+      "id": "dream-066",
+      "timestamp": "2026-09-14T03:37:03.438Z",
+      "mapKey": "space_station",
+      "mode": "CONCEPT",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "concept-parse": {
+          "status": "pass",
+          "lines": 301,
+          "sections": 13
+        },
+        "concept-enrichment": {
+          "status": "pass"
+        },
+        "Concept-Aware Scaffold": {
+          "status": "pass",
+          "timestamp": "2026-09-14T03:37:01.409Z"
+        },
+        "Macro Building Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-14T03:37:02.024Z"
+        },
+        "Prop Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-14T03:37:02.343Z"
+        },
+        "Enemy Synthesis": {
+          "status": "pass",
+          "timestamp": "2026-09-14T03:37:02.487Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-14T03:37:03.144Z"
+        },
+        "Self-Healing Audit": {
+          "status": "pass",
+          "timestamp": "2026-09-14T03:37:03.433Z"
+        }
+      }
+    },
+    {
+      "id": "dream-067",
+      "timestamp": "2026-09-14T03:39:19.623Z",
+      "mapKey": "space_station",
+      "mode": "CONCEPT",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "concept-parse": {
+          "status": "pass",
+          "lines": 301,
+          "sections": 13
+        },
+        "concept-enrichment": {
+          "status": "pass"
+        },
+        "Concept-Aware Scaffold": {
+          "status": "pass",
+          "timestamp": "2026-09-14T03:39:17.745Z"
+        },
+        "Macro Building Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-14T03:39:18.321Z"
+        },
+        "Prop Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-14T03:39:18.598Z"
+        },
+        "Enemy Synthesis": {
+          "status": "pass",
+          "timestamp": "2026-09-14T03:39:18.718Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-14T03:39:19.322Z"
+        },
+        "Self-Healing Audit": {
+          "status": "pass",
+          "timestamp": "2026-09-14T03:39:19.618Z"
+        }
+      }
     }
   ],
   "stats": {
-    "totalRuns": 64,
-    "successes": 63,
+    "totalRuns": 67,
+    "successes": 66,
     "failures": 1,
-    "errorRate": "1/64 (2%)",
+    "errorRate": "1/67 (1%)",
     "avgScore": 0
   }
 }
