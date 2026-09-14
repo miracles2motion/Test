@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-09-14T03:14:22.197Z",
+  "updatedAt": "2026-09-14T03:18:42.978Z",
   "rules": {
     "stairway": {
       "minRise": 0.2,
@@ -65,8 +65,8 @@
       "description": "Synthesized 2 multi-story interactive buildings",
       "trigger": "macro-dream-building",
       "autoRemedy": "macroSpatialInjection",
-      "occurrences": 65,
-      "lastObserved": "2026-09-14T03:14:20.707Z"
+      "occurrences": 66,
+      "lastObserved": "2026-09-14T03:18:41.363Z"
     },
     {
       "patternId": "macro-syntax-failure",
@@ -81,43 +81,19 @@
       "description": "Injected 0 macro structures (City Planner)",
       "trigger": "dream-city-planner",
       "autoRemedy": "macroCity",
-      "occurrences": 30,
-      "lastObserved": "2026-09-14T03:14:21.037Z"
+      "occurrences": 31,
+      "lastObserved": "2026-09-14T03:18:41.849Z"
     },
     {
       "patternId": "dead-zone-identified",
       "description": "Identified dead zone at (0, 26.6) due to head-glitch",
       "trigger": "dead-zone-identified",
       "autoRemedy": "blacklistCoordinate",
-      "occurrences": 115,
-      "lastObserved": "2026-09-14T03:14:21.840Z"
+      "occurrences": 117,
+      "lastObserved": "2026-09-14T03:18:42.622Z"
     }
   ],
   "history": [
-    {
-      "timestamp": "2026-09-12T20:29:48.649Z",
-      "mapKey": "pirate_cove",
-      "patternId": "dream-auto-injection",
-      "description": "Injected 80 safe 3D props (God Mode, theme: maritime)"
-    },
-    {
-      "timestamp": "2026-09-12T20:29:51.739Z",
-      "mapKey": "pirate_cove",
-      "patternId": "macro-dream-building",
-      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
-    },
-    {
-      "timestamp": "2026-09-12T20:29:51.977Z",
-      "mapKey": "pirate_cove",
-      "patternId": "dream-auto-injection",
-      "description": "Injected 80 safe 3D props (God Mode, theme: maritime)"
-    },
-    {
-      "timestamp": "2026-09-12T20:31:32.471Z",
-      "mapKey": "pirate_cove",
-      "patternId": "macro-dream-building",
-      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
-    },
     {
       "timestamp": "2026-09-12T20:31:32.733Z",
       "mapKey": "pirate_cove",
@@ -1293,6 +1269,30 @@
       "mapKey": "forest",
       "patternId": "dead-zone-identified",
       "description": "Identified dead zone at (-43, 23) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T03:18:41.363Z",
+      "mapKey": "forest",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
+    },
+    {
+      "timestamp": "2026-09-14T03:18:41.849Z",
+      "mapKey": "forest",
+      "patternId": "dream-city-planner",
+      "description": "Injected 7 macro structures (City Planner)"
+    },
+    {
+      "timestamp": "2026-09-14T03:18:42.616Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-43, 41) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T03:18:42.622Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-25, -19) due to head-glitch"
     }
   ],
   "failureBlacklist": {},
@@ -2096,8 +2096,8 @@
       "lastSuccess": "2026-09-14T01:22:05.768Z"
     },
     "ancient_oak_canopy": {
-      "count": 3,
-      "totalScore": 255,
+      "count": 5,
+      "totalScore": 425,
       "positions": [
         {
           "mapKey": "forest",
@@ -2116,10 +2116,22 @@
           "x": -43,
           "y": 0,
           "z": -43
+        },
+        {
+          "mapKey": "forest",
+          "x": -43,
+          "y": 0,
+          "z": -7
+        },
+        {
+          "mapKey": "forest",
+          "x": -23.843001976331607,
+          "y": 0,
+          "z": -43.401118070459
         }
       ],
       "avgScore": 85,
-      "lastSuccess": "2026-09-14T03:14:20.694Z"
+      "lastSuccess": "2026-09-14T03:18:41.356Z"
     },
     "canopy_treehouse_outpost": {
       "count": 2,
@@ -2142,8 +2154,8 @@
       "lastSuccess": "2026-09-14T03:14:20.697Z"
     },
     "stone_henge_hollow": {
-      "count": 3,
-      "totalScore": 255,
+      "count": 5,
+      "totalScore": 425,
       "positions": [
         {
           "mapKey": "forest",
@@ -2162,22 +2174,27 @@
           "x": -43,
           "y": 0,
           "z": 23
+        },
+        {
+          "mapKey": "forest",
+          "x": -43,
+          "y": 0,
+          "z": 41
+        },
+        {
+          "mapKey": "forest",
+          "x": -25,
+          "y": 0,
+          "z": -19
         }
       ],
       "avgScore": 85,
-      "lastSuccess": "2026-09-14T03:14:20.704Z"
+      "lastSuccess": "2026-09-14T03:18:41.359Z"
     }
   },
   "errorRateTracker": {
     "windowSize": 20,
     "runs": [
-      {
-        "timestamp": "2026-09-12T22:31:29.120Z",
-        "mapKey": "pirate_cove",
-        "success": true,
-        "score": 0,
-        "mode": "MAP"
-      },
       {
         "timestamp": "2026-09-12T22:31:44.866Z",
         "mapKey": "pirate_cove",
@@ -2306,6 +2323,13 @@
       },
       {
         "timestamp": "2026-09-14T03:14:22.197Z",
+        "mapKey": "forest",
+        "success": true,
+        "score": 0,
+        "mode": "MAP"
+      },
+      {
+        "timestamp": "2026-09-14T03:18:42.978Z",
         "mapKey": "forest",
         "success": true,
         "score": 0,
@@ -3235,6 +3259,22 @@
       "radius": 5,
       "reason": "head-glitch",
       "timestamp": "2026-09-14T03:14:21.836Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": -43,
+      "z": 41,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T03:18:42.612Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": -25,
+      "z": -19,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T03:18:42.619Z"
     }
   ],
   "humanLessons": [

@@ -333,107 +333,77 @@ export function buildForest(B, arena = false) {
   collider(0, -2, 0, 2 * P + 20, 2, 2 * P + 20);
 
   
+  
+
+  
+  
+  
   // === DREAM AUTO-INJECTED MACRO STRUCTURES ===
 
-  // === MACRO STRUCTURE: Ancient Oak Canopy at (-43, 0, -43) ===
-  cyl(-43, 0, -43, 2.2, 7.0, { seg: 10, ink: BK });
-  box(-43 - 2.8, 0, -43, 1.2, 2.0, 1.2, { ink: BK });
-  box(-43 + 2.8, 0, -43, 1.2, 2.0, 1.2, { ink: BK });
-  slab(-43 - 3.8, -43 - 3.8, -43 + 3.8, -43 + 3.8, 0 + 4.5, 0.4, { ink: GR });
-  rail(-43 - 3.8, -43 - 3.8, -43 + 3.8, -43 - 3.8, 0 + 4.5, { ink: BK });
-  rail(-43 - 3.8, -43 + 3.8, -43 + 3.8, -43 + 3.8, 0 + 4.5, { ink: BK });
-  box(-43, 0 + 6.8, -43, 6.0, 2.0, 6.0, { noCollide: true, ink: GR });
-  ring(-43, 0 + 9.2, -43, 'z');
-  pickup(-43, 0 + 4.7, -43 + 2.0);
+  // === MACRO STRUCTURE: Ancient Oak Canopy at (-43, 0, -7) ===
+  cyl(-43, 0, -7, 2.2, 7.0, { seg: 10, ink: BK });
+  box(-43 - 2.8, 0, -7, 1.2, 2.0, 1.2, { ink: BK });
+  box(-43 + 2.8, 0, -7, 1.2, 2.0, 1.2, { ink: BK });
+  slab(-43 - 3.8, -7 - 3.8, -43 + 3.8, -7 + 3.8, 0 + 4.5, 0.4, { ink: GR });
+  rail(-43 - 3.8, -7 - 3.8, -43 + 3.8, -7 - 3.8, 0 + 4.5, { ink: BK });
+  rail(-43 - 3.8, -7 + 3.8, -43 + 3.8, -7 + 3.8, 0 + 4.5, { ink: BK });
+  box(-43, 0 + 6.8, -7, 6.0, 2.0, 6.0, { noCollide: true, ink: GR });
+  ring(-43, 0 + 9.2, -7, 'z');
+  pickup(-43, 0 + 4.7, -7 + 2.0);
 
-  // === MACRO STRUCTURE: Canopy Treehouse Outpost at (-43, 0, -19) ===
-  box(-43 - 2.5, 0, -19 - 2.5, 0.6, 5.0, 0.6, { ink: BK });
-  box(-43 + 2.5, 0, -19 - 2.5, 0.6, 5.0, 0.6, { ink: BK });
-  box(-43 - 2.5, 0, -19 + 2.5, 0.6, 5.0, 0.6, { ink: BK });
-  box(-43 + 2.5, 0, -19 + 2.5, 0.6, 5.0, 0.6, { ink: BK });
-  slab(-43 - 3.0, -19 - 3.0, -43 + 3.0, -19 + 3.0, 0 + 5.0, 0.3, { ink: OR });
-  rail(-43 - 3.0, -19 - 3.0, -43 + 3.0, -19 - 3.0, 0 + 5.0, { ink: BK });
-  rail(-43 - 3.0, -19 + 3.0, -43 + 3.0, -19 + 3.0, 0 + 5.0, { ink: BK });
-  box(-43, 0 + 7.2, -19, 6.5, 0.5, 6.5, { noCollide: true, ink: GR });
-  ring(-43, 0 + 9.2, -19, 'y');
-  pickup(-43, 0 + 5.2, -19);
+  // === MACRO STRUCTURE: Stonehenge Hollow Altar at (-43, 0, 41) ===
+  box(-43 - 2.8, 0, 41, 1.2, 4.5, 1.2, { ink: BK });
+  box(-43 + 2.8, 0, 41, 1.2, 4.5, 1.2, { ink: BK });
+  slab(-43 - 3.5, 41 - 1.5, -43 + 3.5, 41 + 1.5, 0 + 4.5, 0.6, { ink: BK });
+  cyl(-43, 0, 41, 1.6, 1.4, { seg: 8, ink: GR });
+  slab(-43 - 2.0, 41 - 2.0, -43 + 2.0, 41 + 2.0, 0 + 1.4, 0.3, { ink: OR });
+  ring(-43, 0 + 7.8, 41, 'z');
+  pickup(-43, 0 + 1.6, 41);
 
-  // === MACRO STRUCTURE: Stonehenge Hollow Altar at (-43, 0, 5) ===
-  box(-43 - 2.8, 0, 5, 1.2, 4.5, 1.2, { ink: BK });
-  box(-43 + 2.8, 0, 5, 1.2, 4.5, 1.2, { ink: BK });
-  slab(-43 - 3.5, 5 - 1.5, -43 + 3.5, 5 + 1.5, 0 + 4.5, 0.6, { ink: BK });
-  cyl(-43, 0, 5, 1.6, 1.4, { seg: 8, ink: GR });
-  slab(-43 - 2.0, 5 - 2.0, -43 + 2.0, 5 + 2.0, 0 + 1.4, 0.3, { ink: OR });
-  ring(-43, 0 + 7.8, 5, 'z');
-  pickup(-43, 0 + 1.6, 5);
+  // === MACRO STRUCTURE: Ancient Oak Canopy at (-23.843001976331607, 0, -43.401118070459) ===
+  cyl(-23.843001976331607, 0, -43.401118070459, 2.2, 7.0, { seg: 10, ink: BK });
+  box(-23.843001976331607 - 2.8, 0, -43.401118070459, 1.2, 2.0, 1.2, { ink: BK });
+  box(-23.843001976331607 + 2.8, 0, -43.401118070459, 1.2, 2.0, 1.2, { ink: BK });
+  slab(-23.843001976331607 - 3.8, -43.401118070459 - 3.8, -23.843001976331607 + 3.8, -43.401118070459 + 3.8, 0 + 4.5, 0.4, { ink: GR });
+  rail(-23.843001976331607 - 3.8, -43.401118070459 - 3.8, -23.843001976331607 + 3.8, -43.401118070459 - 3.8, 0 + 4.5, { ink: BK });
+  rail(-23.843001976331607 - 3.8, -43.401118070459 + 3.8, -23.843001976331607 + 3.8, -43.401118070459 + 3.8, 0 + 4.5, { ink: BK });
+  box(-23.843001976331607, 0 + 6.8, -43.401118070459, 6.0, 2.0, 6.0, { noCollide: true, ink: GR });
+  ring(-23.843001976331607, 0 + 9.2, -43.401118070459, 'z');
+  pickup(-23.843001976331607, 0 + 4.7, -43.401118070459 + 2.0);
 
-  // === MACRO STRUCTURE: Stonehenge Hollow Altar at (-43, 0, 23) ===
-  box(-43 - 2.8, 0, 23, 1.2, 4.5, 1.2, { ink: BK });
-  box(-43 + 2.8, 0, 23, 1.2, 4.5, 1.2, { ink: BK });
-  slab(-43 - 3.5, 23 - 1.5, -43 + 3.5, 23 + 1.5, 0 + 4.5, 0.6, { ink: BK });
-  cyl(-43, 0, 23, 1.6, 1.4, { seg: 8, ink: GR });
-  slab(-43 - 2.0, 23 - 2.0, -43 + 2.0, 23 + 2.0, 0 + 1.4, 0.3, { ink: OR });
-  ring(-43, 0 + 7.8, 23, 'z');
-  pickup(-43, 0 + 1.6, 23);
+  // === MACRO STRUCTURE: Stonehenge Hollow Altar at (-25, 0, -19) ===
+  box(-25 - 2.8, 0, -19, 1.2, 4.5, 1.2, { ink: BK });
+  box(-25 + 2.8, 0, -19, 1.2, 4.5, 1.2, { ink: BK });
+  slab(-25 - 3.5, -19 - 1.5, -25 + 3.5, -19 + 1.5, 0 + 4.5, 0.6, { ink: BK });
+  cyl(-25, 0, -19, 1.6, 1.4, { seg: 8, ink: GR });
+  slab(-25 - 2.0, -19 - 2.0, -25 + 2.0, -19 + 2.0, 0 + 1.4, 0.3, { ink: OR });
+  ring(-25, 0 + 7.8, -19, 'z');
+  pickup(-25, 0 + 1.6, -19);
   // === END DREAM AUTO-INJECTED MACRO STRUCTURES ===
 
   
   // === DREAM AUTO-INJECTED THEMATIC PROPS ===
 
-  // Prefab: Weathered Trail Signpost
-  buildTrailSign(B, -47.0, 0, -47.0);
-
-  // Prefab: Ranger Campfire Hearth & Warm Ambient Light
-  buildCampfire(B, -47.0, 0, 17.0);
-
-  // Prefab: Hollow Tree Stump Ambush Bunker
-  buildHollowStump(B, -47.0, 0, 33.0);
-
   // Prefab: Cordwood Fuel Stack (Waist-High Tactical Cover)
-  buildWoodStack(B, -31.0, 0, -15.0);
-
-  // Prefab: Giant Umbrella Mushroom Platform
-  buildGiantMushroom(B, -31.0, 0, 1.0);
-
-  // Prefab: Cordwood Fuel Stack (Waist-High Tactical Cover)
-  buildWoodStack(B, -15.0, 0, -31.0);
-
-  // Prefab: Alpine Conifer / Pine Tree
-  buildPineTree(B, -15.0, 0, 1.0);
-
-  // Prefab: Fern Cluster & Ballpoint Grass Tufts
-  buildFernCluster(B, 1.0, 0, -47.0);
-  buildGrassClump(B, 1.0 + 1.2, 0, -47.0 - 0.8, 6);
-  buildGrassClump(B, 1.0 - 1.2, 0, -47.0 + 0.8, 6);
-
-  // Prefab: Timber Logging Handcart (Tactical Barricade)
-  buildLoggingCart(B, 1.0, 0, -31.0);
-
-  // Prefab: Run-Through Hollow Log Tunnel
-  buildHollowLog(B, 1.0, 0, 33.0, 10);
-
-  // Prefab: Alpine Conifer / Pine Tree
-  buildPineTree(B, 17.0, 0, -47.0);
-
-  // Prefab: Ranger Campfire Hearth & Warm Ambient Light
-  buildCampfire(B, 17.0, 0, -15.0);
-
-  // Prefab: Timber Logging Handcart (Tactical Barricade)
-  buildLoggingCart(B, 17.0, 0, 1.0);
-
-  // Prefab: Fern Cluster & Ballpoint Grass Tufts
-  buildFernCluster(B, 17.0, 0, 17.0);
-  buildGrassClump(B, 17.0 + 1.2, 0, 17.0 - 0.8, 6);
-  buildGrassClump(B, 17.0 - 1.2, 0, 17.0 + 0.8, 6);
-
-  // Prefab: Cordwood Fuel Stack (Waist-High Tactical Cover)
-  buildWoodStack(B, 33.0, 0, -47.0);
-
-  // Prefab: Weathered Trail Signpost
-  buildTrailSign(B, 33.0, 0, 1.0);
+  buildWoodStack(B, -47.0, 0, -31.0);
 
   // Prefab: Canopy Survey Table & Field Instruments
-  buildSurveyTable(B, 33.0, 0, 17.0);
+  buildSurveyTable(B, -47.0, 0, 1.0);
+
+  // Prefab: Run-Through Hollow Log Tunnel
+  buildHollowLog(B, -47.0, 0, 17.0, 10);
+
+  // Prefab: Weathered Trail Signpost
+  buildTrailSign(B, -31.0, 0, -47.0);
+
+  // Prefab: Weathered Trail Signpost
+  buildTrailSign(B, -15.0, 0, -15.0);
+
+  // Prefab: Hollow Tree Stump Ambush Bunker
+  buildHollowStump(B, 17.0, 0, -15.0);
+
+  // Prefab: Fly Agaric Toadstool Cluster
+  buildToadstoolCluster(B, 33.0, 0, -31.0, 3);
   // === END DREAM AUTO-INJECTED PROPS ===
   B.finish();
   return L;

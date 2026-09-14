@@ -295,3 +295,10 @@ Every element in The Colossal Canopy complies 100% with the Universal Detailing 
 - **Canopy Treehouse Outpost (X=-43, Z=-19)**: Elevated timber watchtower on massive tree trunks with thatched green canopy roof.
 - **Stonehenge Hollow Altar (X=-43, Z=5)**: Megalithic moss-covered standing stone portal with central glade hollow altar.
 - **Stonehenge Hollow Altar (X=-43, Z=23)**: Megalithic moss-covered standing stone portal with central glade hollow altar.
+
+
+## 14. Interactive Macro-Structures (Tier 3 & 4)
+- **Ancient Oak Canopy (X=-43, Z=-7)**: Colossal ancient oak trunk with wrap-around canopy observation deck and high grapple vine.
+- **Stonehenge Hollow Altar (X=-43, Z=41)**: Megalithic moss-covered standing stone portal with central glade hollow altar.
+- **Ancient Oak Canopy (X=-23.843001976331607, Z=-43.401118070459)**: Colossal ancient oak trunk with wrap-around canopy observation deck and high grapple vine.
+- **Stonehenge Hollow Altar (X=-25, Z=-19)**: Megalithic moss-covered standing stone portal with central glade hollow altar.
