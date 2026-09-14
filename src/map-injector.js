@@ -229,6 +229,26 @@ const propCatalog = {
     }
   ],
   forest: [
+    { type: 'colossal_titan_treehouse', w: 12, h: 26, d: 12, tier: 3, gen: (x, y, z) => `
+  // Prefab: Colossal Titan Treehouse Fortress
+  buildTreehouse(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
+    },
+    { type: 'giant_stalk_grass', w: 2.5, h: 7.0, d: 2.5, tier: 1, gen: (x, y, z) => `
+  // Prefab: Giant Stalk Grass with Grapple Ring
+  buildGiantGrass(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
+    },
+    { type: 'curved_hollow_log', w: 6, h: 4.0, d: 18, tier: 2, gen: (x, y, z) => `
+  // Prefab: Curved Hollow Log Sprint Tunnel
+  buildCurvedHollowLog(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
+    },
+    { type: 'boulder_field', w: 8, h: 3.0, d: 8, tier: 1, gen: (x, y, z) => `
+  // Prefab: Faceted Boulder Cover Field
+  buildBoulderField(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
+    },
+    { type: 'parametric_titan_tree', w: 12, h: 30, d: 12, tier: 3, gen: (x, y, z) => `
+  // Prefab: Parametric Organic Tree (Titan Canopy)
+  generateParametricTree(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)}, { archetype: 'titan' });`
+    },
     { type: 'ancient_oak_tree', w: 11, h: 16, d: 11, tier: 3, gen: (x, y, z) => `
   // Prefab: Ancient Oak / Banyan Tree
   buildAncientTree(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
@@ -495,12 +515,19 @@ ${selectedProps.map(p => p.template.gen(p.x, p.y, p.z)).join('\n')}
     'buildCampfire', 'buildWoodStack', 'buildTrailSign', 'buildChoppingBlock',
     'buildLoggingCart', 'buildHollowStump', 'buildToadstoolCluster', 'buildSurveyTable',
     'buildSolarArray', 'buildCryoPod', 'buildAirlockHatch', 'buildCentrifugeRing',
-    'buildHydroponicTray', 'buildCommunicationsDish', 'buildOxygenTankRack', 'buildTelemetryConsole'
+    'buildHydroponicTray', 'buildCommunicationsDish', 'buildOxygenTankRack', 'buildTelemetryConsole',
+    'buildGiantGrass', 'buildTreehouse', 'generateParametricTree', 'buildCurvedHollowLog', 'buildBoulderField'
   ];
-  const neededPrefabs = prefabsToImport.filter(p => code.includes(p) && !code.includes(`from '../prefabs.js'`));
-  if (neededPrefabs.length > 0) {
-    const importStmt = `import { ${neededPrefabs.join(', ')} } from '../prefabs.js';\n`;
-    code = importStmt + code;
+
+  const usedPrefabs = prefabsToImport.filter(p => code.includes(p));
+  const existingImportMatch = code.match(/import\s*\{([^}]+)\}\s*from\s*['"]\.\.\/prefabs\.js['"];?/);
+
+  if (existingImportMatch) {
+    const existing = existingImportMatch[1].split(',').map(s => s.trim()).filter(Boolean);
+    const combined = Array.from(new Set([...existing, ...usedPrefabs]));
+    code = code.replace(existingImportMatch[0], `import { ${combined.join(', ')} } from '../prefabs.js';`);
+  } else if (usedPrefabs.length > 0) {
+    code = `import { ${usedPrefabs.join(', ')} } from '../prefabs.js';\n` + code;
   }
   
   // Also clear WH from ink as requested previously just in case

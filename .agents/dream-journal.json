@@ -1,3 +1,83 @@
 {
-  "runs": []
+  "runs": [
+    {
+      "id": "dream-001",
+      "timestamp": "2026-09-14T11:01:40.722Z",
+      "mapKey": "forest",
+      "mode": "NOTHING",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "concept-generation": {
+          "status": "pass",
+          "lines": 106
+        },
+        "Level Scaffolding": {
+          "status": "pass",
+          "timestamp": "2026-09-14T11:01:38.991Z"
+        },
+        "Macro Building Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-14T11:01:39.353Z"
+        },
+        "Prop Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-14T11:01:39.683Z"
+        },
+        "Enemy Synthesis": {
+          "status": "pass",
+          "timestamp": "2026-09-14T11:01:39.802Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-14T11:01:40.393Z"
+        },
+        "Self-Healing Audit": {
+          "status": "pass",
+          "timestamp": "2026-09-14T11:01:40.718Z"
+        }
+      }
+    },
+    {
+      "id": "dream-002",
+      "timestamp": "2026-09-14T11:06:01.454Z",
+      "mapKey": "forest",
+      "mode": "MAP",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "spatial-doctor": {
+          "status": "pass",
+          "fixes": 0
+        },
+        "Macro Building Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-14T11:06:00.240Z"
+        },
+        "Prop Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-14T11:06:00.565Z"
+        },
+        "Enemy Synthesis": {
+          "status": "pass",
+          "timestamp": "2026-09-14T11:06:00.698Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-14T11:06:01.172Z"
+        },
+        "Self-Healing Audit": {
+          "status": "pass",
+          "timestamp": "2026-09-14T11:06:01.451Z"
+        }
+      }
+    }
+  ],
+  "stats": {
+    "totalRuns": 2,
+    "successes": 2,
+    "failures": 0,
+    "errorRate": "0/2 (0%)",
+    "avgScore": 0
+  }
 }

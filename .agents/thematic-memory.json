@@ -1,11 +1,57 @@
 {
   "version": "2.0.0",
   "updatedAt": "2026-09-14T10:48:00Z",
-  "thematicArchetypes": {},
+  "thematicArchetypes": {
+    "forest": {
+      "keywords": [
+        "forest",
+        "woodland",
+        "nature",
+        "canopy",
+        "redwood",
+        "treehouse",
+        "trees",
+        "giant_grass"
+      ],
+      "layoutPrior": "terraced",
+      "primaryInk": "INK.GREEN",
+      "secondaryInk": "INK.BLACK",
+      "accentInk": "INK.ORANGE",
+      "hazardInk": "INK.RED",
+      "props": {
+        "tier1_micro": [
+          "giant_stalk_grass (massive blade cluster with apical grapple ring)",
+          "faceted_boulder_cluster (sketched granite cover rock with 1.8m channels)",
+          "hollow_stump_bunker (natural 1.2m ambush bunker stump with mossy rim)",
+          "toadstool_cover (giant fly agaric spotted umbrella mushroom waist cover)",
+          "weathered_cedar_trail_sign (directional post with fingerboards)",
+          "mossy_river_stone (hewn rock barrier providing waist-high defilade)"
+        ],
+        "tier2_meso": [
+          "curved_hollow_log_tunnel (multi-segment sprint defilade tube with top catwalk)",
+          "bracket_shelf_fungus_stairs (stepped fungal spiral stairs wrapping trunk)",
+          "suspended_timber_rope_bridge (canopy connector with wooden guard rails)",
+          "giant_umbrella_mushroom_platform (elevated bounce/sniper perch)",
+          "canopy_survey_outpost (wooden observation deck with lantern and railings)"
+        ],
+        "tier3_macro": [
+          "colossal_titan_treehouse (monumental redwood with hollow trunk niche, spiral stairs, constructed timber house and canopy deck)",
+          "ancient_gnarled_banyan_spire (multi-limb split anchor with elevated perches)",
+          "alpine_conifer_needle_spire (tiered needle skirts with sniper perches)",
+          "great_timber_gateway_arch (massive arched redwood portal spanning mid lane)"
+        ],
+        "tier4_kinetic": [
+          "high_altitude_grapple_highway (aerial grapple rings spanning overhanging boughs)",
+          "swaying_pine_canopy_boughs (kinetic wind-responsive branches)",
+          "gliding_paper_leaf_gliders (paper thermal gliders high above the forest)"
+        ]
+      }
+    }
+  },
   "recipes": {},
   "safetyClearances": {
     "walkwayPinch": 1.8,
-    "stairHeadroom": 2.0,
+    "stairHeadroom": 2,
     "ringWallClearance": 1.5,
     "coverMinHeight": 0.8,
     "coverMaxHeight": 1.3

@@ -183,7 +183,8 @@ export function resolveConsultationTicket(ticketIdOrName, resolutionData = null)
       if (typeof ticket.humanResolution === 'object' && ticket.humanResolution !== null) {
         archData = {
           keywords: ticket.humanResolution.keywords || [themeKey],
-          primaryInk: ticket.humanResolution.primaryInk || 'INK.BLUE',
+          layoutPrior: ticket.humanResolution.layoutPrior || 'terraced',
+          primaryInk: ticket.humanResolution.primaryInk || 'INK.GREEN',
           secondaryInk: ticket.humanResolution.secondaryInk || 'INK.BLACK',
           accentInk: ticket.humanResolution.accentInk || 'INK.ORANGE',
           hazardInk: ticket.humanResolution.hazardInk || 'INK.RED',

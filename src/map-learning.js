@@ -355,6 +355,9 @@ function writeDreamJournalEntry(mapKey, success, score, mode, stages) {
     stages: stages || {}
   };
 
+  if (!journal.runs) journal.runs = [];
+  if (!journal.stats) journal.stats = { totalRuns: 0, successes: 0, failures: 0, errorRate: '0/0 (0%)', avgScore: 0 };
+
   journal.runs.push(entry);
   if (journal.runs.length > 100) journal.runs = journal.runs.slice(-100);
 

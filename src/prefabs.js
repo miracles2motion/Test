@@ -1316,6 +1316,20 @@ export const PREFAB_REGISTRY = {
     tags: ['universal', 'rock', 'boulder', 'cover', 'tactical'],
     builder: buildBoulderField,
     footprint: [8.0, 3.0, 8.0]
+  },
+  giant_grass: {
+    id: 'giant_grass',
+    name: 'Giant Stalk Grass with Grapple Ring',
+    tags: ['forest', 'grass', 'grapple', 'cover', 'nature', 'flora'],
+    builder: buildGiantGrass,
+    footprint: [2.5, 7.0, 2.5]
+  },
+  treehouse: {
+    id: 'treehouse',
+    name: 'Colossal Titan Treehouse Fortress',
+    tags: ['forest', 'treehouse', 'colossal', 'tree', 'catwalk', 'cabin', 'grapple', 'landmark'],
+    builder: buildTreehouse,
+    footprint: [12.0, 26.0, 12.0]
   }
 };
 
@@ -1634,6 +1648,114 @@ export function buildBoulderField(B, x, y, z, o = {}) {
   }
 
   return { count, radius };
+}
+
+/**
+ * Procedural Giant Stalk Grass with Apical Grapple Ring (Colossal Forest)
+ * Radiating green blade clusters providing waist-high defilade at base,
+ * with a monumental flexible central stalk crowned with an aerial momentum grapple ring.
+ */
+export function buildGiantGrass(B, x, y, z, o = {}) {
+  const { box, wedge, cyl, ring } = B;
+  const ink = o.ink ?? INK.GREEN;
+  const inkStem = o.inkStem ?? INK.BLACK;
+  const height = o.height ?? (5.5 + Math.random() * 2.5); // 5.5m - 8.0m
+
+  // 1. Waist-high radiating blade cluster (cover)
+  box(x - 0.4, y, z, 0.8, 1.1, 0.2, { ink, tag: 'cover' });
+  box(x + 0.4, y, z, 0.8, 0.95, 0.2, { ink, tag: 'cover' });
+  box(x, y, z - 0.4, 0.2, 1.05, 0.8, { ink, tag: 'cover' });
+  box(x, y, z + 0.4, 0.2, 1.15, 0.8, { ink, tag: 'cover' });
+
+  // 2. Slanted outer fronds using wedges
+  wedge(x - 0.7, y + 0.5, z, 1.2, 0.25, 0.8, { dir: '-x', ink, noCollide: true });
+  wedge(x + 0.7, y + 0.5, z, 1.2, 0.25, 0.8, { dir: '+x', ink, noCollide: true });
+
+  // 3. Central Monumental Reed Stalk
+  cyl(x, y, z, 0.18, height, { ink: inkStem, noCollide: true });
+
+  // 4. Apical Momentum Grapple Ring for high-speed gliding and zapping
+  ring(x, y + height + 0.3, z, 'y');
+
+  return { height, ringY: y + height + 0.3 };
+}
+
+/**
+ * Procedural Colossal Titan Treehouse (Colossal Forest Macro Landmark)
+ * Monumental redwood trunk supporting a multi-level constructed wooden treehouse cabin,
+ * spiral trunk staircase, wrap-around timber balcony with parapets, secondary escape route,
+ * and high-altitude grapple highway rings (C1-C7 Colossal Contract compliant).
+ */
+export function buildTreehouse(B, x, y, z, o = {}) {
+  const { box, slab, cyl, ring, rail, pickup } = B;
+  const inkBark = o.inkBark ?? INK.BLACK;
+  const inkWood = o.inkWood ?? INK.ORANGE;
+  const inkLeaves = o.inkLeaves ?? INK.GREEN;
+
+  const trunkR = o.trunkR ?? 2.8;
+  const totalH = o.height ?? 26.0;
+  const deckY = y + (o.deckY ?? 9.5);
+
+  // 1. Massive Redwood Trunk Base (Y = y to y + totalH)
+  cyl(x, y, z, trunkR, totalH, { seg: 12, ink: inkBark });
+
+  // 2. Spiral Trunk Staircase (Ground to Deck: 20 steps, rise=0.28m, run=0.45m)
+  const stepCount = 20;
+  for (let s = 0; s < stepCount; s++) {
+    const angle = (s / stepCount) * Math.PI * 1.6 - Math.PI * 0.4;
+    const stepR = trunkR + 0.7;
+    const sx = x + Math.cos(angle) * stepR;
+    const sz = z + Math.sin(angle) * stepR;
+    const sy = y + s * 0.45;
+    box(sx, sy, sz, 1.3, 0.28, 1.3, { ink: inkWood, tag: 'stair' });
+  }
+
+  // 3. Main Constructed Timber Deck Platform at Y = deckY (10m x 10m octagonal layout)
+  slab(x - 5.0, z - 5.0, x + 5.0, z + 5.0, deckY, 0.45, { ink: inkWood });
+
+  // Perimeter Catwalk Guard Rails (0.95m height)
+  rail(x - 5.0, z - 5.0, x + 5.0, z - 5.0, deckY, { ink: inkWood });
+  rail(x + 5.0, z - 5.0, x + 5.0, z + 5.0, deckY, { ink: inkWood });
+  rail(x + 5.0, z + 5.0, x - 5.0, z + 5.0, deckY, { ink: inkWood });
+  rail(x - 5.0, z + 5.0, x - 5.0, z - 5.0, deckY, { ink: inkWood });
+
+  // 4. Constructed Wooden Cabin Shelter (North quadrant of deck)
+  const cabinX = x;
+  const cabinZ = z + 2.4;
+  const cabinY = deckY + 0.45;
+  // Back wall
+  box(cabinX, cabinY, cabinZ + 2.0, 5.0, 3.2, 0.35, { ink: inkWood });
+  // Side walls
+  box(cabinX - 2.4, cabinY, cabinZ, 0.35, 3.2, 4.0, { ink: inkWood });
+  box(cabinX + 2.4, cabinY, cabinZ, 0.35, 3.2, 4.0, { ink: inkWood });
+  // Front wall with 2.2m clear doorway opening
+  box(cabinX - 1.6, cabinY, cabinZ - 2.0, 1.4, 3.2, 0.35, { ink: inkWood });
+  box(cabinX + 1.6, cabinY, cabinZ - 2.0, 1.4, 3.2, 0.35, { ink: inkWood });
+  box(cabinX, cabinY + 2.7, cabinZ - 2.0, 2.0, 0.5, 0.35, { ink: inkWood }); // door lintel
+  // Overhanging timber roof
+  slab(cabinX - 3.0, cabinZ - 2.6, cabinX + 3.0, cabinZ + 2.6, cabinY + 3.2, 0.3, { ink: inkLeaves });
+
+  // 5. Tactical Cover Blocks & Reward on Deck
+  box(x - 3.6, deckY + 0.45, z - 2.0, 1.1, 1.1, 0.8, { ink: inkWood, tag: 'cover' });
+  box(x + 3.6, deckY + 0.45, z - 2.0, 1.1, 1.1, 0.8, { ink: inkWood, tag: 'cover' });
+  pickup(cabinX, cabinY + 0.4, cabinZ);
+
+  // 6. Secondary Exit Route (West egress ladder/ramp conforming to Colossal Contract C6)
+  slab(x - 7.5, z - 1.2, x - 5.0, z + 1.2, deckY - 1.5, 0.3, { ink: inkWood });
+  cyl(x - 6.2, y, z, 0.15, deckY - 1.5, { ink: inkBark, noCollide: true });
+
+  // 7. High-Altitude Grapple Highway Rings (for gliding, swinging, and zapping)
+  ring(x, deckY + 4.5, z - 5.5, 'z');
+  ring(x, deckY + 5.0, z + 5.5, 'z');
+  ring(x, y + totalH + 2.5, z, 'y');
+  ring(x + 4.5, y + totalH + 3.0, z, 'x');
+  ring(x - 4.5, y + totalH + 3.0, z, 'x');
+
+  return {
+    deckY,
+    cabinPos: [cabinX, cabinY, cabinZ],
+    rings: 5
+  };
 }
 
 /**

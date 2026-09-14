@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "updatedAt": "2026-09-14T10:48:00Z",
+  "updatedAt": "2026-09-14T11:06:01.452Z",
   "rules": {
     "stairway": {
       "minRise": 0.2,
@@ -33,10 +33,648 @@
       "minRings": 4
     }
   },
-  "learnedPatterns": [],
-  "history": [],
-  "humanLessons": [],
+  "learnedPatterns": [
+    {
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 4 multi-story interactive buildings (God Mode)",
+      "trigger": "macro-dream-building",
+      "autoRemedy": "macroSpatialInjection",
+      "occurrences": 5,
+      "lastObserved": "2026-09-14T11:06:00.207Z"
+    },
+    {
+      "patternId": "dream-city-planner",
+      "description": "Injected 21 macro structures (City Planner)",
+      "trigger": "dream-city-planner",
+      "autoRemedy": "macroCity",
+      "occurrences": 5,
+      "lastObserved": "2026-09-14T11:06:00.538Z"
+    },
+    {
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (0, -15.174999999999999) due to head-glitch",
+      "trigger": "dead-zone-identified",
+      "autoRemedy": "blacklistCoordinate",
+      "occurrences": 23,
+      "lastObserved": "2026-09-14T11:06:01.131Z"
+    }
+  ],
+  "history": [
+    {
+      "timestamp": "2026-09-14T10:59:12.518Z",
+      "mapKey": "forest",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
+    },
+    {
+      "timestamp": "2026-09-14T10:59:12.869Z",
+      "mapKey": "forest",
+      "patternId": "dream-city-planner",
+      "description": "Injected 21 macro structures (City Planner)"
+    },
+    {
+      "timestamp": "2026-09-14T10:59:13.559Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (0, -15.174999999999999) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T10:59:13.565Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (0, 15.174999999999999) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T10:59:13.569Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-16.175, -29) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T10:59:13.576Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (9.875, -29) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T10:59:13.581Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-16.175, 29) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T10:59:13.585Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (16.175, 29) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T10:59:13.591Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-43, -43) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T10:59:13.596Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-43, -25) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T10:59:13.601Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (0, 12) due to god-spot"
+    },
+    {
+      "timestamp": "2026-09-14T10:59:13.606Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (0, -12) due to god-spot"
+    },
+    {
+      "timestamp": "2026-09-14T10:59:45.174Z",
+      "mapKey": "forest",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
+    },
+    {
+      "timestamp": "2026-09-14T10:59:45.487Z",
+      "mapKey": "forest",
+      "patternId": "dream-city-planner",
+      "description": "Injected 11 macro structures (City Planner)"
+    },
+    {
+      "timestamp": "2026-09-14T11:01:39.336Z",
+      "mapKey": "forest",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
+    },
+    {
+      "timestamp": "2026-09-14T11:01:39.657Z",
+      "mapKey": "forest",
+      "patternId": "dream-city-planner",
+      "description": "Injected 20 macro structures (City Planner)"
+    },
+    {
+      "timestamp": "2026-09-14T11:01:40.328Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-43, -37) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T11:01:40.332Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-43, -19) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T11:01:40.338Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-43.26785198050097, 17.713198245384863) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T11:01:40.343Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (19.85, 1) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T11:01:40.350Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (14.15, 1) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T11:02:34.174Z",
+      "mapKey": "forest",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
+    },
+    {
+      "timestamp": "2026-09-14T11:02:34.567Z",
+      "mapKey": "forest",
+      "patternId": "dream-city-planner",
+      "description": "Injected 22 macro structures (City Planner)"
+    },
+    {
+      "timestamp": "2026-09-14T11:02:35.442Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-43, -31) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T11:02:35.449Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-43, 23) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T11:02:35.455Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-34.6, -1) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T11:02:35.460Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-27.4, -1) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T11:06:00.207Z",
+      "mapKey": "forest",
+      "patternId": "macro-dream-building",
+      "description": "Synthesized 4 multi-story interactive buildings (God Mode)"
+    },
+    {
+      "timestamp": "2026-09-14T11:06:00.538Z",
+      "mapKey": "forest",
+      "patternId": "dream-city-planner",
+      "description": "Injected 5 macro structures (City Planner)"
+    },
+    {
+      "timestamp": "2026-09-14T11:06:01.116Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-36.092696469966754, -42.29160233842477) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T11:06:01.122Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-31, 11) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T11:06:01.127Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-24.201343854197933, -13.467528440829113) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-14T11:06:01.131Z",
+      "mapKey": "forest",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-19, -43) due to head-glitch"
+    }
+  ],
+  "humanLessons": [
+    {
+      "id": "lesson_1789383498391",
+      "topic": "unknown_concept_thematics",
+      "mapName": "forest",
+      "dilemma": "Dream cannot proceed without human teaching on the authentic theme, materials, ink palette, and Tier 1-4 prop catalog for \"forest\".",
+      "resolution": {
+        "keywords": [
+          "forest",
+          "woodland",
+          "nature",
+          "canopy",
+          "redwood",
+          "treehouse",
+          "trees",
+          "giant_grass"
+        ],
+        "layoutPrior": "terraced",
+        "primaryInk": "INK.GREEN",
+        "secondaryInk": "INK.BLACK",
+        "accentInk": "INK.ORANGE",
+        "hazardInk": "INK.RED",
+        "props": {
+          "tier1_micro": [
+            "giant_stalk_grass (massive blade cluster with apical grapple ring)",
+            "faceted_boulder_cluster (sketched granite cover rock with 1.8m channels)",
+            "hollow_stump_bunker (natural 1.2m ambush bunker stump with mossy rim)",
+            "toadstool_cover (giant fly agaric spotted umbrella mushroom waist cover)",
+            "weathered_cedar_trail_sign (directional post with fingerboards)",
+            "mossy_river_stone (hewn rock barrier providing waist-high defilade)"
+          ],
+          "tier2_meso": [
+            "curved_hollow_log_tunnel (multi-segment sprint defilade tube with top catwalk)",
+            "bracket_shelf_fungus_stairs (stepped fungal spiral stairs wrapping trunk)",
+            "suspended_timber_rope_bridge (canopy connector with wooden guard rails)",
+            "giant_umbrella_mushroom_platform (elevated bounce/sniper perch)",
+            "canopy_survey_outpost (wooden observation deck with lantern and railings)"
+          ],
+          "tier3_macro": [
+            "colossal_titan_treehouse (monumental redwood with hollow trunk niche, spiral stairs, constructed timber house and canopy deck)",
+            "ancient_gnarled_banyan_spire (multi-limb split anchor with elevated perches)",
+            "alpine_conifer_needle_spire (tiered needle skirts with sniper perches)",
+            "great_timber_gateway_arch (massive arched redwood portal spanning mid lane)"
+          ],
+          "tier4_kinetic": [
+            "high_altitude_grapple_highway (aerial grapple rings spanning overhanging boughs)",
+            "swaying_pine_canopy_boughs (kinetic wind-responsive branches)",
+            "gliding_paper_leaf_gliders (paper thermal gliders high above the forest)"
+          ]
+        }
+      },
+      "absorbedAt": "2026-09-14T10:58:18.391Z"
+    }
+  ],
   "stats": {
     "autoRepairsCount": 0
-  }
+  },
+  "failureBlacklist": {},
+  "successRegistry": {
+    "stone_henge_hollow": {
+      "count": 13,
+      "totalScore": 1105,
+      "positions": [
+        {
+          "mapKey": "forest",
+          "x": -43,
+          "y": 0,
+          "z": -43
+        },
+        {
+          "mapKey": "forest",
+          "x": -43,
+          "y": 0,
+          "z": -25
+        },
+        {
+          "mapKey": "forest",
+          "x": -43,
+          "y": 0,
+          "z": 23
+        },
+        {
+          "mapKey": "forest",
+          "x": -43,
+          "y": 0,
+          "z": 41
+        },
+        {
+          "mapKey": "forest",
+          "x": -43,
+          "y": 0,
+          "z": -37
+        },
+        {
+          "mapKey": "forest",
+          "x": -43,
+          "y": 0,
+          "z": -19
+        },
+        {
+          "mapKey": "forest",
+          "x": -43.26785198050097,
+          "y": 0,
+          "z": 17.713198245384863
+        },
+        {
+          "mapKey": "forest",
+          "x": -43,
+          "y": 0,
+          "z": -31
+        },
+        {
+          "mapKey": "forest",
+          "x": -43,
+          "y": 0,
+          "z": 23
+        },
+        {
+          "mapKey": "forest",
+          "x": -36.092696469966754,
+          "y": 0,
+          "z": -42.29160233842477
+        },
+        {
+          "mapKey": "forest",
+          "x": -31,
+          "y": 0,
+          "z": 11
+        },
+        {
+          "mapKey": "forest",
+          "x": -24.201343854197933,
+          "y": 0,
+          "z": -13.467528440829113
+        },
+        {
+          "mapKey": "forest",
+          "x": -19,
+          "y": 0,
+          "z": -43
+        }
+      ],
+      "avgScore": 85,
+      "lastSuccess": "2026-09-14T11:06:00.205Z"
+    },
+    "ancient_oak_canopy": {
+      "count": 4,
+      "totalScore": 340,
+      "positions": [
+        {
+          "mapKey": "forest",
+          "x": -43,
+          "y": 0,
+          "z": -7
+        },
+        {
+          "mapKey": "forest",
+          "x": -31,
+          "y": 0,
+          "z": -7
+        },
+        {
+          "mapKey": "forest",
+          "x": -43,
+          "y": 0,
+          "z": -1
+        },
+        {
+          "mapKey": "forest",
+          "x": -43,
+          "y": 0,
+          "z": -13
+        }
+      ],
+      "avgScore": 85,
+      "lastSuccess": "2026-09-14T11:02:34.165Z"
+    },
+    "canopy_treehouse_outpost": {
+      "count": 3,
+      "totalScore": 255,
+      "positions": [
+        {
+          "mapKey": "forest",
+          "x": -43,
+          "y": 0,
+          "z": 11
+        },
+        {
+          "mapKey": "forest",
+          "x": -31,
+          "y": 0,
+          "z": 11
+        },
+        {
+          "mapKey": "forest",
+          "x": -43,
+          "y": 0,
+          "z": 5
+        }
+      ],
+      "avgScore": 85,
+      "lastSuccess": "2026-09-14T11:02:34.167Z"
+    }
+  },
+  "errorRateTracker": {
+    "windowSize": 20,
+    "runs": [
+      {
+        "timestamp": "2026-09-14T10:59:13.959Z",
+        "mapKey": "forest",
+        "success": true,
+        "score": 0,
+        "mode": "NOTHING"
+      },
+      {
+        "timestamp": "2026-09-14T11:01:40.720Z",
+        "mapKey": "forest",
+        "success": true,
+        "score": 0,
+        "mode": "NOTHING"
+      },
+      {
+        "timestamp": "2026-09-14T11:06:01.452Z",
+        "mapKey": "forest",
+        "success": true,
+        "score": 0,
+        "mode": "MAP"
+      }
+    ],
+    "currentRate": 0
+  },
+  "ruleTighteningLog": [],
+  "deadZones": [
+    {
+      "mapKey": "forest",
+      "x": 0,
+      "z": -15.174999999999999,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T10:59:13.553Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": 0,
+      "z": 15.174999999999999,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T10:59:13.562Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": -16.175,
+      "z": -29,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T10:59:13.567Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": 9.875,
+      "z": -29,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T10:59:13.572Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": -16.175,
+      "z": 29,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T10:59:13.578Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": 16.175,
+      "z": 29,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T10:59:13.583Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": -43,
+      "z": -43,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T10:59:13.588Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": -43,
+      "z": -25,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T10:59:13.593Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": 0,
+      "z": 12,
+      "radius": 8,
+      "reason": "god-spot",
+      "timestamp": "2026-09-14T10:59:13.599Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": 0,
+      "z": -12,
+      "radius": 8,
+      "reason": "god-spot",
+      "timestamp": "2026-09-14T10:59:13.603Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": -43,
+      "z": -37,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T11:01:40.325Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": -43,
+      "z": -19,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T11:01:40.330Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": -43.26785198050097,
+      "z": 17.713198245384863,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T11:01:40.335Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": 19.85,
+      "z": 1,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T11:01:40.341Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": 14.15,
+      "z": 1,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T11:01:40.346Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": -43,
+      "z": -31,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T11:02:35.440Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": -43,
+      "z": 23,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T11:02:35.446Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": -34.6,
+      "z": -1,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T11:02:35.452Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": -27.4,
+      "z": -1,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T11:02:35.457Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": -36.092696469966754,
+      "z": -42.29160233842477,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T11:06:01.113Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": -31,
+      "z": 11,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T11:06:01.119Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": -24.201343854197933,
+      "z": -13.467528440829113,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T11:06:01.125Z"
+    },
+    {
+      "mapKey": "forest",
+      "x": -19,
+      "z": -43,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-14T11:06:01.129Z"
+    }
+  ]
 }
