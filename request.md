@@ -701,107 +701,108 @@ In hand-authored gold-standard maps like **The Giant Classroom** and **The Libra
 
 ---
 
-## 9. WHAT WE NEED FROM YOU: THE 4 CORE ARCHITECTURAL DELIVERABLES
+## 9. WHAT WE NEED FROM YOU: THE 4 CORE ARCHITECTURAL BLUEPRINTS
+*(Note: We do NOT need raw JavaScript codebase implementations from you. We need you to provide the comprehensive technical design, algorithmic formulas, schemas, and architectural blueprints in structured text/markdown format. Our local development team will translate your blueprints into code.)*
 
-We need you to formulate and deliver four production-grade technical systems to solve these problems:
+We need you to formulate and specify the following four systems:
 
 ---
 
-### DELIVERABLE 1: The Interactive Teacher-Apprentice Ingestion Protocol
+### BLUEPRINT 1: The Interactive Teacher-Apprentice Dialog Protocol
 
-Design an in-flight consultation and dynamic recipe ingestion system where Dream acts as an apprentice communicating with a directing AI (or human architect):
+Design the in-flight consultation and dynamic recipe ingestion system where Dream acts as an apprentice communicating with a directing AI (or human architect):
 
-1. **The In-Flight Query (`TeachRequest`)**:
-   - When Dream encounters an unknown asset (e.g. `palm_tree`, `coconut`, `conch_shell`, `lifeguard_tower`), define the exact JSON schema it emits.
-   - It must query:
-     - Real-world scale vs. miniature doodle scale.
+1. **The In-Flight Query Schema (`TeachRequest`)**:
+   - When Dream encounters an unknown asset (e.g. `palm_tree`, `coconut`, `conch_shell`, `lifeguard_tower`), specify the exact JSON schema it should emit.
+   - Detail what questions Dream must ask:
+     - Real-world scale vs. miniature doodle scale ($1.8\text{m}$ character).
      - Tactical role (`waist_cover`, `full_cover`, `traversable_catwalk`, `landmark_anchor`).
-     - Geometric primitive composition.
+     - Geometric primitive composition breakdown.
      - Ink hierarchy (`primary`, `secondary`, `interactable`, `hazard`).
-     - Collision bounds and safety clearance constraints.
+     - Collision bounds, entry points, and safety clearance constraints.
 
 2. **The Declarative Recipe Specification (`RecipeResponse`)**:
-   - Design a declarative, JSON-serializable 3D recipe grammar that an LLM can return to Dream.
-   - The recipe must express shapes using primitives (`box`, `slab`, `cyl`, `cone`, `sphere`, `wedge`, `ring`, `rail`, `barrel`, plus the new organic primitives below) with parametric offsets, rotation angles, ink tags, and collision flags.
-   - **Critical Security Constraint**: The recipe must compile deterministically into JavaScript Three.js calls **without using dangerous `eval()` or unsanitized code injection**.
+   - Design a declarative, JSON-serializable 3D recipe grammar that the directing teacher returns to Dream.
+   - The recipe format must express 3D shapes using primitives (`box`, `slab`, `cyl`, `cone`, `sphere`, `wedge`, `ring`, `rail`, `barrel`, plus the new organic primitives below) with parametric offsets, rotation angles, ink tags, and collision flags.
+   - Detail how this declarative grammar avoids risky `eval()` while allowing composite hierarchies (e.g. trunk + branches + foliage crown).
 
-3. **Dynamic Memory Ingestion**:
-   - Provide the JavaScript logic that:
-     - Takes the validated `RecipeResponse`.
-     - Registers it into a dynamic prefab catalog in memory.
-     - Appends it permanently to `.agents/thematic-memory.json` so Dream never has to ask for that asset again.
+3. **Dynamic Memory Ingestion Workflow**:
+   - Detail the step-by-step workflow for:
+     - Ingesting and validating the `RecipeResponse`.
+     - Registering the new asset into Dream's runtime catalog.
+     - Appending it permanently to `.agents/thematic-memory.json` so Dream permanently retains the knowledge and never has to ask again.
 
 ---
 
-### DELIVERABLE 2: Parametric & Organic Procedural Shape Generators
+### BLUEPRINT 2: Parametric & Organic Procedural Shape Mathematics
 
-Eliminate static clones and rectangular organic props with true parametric mathematics:
+Provide the algorithmic design and mathematical formulas to eliminate static clones and rectangular organic props:
 
-1. **Parametric Tree Generator Algorithm**:
-   - Provide a complete generative recipe function:  
+1. **Parametric Tree Generation Blueprint**:
+   - Formulate the procedural mathematics and algorithm for:  
      `generateParametricTree(seed, opts = { scale, girth, height, lean, branchiness, foliageVolume })`
-   - It must produce believable variations:
+   - Explain how to procedurally calculate:
      - **Colossal Titan Tree**: Height $25-35\text{m}$, trunk radius $2.5-3.5\text{m}$, climbable buttress root ramps, hollow trunk niche, canopy combat platform at $Y=20\text{m}$, hanging grapple rings.
      - **Slender/Bent Tree**: Height $8-12\text{m}$, lean angle $15-25^\circ$, asymmetrical foliage crown.
      - **Stout/Gnarled Tree**: Height $5-7\text{m}$, thick trunk, multi-limb split, waist-high root cover.
+   - Define how random seeds produce infinite organic variety while remaining 100% deterministic.
 
-2. **Procedural Curved Hollow Log / Pipeline**:
-   - Provide the mathematical algorithm for a true curved, round hollow log or pipe you can sprint through:
-     - Outer bark shell with collision.
-     - Inner smooth hollow core ($>1.8\text{m}$ clear internal diameter for player traversal).
-     - Stepped broken branch stubs or fungal brackets on the outside acting as stairs to the top catwalk.
-     - Parapet railings on top for elevated cover.
+2. **Procedural Curved Hollow Log / Tunnel Blueprint**:
+   - Provide the geometric and mathematical algorithm for a curved, round hollow log or pipe you can sprint through:
+     - How to calculate the outer bark cylinder vs. inner hollow traversal bore ($>1.8\text{m}$ clear diameter).
+     - How to generate stepped branch stubs / shelf fungi on the exterior acting as stairs to the top catwalk.
+     - How to place parapet edges on top for elevated cover.
 
 3. **Algorithmic Biro Sketch Jitter (Hand-Drawn Stylization)**:
-   - Formulate how procedural shapes can introduce non-rectilinear angles, slight organic vertex jitter, and contour irregularities so meshes read as authentic hand-drawn ink doodles rather than sterile CAD primitives.
+   - Formulate how procedural shapes should introduce slight non-rectilinear angles, organic vertex displacement, and contour irregularities so 3D meshes look like authentic hand-drawn ink doodles rather than sterile CAD primitives.
 
 ---
 
-### DELIVERABLE 3: Colossal Scale Anatomy & Traversal Highways
+### BLUEPRINT 3: Colossal Scale Anatomy & Traversal Highways
 
-Provide the architectural formulas for scaling small/everyday objects into multi-tiered competitive shooter arenas:
+Provide the architectural rules and formulas for scaling everyday/natural objects into multi-tiered competitive shooter arenas:
 
 1. **Colossal Transform Formulas**:
    - Mathematical guidelines for converting everyday shapes into playable geometry:
-     - How to ensure interior sprint tunnels maintain $\ge 2.2\text{m}$ continuous vertical headroom.
-     - How to place intermediate rest landings for climbs $>4.0\text{m}$ vertical rise.
-     - How to turn the top surface of a colossal object into an active combat catwalk with $0.9\text{m} - 1.1\text{m}$ cover parapets.
+     - Ensuring interior sprint tunnels maintain $\ge 2.2\text{m}$ continuous vertical headroom.
+     - Placing intermediate rest landings for climbs $>4.0\text{m}$ vertical rise.
+     - Transforming the top surface of a colossal object into an active combat catwalk with $0.9\text{m} - 1.1\text{m}$ cover parapets.
 
 2. **Grapple Highway Topology**:
    - Algorithmic rules for placing momentum grapple rings (`ring()`) relative to colossal set-pieces:
-     - Clearance distances from walls ($\ge 1.5\text{m}$).
-     - Height relative to launch platforms ($+6.0\text{m}$ to $+10.0\text{m}$ overhead).
-     - Swing arc validation to ensure swinging players do not collide with intermediate branches or geometry.
+     - Wall clearance distances ($\ge 1.5\text{m}$).
+     - Overhead launch heights ($+6.0\text{m}$ to $+10.0\text{m}$).
+     - Swing arc validation ensuring swinging players never clip intermediate obstacles or branches.
 
 ---
 
-### DELIVERABLE 4: Geometry Engine Extension (New Organic Primitives)
+### BLUEPRINT 4: Geometry Engine Extension (New Organic Primitives)
 
-Specify the exact JavaScript implementation for four new organic primitives to be added to `createBuilder(scene, world)` in `src/level.js`:
+Specify the exact geometric construction, vertex math, and collision boundaries for four new organic primitives to be added to `createBuilder(scene, world)`:
 
 1. `hollowCyl(x, y, z, rInner, rOuter, length, opts)`:
-   - A true hollow circular tube laying along the `'x'` or `'z'` axis with inward and outward collision geometry.
+   - Geometric construction of an open-ended hollow cylinder laying on `'x'` or `'z'` axis, including inward and outward collision box approximation.
 2. `wedge(x, y, z, w, h, d, opts)`:
-   - A triangular prism for sloped ramps, angled roofs, and natural rock ramps (`dir: 'x+' | 'x-' | 'z+' | 'z-'`).
+   - Triangular prism geometry for smooth natural ramps, rock slopes, and angled roofs (`dir: 'x+' | 'x-' | 'z+' | 'z-'`).
 3. `facetedRock(x, y, z, rx, ry, rz, opts)`:
-   - An organic, multi-faceted sketched boulder (deformed polyhedron) providing uneven waist-high or full cover.
+   - Organic, multi-faceted sketched boulder (deformed polyhedron) with irregular flat facets providing waist-high or full cover.
 4. `arch(x, y, z, span, height, depth, opts)`:
-   - A curved archway for cave entrances, bridge spans, and ruined architectural gateways.
+   - Curved archway geometry for cave openings, hollow trunks, and bridge spans.
 
 ---
 
-## 10. TARGET FILE MANIFEST & INTEGRATION HOOKS
+## 10. TARGET ARCHITECTURAL MANIFEST
 
-Your technical solutions must cleanly integrate into the following workspace files:
+Your blueprints and specifications will guide the implementation across these workspace modules:
 
-| File Path | Role in Dream Ecosystem | Integration Target |
+| Target File | System Component | How Your Blueprint Will Be Applied |
 |---|---|---|
-| [`src/level.js`](file:///c:/Users/dd/Desktop/Test/src/level.js) | Core Builder API (`createBuilder`) | Add `hollowCyl`, `wedge`, `facetedRock`, `arch` to `B`. |
-| [`src/prefabs.js`](file:///c:/Users/dd/Desktop/Test/src/prefabs.js) | Reusable Set-Piece Library | Add parametric tree, hollow log, and faceted boulder generators. |
-| [`src/rebuild/scene-tree-schema.js`](file:///c:/Users/dd/Desktop/Test/src/rebuild/scene-tree-schema.js) | Scene Tree AST Schema | Register organic node types (`parametricTree`, `hollowTunnel`, `organicBoulder`). |
-| [`src/rebuild/scene-compiler.js`](file:///c:/Users/dd/Desktop/Test/src/rebuild/scene-compiler.js) | Deterministic AST Compiler | Add emitters compiling organic nodes into the new Three.js primitives. |
-| [`src/rebuild/director-agent.js`](file:///c:/Users/dd/Desktop/Test/src/rebuild/director-agent.js) | Teacher-Apprentice Layer | Implement `TeachRequest` generator and `RecipeResponse` parser. |
-| [`.agents/thematic-memory.json`](file:///c:/Users/dd/Desktop/Test/.agents/thematic-memory.json) | Persistent Memory Bank | Store learned parametric recipes and dynamic theme archetypes. |
+| [`src/level.js`](file:///c:/Users/dd/Desktop/Test/src/level.js) | Core Builder API (`createBuilder`) | We will implement the 4 organic primitives (`hollowCyl`, `wedge`, `facetedRock`, `arch`) based on your geometric math. |
+| [`src/prefabs.js`](file:///c:/Users/dd/Desktop/Test/src/prefabs.js) | Reusable Set-Piece Library | We will implement the parametric tree, hollow log, and faceted boulder generators following your algorithms. |
+| [`src/rebuild/scene-tree-schema.js`](file:///c:/Users/dd/Desktop/Test/src/rebuild/scene-tree-schema.js) | Scene Tree AST Schema | We will register the new organic node types defined in your schema. |
+| [`src/rebuild/scene-compiler.js`](file:///c:/Users/dd/Desktop/Test/src/rebuild/scene-compiler.js) | Deterministic AST Compiler | We will add compiler emitters translating organic AST nodes into Three.js calls. |
+| [`src/rebuild/director-agent.js`](file:///c:/Users/dd/Desktop/Test/src/rebuild/director-agent.js) | Teacher-Apprentice Layer | We will implement the `TeachRequest` generator and `RecipeResponse` ingestion parser per your protocol design. |
+| [`.agents/thematic-memory.json`](file:///c:/Users/dd/Desktop/Test/.agents/thematic-memory.json) | Persistent Memory Bank | We will structure learned assets and thematic rules following your recipe format. |
 
 ---
 
@@ -818,11 +819,15 @@ I have attached `request.md`, which contains the complete architectural breakdow
 3. The Scene Tree AST schema and thematic memory formats.
 4. The diagnosis of why Dream is failing (the Cardboard Box Trap, Static Clones, the Knowledge Wall, and missing colossal traversal).
 
-Your mission is to formulate and implement the 4 core deliverables defined in Section 9:
-- Deliverable 1: The Interactive Teacher-Apprentice Ingestion Protocol (`TeachRequest` and `RecipeResponse` JSON schemas, runtime execution parser without `eval()`, memory persistence).
-- Deliverable 2: Parametric & Organic Procedural Generators (`generateParametricTree` with colossal variations, curved hollow log sprint tunnel, faceted boulder math, and biro sketch jitter).
-- Deliverable 3: Colossal Scale Traversal & Grapple Highway rules (ensuring high-speed miniature players navigate giant objects without collision snags).
-- Deliverable 4: Exact JavaScript implementations for the 4 new organic primitives for `src/level.js` (`hollowCyl`, `wedge`, `facetedRock`, `arch`).
+IMPORTANT INSTRUCTION ON OUTPUT FORMAT:
+DO NOT write raw JavaScript application code or dump large code files. We are not asking you to code our game.
+Instead, provide a comprehensive architectural design and technical specification document (in structured Markdown / text format) explaining HOW we should build and solve these systems:
 
-Provide clean, modular, production-ready JavaScript code that directly fits into our target file manifest.
+1. HOW the Interactive Teacher-Apprentice Protocol should work in-flight (the exact communication loop, questions Dream asks, `TeachRequest` and `RecipeResponse` declarative schemas, and how new concepts are permanently ingested into memory).
+2. HOW to mathematically generate parametric organic shapes (trees of varying scales, curved hollow logs/pipes, faceted boulders, biro sketch jitter) without hardcoding.
+3. HOW to transform everyday objects into colossal, multi-tier arenas with competitive flow, headroom, and grapple highways.
+4. HOW the 4 new organic primitives (hollow cylinder, wedge ramp, faceted rock, arch) should be geometrically constructed, textured in biro ink, and given proper collision boundaries.
+
+Our local development team will take your architectural specifications, mathematical formulas, and schemas to implement the code ourselves. Focus on deep design clarity, mathematical precision, and system architecture.
 ```
+
