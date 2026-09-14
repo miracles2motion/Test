@@ -14,7 +14,7 @@
 - **Engagement Profile**: CQB Corridors & Apex Catwalk Grapple Flanking
 - **Primary Ink**: INK.GREEN (Structural geometry, foundational slabs, perimeter enclosure)
 - **Secondary Ink**: INK.BLACK (Iron frames, safety railings, mechanical linework)
-- **Accent Inks**: INK.ORANGE, INK.RED (High-hazard zones, grapple anchors, vantage markers, warning runes)
+- **Accent Inks**: INK.ORANGE, INK.RED, INK.BLUE (High-hazard zones, grapple anchors, vantage markers, warning runes, stream basins)
 
 ### 2.1 Thematic Prop Taxonomy (Detailing Tiers 1-4)
 - **Tier 1 (Cover Props — 3-5 meshes each)**: giant_stalk_grass (massive blade cluster with apical grapple ring), faceted_boulder_cluster (sketched granite cover rock with 1.8m channels), hollow_stump_bunker (natural 1.2m ambush bunker stump with mossy rim), toadstool_cover (giant fly agaric spotted umbrella mushroom waist cover), weathered_cedar_trail_sign (directional post with fingerboards), mossy_river_stone (hewn rock barrier providing waist-high defilade).
