@@ -1,0 +1,210 @@
+================================================================================
+DREAM REBUILD — SYSTEM 7: IMPLEMENTATION ROADMAP & ACCEPTANCE SUITE
+Audit Mission Item 6 — phased, flag-gated, minimal disruption to the
+rendering pipeline (which is never touched)
+================================================================================
+
+7.0 — GROUND RULES OF THE ROADMAP
+--------------------------------------------------------------------------------
+
+  G1  THE RENDERER IS NEVER TOUCHED. The rebuild lives entirely in
+      generation (Node.js CLI side) and emits the same primitive API
+      the renderer already consumes. Zero risk to the game runtime.
+  G2  EVERY PHASE IS FLAG-GATED. `--layout v2`, `--dress v2`, etc.
+      Rollback is a flag flip; the legacy path survives one full
+      release after each promotion.
+  G3  EVERY PHASE SHIPS WITH ITS ACCEPTANCE GATES WIRED INTO CI.
+      A phase is not done when the code exists; it is done when the
+      gates close.
+  G4  DETERMINISM LANDS FIRST. Nothing downstream is testable until
+      seeded reproducibility exists, so it is Phase R0, not a virtue
+      for later.
+  G5  EFFORT SIZING: S (< 1 dev-week), M (1-2 weeks), L (2-4 weeks)
+      for one strong JavaScript engineer. Sequencing matters more than
+      the estimates.
+
+--------------------------------------------------------------------------------
+PHASE R0 — HYGIENE & DETERMINISM (S) — "stop the bleeding"
+--------------------------------------------------------------------------------
+  DELIVERABLES
+    - All 8 audited bugs fixed (zen brace map-refiner:101; import
+      dedup; duplicate injection blocks; decimal regex in scaffold;
+      hardcoded map registry -> data-driven from thematic-memory +
+      level dir scan; duplicate import lines; inspector regex fixes)
+    - thematic-memory.json completed for all 7 themes (zen, cyber,
+      steampunk, colossal, maritime join forest/space_station) —
+      data, not code
+    - mulberry32 seeded PRNG injected everywhere Math.random() appears
+      in the pipeline; seed = hash(mapKey + runIndex) logged
+    - dream-journal schema extended: { seed, strategy, score, treeHash,
+      repairs[] } per run
+  GATES: same seed -> byte-identical level file, 20 runs; all existing
+      audits still pass; the 8 bugs have regression fixtures.
+  RISK: minimal. Everything later stands on this phase.
+
+--------------------------------------------------------------------------------
+PHASE R1 — THE SCENE TREE & COMPILER (M-L) — "the AST, de-risked first"
+--------------------------------------------------------------------------------
+  STRATEGY: build the compiler BEFORE the layout engine, and prove it
+  by PARITY: hand-transcribe the current fixed scaffold layout into a
+  tree (scaffold.tree.json), compile it, and require the output to
+  match today's scaffold output structurally (same primitives, same
+  counts, same clearances — byte-identity is not required, structural
+  equivalence is). The AST is thereby validated against a known-good
+  build before anything depends on it.
+  DELIVERABLES
+    - Tree schema v1.0 + validators L1/L2 (File 02)
+    - scene-compiler.js with node-type emitters, hand/dream file
+      regions, import dedup, node-id audit trails, cost metadata
+    - map-inspector reborn: reads the tree; regex scraping retired
+    - geometry-validator wired as the final gate (unchanged module)
+  GATES: File 02 T1-T5; parity build accepted; compile 5x in place
+      with zero duplication.
+
+--------------------------------------------------------------------------------
+PHASE R2 — THE ZONE GRAPH LAYOUT ENGINE (L) — "kill Root Cause 1"
+--------------------------------------------------------------------------------
+  DELIVERABLES
+    - Concept Interpreter (sections 4-8 -> Zone Program) (File 01, 1.1)
+    - Graph synthesis with guarantees G1-G5 + dead-end repair
+    - Skeleton-first embedding + bounded relaxation
+    - Tier assignment with stair-feasibility reservations
+    - 5 layout strategies as graph priors; selection from theme + seed
+    - `--layout v2` flag; scaffold demoted to fallback
+  GATES: File 01 T1-T5 (divergence, constraints, determinism, density,
+      stair math pre-proven). The first Dream map that is NOT a
+      quadrant arena ships behind the flag.
+
+--------------------------------------------------------------------------------
+PHASE R3 — SURFACE GRID & STAIR ROUTER (M) — "verticality becomes real"
+--------------------------------------------------------------------------------
+  DELIVERABLES
+    - 2m layered grid from tree colliders (reuse buildLevel() mock)
+    - Stair Router with checks A-D; grapple-only edges; ring seating
+    - Railing + edge synthesis; drop declarations
+    - Disconnected-surface demotion (build error, not shipped map)
+  GATES: File 03 T1-T6; the reachability contract holds on 100 seeded
+      maps; every tier populated.
+
+--------------------------------------------------------------------------------
+PHASE R4 — VIGNETTE COMPOSER (M) — "scenes, not scatter"
+--------------------------------------------------------------------------------
+  DELIVERABLES
+    - Vignette library v1: ~14 types, slot grammar, anchor rules
+    - Deterministic placement flow with cell reservation
+    - Diversity guard D1-D5; adjacency semantics
+    - 12-prefab shopping list implemented (human, once)
+    - Macro templates re-scoped as hero anchors with stair demands
+    - `--dress v2`; map-injector demoted
+  GATES: File 04 T1-T5; lane rhythm pass executes against MEASURED
+      gaps (integration with R5 metrics lands next phase; until then
+      fixed 12m target intervals).
+
+--------------------------------------------------------------------------------
+PHASE R5 — VALIDATION ENGINE & REPAIR AGENDA (L) — "the gate closes"
+--------------------------------------------------------------------------------
+  DELIVERABLES
+    - A* walk graph + hard gates R1-R4; marched sightlines S1-S4;
+      cover rhythm; quadrant entropy; exploit scan on real data
+    - Composite score that can FAIL; export gate at 75 (meaningful)
+    - Repair Agenda: typed prescriptions, tree edits, bounded 5-pass
+      loop, oscillation guard, convergence journaling
+    - map-simulate retired; movement-model/sightline-field/bots
+      promoted onto real data
+  GATES: File 05 T1-T5 — including the fault-injection test (delete a
+      stair node; the gate MUST close) and the variance test (scores
+      must actually spread).
+
+--------------------------------------------------------------------------------
+PHASE R6 — LLM ORCHESTRATION (M) — "the optional brain"
+--------------------------------------------------------------------------------
+  DELIVERABLES
+    - DirectorAgent interface; Stand-in Director (deterministic)
+    - Offline round-trip: prompt packets + consult-apply (File 06, 6.3)
+    - Optional local/API transport behind config; bounded debates
+    - dream-consultant repurposed as packet manager
+    - Classroom extractor (stretch): classroom.tree.json for scorer
+      calibration and vignette mining (File 02, 2.7)
+  GATES: File 06 T1-T5; CLASSROOM CALIBRATION: the extracted tree
+      scores >= 85 unrepaired (File 05 T5).
+
+--------------------------------------------------------------------------------
+PHASE R7+ — THE VISION LINE RESUMES (post-rebuild)
+--------------------------------------------------------------------------------
+  With the foundation real, the prior design line becomes implementable
+  in order: biome blending on tree nodes (5.5) -> enemy ecosystem nodes
+  (6: enemySpawn already reserved) -> Budget Arbiter on cost metadata
+  (7: the counting substrate now exists) -> instancing/LOD at the
+  compiler's emitter level. Each was blocked on exactly what R1-R5
+  now provide.
+
+--------------------------------------------------------------------------------
+7.8 — THE CONSOLIDATED ACCEPTANCE SUITE (CI wiring)
+--------------------------------------------------------------------------------
+
+  GATE  TEST                                    FROM    TYPE
+  ----  --------------------------------------  ------  --------
+  R0    determinism (20 runs, byte-identical)   01/1.7  blocking
+  R0    bug regression fixtures (8)             audit   blocking
+  R1    schema conformance (1000 trees)         02/T1   blocking
+  R1    compiler determinism (hash)             02/T2   blocking
+  R1    no-dupes on 5x compile                  02/T3   blocking
+  R1    cost honesty (+-2%)                     02/T5   warning
+  R2    layout divergence (edit distance)       01/T1   blocking
+  R2    guarantees G1-G5 (100 runs/strategy)    01/T2   blocking
+  R2    density + stair math pre-proof          01/T4-5 blocking
+  R3    reachability contract (100 maps)        03/T2   blocking
+  R3    tier population + headroom              03/T1-3 blocking
+  R4    diversity score >= 0.75                  04/T1   blocking
+  R4    zero overlapping placements             04/T2   blocking
+  R5    fault injection closes the gate         05/T1   blocking
+  R5    repair convergence >= 90%               05/T2   blocking
+  R5    score variance spans >= 30 pts          05/T4   blocking
+  R6    stand-in parity (unassisted identical)  06/T1   blocking
+  R6    proposal gate rejects all faults        06/T2   blocking
+
+7.9 — THE GRADUATION TEST (the benchmark from File 00, restated)
+--------------------------------------------------------------------------------
+
+  A rebuilt Dream map, chosen at random from 20 seeded runs, must:
+    - compile to >= 300 colliders, >= 180 geometry calls, 20-45 rings
+    - populate >= 3 tiers, >= 4 interior rooms with doorways
+    - prove zero unreachable pickups/spawns/sniper posts (R-gates)
+    - score >= 75 on the real validator, unrepaired or repaired
+    - and pass the BLIND TEST: side by side with the Giant Classroom,
+      a player who has never seen either cannot reliably say which
+      one the machine made.
+
+  "Dream is done dreaming when its maps are indistinguishable from
+   its teacher's."
+
+7.10 — RISK REGISTER (top 5)
+--------------------------------------------------------------------------------
+
+  RISK                              MITIGATION
+  --------------------------------  ----------------------------------
+  Embedding relaxation instability bounded iterations; journaled drops;
+  (rooms never fit)                 density retry with prior shift
+  Repair loop oscillation           blacklist-per-run (05, 5.6); max 5
+                                    passes; convergence journaling
+  Grid cost blowup on huge maps     2m -> 4m auto-degrade tier; cost
+                                    model in File 03, 3.6
+  LLM schema drift (round-trips)    schema versioned + embedded cheat-
+                                    sheet; loud parse failures (06, 6.6)
+  Scope creep toward the vision     R7 is a SEPARATE line; this set's
+  line (5.5/6/7) mid-rebuild        gates freeze at R6 graduation
+
+7.11 — PARALLELISM (for a team > 1)
+--------------------------------------------------------------------------------
+
+  After R1's schema freeze: R2 (layout) and R4's vignette library are
+  independent; R3 (grid) and R5's metric definitions can proceed in
+  parallel off the same tree fixtures. R5's repair loop integration is
+  the only strictly serial tail. Solo: build strictly in phase order.
+
+================================================================================
+                    DREAM REBUILD — DOCUMENT SET COMPLETE
+  Files 00-07: reality reconciliation, Zone Graph, Scene Tree, Surface
+  Grid, Vignettes, Validation, LLM Layer, Roadmap. The penthouse plans
+  (Phases 5.5/6/7) finally have a foundation to stand on.
+================================================================================

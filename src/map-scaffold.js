@@ -81,7 +81,7 @@ if (conceptFile) {
   const md = fs.readFileSync(conceptFile, 'utf8');
 
   // Extract bounds: check Half-Span in table first, or Coordinate Boundary
-  const spanMatch = md.match(/Half-Span[^\d]*(\d+)/i);
+  const spanMatch = md.match(/Half-Span[^\d]*(\d+(?:\.\d+)?)/i);
   if (spanMatch) {
     conf.bounds.P = parseFloat(spanMatch[1]);
   } else {
@@ -93,7 +93,7 @@ if (conceptFile) {
     }
   }
 
-  const phMatch = md.match(/Wall Height[^\d]*(\d+)/i);
+  const phMatch = md.match(/Wall Height[^\d]*(\d+(?:\.\d+)?)/i);
   if (phMatch) {
     conf.bounds.PH = parseFloat(phMatch[1]);
   } else {

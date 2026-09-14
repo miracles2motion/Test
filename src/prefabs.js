@@ -854,6 +854,155 @@ export function buildTelemetryConsole(B, x, y, z, o = {}) {
   cyl(x, y, z + 0.9, 0.3, 0.65, { ink: inkFrame, tag: 'cover' });
 }
 
+/**
+ * Procedural Stone Lantern (Kasuga Toro) - Zen Theme
+ */
+export function buildStoneLantern(B, x, y, z, o = {}) {
+  const { box, cyl, slab } = B;
+  const ink = o.ink ?? INK.BLACK;
+  const accent = o.inkAccent ?? INK.ORANGE;
+  box(x, y, z, 0.8, 0.3, 0.8, { ink, tag: 'cover' });
+  cyl(x, y + 0.3, z, 0.22, 0.7, { ink, tag: 'cover' });
+  box(x, y + 1.0, z, 0.6, 0.45, 0.6, { ink: accent, tag: 'cover' });
+  slab(x - 0.45, z - 0.45, x + 0.45, z + 0.45, y + 1.45, 0.18, { ink });
+}
+
+/**
+ * Procedural Bamboo Rocking Fountain (Shishi-odoshi) - Zen Theme
+ */
+export function buildBambooFountain(B, x, y, z, o = {}) {
+  const { box, cyl } = B;
+  const ink = o.ink ?? INK.GREEN;
+  const inkStone = o.inkStone ?? INK.BLACK;
+  box(x, y, z, 0.9, 0.5, 0.9, { ink: inkStone, tag: 'cover' });
+  cyl(x - 0.3, y, z + 0.5, 0.08, 1.1, { ink, noCollide: true });
+  cyl(x + 0.3, y, z + 0.5, 0.08, 1.1, { ink, noCollide: true });
+  cyl(x, y + 0.8, z + 0.2, 0.09, 0.85, { axis: 'z', ink, noCollide: true });
+}
+
+/**
+ * Procedural Holographic Pylon Beacon - Cyber Theme
+ */
+export function buildHoloPylon(B, x, y, z, o = {}) {
+  const { box, cyl, sphere } = B;
+  const ink = o.ink ?? INK.BLUE;
+  const accent = o.inkAccent ?? INK.ORANGE;
+  box(x, y, z, 0.7, 0.8, 0.7, { ink, tag: 'cover' });
+  cyl(x, y + 0.8, z, 0.15, 1.6, { ink, tag: 'cover' });
+  box(x, y + 1.6, z, 0.4, 0.4, 0.08, { ink: accent, noCollide: true });
+  sphere(x, y + 2.5, z, 0.2, { ink: accent, noCollide: true });
+}
+
+/**
+ * Procedural Industrial Valve Manifold Bank - Steampunk Theme
+ */
+export function buildValveBank(B, x, y, z, o = {}) {
+  const { box, cyl } = B;
+  const ink = o.ink ?? INK.ORANGE;
+  const inkFrame = o.inkFrame ?? INK.BLACK;
+  box(x, y, z, 2.0, 0.6, 0.6, { ink, tag: 'cover' });
+  [-0.6, 0, 0.6].forEach(ox => {
+    cyl(x + ox, y + 0.6, z, 0.1, 0.4, { ink: inkFrame, tag: 'cover' });
+    cyl(x + ox, y + 1.0, z, 0.25, 0.08, { axis: 'x', ink, noCollide: true });
+  });
+}
+
+/**
+ * Procedural Brass Pressure Gauge - Steampunk Theme
+ */
+export function buildPressureGauge(B, x, y, z, o = {}) {
+  const { box, cyl } = B;
+  const ink = o.ink ?? INK.ORANGE;
+  const inkFrame = o.inkFrame ?? INK.BLACK;
+  cyl(x, y, z, 0.12, 1.1, { ink: inkFrame, tag: 'cover' });
+  cyl(x, y + 1.1, z, 0.35, 0.12, { axis: 'z', ink, noCollide: true });
+  box(x, y + 1.1, z + 0.08, 0.04, 0.22, 0.02, { ink: INK.RED, noCollide: true });
+}
+
+/**
+ * Procedural Slate Chalkboard Wall - Colossal Theme
+ */
+export function buildChalkboardWall(B, x, y, z, o = {}) {
+  const { box } = B;
+  const ink = o.ink ?? INK.BLUE;
+  const inkFrame = o.inkFrame ?? INK.ORANGE;
+  box(x - 1.2, y, z, 0.2, 2.8, 0.3, { ink: inkFrame, tag: 'cover' });
+  box(x + 1.2, y, z, 0.2, 2.8, 0.3, { ink: inkFrame, tag: 'cover' });
+  box(x, y + 0.8, z, 2.4, 1.6, 0.15, { ink, tag: 'cover' });
+  box(x, y + 0.75, z + 0.12, 2.4, 0.08, 0.18, { ink: inkFrame, noCollide: true });
+}
+
+/**
+ * Procedural Wooden Crate Stack - Universal Cover
+ */
+export function buildCrateStack(B, x, y, z, o = {}) {
+  const { box } = B;
+  const ink = o.ink ?? INK.ORANGE;
+  box(x - 0.45, y, z, 0.85, 0.85, 0.85, { ink, tag: 'cover' });
+  box(x + 0.45, y, z, 0.85, 0.85, 0.85, { ink, tag: 'cover' });
+  box(x, y + 0.85, z, 0.85, 0.85, 0.85, { ink, tag: 'cover' });
+}
+
+/**
+ * Procedural Sandbag Barricade Row - Universal Tactical Cover
+ */
+export function buildSandbagRow(B, x, y, z, o = {}) {
+  const { box } = B;
+  const ink = o.ink ?? INK.BLACK;
+  box(x - 0.7, y, z, 0.65, 0.35, 0.45, { ink, tag: 'cover' });
+  box(x, y, z, 0.65, 0.35, 0.45, { ink, tag: 'cover' });
+  box(x + 0.7, y, z, 0.65, 0.35, 0.45, { ink, tag: 'cover' });
+  box(x - 0.35, y + 0.35, z, 0.65, 0.35, 0.45, { ink, tag: 'cover' });
+  box(x + 0.35, y + 0.35, z, 0.65, 0.35, 0.45, { ink, tag: 'cover' });
+  box(x, y + 0.7, z, 0.65, 0.35, 0.45, { ink, tag: 'cover' });
+}
+
+/**
+ * Procedural Whip Antenna Post - Universal Comms
+ */
+export function buildAntennaWhip(B, x, y, z, o = {}) {
+  const { box, cyl, sphere } = B;
+  const ink = o.ink ?? INK.BLACK;
+  const accent = o.inkAccent ?? INK.RED;
+  box(x, y, z, 0.5, 0.6, 0.5, { ink, tag: 'cover' });
+  cyl(x, y + 0.6, z, 0.08, 3.2, { ink, noCollide: true });
+  sphere(x, y + 3.8, z, 0.15, { ink: accent, noCollide: true });
+}
+
+/**
+ * Procedural Manila Hemp Rope Coil - Maritime / Industrial
+ */
+export function buildRopeCoil(B, x, y, z, o = {}) {
+  const { cyl, ring } = B;
+  const ink = o.ink ?? INK.ORANGE;
+  cyl(x, y, z, 0.55, 0.25, { ink, tag: 'cover' });
+  ring(x, y + 0.25, z, 'y');
+}
+
+/**
+ * Procedural Workshop Tool Rack - Industrial / Maintenance
+ */
+export function buildToolRack(B, x, y, z, o = {}) {
+  const { box } = B;
+  const ink = o.ink ?? INK.BLACK;
+  const accent = o.inkAccent ?? INK.ORANGE;
+  box(x, y, z, 1.6, 1.4, 0.25, { ink, tag: 'cover' });
+  box(x - 0.4, y + 0.5, z + 0.14, 0.08, 0.45, 0.05, { ink: accent, noCollide: true });
+  box(x, y + 0.5, z + 0.14, 0.08, 0.35, 0.05, { ink: accent, noCollide: true });
+  box(x + 0.4, y + 0.5, z + 0.14, 0.1, 0.4, 0.05, { ink: accent, noCollide: true });
+}
+
+/**
+ * Procedural Hazard Caution Warning Sign - Universal
+ */
+export function buildWarningSign(B, x, y, z, o = {}) {
+  const { box, cyl } = B;
+  const ink = o.ink ?? INK.ORANGE;
+  const inkPost = o.inkPost ?? INK.BLACK;
+  cyl(x, y, z, 0.08, 1.3, { ink: inkPost, tag: 'cover' });
+  box(x, y + 1.1, z, 0.55, 0.55, 0.06, { ink, noCollide: true });
+}
+
 // ============================================================================
 // DYNAMIC PREFAB REGISTRY & TEACHING CATALOG
 // Allows Dream to query, inspect, and instantiate any 3D compound structure.
@@ -1061,6 +1210,90 @@ export const PREFAB_REGISTRY = {
     tags: ['space_station', 'station', 'space', 'terminal', 'console', 'computer', 'cover'],
     builder: buildTelemetryConsole,
     footprint: [2.2, 1.4, 1.8]
+  },
+  stone_lantern: {
+    id: 'stone_lantern',
+    name: 'Stone Lantern (Kasuga Toro)',
+    tags: ['zen', 'shrine', 'garden', 'lantern', 'cover'],
+    builder: buildStoneLantern,
+    footprint: [0.8, 1.6, 0.8]
+  },
+  bamboo_fountain: {
+    id: 'bamboo_fountain',
+    name: 'Bamboo Rocking Water Fountain',
+    tags: ['zen', 'garden', 'bamboo', 'water', 'fountain'],
+    builder: buildBambooFountain,
+    footprint: [1.0, 1.2, 1.0]
+  },
+  holo_pylon: {
+    id: 'holo_pylon',
+    name: 'Holographic Pylon Beacon',
+    tags: ['cyber', 'beacon', 'holo', 'pylon', 'cover'],
+    builder: buildHoloPylon,
+    footprint: [0.7, 2.7, 0.7]
+  },
+  valve_bank: {
+    id: 'valve_bank',
+    name: 'Industrial Steam Valve Manifold Bank',
+    tags: ['steampunk', 'steam', 'valve', 'pipe', 'cover'],
+    builder: buildValveBank,
+    footprint: [2.0, 1.1, 0.8]
+  },
+  pressure_gauge: {
+    id: 'pressure_gauge',
+    name: 'Brass Dial Pressure Gauge',
+    tags: ['steampunk', 'steam', 'dial', 'gauge', 'cover'],
+    builder: buildPressureGauge,
+    footprint: [0.7, 1.5, 0.3]
+  },
+  chalkboard_wall: {
+    id: 'chalkboard_wall',
+    name: 'Slate Chalkboard Wall',
+    tags: ['colossal', 'classroom', 'chalkboard', 'cover'],
+    builder: buildChalkboardWall,
+    footprint: [2.6, 2.8, 0.6]
+  },
+  crate_stack: {
+    id: 'crate_stack',
+    name: 'Wooden Shipping Crate Stack',
+    tags: ['universal', 'crate', 'cover', 'cargo', 'box'],
+    builder: buildCrateStack,
+    footprint: [1.8, 1.7, 1.0]
+  },
+  sandbag_row: {
+    id: 'sandbag_row',
+    name: 'Canvas Sandbag Barricade Row',
+    tags: ['universal', 'sandbag', 'cover', 'barricade'],
+    builder: buildSandbagRow,
+    footprint: [2.1, 1.0, 0.9]
+  },
+  antenna_whip: {
+    id: 'antenna_whip',
+    name: 'Whip Antenna Comms Post',
+    tags: ['universal', 'antenna', 'comms', 'mast'],
+    builder: buildAntennaWhip,
+    footprint: [0.6, 4.0, 0.6]
+  },
+  rope_coil: {
+    id: 'rope_coil',
+    name: 'Manila Hemp Rope Coil',
+    tags: ['maritime', 'rope', 'hawser', 'cover'],
+    builder: buildRopeCoil,
+    footprint: [1.1, 0.3, 1.1]
+  },
+  tool_rack: {
+    id: 'tool_rack',
+    name: 'Workshop Equipment & Tool Rack',
+    tags: ['universal', 'tools', 'rack', 'cover'],
+    builder: buildToolRack,
+    footprint: [1.6, 1.4, 0.4]
+  },
+  warning_sign: {
+    id: 'warning_sign',
+    name: 'Hazard Caution Warning Sign',
+    tags: ['universal', 'sign', 'hazard', 'caution'],
+    builder: buildWarningSign,
+    footprint: [0.6, 1.4, 0.2]
   }
 };
 

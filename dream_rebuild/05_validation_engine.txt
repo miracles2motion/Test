@@ -1,0 +1,184 @@
+================================================================================
+DREAM REBUILD — SYSTEM 5: THE VALIDATION ENGINE & REPAIR AGENDA
+Audit Vector D + Root Causes 6 & 7 — scores that can fail, and a map that
+repairs itself until they don't
+================================================================================
+
+5.0 — THE EXECUTION OF `75 + Math.random() * 20`
+--------------------------------------------------------------------------------
+
+The audit is unsparing: generic bots score random numbers, paths are
+3-point straight lines, "simulation never detects that a platform is
+unreachable", and the score "almost always passes (75+), providing no
+useful signal". A quality gate that never closes is not a gate.
+
+This system replaces the simulator with a deterministic measurement
+engine over the Surface Grid (File 03), wraps it in a bounded
+multi-pass REPAIR loop that edits the Scene Tree (never generated
+code), and gives the score the one property it never had: the ability
+to FAIL — with a shipped, human-readable reason.
+
+text
+
+      SCENE TREE ──compile──► GRID ──measure──► METRICS ──► SCORE
+           ^                                                   |
+           |                                                   v
+      EDIT NODES  <── apply prescriptions  <--  REPAIR AGENDA (ranked
+           |                                            deficiencies)
+           └──────────── bounded loop, max 5 passes ────────────────┘
+                                   |
+                                   v
+                       PASS (journal)  or  HONEST FAILURE
+                       (deficiency report + consultation ticket)
+
+5.1 — METRIC 1: REACHABILITY (A* over the walk graph)
+--------------------------------------------------------------------------------
+
+  GRAPH: grid cells as nodes; 8-directional walk edges (cost 1 / 1.4);
+  stair cells connect layers (cost from climb length); grapple edges
+  are special transitions (allowed only from cells with a verified
+  ring in swing range, cost 6 — reachable but deliberately awkward).
+
+  MANDATORY PATH TESTS (each is a HARD GATE — failure blocks export):
+    R1  Every spawn -> every other spawn (the competitive baseline).
+    R2  Every spawn -> every pickupPoint (audit Vector D test 2).
+    R3  Every spawn -> every sniperPost (a vantage you can't reach is
+        a lie the concept told).
+    R4  Every vignette cluster >= 4 cells -> tier 0 (File 03's
+        contract, now ENFORCED by search, not asserted).
+
+  The audit's RUSHER archetype becomes real: A* path timing through
+  the existing movement-model.js (momentum carry over cover, stair
+  slowdowns) — rusher flow is a MEASURED traversal, not a vibe.
+
+5.2 — METRIC 2: SIGHTLINES (marched, not vibed)
+--------------------------------------------------------------------------------
+
+  RAYCAST, GRID-STYLE: from each sniperPost and each lane midpoint,
+  march columns at eye height (1.6m) using the grid's surface/headroom
+  data — a column blocks if geometry intersects the ray band. Cheap,
+  deterministic, and 4x the resolution of the audited 4m field.
+
+  MEASUREMENTS:
+    S1  Perch value: open sightline count per sniperPost (G4's
+        >= 3 finally VERIFIED; starving perches get repair demands).
+    S2  Death corridors: sightlines > 50m with no cover interval
+        crossing them (audit Vector D test 3) — flagged, prescribed.
+    S3  Exposure symmetry: per-spawn total exposure delta <= 20%
+        (fairness — one spawn staring down a firing range loses).
+    S4  Sightline distribution entropy: a map of ONLY short lines is
+        a maze; only long lines is a shooting gallery. Target band
+        calibrated against the Classroom corpus (File 02, 2.7).
+
+5.3 — METRIC 3: COVER RHYTHM (the 10-15m interval, enforced)
+--------------------------------------------------------------------------------
+
+  For every lane polyline (File 01 edges): sample hard-cover cells
+  within 4m of the lane; compute interval lengths between them.
+    PASS: 70%+ of intervals in 8-18m; none > 25m.
+    Prescriptions: gaps > 15m -> "addCoverVignette at (x,z)" (File 04
+    demand); dense overs (interval < 6m clustered) -> prune one
+    (clutter is also a disease).
+  This is where rhythm-placer's beat concept lands — driven by
+  MEASURED gaps, per audit Vector D test 4.
+
+5.4 — METRIC 4: FLOW & BALANCE
+--------------------------------------------------------------------------------
+
+    Q1  Quadrant entropy: collider/cover mass per quadrant must be
+        neither identical (the scaffold's disease) nor starving —
+        entropy in a target band. Asymmetry: measured, bounded.
+    Q2  Pickup value spread: no cluster of all high-value pickups in
+        one quadrant (camping economy).
+    Q3  Exploit scan: the EXISTING exploit-detector.js (head-glitch,
+        god-spot) runs against real grid data — its 116 lines finally
+        get honest inputs, and its findings become prescriptions
+        (raise cover lip / add approach / block sightline).
+
+5.5 — THE SCORE (real distribution, real failure)
+--------------------------------------------------------------------------------
+
+  score = 100
+        - 25 per hard-gate failure (R1-R4: usually 0 after repair)
+        - weighted soft deficiencies (S2 corridors, rhythm gaps,
+          entropy band misses, exploit findings)
+        - determinism bonus/penalty: none (seeded, reproducible)
+
+  THRESHOLD: 75 to export (continuity with the current number — but
+  now it MEANS something). Expected distribution across seeds:
+  ~40-95 pre-repair, ~78-97 post-repair. Maps that fail after 5
+  repair passes export NOTHING; the run journals the deficiency list
+  and files a consultation ticket with REAL CONTENT (the ticket
+  system's 277 lines stop describing mystery failures).
+
+5.6 — THE REPAIR AGENDA (Root Cause 7's answer)
+--------------------------------------------------------------------------------
+
+  Every deficiency is a typed, located PRESCRIPTION:
+
+  { id: 'rx_012', metric: 'cover_rhythm', severity: 0.8,
+    location: { lane: 'spawn_nw->mid', cell: [18, 22] },
+    prescription: { kind: 'addCoverVignette', params:
+      { at: [18, 22], hardness: 'hard' } } }
+
+  KINDS: addCoverVignette | issueStairDemand (File 03 router) |
+  movePickup | addGrappleRing | pruneVignette | raiseCoverLip |
+  blockSightline | reseedZone (nuclear: regenerate one zone)
+
+  LOOP (bounded, deterministic):
+    1. Rank agenda by severity x repair-cost estimate (node costs,
+       File 02's metadata).
+    2. Apply top-K (K=3) prescriptions as TREE EDITS; recompile;
+       rebuild grid; re-measure. (Full grid rebuild — File 03, 3.6:
+       cheaper than incremental bookkeeping at these sizes.)
+    3. Repeat, max 5 passes. Converged-and-passing journals the
+       repair CURVE (which prescriptions worked — learning-cache
+       gains repair priors: "issueStairDemand fixed 92% of R2
+       failures on space_station").
+    4. Oscillation guard: a prescription that reverts within 2 passes
+       is blacklisted for the run (no ping-pong repairs).
+
+5.7 — WHAT RETIRES, WHAT IS PROMOTED
+--------------------------------------------------------------------------------
+
+  RETIRES: map-simulate.js's random scoring, trivial 3-point paths.
+  PROMOTED (fed real data, unchanged in spirit):
+    movement-model.js      -> rusher path timing (real A* routes)
+    sightline-field.js     -> grid marched columns (2m, not 4m)
+    adversarial-bots.js    -> archetype definitions now drive REAL
+                              traversals (rusher/sniper/camper scans)
+    exploit-detector.js    -> honest grid inputs
+    learning-cache         -> repair priors + metric outcome stats
+    dream-consultant.js    -> tickets with deficiency lists attached
+
+5.8 — ACCEPTANCE TESTS
+--------------------------------------------------------------------------------
+
+  T1  GATE HONESTY: fault-injected trees (delete a stairRun node)
+      MUST fail R-tests — the gate demonstrably closes.
+  T2  REPAIR CONVERGENCE: 100 seeded maps, >= 90% pass within 5
+      passes; convergence curves journaled.
+  T3  DETERMINISM: same tree + seed -> identical agenda, identical
+      repairs, identical final bytes.
+  T4  SCORE MEANING: score variance across 50 seeds spans >= 30
+      points pre-repair (if scores cluster at 85+ regardless of
+      injected faults, the metric is still lying — this test catches
+      the lie).
+  T5  CLASSROOM CALIBRATION: the extracted classroom.tree.json
+      (File 02, 2.7) scores >= 85 without repairs — the gold
+      standard validates the scorer, not just vice versa.
+
+INTEGRATION HOOKS
+--------------------------------------------------------------------------------
+  <- File 02: reads the tree; edits the tree; node costs rank repairs.
+  <- File 03: the grid IS the substrate (walk graph, rays, cover).
+  <- File 04: cover prescriptions become Composer demands.
+  -> File 01: strategy priors update from per-strategy score stats.
+  -> File 06: the (optional) LLM Auditor reads the SAME metric report
+     humans do — one truth, many readers.
+  -> Existing: learning-cache (repair priors), dream-journal (repair
+     curves + final scores), dream-consultant (failure tickets).
+
+================================================================================
+END OF FILE 05 — Next: 06_llm_orchestration.txt (queued, final batch)
+================================================================================

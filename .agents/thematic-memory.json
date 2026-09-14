@@ -1,6 +1,6 @@
 {
-  "version": "1.0.0",
-  "updatedAt": "2026-09-14T04:00:00Z",
+  "version": "2.0.0",
+  "updatedAt": "2026-09-14T09:00:00Z",
   "thematicArchetypes": {
     "forest": {
       "keywords": [
@@ -13,6 +13,7 @@
         "canopy",
         "jungle"
       ],
+      "layoutPrior": "terraced",
       "primaryInk": "INK.GREEN",
       "secondaryInk": "INK.BLACK",
       "accentInk": "INK.ORANGE",
@@ -62,6 +63,7 @@
         "satellite",
         "centrifuge"
       ],
+      "layoutPrior": "terraced",
       "primaryInk": "INK.BLUE",
       "secondaryInk": "INK.BLACK",
       "accentInk": "INK.ORANGE",
@@ -98,6 +100,7 @@
         "orbital",
         "space"
       ],
+      "layoutPrior": "terraced",
       "primaryInk": "INK.BLUE",
       "secondaryInk": "INK.BLACK",
       "accentInk": "INK.ORANGE",
@@ -122,11 +125,228 @@
           "drifting orbital micrometeoroids and space telemetry drones"
         ]
       }
+    },
+    "zen": {
+      "keywords": [
+        "zen",
+        "zen_garden",
+        "garden",
+        "temple",
+        "monastery",
+        "shrine",
+        "pagoda",
+        "bamboo"
+      ],
+      "layoutPrior": "arena_ring",
+      "primaryInk": "INK.GREEN",
+      "secondaryInk": "INK.BLACK",
+      "accentInk": "INK.ORANGE",
+      "hazardInk": "INK.RED",
+      "props": {
+        "tier1_micro": [
+          "stone_lantern (carved granite kasuga lantern waist-high cover)",
+          "bamboo_fountain (shishi-odoshi rocking water spout and stone basin)",
+          "tea_shrine (cedar offering table with incense burner and tatami mat)",
+          "river_stone (rounded moss-dappled granite meditation boulder)",
+          "bonsai_pedestal (hewn timber pillar with manicured dwarf pine)",
+          "gravel_rake (wooden sand-raking tool leaning against bamboo fence)"
+        ],
+        "tier2_meso": [
+          "torii_gate (vermilion ceremonial gateway framing approach lanes)",
+          "arched_bridge (curved cedar footbridge crossing raked sand sea)",
+          "meditation_pavilion (open post-and-beam tea pavilion with raised deck)",
+          "bamboo_fence_screen (slatted privacy fence breaking sniper sightlines)"
+        ],
+        "tier3_macro": [
+          "pagoda_tower (three-tiered wooden pagoda with overhanging eave balconies)",
+          "bell_shrine (monumental bronze temple bell suspended in timber belfry)",
+          "rock_garden_spire (zen rock arrangement centerpiece with raked gravel ripples)"
+        ],
+        "tier4_kinetic": [
+          "drifting cherry blossom paper petals",
+          "swaying paper prayer lanterns",
+          "gentle rocking bamboo water dropper"
+        ]
+      }
+    },
+    "cyber": {
+      "keywords": [
+        "cyber",
+        "cyberpunk",
+        "neon",
+        "matrix",
+        "synth",
+        "datacenter",
+        "server",
+        "digital",
+        "grid"
+      ],
+      "layoutPrior": "arena_ring",
+      "primaryInk": "INK.BLUE",
+      "secondaryInk": "INK.BLACK",
+      "accentInk": "INK.ORANGE",
+      "hazardInk": "INK.RED",
+      "props": {
+        "tier1_micro": [
+          "server_terminal (angled operator terminal with glowing green phosphor readout)",
+          "holo_pylon (slender holographic emitter beacon with warning chevron trim)",
+          "data_slate (tactical hard-cover diagnostic unit with cabling bundle)",
+          "fiber_cable_trunk (thick braided umbilical conduit hugging floor seams)",
+          "cooling_fan_chassis (industrial ventilation box with rotating fan blades)"
+        ],
+        "tier2_meso": [
+          "server_rack_row (tall 2.8m dual-sided mainframe server cabinets)",
+          "security_turnstile (hard-point entrance barrier with laser sensor gates)",
+          "service_catwalk (suspended steel mesh gantry with neon conduit runs)",
+          "fiber_cable_trench (recessed floor trench offering crouch cover)"
+        ],
+        "tier3_macro": [
+          "central_mainframe_core (hexagonal supercomputer monolith with coolant tanks)",
+          "neon_billboard_spire (multi-level holographic display mast overlooking mid)",
+          "satellite_uplink_tower (lattice communication array with signal dish)"
+        ],
+        "tier4_kinetic": [
+          "flickering holo-billboard scanlines",
+          "spinning exhaust fan turbines",
+          "pulsing conduit fiber tracer lights"
+        ]
+      }
+    },
+    "steampunk": {
+      "keywords": [
+        "steampunk",
+        "clockwork",
+        "brass",
+        "steam",
+        "foundry",
+        "boiler",
+        "gear",
+        "industrial",
+        "cog"
+      ],
+      "layoutPrior": "warren",
+      "primaryInk": "INK.ORANGE",
+      "secondaryInk": "INK.BLACK",
+      "accentInk": "INK.BLUE",
+      "hazardInk": "INK.RED",
+      "props": {
+        "tier1_micro": [
+          "gear_furnace (riveted cast iron boiler with glowing ember grate)",
+          "valve_bank (multi-spoke brass wheel valves mounted on steam manifold)",
+          "pressure_gauge (brass dial manometer with needle indicator on copper pipe)",
+          "coal_trolley (iron ore handcart loaded with anthracite fuel)",
+          "brass_pipe_bundle (curved high-pressure steam pipes with flange joints)"
+        ],
+        "tier2_meso": [
+          "gantry_catwalk (elevated steel plate catwalk with rivet seam railings)",
+          "steam_vent_bridge (connecting walkway shrouded in rhythmic steam exhausts)",
+          "piston_compressor (reciprocating vertical steam piston assembly)",
+          "overhead_chain_hoist (pulley block suspending heavy iron gears)"
+        ],
+        "tier3_macro": [
+          "clockwork_clocktower (monumental four-faced clocktower with visible escapement)",
+          "blast_furnace_crucible (massive cylindrical smelter with slag chute)",
+          "interlocking_gear_monolith (cluster of giant toothed wheels acting as mid hub)"
+        ],
+        "tier4_kinetic": [
+          "rhythmic steam exhaust jets",
+          "revolving giant clockwork gears and pendulums",
+          "swaying overhead hoist chains"
+        ]
+      }
+    },
+    "colossal": {
+      "keywords": [
+        "colossal",
+        "giant",
+        "classroom",
+        "desk",
+        "stationery",
+        "scale",
+        "oversized",
+        "pencil",
+        "book"
+      ],
+      "layoutPrior": "cathedral_cross",
+      "primaryInk": "INK.BLUE",
+      "secondaryInk": "INK.BLACK",
+      "accentInk": "INK.ORANGE",
+      "hazardInk": "INK.RED",
+      "props": {
+        "tier1_micro": [
+          "book_stack (staggered hardback volumes forming stepped cover)",
+          "pencil_barricade (massive hexagonal cedar pencils with graphite tips)",
+          "ink_well (stout black ceramic ink bottle with cork stopper)",
+          "eraser_block (pink rubber bevel-edged wedge cover block)",
+          "set_square_cover (acrylic 45-degree drafting triangle shield)",
+          "metal_pencil_sharpener (twin-blade magnesium casting with screw detail)"
+        ],
+        "tier2_meso": [
+          "chalkboard_wall (giant slate chalkboard with erased ballpoint diagrams)",
+          "desk_bridge (wooden ruler spanned across twin desk pedestals)",
+          "ruler_ramp (wooden 30cm meter stick acting as steep access ramp)",
+          "open_notebook_deck (spiral wire bound notebook spread open as combat platform)"
+        ],
+        "tier3_macro": [
+          "teacher_desk_bastion (monumental oak desk fortress with drawer staircases)",
+          "bookshelf_colossus (four-shelf towering library bookcase with book stairs)",
+          "globe_atlas_vantage (spherical desktop globe with equatorial ring catwalk)"
+        ],
+        "tier4_kinetic": [
+          "drifting chalk dust motes catching ambient light",
+          "swinging desk lamp articulating on dual-spring arms",
+          "paper airplane gliders orbiting high ceiling currents"
+        ]
+      }
+    },
+    "maritime": {
+      "keywords": [
+        "maritime",
+        "pirate",
+        "pirate_cove",
+        "cove",
+        "harbor",
+        "docks",
+        "ship",
+        "ocean",
+        "nautical",
+        "quay"
+      ],
+      "layoutPrior": "ravine",
+      "primaryInk": "INK.ORANGE",
+      "secondaryInk": "INK.BLACK",
+      "accentInk": "INK.BLUE",
+      "hazardInk": "INK.RED",
+      "props": {
+        "tier1_micro": [
+          "rum_barrel (stout cedar cask with black iron hoops and wooden bung)",
+          "mooring_bollard (cast iron pier bollard with coiled mooring hawser)",
+          "cannonball_stack (pyramidal stack of cast iron 24-pounder balls)",
+          "rope_coil (heavy manila hemp hawser coiled in concentric rings)",
+          "tactical_cannon (iron cannon barrel seated on oak truck carriage)"
+        ],
+        "tier2_meso": [
+          "dock_gangway (planked timber pier extension with rope stanchions)",
+          "cargo_crane (timber derrick boom with pulley tackle and cargo net)",
+          "cannon_battery_deck (raised gun platform with embrasure parapets)",
+          "rowboat_cache (upturned dory hull providing waist-high defilade)"
+        ],
+        "tier3_macro": [
+          "full_galleon_ship (three-masted armed warship with multi-deck combat)",
+          "harbor_lighthouse (octagonal stone watchtower with beacon lantern gallery)",
+          "sea_cave_skull_rock (eroded sea stack archway spanning central water lane)"
+        ],
+        "tier4_kinetic": [
+          "circling harbor seagulls catching coastal updrafts",
+          "swaying ship rigging and cargo hoist nets",
+          "creaking timber booms and dock lanterns"
+        ]
+      }
     }
   },
   "safetyClearances": {
     "walkwayPinch": 1.8,
-    "stairHeadroom": 2,
+    "stairHeadroom": 2.0,
     "ringWallClearance": 1.5,
     "coverMinHeight": 0.8,
     "coverMaxHeight": 1.3

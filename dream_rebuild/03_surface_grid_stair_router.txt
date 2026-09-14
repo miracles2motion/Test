@@ -1,0 +1,195 @@
+================================================================================
+DREAM REBUILD — SYSTEM 3: THE SURFACE GRID & STAIR ROUTER
+Audit Vector C — multi-tier verticality, navigability, and populated upper
+tiers (fixes: props only at Y=0, barren platforms, disconnected buildings)
+================================================================================
+
+3.0 — THE MISSING ORGAN
+--------------------------------------------------------------------------------
+
+The audit's most damning photograph: Dream builds tiers (slabs at 5m,
+10m) and then behaves as if they didn't exist. Props inject at Y=0 only.
+Macro buildings stand on pillars with no stairs to reach them. The
+Classroom uses 17 rail() calls; Dream's generated level uses ZERO.
+
+The root deficiency is representational: Dream has no SURFACE MODEL —
+nothing in the pipeline can answer "where can something stand at
+height Y, and how does a player get there?" The Surface Grid is that
+organ. It is built FROM the Scene Tree (File 02), so it is always in
+sync with the map that will actually compile.
+
+text
+
+  SCENE TREE (File 02)                          CONNECTIVITY DEMANDS
+        |                                              (File 01 vertical
+        |  rasterize structural nodes                  edges + File 05
+        v                                              reachability fails)
+  SURFACE GRID  <--------------------------------------  STAIR ROUTER
+  (layered walkability,          validates runs,        (carves stairRun/
+   headroom, edges)  ---------->  supplies anchor       grappleRing nodes
+                                 cells                  back into the tree)
+        |
+        v
+  VIGNETTE COMPOSER (File 04) asks the grid for anchors on ANY tier
+
+3.1 — THE SURFACE GRID (src/rebuild/surface-grid.js)
+--------------------------------------------------------------------------------
+
+  CONSTRUCTION (reuses the audited buildLevel() mock infra):
+    The in-memory builder that macro-dreamer already uses to collect
+    AABB colliders becomes the grid's feed: walk the tree's compiled
+    colliders, rasterize every walkable horizontal surface.
+
+  STRUCTURE:
+    cell      = 2m x 2m in XZ (the audit's sightline field ran at 4m and
+                was "very coarse"; 2m fits stair widths and doorways;
+                tunable per map size with cost scaling)
+    layer key = elevation band (snap to the concept's tier heights;
+                sub-bands for landings)
+    cell data = { surfaceY, headroom, flags, zoneRef }
+                  surfaceY : top of the walkable surface at this XZ
+                  headroom : clear vertical space above surfaceY before
+                             geometry (THE number every placement rule
+                             needs; learning-cache's 3.0m headroom rule
+                             finally has a consumer)
+                  flags    : walkable | edge | coveredNear | grappleOnly
+                  zoneRef  : owning zone id (File 01) — placement
+                             queries stay zone-aware
+
+  QUERIES (all O(1) lookups after build; no allocation, grid is static
+  per generation pass):
+    surfaceAt(x, z)        -> array of layers at that column
+    walkable(x, z, y)      -> nearest walkable layer within step range
+    headroom(x, z, y)      -> clearance above a surface
+    edgeRun(x, z, y)       -> contiguous boundary cells (railing synth)
+    freeAnchors(zone, y, minArea, minHeadroom)  -> vignette placement
+                                                   candidate cells (F04)
+
+3.2 — THE STAIR ROUTER (src/rebuild/stair-router.js)
+--------------------------------------------------------------------------------
+
+  INPUT:  a DEMAND = { fromSurface, toSurface, allowedKinds }
+          (demands come from File 01's reserved vertical edges, and
+          later from File 05's reachability failures — the repair loop
+          can ORDER new connections mid-generation)
+
+  ALGORITHM (deterministic, seeded):
+    1. Candidate carving sites: cells along the shared boundary of the
+       two zones (or the corridor footprint reserved in File 01 Stage 4).
+    2. For each site, synthesize the run geometrically:
+         steps  = ceil(deltaY / 0.30)
+         length = steps * 0.55
+         Check A: length fits the corridor/room footprint (with landing
+                  if split; landings are 1.5m slabs, delta > 5.0m always
+                  splits)
+         Check B: headroom ALONG THE CLIMB — every step's column must
+                  have >= 2.2m clearance to the NEXT surface above
+                  (walking under a stair counts too: the underside is a
+                  ceiling for the layer below)
+         Check C: top exit lands on >= 1.2m of contiguous walkable cells
+                  (no arriving at a 1-cell ledge)
+         Check D: bottom approach is walkable and not inside furniture
+    3. Emit a stairRun node into the tree with exact transform + steps;
+       the File 02 compiler turns it into stairs() — with rise/run
+       already proven, the inspector's post-hoc checks become
+       impossible-to-fail assertions.
+    4. GRAPPLE-ONLY edges (delta > 5m where stairs don't fit, or
+       strategy-declared verticality): emit grappleRing nodes at the
+       geometric midpoint band, then verify with a 3-sample line check
+       against the grid that the swing path is unobstructed. Rings that
+       fail are re-seated one cell over (bounded retries), then
+       journaled if unresolvable.
+
+  THE DISCONNECTED-BUILDING FIX (audit: "buildings have no stairs
+  connecting them to ground"): every vignetteRef or platform that
+  creates a walkable surface above Y=0 must appear in a demand. The
+  router proves the connection or the surface is DEMOTED to decor
+  (noCollide) at compile time. An unreachable platform is now a build
+  ERROR, not a shipped map.
+
+3.3 — POPULATION ON ALL TIERS (the barren-deck fix)
+--------------------------------------------------------------------------------
+
+  The Vignette Composer (File 04) never receives raw XZ; it receives
+  grid anchors:
+    freeAnchors(zone='z_obs_deck', y=5.0, minArea=2x2, headroom>=2.5)
+  Balconies, mezzanines, catwalks, rooftops become placeable ground.
+  Placement rules that were impossible at Y=0-only become table stakes:
+    - furniture hugs walls (anchor cells adjacent to edge cells)
+    - cover on high ground prefers edge cells WITH sightlines (File 05
+      feedback marks them) — high-ground cover is a tactical feature,
+      not filler
+    - vertical vignettes (a stacked crate climb, a scaffolding tower)
+      may SPAN layers: the grid proves each landing's headroom
+
+3.4 — RAILING & EDGE SYNTHESIS (the 17-vs-0 fix)
+--------------------------------------------------------------------------------
+
+  For every edge run where fall height > 3.0m:
+    emit railing nodes along the run, EXCEPT:
+      - where the zone's strategy declares intentional jump-downs
+        (drop plays — a legitimate tactical verb, now DECLARED, not
+        accidental)
+      - where a doorway/stair exit crosses the edge
+  Grapple ring CONSTELLATIONS get the same treatment: the Classroom's
+  39 vs Dream's 17 stops being a style choice and becomes a graph
+  property — rings serve declared grapple edges plus swing-line
+  heuristics above open atria, ceiling-anchored where the tree has
+  overhead geometry (grid-verified, killing the hardcoded 18.5-20m
+  classroom-lamp check the audit mocked).
+
+3.5 — VERTICAL REACHABILITY CONTRACT (enforced, not hoped)
+--------------------------------------------------------------------------------
+
+  INVARIANT: every walkable cell cluster of area >= 4 cells is either
+    (a) stair/ramp-connected to tier 0, or
+    (b) declared grappleOnly, with >= 1 verified ring in swing range.
+  The contract is CHECKED by File 05's A* (walk edges + grapple edges
+  as special transitions) and REPAIRED by issuing new router demands.
+  The audit's "Simulation never detects that a platform is unreachable"
+  ends here — unreachability becomes a failing score, a router demand,
+  and (if unresolvable) a demotion to decor.
+
+3.6 — COST MODEL & RESOLUTION DISCIPLINE
+--------------------------------------------------------------------------------
+
+  Grid cost scales with cells, not map complexity: a 110m map at 2m
+  resolution = 55x55 = 3,025 columns x ~3 populated layers ~= 9k cells
+  — built in a single pass over colliders (< 50ms in the audited
+  Node.js pipeline; no Worker needed at these sizes, though the build
+  is time-sliceable if maps grow).
+  REPAIR PASSES: the grid is REBUILT (not patched) after File 05's
+  repair edits — a full rebuild is cheaper than incremental bookkeeping
+  at these scales, and determinism is trivially preserved.
+
+3.7 — ACCEPTANCE TESTS
+--------------------------------------------------------------------------------
+
+  T1  TIER POPULATION: every tier in the concept's table has >= 1
+      populated vignette/cover node (barren-deck fix, proven).
+  T2  REACHABILITY: 100 seeded maps, zero unreachable clusters >= 4
+      cells (contract holds; deliberate grappleOnly islands declared).
+  T3  HEADROOM: every stairRun column and populated cell satisfies its
+      headroom rule; violations fail the build, not the inspector.
+  T4  RAILING: fall-height > 3m edges are railed or declared drops —
+      sampled visually + structurally (no bare mezzanines).
+  T5  RINGS: ring count lands in strategy-scaled bands (Classroom
+      corpus calibration once File 02's extractor exists).
+  T6  DETERMINISM: same tree + seed -> identical grid hash (and thus
+      identical router decisions).
+
+INTEGRATION HOOKS
+--------------------------------------------------------------------------------
+  <- File 02: rasterizes the tree; router writes stairRun/grappleRing/
+     railing nodes back into it (one representation, always in sync).
+  <- File 01: reserved vertical edges become the first router demands.
+  -> File 04: freeAnchors() is the Composer's entire spatial interface.
+  -> File 05: the grid IS the navmesh substrate (walk/grapple edges);
+     sightline raycasts march its columns.
+  -> Existing: learning-cache (headroom/pinch tightening now consumed
+     here), stair-sanitizer (dedupes router output on repair loops),
+     buildLevel() mock (shared collider feed).
+
+================================================================================
+END OF FILE 03 — Next: 04_vignette_composer.txt (queued, final batches)
+================================================================================

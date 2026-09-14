@@ -1,0 +1,253 @@
+================================================================================
+DREAM REBUILD — SYSTEM 1: THE ZONE GRAPH LAYOUT ENGINE
+Audit Vector A + Root Causes 1 & 4 — the replacement for map-scaffold.js
+================================================================================
+
+1.0 — DIAGNOSIS RECAP (from report.md)
+--------------------------------------------------------------------------------
+
+The scaffold answers "what does a map need?" with ONE fixed answer: four
+walls, center slab, four mirrored quadrant platforms, two stairways, five
+rings. It determines 80% of every map's feel; everything downstream is
+garnish. Worse (RC4): the concept document's sections 4-8 — the quadrant
+designs, CQB corridors, sniper perches that a human actually thought
+about — are never read. The scaffold extracts P, PH, tier heights, ink
+colors, and throws away the intelligence.
+
+The replacement inverts the relationship: the CONCEPT drives a Zone
+Program, the Zone Program drives a connectivity GRAPH, the graph is
+EMBEDDED into the bounds, tiers are assigned with stair-feasibility
+math, and the result is emitted as Scene Tree nodes (File 02) — never
+as direct code. Same primitives, same determinism, infinitely many
+answers to the one question the scaffold answered once.
+
+text
+
+  CONCEPT (.md, 13 sections)
+        |   Stage 1: CONCEPT INTERPRETER  (finally reads sections 4-8)
+        v
+  ZONE PROGRAM  (what spaces does THIS map want?)
+        |   Stage 2: GRAPH SYNTHESIS  (Level Designer rules as code)
+        v
+  ZONE GRAPH    (rooms + corridors + constraints satisfied)
+        |   Stage 3: SPATIAL EMBEDDING (skeleton-first, relaxation)
+        v
+  PLACED LAYOUT (every zone has x, z, w, d)
+        |   Stage 4: TIER ASSIGNMENT (elevations + stair feasibility)
+        v
+  TIERED LAYOUT (every zone has y + stair-run reservations)
+        |   Stage 5: EMISSION
+        v
+  SCENE TREE (AST)  ->  File 02 compiler -> src/levels/<key>.js
+
+1.1 — STAGE 1: The Concept Interpreter (src/rebuild/concept-interpreter.js)
+--------------------------------------------------------------------------------
+
+Turns the concept markdown into a typed Zone Program. Sections 4-8 become
+machine-readable for the first time.
+
+JavaScript
+
+  function interpretConcept(md, theme) {
+    const prog = {
+      source: md.path,
+      bounds:  { P: num(capture(md, /P\s*=\s*(\d+(?:\.\d+)?)/)),   // FIX:
+                 PH: num(capture(md, /PH\s*=\s*(\d+(?:\.\d+)?)/)) },// audit
+                  // bug #7: the old Half-Span regex captured integers
+                  // only. All captures here accept decimals.
+      tiers:   captureTierTable(md),        // [0, 5.0, 10.0] etc.
+      inks:    captureInks(md),             // BL/BK/OR/GR/RD palette
+      strategyHint: theme.layoutPrior,      // from thematic-memory
+      zones:   [], edges: [],
+    };
+
+    // Sections 4-8: each "## 4. North-West Sector" style heading is
+    // parsed for role keywords + measured statements.
+    for (const sec of splitSections(md, 4, 8)) {
+      prog.zones.push({
+        id:        slug(sec.heading),
+        role:      classifyRole(sec.body),   // spawn|arena|room|cqb_corridor|
+                                             // vantage|courtyard|service
+        size:      parseFootprint(sec.body) || defaultSize(role),
+        tier:      parseTierRef(sec.body),   // "tier2 deck" -> 5.0
+        wants:     parseAnchors(sec.body),   // named set-pieces -> File 04
+        coverDensity: parseDensity(sec.body),
+      });
+    }
+    guaranteeSkeleton(prog);   // see 1.2 — minimum viable tactical graph
+    return prog;
+  }
+
+FALLBACK HONESTY: a thin concept (< 4 zones parsed) gets a theme-default
+Zone Program from thematic-memory.json — so "unknown map name" can never
+crash the pipeline again (audit 2.1 limitation). New maps require DATA,
+not code changes.
+
+1.2 — STAGE 2: Graph Synthesis (the Level Designer workflow as code)
+--------------------------------------------------------------------------------
+
+The graph is built in two passes: a guaranteed skeleton (competitive
+fundamentals, non-negotiable) plus the concept's own zones wired into it.
+
+  SKELETON GUARANTEES (encoded from the Lead Level Designer workflow):
+    G1  Every spawn has >= 2 topologically disjoint paths to mid.
+    G2  No dead-end zone: every room has >= 2 exits; every vantage has
+        >= 2 approach routes (anti-camping, audit RC2).
+    G3  Spawn-to-spawn minimum distance >= 0.6 x map diagonal.
+    G4  >= 3 open sightlines exist from each declared sniper zone
+        (validated later by File 05; enforced as graph degree here).
+    G5  At least one CQB corridor crosses one long sightline (the
+        tactical grain of the map — different speeds colliding).
+
+JavaScript
+
+  function guaranteeSkeleton(prog) {
+    const spawns = prog.zones.filter(z => z.role === 'spawn');
+    // ensure 2-4 spawns (create at perimeter if concept forgot)
+    ensureCount(spawns, 2, 4, 'spawn', prog);
+    // ensure a mid arena exists
+    if (!prog.zones.some(z => z.role === 'arena'))
+      prog.zones.push(zone('z_mid', 'arena', [24, 24], { tier: 0 }));
+    // route lanes: spawn_i -> mid, disjoint pairs first
+    for (const s of spawns) {
+      prog.edges.push(edge(s.id, 'z_mid', 'lane', { width: 4 }));
+      prog.edges.push(edge(s.id, altMidOrRoom(prog), 'lane', { width: 3 }));
+    }
+    // dead-end repair: walk the graph, add exits until G2 holds
+    repairDeadEnds(prog);
+    assertConstraints(prog, [G1, G2, G3, G4, G5]);  // hard fail -> journal
+  }
+
+1.3 — STAGE 3: Spatial Embedding (skeleton-first, then relaxation)
+--------------------------------------------------------------------------------
+
+Pure room-graph packing drifts toward blobs; pure BSP is samey. The
+engine embeds the SKELETON first (giving the map its tactical spine),
+then attaches rooms along corridors, then relaxes overlaps:
+
+  1. Place mid at center. Place spawns on the perimeter ring at angles
+     from the concept (or seeded angles — this alone kills the
+     "identical quadrants" pathology).
+  2. Route each lane edge as an L-shaped corridor polyline (width from
+     the edge). Corridors CONSUME space — they are zones, not lines.
+  3. Attach non-skeleton zones (rooms, CQB, courtyards) to the nearest
+     compatible corridor segment with a doorway edge.
+  4. RELAXATION LOOP (bounded, deterministic): resolve overlaps by
+     pushing rooms along their attach axis, then shrinking to the role's
+     minimum footprint. 12 iterations max; unresolvable zones are
+     dropped and journaled (a dropped room is honest; an overlapping
+     one is a collision bug).
+  5. Assert density: placed area >= 55% of bounds (else the layout is
+     "arena with cruft" — retry with denser strategy prior).
+
+1.4 — STAGE 4: Tier Assignment & Stair Feasibility
+--------------------------------------------------------------------------------
+
+Elevations are assigned from the concept's tier table + strategy priors
+(vantage up, CQB down, arena ground). The critical new math: EVERY
+vertical edge must reserve a stair run that FITS:
+
+  stair feasibility:  delta <= 5.0m tiers use stairs()
+        steps   = ceil(delta / 0.30)          // rise 0.30 (safe < 0.35)
+        length  = steps * 0.55                // run 0.55
+        a stair from tier 0 -> 5.0 needs ~17 steps ~ 9.4m of corridor
+  reservation: the Stair Router (File 03) carves the run INSIDE the
+        connecting corridor's footprint, and the corridor's width must
+        be >= stair width + 0.4m pinch margin (learning-cache rules
+        already track pinch failures — they finally get a consumer).
+  delta > 5.0m: split into two runs with a landing, or mark the edge
+        'grapple_only' (rings, not stairs) — a legitimate vertical
+        vocabulary the scaffold never had.
+
+1.5 — STAGE 5: Emission
+--------------------------------------------------------------------------------
+
+The tiered layout emits Scene Tree nodes (File 02): shell nodes (floor,
+perimeter, sky lid — the scaffold's honest boilerplate, kept), zone
+nodes (floor slabs per zone at its tier, wall segments with doorway
+gaps where edges cross), corridor nodes, stair-run nodes, spawn/sniper/
+ring anchors. Emission is pure data — no geometry code is generated
+until File 02's compiler, which is the ONLY place code is written.
+
+1.6 — LAYOUT STRATEGIES (same engine, different priors)
+--------------------------------------------------------------------------------
+
+  STRATEGY        GRAPH PRIOR                     FITS THEMES
+  --------------  ------------------------------  ------------------------
+  arena_ring      big mid, radial lanes, open     zen, cyber
+  warren          many small rooms, short         steampunk, station
+                 corridors, low sightlines        maintenance decks
+  cathedral_      two long axes crossing at an    colossal, gothic
+  cross           elevated mid; long sightlines
+  terraced        stacked tiers, vertical play,   space_station, forest
+                 stair/grapplemix                 canopy
+  ravine          linear A->B spine, side         maritime docks,
+                 pockets, one grand sightline     canyon concepts
+
+  Selection: strategyHint from thematic-memory + seeded jitter (a forest
+  map can roll terraced 70% / ravine 20% / arena_ring 10%). The STRATEGY
+  is a prior over graph shape — not a template. Two arena_ring maps
+  still differ in angles, sizes, room counts, and dressing.
+
+1.7 — DETERMINISM, SEEDS, AND THE 3x LOOP THAT FINALLY MEANS SOMETHING
+--------------------------------------------------------------------------------
+
+  mulberry32(seed) PRNG everywhere; seed = hash(mapKey + ':' + runIndex).
+  Same seed -> byte-identical output (testable, CI-enforced).
+  The multiplier loops ("god forest 3x") become a real search: three
+  seeds x strategy jitter, scored by File 05, best-of-N kept — which is
+  what mutate-map.js and the evolution-cache always wanted to be. The
+  journal records (seed, strategy, score); learning-cache accumulates
+  strategy priors per concept ("ravine scores poorly on this theme ->
+  downweight"). Parametric tightening (existing autoTightenRules) now
+  tightens GRAPH constraints too, not just clearance numbers.
+
+1.8 — WHY ZONE GRAPH (and not WFC / pure BSP)
+--------------------------------------------------------------------------------
+
+  APPROACH     STRENGTH                          WHY NOT ALONE HERE
+  -----------  --------------------------------  --------------------------
+  WFC          local variety, tiles solve nicely  tactical flow is GLOBAL
+                                                   (G1-G5 span the map);
+                                                   variable room sizes and
+                                                   long sightlines fight
+                                                   tile locality
+  BSP          cheap, guarantees packing          binary splits -> samey
+                                                   rectangles; corridors
+                                                   and doorways are after-
+                                                   thoughts
+  Zone Graph   constraints are graph properties   needs an embedding step
+  + embedding  (G1-G5 natural); rooms/corridors   (1.3) to gain geometry
+  (CHOSEN)     first-class; concepts map to it
+  Hybrid note: the relaxation pass may use BSP internally to subdivide
+  oversized free space — BSP as a tool, not the architecture.
+
+1.9 — ACCEPTANCE TESTS (CI, per File 07's suite)
+--------------------------------------------------------------------------------
+
+  T1  DIVERGENCE: two different concepts (or two seeds) produce graphs
+      with edit distance >= threshold — kills RC1 forever, measurably.
+  T2  CONSTRAINTS: G1-G5 hold on 100 seeded runs per strategy.
+  T3  DETERMINISM: same seed -> identical output file hash.
+  T4  DENSITY: placed area >= 55% of bounds; every tier >= 1 populated
+      zone; no zone dropped silently (drops are journaled).
+  T5  STAIR MATH: every vertical edge's reserved run satisfies rise/
+      run/headroom rules BEFORE code emission (map-inspector's checks
+      move upstream — failures become impossible, not detected).
+
+INTEGRATION HOOKS
+--------------------------------------------------------------------------------
+  -> File 02: Stage 5 emits the Scene Tree (this engine never writes
+     geometry code).
+  -> File 03: vertical edges + stair reservations feed the Stair Router;
+     the Surface Grid audits what was actually built.
+  -> File 04: zone 'wants' anchors and leftover-space polygons (from the
+     relaxation pass) feed the Vignette Composer.
+  -> File 05: the placed layout is the substrate the Validation Engine
+     scores; strategy priors update from its verdicts.
+  -> Existing: learning-cache (priors, tightening), dream-journal (seed,
+     strategy, score), thematic-memory (layoutPrior, role keywords).
+
+================================================================================
+END OF FILE 01 — Next: 02_scene_tree_ast.txt (queued for next delivery)
+================================================================================

@@ -1,0 +1,171 @@
+================================================================================
+DREAM REBUILD — SYSTEM 6: THE LLM ORCHESTRATION LAYER
+Audit Vector E + Root Cause 5 — the mock debate dies; the protocol lives
+================================================================================
+
+6.0 — THE STAND-UP MEETING THE AUDIT CRASHED
+--------------------------------------------------------------------------------
+
+creative-debate.js is 132 lines of theatre: a CreativeDebateEngine that
+returns hardcoded blueprints and contributes nothing. The audit's Vector
+E asks for LLM agents — a Level Architect, a Set Dresser, a Gameplay
+Auditor. The prime directive (File 00) constrains how: DETERMINISTIC
+FIRST. The LLM is a PLANNER of Scene Trees, never a code writer, never
+a dependency. If no LLM exists anywhere, Dream still ships maps.
+
+The architecture: ONE agent interface, THREE transports, and a
+generate-and-test proposal loop where the deterministic Validation
+Engine (File 05) is always the judge.
+
+6.1 — THE AGENT INTERFACE (src/rebuild/director-agent.js)
+--------------------------------------------------------------------------------
+
+JavaScript
+
+  // Every director — LLM or stand-in — implements exactly this:
+  class DirectorAgent {
+    // context = { tree, metrics, agenda, theme, seed }
+    // returns PROPOSALS: typed diffs, never code, never free text
+    async propose(context) { /* ... */ }
+  }
+
+  // Proposal types (validated before application, always):
+  //   { kind: 'addNode',    parent, node }
+  //   { kind: 'editParams', nodeId, patch }
+  //   { kind: 'removeNode', nodeId }
+  //   { kind: 'reseedZone', zoneId, hint }        // nuclear option
+  //   { kind: 'zoneProgram', program }            // architect-level
+
+  THE CONTRACT (non-negotiable):
+    C1  An LLM reads and writes Scene Tree JSON (File 02) and metric
+        reports (File 05). It NEVER emits geometry code. The compiler
+        remains the only code writer in the universe.
+    C2  Every proposal passes L1 schema + L2 spatial validation + the
+        sandbox dry-run + the File 05 score gate BEFORE application.
+        The LLM cannot ship anything deterministic Dream couldn't check.
+    C3  Proposals apply only if the measured score IMPROVES (bounded
+        generate-and-test). The LLM proposes; the engine disposes.
+    C4  Assisted runs are journaled as 'assisted' with the proposal
+        transcript. The unassisted path remains byte-reproducible —
+        determinism is a property of the PIPELINE, not the assistant.
+
+6.2 — THE THREE PERSONAS (the audit's ask, seated)
+--------------------------------------------------------------------------------
+
+  PERSONA             READS                    PROPOSES
+  ------------------  -----------------------  ---------------------------
+  LEVEL ARCHITECT     zone program, strategy   zoneProgram + structural
+  (spatial layout)    priors, tree             node edits (rooms, lanes,
+                                                tiers) — File 01 territory
+  SET DRESSER         tree, zone wants,        vignetteRef additions,
+  (prop clusters)     vignette library         fill swaps, narrative
+                                                adjustments — File 04
+  GAMEPLAY AUDITOR    File 05 metric report,   repair prescriptions,
+  (sightlines/flow)   agenda, tree             cover/sightline edits —
+                                                File 05 territory
+  (FUTURE SEAT: Performance Engineer — Phase 7's third debater; seats
+   when node-cost budgets exist. The chair is reserved, not built.)
+
+  DEBATE PROTOCOL (API mode, bounded): Architect proposes -> Auditor
+  critiques with METRICS (numbers, not opinions) -> Architect revises.
+  Max 2 rounds — the audit's mock ran forever and decided nothing; a
+  real debate converges because the score gate forces it to.
+
+6.3 — TRANSPORT 1: THE OFFLINE ROUND-TRIP (zero API, zero keys)
+--------------------------------------------------------------------------------
+
+  The audit itself demonstrates the workflow (report.md -> frontier
+  LLM -> blueprint). Dream institutionalizes it:
+
+    npm run dream "consult space_station"
+      1. Dream exports a PROMPT PACKET (one .md file):
+         - compact tree JSON (semantics elided of geometry detail)
+         - the metric report + open deficiency list
+         - the proposal schema cheat-sheet (so the LLM answers in
+           parseable form)
+         - the persona brief for the requested seat
+      2. The human pastes the packet into ANY capable LLM (the same
+         way this very document set was produced).
+      3. The human pastes the response back:
+         npm run dream "consult-apply space_station < file.md"
+      4. Dream parses proposals, validates (C2), applies if the score
+         improves (C3), journals the transcript (C4).
+
+  This is the audit's "offline agentic prompt protocol" made concrete:
+  the human IS the transport layer. No keys, no network dependency, no
+  vendor lock — and it works with whatever frontier model is best this
+  month.
+
+6.4 — TRANSPORT 2: LOCAL/API MODE (optional, when available)
+--------------------------------------------------------------------------------
+
+  If an OpenAI-compatible endpoint is configured (including LOCAL
+  models via Ollama / llama.cpp — keeping the offline promise):
+    - The same prompt packets are sent programmatically.
+    - Temperature low (0.2-0.4): proposals are engineering, not poetry.
+    - Max 5 proposals per round; hard token budget; strict-JSON
+      response enforcement with one repair retry on parse failure.
+    - Rate: one assist per generation run (not per repair pass — the
+      deterministic repair loop stays deterministic).
+
+6.5 — TRANSPORT 3: THE STAND-IN DIRECTOR (the mock, redeemed)
+--------------------------------------------------------------------------------
+
+  creative-debate.js's 132 lines are rewritten into a deterministic
+  DirectorAgent — same interface, zero LLM:
+
+    propose(context):
+      - If agenda has high-severity items: emit the File 05
+        prescriptions as proposals (the auditor's reflexes, rule-based).
+      - If a zone lacks wants: emit the theme's default vignette
+        demands from thematic-memory (the dresser's reflexes).
+      - If strategy prior is stale (learning-cache says this strategy
+        scores poorly here): propose reseedZone with the better prior
+        (the architect's reflexes).
+
+  The stand-in is not creative — it is COMPETENT, which the mock never
+  was. It guarantees the pipeline's baseline works forever, and it
+  doubles as the LLM personas' contract test: any proposal an LLM makes,
+  the stand-in's schema can represent.
+
+6.6 — WHY THIS SURVIVES CONTACT WITH REALITY
+--------------------------------------------------------------------------------
+
+  - The LLM's leverage is exactly where the audit said intelligence is
+    missing (composition, narrative, judgment) and nowhere the engine
+    is already strong (math, validation, determinism).
+  - Schema drift — the classic LLM integration rot — is contained:
+    the proposal schema is small, versioned, and the packet embeds the
+    cheat-sheet, so old pasted packets fail loudly at parse, not
+    silently in the map.
+  - The Phase 5.5/6/7 vision (biome blending, enemy ecosystems, god
+    mode debates) becomes a matter of EXTENDING the tree's node types
+    and seating more personas — not new architecture. The foundation
+    (Files 01-05) is what was always missing underneath that vision.
+
+6.7 — ACCEPTANCE TESTS
+--------------------------------------------------------------------------------
+
+  T1  STAND-IN PARITY: with no LLM configured, 100 seeded maps
+      generate, score, and repair identically to the pure pipeline.
+  T2  PROPOSAL GATE: fault-injected proposals (bad schema, overlapping
+      nodes, score-lowering edits) are ALL rejected; none reach the tree.
+  T3  ROUND-TRIP: a scripted packet -> canned response -> apply cycle
+      works end-to-end offline (CI fixture, no network).
+  T4  JOURNAL HONESTY: assisted runs are flagged; unassisted hashes
+      unchanged by the mere PRESENCE of the layer.
+  T5  BOUNDED DEBATE: API-mode debates terminate in <= 2 rounds and
+      always end in a scored decision, never a stalemate string.
+
+INTEGRATION HOOKS
+--------------------------------------------------------------------------------
+  <- File 02: trees are the read/write medium (C1).
+  <- File 05: metrics judge every proposal (C3); agenda seeds proposals.
+  <- File 04: the Set Dresser's vocabulary is the vignette library.
+  -> Existing: dream-consultant.js becomes the packet manager (its
+     ticket system finally carries real payloads); learning-cache
+     gains proposal outcome stats; dream-journal gains transcripts.
+
+================================================================================
+END OF FILE 06 — Proceed to 07_implementation_roadmap.txt (the finale)
+================================================================================
