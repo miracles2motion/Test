@@ -1,0 +1,134 @@
+=====================================================================
+BATCH 3 — THE INK OUTLINE (THE LINE IS THE ART)
+=====================================================================
+Time: ~3–4 hours. This is the SINGLE most important visual change in
+the entire project. A ballpoint pen drawing IS its outline. Until you
+have this, you do not have a "ballpoint pen game" — you have a flat
+toon game. This is Pillar 1.
+
+WHAT WE'RE DOING:
+Add a thin black ink line around the silhouette of every object. The
+classic technique is "inverted hull" outline: render a slightly larger
+copy of each mesh, black, with faces flipped inward, so the black only
+pokes out around the edges. It's cheap, robust, and looks like ink.
+
+We'll do it as a post-processing pass (recommended) with a manual
+fallback. Pick ONE.
+
+=====================================================================
+OPTION A (RECOMMENDED) — POST-PROCESSING OUTLINE PASS
+=====================================================================
+If you can add three.js "EffectComposer" (it's in the
+examples/jsm/postprocessing folder that ships WITH three.js — no
+external dependency), this gives the cleanest result and works on
+EVERYTHING at once, including your spline tubes.
+
+STEP 1 — Import (path may differ slightly by your three.js version):
+  import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+  import { RenderPass }      from 'three/addons/postprocessing/RenderPass.js';
+  import { OutlinePass }     from 'three/addons/postprocessing/OutlinePass.js';
+  import { OutputPass }      from 'three/addons/postprocessing/OutputPass.js';
+
+STEP 2 — Build the composer:
+  const composer = new EffectComposer(renderer);
+  composer.addPass(new RenderPass(scene, camera));
+
+  const outline = new OutlinePass(
+    new THREE.Vector2(window.innerWidth, window.innerHeight),
+    scene, camera
+  );
+  outline.edgeStrength = 3.0;      // how bold the line is (tune!)
+  outline.edgeGlow = 0.0;          // 0 = hard ink, not neon glow
+  outline.edgeThickness = 1.0;     // line width in px
+  outline.visibleEdgeColor.set(0x141414);   // ink black
+  outline.hiddenEdgeColor.set(0x141414);    // ink black
+  composer.addPass(outline);
+
+  composer.addPass(new OutputPass());  // keep ACES/SRGB correct
+
+STEP 3 — Render through the composer instead of the renderer:
+  // replace renderer.render(scene, camera) with:
+  composer.render();
+
+TUNE TO TASTE (this is where your reference comes in):
+  - Too thick/childish?   edgeThickness 1.0 -> 0.6, edgeStrength 3 -> 2.
+  - Want it bolder, more "marker"?  strength 3 -> 5.
+  - If lines look jaggy, raise the composer's pixel ratio or render at
+    higher resolution.
+
+THE WASHOUT WARNING (critical):
+OutlinePass also outlines the SKY/BACKGROUND in some versions. If your
+paper background gets a line around it, either (a) set
+outline.clearColor, or (b) restrict what gets outlined. Most builds are
+fine because the background is uniform paper. If you see a huge frame
+line around the screen edge, that's the bug — set outline's
+`outline.setSize` correctly and ensure the pass is sized to the canvas.
+
+=====================================================================
+OPTION B (NO POST-PROCESSING) — INVERTED HULL PER MESH
+=====================================================================
+If you cannot/won't add the composer, do it per-object. It is more
+work but very reliable and teaches you the technique.
+
+For each mesh you want outlined:
+  const outlineGeom = mesh.geometry.clone();
+  const outlineMat = new THREE.MeshBasicMaterial({
+    color: 0x141414,
+    side: THREE.BackSide,          // flip inward so it only shows at edges
+  });
+  const hull = new THREE.Mesh(outlineGeom, outlineMat);
+  hull.scale.multiplyScalar(1.03);       // 3% bigger than the parent
+  mesh.add(hull);                         // child of the object
+
+Better (true inverted hull = offset along normals, so scale doesn't
+bulge asymmetrically on non-uniform shapes):
+  // For accurate results, inflate along vertex normals once at build:
+  const pos = geometry.attributes.position;
+  const normals = geometry.attributes.normal;   // computeVertexNormals first
+  for (let i = 0; i < pos.count; i++) {
+    const n = 0.02;                    // ink thickness in world units
+    pos.setXYZ(i,
+      pos.getX(i) + normals.getX(i) * n,
+      pos.getY(i) + normals.getY(i) * n,
+      pos.getZ(i) + normals.getZ(i) * n
+    );
+  }
+
+HOOK INTO YOUR ENGINE:
+You already funnel geometry through addGeo(geom, ink). The cleanest
+place to add the hull is right there: when you create the mesh for a
+geometry, also create its BackSide outline child. Then EVERYTHING in
+your game gets outlined automatically — no per-prefab work.
+
+CAVEATS OF OPTION B:
+  - Thin objects (leaves, ribbons) can show the outline THROUGH the
+    front face. For those, skip the outline or use a smaller offset.
+  - Transparent objects need a different approach — outline them last
+    or not at all.
+  - Duplicated geometry = more draw calls. Fine for hundreds of
+    objects; if you have thousands, prefer Option A.
+
+=====================================================================
+DECISION + SANITY CHECK
+=====================================================================
+Pick ONE option. (Option A is the better long-term answer; Option B is
+the better learning exercise and zero-dependency.) Do not do both.
+
+Run it. Screenshot. Compare to reference.png.
+
+Expected result: every object now has a crisp dark edge. The scene
+should suddenly read like a pen illustration. This is the moment your
+map stops being "3D plastic" and becomes "ink."
+
+---------------------------------------------------------------------
+DEFINITION OF DONE
+---------------------------------------------------------------------
+[ ] Every object shows a thin black ink outline (no exceptions you
+    didn't deliberately exclude).
+[ ] The outline is UNIFORM and roughly matches your reference's line
+    weight.
+[ ] No giant frame line around the screen edge.
+[ ] Screenshot compared. The map now reads as "drawn".
+
+NEXT: 04_BATCH_4_hatching_paper.txt — make shadows hatch, add grain.
+=====================================================================

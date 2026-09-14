@@ -1,0 +1,129 @@
+=====================================================================
+BATCH 8 — FIX YOUR SPLINE ENGINE (real bugs, real fixes)
+=====================================================================
+Time: ~3–4 hours. spline_engine.js is your best file and the right
+approach. But it has 4 concrete bugs that produce twisted, snaggy,
+plastic-looking results. Fix these and your organic forms (fish, logs,
+skeletons) will finally look right.
+
+---------------------------------------------------------------------
+BUG 1 — FRENET FRAMES TWIST/FOLD (the classic, and it WILL bite you)
+---------------------------------------------------------------------
+computeFrenetFrames() produces frames whose normal can flip 180° at
+curve inflections or straight sections. Your lofted tube then twists
+into a self-intersecting knot, especially on the fish and ribs.
+
+FIX (choose one):
+
+  (a) USE THREE.TubeGeometry (easiest, recommended):
+      THREE.TubeGeometry already builds a rotation-minimizing frame
+      internally and handles this correctly. Replace your hand-rolled
+      loft with it:
+
+        const curve = new THREE.CatmullRomCurve3(points, false, 'catmullrom', 0.5);
+        const tube = new THREE.TubeGeometry(curve, samples, radius, sides, closed);
+        // tube uses THREE.FrenetFrames with flip correction
+      You lose the variable radiusProfile, but for most cases a single
+      radius + separate taper (scale the curve) is fine.
+
+  (b) KEEP your loft, add a flip guard: after computing each frame,
+      detect a normal that has flipped vs. the previous frame and
+      negate it:
+
+        for (let s = 1; s <= samples; s++) {
+          const n0 = normals[s-1], n1 = normals[s];
+          if (n0.dot(n1) < 0) {
+            n1.negate(); binormals[s].negate();
+          }
+        }
+      This removes gross 180° flips (not gradual roll — for that you
+      need parallel transport, which is more code; TubeGeometry is the
+      pragmatic answer).
+
+---------------------------------------------------------------------
+BUG 2 — COLLIDERS ARE AXIS-ALIGNED BOXES (feet snag on curves)
+---------------------------------------------------------------------
+Your per-segment colliders are AABBs that never rotate to the curve.
+On a diagonal/curved tube they stair-step and the player snags.
+
+FIX: align each segment collider to its tangent. Easiest robust way:
+use an ORIENTED capsule or a small box whose quaternion faces the
+tangent:
+
+  // per segment midpoint m, tangent t (normalized), half-length h:
+  const seg = new THREE.Mesh(
+    new THREE.BoxGeometry(floorW, height, h * 2),
+    colliderMat
+  );
+  seg.position.copy(m);
+  seg.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), t);
+  scene.add(seg);   // or your collider system's equivalent
+
+If your collider system only takes AABBs, approximate by using MANY
+short segments so the stair-step is small, OR precompute the AABB that
+tightly contains the oriented box (halfExtents = abs(R * h) etc.).
+
+At minimum: shorten segLen so the stair-step error is tiny.
+
+---------------------------------------------------------------------
+BUG 3 — radiusProfile SNAPS instead of easing (visible rings)
+---------------------------------------------------------------------
+Current code uses nearest-neighbor:
+   idx = floor(t * (len-1))   -> radius jumps between samples, leaving
+                                 visible "rings" in the tube.
+
+FIX: linear interpolate between the two nearest samples:
+
+  function sampleProfile(profile, t) {
+    if (typeof profile === 'function') return profile(t);
+    if (!Array.isArray(profile)) return profile;      // scalar
+    const x = t * (profile.length - 1);
+    const i = Math.min(profile.length - 2, Math.floor(x));
+    const f = x - i;
+    return profile[i] * (1 - f) + profile[i + 1] * f; // lerp
+  }
+
+(Optionally apply a smoothstep on f for gentler easing.)
+
+---------------------------------------------------------------------
+BUG 4 — THE "HOLLOW FLOOR" IS A MAGIC NUMBER
+---------------------------------------------------------------------
+floorY = mid.y - rMid * 0.55  is arbitrary and produces a wrong
+cross-section: the "floor" floats or clips depending on radius.
+
+FIX — real tunnel floor math:
+A hollow tube's walkable floor is a CHORD cut across the circle at a
+chosen fraction from the bottom. Given radius r and floor height
+ratio k (e.g. 0.55 = floor at 55% down from center):
+
+  chordHalfWidth = sqrt(r^2 - (k*r)^2) = r * sqrt(1 - k^2)
+  floorY         = center.y - k * r
+
+  With k = 0.55: chordHalfWidth = r * sqrt(1 - 0.3025) = r * 0.835
+
+So: floor width = 2 * r * 0.835, floor top at center.y - 0.55*r.
+This gives a genuine flat floor that meets the tube walls cleanly.
+(You can then clamp floor width to your >=1.8m gameplay rule.)
+
+Also use the ORIENTED collider from Bug 2 for the floor, aligned to
+the tangent, so the floor doesn't zig-zag on curves.
+
+---------------------------------------------------------------------
+BONUS FIX — NORMALS & SMOOTHING
+---------------------------------------------------------------------
+Your loft calls computeVertexNormals() which is fine, but with only
+8 sides the tube looks faceted (not bad for pen style — faceted is
+arguably GOOD). If you want smoother, raise sides to 10–12. For a
+"hand-drawn" look, keep it low and let the outline carry the form.
+
+---------------------------------------------------------------------
+DEFINITION OF DONE
+---------------------------------------------------------------------
+[ ] No more tube twisting/folding (flip guard or TubeGeometry).
+[ ] Curved tunnels no longer snag feet (oriented/segmented colliders).
+[ ] radiusProfile eases smoothly (no visible rings).
+[ ] Hollow tube floor is a proper chord, meets walls cleanly.
+[ ] Fish/log/skeleton read as smooth continuous forms.
+
+NEXT: 09_BATCH_9_animation_life.txt — make the world breathe.
+=====================================================================

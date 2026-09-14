@@ -1,0 +1,116 @@
+=====================================================================
+BATCH 5 — LIGHTING & TONE RECIPE (LOCK THE EXACT VALUES)
+=====================================================================
+Time: ~1–2 hours. No new systems — this batch DIALS the numbers from
+Batch 2–4 into a consistent, repeatable "ink" look. This is the
+difference between "nice idea" and "it actually looks right."
+
+WHY:
+Amateurs change lighting randomly and wonder why it looks off.
+Professionals lock ONE recipe and reuse it. Your reference image has
+ONE light direction and ONE contrast range — match it and freeze it.
+
+---------------------------------------------------------------------
+STEP 1 — CONFIRM YOUR KEY LIGHT DIRECTION
+---------------------------------------------------------------------
+Look at your reference. Where is the light coming from?
+  - If shadows fall to the lower-right, light is upper-left.  (common)
+  - If shadows fall to the lower-left, light is upper-right.
+Write it down in art/visual-rules.txt and NEVER change it. In this
+guide we assume UPPER-LEFT. If yours differs, flip the signs below.
+
+  key.position.set( 40, 60, 25 );   // upper-left, above
+
+---------------------------------------------------------------------
+STEP 2 — THE CONTRAST RANGE (the "pen" amount)
+---------------------------------------------------------------------
+Pen art has HIGH contrast: bright paper, deep ink. But not pure black
+everywhere. Tune these three knobs to hit your reference:
+
+  key.intensity     = 2.2    (brightness of the light)
+  fill.intensity    = 0.55   (how much the shadow side is lifted)
+  hemi.intensity    = 0.5    (even ambient; raise = flatter)
+
+DECISION RULES (tune in this order):
+  1. Too dark overall?       Raise hemi.intensity (0.5 -> 0.7).
+  2. Shadows too black/void? Raise fill.intensity (0.55 -> 0.8).
+     Too flat?               Lower fill.intensity (0.55 -> 0.3).
+  3. Losing the "drawn" pop? Raise key.intensity (2.2 -> 2.8) and
+     lower hemi a touch. High key + low ambient = punchy ink.
+
+The 3-step gradientMap also sets how "hard" your toon bands are.
+3 steps = crisp comic/ink. 4–5 steps = softer. For ballpoint, 3 is
+usually right. If you want gentler shading, use 4 stops: [0,90,170,255].
+
+---------------------------------------------------------------------
+STEP 3 — SHADOW QUALITY
+---------------------------------------------------------------------
+  renderer.shadowMap.type = THREE.PCFShadowMap;   // crisp
+  // if shadows look too blurry for "ink", try:
+  // renderer.shadowMap.type = THREE.PCFSoftShadowMap; // softer edges
+  key.shadow.mapSize.set(2048, 2048);  // 4096 if you have headroom
+  key.shadow.bias = -0.0004;           // kill acne; lower if gaps appear
+
+Sharp, slightly hard shadows fit the pen style better than ultra-soft
+ones. If shadows shimmer/alias, raise mapSize before raising blur.
+
+---------------------------------------------------------------------
+STEP 4 — FOG DEPTH (the single most underrated tool you own)
+---------------------------------------------------------------------
+Fog is FREE depth + atmosphere. Your current numbers (40, 150) are a
+guess. Tune them so that:
+  - Near objects: full ink, full saturation.
+  - Mid distance: begins to wash toward paper color.
+  - Far distance (the far wall): mostly paper, objects are ghost-lines.
+
+  scene.fog = new THREE.Fog(0xf5f2eb, 35, 140);   // start here
+  // If the far wall is too visible, pull far DOWN (140 -> 110).
+  // If the map feels claustrophobic, push far UP (140 -> 200).
+
+Why this matters for YOUR map: your map is a giant flat box with four
+big black walls. Fog hides the "box arena" silhouette and makes it feel
+like the forest extends into mist. This alone removes a huge chunk of
+the "terrible" feel.
+
+---------------------------------------------------------------------
+STEP 5 — COLOR / TONE FINAL
+---------------------------------------------------------------------
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.05;   // 1.0–1.2 is the sane range
+
+  // Your 5 inks, sanity-checked against paper #f5f2eb:
+  //   BLACK   0x141414  (not 0x000000 — pure black clips and looks CG)
+  //   GREEN   0x2e7d32
+  //   ORANGE  0xc05621
+  //   BLUE    0x1a365d
+  //   RED     0xb91c1c
+  // Avoid saturated neon versions; the paper desaturates them.
+
+---------------------------------------------------------------------
+STEP 6 — LOCK IT
+---------------------------------------------------------------------
+Once it looks right, save every value into a single file
+ art/lighting-recipe.txt with this format:
+
+  key:  pos(40,60,25) intensity 2.2 shadow 2048 bias -0.0004
+  fill: pos(-30,20,-30) intensity 0.55 color 0xcfe0ff
+  hemi: sky 0xfff6e8 ground 0x8a7f6a intensity 0.5
+  fog: 0xf5f2eb 35..140
+  tone: ACES exposure 1.05
+  ramp: 3 steps [0,150,255]
+  paper: 0xf5f2eb
+
+From now on, if the lighting "looks wrong," you change ONE value at a
+time and screenshot, instead of guessing.
+
+---------------------------------------------------------------------
+DEFINITION OF DONE
+---------------------------------------------------------------------
+[ ] One consistent key-light direction, matching my reference.
+[ ] Contrast tuned (high key, controlled shadow depth).
+[ ] Fog hides the "box arena" far wall into paper mist.
+[ ] All values saved in art/lighting-recipe.txt.
+[ ] Screenshot compared. Lighting feels intentional, not accidental.
+
+NEXT: 06_BATCH_6_postprocessing.txt — final polish pass.
+=====================================================================

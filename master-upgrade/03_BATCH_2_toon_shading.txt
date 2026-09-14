@@ -1,0 +1,154 @@
+=====================================================================
+BATCH 2 — RENDERING FOUNDATION: INK MATERIAL + PAPER + LIGHT + FOG
+=====================================================================
+Time: ~2–3 hours. This is the BIGGEST single visual jump in the whole
+plan. Almost no new geometry — this is all renderer setup + material.
+
+WHAT THIS DOES:
+Right now your objects use a flat color (probably MeshBasicMaterial or
+unlit). That's why everything looks like plastic. This batch swaps in:
+  1. A cel/TOON material (hard light bands = "pen shading")
+  2. Paper-colored background + fog
+  3. Real directional light with shadows
+  4. Correct color-space + tone mapping
+
+After this batch your map will go from "plastic toy" to "ink sketch."
+Still no outline yet — that's Batch 3. Do this one fully first.
+
+---------------------------------------------------------------------
+STEP 1 — RENDERER + SCENE SETUP
+---------------------------------------------------------------------
+Wherever you create your THREE.WebGLRenderer, use this (merge it with
+your existing resize code):
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+  // CORRECT COLOR + TONE (this alone makes colors stop looking wrong)
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.05;
+
+  // SHADOWS ON (a pen drawing still needs one consistent light)
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFShadowMap;  // crisp = pen look
+
+  const scene = new THREE.Scene();
+
+  // PAPER IS THE STAGE (Rule 3)
+  scene.background = new THREE.Color(0xf5f2eb);      // warm ivory
+  scene.fog = new THREE.Fog(0xf5f2eb, 40, 150);      // paper fog
+
+NOTE ON FOG NUMBERS: 40 = where fog starts, 150 = fully fogged.
+Tune to your map size (your arena is ~55–68 units). Fog is cheap and
+it is one of the strongest "depth + atmosphere" tools you have. Use it.
+
+---------------------------------------------------------------------
+STEP 2 — THE INK (TOON) MATERIAL
+---------------------------------------------------------------------
+This is the core of the pen style: shading snaps to hard bands instead
+of smooth gradients. three.js ships MeshToonMaterial — use it, don't
+hand-roll a shader yet.
+
+  // Build ONE shared 3-step ramp (light / mid / shadow).
+  // In most three.js versions the ramp is a gray "RedFormat" ramp;
+  // if yours differs, check the webgl_materials_toon example in your
+  // three.js examples folder and mirror its exact format.
+  const rampData = new Uint8Array([0, 150, 255]); // 3 gray stops
+  const gradientMap = new THREE.DataTexture(rampData, 3, 1, THREE.RedFormat);
+  gradientMap.minFilter = THREE.NearestFilter;
+  gradientMap.magFilter = THREE.NearestFilter;
+  gradientMap.generateMipmaps = false;
+  gradientMap.needsUpdate = true;
+
+  // Cache materials by ink color so you don't rebuild them per-object.
+  const inkMaterials = new Map();
+  function inkMaterial(hex) {
+    if (inkMaterials.has(hex)) return inkMaterials.get(hex);
+    const m = new THREE.MeshToonMaterial({
+      color: hex,
+      gradientMap,
+    });
+    inkMaterials.set(hex, m);
+    return m;
+  }
+
+  // Your 5 inks (keep your existing palette, confirm vs. reference):
+  //   INK.BLACK  0x141414   (ironwood / structure)
+  //   INK.GREEN  0x2e7d32   (vegetation)
+  //   INK.ORANGE 0xc05621   (timber / bone)
+  //   INK.BLUE   0x1a365d   (water / guides)
+  //   INK.RED    0xb91c1c   (danger / fire)
+
+HOW TO HOOK IT IN:
+Your engine pushes geometry through something like addGeo(geom, ink).
+Find that function (probably in render.js, which you didn't upload)
+and make it use inkMaterial(hex) instead of whatever flat material it
+uses now. If your objects are built with MeshBasicMaterial somewhere,
+that is THE bug — replace every MeshBasicMaterial with the toon
+material above.
+
+---------------------------------------------------------------------
+STEP 3 — LIGHTS (one key, one fill, one ambient)
+---------------------------------------------------------------------
+A pen drawing has a single light source. Copy that in 3D:
+
+  // KEY — warm, from upper-left (pick ONE direction, never move it)
+  const key = new THREE.DirectionalLight(0xfff1d8, 2.2);
+  key.position.set(30, 55, 20);
+  key.castShadow = true;
+  key.shadow.mapSize.set(2048, 2048);
+  key.shadow.camera.left   = -90; key.shadow.camera.right  = 90;
+  key.shadow.camera.top    =  90; key.shadow.camera.bottom = -90;
+  key.shadow.camera.near   = 1;   key.shadow.camera.far    = 250;
+  key.shadow.bias = -0.0004;   // reduces "shadow acne"
+  scene.add(key);
+
+  // FILL — cool, dim, opposite side (keeps shadows from going pure black)
+  const fill = new THREE.DirectionalLight(0xcfe0ff, 0.55);
+  fill.position.set(-30, 20, -30);
+  scene.add(fill);
+
+  // AMBIENT SKY/GROUND — soft even light so nothing is pitch black
+  const hemi = new THREE.HemisphereLight(0xfff6e8, 0x8a7f6a, 0.5);
+  scene.add(hemi);
+
+TUNING: if the scene looks too dark, raise hemi.intensity (0.5 -> 0.7).
+If too flat, lower hemi and raise key. This is your main "mood" knob.
+
+---------------------------------------------------------------------
+STEP 4 — TURN SHADOWS ON FOR THE RIGHT OBJECTS
+---------------------------------------------------------------------
+Shadows are what make the scene read as 3D. You don't need them on
+EVERYTHING — just the big forms:
+  - castShadow = true  on: tree trunks, canopy decks, the perimeter
+    wall, large rocks, the player, key cover.
+  - receiveShadow = true on: the GROUND (the big green box) and any
+    large horizontal surface.
+
+DON'T put shadows on hundreds of bamboo culms or grass blades — it
+will tank framerate for almost no visual gain.
+
+---------------------------------------------------------------------
+STEP 5 — THE SANITY CHECK (MANDATORY)
+---------------------------------------------------------------------
+Run it. Screenshot. Compare to reference.png.
+
+Expected result: colors look richer and "correct", objects have hard
+light/shadow bands, the background is warm paper, distance fades to
+ivory fog. It will STILL look like 3D shapes (no outline yet) — that
+is expected and fine. Batch 3 adds the line.
+
+---------------------------------------------------------------------
+DEFINITION OF DONE
+---------------------------------------------------------------------
+[ ] renderer has SRGB + ACES + shadows + pixel ratio.
+[ ] scene.background and scene.fog are the paper color.
+[ ] All objects use the toon inkMaterial (no MeshBasicMaterial left).
+[ ] One key light (upper-left) + fill + hemisphere.
+[ ] Ground receives shadows; trunks/walls cast them.
+[ ] Screenshot taken and compared. It looks "drawn-ish" now.
+
+NEXT: 04_BATCH_3_ink_outline.txt — the line that makes it pen.
+=====================================================================

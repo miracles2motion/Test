@@ -1,0 +1,93 @@
+=====================================================================
+BATCH 1 — ART DIRECTION: KILL THE DOCS, PICK A REFERENCE, WRITE 5 RULES
+=====================================================================
+Time: ~1 hour. No code. This is the most important non-code batch.
+
+WHY THIS COMES FIRST:
+You currently steer the whole project with text documents that never
+render. You must replace that steering wheel with a PICTURE. Games
+that "rival gaming companies" all start from a reference image and a
+small set of unbreakable visual rules — not from 500-line specs.
+
+---------------------------------------------------------------------
+STEP 1 — PICK ONE REFERENCE IMAGE (30 minutes)
+---------------------------------------------------------------------
+Find ONE ballpoint-pen illustration you love. Real pen-on-paper art.
+Good search terms:
+   "ballpoint pen illustration landscape"
+   "ballpoint pen drawing architecture"
+   "biro art" / "biro drawing"
+   artists to look at: Alfred Basha, Mark Powell, Juan Francisco Casas
+   (look at the STYLE, not the subject)
+
+Pick one image. Save it to your project as  art/reference.png.
+
+Rules for choosing it:
+  - It must be the STYLE you want (pen lines, hatching, paper).
+  - It must show the SHADING technique you want (crosshatch vs. contour
+    lines vs. stippling). Notice which one you pick — you will copy it.
+  - It should be a SCENE (not just a portrait), so you can copy how
+    light and space are handled.
+
+This image is now your north star. Every screenshot you take from now
+on gets placed NEXT TO IT and compared. If your screenshot doesn't
+echo it, you are not done.
+
+---------------------------------------------------------------------
+STEP 2 — WRITE YOUR 5 UNBREAKABLE VISUAL RULES (20 minutes)
+---------------------------------------------------------------------
+Copy this template, fill in the blanks from your reference, and save
+it as  art/visual-rules.txt. These 5 rules REPLACE forest_concept.md.
+
+RULE 1 — THE OUTLINE (this is your style's heartbeat)
+   Every object has a thin, black (near #111111) ink outline, roughly
+   uniform width, slightly imperfect (a tiny wobble is GOOD — it reads
+   as hand-drawn). Write down the exact color and feel from your ref.
+
+RULE 2 — SHADING = HATCHING, NOT GRADIENT
+   Light is represented by a small number of HARD bands (2 to 4), and
+   the DARK band is drawn with pen lines (hatch/crosshatch), not with
+   a smooth gray gradient. Write down: how many bands? which hatch
+   direction? (e.g. "3 bands; shadow band = 45-degree diagonal hatch").
+
+RULE 3 — PAPER IS THE STAGE
+   Background = warm ivory paper. Fog = same paper color. A faint
+   paper grain sits over the whole frame. Write your exact paper hex
+   (your research already hints at #f5f2eb — confirm against the ref).
+
+RULE 4 — LIMITED INK PALETTE + ONE LIGHT DIRECTION
+   Keep your 5 INK colors (black, green, orange, blue, red) but every
+   scene uses ONE consistent key-light direction (e.g. upper-left) so
+   all shadows agree. Write down the light direction.
+
+RULE 5 — SILHOUETTE FIRST
+   Every object must be recognizable from 20 meters by its OUTLINE
+   alone (no color, no detail). If you can't tell a pine from a stump
+   by silhouette, redraw the shape. This rule kills the "box" look.
+
+Keep this file under 1 page. If a rule can't be measured in a
+screenshot, delete it — that's the whole point.
+
+---------------------------------------------------------------------
+STEP 3 — RETIRE THE AUDIT CULTURE (10 minutes)
+---------------------------------------------------------------------
+Move these into an  archive/  folder and stop running them as a
+quality gate:
+   - verify-detailing.js  (collider/stair/grapple counters)
+   - audit-concept.js     (the "7/7" rubric)
+   - verify-integrity.js  (the "100% intact" self-check)
+   - research.md, forest_concept.md
+
+They are history, not quality control. Your NEW quality gate is:
+   screenshot vs. reference.png, judged by your EYES.
+
+---------------------------------------------------------------------
+DEFINITION OF DONE (check these before moving to Batch 2)
+---------------------------------------------------------------------
+[ ] I have ONE reference image saved as art/reference.png.
+[ ] I have a 1-page art/visual-rules.txt with 5 measurable rules.
+[ ] I archived the old docs/audits and will not grade by them again.
+[ ] I can describe my reference's hatch style in one sentence.
+
+NEXT: 03_BATCH_2_toon_shading.txt — the first big visual jump.
+=====================================================================

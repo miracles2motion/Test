@@ -81,27 +81,135 @@ export function buildAncientTree(B, x, y, z, o = {}) {
 
 /**
  * Procedural Alpine Pine / Coniferous Tree
- * Slender timber mast with tiered conical needle skirts and ground micro-cover.
+ * Tapered trunk, vertical bark ridges, 4-layer overlapping needle skirts, and rock base.
  */
 export function buildPineTree(B, x, y, z, o = {}) {
-  const { cyl, cone, slab, ring } = B;
-  const inkBark = o.inkBark ?? INK.ORANGE;
-  const inkLeaves = o.inkLeaves ?? INK.GREEN;
-  const h = o.h ?? 13.0;
+  const { cyl, cone, box, facetedRock, ring } = B;
+  const inkBark = o.inkBark ?? (INK.BLACK ?? 2);
+  const inkLeaves = o.inkLeaves ?? (INK.GREEN ?? 4);
+  const h = o.h ?? 16.0;
+  const lean = o.lean ?? (Math.sin(x * 12.3 + z * 3.7) * 0.35);
 
-  // Slender vertical trunk
-  cyl(x, y, z, 0.45, h, { ink: inkBark });
+  // 1. Tapered trunk in 2 segments
+  const baseR = 0.52 * (h / 16.0);
+  const midR = 0.38 * (h / 16.0);
+  cyl(x, y, z, baseR, h * 0.52, { ink: inkBark });
+  cyl(x + lean * 0.5, y + h * 0.5, z + lean * 0.5, midR, h * 0.52, { ink: inkBark, noCollide: true });
 
-  // 3-Tiered Conical Needle Skirts
-  cone(x, y + 3.5, z, 4.0, 3.8, { ink: inkLeaves });
-  cone(x, y + 6.8, z, 3.0, 3.4, { ink: inkLeaves });
-  cone(x, y + 9.8, z, 2.0, 3.0, { ink: inkLeaves });
+  // 2. Vertical bark ridge strips (for ballpoint outline/hatch definition)
+  for (let i = 0; i < 3; i++) {
+    const a = (i / 3) * Math.PI * 2;
+    box(x + Math.cos(a) * (baseR + 0.04), y + 0.5, z + Math.sin(a) * (baseR + 0.04), 0.08, h * 0.45, 0.08, { ink: inkBark, noCollide: true });
+  }
 
-  // Base micro-cover: mossy boulder slab
-  slab(x - 1.2, z - 1.2, x + 1.2, z + 1.2, y + 0.8, 0.8, { ink: INK.BLACK, tag: 'cover' });
+  // 3. 4-Tiered Conical Needle Skirts with slight scale jitter & lean
+  const tierCount = 4;
+  for (let t = 0; t < tierCount; t++) {
+    const fraction = (t + 1) / (tierCount + 1);
+    const tierY = y + fraction * h + 1.0;
+    const tierR = Math.max(1.4, (3.6 - t * 0.6) * (h / 16.0));
+    const tierH = Math.max(1.8, (3.4 - t * 0.35) * (h / 16.0));
+    const offsetX = lean * (fraction * 0.7);
+    const offsetZ = lean * (fraction * 0.7);
+    cone(x + offsetX, tierY, z + offsetZ, tierR, tierH, { ink: inkLeaves });
+  }
 
-  // Apex Grapple Ring
-  ring(x, y + h + 0.5, z, 'y');
+  // 4. Base micro-cover: natural faceted rock
+  facetedRock(x + 0.9, y, z + 0.5, 1.2, 0.85, 1.1, { ink: inkBark, tag: 'cover' });
+
+  // 5. Apex Grapple Ring
+  ring(x + lean, y + h + 0.6, z + lean, 'y');
+}
+
+/**
+ * Procedural Suspended Timber Rope Bridge
+ * Planks with subtle gaps, natural catenary sag (2-3%), round rope handrails, and vertical drop ties.
+ */
+export function buildSuspendedRopeBridge(B, x1, z1, x2, z2, y, o = {}) {
+  const { box, cyl, collider } = B;
+  const inkPlank = o.inkPlank ?? (INK.ORANGE ?? 3);
+  const inkRope = o.inkRope ?? (INK.BLACK ?? 2);
+  const width = o.width ?? 1.8;
+  const maxSag = o.maxSag ?? 0.35;
+
+  const dx = x2 - x1;
+  const dz = z2 - z1;
+  const len = Math.hypot(dx, dz);
+  if (len < 1.0) return;
+
+  const dirX = dx / len;
+  const dirZ = dz / len;
+  const perpX = -dirZ;
+  const perpZ = dirX;
+
+  const plankSpacing = 0.85;
+  const numPlanks = Math.max(3, Math.floor(len / plankSpacing));
+  const plankThickness = 0.22;
+
+  // Solid walkable floor collider hull (continuous so player never snags)
+  collider((x1 + x2) / 2, y - maxSag * 0.4, (z1 + z2) / 2,
+    Math.abs(dirX) > 0.5 ? len : width,
+    0.4,
+    Math.abs(dirX) > 0.5 ? width : len
+  );
+
+  // Individual planks with downward catenary sag
+  for (let i = 0; i <= numPlanks; i++) {
+    const t = i / numPlanks;
+    const px = x1 + dx * t;
+    const pz = z1 + dz * t;
+    const sag = Math.sin(t * Math.PI) * maxSag;
+    const py = y - sag;
+
+    box(px, py, pz,
+      Math.abs(dirX) > 0.5 ? 0.65 : width,
+      plankThickness,
+      Math.abs(dirX) > 0.5 ? width : 0.65,
+      { ink: inkPlank, noCollide: true }
+    );
+  }
+
+  // Left and Right Rope Handrails
+  const railH = 0.95;
+  const subSegments = Math.max(4, Math.floor(len / 3.0));
+  for (let s = 0; s < subSegments; s++) {
+    const tA = s / subSegments;
+    const tB = (s + 1) / subSegments;
+    const xA = x1 + dx * tA, zA = z1 + dz * tA;
+    const xB = x1 + dx * tB, zB = z1 + dz * tB;
+    const yA = y - Math.sin(tA * Math.PI) * maxSag + railH;
+    const yB = y - Math.sin(tB * Math.PI) * maxSag + railH;
+
+    for (const side of [-1, 1]) {
+      const rxA = xA + perpX * (width / 2) * side;
+      const rzA = zA + perpZ * (width / 2) * side;
+      const rxB = xB + perpX * (width / 2) * side;
+      const rzB = zB + perpZ * (width / 2) * side;
+
+      const mx = (rxA + rxB) / 2, my = (yA + yB) / 2, mz = (rzA + rzB) / 2;
+      const segLen = Math.hypot(rxB - rxA, rzB - rzA);
+      box(mx, my, mz,
+        Math.abs(dirX) > 0.5 ? segLen : 0.12,
+        0.12,
+        Math.abs(dirX) > 0.5 ? 0.12 : segLen,
+        { ink: inkRope, noCollide: true }
+      );
+    }
+  }
+
+  // Vertical rope suspension ties
+  for (let i = 1; i < numPlanks; i += 3) {
+    const t = i / numPlanks;
+    const px = x1 + dx * t;
+    const pz = z1 + dz * t;
+    const py = y - Math.sin(t * Math.PI) * maxSag;
+
+    for (const side of [-1, 1]) {
+      const rx = px + perpX * (width / 2) * side;
+      const rz = pz + perpZ * (width / 2) * side;
+      cyl(rx, py + 0.1, rz, 0.04, railH, { ink: inkRope, noCollide: true });
+    }
+  }
 }
 
 /**

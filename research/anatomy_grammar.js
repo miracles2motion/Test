@@ -251,35 +251,6 @@ export function buildBambooPlantation(B, arg1, arg2, arg3, arg4, arg5) {
       });
     }
 
-    // Radiating leaf fan fronds at the apex (drooping Asian bamboo leaf blades)
-    if (B.addGeo) {
-      const leafCount = 4 + Math.floor(next() * 3);
-      const baseAngle = next() * Math.PI * 2;
-      for (let l = 0; l < leafCount; l++) {
-        const leafAngle = baseAngle + (l / leafCount) * Math.PI * 2 + (next() - 0.5) * 0.25;
-        const leafLen = 1.6 + next() * 0.8;
-        const leafW = 0.22;
-        const g = new THREE.BoxGeometry(leafW, 0.04, leafLen);
-        g.rotateX(0.28); // droop downward slightly
-        g.rotateY(leafAngle);
-        g.translate(pos.x + Math.sin(leafAngle) * (leafLen * 0.4), h - 0.15, pos.z + Math.cos(leafAngle) * (leafLen * 0.4));
-        B.addGeo(g, inkCulm);
-      }
-      // Small leaf tufts at upper 2 node rings
-      for (let n = Math.max(1, nodeCount - 1); n <= nodeCount; n++) {
-        const nodeY = (n / (nodeCount + 1)) * h;
-        for (let t = 0; t < 2; t++) {
-          const tuftAngle = next() * Math.PI * 2;
-          const tuftLen = 0.85 + next() * 0.35;
-          const g = new THREE.BoxGeometry(0.12, 0.03, tuftLen);
-          g.rotateX(0.35); // drooping
-          g.rotateY(tuftAngle);
-          g.translate(pos.x + Math.sin(tuftAngle) * (tuftLen * 0.4), nodeY, pos.z + Math.cos(tuftAngle) * (tuftLen * 0.4));
-          B.addGeo(g, inkCulm);
-        }
-      }
-    }
-
     // Occasional overhead grapple ring on tallest bamboo culms
     if (h > 11.0 && c % 4 === 0) {
       ring(pos.x, h + 0.6, pos.z, 'y');

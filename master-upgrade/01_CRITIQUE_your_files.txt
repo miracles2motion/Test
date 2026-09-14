@@ -1,0 +1,201 @@
+=====================================================================
+THOROUGH CRITIQUE — EVERY FILE YOU UPLOADED
+=====================================================================
+You asked me to criticize every single file thoroughly. Here it is,
+unsparing. I am on your side — this is how you get out of the loop.
+
+=====================================================================
+FILE 1: research.md (590 lines)  —  THE ROOT DISEASE
+=====================================================================
+Verdict: This file is the problem, not the solution. It is 590 lines
+of an AI congratulating itself.
+
+WHAT IT GETS RIGHT:
+  - It correctly names the historical bugs ("cardboard box trap",
+    "ceiling trap", "urban stairs curse"). Those were real.
+  - Section 2 is an honest-enough post-mortem of earlier failures.
+
+WHAT IS WRONG (this is the important part):
+  1) It claims VICTORY on a map you describe as "extremely terrible."
+     - "12/12 PASS | Colliders: 686 | Stairs: 0 | Grapples: 47"
+     - "100% PERFECT & INTACT!"
+     That gap — perfect scores vs. ugly screen — is the single most
+     important fact in your whole project. Your measurement is broken.
+  2) Every metric is a GAMEABLE PROXY, not visual quality:
+     - collider COUNT, stair COUNT, grapple COUNT.
+     None of these has anything to do with whether the map LOOKS good.
+     A map of 686 black boxes would pass 12/12. That's what happened.
+  3) The "pipeline" (Section 4, 8 steps) is ~80% DOCUMENT PRODUCTION:
+     concept doc -> concept audit -> enemy extraction -> ... only ONE
+     step (Step 5) writes actual geometry. Documents don't render.
+  4) It criticizes "the audit perverse incentive" (Section 2.4) and
+     then IMMEDIATELY commits the same sin by self-reporting
+     "686 colliders" as a quality score. The patient diagnosed its own
+     disease and then kept doing it.
+  5) It references files you did NOT upload:
+     - src/render.js, src/prefabs.js, src/enemies.js, src/level.js,
+       rebuild/prng.js, verify-detailing.js, dream-orchestrator.js...
+     This means your "Dream" project is fragmented, and the research
+     doc describes a version of reality that may not match your actual
+     codebase. You are operating on stale/idealized copies.
+
+ACTION: Archive research.md. It has served its purpose (history).
+Never let "audit score" be your quality bar again.
+
+=====================================================================
+FILE 2: forest_concept.md (250 lines)  —  A SPEC WITH NO PICTURE
+=====================================================================
+Verdict: 250 lines of adjectives, zero art direction.
+
+WHAT IS WRONG:
+  1) It is marketing prose, not a spec. "Monumental", "colossal",
+     "majestic", "living", "immersive", "sanctuary". None of these
+     words can be compiled into pixels. An artist reading this learns
+     nothing about how to draw the map.
+  2) The MOST important spec for a pen game — THE LINE — is never
+     defined. Search the whole file for a specification of:
+        - outline color / weight / wobble .............. MISSING
+        - hatch pattern / angle / density .............. MISSING
+        - paper color / grain ........................... MISSING
+        - silhouette readability rules .................. MISSING
+     A ballpoint-pen concept doc that never specifies the pen's line
+     is like a recipe that never mentions the main ingredient.
+  3) Color hexes are listed (good START) but there is no material,
+     shader, light, tone-mapping, or post recipe to make those hexes
+     LOOK like ink on paper. A hex code is not a style.
+  4) The prop taxonomy (Section 2.2) lists NAMES and DIMENSIONS only:
+     "giant_stalk_grass (blade cluster with apical grapple ring)".
+     Dimensions are not appearance. A 7m grass made of boxes is still
+     boxes. There is no statement of what any prop should LOOK like
+     from 20 meters away (its SILHOUETTE).
+
+ACTION: Replace this 250-line file with ONE reference image + 5 visual
+rules (see Batch 1). A picture replaces all of it.
+
+=====================================================================
+FILE 3: forest_level_code.js (336 lines)  —  THE TRUTH OF YOUR MAP
+=====================================================================
+Verdict: This is what your map actually IS, and it is 300+ lines of
+flat colored boxes. You have not escaped "box stacking" — you renamed it.
+
+CONCRETE EVIDENCE (line by line, in spirit):
+  1) The perimeter walls are FOUR GIANT FLAT BLACK BOXES:
+        box(0, 0, -P, 2*P+T, PH, T, {ink: BK});   x4
+     A 20m-tall black slab on each side. That is the literal
+     "cardboard box arena" your own research says you eliminated.
+  2) The ground is ONE giant flat green box:
+        box(0, -1.0, 0, 2*P+T, 1.0, 2*P+T, {ink: GR});
+     No height variation, no moss patches, no texture. One color.
+  3) The "river" is a 5-centimeter-thick blue rectangle:
+        slab(16.0, -45.0, 26.0, 45.0, 0.05, 0.05, {ink: BL});
+     This is not a river. It is a blue strip on the floor.
+  4) The skybridges are flat orange slabs:
+        slab(-1.5, -26.0, 1.5, -5.0, 9.5, 0.35, {ink: OR});
+     No planks, no sag, no rope rails. Just orange bars in the air.
+  5) The terraced "ridge" is stacked slabs = a staircase:
+        buildTerracedRidge(... tiers: 6 ...);
+     You banned staircases, then built staircases out of slabs.
+  6) ZERO RENDERING CODE in the entire file:
+     - no light, no shadow config
+     - no fog, no sky, no background
+     - no tone mapping, no output color space
+     - no material, no outline, no post-processing
+     The file NEVER touches the renderer. That is why it looks flat,
+     plastic, and cheap — regardless of how clever the placement is.
+  7) Every interesting object is an IMPORT you cannot see:
+        buildTreehouse, buildPineTree, buildBambooPlantation, ...
+     The "art" lives in prefabs.js, which you did not upload. I'd bet
+     those are also stacks of box()/cyl()/sphere().
+
+ACTION: The geometry PLACEMENT here is actually fine-to-good (clear
+sectors, sensible spacing). Keep the layout. The problem is the
+objects are unshaded primitives with no silhouette. Batches 2–7 fix it.
+
+=====================================================================
+FILE 4: spline_engine.js (286 lines)  —  YOUR BEST FILE (with real bugs)
+=====================================================================
+Verdict: Technically competent and genuinely the right approach.
+CatmullRomCurve3 + Frenet frames + lofting is how you should build
+organic forms. KEEP THIS FILE. But it has four real problems:
+
+  1) FRENET FRAME FLIPPING (the classic bug):
+     computeFrenetFrames() fails wherever the curve has an inflection
+     or straightens — the normal can flip 180°, twisting the tube into
+     a self-intersecting mess. You have no guard for it. Fix: use a
+     rotation-minimizing frame (parallel transport) or THREE's
+     TubeGeometry which already handles this. (Batch 8 has the fix.)
+
+  2) COLLIDERS ARE AXIS-ALIGNED BOXES:
+     collider(mid.x, floorY, mid.z, floorW, 0.4, segLen*1.1, ...)
+     These boxes are never ROTATED to follow the tangent. On a curved
+     or diagonal tube, they stair-step and snag the player's feet.
+     Fix: oriented capsules/cylinders per segment, aligned to tangent.
+
+  3) NO UVs, NO MATERIAL, NO OUTLINE:
+     The lofted tube is pushed through addGeo(geom, ink) which is a
+     flat color. It will look like a plastic pipe, not a log/creature.
+     Fix: the ink treatment from Batch 2 + 3 must apply here too.
+
+  4) THE "HOLLOW FLOOR" IS A MAGIC NUMBER:
+     floorY = mid.y - rMid * 0.55;   // arbitrary
+     This is not a real tunnel cross-section. A real tunnel floor is a
+     CHORD cut across the circle at a chosen height, leaving a flat
+     walkable base. (Batch 8 gives the proper math.)
+
+  5) radiusProfile interpolation is NEAREST-NEIGHBOR (jumps):
+     idx = floor(t * (len-1))  -> the radius snaps instead of easing.
+     Fix: linear/eased interpolation between profile samples.
+
+=====================================================================
+FILE 5: anatomy_grammar.js (332 lines)  —  ASPIRATIONAL, NOT ACTUAL
+=====================================================================
+Verdict: The ideas (skeleton, bamboo, fish, ridge) are good. The
+implementation is still primitives with grand names.
+
+  1) THE ARGUMENT PARSING IS A DISASTER:
+        buildCreatureSkeleton(B, arg1, arg2, arg3, arg4)
+     with FOUR different calling conventions nested in if/typeof
+     checks. This is unreadable, bug-prone, and screams "generated,
+     not designed." Refactor to ONE options object:
+        buildCreatureSkeleton(B, { p1, p2, length, ribPairs, ... }).
+
+  2) A SKELETON BUILT FROM cyl() + arch() + cone() IS STILL PRIMITIVES:
+     You will see a row of cylinders and cones, not a ribcage. The
+     bones have no taper, no irregularity, no curve. "Anatomical" is
+     a name, not a result, unless the geometry actually curves.
+
+  3) BAMBOO = CYLINDERS + RINGS. The concept doc PROMISES "leaf fan
+     umbrellas" and "radiating leaf fronds" — there are NONE in the
+     code. Green poles in a grid is not a forest; it's a pipe organ.
+
+  4) buildTerracedRidge IS A STAIRCASE. Stacked slab() steps. The very
+     thing the docs claim to ban. The player WILL read it as stairs.
+
+  5) import { createRNG } from './rebuild/prng.js' — a "rebuild/"
+     folder that isn't in your upload. Likely missing/broken, meaning
+     this file may not even run against your real codebase.
+
+=====================================================================
+THE UNIFYING DIAGNOSIS (summary of everything above)
+=====================================================================
+Three concrete, fixable reasons your map is ugly:
+
+  1. NO RENDERING LAYER. Flat unlit colored boxes. No toon shading, no
+     ink outline, no paper, no light, no shadows, no fog, no post.
+     Your whole "ballpoint pen" identity is a rendering problem, and
+     you have written ZERO rendering code.
+
+  2. NO SILHOUETTE / SCALE DISCIPLINE. 686 primitives with no visual
+     hierarchy, no hero focal point, no negative space, no bevels or
+     curvature. Noise, not composition. (More geometry != better.)
+
+  3. NO VISUAL MEASUREMENT LOOP. You judge by text audits that you
+     always pass. You never screenshot, never compare to a reference,
+     never iterate on what you SEE.
+
+The master upgrade (Batches 1–11) fixes all three, in that order:
+first the rendering (biggest win, least work), then the silhouette,
+then the loop.
+
+Now go to 02_BATCH_1_art_direction.txt and start.
+=====================================================================

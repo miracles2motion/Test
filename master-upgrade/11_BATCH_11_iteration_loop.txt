@@ -1,0 +1,80 @@
+=====================================================================
+BATCH 11 — THE ITERATION LOOP (THE HABIT THAT KEEPS YOU GOOD)
+=====================================================================
+Time: 30 minutes to set up, then it's your forever-routine.
+
+WHY THIS FILE EXISTS:
+Every ugly game is a game that stopped being LOOKED at. The people who
+build "amazing things" with three.js don't have better tools than you —
+they have a tighter loop: make a change, LOOK at it, judge, repeat.
+This batch installs that loop so you never slide back into the
+"generate docs, pass fake audits, map still ugly" treadmill.
+
+---------------------------------------------------------------------
+THE WEEKLY LOOP (do this every session, ~5 min each)
+---------------------------------------------------------------------
+1. SCREENSHOT.  Load the game. Take 3 screenshots:
+     - the spawn view (postcard test)
+     - one mid-map vista
+     - one close-up of a hero object (treehouse/fish)
+2. COMPARE.  Put them next to art/reference.png and your 5 rules.
+3. SCORE.  Rate each of the 3 pillars out of 5, honestly:
+     - LINE  (outline present? uniform? hand-drawn feel?)  __/5
+     - SHADE (hatching? hard bands? one light dir?)        __/5
+     - PAPER (paper bg? grain? fog wash? palette?)         __/5
+4. PICK ONE.  Choose the LOWEST-scoring pillar and ONE concrete fix.
+   Write it down as a TODO. (One fix per session. Never more.)
+5. DO IT.  Make the change. Then start the loop over.
+
+That's it. Five minutes of LOOKING prevents a week of blind building.
+
+---------------------------------------------------------------------
+THE ANTI-PATTERNS (catch yourself doing these and stop)
+---------------------------------------------------------------------
+  X Adding MORE objects to fix a scene that looks empty.
+       -> Instead: fix silhouettes, light, fog, framing first.
+  X Writing/updating a concept doc instead of rendering.
+       -> Docs don't render. One reference image > 500-line doc.
+  X Trusting "audit passed / 12/12" as proof of quality.
+       -> The only audit is your eyes on a screenshot.
+  X Changing 5 things at once and not knowing what worked.
+       -> ONE change per screenshot. Always.
+
+---------------------------------------------------------------------
+THE 10-MINUTE "COLD READ" (do this monthly)
+---------------------------------------------------------------------
+Show the game to someone who has never seen it. Say nothing. Watch
+their face for 10 seconds. Then ask ONE question: "What does it look
+like it's made of?" 
+  - If they say "pens / a drawing / paper" -> you're winning.
+  - If they say "boxes / a game demo" -> you know exactly what pillar
+    to fix next (LINE first, then SHADE, then PAPER).
+
+This is worth 100 audits.
+
+---------------------------------------------------------------------
+SCALING UP LATER (once the look is locked)
+---------------------------------------------------------------------
+Only after Pillars 1–3 are consistently 4/5 or 5/5, you can start
+pushing toward "rivaling gaming companies" with:
+  - instancing (InstancedMesh) for bamboo/grass/leaves — big perf win
+  - a proper skybox or hand-drawn sky
+  - particles (leaves falling, pollen motes in light shafts)
+  - audio ambience (forest wind, river) — audio is half of "alive"
+  - better enemy AI/animation (your research already sketches this)
+But NONE of that matters until the base LOOK is right. Look first.
+
+---------------------------------------------------------------------
+FINAL WORDS
+---------------------------------------------------------------------
+You are not stuck because of three.js. You are stuck because you were
+measuring a visual craft with text. You now have the three pillars
+(LINE, SHADE, PAPER), the reference-image habit, and the one-change-
+per-screenshot loop.
+
+Go do Batch 1 tonight. Take a screenshot tomorrow. You will not be in
+the "terrible gaming loop" anymore, because the loop you are in now
+ends with a screenshot you actually like.
+
+Good luck. Draw something worth looking at.
+=====================================================================
