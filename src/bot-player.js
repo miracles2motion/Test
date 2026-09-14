@@ -351,21 +351,13 @@ export class BotPlayer {
     // Gravity
     b.vel.y -= 26.0 * dt;
 
-    // Integrate Position
-    b.pos.x += b.vel.x * dt;
-    b.pos.y += b.vel.y * dt;
-    b.pos.z += b.vel.z * dt;
-
-    // World Floor & Boundary Collision
-    if (world && typeof world.collidePoint === 'function') {
-      const col = world.collidePoint(b.pos.x, b.pos.y, b.pos.z, b.halfW, b.height);
-      if (col) {
-        b.pos.y = col.y;
-        b.vel.y = 0;
-        b.onGround = true;
-      }
+    if (world && world.moveBody) {
+      world.moveBody(b, dt);
     } else {
-      // Default ground plane fallback
+      // Fallback if no physics world exists
+      b.pos.x += b.vel.x * dt;
+      b.pos.y += b.vel.y * dt;
+      b.pos.z += b.vel.z * dt;
       if (b.pos.y <= 0.0) {
         b.pos.y = 0.0;
         b.vel.y = 0;
@@ -412,15 +404,18 @@ export class BotPlayer {
     // Firing line
     _d.subVectors(aimTarget, this.eye).normalize();
 
-    // Muzzle flash & audio
-    this.ctx.audio?.remoteShot(this.weapon, this.eye);
-    this.ctx.effects?.tracer(this.eye, aimTarget, this.ink, 0.02, 0.12);
-
     // Damage Raycast
     const damage = isGod ? 14 : 9;
+    const hitW = this.ctx.world?.raycast(this.eye, _d, 60.0);
     const hit = this.ctx.raycastPlayers ? this.ctx.raycastPlayers(this.eye, _d, 60.0) : null;
+    
+    let hitPoint = aimTarget;
+    let hitSomething = false;
+    const wDist = hitW ? hitW.dist : Infinity;
 
-    if (hit && hit.player && hit.player !== this) {
+    if (hit && hit.player && hit.player !== this && hit.dist < wDist) {
+      hitPoint = hit.point;
+      hitSomething = true;
       if (this.team === 'ffa' || hit.player.team !== this.team) {
         hit.player.takeDamage(damage, hit.point, this.weapon);
         if (!hit.player.alive) {
@@ -434,15 +429,29 @@ export class BotPlayer {
       const pEye = this.ctx.player.eye;
       const pDist = this.eye.distanceTo(pEye);
       const toPlayer = _v.subVectors(pEye, this.eye).normalize();
-      if (_d.dot(toPlayer) > 0.94 && pDist < 50.0) {
+      if (_d.dot(toPlayer) > 0.94 && pDist < 50.0 && pDist < wDist) {
+        hitPoint = this.ctx.player.center;
+        hitSomething = true;
         this.ctx.player.takeDamage(damage, this.eye);
         if (this.ctx.player.hp <= 0) {
           this.kills++;
           this.streak++;
           this._emitBanter('kill');
+          if (this.ctx.botArena) {
+            this.ctx.botArena.handleDeath(this.ctx.player, this.eye, this);
+          }
         }
       }
     }
+
+    if (hitW && !hitSomething) {
+      hitPoint = hitW.point;
+      this.ctx.effects?.bulletImpact(hitW.point, hitW.normal);
+    }
+
+    // Muzzle flash & audio
+    this.ctx.audio?.remoteShot(this.weapon, this.eye);
+    this.ctx.effects?.tracer(this.eye, hitPoint, this.ink, 0.02, 0.12);
   }
 
   _emitBanter(category) {
