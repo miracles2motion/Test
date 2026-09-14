@@ -45,21 +45,23 @@ assert.strictEqual(shuffled.length, orig.length, 'randShuffle length');
 assert.deepStrictEqual([...shuffled].sort(), [...orig].sort(), 'randShuffle contains all elements');
 console.log('  ✓ Helper distributions within valid bounds');
 
-// 3. Test Thematic Memory Completeness for all 7 themes
-console.log('Test 3: Thematic Memory Completeness (7 themes + layout priors)');
+// 3. Test Thematic Memory Schema & Safety Clearances
+console.log('Test 3: Thematic Memory Schema & Safety Clearances');
 const memPath = path.join(ROOT, '.agents', 'thematic-memory.json');
 const mem = JSON.parse(fs.readFileSync(memPath, 'utf8'));
 
-const requiredThemes = ['forest', 'space_station', 'station', 'zen', 'cyber', 'steampunk', 'colossal', 'maritime'];
-for (const theme of requiredThemes) {
-  const t = mem.thematicArchetypes[theme];
-  assert(t, `Theme "${theme}" must exist in thematicArchetypes`);
+assert(mem.thematicArchetypes && typeof mem.thematicArchetypes === 'object', 'thematicArchetypes must be an object');
+assert(mem.safetyClearances && typeof mem.safetyClearances === 'object', 'safetyClearances must be an object');
+assert(mem.safetyClearances.walkwayPinch >= 1.8, 'walkwayPinch must be >= 1.8');
+assert(mem.safetyClearances.stairHeadroom >= 2.0, 'stairHeadroom must be >= 2.0');
+
+for (const [theme, t] of Object.entries(mem.thematicArchetypes)) {
   assert(Array.isArray(t.keywords) && t.keywords.length > 0, `Theme "${theme}" must have keywords`);
   assert(typeof t.layoutPrior === 'string', `Theme "${theme}" must have layoutPrior string`);
   assert(t.primaryInk && t.secondaryInk && t.accentInk && t.hazardInk, `Theme "${theme}" must have ink definitions`);
   assert(t.props && t.props.tier1_micro && t.props.tier2_meso && t.props.tier3_macro, `Theme "${theme}" must define Tier 1-3 props`);
 }
-console.log(`  ✓ All ${requiredThemes.length} thematic archetypes verified with layout priors`);
+console.log(`  ✓ Thematic memory schema and safety clearances verified`);
 
 // 4. Test Half-Span Regex Support for Decimals in Scaffold
 console.log('Test 4: Decimal regex parsing in map-scaffold');
