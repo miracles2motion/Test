@@ -169,17 +169,71 @@ const propCatalog = {
     { type: 'galleon_bow', w: 10, h: 8, d: 12, tier: 1, gen: (x, y, z) => `
   // Macro: The Shattered Bow
   box(${x}, ${y}, ${z}, 8, 3, 10, { ink: OR }); // Front hull
-  stairs(${x}, ${y}+3, ${z}-6, 2, -3, 2, 2, { ink: OR }); // Ramps down into the sand
+  stairs(${x}, ${y}+3, ${z}-6, '+z', 6, 2, { rise: 0.3, run: 0.45, ink: OR }); // Ramps down
   cyl(${x}, ${y}+3, ${z}+2, 0.4, 8, { ink: OR }); // Main mast
   box(${x}, ${y}+7, ${z}+2, 6, 0.2, 0.2, { ink: OR }); // Yardarm
   box(${x}, ${y}+5, ${z}+2.2, 5, 4, 0.1, { ink: BL, noCollide: true }); // Torn sail
-  ring(${x}, ${y}+11, ${z}+2, 1.5, { ink: OR }); // Grapple
+  ring(${x}, ${y}+12.5, ${z}+2, 'y'); // Grapple
   ` }
+  ],
+  colossal: [
+    { type: 'stationery_bunker', w: 8, h: 5, d: 8, tier: 1, gen: (x, y, z) => `
+  // Macro: Stationery Storage Bunker
+  box(${x}, ${y}, ${z}, 7.0, 2.4, 7.0, { ink: BL });
+  slab(${x} - 3.8, ${z} - 3.8, ${x} + 3.8, ${z} + 3.8, ${y} + 2.4, 0.3, { ink: OR });
+  box(${x} - 2.5, ${y} + 2.4, ${z}, 0.6, 1.2, 2.0, { ink: RD, tag: 'cover' });
+  box(${x} + 2.0, ${y} + 2.4, ${z} + 1.5, 1.8, 1.0, 1.8, { ink: GR, tag: 'cover' });
+  ring(${x}, ${y} + 6.5, ${z}, 'y');`
+    },
+    { type: 'book_bastion', w: 10, h: 5, d: 8, tier: 1, gen: (x, y, z) => `
+  // Macro: Tome Bastion & Cover
+  box(${x}, ${y}, ${z}, 8.0, 3.2, 6.0, { ink: OR, tag: 'cover' });
+  slab(${x} - 4.2, ${z} - 3.2, ${x} + 4.2, ${z} + 3.2, ${y} + 3.2, 0.3, { ink: BL });
+  box(${x} - 3.0, ${y} + 3.2, ${z}, 1.2, 1.0, 1.2, { ink: BK });
+  box(${x} + 3.0, ${y} + 3.2, ${z}, 1.2, 1.0, 1.2, { ink: BK });
+  ring(${x}, ${y} + 7.5, ${z}, 'z');`
+    },
+    { type: 'pencil_pot_redoubt', w: 8, h: 6, d: 8, tier: 1, gen: (x, y, z) => `
+  // Macro: Pencil Pot Redoubt
+  cyl(${x}, ${y}, ${z}, 3.0, 3.5, { seg: 10, ink: BK, tag: 'cover' });
+  slab(${x} - 3.2, ${z} - 3.2, ${x} + 3.2, ${z} + 3.2, ${y} + 3.5, 0.3, { ink: OR });
+  cyl(${x} - 1.0, ${y} + 3.5, ${z} - 1.0, 0.4, 2.5, { seg: 6, ink: OR });
+  cyl(${x} + 1.2, ${y} + 3.5, ${z} + 0.8, 0.35, 2.8, { seg: 6, ink: BL });
+  ring(${x}, ${y} + 7.2, ${z}, 'y');`
+    }
+  ],
+  zen: [
+    { type: 'tea_shrine', w: 8, h: 5, d: 8, tier: 1, gen: (x, y, z) => `
+  // Macro: Tea Garden Shrine
+  box(${x}, ${y}, ${z}, 7.0, 1.2, 7.0, { ink: BL });
+  slab(${x} - 3.8, ${z} - 3.8, ${x} + 3.8, ${z} + 3.8, ${y} + 1.2, 0.3, { ink: OR });
+  box(${x} - 2.5, ${y} + 1.2, ${z} - 2.5, 0.6, 2.5, 0.6, { ink: BK });
+  box(${x} + 2.5, ${y} + 1.2, ${z} + 2.5, 0.6, 2.5, 0.6, { ink: BK });
+  ring(${x}, ${y} + 6.5, ${z}, 'z');`
+    }
+  ],
+  cyber: [
+    { type: 'server_terminal', w: 8, h: 5, d: 8, tier: 1, gen: (x, y, z) => `
+  // Macro: Cyber Server Terminal
+  box(${x}, ${y}, ${z}, 6.0, 3.0, 6.0, { ink: BL });
+  slab(${x} - 3.2, ${z} - 3.2, ${x} + 3.2, ${z} + 3.2, ${y} + 3.0, 0.3, { ink: OR });
+  box(${x}, ${y} + 3.0, ${z}, 2.0, 1.5, 2.0, { ink: BK });
+  ring(${x}, ${y} + 6.8, ${z}, 'y');`
+    }
+  ],
+  steampunk: [
+    { type: 'gear_furnace', w: 8, h: 5, d: 8, tier: 1, gen: (x, y, z) => `
+  // Macro: Gear Furnace Redoubt
+  box(${x}, ${y}, ${z}, 6.5, 3.2, 6.5, { ink: BL });
+  slab(${x} - 3.5, ${z} - 3.5, ${x} + 3.5, ${z} + 3.5, ${y} + 3.2, 0.3, { ink: OR });
+  cyl(${x}, ${y} + 3.2, ${z}, 1.8, 1.8, { seg: 8, ink: BK });
+  ring(${x}, ${y} + 7.0, ${z}, 'z');`
+    }
   ]
 };
 
 const defaultProps = [];
-const availableProps = propCatalog[themeArg] || propCatalog['skull_city'];
+const availableProps = propCatalog[themeArg] || propCatalog['colossal'] || propCatalog['broken_galleon'];
 
 // 4. Dynamic Multi-Tier Spatial Scan - UPGRADED TO GRID/LOT SYSTEM
 console.log(`📡 Scanning for City Planner Grid Lots (12x12m with pathways)...`);
@@ -196,8 +250,8 @@ for (const y of tiers) {
   for (let x = bounds.minX + 8; x <= bounds.maxX - 8; x += gridStep) {
     for (let z = bounds.minZ + 8; z <= bounds.maxZ - 8; z += gridStep) {
       // Determine active catalog
-      let activeCatalog = propCatalog['broken_galleon'];
-      if (mapArg === 'pirate_cove') {
+      let activeCatalog = propCatalog[themeArg] || propCatalog['colossal'] || propCatalog['broken_galleon'];
+      if (mapArg === 'pirate_cove' || themeArg === 'maritime') {
         if (x <= midX && z <= midZ) activeCatalog = propCatalog['shanty_town'];
         else if (x > midX && z <= midZ) activeCatalog = propCatalog['leviathan_graveyard'];
         else if (x <= midX && z > midZ) activeCatalog = propCatalog['gunpowder_grotto'];
@@ -216,7 +270,6 @@ for (const y of tiers) {
     }
   }
 }
-
 
 console.log(`✨ Found ${safePockets.length} potential City Lots.`);
 
@@ -238,6 +291,9 @@ console.log(`🥁 Placing rhythm-based cover along ${lanes.length} combat lanes.
 for (const lane of lanes) {
   const placements = rhythmPlacer.placeAlongLane(lane);
   for (const p of placements) {
+    // Avoid duplicating cover within 3.0m of another placed cover
+    if (safePockets.some(s => Math.hypot(s.x - p.position.x, s.z - p.position.z) < 3.0)) continue;
+
     if (isBoxCollisionFree(p.position.x, 0.0, p.position.z, 2.0, 2.0, 2.0, 1.0)) {
       if (p.type === 'HARD_COVER') {
         safePockets.push({

@@ -1868,13 +1868,81 @@
           "timestamp": "2026-09-13T20:56:46.565Z"
         }
       }
+    },
+    {
+      "id": "dream-054",
+      "timestamp": "2026-09-14T00:49:36.438Z",
+      "mapKey": "library",
+      "mode": "MAP",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "spatial-doctor": {
+          "status": "pass",
+          "fixes": 0
+        },
+        "Macro Building Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-14T00:49:34.815Z"
+        },
+        "Prop Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-14T00:49:35.152Z"
+        },
+        "Enemy Synthesis": {
+          "status": "pass",
+          "timestamp": "2026-09-14T00:49:35.320Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-14T00:49:35.937Z"
+        },
+        "Self-Healing Audit": {
+          "status": "pass",
+          "timestamp": "2026-09-14T00:49:36.432Z"
+        }
+      }
+    },
+    {
+      "id": "dream-055",
+      "timestamp": "2026-09-14T00:49:42.174Z",
+      "mapKey": "library",
+      "mode": "MAP",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "spatial-doctor": {
+          "status": "pass",
+          "fixes": 0
+        },
+        "Macro Building Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-14T00:49:40.465Z"
+        },
+        "Prop Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-14T00:49:40.743Z"
+        },
+        "Enemy Synthesis": {
+          "status": "pass",
+          "timestamp": "2026-09-14T00:49:40.863Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-14T00:49:41.711Z"
+        },
+        "Self-Healing Audit": {
+          "status": "pass",
+          "timestamp": "2026-09-14T00:49:42.168Z"
+        }
+      }
     }
   ],
   "stats": {
-    "totalRuns": 53,
-    "successes": 52,
+    "totalRuns": 55,
+    "successes": 54,
     "failures": 1,
-    "errorRate": "1/53 (2%)",
+    "errorRate": "1/55 (2%)",
     "avgScore": 0
   }
 }

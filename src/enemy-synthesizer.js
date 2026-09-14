@@ -127,18 +127,29 @@ if (process.argv[1] === __filename) {
     process.exit(1);
   }
   
-  const conceptPath = path.join(ROOT_DIR, 'map_concepts', fs.readdirSync(path.join(ROOT_DIR, 'map_concepts')).find(f => f.includes(mapKey)));
-  if (!conceptPath) {
-    console.error(`Concept not found for ${mapKey}`);
-    process.exit(1);
+  const conceptsDir = path.join(ROOT_DIR, 'map_concepts');
+  const descDir = path.join(ROOT_DIR, 'Map Description');
+  let match = null;
+  if (fs.existsSync(conceptsDir)) {
+    const file = fs.readdirSync(conceptsDir).find(f => f.toLowerCase().includes(mapKey));
+    if (file) match = path.join(conceptsDir, file);
+  }
+  if (!match && fs.existsSync(descDir)) {
+    const file = fs.readdirSync(descDir).find(f => f.toLowerCase().replace(/-/g, '_').includes(mapKey));
+    if (file) match = path.join(descDir, file);
+  }
+
+  if (!match || !fs.existsSync(match)) {
+    console.log(`ℹ️ No concept file found for '${mapKey}'. Skipping custom enemy synthesis.`);
+    process.exit(0);
   }
   
-  const content = fs.readFileSync(conceptPath, 'utf8');
+  const content = fs.readFileSync(match, 'utf8');
   const enemies = extractEnemiesFromConcept(content);
   
   if (enemies) {
     injectEnemiesIntoLevel(mapKey, enemies);
   } else {
-    console.log('No custom enemies found in concept.');
+    console.log(`No custom enemies found in concept for '${mapKey}'.`);
   }
 }

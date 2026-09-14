@@ -90,10 +90,10 @@ export function buildLibrary(B, arena = false) {
   slab(-12, 18, 12, 21, 6.2, 0.2, { ink: OR });
 
   // Ramps leading from Ground (Y=0) onto Desktop (Y=6.0m)
-  // South approach ramp: Open Book Ramp
-  buildOpenBookRamp(B, 0, 0, 24, 8, 6.0, 12, '-z', { ink: OR });
-  // North approach ramp: Open Book Ramp
-  buildOpenBookRamp(B, 0, 0, -24, 8, 6.0, 12, '+z', { ink: OR });
+  // South approach ramp: Open Book Ramp (starts outside at Z=36, climbs to Y=6.0m at Z=24)
+  buildOpenBookRamp(B, 0, 0, 36, 8, 6.0, 12, '-z', { ink: OR });
+  // North approach ramp: Open Book Ramp (starts outside at Z=-36, climbs to Y=6.0m at Z=-24)
+  buildOpenBookRamp(B, 0, 0, -36, 8, 6.0, 12, '+z', { ink: OR });
 
   // Desktop pickups
   pickup(0, 6.2, -6);
@@ -123,9 +123,8 @@ export function buildLibrary(B, arena = false) {
   slab(-42, -10, -36, 0, 6.4, 0.25, { ink: OR });
   rail(-42, -10, -36, -10, 6.4, { ink: BK });
 
-  // Stair connection from ground to Tier 1 Book Stack
-  // Dream Heal: Normalized step rise
-  stairs(-38, 0, -28, '+z', 15, 4.0, { rise: 0.34, run: 0.43, ink: BK  });
+  // Stair connection from ground to Tier 1 Book Stack (lands flush on Tier 1 at Y=4.8m, Z=-25.0)
+  stairs(-38, 0, -31.75, '+z', 15, 4.0, { rise: 0.32, run: 0.45, ink: BK });
 
   // Catwalk connecting West Bookcase directly onto the Grand Desktop
   slab(-34, -4, -26, 0, 6.0, 0.3, { ink: BK });
@@ -144,13 +143,12 @@ export function buildLibrary(B, arena = false) {
   // Grapple rings along the West Bookcase Lane for rapid swing ascension
   ring(-38, 12.0, -18, 'y');
   ring(-40, 16.0, 6, 'y');
-  // Dream Heal: Lowered embedded ring
-  ring(-46, 17.5, 0, 'x');
+  ring(-42, 17.5, 0, 'y');
 
   // ==================== 5. EAST LANE: UNDER-DESK CATACOMBS & POWER CORDS ====================
   // Low-ceiling, fast-paced CQB flanking route underneath the main desk frame (Y = 0 to 4.5m)
   // Low-profile stationery storage boxes and pencil tins acting as tactical cover
-  box(36, 0, -12, 6.0, 3.2, 8.0, { ink: GR, tag: 'cover' });
+  box(36, 0, -4, 5.0, 3.2, 6.0, { ink: GR, tag: 'cover' });
   box(38, 0, 12, 6.0, 2.6, 7.0, { ink: GR, tag: 'cover' });
 
   // Coiled heavy-duty desk power cable (horizontal cylinders for vaulting cover)
@@ -166,8 +164,8 @@ export function buildLibrary(B, arena = false) {
 
   // East Side Book Stack leading up to Desktop height
   buildBookStack(B, 38, 0, -28, 5, { w: 9, d: 11, thick: 1.2, inkSpine: OR });
-  // Dream Heal: Normalized step rise
-  stairs(38, 0, -18, '-z', 18, 3.5, { rise: 0.34, run: 0.36, ink: BK  });
+  // Stairs to East Book Stack (top surface at Y=6.0m, edge at Z=-22.5)
+  stairs(38, 0, -14.4, '-z', 18, 3.5, { rise: 6.0 / 18, run: 0.45, ink: BK });
   spawn(38, 6.2, -28);
   pickup(38, 6.2, -28);
 
@@ -226,17 +224,27 @@ export function buildLibrary(B, arena = false) {
   
   
   
+  
+
+  
+  
+  
+  
+
+  
+  
+  
   // === DREAM AUTO-INJECTED MACRO STRUCTURES ===
 
-  // === MACRO STRUCTURE: Giant Pencil Turret at (-44, 0, -44) ===
-  cyl(-44, 0, -44, 1.2, 6.5, { seg: 6, ink: OR });
-  cyl(-44, 0 + 5.5, -44, 1.3, 0.8, { seg: 6, ink: BK });
-  slab(-44 - 2.0, -44 - 2.0, -44 + 2.0, -44 + 2.0, 0 + 4.5, 0.3, { ink: RD });
-  rail(-44 - 2.0, -44 - 2.0, -44 + 2.0, -44 - 2.0, 0 + 4.5, { ink: BK });
-  rail(-44 - 2.0, -44 + 2.0, -44 + 2.0, -44 + 2.0, 0 + 4.5, { ink: BK });
-  box(-44, 0, -44 + 2.0, 1.5, 0.4, 1.5, { ink: BL });
-  ring(-44, 0 + 8.8, -44, 'z');
-  pickup(-44, 0 + 4.7, -44);
+  // === MACRO STRUCTURE: Giant Pencil Turret at (-44, 0, -38) ===
+  cyl(-44, 0, -38, 1.2, 6.5, { seg: 6, ink: OR });
+  cyl(-44, 0 + 5.5, -38, 1.3, 0.8, { seg: 6, ink: BK });
+  slab(-44 - 2.0, -38 - 2.0, -44 + 2.0, -38 + 2.0, 0 + 4.5, 0.3, { ink: RD });
+  rail(-44 - 2.0, -38 - 2.0, -44 + 2.0, -38 - 2.0, 0 + 4.5, { ink: BK });
+  rail(-44 - 2.0, -38 + 2.0, -44 + 2.0, -38 + 2.0, 0 + 4.5, { ink: BK });
+  box(-44, 0, -38 + 2.0, 1.5, 0.4, 1.5, { ink: BL });
+  ring(-44, 0 + 8.8, -38, 'z');
+  pickup(-44, 0 + 4.7, -38);
 
   // === MACRO STRUCTURE: Sketchbook Rampart at (-44, 0, 22) ===
   box(-44, 0, 22, 8.0, 0.8, 5.0, { ink: BL });
@@ -272,88 +280,131 @@ export function buildLibrary(B, arena = false) {
   
   // === DREAM AUTO-INJECTED THEMATIC PROPS ===
 
-  // Macro: The Captains Quarters (Stern)
-  box(-32, 0, 32, 10, 3, 10, { ink: OR }); // Lower hull
-  stairs(-32, 0, 32+6, 2, 3, 2, 0, { ink: OR }); // Ramp into ship
-  box(-32, 0+3, 32-2, 8, 3, 6, { ink: OR }); // Captains Cabin
-  stairs(-32-4.5, 0+3, 32+1, 1, 3, 2, 3, { ink: OR }); // Left stairs to poop deck
-  stairs(-32+4.5, 0+3, 32+1, 1, 3, 2, 1, { ink: OR }); // Right stairs to poop deck
-  box(-32, 0+6, 32-2, 10, 1, 6, { ink: OR }); // Poop deck roof
-  cyl(-32, 0+7, 32-2, 0.4, 6, { ink: OR }); // Broken rear mast
-  ring(-32, 0+13, 32-2, 1.5, { ink: OR }); // Crows nest grapple
-  
+  // Macro: Stationery Storage Bunker
+  box(-48, 0, -16, 7.0, 2.4, 7.0, { ink: BL });
+  slab(-48 - 3.8, -16 - 3.8, -48 + 3.8, -16 + 3.8, 0 + 2.4, 0.3, { ink: OR });
+  box(-48 - 2.5, 0 + 2.4, -16, 0.6, 1.2, 2.0, { ink: RD, tag: 'cover' });
+  box(-48 + 2.0, 0 + 2.4, -16 + 1.5, 1.8, 1.0, 1.8, { ink: GR, tag: 'cover' });
+  ring(-48, 0 + 6.5, -16, 'y');
 
-  // Macro: The Shattered Bow
-  box(-16, 0, -32, 8, 3, 10, { ink: OR }); // Front hull
-  stairs(-16, 0+3, -32-6, 2, -3, 2, 2, { ink: OR }); // Ramps down into the sand
-  cyl(-16, 0+3, -32+2, 0.4, 8, { ink: OR }); // Main mast
-  box(-16, 0+7, -32+2, 6, 0.2, 0.2, { ink: OR }); // Yardarm
-  box(-16, 0+5, -32+2.2, 5, 4, 0.1, { ink: BL, noCollide: true }); // Torn sail
-  ring(-16, 0+11, -32+2, 1.5, { ink: OR }); // Grapple
-  
+  // Macro: Stationery Storage Bunker
+  box(-32, 0, -48, 7.0, 2.4, 7.0, { ink: BL });
+  slab(-32 - 3.8, -48 - 3.8, -32 + 3.8, -48 + 3.8, 0 + 2.4, 0.3, { ink: OR });
+  box(-32 - 2.5, 0 + 2.4, -48, 0.6, 1.2, 2.0, { ink: RD, tag: 'cover' });
+  box(-32 + 2.0, 0 + 2.4, -48 + 1.5, 1.8, 1.0, 1.8, { ink: GR, tag: 'cover' });
+  ring(-32, 0 + 6.5, -48, 'y');
 
-  // Macro: The Captains Quarters (Stern)
-  box(-16, 0, 32, 10, 3, 10, { ink: OR }); // Lower hull
-  stairs(-16, 0, 32+6, 2, 3, 2, 0, { ink: OR }); // Ramp into ship
-  box(-16, 0+3, 32-2, 8, 3, 6, { ink: OR }); // Captains Cabin
-  stairs(-16-4.5, 0+3, 32+1, 1, 3, 2, 3, { ink: OR }); // Left stairs to poop deck
-  stairs(-16+4.5, 0+3, 32+1, 1, 3, 2, 1, { ink: OR }); // Right stairs to poop deck
-  box(-16, 0+6, 32-2, 10, 1, 6, { ink: OR }); // Poop deck roof
-  cyl(-16, 0+7, 32-2, 0.4, 6, { ink: OR }); // Broken rear mast
-  ring(-16, 0+13, 32-2, 1.5, { ink: OR }); // Crows nest grapple
-  
+  // Macro: Pencil Pot Redoubt
+  cyl(-32, 0, 32, 3.0, 3.5, { seg: 10, ink: BK, tag: 'cover' });
+  slab(-32 - 3.2, 32 - 3.2, -32 + 3.2, 32 + 3.2, 0 + 3.5, 0.3, { ink: OR });
+  cyl(-32 - 1.0, 0 + 3.5, 32 - 1.0, 0.4, 2.5, { seg: 6, ink: OR });
+  cyl(-32 + 1.2, 0 + 3.5, 32 + 0.8, 0.35, 2.8, { seg: 6, ink: BL });
+  ring(-32, 0 + 7.2, 32, 'y');
 
-  // Macro: The Captains Quarters (Stern)
-  box(0, 0, -32, 10, 3, 10, { ink: OR }); // Lower hull
-  stairs(0, 0, -32+6, 2, 3, 2, 0, { ink: OR }); // Ramp into ship
-  box(0, 0+3, -32-2, 8, 3, 6, { ink: OR }); // Captains Cabin
-  stairs(0-4.5, 0+3, -32+1, 1, 3, 2, 3, { ink: OR }); // Left stairs to poop deck
-  stairs(0+4.5, 0+3, -32+1, 1, 3, 2, 1, { ink: OR }); // Right stairs to poop deck
-  box(0, 0+6, -32-2, 10, 1, 6, { ink: OR }); // Poop deck roof
-  cyl(0, 0+7, -32-2, 0.4, 6, { ink: OR }); // Broken rear mast
-  ring(0, 0+13, -32-2, 1.5, { ink: OR }); // Crows nest grapple
-  
+  // Macro: Pencil Pot Redoubt
+  cyl(-32, 0, 48, 3.0, 3.5, { seg: 10, ink: BK, tag: 'cover' });
+  slab(-32 - 3.2, 48 - 3.2, -32 + 3.2, 48 + 3.2, 0 + 3.5, 0.3, { ink: OR });
+  cyl(-32 - 1.0, 0 + 3.5, 48 - 1.0, 0.4, 2.5, { seg: 6, ink: OR });
+  cyl(-32 + 1.2, 0 + 3.5, 48 + 0.8, 0.35, 2.8, { seg: 6, ink: BL });
+  ring(-32, 0 + 7.2, 48, 'y');
 
-  // Macro: The Shattered Bow
-  box(0, 0, 32, 8, 3, 10, { ink: OR }); // Front hull
-  stairs(0, 0+3, 32-6, 2, -3, 2, 2, { ink: OR }); // Ramps down into the sand
-  cyl(0, 0+3, 32+2, 0.4, 8, { ink: OR }); // Main mast
-  box(0, 0+7, 32+2, 6, 0.2, 0.2, { ink: OR }); // Yardarm
-  box(0, 0+5, 32+2.2, 5, 4, 0.1, { ink: BL, noCollide: true }); // Torn sail
-  ring(0, 0+11, 32+2, 1.5, { ink: OR }); // Grapple
-  
+  // Macro: Tome Bastion & Cover
+  box(-16, 0, -48, 8.0, 3.2, 6.0, { ink: OR, tag: 'cover' });
+  slab(-16 - 4.2, -48 - 3.2, -16 + 4.2, -48 + 3.2, 0 + 3.2, 0.3, { ink: BL });
+  box(-16 - 3.0, 0 + 3.2, -48, 1.2, 1.0, 1.2, { ink: BK });
+  box(-16 + 3.0, 0 + 3.2, -48, 1.2, 1.0, 1.2, { ink: BK });
+  ring(-16, 0 + 7.5, -48, 'z');
 
-  // Macro: The Captains Quarters (Stern)
-  box(16, 0, -32, 10, 3, 10, { ink: OR }); // Lower hull
-  stairs(16, 0, -32+6, 2, 3, 2, 0, { ink: OR }); // Ramp into ship
-  box(16, 0+3, -32-2, 8, 3, 6, { ink: OR }); // Captains Cabin
-  stairs(16-4.5, 0+3, -32+1, 1, 3, 2, 3, { ink: OR }); // Left stairs to poop deck
-  stairs(16+4.5, 0+3, -32+1, 1, 3, 2, 1, { ink: OR }); // Right stairs to poop deck
-  box(16, 0+6, -32-2, 10, 1, 6, { ink: OR }); // Poop deck roof
-  cyl(16, 0+7, -32-2, 0.4, 6, { ink: OR }); // Broken rear mast
-  ring(16, 0+13, -32-2, 1.5, { ink: OR }); // Crows nest grapple
-  
+  // Macro: Tome Bastion & Cover
+  box(-16, 0, -32, 8.0, 3.2, 6.0, { ink: OR, tag: 'cover' });
+  slab(-16 - 4.2, -32 - 3.2, -16 + 4.2, -32 + 3.2, 0 + 3.2, 0.3, { ink: BL });
+  box(-16 - 3.0, 0 + 3.2, -32, 1.2, 1.0, 1.2, { ink: BK });
+  box(-16 + 3.0, 0 + 3.2, -32, 1.2, 1.0, 1.2, { ink: BK });
+  ring(-16, 0 + 7.5, -32, 'z');
 
-  // Macro: The Shattered Bow
-  box(16, 0, 32, 8, 3, 10, { ink: OR }); // Front hull
-  stairs(16, 0+3, 32-6, 2, -3, 2, 2, { ink: OR }); // Ramps down into the sand
-  cyl(16, 0+3, 32+2, 0.4, 8, { ink: OR }); // Main mast
-  box(16, 0+7, 32+2, 6, 0.2, 0.2, { ink: OR }); // Yardarm
-  box(16, 0+5, 32+2.2, 5, 4, 0.1, { ink: BL, noCollide: true }); // Torn sail
-  ring(16, 0+11, 32+2, 1.5, { ink: OR }); // Grapple
-  
+  // Macro: Stationery Storage Bunker
+  box(-16, 0, 32, 7.0, 2.4, 7.0, { ink: BL });
+  slab(-16 - 3.8, 32 - 3.8, -16 + 3.8, 32 + 3.8, 0 + 2.4, 0.3, { ink: OR });
+  box(-16 - 2.5, 0 + 2.4, 32, 0.6, 1.2, 2.0, { ink: RD, tag: 'cover' });
+  box(-16 + 2.0, 0 + 2.4, 32 + 1.5, 1.8, 1.0, 1.8, { ink: GR, tag: 'cover' });
+  ring(-16, 0 + 6.5, 32, 'y');
 
-  // Macro: The Shattered Bow
-  box(32, 0, 32, 8, 3, 10, { ink: OR }); // Front hull
-  stairs(32, 0+3, 32-6, 2, -3, 2, 2, { ink: OR }); // Ramps down into the sand
-  cyl(32, 0+3, 32+2, 0.4, 8, { ink: OR }); // Main mast
-  box(32, 0+7, 32+2, 6, 0.2, 0.2, { ink: OR }); // Yardarm
-  box(32, 0+5, 32+2.2, 5, 4, 0.1, { ink: BL, noCollide: true }); // Torn sail
-  ring(32, 0+11, 32+2, 1.5, { ink: OR }); // Grapple
-  
-  box(0.0, 0, 0.0, 2.0, 2.5, 2.0, { ink: OR }); // Hard Cover
-  box(0.0, 0, 0.0, 2.0, 2.5, 2.0, { ink: OR }); // Hard Cover
-  box(0.0, 0, 0.0, 2.0, 2.5, 2.0, { ink: OR }); // Hard Cover
+  // Macro: Tome Bastion & Cover
+  box(-16, 0, 48, 8.0, 3.2, 6.0, { ink: OR, tag: 'cover' });
+  slab(-16 - 4.2, 48 - 3.2, -16 + 4.2, 48 + 3.2, 0 + 3.2, 0.3, { ink: BL });
+  box(-16 - 3.0, 0 + 3.2, 48, 1.2, 1.0, 1.2, { ink: BK });
+  box(-16 + 3.0, 0 + 3.2, 48, 1.2, 1.0, 1.2, { ink: BK });
+  ring(-16, 0 + 7.5, 48, 'z');
+
+  // Macro: Tome Bastion & Cover
+  box(0, 0, -48, 8.0, 3.2, 6.0, { ink: OR, tag: 'cover' });
+  slab(0 - 4.2, -48 - 3.2, 0 + 4.2, -48 + 3.2, 0 + 3.2, 0.3, { ink: BL });
+  box(0 - 3.0, 0 + 3.2, -48, 1.2, 1.0, 1.2, { ink: BK });
+  box(0 + 3.0, 0 + 3.2, -48, 1.2, 1.0, 1.2, { ink: BK });
+  ring(0, 0 + 7.5, -48, 'z');
+
+  // Macro: Stationery Storage Bunker
+  box(0, 0, 48, 7.0, 2.4, 7.0, { ink: BL });
+  slab(0 - 3.8, 48 - 3.8, 0 + 3.8, 48 + 3.8, 0 + 2.4, 0.3, { ink: OR });
+  box(0 - 2.5, 0 + 2.4, 48, 0.6, 1.2, 2.0, { ink: RD, tag: 'cover' });
+  box(0 + 2.0, 0 + 2.4, 48 + 1.5, 1.8, 1.0, 1.8, { ink: GR, tag: 'cover' });
+  ring(0, 0 + 6.5, 48, 'y');
+
+  // Macro: Stationery Storage Bunker
+  box(16, 0, -48, 7.0, 2.4, 7.0, { ink: BL });
+  slab(16 - 3.8, -48 - 3.8, 16 + 3.8, -48 + 3.8, 0 + 2.4, 0.3, { ink: OR });
+  box(16 - 2.5, 0 + 2.4, -48, 0.6, 1.2, 2.0, { ink: RD, tag: 'cover' });
+  box(16 + 2.0, 0 + 2.4, -48 + 1.5, 1.8, 1.0, 1.8, { ink: GR, tag: 'cover' });
+  ring(16, 0 + 6.5, -48, 'y');
+
+  // Macro: Tome Bastion & Cover
+  box(16, 0, -32, 8.0, 3.2, 6.0, { ink: OR, tag: 'cover' });
+  slab(16 - 4.2, -32 - 3.2, 16 + 4.2, -32 + 3.2, 0 + 3.2, 0.3, { ink: BL });
+  box(16 - 3.0, 0 + 3.2, -32, 1.2, 1.0, 1.2, { ink: BK });
+  box(16 + 3.0, 0 + 3.2, -32, 1.2, 1.0, 1.2, { ink: BK });
+  ring(16, 0 + 7.5, -32, 'z');
+
+  // Macro: Tome Bastion & Cover
+  box(16, 0, 32, 8.0, 3.2, 6.0, { ink: OR, tag: 'cover' });
+  slab(16 - 4.2, 32 - 3.2, 16 + 4.2, 32 + 3.2, 0 + 3.2, 0.3, { ink: BL });
+  box(16 - 3.0, 0 + 3.2, 32, 1.2, 1.0, 1.2, { ink: BK });
+  box(16 + 3.0, 0 + 3.2, 32, 1.2, 1.0, 1.2, { ink: BK });
+  ring(16, 0 + 7.5, 32, 'z');
+
+  // Macro: Tome Bastion & Cover
+  box(16, 0, 48, 8.0, 3.2, 6.0, { ink: OR, tag: 'cover' });
+  slab(16 - 4.2, 48 - 3.2, 16 + 4.2, 48 + 3.2, 0 + 3.2, 0.3, { ink: BL });
+  box(16 - 3.0, 0 + 3.2, 48, 1.2, 1.0, 1.2, { ink: BK });
+  box(16 + 3.0, 0 + 3.2, 48, 1.2, 1.0, 1.2, { ink: BK });
+  ring(16, 0 + 7.5, 48, 'z');
+
+  // Macro: Tome Bastion & Cover
+  box(32, 0, -48, 8.0, 3.2, 6.0, { ink: OR, tag: 'cover' });
+  slab(32 - 4.2, -48 - 3.2, 32 + 4.2, -48 + 3.2, 0 + 3.2, 0.3, { ink: BL });
+  box(32 - 3.0, 0 + 3.2, -48, 1.2, 1.0, 1.2, { ink: BK });
+  box(32 + 3.0, 0 + 3.2, -48, 1.2, 1.0, 1.2, { ink: BK });
+  ring(32, 0 + 7.5, -48, 'z');
+
+  // Macro: Pencil Pot Redoubt
+  cyl(32, 0, 32, 3.0, 3.5, { seg: 10, ink: BK, tag: 'cover' });
+  slab(32 - 3.2, 32 - 3.2, 32 + 3.2, 32 + 3.2, 0 + 3.5, 0.3, { ink: OR });
+  cyl(32 - 1.0, 0 + 3.5, 32 - 1.0, 0.4, 2.5, { seg: 6, ink: OR });
+  cyl(32 + 1.2, 0 + 3.5, 32 + 0.8, 0.35, 2.8, { seg: 6, ink: BL });
+  ring(32, 0 + 7.2, 32, 'y');
+
+  // Macro: Tome Bastion & Cover
+  box(32, 0, 48, 8.0, 3.2, 6.0, { ink: OR, tag: 'cover' });
+  slab(32 - 4.2, 48 - 3.2, 32 + 4.2, 48 + 3.2, 0 + 3.2, 0.3, { ink: BL });
+  box(32 - 3.0, 0 + 3.2, 48, 1.2, 1.0, 1.2, { ink: BK });
+  box(32 + 3.0, 0 + 3.2, 48, 1.2, 1.0, 1.2, { ink: BK });
+  ring(32, 0 + 7.5, 48, 'z');
+
+  // Macro: Stationery Storage Bunker
+  box(48, 0, 16, 7.0, 2.4, 7.0, { ink: BL });
+  slab(48 - 3.8, 16 - 3.8, 48 + 3.8, 16 + 3.8, 0 + 2.4, 0.3, { ink: OR });
+  box(48 - 2.5, 0 + 2.4, 16, 0.6, 1.2, 2.0, { ink: RD, tag: 'cover' });
+  box(48 + 2.0, 0 + 2.4, 16 + 1.5, 1.8, 1.0, 1.8, { ink: GR, tag: 'cover' });
+  ring(48, 0 + 6.5, 16, 'y');
   box(0.0, 0, 0.0, 2.0, 2.5, 2.0, { ink: OR }); // Hard Cover
   // === END DREAM AUTO-INJECTED PROPS ===
   B.finish();
