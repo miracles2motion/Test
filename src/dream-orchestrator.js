@@ -756,6 +756,14 @@ async function main() {
 
       // Self-healing audit
       runStage('Self-Healing Audit', `node .agents/skills/universal-detailing-standard/scripts/verify-detailing.js ${key} --heal`);
+
+      // Auto-graduate concept to Map Description
+      if (fs.existsSync(CONCEPTS_DIR)) {
+        const conceptFiles = fs.readdirSync(CONCEPTS_DIR).filter(f => f.endsWith('.md') && f.toLowerCase().includes(key));
+        if (conceptFiles.length > 0) {
+          runStage('Graduation to Map Description', `node graduate-map.js ${key}`);
+        }
+      }
     }
 
   } catch (err) {

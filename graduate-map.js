@@ -75,11 +75,18 @@ console.log(`   Source:      map_concepts/${targetFile}`);
 console.log(`   Destination: Map Description/${cleanName}`);
 
 try {
+  // Overwrite if target already exists in Map Description/
+  if (fs.existsSync(destPath)) {
+    try { fs.unlinkSync(destPath); } catch (_) {}
+  }
   // Use git mv if tracked, else fs rename
   try {
-    execSync(`git mv "${path.relative(ROOT_DIR, srcPath)}" "${path.relative(ROOT_DIR, destPath)}"`, { cwd: ROOT_DIR, stdio: 'pipe' });
+    execSync(`git mv -f "${path.relative(ROOT_DIR, srcPath)}" "${path.relative(ROOT_DIR, destPath)}"`, { cwd: ROOT_DIR, stdio: 'pipe' });
   } catch (e) {
-    fs.renameSync(srcPath, destPath);
+    if (fs.existsSync(srcPath)) {
+      fs.copyFileSync(srcPath, destPath);
+      fs.unlinkSync(srcPath);
+    }
   }
 
   console.log(`\n✅ Successfully graduated to Map Description/${cleanName}!`);
