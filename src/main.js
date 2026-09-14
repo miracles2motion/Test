@@ -1440,6 +1440,38 @@ function getMapSVG(key, isDossier = false) {
         <line x1="28" y1="28" x2="42" y2="12" stroke="${c}" stroke-width="1.5"/>
       </svg>`;
     }
+  } else if (key === 'paradise') {
+    if (isDossier) {
+      return `<svg viewBox="0 0 200 100" class="map-svg blueprint" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: ${isDossier ? '200px' : '90px'};">
+        <!-- Paradise Oasis / Haven Blueprint -->
+        <rect x="25" y="15" width="150" height="70" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <!-- Central Sanctuary Core -->
+        <circle cx="100" cy="50" r="18" fill="none" stroke="${c}" stroke-width="1.5"/>
+        <circle cx="100" cy="50" r="6" fill="${c}"/>
+        <!-- Stepped terraces & walkways -->
+        <line x1="45" y1="50" x2="82" y2="50" stroke="${c}" stroke-width="1.5"/>
+        <line x1="118" y1="50" x2="155" y2="50" stroke="${c}" stroke-width="1.5"/>
+        <line x1="100" y1="20" x2="100" y2="32" stroke="${c}" stroke-width="1.5"/>
+        <line x1="100" y1="68" x2="100" y2="80" stroke="${c}" stroke-width="1.5"/>
+        <!-- Corner bastion perches -->
+        <rect x="35" y="25" width="16" height="16" fill="none" stroke="${c}" stroke-width="1.2"/>
+        <rect x="149" y="25" width="16" height="16" fill="none" stroke="${c}" stroke-width="1.2"/>
+        <rect x="35" y="59" width="16" height="16" fill="none" stroke="${c}" stroke-width="1.2"/>
+        <rect x="149" y="59" width="16" height="16" fill="none" stroke="${c}" stroke-width="1.2"/>
+        <text x="100" y="94" font-family="monospace" font-size="6" text-anchor="middle" fill="${c}">PARADISE SECTOR - 110m</text>
+      </svg>`;
+    } else {
+      return `<svg viewBox="0 0 100 100" class="map-svg thumb" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: 90px; max-height: 90px;">
+        <!-- Sun & Oasis Haven -->
+        <circle cx="50" cy="38" r="14" fill="none" stroke="${c}" stroke-width="2"/>
+        <path d="M50 56 L50 82" stroke="${c}" stroke-width="3"/>
+        <path d="M30 64 Q50 58 70 64" fill="none" stroke="${c}" stroke-width="2"/>
+        <path d="M22 74 Q50 68 78 74" fill="none" stroke="${c}" stroke-width="2"/>
+        <line x1="50" y1="18" x2="50" y2="12" stroke="${c}" stroke-width="2"/>
+        <line x1="32" y1="24" x2="26" y2="18" stroke="${c}" stroke-width="2"/>
+        <line x1="68" y1="24" x2="74" y2="18" stroke="${c}" stroke-width="2"/>
+      </svg>`;
+    }
   } else {
     if (isDossier) {
       return `<svg viewBox="0 0 200 100" class="map-svg blueprint" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: 200px;">

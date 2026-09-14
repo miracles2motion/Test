@@ -1,5 +1,6 @@
 // Level construction. Two maps share one builder: everything is merged ink geometry plus
 // axis-aligned box colliders, which is what the navigation grid is generated from.
+import { buildParadise } from './levels/paradise.js';
 import { buildCover } from './levels/cover.js';
 import { buildPirateCove } from './levels/pirate_cove.js';
 import { buildLibrary } from './levels/library.js';
@@ -144,6 +145,74 @@ export const LEVELS = [
     category: 'urban',
     tags: ['DREAM MODE', 'AUTO-GENERATED'],
     env: 'COVER Environment',
+    engagement: 'CQB & Vertical',
+    hazard: 'TBD',
+    scale: 'Tier 1-4',
+    comingSoon: false
+  },
+  {
+    key: 'paradise',
+    customEnemies: {
+      theme_rusher: {
+        role: "melee",
+        canDodge: true,
+        canCover: true,
+        canRetreat: false,
+        canFlank: true,
+        berserker: true,
+        hp: 60,
+        speed: 8.5,
+        weapon: "blade",
+        lunge: 3.5,
+        reach: 3,
+        standoff: 1.5,
+        cool: [
+          0.8,
+          1.2
+        ],
+        dmg: 18,
+        build: {
+          bodyW: 0.8,
+          headS: 0.9,
+          limbR: 0.03
+        },
+        name: "[THEME] RUSHER",
+        score: 150,
+        scale: 1
+      },
+      theme_sniper: {
+        role: "ranged",
+        canDodge: true,
+        canCover: true,
+        canRetreat: true,
+        canFlank: false,
+        stationary: true,
+        hp: 50,
+        speed: 3,
+        weapon: "sniper",
+        range: 80,
+        stop: 80,
+        keep: 20,
+        aimTime: 1.5,
+        cool: [
+          2.5,
+          3.5
+        ],
+        dmg: 25,
+        build: {
+          bodyW: 0.7,
+          headS: 0.8,
+          limbR: 0.02
+        },
+        name: "[THEME] SNIPER",
+        score: 150,
+        scale: 1
+      }
+    },
+    name: 'PARADISE',
+    category: 'urban',
+    tags: ['DREAM MODE', 'AUTO-GENERATED'],
+    env: 'PARADISE Environment',
     engagement: 'CQB & Vertical',
     hazard: 'TBD',
     scale: 'Tier 1-4',
@@ -1514,7 +1583,8 @@ export const MAP_BUILDERS = {
   pirate_cove: buildPirateCove,
   library: buildLibrary,
   tomes: buildLibrary,
-  cover: buildCover
+  cover: buildCover,
+  paradise: buildParadise
 };
 
 export function registerMapBuilder(key, builderFn) {

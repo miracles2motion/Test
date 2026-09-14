@@ -2008,13 +2008,51 @@
           "timestamp": "2026-09-14T00:58:24.991Z"
         }
       }
+    },
+    {
+      "id": "dream-058",
+      "timestamp": "2026-09-14T01:01:49.932Z",
+      "mapKey": "paradise",
+      "mode": "NOTHING",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "concept-generation": {
+          "status": "pass",
+          "lines": 106
+        },
+        "Level Scaffolding": {
+          "status": "pass",
+          "timestamp": "2026-09-14T01:01:48.207Z"
+        },
+        "Macro Building Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-14T01:01:48.679Z"
+        },
+        "Prop Injection": {
+          "status": "pass",
+          "timestamp": "2026-09-14T01:01:48.934Z"
+        },
+        "Enemy Synthesis": {
+          "status": "pass",
+          "timestamp": "2026-09-14T01:01:49.073Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-14T01:01:49.644Z"
+        },
+        "Self-Healing Audit": {
+          "status": "pass",
+          "timestamp": "2026-09-14T01:01:49.928Z"
+        }
+      }
     }
   ],
   "stats": {
-    "totalRuns": 57,
-    "successes": 56,
+    "totalRuns": 58,
+    "successes": 57,
     "failures": 1,
-    "errorRate": "1/57 (2%)",
+    "errorRate": "1/58 (2%)",
     "avgScore": 0
   }
 }
