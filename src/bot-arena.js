@@ -151,14 +151,14 @@ export class BotArenaManager {
 
       // 1. Friendly Bots (Team Alpha)
       for (let i = 0; i < friendlyCount; i++) {
-        const name = `Alpha ${i + 2}: [BOT] ${BOT_NAMES_ALPHA[i % BOT_NAMES_ALPHA.length]}`;
+        const name = BOT_NAMES_ALPHA[i % BOT_NAMES_ALPHA.length];
         const sPt = alphaSpawns[(i + 1) % alphaSpawns.length] || new THREE.Vector3(-12 + i * 8, 1, 38);
         this._createBot(`bot_alpha_${i}`, name, 'alpha', INK.BLUE ?? 0, sPt);
       }
 
       // 2. Enemy Bots (Team Bravo)
       for (let i = 0; i < enemyCount; i++) {
-        const name = `Bravo ${i + 1}: [BOT] ${BOT_NAMES_BRAVO[i % BOT_NAMES_BRAVO.length]}`;
+        const name = BOT_NAMES_BRAVO[i % BOT_NAMES_BRAVO.length];
         const sPt = bravoSpawns[i % bravoSpawns.length] || new THREE.Vector3(-16 + i * 8, 1, -38);
         this._createBot(`bot_bravo_${i}`, name, 'bravo', INK.RED ?? 1, sPt);
       }
@@ -290,10 +290,16 @@ export class BotArenaManager {
     });
     if (this.killfeed.length > 5) this.killfeed.pop();
 
-    // Killstreak Callout
+    // Killstreak Callout & Audio
     if (killerStats && killerStats.streak >= 3) {
       const streakTitle = killerStats.streak === 3 ? 'TRIPLE KILL!' : (killerStats.streak === 4 ? 'ULTRA KILL!' : 'GOD-LIKE STREAK!');
       this.ctx.hud?.tip(`${killerName} — ${streakTitle}`, 2.2);
+      if (killer === this.ctx.player) this.ctx.audio?.waveClear();
+    }
+    
+    // Play sound for local player kills
+    if (killer === this.ctx.player) {
+      this.ctx.audio?.kill(isHeadshot);
     }
 
     // Queue victim for respawn after 3.0s (bots only; player respawns via respawnLocal in main.js)

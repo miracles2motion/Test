@@ -432,14 +432,13 @@ export class BotPlayer {
       if (_d.dot(toPlayer) > 0.94 && pDist < 50.0 && pDist < wDist) {
         hitPoint = this.ctx.player.center;
         hitSomething = true;
+        this.ctx.player.lastHitBy = this.id;
+        this.ctx.player.lastHit = { from: this.eye.toArray(), crit: false, amount: damage, src: 'bot' };
         this.ctx.player.takeDamage(damage, this.eye);
         if (this.ctx.player.hp <= 0) {
           this.kills++;
           this.streak++;
           this._emitBanter('kill');
-          if (this.ctx.botArena) {
-            this.ctx.botArena.handleDeath(this.ctx.player, this.eye, this);
-          }
         }
       }
     }

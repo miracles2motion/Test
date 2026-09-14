@@ -1867,10 +1867,11 @@ function onlineHTML() {
       
       <div class="status" id="status" style="font-family: var(--font-mono); color: var(--ink-red);">${esc(lobby.status || '')}</div>
       
-      ${lobby.rejoinCode ? `<div class="row"><button type="button" class="ds-btn danger lg" id="rejoinBtn">REJOIN ${esc(lobby.rejoinCode)}</button></div>` : ''}
+      ${lobby.rejoinCode ? `<div class="row" style="display: flex; justify-content: center; margin-bottom: 16px;"><button type="button" class="ds-btn danger lg" id="rejoinBtn">REJOIN ${esc(lobby.rejoinCode)}</button></div>` : ''}
       
-      <div style="display: flex; justify-content: flex-end; margin-top: 16px;">
-        <button type="button" class="ds-btn ghost md" id="backBtn">BACK TO MAIN MENU</button>
+      <!-- BOTTOM BAR -->
+      <div style="display: flex; justify-content: space-between; align-items: center; border-top: 2px solid var(--ink); margin-top: 16px; padding: 16px 20px; background: rgba(246,243,230,0.85); backdrop-filter: blur(8px); border-radius: var(--r-sketch-md); flex-shrink: 0;">
+        <button type="button" class="ds-btn ghost md" id="backBtn">ESC / BACK</button>
       </div>
     </div>
   </div>`;

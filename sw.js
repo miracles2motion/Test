@@ -17,8 +17,8 @@ const ASSETS_TO_CACHE = [
   './src/audio.js',
   './src/input.js',
   './src/mobile.js',
-  './src/ui.js',
-  './src/constants.js'
+  './src/hud.js',
+  './src/boot.js'
 ];
 
 self.addEventListener('install', (event) => {
