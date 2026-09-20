@@ -236,22 +236,24 @@ export const LEVELS = [
       }
     },
     name: 'SPACE STATION',
+    blurb: 'orbital centrifuge habitat, solar array wings, zero-g drone corridors & telemetry bastion',
     category: 'anomalous',
-    tags: ['DREAM MODE', 'AUTO-GENERATED'],
-    env: 'SPACE STATION Environment',
-    engagement: 'CQB & Vertical',
-    hazard: 'TBD',
+    tags: ['ORBITAL', 'ZERO-G', 'CYBER', 'TIER 1-4'],
+    env: 'Orbital Centrifuge Habitat',
+    engagement: 'CQB & Vertical Sniping',
+    hazard: 'Decompression Abyss below Y=-10.0m',
     scale: 'Tier 1-4',
     comingSoon: false
   },
   {
     key: 'pirate_cove',
     name: 'PIRATE COVE',
+    blurb: 'man-o-war galleons, shattered mainmast boarding bridges, rum barrel redoubts & kraken trench',
     category: 'urban',
-    tags: ['DREAM MODE', 'AUTO-GENERATED'],
-    env: 'PIRATE COVE Environment',
-    engagement: 'CQB & Vertical',
-    hazard: 'TBD',
+    tags: ['MARITIME', 'SHIP-TO-SHIP', 'VERTICAL', 'TIER 1-4'],
+    env: 'Sunken Galleon Bay',
+    engagement: 'Rigging Sniping & Ship CQB',
+    hazard: 'Kraken Abyss below Y=-8.0m',
     scale: 'Tier 1-4',
     comingSoon: false
   }

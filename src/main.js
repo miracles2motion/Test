@@ -1322,7 +1322,7 @@ function getMapSVG(key, isDossier = false) {
     }
   }
 
-  if (key === 'seas') {
+  if (key === 'seas' || key === 'pirate_cove') {
     if (isDossier) {
       return `<svg viewBox="0 0 200 100" class="map-svg blueprint" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: ${isDossier ? '200px' : '90px'};">
         <!-- Ocean Bounds & Wave Grid -->
@@ -1429,9 +1429,45 @@ function getMapSVG(key, isDossier = false) {
       </svg>`;
     }
   } else if (key === 'castle') {
-    paths = `<path d="M10 90 L10 40 L20 40 L20 50 L30 50 L30 30 L40 30 L40 50 L60 50 L60 30 L70 30 L70 50 L80 50 L80 40 L90 40 L90 90 Z" fill="none" stroke="${c}" stroke-width="3"/>
-             <path d="M40 90 L40 60 A10 10 0 0 1 60 60 L60 90" fill="none" stroke="${c}" stroke-width="3"/>
-             <path d="M5 90 L95 90" stroke="${c}" stroke-width="4"/>`;
+    if (isDossier) {
+      return `<svg viewBox="0 0 200 100" class="map-svg blueprint" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: ${isDossier ? '200px' : '90px'};">
+        <!-- Medieval Moat Perimeter -->
+        <rect x="25" y="15" width="150" height="70" fill="none" stroke="${c}" stroke-width="1.8" stroke-dasharray="3 3"/>
+        <!-- Central Keep / Donjon Fortress -->
+        <rect x="75" y="32" width="50" height="36" fill="none" stroke="${c}" stroke-width="2"/>
+        <rect x="85" y="40" width="30" height="20" fill="none" stroke="${c}" stroke-width="1.5"/>
+        <circle cx="100" cy="50" r="3" fill="${c}"/>
+        <!-- 4 Corner Bastion Turrets -->
+        <rect x="68" y="26" width="14" height="14" fill="none" stroke="${c}" stroke-width="1.5"/>
+        <rect x="118" y="26" width="14" height="14" fill="none" stroke="${c}" stroke-width="1.5"/>
+        <rect x="68" y="60" width="14" height="14" fill="none" stroke="${c}" stroke-width="1.5"/>
+        <rect x="118" y="60" width="14" height="14" fill="none" stroke="${c}" stroke-width="1.5"/>
+        <!-- Drawbridges North & South -->
+        <line x1="100" y1="15" x2="100" y2="32" stroke="${c}" stroke-width="2.5"/>
+        <line x1="100" y1="68" x2="100" y2="85" stroke="${c}" stroke-width="2.5"/>
+        <!-- Outer Moat Barbicans -->
+        <circle cx="50" cy="50" r="8" fill="none" stroke="${c}" stroke-width="1.2"/>
+        <circle cx="150" cy="50" r="8" fill="none" stroke="${c}" stroke-width="1.2"/>
+        <text x="100" y="94" font-family="monospace" font-size="6" text-anchor="middle" fill="${c}">110m MEDIEVAL BASTION</text>
+      </svg>`;
+    } else {
+      return `<svg viewBox="0 0 100 100" class="map-svg thumb" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: 90px; max-height: 90px;">
+        <!-- Stone Ground Line -->
+        <line x1="10" y1="85" x2="90" y2="85" stroke="${c}" stroke-width="2.5"/>
+        <!-- Castle Towers and Crenellations -->
+        <path d="M20 85 L20 40 L26 40 L26 46 L32 46 L32 40 L38 40 L38 85" fill="none" stroke="${c}" stroke-width="2"/>
+        <path d="M62 85 L62 40 L68 40 L68 46 L74 46 L74 40 L80 40 L80 85" fill="none" stroke="${c}" stroke-width="2"/>
+        <!-- Central Donjon Keep -->
+        <path d="M38 58 L44 58 L44 52 L50 52 L50 58 L56 58 L56 52 L62 52 L62 58" fill="none" stroke="${c}" stroke-width="2"/>
+        <!-- Arched Portcullis Gate -->
+        <path d="M44 85 L44 68 Q50 62 56 68 L56 85" fill="none" stroke="${c}" stroke-width="2"/>
+        <!-- Turret Pennants -->
+        <line x1="29" y1="40" x2="29" y2="28" stroke="${c}" stroke-width="1.5"/>
+        <path d="M29 28 L37 32 L29 36 Z" fill="${c}"/>
+        <line x1="71" y1="40" x2="71" y2="28" stroke="${c}" stroke-width="1.5"/>
+        <path d="M71 28 L79 32 L71 36 Z" fill="${c}"/>
+      </svg>`;
+    }
   } else if (key === 'zen') {
     if (isDossier) {
       return `<svg viewBox="0 0 200 100" class="map-svg blueprint" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: ${isDossier ? '200px' : '90px'};">
@@ -1500,9 +1536,46 @@ function getMapSVG(key, isDossier = false) {
       </svg>`;
     }
   } else if (key === 'mexico') {
-    paths = `<path d="M20 80 L80 80" stroke="${c}" stroke-width="4"/>
-             <path d="M40 80 L40 30 A10 10 0 0 1 60 30 L60 80" fill="none" stroke="${c}" stroke-width="3"/>
-             <path d="M40 50 L20 50 L20 40 M60 60 L80 60 L80 50" fill="none" stroke="${c}" stroke-width="3"/>`;
+    if (isDossier) {
+      return `<svg viewBox="0 0 200 100" class="map-svg blueprint" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: ${isDossier ? '200px' : '90px'};">
+        <!-- Sun-baked Plaza Perimeter -->
+        <rect x="25" y="15" width="150" height="70" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <!-- Central Gazebo / Kiosko Fountain -->
+        <circle cx="100" cy="50" r="16" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <circle cx="100" cy="50" r="5" fill="${c}"/>
+        <!-- Radiating Avenidas -->
+        <line x1="45" y1="50" x2="84" y2="50" stroke="${c}" stroke-width="1.5"/>
+        <line x1="116" y1="50" x2="155" y2="50" stroke="${c}" stroke-width="1.5"/>
+        <line x1="100" y1="20" x2="100" y2="34" stroke="${c}" stroke-width="1.5"/>
+        <line x1="100" y1="66" x2="100" y2="80" stroke="${c}" stroke-width="1.5"/>
+        <!-- Adobe Cantinas & Arcades -->
+        <rect x="35" y="24" width="22" height="18" fill="none" stroke="${c}" stroke-width="1.2"/>
+        <rect x="143" y="24" width="22" height="18" fill="none" stroke="${c}" stroke-width="1.2"/>
+        <rect x="35" y="58" width="22" height="18" fill="none" stroke="${c}" stroke-width="1.2"/>
+        <rect x="143" y="58" width="22" height="18" fill="none" stroke="${c}" stroke-width="1.2"/>
+        <!-- Saguaro Cacti Markers -->
+        <path d="M72 32 L72 40 M68 35 L76 35" stroke="${c}" stroke-width="1.5"/>
+        <path d="M128 68 L128 76 M124 71 L132 71" stroke="${c}" stroke-width="1.5"/>
+        <text x="100" y="94" font-family="monospace" font-size="6" text-anchor="middle" fill="${c}">110m SUN-BAKED PLAZA</text>
+      </svg>`;
+    } else {
+      return `<svg viewBox="0 0 100 100" class="map-svg thumb" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: 90px; max-height: 90px;">
+        <!-- Sun -->
+        <circle cx="50" cy="32" r="12" fill="none" stroke="${c}" stroke-width="2"/>
+        <line x1="50" y1="14" x2="50" y2="8" stroke="${c}" stroke-width="2"/>
+        <line x1="34" y1="22" x2="28" y2="18" stroke="${c}" stroke-width="2"/>
+        <line x1="66" y1="22" x2="72" y2="18" stroke="${c}" stroke-width="2"/>
+        <!-- Ground Horizon Line -->
+        <line x1="10" y1="80" x2="90" y2="80" stroke="${c}" stroke-width="2.5"/>
+        <!-- Saguaro Cactus -->
+        <line x1="35" y1="42" x2="35" y2="80" stroke="${c}" stroke-width="3"/>
+        <path d="M25 54 L35 54 M25 46 L25 54" fill="none" stroke="${c}" stroke-width="2.5"/>
+        <path d="M35 62 L45 62 M45 52 L45 62" fill="none" stroke="${c}" stroke-width="2.5"/>
+        <!-- Sombrero / Cantina Arch -->
+        <path d="M54 75 Q68 62 82 75" fill="none" stroke="${c}" stroke-width="2"/>
+        <path d="M50 78 L86 78" stroke="${c}" stroke-width="2.5"/>
+      </svg>`;
+    }
   } else if (key === 'library') {
     if (isDossier) {
       return `<svg viewBox="0 0 200 100" class="map-svg blueprint" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: ${isDossier ? '200px' : '90px'};">
