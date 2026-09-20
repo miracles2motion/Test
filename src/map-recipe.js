@@ -12,7 +12,10 @@ import {
   instantiatePrefab,
   buildBlobShadow,
   buildLeafLitter,
-  buildWaterRipples
+  buildWaterRipples,
+  buildAtmosphericBeams,
+  buildInkSplatters,
+  buildTechnicalFraming
 } from './prefabs.js';
 import { sweptRibbon } from './spline-engine.js';
 import {
@@ -129,6 +132,14 @@ export function buildMapFromRecipe(B, recipe, arena = false) {
 
       // Elevated terrace plateau slab
       slab(tx - rx, tz - rz, tx + rx, tz + rz, ty, 0.45, { ink: tInk });
+
+      // Technical Drafting Framing on elevated terrace (Skill: light-mode-paper-technical)
+      if (palette?.technicalFraming) {
+        buildTechnicalFraming(B, tx - rx, tz - rz, tx + rx, tz + rz, ty, {
+          ink: BK,
+          bracketLength: Math.min(2.0, Math.min(rx, rz) * 0.3)
+        });
+      }
 
       // Reserve elevated space in placement context
       reserveAscent(context, tx, tz, Math.max(rx, rz) + 1.0, ty + 4.0);
@@ -284,6 +295,22 @@ export function buildMapFromRecipe(B, recipe, arena = false) {
       // Instantiate landmark
       const success = instantiatePrefab(B, lm.prefab, lx, ly, lz, lm.opts || {});
       if (success) report.prefabsPlaced++;
+
+      // Ground Ink Droplet Splatters (Skill: create-game-vfx)
+      buildInkSplatters(B, lx + 2.5, ly, lz + 2.5, {
+        ink: BK,
+        seed: recipe.seed + hashSeed(lm.prefab || 'lm')
+      });
+
+      // Atmospheric Sky Rays / Sun Shafts descending onto primary landmark (Skill: 3d-sky-rays)
+      if (palette?.skyRays?.enabled && landmarkPositions.length === 1) {
+        buildAtmosphericBeams(B, lx, ly, lz, {
+          ink: palette.skyRays.tint === 'BLUE' ? BL : OR,
+          dirX: palette.skyRays.dir[0],
+          dirZ: palette.skyRays.dir[2],
+          h: 22.0
+        });
+      }
 
       // Beacon ring
       if (lm.beacon) {
@@ -467,12 +494,14 @@ export function buildMapFromRecipe(B, recipe, arena = false) {
     slab(-13, -3.5, -6, 3.5, 8.5, 0.4, { ink: OR });
     rail(-13, -3.5, -6, -3.5, 8.5, { ink: OR });
     rail(-13, 3.5, -6, 3.5, 8.5, { ink: OR });
+    buildTechnicalFraming(B, -13, -3.5, -6, 3.5, 8.5, { ink: BK });
     ring(-9.5, 12.5, 0, 'y');
     report.grapplesCount++;
 
     slab(6, -3.5, 13, 3.5, 8.5, 0.4, { ink: OR });
     rail(6, -3.5, 13, -3.5, 8.5, { ink: OR });
     rail(6, 3.5, 13, 3.5, 8.5, { ink: OR });
+    buildTechnicalFraming(B, 6, -3.5, 13, 3.5, 8.5, { ink: BK });
     ring(9.5, 12.5, 0, 'y');
     report.grapplesCount++;
   }

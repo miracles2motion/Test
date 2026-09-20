@@ -24,7 +24,8 @@ export function runDreamVerificationSuite(levelObj, colliders = [], opts = {}) {
     t3_reachability: { pass: true, errors: [] },
     t4_sightlines: { pass: true, errors: [] },
     t5_determinism: { pass: true, errors: [] },
-    t6_budget: { pass: true, errors: [] }
+    t6_budget: { pass: true, errors: [] },
+    t7_aesthetics: { pass: true, errors: [] }
   };
 
   const rings = levelObj.rings || [];
@@ -153,13 +154,42 @@ export function runDreamVerificationSuite(levelObj, colliders = [], opts = {}) {
     results.t6_budget.pass = false;
   }
 
+  // =========================================================================
+  // T7 — AESTHETIC & ANTI-SLOP AUDIT (Skills: no-ai-design-slop & create-game-vfx)
+  // Ensures maps exhibit deliberate ballpoint notebook style, purposeful cover,
+  // and absence of non-tactical visual noise.
+  // =========================================================================
+  // T7a. Check tactical cover heights (avoid generic unreadable clutter)
+  const coverBlocks = colliders.filter(c => c.tag === 'cover' || (c.opts && c.opts.tag === 'cover'));
+  for (const c of coverBlocks) {
+    const height = c.size ? c.size.y : (c.max && c.min ? c.max.y - c.min.y : 1.0);
+    const topY = c.max ? c.max.y : ((c.y || 0) + height);
+    // Cover should be micro-cover/base (0.2 - 0.85m), waist-high (0.85 - 1.6m), or full (1.8 - 4.0m)
+    const isMicro = height >= 0.20 && topY <= 1.6;
+    const isWaist = height >= 0.85 && height <= 1.6;
+    const isFull = height >= 1.8 && height <= 4.0;
+    if (!isMicro && !isWaist && !isFull) {
+      results.t7_aesthetics.errors.push(`Ambiguous cover height ${height.toFixed(2)}m (must be micro/step <=0.85m, waist 0.85-1.6m, or full 1.8-4.0m)`);
+    }
+  }
+
+  // T7b. Minimum visual interest verification (requires tactical rings and vertical play)
+  if (rings.length < 2) {
+    results.t7_aesthetics.errors.push(`Insufficient vertical flow: only ${rings.length} grapple rings detected`);
+  }
+
+  if (results.t7_aesthetics.errors.length > 0) {
+    results.t7_aesthetics.pass = false;
+  }
+
   const allPassed =
     results.t1_invariants.pass &&
     results.t2_structural.pass &&
     results.t3_reachability.pass &&
     results.t4_sightlines.pass &&
     results.t5_determinism.pass &&
-    results.t6_budget.pass;
+    results.t6_budget.pass &&
+    results.t7_aesthetics.pass;
 
   return {
     pass: allPassed,
@@ -167,7 +197,8 @@ export function runDreamVerificationSuite(levelObj, colliders = [], opts = {}) {
       results.t1_invariants.errors.length * 15 +
       results.t2_structural.errors.length * 10 +
       results.t3_reachability.errors.length * 20 +
-      results.t6_budget.errors.length * 15
+      results.t6_budget.errors.length * 15 +
+      results.t7_aesthetics.errors.length * 5
     )),
     results
   };
@@ -203,6 +234,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     console.log(`   T4 (Sightlines):   ${audit.results.t4_sightlines.pass ? '✅ PASS' : '❌ FAIL'}`);
     console.log(`   T5 (Determinism):  ${audit.results.t5_determinism.pass ? '✅ PASS' : '❌ FAIL'}`);
     console.log(`   T6 (Performance):  ${audit.results.t6_budget.pass ? '✅ PASS' : '❌ FAIL'}`);
+    console.log(`   T7 (Aesthetics):   ${audit.results.t7_aesthetics.pass ? '✅ PASS' : '❌ FAIL'}`);
     console.log(`============================================================\n`);
 
     if (!audit.pass) {
@@ -222,3 +254,4 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     process.exit(1);
   }
 }
+

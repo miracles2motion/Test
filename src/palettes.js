@@ -16,8 +16,20 @@ export const BIOME_PALETTES = {
       RED: '#b91c1c'
     },
     paper: '#f6f3e7',
+    paperTexture: 'parchment-warm',
     ruleColor: 'blue',
-    lineSpacing: 60
+    lineSpacing: 60,
+    skyRays: {
+      enabled: true,
+      dir: [-0.4, 0.85, 0.35],
+      tint: 'ORANGE',
+      density: 0.65
+    },
+    technicalFraming: {
+      bracketRadius: 0.4,
+      showGridMarks: true,
+      elevationStamp: true
+    }
   },
   tropical: {
     GREEN: 4,
@@ -33,8 +45,20 @@ export const BIOME_PALETTES = {
       RED: '#cc2222'
     },
     paper: '#f2ecd9',
+    paperTexture: 'canvas-linen',
     ruleColor: 'teal',
-    lineSpacing: 50
+    lineSpacing: 50,
+    skyRays: {
+      enabled: true,
+      dir: [-0.5, 0.8, 0.32],
+      tint: 'ORANGE',
+      density: 0.75
+    },
+    technicalFraming: {
+      bracketRadius: 0.5,
+      showGridMarks: true,
+      elevationStamp: true
+    }
   },
   cyber: {
     GREEN: 4,
@@ -50,8 +74,20 @@ export const BIOME_PALETTES = {
       RED: '#ff3b5c'
     },
     paper: '#eef1f6',
+    paperTexture: 'blueprint-grid',
     ruleColor: 'grid',
-    lineSpacing: 40
+    lineSpacing: 40,
+    skyRays: {
+      enabled: true,
+      dir: [0.3, 0.9, -0.3],
+      tint: 'BLUE',
+      density: 0.85
+    },
+    technicalFraming: {
+      bracketRadius: 0.3,
+      showGridMarks: true,
+      elevationStamp: true
+    }
   },
   desert: {
     GREEN: 4,
@@ -67,8 +103,20 @@ export const BIOME_PALETTES = {
       RED: '#c2410c'
     },
     paper: '#fbf5e6',
+    paperTexture: 'vellum-warm',
     ruleColor: 'sepia',
-    lineSpacing: 55
+    lineSpacing: 55,
+    skyRays: {
+      enabled: true,
+      dir: [-0.35, 0.92, 0.18],
+      tint: 'ORANGE',
+      density: 0.9
+    },
+    technicalFraming: {
+      bracketRadius: 0.4,
+      showGridMarks: true,
+      elevationStamp: true
+    }
   },
   urban: {
     GREEN: 4,
@@ -84,8 +132,20 @@ export const BIOME_PALETTES = {
       RED: '#e53e3e'
     },
     paper: '#f7fafc',
+    paperTexture: 'drafting-technical',
     ruleColor: 'graph',
-    lineSpacing: 45
+    lineSpacing: 45,
+    skyRays: {
+      enabled: true,
+      dir: [0.45, 0.88, 0.15],
+      tint: 'BLUE',
+      density: 0.5
+    },
+    technicalFraming: {
+      bracketRadius: 0.35,
+      showGridMarks: true,
+      elevationStamp: true
+    }
   },
   anomalous: {
     GREEN: 4,
@@ -101,7 +161,20 @@ export const BIOME_PALETTES = {
       RED: '#ef4444'
     },
     paper: '#f8fafc',
+    paperTexture: 'isometric-quad',
     ruleColor: 'isometric',
-    lineSpacing: 50
+    lineSpacing: 50,
+    skyRays: {
+      enabled: true,
+      dir: [0.0, 0.95, -0.3],
+      tint: 'BLUE',
+      density: 0.7
+    },
+    technicalFraming: {
+      bracketRadius: 0.4,
+      showGridMarks: true,
+      elevationStamp: true
+    }
   }
 };
+

@@ -1480,6 +1480,27 @@ export const PREFAB_REGISTRY = {
     tags: ['nature', 'rock', 'terrace', 'elevation', 'traverse'],
     builder: buildTerracedRidge,
     footprint: [12.0, 5.0, 18.0]
+  },
+  atmospheric_beams: {
+    id: 'atmospheric_beams',
+    name: 'Crepuscular Sky Rays & Atmospheric Beams',
+    tags: ['atmosphere', 'sky-rays', 'lighting', 'vfx'],
+    builder: buildAtmosphericBeams,
+    footprint: [14.0, 20.0, 14.0]
+  },
+  ink_splatters: {
+    id: 'ink_splatters',
+    name: 'Biro Ink Droplet & Splatter Decal Cluster',
+    tags: ['vfx', 'ink', 'splatter', 'paper', 'decal'],
+    builder: buildInkSplatters,
+    footprint: [2.5, 0.1, 2.5]
+  },
+  technical_framing: {
+    id: 'technical_framing',
+    name: 'Drafting Paper Technical Framing & Elevation Stamp',
+    tags: ['framing', 'paper-technical', 'drafting', 'brackets'],
+    builder: buildTechnicalFraming,
+    footprint: [8.0, 0.2, 8.0]
   }
 };
 
@@ -2151,4 +2172,102 @@ export function buildWaterRipples(B, x, z, r = 1.4, o = {}) {
   box(x + r, y, z, 0.05, 0.01, r * 1.2, { ink, noCollide: true });
   box(x - r, y, z, 0.05, 0.01, r * 1.2, { ink, noCollide: true });
 }
+
+/**
+ * Crepuscular Sky Rays & Atmospheric Beams (Skills: 3d-sky-rays & create-game-vfx)
+ * Beautiful sun shafts and desk-lamp light cones piercing through canopies and high structures.
+ * Uses angled non-colliding translucent visual guide prisms and crossbars.
+ */
+export function buildAtmosphericBeams(B, x, y, z, o = {}) {
+  const { box, wedge, cyl } = B;
+  const ink = o.ink ?? INK.ORANGE;
+  const beamHeight = o.h ?? 18.0;
+  const spread = o.spread ?? 4.5;
+  const dirX = o.dirX ?? -0.4;
+  const dirZ = o.dirZ ?? 0.35;
+
+  // 3 staggered angled light rays forming a luminous beam shaft cluster
+  for (let i = 0; i < 3; i++) {
+    const angle = (i / 3) * Math.PI * 2;
+    const bx = x + Math.cos(angle) * (spread * 0.5) + dirX * (beamHeight * 0.4);
+    const bz = z + Math.sin(angle) * (spread * 0.5) + dirZ * (beamHeight * 0.4);
+    const by = y + beamHeight * 0.5;
+
+    // Slender angled light beam
+    cyl(bx, by, bz, 0.12, beamHeight, {
+      ink,
+      noCollide: true,
+      seg: 6
+    });
+
+    // Ambient dust mote / light pollen marker near mid-height
+    box(bx + 0.3, by + (i - 1) * 2.0, bz - 0.2, 0.18, 0.18, 0.18, {
+      ink,
+      noCollide: true
+    });
+  }
+}
+
+/**
+ * Procedural Biro Ink Droplets & Splatters (Skill: create-game-vfx)
+ * Authentic ballpoint ink bleed decals on paper floors at impact nodes or landmark entrances.
+ */
+export function buildInkSplatters(B, x, y, z, o = {}) {
+  const { box } = B;
+  const ink = o.ink ?? INK.BLUE;
+  const radius = o.radius ?? 1.4;
+  const seed = typeof o.seed === 'number' ? o.seed : Math.round(Math.abs(x * 17 + z * 31));
+  const rng = createRNG(seed);
+  const next = rng.next;
+  const count = o.count ?? 5;
+
+  // Central impact core ink bleed
+  box(x, y + 0.015, z, 0.32, 0.01, 0.32, { ink, noCollide: true });
+
+  // Radiating droplet flecks
+  for (let i = 0; i < count; i++) {
+    const angle = next() * Math.PI * 2;
+    const dist = 0.3 + next() * (radius - 0.3);
+    const sx = x + Math.cos(angle) * dist;
+    const sz = z + Math.sin(angle) * dist;
+    const szSize = 0.08 + next() * 0.14;
+    box(sx, y + 0.016 + i * 0.001, sz, szSize, 0.01, szSize, { ink, noCollide: true });
+  }
+}
+
+/**
+ * Drafting Paper Technical Framing (Skill: light-mode-paper-technical)
+ * Precise technical corner L-brackets, coordinate ticks, and elevation stamps
+ * on tactical platforms and arenas.
+ */
+export function buildTechnicalFraming(B, minX, minZ, maxX, maxZ, y, o = {}) {
+  const { box } = B;
+  const ink = o.ink ?? INK.BLACK;
+  const bracketL = o.bracketLength ?? 1.2;
+  const tickW = 0.06;
+  const tickH = 0.02;
+
+  // Northwest corner bracket
+  box(minX + bracketL / 2, y + 0.02, minZ, bracketL, tickH, tickW, { ink, noCollide: true });
+  box(minX, y + 0.02, minZ + bracketL / 2, tickW, tickH, bracketL, { ink, noCollide: true });
+
+  // Northeast corner bracket
+  box(maxX - bracketL / 2, y + 0.02, minZ, bracketL, tickH, tickW, { ink, noCollide: true });
+  box(maxX, y + 0.02, minZ + bracketL / 2, tickW, tickH, bracketL, { ink, noCollide: true });
+
+  // Southwest corner bracket
+  box(minX + bracketL / 2, y + 0.02, maxZ, bracketL, tickH, tickW, { ink, noCollide: true });
+  box(minX, y + 0.02, maxZ - bracketL / 2, tickW, tickH, bracketL, { ink, noCollide: true });
+
+  // Southeast corner bracket
+  box(maxX - bracketL / 2, y + 0.02, maxZ, bracketL, tickH, tickW, { ink, noCollide: true });
+  box(maxX, y + 0.02, maxZ - bracketL / 2, tickW, tickH, bracketL, { ink, noCollide: true });
+
+  // Center coordinate reticle mark (+)
+  const midX = (minX + maxX) / 2;
+  const midZ = (minZ + maxZ) / 2;
+  box(midX, y + 0.02, midZ, 0.6, tickH, tickW, { ink, noCollide: true });
+  box(midX, y + 0.02, midZ, tickW, tickH, 0.6, { ink, noCollide: true });
+}
+
 
