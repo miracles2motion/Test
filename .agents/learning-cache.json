@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "updatedAt": "2026-09-20T19:48:43.354Z",
+  "updatedAt": "2026-09-20T19:58:21.569Z",
   "rules": {
     "stairway": {
       "minRise": 0.2,
@@ -55,8 +55,8 @@
       "description": "Identified dead zone at (0, -15.174999999999999) due to head-glitch",
       "trigger": "dead-zone-identified",
       "autoRemedy": "blacklistCoordinate",
-      "occurrences": 67,
-      "lastObserved": "2026-09-20T19:48:43.354Z"
+      "occurrences": 94,
+      "lastObserved": "2026-09-20T19:58:21.569Z"
     }
   ],
   "history": [
@@ -527,6 +527,168 @@
       "mapKey": "forest",
       "patternId": "dead-zone-identified",
       "description": "Identified dead zone at (30.750000000000004, 32) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-20T19:58:21.267Z",
+      "mapKey": "bus_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-7, -35) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-20T19:58:21.277Z",
+      "mapKey": "bus_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (7, -35) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-20T19:58:21.288Z",
+      "mapKey": "bus_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-7, 35) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-20T19:58:21.300Z",
+      "mapKey": "bus_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (7, 35) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-20T19:58:21.310Z",
+      "mapKey": "bus_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-10, -14) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-20T19:58:21.322Z",
+      "mapKey": "bus_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (10, -14) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-20T19:58:21.334Z",
+      "mapKey": "bus_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-10, 14) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-20T19:58:21.343Z",
+      "mapKey": "bus_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (10, 14) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-20T19:58:21.355Z",
+      "mapKey": "bus_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-6, -42) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-20T19:58:21.369Z",
+      "mapKey": "bus_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (0, -42) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-20T19:58:21.383Z",
+      "mapKey": "bus_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (6, -42) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-20T19:58:21.393Z",
+      "mapKey": "bus_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-6, 42) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-20T19:58:21.407Z",
+      "mapKey": "bus_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (0, 42) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-20T19:58:21.419Z",
+      "mapKey": "bus_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (6, 42) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-20T19:58:21.428Z",
+      "mapKey": "bus_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-30, -10) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-20T19:58:21.439Z",
+      "mapKey": "bus_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-30, 10) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-20T19:58:21.451Z",
+      "mapKey": "bus_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (30, -10) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-20T19:58:21.460Z",
+      "mapKey": "bus_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (30, 10) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-20T19:58:21.472Z",
+      "mapKey": "bus_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-30, -20) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-20T19:58:21.484Z",
+      "mapKey": "bus_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (30, -20) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-20T19:58:21.495Z",
+      "mapKey": "bus_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-15, -38) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-20T19:58:21.506Z",
+      "mapKey": "bus_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (15, -38) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-20T19:58:21.520Z",
+      "mapKey": "bus_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-15, 38) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-20T19:58:21.533Z",
+      "mapKey": "bus_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (15, 38) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-20T19:58:21.544Z",
+      "mapKey": "bus_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-14, 0) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-20T19:58:21.556Z",
+      "mapKey": "bus_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (14, 0) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-20T19:58:21.569Z",
+      "mapKey": "bus_station",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (0, 0) due to god-spot"
     }
   ],
   "humanLessons": [
@@ -1367,6 +1529,222 @@
       "radius": 5,
       "reason": "head-glitch",
       "timestamp": "2026-09-20T19:48:43.345Z"
+    },
+    {
+      "mapKey": "bus_station",
+      "x": -7,
+      "z": -35,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-20T19:58:21.259Z"
+    },
+    {
+      "mapKey": "bus_station",
+      "x": 7,
+      "z": -35,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-20T19:58:21.272Z"
+    },
+    {
+      "mapKey": "bus_station",
+      "x": -7,
+      "z": 35,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-20T19:58:21.284Z"
+    },
+    {
+      "mapKey": "bus_station",
+      "x": 7,
+      "z": 35,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-20T19:58:21.293Z"
+    },
+    {
+      "mapKey": "bus_station",
+      "x": -10,
+      "z": -14,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-20T19:58:21.305Z"
+    },
+    {
+      "mapKey": "bus_station",
+      "x": 10,
+      "z": -14,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-20T19:58:21.317Z"
+    },
+    {
+      "mapKey": "bus_station",
+      "x": -10,
+      "z": 14,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-20T19:58:21.327Z"
+    },
+    {
+      "mapKey": "bus_station",
+      "x": 10,
+      "z": 14,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-20T19:58:21.338Z"
+    },
+    {
+      "mapKey": "bus_station",
+      "x": -6,
+      "z": -42,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-20T19:58:21.350Z"
+    },
+    {
+      "mapKey": "bus_station",
+      "x": 0,
+      "z": -42,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-20T19:58:21.362Z"
+    },
+    {
+      "mapKey": "bus_station",
+      "x": 6,
+      "z": -42,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-20T19:58:21.376Z"
+    },
+    {
+      "mapKey": "bus_station",
+      "x": -6,
+      "z": 42,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-20T19:58:21.389Z"
+    },
+    {
+      "mapKey": "bus_station",
+      "x": 0,
+      "z": 42,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-20T19:58:21.402Z"
+    },
+    {
+      "mapKey": "bus_station",
+      "x": 6,
+      "z": 42,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-20T19:58:21.415Z"
+    },
+    {
+      "mapKey": "bus_station",
+      "x": -30,
+      "z": -10,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-20T19:58:21.424Z"
+    },
+    {
+      "mapKey": "bus_station",
+      "x": -30,
+      "z": 10,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-20T19:58:21.435Z"
+    },
+    {
+      "mapKey": "bus_station",
+      "x": 30,
+      "z": -10,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-20T19:58:21.444Z"
+    },
+    {
+      "mapKey": "bus_station",
+      "x": 30,
+      "z": 10,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-20T19:58:21.456Z"
+    },
+    {
+      "mapKey": "bus_station",
+      "x": -30,
+      "z": -20,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-20T19:58:21.467Z"
+    },
+    {
+      "mapKey": "bus_station",
+      "x": 30,
+      "z": -20,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-20T19:58:21.477Z"
+    },
+    {
+      "mapKey": "bus_station",
+      "x": -15,
+      "z": -38,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-20T19:58:21.490Z"
+    },
+    {
+      "mapKey": "bus_station",
+      "x": 15,
+      "z": -38,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-20T19:58:21.501Z"
+    },
+    {
+      "mapKey": "bus_station",
+      "x": -15,
+      "z": 38,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-20T19:58:21.512Z"
+    },
+    {
+      "mapKey": "bus_station",
+      "x": 15,
+      "z": 38,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-20T19:58:21.526Z"
+    },
+    {
+      "mapKey": "bus_station",
+      "x": -14,
+      "z": 0,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-20T19:58:21.539Z"
+    },
+    {
+      "mapKey": "bus_station",
+      "x": 14,
+      "z": 0,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-20T19:58:21.552Z"
+    },
+    {
+      "mapKey": "bus_station",
+      "x": 0,
+      "z": 0,
+      "radius": 8,
+      "reason": "god-spot",
+      "timestamp": "2026-09-20T19:58:21.562Z"
     }
   ]
 }
