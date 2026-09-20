@@ -2253,7 +2253,7 @@ export function buildClockwork(B, arena = false) {
       anchorMesh.rotation.z = Math.sin(t * 2.5 * Math.PI) * 0.16;
       if (tick !== lastTick) {
         lastTick = tick;
-        if (typeof window.audio !== 'undefined' && window.audio.ctx) {
+        if (typeof window !== 'undefined' && window.audio && window.audio.ctx) {
           try { window.audio.tone({ freq: 800, dur: 0.03, gain: 0.05, type: 'square' }); } catch(e){}
         }
       }

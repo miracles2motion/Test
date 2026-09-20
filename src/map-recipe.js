@@ -546,14 +546,17 @@ export function buildMapFromRecipe(B, recipe, arena = false) {
           mesh.rotation.x = -Math.PI / 2;
           mesh.position.set(originX, originY + i * 0.9, originZ);
           B.scene.add(mesh);
+          if (L.meshes) L.meshes.push(mesh);
           smokePuffs.push({ mesh, baseY: originY + i * 0.9, phase: i * 1.2 });
         }
-        L.animated.push((time) => {
-          for (const p of smokePuffs) {
-            const prog = ((time * 0.7 + p.phase) % 4.0) / 4.0;
-            p.mesh.position.y = p.baseY + prog * 3.5;
-            const scale = 1.0 + prog * 2.2;
-            p.mesh.scale.set(scale, scale, scale);
+        L.animated.push({
+          update: (time) => {
+            for (const p of smokePuffs) {
+              const prog = ((time * 0.7 + p.phase) % 4.0) / 4.0;
+              p.mesh.position.y = p.baseY + prog * 3.5;
+              const scale = 1.0 + prog * 2.2;
+              p.mesh.scale.set(scale, scale, scale);
+            }
           }
         });
       }
@@ -570,15 +573,18 @@ export function buildMapFromRecipe(B, recipe, arena = false) {
         const mesh = new THREE.Mesh(bGeo, birdMat);
         mesh.position.set(0, 27.0, 0);
         B.scene.add(mesh);
+        if (L.meshes) L.meshes.push(mesh);
         birds.push({ mesh, radius: 36 + b * 2.5, speed: 0.22 + b * 0.03, phase: b * 1.57, y: 26.5 + b * 0.5 });
       }
-      L.animated.push((time) => {
-        for (const b of birds) {
-          const ang = time * b.speed + b.phase;
-          b.mesh.position.x = Math.cos(ang) * b.radius;
-          b.mesh.position.z = Math.sin(ang) * b.radius;
-          b.mesh.position.y = b.y + Math.sin(time * 1.2 + b.phase) * 0.6;
-          b.mesh.rotation.y = -ang + Math.PI / 2;
+      L.animated.push({
+        update: (time) => {
+          for (const b of birds) {
+            const ang = time * b.speed + b.phase;
+            b.mesh.position.x = Math.cos(ang) * b.radius;
+            b.mesh.position.z = Math.sin(ang) * b.radius;
+            b.mesh.position.y = b.y + Math.sin(time * 1.2 + b.phase) * 0.6;
+            b.mesh.rotation.y = -ang + Math.PI / 2;
+          }
         }
       });
     }

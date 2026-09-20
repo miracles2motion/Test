@@ -2710,7 +2710,10 @@ function step(now) {
     game.time += dt; if (st === 'start' || st === 'dead' || st === 'lobby' || st === 'over') player.idleCam(game.time, dt); effects.update(dt); if (net.active) netUpdate(dt);
     if (st === 'over') { game.overT += dt; if (net.isHost && game.overT > 8) { net.send('backtolobby', {}); toLobbyScreen(); } else if (!net.isHost && game.overT > 15) { toLobbyScreen(); } }
   }
-  for (const a of level.animated) a.update(game.time);
+  for (const a of level.animated) {
+    if (typeof a?.update === 'function') a.update(game.time);
+    else if (typeof a === 'function') a(game.time);
+  }
   audio.setListener(player.eye, player.right);
   const w = player.weapon; if (w.isGun) hud.setAmmo(w.mag, w.reserve, w.magSize, w.reloading); else hud.setKatana();
   hud.setWeapons(player.weapons, player.weaponIndex);
