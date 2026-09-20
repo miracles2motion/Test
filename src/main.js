@@ -1717,6 +1717,55 @@ function getMapSVG(key, isDossier = false) {
         <circle cx="74" cy="78" r="1.5" fill="${c}"/>
       </svg>`;
     }
+  } else if (key === 'bus_station') {
+    if (isDossier) {
+      return `<svg viewBox="0 0 200 100" class="map-svg blueprint" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: ${isDossier ? '200px' : '90px'};">
+        <!-- Station Perimeter Terminal & Cantilever Concourse -->
+        <rect x="25" y="15" width="150" height="70" rx="3" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <!-- Central Clock Tower & Hub -->
+        <rect x="92" y="42" width="16" height="16" fill="none" stroke="${c}" stroke-width="1.5"/>
+        <circle cx="100" cy="50" r="5" fill="none" stroke="${c}" stroke-width="1.2"/>
+        <line x1="100" y1="47" x2="100" y2="50" stroke="${c}" stroke-width="1.2"/>
+        <line x1="100" y1="50" x2="103" y2="50" stroke="${c}" stroke-width="1.2"/>
+        <!-- Bus Bay Alpha & Commuter Coach (West) -->
+        <rect x="42" y="28" width="36" height="16" rx="2" fill="none" stroke="${c}" stroke-width="1.6"/>
+        <rect x="45" y="31" width="30" height="4" fill="none" stroke="${c}" stroke-width="0.8"/>
+        <line x1="52" y1="44" x2="52" y2="47" stroke="${c}" stroke-width="2"/>
+        <line x1="68" y1="44" x2="68" y2="47" stroke="${c}" stroke-width="2"/>
+        <text x="60" y="40" font-family="monospace" font-size="5" text-anchor="middle" fill="${c}">BUS ALPHA</text>
+        <!-- Bus Bay Beta & Commuter Coach (East) -->
+        <rect x="122" y="56" width="36" height="16" rx="2" fill="none" stroke="${c}" stroke-width="1.6"/>
+        <rect x="125" y="59" width="30" height="4" fill="none" stroke="${c}" stroke-width="0.8"/>
+        <line x1="132" y1="72" x2="132" y2="75" stroke="${c}" stroke-width="2"/>
+        <line x1="148" y1="72" x2="148" y2="75" stroke="${c}" stroke-width="2"/>
+        <text x="140" y="68" font-family="monospace" font-size="5" text-anchor="middle" fill="${c}">BUS BETA</text>
+        <!-- Pedestrian Concourse Skybridge -->
+        <line x1="30" y1="50" x2="170" y2="50" stroke="${c}" stroke-width="1.5" stroke-dasharray="4 2"/>
+        <!-- Passenger Shelters & Benches -->
+        <line x1="42" y1="20" x2="78" y2="20" stroke="${c}" stroke-width="2"/>
+        <line x1="122" y1="80" x2="158" y2="80" stroke="${c}" stroke-width="2"/>
+        <text x="100" y="93" font-family="monospace" font-size="6" text-anchor="middle" fill="${c}">CENTRAL BUS TERMINAL &amp; TRANSIT BAYS</text>
+      </svg>`;
+    } else {
+      return `<svg viewBox="0 0 100 100" class="map-svg thumb" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: 90px; max-height: 90px;">
+        <!-- Terminal Concourse Outer Rim -->
+        <rect x="14" y="14" width="72" height="72" rx="4" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <!-- Central Clock Spire -->
+        <circle cx="50" cy="50" r="10" fill="none" stroke="${c}" stroke-width="1.5"/>
+        <line x1="50" y1="44" x2="50" y2="50" stroke="${c}" stroke-width="1.2"/>
+        <line x1="50" y1="50" x2="55" y2="50" stroke="${c}" stroke-width="1.2"/>
+        <!-- Commuter Coach Body -->
+        <rect x="24" y="24" width="22" height="12" rx="1.5" fill="none" stroke="${c}" stroke-width="1.6"/>
+        <circle cx="28" cy="36" r="2" fill="${c}"/>
+        <circle cx="42" cy="36" r="2" fill="${c}"/>
+        <rect x="54" y="64" width="22" height="12" rx="1.5" fill="none" stroke="${c}" stroke-width="1.6"/>
+        <circle cx="58" cy="76" r="2" fill="${c}"/>
+        <circle cx="72" cy="76" r="2" fill="${c}"/>
+        <!-- Boarding Arrows -->
+        <line x1="50" y1="18" x2="50" y2="34" stroke="${c}" stroke-width="1" stroke-dasharray="2 2"/>
+        <line x1="50" y1="66" x2="50" y2="82" stroke="${c}" stroke-width="1" stroke-dasharray="2 2"/>
+      </svg>`;
+    }
   } else {
     const curLevel = LEVELS.find((m) => m.key === key);
     return synthesizeMapSVG({ id: key, name: curLevel?.name || key, palette: curLevel?.env || '' }, isDossier);

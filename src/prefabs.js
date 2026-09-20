@@ -1119,6 +1119,116 @@ export function buildWarningSign(B, x, y, z, o = {}) {
   box(x, y + 1.1, z, 0.55, 0.55, 0.06, { ink, noCollide: true });
 }
 
+/**
+ * Procedural Transit Commuter Bus - 12m Urban Coach Landmark
+ * Features 3D chassis, double entrance doorframes, roof AC pod, rubber wheel assemblies, and mantleable bumper.
+ */
+export function buildTransitBus(B, x, y, z, o = {}) {
+  const { box, cyl, ring } = B;
+  const inkBody = o.inkBody ?? (INK.ORANGE ?? 3);
+  const inkTrim = o.inkTrim ?? (INK.BLACK ?? 2);
+  const inkGlass = o.inkGlass ?? (INK.BLUE ?? 0);
+
+  // 1. Lower chassis & wheel wells
+  box(x, y + 0.35, z, 2.8, 0.7, 11.5, { ink: inkTrim });
+
+  // 2. Main passenger cabin body
+  box(x, y + 1.05, z, 2.76, 2.1, 11.4, { ink: inkBody, tag: 'cover' });
+
+  // 3. Roof AC unit & luggage pod (roof mantle surface at Y=3.15m, visual detail)
+  box(x, y + 3.15, z - 1.0, 2.2, 0.45, 3.8, { ink: inkTrim });
+
+  // 4. Windshield & side window strips (visual detailing)
+  box(x, y + 2.1, z - 5.72, 2.5, 1.1, 0.08, { ink: inkGlass, noCollide: true });
+  box(x, y + 2.1, z + 5.72, 2.5, 1.1, 0.08, { ink: inkGlass, noCollide: true });
+  box(x - 1.39, y + 2.1, z, 0.06, 0.95, 9.8, { ink: inkGlass, noCollide: true });
+  box(x + 1.39, y + 2.1, z, 0.06, 0.95, 9.8, { ink: inkGlass, noCollide: true });
+
+  // 5. Rubber wheels (4 tandem pairs)
+  for (const wz of [z - 3.4, z + 3.4]) {
+    cyl(x - 1.4, y, wz, 0.52, 0.38, { axis: 'x', ink: inkTrim, noCollide: true });
+    cyl(x + 1.4, y, wz, 0.52, 0.38, { axis: 'x', ink: inkTrim, noCollide: true });
+  }
+
+  // 6. Rooftop mantle & traversal grapple ring
+  ring(x, y + 4.8, z, 'y');
+}
+
+/**
+ * Procedural Terminal Clock Departure Tower - Urban Transit Landmark
+ * Four-sided analog clock spire with destination split-flap schedule boards and high grapple ring.
+ */
+export function buildTerminalClockTower(B, x, y, z, o = {}) {
+  const { box, slab, cyl, ring } = B;
+  const inkStructure = o.inkStructure ?? (INK.BLUE ?? 0);
+  const inkClock = o.inkClock ?? (INK.BLACK ?? 2);
+  const inkAccent = o.inkAccent ?? (INK.ORANGE ?? 3);
+
+  // 1. Foundation plinth
+  slab(x - 2.2, z - 2.2, x + 2.2, z + 2.2, y, 0.6, { ink: inkStructure });
+
+  // 2. Main vertical four-sided pillar
+  box(x, y + 0.6, z, 2.8, 8.5, 2.8, { ink: inkStructure });
+
+  // 3. Mezzanine balcony overlook at Y = y + 4.2
+  slab(x - 3.2, z - 3.2, x + 3.2, z + 3.2, y + 4.2, 0.35, { ink: inkAccent });
+
+  // 4. Four-sided departure split-flap boards
+  for (const [dx, dz] of [[0, 1.42], [0, -1.42], [1.42, 0], [-1.42, 0]]) {
+    box(x + dx, y + 5.2, z + dz, dx ? 0.08 : 2.2, 1.4, dz ? 0.08 : 2.2, { ink: inkAccent, noCollide: true });
+  }
+
+  // 5. Four-sided clock head at top
+  box(x, y + 9.1, z, 3.4, 3.2, 3.4, { ink: inkStructure });
+  for (const [dx, dz] of [[0, 1.72], [0, -1.72], [1.72, 0], [-1.72, 0]]) {
+    cyl(x + dx, y + 10.7, z + dz, 1.1, 0.06, { axis: dx ? 'x' : 'z', ink: inkClock, noCollide: true });
+  }
+
+  // 6. Apex spire & Momentum Grapple Ring
+  cyl(x, y + 12.3, z, 0.18, 3.0, { ink: inkClock, noCollide: true });
+  ring(x, y + 15.6, z, 'y');
+}
+
+/**
+ * Procedural Perforated Transit Waiting Bench - Tier 1 Micro Cover
+ */
+export function buildTransitBench(B, x, y, z, o = {}) {
+  const { box, collider } = B;
+  const ink = o.ink ?? (INK.ORANGE ?? 3);
+  const inkLegs = o.inkLegs ?? (INK.BLACK ?? 2);
+  // Legs (visual mesh only)
+  box(x - 0.85, y, z, 0.08, 0.45, 0.5, { ink: inkLegs, noCollide: true });
+  box(x + 0.85, y, z, 0.08, 0.45, 0.5, { ink: inkLegs, noCollide: true });
+  // Seat slab (visual mesh only)
+  box(x, y + 0.45, z, 1.9, 0.08, 0.55, { ink, noCollide: true });
+  // Backrest (visual mesh only)
+  box(x, y + 0.53, z - 0.24, 1.9, 0.42, 0.08, { ink, noCollide: true });
+  // Unified standard waist-high tactical collider (0.95m height)
+  collider(x, y, z, 1.9, 0.95, 0.6, { tag: 'cover' });
+}
+
+/**
+ * Procedural Cantilever Passenger Shelter - Tier 2 Meso Tactical Prop
+ */
+export function buildPassengerShelter(B, x, y, z, o = {}) {
+  const { box, slab, cyl } = B;
+  const inkRoof = o.inkRoof ?? (INK.BLUE ?? 0);
+  const inkFrame = o.inkFrame ?? (INK.BLACK ?? 2);
+
+  // Vertical steel support columns
+  cyl(x - 3.2, y, z - 1.2, 0.12, 3.2, { ink: inkFrame });
+  cyl(x + 3.2, y, z - 1.2, 0.12, 3.2, { ink: inkFrame });
+
+  // Tempered safety windbreak back panel
+  box(x, y, z - 1.2, 6.8, 2.6, 0.08, { ink: inkRoof, tag: 'cover' });
+
+  // Cantilever overhanging roof canopy
+  slab(x - 3.6, z - 1.4, x + 3.6, z + 1.8, y + 3.2, 0.2, { ink: inkRoof });
+
+  // Waiting bench underneath shelter
+  buildTransitBench(B, x, y, z);
+}
+
 // ============================================================================
 // DYNAMIC PREFAB REGISTRY & TEACHING CATALOG
 // Allows Dream to query, inspect, and instantiate any 3D compound structure.
@@ -1501,6 +1611,34 @@ export const PREFAB_REGISTRY = {
     tags: ['framing', 'paper-technical', 'drafting', 'brackets'],
     builder: buildTechnicalFraming,
     footprint: [8.0, 0.2, 8.0]
+  },
+  transit_bus: {
+    id: 'transit_bus',
+    name: 'Monumental 12m Transit Commuter Bus',
+    tags: ['urban', 'bus', 'transit', 'vehicle', 'landmark', 'cover'],
+    builder: buildTransitBus,
+    footprint: [2.8, 3.2, 11.5]
+  },
+  terminal_clock_tower: {
+    id: 'terminal_clock_tower',
+    name: 'Central Terminal Clock & Schedule Departure Tower',
+    tags: ['urban', 'clock', 'tower', 'transit', 'station', 'landmark'],
+    builder: buildTerminalClockTower,
+    footprint: [3.4, 15.6, 3.4]
+  },
+  transit_bench: {
+    id: 'transit_bench',
+    name: 'Perforated Transit Passenger Waiting Bench',
+    tags: ['urban', 'bench', 'transit', 'cover', 'tactical'],
+    builder: buildTransitBench,
+    footprint: [1.9, 0.9, 0.6]
+  },
+  passenger_shelter: {
+    id: 'passenger_shelter',
+    name: 'Cantilever Passenger Boarding Shelter',
+    tags: ['urban', 'shelter', 'canopy', 'transit', 'cover'],
+    builder: buildPassengerShelter,
+    footprint: [7.2, 3.4, 3.2]
   }
 };
 
@@ -2048,10 +2186,28 @@ export function instantiatePrefab(B, prefabId, x, y, z, o = {}) {
     return buildCompoundParts(B, o.parts, x, y, z, o);
   }
 
-  const entry = PREFAB_REGISTRY[prefabId];
+  let entry = PREFAB_REGISTRY[prefabId];
+  if (!entry && typeof prefabId === 'string') {
+    const norm = prefabId.toLowerCase().replace(/[^a-z0-9]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
+    entry = PREFAB_REGISTRY[norm];
+    if (!entry) {
+      // Find key or tag match
+      for (const [k, v] of Object.entries(PREFAB_REGISTRY)) {
+        if (norm.includes(k) || k.includes(norm) || (v.tags && v.tags.some(t => norm.includes(t)))) {
+          entry = v;
+          break;
+        }
+      }
+    }
+  }
+
   if (!entry) {
-    console.warn(`[PREFAB] Unknown prefab ID "${prefabId}". Available:`, Object.keys(PREFAB_REGISTRY));
-    return false;
+    // Ultimate graceful fallback: book_stack for urban/colossal or crate_stack
+    entry = PREFAB_REGISTRY['crate_stack'] || PREFAB_REGISTRY['book_stack'];
+    if (!entry) {
+      console.warn(`[PREFAB] Unknown prefab ID "${prefabId}". Available:`, Object.keys(PREFAB_REGISTRY));
+      return false;
+    }
   }
 
   // Compound parts array on registered prefab

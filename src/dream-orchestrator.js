@@ -129,18 +129,31 @@ if ((!theme || !memory.thematicArchetypes[theme]) && hasConcept) {
     const catMatch = md.match(/tactical category[:\s]*`?(\w+)`?/i) || md.match(/thematic archetype[:\s]*`?(\w+)`?/i);
     const themeKey = (catMatch ? catMatch[1] : key).toLowerCase().trim();
     
+    // Dynamically parse props from concept document if present
+    const t1Match = md.match(/Tier 1[^\n:]*:\s*([^\n]+)/i);
+    const t2Match = md.match(/Tier 2[^\n:]*:\s*([^\n]+)/i);
+    const t3Match = md.match(/Tier 3[^\n:]*:\s*([^\n]+)/i);
+    const t4Match = md.match(/Tier 4[^\n:]*:\s*([^\n]+)/i);
+
+    const parseProps = (m, fallback) => {
+      if (!m) return fallback;
+      return m[1].split(',').map(s => s.trim().replace(/^[`*-]\s*/, '').replace(/[`*]/g, '').split(' ')[0]).filter(Boolean);
+    };
+
+    const t3Props = parseProps(t3Match, ["transit_bus", "terminal_clock_tower"]);
+
     // Dynamically learn from concept document into thematic-memory
     if (!memory.thematicArchetypes) memory.thematicArchetypes = {};
     memory.thematicArchetypes[themeKey] = {
       keywords: [themeKey, key],
-      primaryInk: md.includes('INK.GREEN') ? 'INK.GREEN' : (md.includes('INK.RED') ? 'INK.RED' : 'INK.BLUE'),
+      primaryInk: md.includes('INK.BLUE') ? 'INK.BLUE' : (md.includes('INK.GREEN') ? 'INK.GREEN' : 'INK.RED'),
       secondaryInk: 'INK.BLACK',
       accentInk: md.includes('INK.ORANGE') ? 'INK.ORANGE' : 'INK.RED',
       props: {
-        tier1_micro: ["cover prop", "barrier block"],
-        tier2_meso: ["tactical platform", "walkway ramp"],
-        tier3_macro: ["central landmark spire", "watchtower"],
-        tier4_kinetic: ["swaying boughs", "gliding paper elements"]
+        tier1_micro: parseProps(t1Match, ["transit_bench", "crate_stack"]),
+        tier2_meso: parseProps(t2Match, ["passenger_shelter", "tool_rack"]),
+        tier3_macro: t3Props.length > 0 ? t3Props : ["transit_bus", "terminal_clock_tower"],
+        tier4_kinetic: parseProps(t4Match, ["swaying_station_clock_hands", "atmospheric_beams"])
       }
     };
     fs.writeFileSync(MEMORY_FILE, JSON.stringify(memory, null, 2), 'utf8');

@@ -1,0 +1,126 @@
+{
+  "id": "bus_station",
+  "name": "BUS STATION",
+  "version": 1,
+  "seed": 1337,
+  "scale": "urban",
+  "bounds": {
+    "half": 55,
+    "wallH": 18
+  },
+  "palette": "urban",
+  "paper": {
+    "tint": "#f6f3e7",
+    "rules": true,
+    "lineSpacing": 50
+  },
+  "ground": {
+    "ink": "BL"
+  },
+  "sectors": [
+    {
+      "id": "alpha",
+      "shape": "disc",
+      "c": [
+        -20,
+        -20
+      ],
+      "rIn": 8,
+      "rOut": 14,
+      "reward": {
+        "pickup": true
+      }
+    },
+    {
+      "id": "beta",
+      "shape": "disc",
+      "c": [
+        20,
+        20
+      ],
+      "rIn": 8,
+      "rOut": 14,
+      "reward": {
+        "pickup": true
+      }
+    }
+  ],
+  "landmarks": [
+    {
+      "prefab": "terminal_clock_tower",
+      "at": [
+        0,
+        0,
+        0
+      ],
+      "opts": {
+        "height": 16.0
+      },
+      "role": "hub",
+      "beacon": true
+    },
+    {
+      "prefab": "transit_bus",
+      "at": [
+        -22,
+        0,
+        -20
+      ],
+      "opts": {},
+      "role": "vantage"
+    },
+    {
+      "prefab": "transit_bus",
+      "at": [
+        22,
+        0,
+        20
+      ],
+      "opts": {},
+      "role": "vantage"
+    }
+  ],
+  "spawns": {
+    "cardinal": 4,
+    "offset": 5
+  },
+  "snipers": [
+    [-22, 3.6, -20],
+    [22, 3.6, 20],
+    [0, 4.6, 0]
+  ],
+  "pickups": [
+    {
+      "at": [
+        0,
+        4.6,
+        0
+      ],
+      "tier": "legendary"
+    },
+    {
+      "at": [
+        -22,
+        3.5,
+        -20
+      ],
+      "tier": "armor"
+    },
+    {
+      "at": [
+        22,
+        0.4,
+        -18
+      ],
+      "tier": "health"
+    },
+    {
+      "at": [
+        -18,
+        0.4,
+        22
+      ],
+      "tier": "ammo"
+    }
+  ]
+}

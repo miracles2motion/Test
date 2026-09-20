@@ -207,7 +207,10 @@ if (!activeRecipe && isRecipeMode) {
     ],
     spawns: { cardinal: 4, offset: 5 },
     pickups: [
-      { at: [0, 0.4, 0], tier: 'legendary' }
+      { at: [0, 0.4, 0], tier: 'legendary' },
+      { at: [-20, 0.4, -20], tier: 'ammo' },
+      { at: [20, 0.4, 20], tier: 'health' },
+      { at: [0, 0.4, 18], tier: 'armor' }
     ]
   };
   fs.writeFileSync(recipeFilePath, JSON.stringify(activeRecipe, null, 2), 'utf8');

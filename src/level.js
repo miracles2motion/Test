@@ -1,6 +1,7 @@
 // Level construction. Two maps share one builder: everything is merged ink geometry plus
 // axis-aligned box colliders, which is what the navigation grid is generated from.
 import { buildForest } from './levels/forest.js';
+import { buildBusStation } from './levels/bus_station.js';
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { makeInkMaterial, INK } from './render.js';
@@ -144,10 +145,18 @@ export const LEVELS = [
       }
     }, name: 'THE ZEN GARDEN', blurb: 'serene pagodas, cherry blossoms and koi ponds', category: 'anomalous', tags: ['FAST CQB', 'MEDIUM', 'EARTH'], env: 'Temple Sanctuary', engagement: 'Stealth / CQB', hazard: 'None', scale: 'Tier 1-2' },
   ...(MEXICO_READY ? [{ key: 'mexico', name: 'DOODLE MEXICO', blurb: 'a sun-baked plaza · piñatas, tacos and mariachi', category: 'urban', tags: ['FAST CQB', 'MEDIUM', 'EARTH'], env: 'Sun-baked Plaza', engagement: 'CQB / Cover', hazard: 'None', scale: 'Tier 1-2' }] : []),
-
-
-
-
+  {
+    key: 'bus_station',
+    name: 'CENTRAL BUS STATION',
+    blurb: 'transit coaches, departure clock tower, passenger bays & luggage depots',
+    category: 'urban',
+    tags: ['FAST CQB', 'URBAN', 'TRANSIT'],
+    env: 'Urban Transit Terminal',
+    engagement: 'CQB & Vertical',
+    hazard: 'Moving Traffic',
+    scale: 'Tier 1-4',
+    comingSoon: false
+  }
 ];
 
 export function createBuilder(scene, world) {
@@ -1766,6 +1775,7 @@ export const MAP_BUILDERS = {
   studio: buildStudio,
   mexico: buildMexico,
   forest: buildForest,
+  bus_station: buildBusStation
 };
 
 export function registerMapBuilder(key, builderFn) {

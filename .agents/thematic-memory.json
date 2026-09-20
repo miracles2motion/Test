@@ -143,6 +143,33 @@
           "swaying_mooring_lantern (swinging dock lantern)"
         ]
       }
+    },
+    "urban": {
+      "keywords": [
+        "urban",
+        "bus_station"
+      ],
+      "primaryInk": "INK.GREEN",
+      "secondaryInk": "INK.BLACK",
+      "accentInk": "INK.ORANGE",
+      "props": {
+        "tier1_micro": [
+          "cover prop",
+          "barrier block"
+        ],
+        "tier2_meso": [
+          "tactical platform",
+          "walkway ramp"
+        ],
+        "tier3_macro": [
+          "central landmark spire",
+          "watchtower"
+        ],
+        "tier4_kinetic": [
+          "swaying boughs",
+          "gliding paper elements"
+        ]
+      }
     }
   },
   "recipes": {},

@@ -1,1 +1,32 @@
-[]
+[
+  {
+    "mapKey": "bus_station",
+    "score": 76,
+    "timestamp": "2026-09-20T19:38:38.574Z",
+    "generation": 1,
+    "spawns": [
+      {
+        "x": 0,
+        "y": 0.2,
+        "z": 47
+      },
+      {
+        "x": 0,
+        "y": 0.2,
+        "z": -47
+      },
+      {
+        "x": 47,
+        "y": 0.2,
+        "z": 0
+      },
+      {
+        "x": -47,
+        "y": 0.2,
+        "z": 0
+      }
+    ],
+    "balanceScore": 76,
+    "exploitPenalty": 0
+  }
+]

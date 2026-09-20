@@ -133,6 +133,41 @@ function extractFromDocument(docPath, key) {
 function deriveCreativeArchetype(key) {
   const k = key.toLowerCase();
 
+  if (k.includes('bus') || k.includes('transit') || k.includes('station') || k.includes('terminal') || k.includes('depot')) {
+    return {
+      keywords: ['bus_station', 'bus', 'transit', 'terminal', 'depot'],
+      layoutPrior: 'urban',
+      primaryInk: 'INK.BLUE',
+      secondaryInk: 'INK.BLACK',
+      accentInk: 'INK.ORANGE',
+      hazardInk: 'INK.RED',
+      props: {
+        tier1_micro: [
+          "transit_bench (perforated sheet-metal waiting bench with center armrest divider)",
+          "ticket_vending_kiosk (card reader console with illuminated vector screen and coin slot)",
+          "luggage_trolley_stack (interlocked stainless-steel baggage carts with directional wheels)",
+          "timetable_stanchion (freestanding schedule pillar with glass route display)"
+        ],
+        tier2_meso: [
+          "passenger_boarding_shelter (cantilevered corrugated canopy with tempered safety windbreaks)",
+          "elevated_concourse_catwalk (steel mezzanine connecting east and west bus bays with balustrades)",
+          "transit_turnstile_gate (trio of mechanical stainless tripod turnstiles and validation scanners)",
+          "escalator_ascent_ramp (ribbed ascending pedestrian transit ramp with rubber handrail trim)"
+        ],
+        tier3_macro: [
+          "monumental_transit_bus (full-scale 12-meter commuter transit coach with double doors, rubber tires and roof AC pod)",
+          "central_clock_departure_tower (four-sided split-flap destination board with illuminated analog clock tower)",
+          "cantilevered_bay_canopy_hangar (wide-span curved steel bay terminal protecting boarding islands)"
+        ],
+        tier4_kinetic: [
+          "sweeping_station_clock_hands (kinetic rotating mechanical minute hand on terminal clock)",
+          "split_flap_schedule_flip (animated flipping destination schedule ribbons above mid concourse)",
+          "grapple_concourse_gantry (apex suspended tubular lighting trusses bridging platform bays)"
+        ]
+      }
+    };
+  }
+
   if (k.includes('cyber') || k.includes('neon') || k.includes('grid') || k.includes('district')) {
     return {
       keywords: ['cyber', 'grid', 'neon', 'data', 'terminal'],

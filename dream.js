@@ -99,13 +99,19 @@ if (calledMatch) {
     mapName = 'paradise';
   } else if (prompt.includes('library')) {
     mapName = 'library';
+  } else if (prompt.includes('bus station') || prompt.includes('bus_station') || prompt.includes('bus terminal')) {
+    mapName = 'bus_station';
+  } else if (prompt.includes('train station') || prompt.includes('railway station')) {
+    mapName = 'train_station';
   } else if (prompt.includes('space station') || prompt.includes('space_station') || prompt.includes('space')) {
     mapName = 'space_station';
   } else if (prompt.includes('cover')) {
     mapName = 'cover';
   } else {
     const candidateWords = words.filter(w => !['god', 'godmode', 'detail', 'heal', 'macro', 'inject', 'inspect', 'graduate', 'the', 'a', 'an'].includes(w));
-    if (candidateWords.length > 0) {
+    if (candidateWords.length > 1 && !knownThemes.includes(candidateWords[candidateWords.length - 1])) {
+      mapName = candidateWords.join('_').replace(/[^a-z0-9_]/g, '');
+    } else if (candidateWords.length > 0) {
       mapName = candidateWords[candidateWords.length - 1].replace(/[^a-z0-9_]/g, '');
     } else {
       mapName = words[words.length - 1].replace(/[^a-z0-9_]/g, '');
