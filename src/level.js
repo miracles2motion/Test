@@ -1,9 +1,6 @@
 // Level construction. Two maps share one builder: everything is merged ink geometry plus
 // axis-aligned box colliders, which is what the navigation grid is generated from.
-import { buildPirateCove } from './levels/pirate_cove.js';
 import { buildForest } from './levels/forest.js';
-import { buildSpaceStation } from './levels/space_station.js';
-import { buildLibrary } from './levels/library.js';
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { makeInkMaterial, INK } from './render.js';
@@ -148,115 +145,9 @@ export const LEVELS = [
     }, name: 'THE ZEN GARDEN', blurb: 'serene pagodas, cherry blossoms and koi ponds', category: 'anomalous', tags: ['FAST CQB', 'MEDIUM', 'EARTH'], env: 'Temple Sanctuary', engagement: 'Stealth / CQB', hazard: 'None', scale: 'Tier 1-2' },
   ...(MEXICO_READY ? [{ key: 'mexico', name: 'DOODLE MEXICO', blurb: 'a sun-baked plaza · piñatas, tacos and mariachi', category: 'urban', tags: ['FAST CQB', 'MEDIUM', 'EARTH'], env: 'Sun-baked Plaza', engagement: 'CQB / Cover', hazard: 'None', scale: 'Tier 1-2' }] : []),
 
-  { key: 'library', name: 'THE LIBRARY', blurb: 'towering tomes, grand desk arena, bookmark catwalks & inkwells', category: 'colossal', tags: ['VERTICAL', '3-LANE', 'COLOSSAL'], env: 'Colossal Study', engagement: '3-Lane / Vertical / Sniping', hazard: 'None', scale: 'Tier 1-4' },
-  {
-    key: 'space_station',
-    customEnemies: {
-      orbital_cyborg_rusher_station_security_sentry: {
-        role: "melee",
-        canDodge: true,
-        canCover: true,
-        canRetreat: false,
-        canFlank: true,
-        berserker: true,
-        hp: 70,
-        speed: 9,
-        weapon: "blade",
-        lunge: 3.8,
-        reach: 3.2,
-        standoff: 1.5,
-        cool: [
-          0.7,
-          1.1
-        ],
-        dmg: 22,
-        score: 180,
-        scale: 1.05,
-        build: {
-          bodyW: 0.85,
-          headS: 0.9,
-          limbR: 0.035
-        },
-        name: "ORBITAL CYBORG RUSHER (STATION SECURITY SENTRY)"
-      },
-      eva_railgun_sniper_solar_array_marksman: {
-        role: "ranged",
-        canDodge: true,
-        canCover: true,
-        canRetreat: true,
-        canFlank: false,
-        stationary: true,
-        hp: 55,
-        speed: 3.2,
-        weapon: "sniper",
-        range: 90,
-        stop: 85,
-        keep: 25,
-        aimTime: 1.4,
-        cool: [
-          2.2,
-          3.2
-        ],
-        dmg: 30,
-        score: 220,
-        scale: 0.95,
-        build: {
-          bodyW: 0.7,
-          headS: 0.8,
-          limbR: 0.02
-        },
-        name: "EVA RAILGUN SNIPER (SOLAR ARRAY MARKSMAN)"
-      },
-      zero_g_skimmer_drone_patrol_interceptor: {
-        role: "aerial",
-        canDodge: false,
-        canCover: false,
-        canRetreat: false,
-        canFlank: false,
-        hp: 45,
-        speed: 6.5,
-        weapon: "shotgun",
-        range: 25,
-        stop: 12,
-        keep: 8,
-        aimTime: 0.8,
-        cool: [
-          1.2,
-          1.8
-        ],
-        dmg: 16,
-        score: 160,
-        scale: 0.85,
-        build: {
-          bodyW: 0.6,
-          headS: 0.7,
-          limbR: 0.025
-        },
-        name: "ZERO-G SKIMMER DRONE (PATROL INTERCEPTOR)"
-      }
-    },
-    name: 'SPACE STATION',
-    blurb: 'orbital centrifuge habitat, solar array wings, zero-g drone corridors & telemetry bastion',
-    category: 'anomalous',
-    tags: ['ORBITAL', 'ZERO-G', 'CYBER', 'TIER 1-4'],
-    env: 'Orbital Centrifuge Habitat',
-    engagement: 'CQB & Vertical Sniping',
-    hazard: 'Decompression Abyss below Y=-10.0m',
-    scale: 'Tier 1-4',
-    comingSoon: false
-  },
-  {
-    key: 'pirate_cove',
-    name: 'PIRATE COVE',
-    blurb: 'man-o-war galleons, shattered mainmast boarding bridges, rum barrel redoubts & kraken trench',
-    category: 'urban',
-    tags: ['MARITIME', 'SHIP-TO-SHIP', 'VERTICAL', 'TIER 1-4'],
-    env: 'Sunken Galleon Bay',
-    engagement: 'Rigging Sniping & Ship CQB',
-    hazard: 'Kraken Abyss below Y=-8.0m',
-    scale: 'Tier 1-4',
-    comingSoon: false
-  }
+
+
+
 ];
 
 export function createBuilder(scene, world) {
@@ -1874,11 +1765,7 @@ export const MAP_BUILDERS = {
   garden: buildZen,
   studio: buildStudio,
   mexico: buildMexico,
-  library: buildLibrary,
-  tomes: buildLibrary,
-  space_station: buildSpaceStation,
   forest: buildForest,
-  pirate_cove: buildPirateCove
 };
 
 export function registerMapBuilder(key, builderFn) {
