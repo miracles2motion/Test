@@ -22,7 +22,6 @@ import { lodManager } from './perf/lod-manager.js';
 import { instanceManager } from './perf/instance-manager.js';
 import { spawnManager } from './spawns.js';
 import { synthesizeMapSVG } from './svg-synthesizer.js';
-import { RECIPE as pirateCoveRecipe } from './levels/pirate_cove.js';
 import { BotArenaManager } from './bot-arena.js';
 
 // Attempt to lock screen orientation to landscape on mobile
@@ -1222,9 +1221,6 @@ function weaponsPreviewHTML() {
 }
 
 function getMapSVG(key, isDossier = false) {
-  if (key === 'pirate_cove') {
-    return synthesizeMapSVG(pirateCoveRecipe, isDossier);
-  }
   const c = 'currentColor';
   const alpha = isDossier ? '0.85' : '0.7';
   let paths = '';
