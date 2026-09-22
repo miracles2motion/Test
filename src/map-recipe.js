@@ -4,7 +4,7 @@
 
 import * as THREE from 'three';
 import { INK } from './render.js';
-import { BIOME_PALETTES } from './palettes.js';
+import { BIOME_PALETTES, THEME_PROFILES } from './palettes.js';
 import { SCALE_PRESETS } from './scale-presets.js';
 import { createRNG, hashSeed } from './rebuild/prng.js';
 import {
@@ -41,7 +41,7 @@ export function validateRecipeSchema(recipe) {
   const errors = [];
   if (!recipe.id || typeof recipe.id !== 'string') errors.push('Recipe missing valid "id" string');
   if (!recipe.scale || !SCALE_PRESETS[recipe.scale]) errors.push(`Recipe has unknown scale "${recipe.scale}"`);
-  if (!recipe.palette || !BIOME_PALETTES[recipe.palette]) errors.push(`Recipe has unknown palette "${recipe.palette}"`);
+  if (!recipe.palette || (!BIOME_PALETTES[recipe.palette] && !THEME_PROFILES[recipe.palette])) errors.push(`Recipe has unknown palette "${recipe.palette}"`);
   if (!Array.isArray(recipe.landmarks) || recipe.landmarks.length === 0) errors.push('Recipe requires at least 1 landmark');
   if (!Array.isArray(recipe.sectors) || recipe.sectors.length === 0) errors.push('Recipe requires at least 1 sector');
   return {
@@ -60,11 +60,17 @@ export function validateRecipeSchema(recipe) {
  * @returns {object} { L, report }
  */
 export function buildMapFromRecipe(B, recipe, arena = false) {
+  const validation = validateRecipeSchema(recipe);
+  if (!validation.valid) {
+    throw new Error(`Recipe Validation Failed:\n- ${validation.errors.join('\n- ')}`);
+  }
   const { L, box, slab, cyl, sphere, ring, rail, wedge, spawn, sniper, pickup, planes, collider } = B;
 
   // 1. Resolve Scale Preset & Palette
   const preset = SCALE_PRESETS[recipe.scale] || SCALE_PRESETS.colossal;
-  const palette = BIOME_PALETTES[recipe.palette] || BIOME_PALETTES.forest;
+  const themeKey = recipe.theme || recipe.palette || 'urban';
+  const profile = THEME_PROFILES[themeKey] || THEME_PROFILES.urban;
+  const palette = BIOME_PALETTES[profile.palette] || BIOME_PALETTES.urban;
   const GR = palette.GREEN ?? INK.GREEN ?? 4;
   const BK = palette.BLACK ?? INK.BLACK ?? 2;
   const OR = palette.ORANGE ?? INK.ORANGE ?? 3;
@@ -419,7 +425,7 @@ export function buildMapFromRecipe(B, recipe, arena = false) {
   }
 
   // 9. Perimeter Enclosure (Natural conifer wall or architectural palisade)
-  const wallStyle = recipe.perimeter?.style ?? 'conifer_wall';
+  const wallStyle = recipe.perimeter?.style || profile.perimeter || 'architectural';
   if (wallStyle === 'conifer_wall') {
     // Plant outer conifer perimeter wall
     const treeSpacing = 7.0;

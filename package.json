@@ -33,7 +33,8 @@
     "dream:sync": "node src/dream-registry-sync.js",
     "dream:heal": "node src/map-refiner.js",
     "dream:inspect": "node tools/dream_inspect_cli.js",
-    "dream:teach": "node src/dream-consultant.js"
+    "dream:teach": "node src/dream-consultant.js",
+    "verify:themes": "node src/verify-suite.js all"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",

@@ -5,6 +5,7 @@ import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import * as NaturePrefabs from './prefabs/nature.js';
 import * as ArchPrefabs from './prefabs/architecture.js';
 import * as PropsPrefabs from './prefabs/props.js';
+import * as ArcadePrefabs from './prefabs/arcade.js';
 
 // Re-export them so other files can still import from './prefabs.js'
 export const {
@@ -84,6 +85,18 @@ export const {
   buildBunsenBurner,
   buildPinballMachine
 } = PropsPrefabs;
+
+export const {
+  buildNeonMarquee,
+  buildSkeeBallLane,
+  buildClawMachine,
+  buildAirHockeyTable,
+  buildPrizeCounter,
+  buildTicketBooth,
+  buildArcadeCarpet,
+  buildCoinOpWall,
+  buildTicketChute
+} = ArcadePrefabs;
 
 import { INK } from './render.js';
 import { createRNG } from './rebuild/prng.js';
@@ -572,7 +585,16 @@ export const PREFAB_REGISTRY = {
     tags: ['arcade', 'retro_arcade', 'pinball', 'table', 'landmark', 'hero'],
     builder: buildPinballMachine,
     footprint: [10.0, 14.0, 18.0]
-  }
+  },
+  neon_marquee: { id: 'neon_marquee', tags: ['arcade', 'retro_arcade', 'neon', 'sign'], builder: buildNeonMarquee },
+  skee_ball_lane: { id: 'skee_ball_lane', tags: ['arcade', 'retro_arcade', 'skee_ball'], builder: buildSkeeBallLane },
+  claw_machine: { id: 'claw_machine', tags: ['arcade', 'retro_arcade', 'claw_machine'], builder: buildClawMachine },
+  air_hockey_table: { id: 'air_hockey_table', tags: ['arcade', 'retro_arcade', 'air_hockey'], builder: buildAirHockeyTable },
+  prize_counter: { id: 'prize_counter', tags: ['arcade', 'retro_arcade', 'counter', 'prize'], builder: buildPrizeCounter },
+  ticket_booth: { id: 'ticket_booth', tags: ['arcade', 'retro_arcade', 'ticket', 'booth'], builder: buildTicketBooth },
+  arcade_carpet: { id: 'arcade_carpet', tags: ['arcade', 'retro_arcade', 'carpet', 'decal'], builder: buildArcadeCarpet },
+  coin_op_wall: { id: 'coin_op_wall', tags: ['arcade', 'retro_arcade', 'coin', 'wall'], builder: buildCoinOpWall },
+  ticket_chute: { id: 'ticket_chute', tags: ['arcade', 'retro_arcade', 'ticket', 'chute'], builder: buildTicketChute }
 };
 
 /**
@@ -671,6 +693,10 @@ export function instantiatePrefab(B, prefabId, x, y, z, o = {}) {
   }
 
   if (typeof entry.builder === 'function') {
+    if (B && B.L) {
+      if (!B.L.instantiatedPrefabs) B.L.instantiatedPrefabs = [];
+      B.L.instantiatedPrefabs.push(entry);
+    }
     entry.builder(B, x, y, z, o);
     return true;
   }

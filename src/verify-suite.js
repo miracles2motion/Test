@@ -25,7 +25,8 @@ export function runDreamVerificationSuite(levelObj, colliders = [], opts = {}) {
     t4_sightlines: { pass: true, errors: [] },
     t5_determinism: { pass: true, errors: [] },
     t6_budget: { pass: true, errors: [] },
-    t7_aesthetics: { pass: true, errors: [] }
+    t7_aesthetics: { pass: true, errors: [] },
+    t8_themes: { pass: true, errors: [] }
   };
 
   const rings = levelObj.rings || [];
@@ -182,6 +183,34 @@ export function runDreamVerificationSuite(levelObj, colliders = [], opts = {}) {
     results.t7_aesthetics.pass = false;
   }
 
+  // =========================================================================
+  // T8 — THEME & PREFAB INTEGRITY (Permanent Guards)
+  // Ensures maps do not hallucinate out-of-theme assets (e.g., trees in urban).
+  // =========================================================================
+  const mapDef = LEVELS.find(m => m.key === levelObj.key);
+  if (mapDef && levelObj.instantiatedPrefabs) {
+    const isForestMap = mapDef.key === 'forest' || mapDef.category === 'anomalous'; // simplistic heuristic for demo
+    
+    for (const prefab of levelObj.instantiatedPrefabs) {
+      // G2b Anti-Forest: Zero forest-tagged prefabs allowed in non-forest maps
+      if (!isForestMap && prefab.tags && prefab.tags.includes('forest')) {
+        results.t8_themes.errors.push(`Forest contamination: instantiated prefab '${prefab.id}' in non-forest map '${mapDef.key}'`);
+      }
+      // G1 Scaffold Gate: Prefab tags must align with map category
+      if (prefab.tags && mapDef.category && !prefab.tags.includes(mapDef.category) && !prefab.tags.includes('taught') && !prefab.tags.includes('recipe')) {
+        // Some flexibility: check if tags overlap with map tags or just log a strict warning.
+        const overlap = prefab.tags.some(t => mapDef.tags && mapDef.tags.some(m => m.toLowerCase().includes(t.toLowerCase())));
+        if (!overlap && !prefab.tags.includes('universal') && !prefab.tags.includes(mapDef.key)) {
+          results.t8_themes.errors.push(`Thematic mismatch: prefab '${prefab.id}' (${prefab.tags.join(',')}) in map '${mapDef.key}' (${mapDef.category})`);
+        }
+      }
+    }
+  }
+
+  if (results.t8_themes.errors.length > 0) {
+    results.t8_themes.pass = false;
+  }
+
   const allPassed =
     results.t1_invariants.pass &&
     results.t2_structural.pass &&
@@ -189,7 +218,8 @@ export function runDreamVerificationSuite(levelObj, colliders = [], opts = {}) {
     results.t4_sightlines.pass &&
     results.t5_determinism.pass &&
     results.t6_budget.pass &&
-    results.t7_aesthetics.pass;
+    results.t7_aesthetics.pass &&
+    results.t8_themes.pass;
 
   return {
     pass: allPassed,
@@ -198,7 +228,8 @@ export function runDreamVerificationSuite(levelObj, colliders = [], opts = {}) {
       results.t2_structural.errors.length * 10 +
       results.t3_reachability.errors.length * 20 +
       results.t6_budget.errors.length * 15 +
-      results.t7_aesthetics.errors.length * 5
+      results.t7_aesthetics.errors.length * 5 +
+      results.t8_themes.errors.length * 25
     )),
     results
   };
@@ -235,6 +266,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     console.log(`   T5 (Determinism):  ${audit.results.t5_determinism.pass ? '✅ PASS' : '❌ FAIL'}`);
     console.log(`   T6 (Performance):  ${audit.results.t6_budget.pass ? '✅ PASS' : '❌ FAIL'}`);
     console.log(`   T7 (Aesthetics):   ${audit.results.t7_aesthetics.pass ? '✅ PASS' : '❌ FAIL'}`);
+    console.log(`   T8 (Themes):       ${audit.results.t8_themes.pass ? '✅ PASS' : '❌ FAIL'}`);
     console.log(`============================================================\n`);
 
     if (!audit.pass) {

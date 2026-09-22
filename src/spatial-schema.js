@@ -102,5 +102,12 @@ export const SPATIAL_JSON_SCHEMA = {
         "playable": "boolean"
       }
     ]
+  },
+
+  "perimeter": {
+    "style": "enum: conifer_wall | architectural | invisible",
+    "thickness": "number (meters)",
+    "height": "number (meters)",
+    "features": ["string array (e.g., 'walkway', 'balcony', 'turret')"]
   }
 };
