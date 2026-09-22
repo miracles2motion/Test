@@ -1185,8 +1185,8 @@ export function buildTerminalClockTower(B, x, y, z, o = {}) {
   }
 
   // 6. Apex spire & Momentum Grapple Ring
-  cyl(x, y + 12.3, z, 0.18, 3.0, { ink: inkClock, noCollide: true });
-  ring(x, y + 15.6, z, 'y');
+  cyl(x, y + 12.3, z, 0.18, 5.0, { ink: inkClock, noCollide: true });
+  ring(x, y + 17.5, z, 'y');
 }
 
 /**
@@ -1227,6 +1227,122 @@ export function buildPassengerShelter(B, x, y, z, o = {}) {
 
   // Waiting bench underneath shelter
   buildTransitBench(B, x, y, z);
+}
+
+/**
+ * Procedural Space-Frame Concourse Arch - Swept Steel Tubular Roof (Airport & Grand Terminal Architecture)
+ * True 3D curved structural rib arches, cross-bracing steel lattice, and skylight apertures.
+ */
+export function buildSpaceFrameConcourse(B, x, y, z, o = {}) {
+  const { box, cyl, ring } = B;
+  const inkSteel = o.inkSteel ?? (INK.BLUE ?? 0);
+  const inkLattice = o.inkLattice ?? (INK.BLACK ?? 2);
+  const span = o.span ?? 36.0;
+  const length = o.length ?? 48.0;
+  const apexH = o.apexH ?? 11.5;
+  const archCount = Math.max(3, Math.floor(length / 12.0));
+
+  const halfSpan = span / 2;
+  const zStart = z - length / 2;
+  const zStep = length / (archCount - 1);
+
+  for (let a = 0; a < archCount; a++) {
+    const curZ = zStart + a * zStep;
+    const segments = 10;
+    for (let s = 0; s < segments; s++) {
+      const t1 = s / segments;
+      const t2 = (s + 1) / segments;
+      const ang1 = Math.PI * t1;
+      const ang2 = Math.PI * t2;
+
+      const px1 = x - Math.cos(ang1) * halfSpan;
+      const py1 = y + Math.sin(ang1) * apexH;
+      const px2 = x - Math.cos(ang2) * halfSpan;
+      const py2 = y + Math.sin(ang2) * apexH;
+
+      const segDx = px2 - px1;
+      const segDy = py2 - py1;
+      const segLen = Math.hypot(segDx, segDy);
+      const midX = (px1 + px2) / 2;
+      const midY = (py1 + py2) / 2;
+
+      // Primary heavy tubular arch rib
+      cyl(midX, midY, curZ, 0.22, segLen, { axis: 'x', ink: inkSteel, noCollide: true });
+
+      // Cross-truss purlins connecting to next arch
+      if (a < archCount - 1 && s % 2 === 0) {
+        cyl(px1, py1, curZ + zStep / 2, 0.12, zStep, { axis: 'z', ink: inkLattice, noCollide: true });
+      }
+    }
+
+    // Traversal grapple ring at the apex of each arch (skip if at center where clock tower stands)
+    if (Math.hypot(x, curZ) > 4.0) {
+      ring(x, y + apexH + 2.0, curZ, 'y');
+    }
+  }
+}
+
+/**
+ * Procedural Tiled Transit Underpass & Subway Flank Corridor
+ * Walkable subterranean / sunken corridor linking platforms with safety handrails and stairwells.
+ */
+export function buildTransitUnderpass(B, x, y, z, o = {}) {
+  const { box, slab, rail } = B;
+  const inkTile = o.inkTile ?? (INK.BLUE ?? 0);
+  const inkStair = o.inkStair ?? (INK.BLACK ?? 2);
+  const width = o.width ?? 3.8;
+  const length = o.length ?? 24.0;
+  const depth = o.depth ?? 2.8;
+
+  // Subterranean floor slab
+  slab(x - width / 2, z - length / 2, x + width / 2, z + length / 2, y - depth, 0.35, { ink: inkTile });
+
+  // Retaining concrete side walls
+  box(x - width / 2 - 0.2, y - depth, z, 0.4, depth + 1.0, length, { ink: inkStair });
+  box(x + width / 2 + 0.2, y - depth, z, 0.4, depth + 1.0, length, { ink: inkStair });
+
+  // Protective handrails along top openings
+  rail(x - width / 2, z - length / 2, x - width / 2, z + length / 2, y, { ink: inkStair });
+  rail(x + width / 2, z - length / 2, x + width / 2, z + length / 2, y, { ink: inkStair });
+
+  // North entrance staircase (rising from y - depth up to y)
+  const steps = 10;
+  const rise = depth / steps;
+  const run = 0.45;
+  for (let i = 0; i < steps; i++) {
+    const sY = y - depth + i * rise;
+    const sZ = z - length / 2 + (i + 1) * run;
+    box(x, sY, sZ, width - 0.4, rise, run, { ink: inkTile, tag: 'stairs' });
+  }
+
+  // South entrance staircase
+  for (let i = 0; i < steps; i++) {
+    const sY = y - depth + i * rise;
+    const sZ = z + length / 2 - (i + 1) * run;
+    box(x, sY, sZ, width - 0.4, rise, run, { ink: inkTile, tag: 'stairs' });
+  }
+}
+
+/**
+ * Procedural Urban Ground Decals: Oil Stains, Sewer Grates & Directional Traffic Markings
+ * Anchors the transit terminal into the paper substrate, killing sterile boxiness.
+ */
+export function buildUrbanDecals(B, x, z, o = {}) {
+  const { box, cyl } = B;
+  const inkOil = o.inkOil ?? (INK.BLACK ?? 2);
+  const inkMark = o.inkMark ?? (INK.ORANGE ?? 3);
+
+  // 1. Engine oil drip puddle under coach engine bay (Y = 0.012)
+  box(x, 0.012, z, 2.2, 0.01, 3.4, { ink: inkOil, noCollide: true });
+
+  // 2. Iron storm drain sewer grate
+  box(x + 1.8, 0.014, z - 1.2, 0.8, 0.01, 1.2, { ink: inkOil, noCollide: true });
+  for (let g = -0.4; g <= 0.4; g += 0.2) {
+    box(x + 1.8 + g, 0.015, z - 1.2, 0.04, 0.01, 1.1, { ink: inkMark, noCollide: true });
+  }
+
+  // 3. Directional lane traffic chevron
+  box(x, 0.015, z + 2.4, 0.35, 0.01, 1.6, { ink: inkMark, noCollide: true });
 }
 
 // ============================================================================
@@ -1639,6 +1755,27 @@ export const PREFAB_REGISTRY = {
     tags: ['urban', 'shelter', 'canopy', 'transit', 'cover'],
     builder: buildPassengerShelter,
     footprint: [7.2, 3.4, 3.2]
+  },
+  space_frame_concourse: {
+    id: 'space_frame_concourse',
+    name: 'Curved Space-Frame Concourse Steel Arch',
+    tags: ['urban', 'transit', 'arch', 'canopy', 'roof', 'landmark'],
+    builder: buildSpaceFrameConcourse,
+    footprint: [36.0, 12.0, 48.0]
+  },
+  transit_underpass: {
+    id: 'transit_underpass',
+    name: 'Tiled Subterranean Transit Underpass',
+    tags: ['urban', 'transit', 'underpass', 'tunnel', 'stairs', 'cqb'],
+    builder: buildTransitUnderpass,
+    footprint: [4.0, 3.0, 24.0]
+  },
+  urban_decals: {
+    id: 'urban_decals',
+    name: 'Urban Ground Decals & Drainage Grates',
+    tags: ['urban', 'transit', 'decal', 'pavement', 'drain'],
+    builder: buildUrbanDecals,
+    footprint: [4.0, 0.1, 4.0]
   }
 };
 

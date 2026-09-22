@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { INK } from '../render.js';
+import { INK, makeInkMaterial } from '../render.js';
 import {
   buildTransitBus,
   buildTerminalClockTower,
@@ -10,7 +10,10 @@ import {
   buildWarningSign,
   buildTechnicalFraming,
   buildAtmosphericBeams,
-  buildInkSplatters
+  buildInkSplatters,
+  buildSpaceFrameConcourse,
+  buildTransitUnderpass,
+  buildUrbanDecals
 } from '../prefabs.js';
 
 /**
@@ -60,6 +63,14 @@ export function buildBusStation(B, arena = false) {
     box(-22, 0.015, z, 0.4, 0.01, 4.0, { ink: OR, noCollide: true });
     box(22, 0.015, z, 0.4, 0.01, 4.0, { ink: OR, noCollide: true });
   }
+
+  // Urban Ground Decals: Engine oil puddles, iron storm drains & traffic marks
+  buildUrbanDecals(B, -22, -22); // Under West Coach 1
+  buildUrbanDecals(B, -22, 22);  // Under West Coach 2
+  buildUrbanDecals(B, 22, -22);  // Under East Coach 3
+  buildUrbanDecals(B, 22, 22);   // Under East Coach 4
+  buildUrbanDecals(B, 0, -30);   // Plaza North drainage
+  buildUrbanDecals(B, 0, 30);    // Plaza South drainage
 
   // Terminal Boundary Walls (Architectural concrete enclosure with high glass bays)
   box(0, 0, -P, 2 * P + T, PH, T, { ink: BL });
@@ -281,8 +292,17 @@ export function buildBusStation(B, arena = false) {
     cyl(30, canopyY - 1.2, z, 0.12, 3.8, { axis: 'x', ink: BK, noCollide: true });
   }
 
+  // Swept Tubular Space-Frame Concourse Arch (Grand Airport/Terminal Architecture)
+  buildSpaceFrameConcourse(B, 0, 0, 0, {
+    span: 56.0,
+    length: 64.0,
+    apexH: 14.5,
+    inkSteel: BL,
+    inkLattice: BK
+  });
+
   // =========================================================================
-  // 8. TRAVERSAL GRAPPLE HIGHWAY & ATMOSPHERIC SKY RAYS
+  // 8. TRAVERSAL GRAPPLE HIGHWAY, ATMOSPHERIC SKY RAYS & LIVING KINETIC ACTORS
   // =========================================================================
   // Elevated grapple rings positioned with clear radial headroom (>= 2.5m from slabs)
   ring(-22, canopyY + 3.0, -22, 'y'); // Over West Bus 1 canopy
@@ -303,6 +323,109 @@ export function buildBusStation(B, arena = false) {
   buildInkSplatters(B, 0, 0.02, 12, { ink: BK, seed: 404 });
   buildInkSplatters(B, -22, 0.02, -10, { ink: BK, seed: 505 });
   buildInkSplatters(B, 22, 0.02, 10, { ink: BK, seed: 606 });
+
+  // =========================================================================
+  // LIVING KINETIC TRANSIT ACTORS (Elevating Bus Station to Forest Standard)
+  // =========================================================================
+  if (scene && L.animated) {
+    // 1. Bus Diesel Exhaust Haze Puffs (Rising from idling coaches)
+    const exhaustGroup = new THREE.Group();
+    const exhaustPuffs = [];
+    const exhaustMat = makeInkMaterial({ ink: BK });
+
+    for (let i = 0; i < 6; i++) {
+      const eg = new THREE.BoxGeometry(0.28, 0.28, 0.28);
+      const em = new THREE.Mesh(eg, exhaustMat);
+      exhaustGroup.add(em);
+      exhaustPuffs.push({
+        mesh: em,
+        busX: i % 2 === 0 ? -20.6 : 23.4,
+        busZ: i < 3 ? -27.5 : 16.5,
+        phase: i * 0.8
+      });
+      L.meshes.push(em);
+    }
+    scene.add(exhaustGroup);
+
+    L.animated.push({
+      mesh: exhaustGroup,
+      update: (t) => {
+        for (const ep of exhaustPuffs) {
+          const cycle = (t * 0.75 + ep.phase) % 2.5;
+          const progress = cycle / 2.5;
+          ep.mesh.position.set(
+            ep.busX + Math.sin(t * 2.0 + ep.phase) * 0.25,
+            0.4 + progress * 2.6,
+            ep.busZ - progress * 1.2
+          );
+          const sc = 0.4 + progress * 1.8;
+          ep.mesh.scale.setScalar(sc);
+          ep.mesh.visible = progress < 0.9;
+        }
+      }
+    });
+
+    // 2. Wind-Blown Transit Tickets & Doodle Paper Flurries
+    const ticketGroup = new THREE.Group();
+    const ticketCount = 5;
+    const ticketMeshes = [];
+    const ticketMat = makeInkMaterial({ ink: OR });
+
+    for (let k = 0; k < ticketCount; k++) {
+      const tg = new THREE.BoxGeometry(0.35, 0.01, 0.22);
+      const tm = new THREE.Mesh(tg, ticketMat);
+      ticketGroup.add(tm);
+      ticketMeshes.push({
+        mesh: tm,
+        baseX: (k - 2) * 8.0,
+        phase: k * 1.2,
+        r: 14.0 + (k % 3) * 4.0
+      });
+      L.meshes.push(tm);
+    }
+    scene.add(ticketGroup);
+
+    L.animated.push({
+      mesh: ticketGroup,
+      update: (t) => {
+        for (const tk of ticketMeshes) {
+          const ang = t * 0.35 + tk.phase;
+          const py = 0.25 + Math.abs(Math.sin(t * 1.8 + tk.phase)) * 2.2;
+          tk.mesh.position.set(
+            Math.cos(ang) * tk.r,
+            py,
+            Math.sin(ang) * tk.r
+          );
+          tk.mesh.rotation.y = ang + Math.PI / 2;
+          tk.mesh.rotation.z = Math.sin(t * 4.0 + tk.phase) * 0.45;
+          tk.mesh.rotation.x = Math.cos(t * 3.0 + tk.phase) * 0.35;
+        }
+      }
+    });
+
+    // 3. Flickering Concourse Fluorescent Tubes (Technical lighting pulse)
+    const neonGroup = new THREE.Group();
+    const neonMat = makeInkMaterial({ ink: BL });
+    const neonTubes = [];
+    for (const nz of [-18, 0, 18]) {
+      const ng = new THREE.BoxGeometry(10.0, 0.12, 0.12);
+      const nm = new THREE.Mesh(ng, neonMat);
+      nm.position.set(0, skyY + 3.8, nz);
+      neonGroup.add(nm);
+      neonTubes.push(nm);
+      L.meshes.push(nm);
+    }
+    scene.add(neonGroup);
+
+    L.animated.push({
+      mesh: neonGroup,
+      update: (t) => {
+        // Micro-procedural stochastic flicker simulation
+        const flicker = Math.sin(t * 22.0) * Math.cos(t * 47.0);
+        neonMat.uniforms.uShadeScale.value = flicker > 0.65 ? 0.3 : 1.2;
+      }
+    });
+  }
 
   // =========================================================================
   // 9. SPAWNS, SNIPERS & TACTICAL ITEM PICKUPS
