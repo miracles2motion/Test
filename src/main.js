@@ -1139,7 +1139,7 @@ function unlockButtons() { const box = hud.el.panel.querySelector('#online'); if
 function renderLobby() { if (game.state === 'lobby') showStart(); }
 
 function buildUIContext() {
-  return { LEVELS, mapKey, game, window, arenaFormat, best, bestForMap, bestWaveForMap, musicWanted, renderQuality, isAppInstalled, deferredPrompt, mobile, player, previewWeaponType, previewWeaponInst, cameraFov, lobby, FFA_TARGET, FFA_TIME, net, myName, scores, version: typeof version !== 'undefined' ? version : '1.0', getPlayableMaps, Object };
+  return { LEVELS, mapKey, game, window, arenaFormat, best, bestForMap, bestWaveForMap, musicWanted, renderQuality, isAppInstalled, deferredPrompt, mobile, player, previewWeaponType, previewWeaponInst, cameraFov, lobby, FFA_TARGET, FFA_TIME, net, myName, scores, checkpoint, settingsTab, settingsReturnTo, version: typeof version !== 'undefined' ? version : '1.0', getPlayableMaps, Object };
 }
 function showStart() {
   setScreenTransitionGuard(350);

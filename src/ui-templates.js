@@ -2,7 +2,7 @@ import { getMapSVG } from './map-svgs.js';
 import { esc } from './util.js';
 
 export function settingsScreenHTML(ctx) {
-  const { LEVELS, mapKey, game, window, arenaFormat, best, bestForMap, bestWaveForMap, musicWanted, renderQuality, isAppInstalled, deferredPrompt, mobile, player, previewWeaponType, previewWeaponInst, cameraFov, lobby, FFA_TARGET, FFA_TIME, net, myName, scores, version, getPlayableMaps, Object } = ctx;
+  const { LEVELS, mapKey, game, window, arenaFormat, best, bestForMap, bestWaveForMap, musicWanted, renderQuality, isAppInstalled, deferredPrompt, mobile, player, previewWeaponType, previewWeaponInst, cameraFov, lobby, FFA_TARGET, FFA_TIME, net, myName, scores, checkpoint, settingsTab, settingsReturnTo, version, getPlayableMaps, Object } = ctx;
 
   const isGameActive = settingsReturnTo === 'pause' || (typeof game !== 'undefined' && game.state === 'play' && !game.over);
   const currentDpi = (typeof R !== 'undefined' && R.pixelRatio) ? R.pixelRatio.toFixed(2) : '1.50';
@@ -114,7 +114,7 @@ export function settingsScreenHTML(ctx) {
 }
 
 export function checkpointHTML(ctx) {
-  const { LEVELS, mapKey, game, window, arenaFormat, best, bestForMap, bestWaveForMap, musicWanted, renderQuality, isAppInstalled, deferredPrompt, mobile, player, previewWeaponType, previewWeaponInst, cameraFov, lobby, FFA_TARGET, FFA_TIME, net, myName, scores, version, getPlayableMaps, Object } = ctx;
+  const { LEVELS, mapKey, game, window, arenaFormat, best, bestForMap, bestWaveForMap, musicWanted, renderQuality, isAppInstalled, deferredPrompt, mobile, player, previewWeaponType, previewWeaponInst, cameraFov, lobby, FFA_TARGET, FFA_TIME, net, myName, scores, checkpoint, settingsTab, settingsReturnTo, version, getPlayableMaps, Object } = ctx;
 
   if (checkpoint < 5) return '';
   let h = '<div class="checkpoints"><span>checkpoints</span>';
@@ -123,7 +123,7 @@ export function checkpointHTML(ctx) {
 }
 
 export function weaponsPreviewHTML(ctx) {
-  const { LEVELS, mapKey, game, window, arenaFormat, best, bestForMap, bestWaveForMap, musicWanted, renderQuality, isAppInstalled, deferredPrompt, mobile, player, previewWeaponType, previewWeaponInst, cameraFov, lobby, FFA_TARGET, FFA_TIME, net, myName, scores, version, getPlayableMaps, Object } = ctx;
+  const { LEVELS, mapKey, game, window, arenaFormat, best, bestForMap, bestWaveForMap, musicWanted, renderQuality, isAppInstalled, deferredPrompt, mobile, player, previewWeaponType, previewWeaponInst, cameraFov, lobby, FFA_TARGET, FFA_TIME, net, myName, scores, checkpoint, settingsTab, settingsReturnTo, version, getPlayableMaps, Object } = ctx;
 
 
   return `
@@ -158,7 +158,7 @@ export function weaponsPreviewHTML(ctx) {
 }
 
 export function mapSelectHTML(ctx) {
-  const { LEVELS, mapKey, game, window, arenaFormat, best, bestForMap, bestWaveForMap, musicWanted, renderQuality, isAppInstalled, deferredPrompt, mobile, player, previewWeaponType, previewWeaponInst, cameraFov, lobby, FFA_TARGET, FFA_TIME, net, myName, scores, version, getPlayableMaps, Object } = ctx;
+  const { LEVELS, mapKey, game, window, arenaFormat, best, bestForMap, bestWaveForMap, musicWanted, renderQuality, isAppInstalled, deferredPrompt, mobile, player, previewWeaponType, previewWeaponInst, cameraFov, lobby, FFA_TARGET, FFA_TIME, net, myName, scores, checkpoint, settingsTab, settingsReturnTo, version, getPlayableMaps, Object } = ctx;
 
 
   const curMap = LEVELS.find((m) => m.key === mapKey) || LEVELS[0];
@@ -277,7 +277,7 @@ export function mapSelectHTML(ctx) {
 }
 
 export function mainHTML(ctx) {
-  const { LEVELS, mapKey, game, window, arenaFormat, best, bestForMap, bestWaveForMap, musicWanted, renderQuality, isAppInstalled, deferredPrompt, mobile, player, previewWeaponType, previewWeaponInst, cameraFov, lobby, FFA_TARGET, FFA_TIME, net, myName, scores, version, getPlayableMaps, Object } = ctx;
+  const { LEVELS, mapKey, game, window, arenaFormat, best, bestForMap, bestWaveForMap, musicWanted, renderQuality, isAppInstalled, deferredPrompt, mobile, player, previewWeaponType, previewWeaponInst, cameraFov, lobby, FFA_TARGET, FFA_TIME, net, myName, scores, checkpoint, settingsTab, settingsReturnTo, version, getPlayableMaps, Object } = ctx;
 
 
   const isInstalled = isAppInstalled();
@@ -326,7 +326,7 @@ export function mainHTML(ctx) {
 }
 
 export function onlineHTML(ctx) {
-  const { LEVELS, mapKey, game, window, arenaFormat, best, bestForMap, bestWaveForMap, musicWanted, renderQuality, isAppInstalled, deferredPrompt, mobile, player, previewWeaponType, previewWeaponInst, cameraFov, lobby, FFA_TARGET, FFA_TIME, net, myName, scores, version, getPlayableMaps, Object } = ctx;
+  const { LEVELS, mapKey, game, window, arenaFormat, best, bestForMap, bestWaveForMap, musicWanted, renderQuality, isAppInstalled, deferredPrompt, mobile, player, previewWeaponType, previewWeaponInst, cameraFov, lobby, FFA_TARGET, FFA_TIME, net, myName, scores, checkpoint, settingsTab, settingsReturnTo, version, getPlayableMaps, Object } = ctx;
 
 
   return `
@@ -388,7 +388,7 @@ export function onlineHTML(ctx) {
 }
 
 export function lobbyHTML(ctx) {
-  const { LEVELS, mapKey, game, window, arenaFormat, best, bestForMap, bestWaveForMap, musicWanted, renderQuality, isAppInstalled, deferredPrompt, mobile, player, previewWeaponType, previewWeaponInst, cameraFov, lobby, FFA_TARGET, FFA_TIME, net, myName, scores, version, getPlayableMaps, Object } = ctx;
+  const { LEVELS, mapKey, game, window, arenaFormat, best, bestForMap, bestWaveForMap, musicWanted, renderQuality, isAppInstalled, deferredPrompt, mobile, player, previewWeaponType, previewWeaponInst, cameraFov, lobby, FFA_TARGET, FFA_TIME, net, myName, scores, checkpoint, settingsTab, settingsReturnTo, version, getPlayableMaps, Object } = ctx;
 
 
   const rows = lobbyRows(); const host = net.isHost; const n = rows.length;
@@ -437,7 +437,7 @@ export function lobbyHTML(ctx) {
 }
 
 export function lobbyListHTML(ctx) {
-  const { LEVELS, mapKey, game, window, arenaFormat, best, bestForMap, bestWaveForMap, musicWanted, renderQuality, isAppInstalled, deferredPrompt, mobile, player, previewWeaponType, previewWeaponInst, cameraFov, lobby, FFA_TARGET, FFA_TIME, net, myName, scores, version, getPlayableMaps, Object } = ctx;
+  const { LEVELS, mapKey, game, window, arenaFormat, best, bestForMap, bestWaveForMap, musicWanted, renderQuality, isAppInstalled, deferredPrompt, mobile, player, previewWeaponType, previewWeaponInst, cameraFov, lobby, FFA_TARGET, FFA_TIME, net, myName, scores, checkpoint, settingsTab, settingsReturnTo, version, getPlayableMaps, Object } = ctx;
 
 
   if (listBusy) return '<div style="opacity:0.8;">looking…</div>';
@@ -456,6 +456,6 @@ export function lobbyListHTML(ctx) {
 }
 
 export function menuBtnHTML(ctx) {
-  const { LEVELS, mapKey, game, window, arenaFormat, best, bestForMap, bestWaveForMap, musicWanted, renderQuality, isAppInstalled, deferredPrompt, mobile, player, previewWeaponType, previewWeaponInst, cameraFov, lobby, FFA_TARGET, FFA_TIME, net, myName, scores, version, getPlayableMaps, Object } = ctx;
+  const { LEVELS, mapKey, game, window, arenaFormat, best, bestForMap, bestWaveForMap, musicWanted, renderQuality, isAppInstalled, deferredPrompt, mobile, player, previewWeaponType, previewWeaponInst, cameraFov, lobby, FFA_TARGET, FFA_TIME, net, myName, scores, checkpoint, settingsTab, settingsReturnTo, version, getPlayableMaps, Object } = ctx;
  return '<div class="online menubtn"><div class="row"><button type="button" class="alt" id="menuBtn">MAIN MENU</button></div></div>'; }
 
