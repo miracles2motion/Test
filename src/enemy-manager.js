@@ -4,6 +4,8 @@ import { rand, choose, clamp, approach, damp, TAU } from './util.js';
 import { TYPES, STATE_CODES, BOSSES } from './enemy-types.js';
 
 const _v = new THREE.Vector3();
+const _eye = new THREE.Vector3();
+const _goal = new THREE.Vector3();
 import { makeBody, SEE_THROUGH } from './physics.js';
 import { audio } from './audio.js';
 import { EnemyBrain } from './enemy-brain.js';
