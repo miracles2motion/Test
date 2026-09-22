@@ -1049,14 +1049,37 @@ export function buildChalkboardWall(B, x, y, z, o = {}) {
 }
 
 /**
- * Procedural Wooden Crate Stack - Universal Cover
+ * Procedural Wooden Crate Stack - Universal Cover (Seeded Parametric Variety)
+ * Generates unique crate arrangements, variable stack heights, and rotated micro-crates.
  */
 export function buildCrateStack(B, x, y, z, o = {}) {
   const { box } = B;
   const ink = o.ink ?? INK.ORANGE;
-  box(x - 0.45, y, z, 0.85, 0.85, 0.85, { ink, tag: 'cover' });
-  box(x + 0.45, y, z, 0.85, 0.85, 0.85, { ink, tag: 'cover' });
-  box(x, y + 0.85, z, 0.85, 0.85, 0.85, { ink, tag: 'cover' });
+  const inkBand = o.inkBand ?? INK.BLACK;
+  const seed = (typeof o.seed === 'number' ? o.seed : 101) + Math.floor(x * 17 + z * 31);
+  const variant = Math.abs(seed) % 3;
+
+  if (variant === 0) {
+    // 3-crate pyramid (standard)
+    box(x - 0.45, y, z, 0.85, 0.85, 0.85, { ink, tag: 'cover' });
+    box(x + 0.45, y, z, 0.85, 0.85, 0.85, { ink, tag: 'cover' });
+    box(x, y + 0.85, z, 0.85, 0.85, 0.85, { ink, tag: 'cover' });
+    // Steel reinforcement band
+    box(x, y + 0.85, z, 0.87, 0.12, 0.87, { ink: inkBand, noCollide: true });
+  } else if (variant === 1) {
+    // 4-crate cargo pallet stack (wider base)
+    box(x - 0.5, y, z - 0.35, 0.9, 0.75, 0.7, { ink, tag: 'cover' });
+    box(x + 0.5, y, z - 0.35, 0.9, 0.75, 0.7, { ink, tag: 'cover' });
+    box(x, y, z + 0.45, 1.4, 0.75, 0.8, { ink, tag: 'cover' });
+    box(x - 0.2, y + 0.75, z, 0.85, 0.75, 0.85, { ink, tag: 'cover' });
+  } else {
+    // Asymmetrical double crate with open lid packing foam
+    box(x - 0.4, y, z, 0.95, 0.95, 0.95, { ink, tag: 'cover' });
+    box(x + 0.55, y, z + 0.2, 0.75, 0.75, 0.75, { ink, tag: 'cover' });
+    box(x - 0.4, y + 0.95, z, 0.8, 0.65, 0.8, { ink, tag: 'cover' });
+    // Packing straw / foam accent
+    box(x - 0.4, y + 1.6, z, 0.6, 0.08, 0.6, { ink: INK.BLUE ?? 0, noCollide: true });
+  }
 }
 
 /**
@@ -1121,28 +1144,59 @@ export function buildWarningSign(B, x, y, z, o = {}) {
 
 /**
  * Procedural Transit Commuter Bus - 12m Urban Coach Landmark
- * Features 3D chassis, double entrance doorframes, roof AC pod, rubber wheel assemblies, and mantleable bumper.
+ * Features 3D chassis, parametric liveries, destination LED head signs, roof variations, and mantleable bumper.
  */
 export function buildTransitBus(B, x, y, z, o = {}) {
   const { box, cyl, ring } = B;
   const inkBody = o.inkBody ?? (INK.ORANGE ?? 3);
   const inkTrim = o.inkTrim ?? (INK.BLACK ?? 2);
   const inkGlass = o.inkGlass ?? (INK.BLUE ?? 0);
+  const inkAccent = o.inkAccent ?? (INK.RED ?? 1);
+  const busType = o.busType ?? 'commuter'; // 'commuter', 'express', 'airport', 'metro'
 
   // 1. Lower chassis & wheel wells
   box(x, y + 0.35, z, 2.8, 0.7, 11.5, { ink: inkTrim });
 
+  // Front and rear heavy impact bumpers
+  box(x, y + 0.35, z - 5.82, 2.84, 0.45, 0.3, { ink: inkTrim });
+  box(x, y + 0.35, z + 5.82, 2.84, 0.45, 0.3, { ink: inkTrim });
+
   // 2. Main passenger cabin body
   box(x, y + 1.05, z, 2.76, 2.1, 11.4, { ink: inkBody, tag: 'cover' });
 
-  // 3. Roof AC unit & luggage pod (roof mantle surface at Y=3.15m, visual detail)
-  box(x, y + 3.15, z - 1.0, 2.2, 0.45, 3.8, { ink: inkTrim });
+  // Parametric Livery Waistband Stripe (accents body color)
+  box(x - 1.39, y + 0.95, z, 0.04, 0.22, 11.2, { ink: inkAccent, noCollide: true });
+  box(x + 1.39, y + 0.95, z, 0.04, 0.22, 11.2, { ink: inkAccent, noCollide: true });
 
-  // 4. Windshield & side window strips (visual detailing)
+  // 3. Parametric Roof Equipment
+  if (busType === 'express') {
+    // Dual AC Pods + Roof Air Deflector
+    box(x, y + 3.15, z - 2.5, 2.2, 0.45, 2.4, { ink: inkTrim });
+    box(x, y + 3.15, z + 2.5, 2.2, 0.45, 2.4, { ink: inkTrim });
+  } else if (busType === 'airport') {
+    // Extended Luggage Racks with tie-down rails
+    box(x, y + 3.15, z, 2.3, 0.4, 6.2, { ink: inkTrim });
+    box(x, y + 3.35, z, 2.1, 0.2, 5.8, { ink: inkAccent, noCollide: true });
+  } else {
+    // Standard Commuter AC unit
+    box(x, y + 3.15, z - 1.0, 2.2, 0.45, 3.8, { ink: inkTrim });
+  }
+
+  // 4. Windshield, Rear Window & Glowing Destination LED Signs
   box(x, y + 2.1, z - 5.72, 2.5, 1.1, 0.08, { ink: inkGlass, noCollide: true });
   box(x, y + 2.1, z + 5.72, 2.5, 1.1, 0.08, { ink: inkGlass, noCollide: true });
+
+  // Front Destination Route Matrix Sign (Amber/Orange LED reader)
+  box(x, y + 2.85, z - 5.74, 1.8, 0.32, 0.06, { ink: INK.ORANGE ?? 3, noCollide: true });
+
+  // Passenger window banks
   box(x - 1.39, y + 2.1, z, 0.06, 0.95, 9.8, { ink: inkGlass, noCollide: true });
   box(x + 1.39, y + 2.1, z, 0.06, 0.95, 9.8, { ink: inkGlass, noCollide: true });
+
+  // Front Bumper Bike Rack (Unique tactical micro-cover on select coaches)
+  if (o.bikeRack) {
+    box(x, y + 0.45, z - 6.2, 2.2, 0.5, 0.45, { ink: inkTrim, tag: 'cover' });
+  }
 
   // 5. Rubber wheels (4 tandem pairs)
   for (const wz of [z - 3.4, z + 3.4]) {

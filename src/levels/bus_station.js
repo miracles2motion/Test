@@ -113,17 +113,19 @@ export function buildBusStation(B, arena = false) {
   // =========================================================================
   // 3. FULL TRANSIT COACH FLEET (TIER 3 MACRO VEHICLES)
   // =========================================================================
-  // West Bay Coach 1 (Northbound Commuter Express)
-  buildTransitBus(B, -22, 0, -22, { inkBody: OR, inkTrim: BK, inkGlass: BL });
+  // 3. FULL TRANSIT COACH FLEET (PARAMETRIC UNIQUE VEHICLES)
+  // =========================================================================
+  // West Bay Coach 1 (Northbound Express with dual AC and bike rack)
+  buildTransitBus(B, -22, 0, -22, { inkBody: OR, inkTrim: BK, inkGlass: BL, inkAccent: RD, busType: 'express', bikeRack: true });
 
-  // West Bay Coach 2 (Southbound Airport Shuttle)
-  buildTransitBus(B, -22, 0, 22, { inkBody: BL, inkTrim: BK, inkGlass: OR });
+  // West Bay Coach 2 (Southbound Airport Shuttle with extended roof luggage rack)
+  buildTransitBus(B, -22, 0, 22, { inkBody: BL, inkTrim: BK, inkGlass: OR, inkAccent: OR, busType: 'airport' });
 
-  // East Bay Coach 3 (Regional Metro Coach)
-  buildTransitBus(B, 22, 0, -22, { inkBody: BL, inkTrim: BK, inkGlass: OR });
+  // East Bay Coach 3 (Regional Metro Coach with green commuter stripe)
+  buildTransitBus(B, 22, 0, -22, { inkBody: BK, inkTrim: BK, inkGlass: BL, inkAccent: GR, busType: 'metro' });
 
-  // East Bay Coach 4 (Cross-Country Cruiser)
-  buildTransitBus(B, 22, 0, 22, { inkBody: OR, inkTrim: BK, inkGlass: BL });
+  // East Bay Coach 4 (Cross-Country Cruiser with aerodynamic roof deflector)
+  buildTransitBus(B, 22, 0, 22, { inkBody: OR, inkTrim: BK, inkGlass: BL, inkAccent: BL, busType: 'express', bikeRack: true });
 
   // =========================================================================
   // 4. PASSENGER SHELTERS, BENCHES & KIOSKS (TIER 1 & 2 DRESSING)
