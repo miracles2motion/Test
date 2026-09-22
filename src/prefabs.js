@@ -8,6 +8,13 @@ import * as PropsPrefabs from './prefabs/props.js';
 
 // Re-export them so other files can still import from './prefabs.js'
 export const {
+  buildTransitBus,
+  buildTerminalClockTower,
+  buildTransitBench,
+  buildPassengerShelter,
+  buildTechnicalFraming,
+  buildAtmosphericBeams,
+  buildInkSplatters,
   buildAncientTree,
   buildPineTree,
   buildWillowTree,
