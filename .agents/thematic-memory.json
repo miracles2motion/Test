@@ -182,6 +182,128 @@
           "flickering_fluorescents (stochastic neon tube lighting pulses)"
         ]
       }
+    },
+    "retro_arcade": {
+      "keywords": [
+        "retro_arcade",
+        "arcade",
+        "pinball",
+        "neon",
+        "vector"
+      ],
+      "layoutPrior": "multi_tier_amusement",
+      "primaryInk": "INK.BLUE",
+      "secondaryInk": "INK.BLACK",
+      "accentInk": "INK.ORANGE",
+      "hazardInk": "INK.RED",
+      "guidance": "1980s neon amusement palace on dark cardstock: 16m tilted pinball machine centerpiece with solenoid flippers and pop-bumper jump pads, sunken Battlezone vector CRT pit, air hockey plaza, skee-ball gallery, ticket redemption mezzanine, and suspended wireform habitrail splines.",
+      "props": {
+        "tier1_micro": [
+          "token_changer_kiosk (heavy iron dollar changer with coin cup defilade)",
+          "vinyl_barstool (chrome pedestal barstool with red swivel cushion)",
+          "arcade_carpet_decals (neon geometric carpet squiggles and ticket rolls)",
+          "gumball_dispenser (cast-iron coin-op glass globe dispenser)"
+        ],
+        "tier2_meso": [
+          "arcade_cabinet_pod (clustered 4-cabinet bank with illuminated marquees and CRT screens)",
+          "air_hockey_table (perforated puck deck with overhead digital scoring arch)",
+          "skee_ball_lane (cork ramp with wire divider mesh and concentric target cages)",
+          "ruler_catwalk_bridge (giant 30cm wooden drafting ruler bridge with millimeter markings)"
+        ],
+        "tier3_macro": [
+          "vector_battlezone_tank (glowing cyan wireframe tank turret with rotating gun barrel)",
+          "giant_prize_crane (walk-in scale glass showcase with operable 3-tine claw gantry)",
+          "hydraulic_driving_cockpit (twin sit-in racing cabs on dynamic motion actuators)",
+          "mega_crt_video_wall (3x3 array of stacked CRT monitors with pulsing equalizer lines)"
+        ],
+        "tier4_kinetic": [
+          "hero_pinball_machine (16m tilted table with kinetic flipper launches, pop-bumper super kicks, and wireform habitrail ball loops)",
+          "flashing_marquee_strobes (stochastic neon lighting pulses and coin rejects)",
+          "kinetic_equalizer_bars (animated rhythm stage floor tiles and CRT scanlines)"
+        ]
+      }
+    },
+    "train_depot": {
+      "keywords": [
+        "train_depot",
+        "depot",
+        "roundhouse",
+        "locomotive",
+        "railway",
+        "steam"
+      ],
+      "layoutPrior": "victorian_industrial",
+      "primaryInk": "INK.BLACK",
+      "secondaryInk": "INK.BLUE",
+      "accentInk": "INK.ORANGE",
+      "hazardInk": "INK.RED",
+      "guidance": "Victorian industrial railway terminal on sepia drafting linen: 34m circular turntable pit (Y=-2.2m) with rotating Warren truss bridge, 24m Pacific 4-6-2 Iron Leviathan with walkable cab interior and firebox glow, 6 roundhouse stalls with grease inspection trenches, elevated water tank tower, and dual 15-ton travelling crane gantries.",
+      "props": {
+        "tier1_micro": [
+          "driving_wheel_stack (pyramidal stack of 80-inch spoked locomotive wheels)",
+          "blacksmith_anvil_block (heavy forged iron anvil on white oak log)",
+          "grease_barrel_cluster (grease-stained oil drums and locomotive rail jacks)",
+          "ballast_track_decals (crushed granite roadbed with parallel steel rails)"
+        ],
+        "tier2_meso": [
+          "wheel_lathe_bed (massive 10m cast-iron machinist lathe with tool carriages)",
+          "raised_brick_platform (servicing platform with bullnose stone curbing)",
+          "gravity_coaling_chute (walkable timber hopper chute dropping onto tenders)",
+          "inspection_trench_ladder (duckboard pit walkway with iron rungs)"
+        ],
+        "tier3_macro": [
+          "riveted_water_tower (16m cylindrical iron tank on 4-column battered steel trestle with radial balcony)",
+          "high_timber_coaling_stage (32m timber trestle gantry with 4 gravity hopper chutes)",
+          "telegraph_signal_bridge (overhead Pratt truss spanning 3 tracks with operable semaphores)",
+          "travelling_gantry_crane (15-ton overhead box-girder crane with catwalk and hoist block)"
+        ],
+        "tier4_kinetic": [
+          "hero_pacific_locomotive (24m 4-6-2 steam engine with swept boiler loft, cab interior, glowing firebox, and periodic steam exhaust puffs)",
+          "rotating_turntable_bridge (motorized 32m through-truss bridge revolving across pit)",
+          "steam_hammer_piston (counter-blow forge ram with glowing orange coke embers)"
+        ]
+      }
+    },
+    "chemistry_lab": {
+      "keywords": [
+        "chemistry_lab",
+        "lab",
+        "science",
+        "bunsen",
+        "beaker",
+        "chemical"
+      ],
+      "layoutPrior": "precision_technical",
+      "primaryInk": "INK.BLUE",
+      "secondaryInk": "INK.BLACK",
+      "accentInk": "INK.ORANGE",
+      "hazardInk": "INK.RED",
+      "guidance": "High-school chemistry laboratory on 5mm graph grid paper: sunken epoxy wash sinks (Y=-0.6m), black epoxy lab benches with reagent racks, 14m Colossal Bunsen Burner centerpiece with dual cobalt flame lofts & thermal updrafts, swept helical glass condenser coils, 18m slate periodic table blackboard, and emergency deluge shower station.",
+      "props": {
+        "tier1_micro": [
+          "chemical_carboy (borosilicate glass carboy in protective wicker basket)",
+          "ceramic_mortar_pestle (heavy ceramic grinding bowl with pestle)",
+          "hardwood_test_tube_rack (12-tube timber drying stand with colored liquid levels)",
+          "wash_bottle_cluster (plastic squeeze wash bottles and dropper vials)"
+        ],
+        "tier2_meso": [
+          "epoxy_lab_bench (chemical-resistant black bench with utility trough and gas turrets)",
+          "swivel_lab_stool (adjustable steel stool with vinyl cushion)",
+          "glassware_drying_pegboard (wall-mounted timber pegboard with pyrex beakers)",
+          "sunken_dilution_sink (epoxy basin with chrome swan-neck faucets)"
+        ],
+        "tier3_macro": [
+          "industrial_fume_hood (walk-in laminated glass unit with exhaust blower and sniper balcony)",
+          "granite_balance_island (12m vibration-isolated granite table with glass balance draft shields)",
+          "periodic_table_blackboard (18m slate blackboard detailed with all 118 chemical elements)",
+          "emergency_deluge_shower (overhead stainless shower head with sunken drain basin)"
+        ],
+        "tier4_kinetic": [
+          "hero_bunsen_burner (14m monumental brass burner with dual cobalt blue/orange flame lofts, convective updrafts, and apex grapple collar)",
+          "helical_condenser_splines (swept 3D borosilicate glass coils with rising air bubble particles)",
+          "cryogenic_nitrogen_leak (pierced pressurized cylinder venting directional freezing clouds)"
+        ]
+      }
     }
   },
   "recipes": {},
