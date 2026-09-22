@@ -175,6 +175,10 @@ const ctx = { scene: R.scene, camera: R.camera, world, level, nav, input, hud, e
 
 // ---------------- persistent bits ----------------
 let best = Number(localStorage.getItem('doodle_best') || 0);
+let bestForMap = JSON.parse(localStorage.getItem('doodle_best_map') || '{}');
+let bestWaveForMap = JSON.parse(localStorage.getItem('doodle_best_wave_map') || '{}');
+let renderQuality = localStorage.getItem('doodle_render_quality') || 'high';
+let cameraFov = Number(localStorage.getItem('doodle_fov') || 75);
 let musicWanted = localStorage.getItem('doodle_music') !== '0';
 let checkpoint = Number(localStorage.getItem('doodle_checkpoint') || 0);
 let myName = (localStorage.getItem('doodle_name') || '').slice(0, 14) || 'doodle' + Math.floor(Math.random() * 90 + 10);
