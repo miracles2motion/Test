@@ -503,9 +503,125 @@ function getMacroTemplates(theme) {
   ring(${x}, ${y} + 8.8, ${z}, 'z');
   pickup(${x}, ${y} + 4.9, ${z} + 2.0);`
       }
+    ],
+
+    retro_arcade: [
+      {
+        id: 'arcade_pinball_tower',
+        title: 'Monumental Pinball Machine Tower',
+        description: 'Tilted pinball playfield with operable flipper decks, pop-bumper jump pads, and apex scoreboard gantry.',
+        minSize: [8, 6, 8],
+        codeGenerator: (x, y, z) => `
+  // === MACRO STRUCTURE: Monumental Pinball Tower at (${x}, ${y}, ${z}) ===
+  box(${x}, ${y}, ${z}, 8.0, 1.2, 8.0, { ink: BK });
+  slab(${x} - 4.2, ${z} - 4.2, ${x} + 4.2, ${z} + 4.2, ${y} + 1.2, 0.4, { ink: OR });
+  cyl(${x} - 2.0, ${y} + 1.6, ${z} - 2.0, 1.2, 1.2, { seg: 8, ink: RD, tag: 'cover' });
+  cyl(${x} + 2.0, ${y} + 1.6, ${z} - 2.0, 1.2, 1.2, { seg: 8, ink: RD, tag: 'cover' });
+  cyl(${x}, ${y} + 1.8, ${z} + 1.5, 1.4, 1.4, { seg: 8, ink: OR, tag: 'cover' });
+  box(${x}, ${y} + 5.2, ${z} - 3.8, 7.8, 3.2, 0.8, { ink: BL });
+  rail(${x} - 4.2, ${z} - 4.2, ${x} - 4.2, ${z} + 4.2, ${y} + 1.2, { ink: BL });
+  rail(${x} + 4.2, ${z} - 4.2, ${x} + 4.2, ${z} + 4.2, ${y} + 1.2, { ink: BL });
+  ring(${x}, ${y} + 9.2, ${z}, 'z');
+  pickup(${x}, ${y} + 1.6, ${z});`
+      },
+      {
+        id: 'vector_crt_arena',
+        title: 'Sunken Vector CRT Arena',
+        description: 'Wireframe vector tank redoubt with elevated observation catwalk and scanner mast.',
+        minSize: [7, 5, 7],
+        codeGenerator: (x, y, z) => `
+  // === MACRO STRUCTURE: Sunken Vector CRT Arena at (${x}, ${y}, ${z}) ===
+  box(${x}, ${y}, ${z}, 7.5, 0.8, 7.5, { ink: BL });
+  box(${x} - 3.2, ${y} + 0.8, ${z} - 3.2, 0.8, 4.5, 0.8, { ink: BK });
+  box(${x} + 3.2, ${y} + 0.8, ${z} - 3.2, 0.8, 4.5, 0.8, { ink: BK });
+  box(${x} - 3.2, ${y} + 0.8, ${z} + 3.2, 0.8, 4.5, 0.8, { ink: BK });
+  box(${x} + 3.2, ${y} + 0.8, ${z} + 3.2, 0.8, 4.5, 0.8, { ink: BK });
+  slab(${x} - 3.8, ${z} - 3.8, ${x} + 3.8, ${z} + 3.8, ${y} + 4.0, 0.3, { ink: OR });
+  rail(${x} - 3.8, ${z} - 3.8, ${x} + 3.8, ${z} - 3.8, ${y} + 4.0, { ink: BL });
+  rail(${x} - 3.8, ${z} + 3.8, ${x} + 3.8, ${z} + 3.8, ${y} + 4.0, { ink: BL });
+  box(${x}, ${y} + 1.2, ${z}, 2.4, 1.8, 2.4, { ink: BL, noCollide: true });
+  ring(${x}, ${y} + 8.5, ${z}, 'y');`
+      }
+    ],
+
+    train_depot: [
+      {
+        id: 'water_tower_gantry',
+        title: 'Elevated Water Tank Tower',
+        description: 'Monumental riveted iron water tank on 4-column steel trestle with radial sniper balcony.',
+        minSize: [8, 6, 8],
+        codeGenerator: (x, y, z) => `
+  // === MACRO STRUCTURE: Elevated Water Tank Tower at (${x}, ${y}, ${z}) ===
+  box(${x} - 3.2, ${y}, ${z} - 3.2, 0.9, 6.5, 0.9, { ink: BK });
+  box(${x} + 3.2, ${y}, ${z} - 3.2, 0.9, 6.5, 0.9, { ink: BK });
+  box(${x} - 3.2, ${y}, ${z} + 3.2, 0.9, 6.5, 0.9, { ink: BK });
+  box(${x} + 3.2, ${y}, ${z} + 3.2, 0.9, 6.5, 0.9, { ink: BK });
+  slab(${x} - 4.2, ${z} - 4.2, ${x} + 4.2, ${z} + 4.2, ${y} + 5.5, 0.4, { ink: OR });
+  rail(${x} - 4.2, ${z} - 4.2, ${x} + 4.2, ${z} - 4.2, ${y} + 5.5, { ink: BK });
+  rail(${x} - 4.2, ${z} + 4.2, ${x} + 4.2, ${z} + 4.2, ${y} + 5.5, { ink: BK });
+  rail(${x} - 4.2, ${z} - 4.2, ${x} - 4.2, ${z} + 4.2, ${y} + 5.5, { ink: BK });
+  rail(${x} + 4.2, ${z} - 4.2, ${x} + 4.2, ${z} + 4.2, ${y} + 5.5, { ink: BK });
+  cyl(${x}, ${y} + 5.9, ${z}, 2.8, 3.8, { seg: 12, ink: BL });
+  ring(${x}, ${y} + 10.5, ${z}, 'y');
+  pickup(${x}, ${y} + 5.9, ${z} + 2.4);`
+      },
+      {
+        id: 'coaling_stage_hopper',
+        title: 'High Coaling Stage Gantry',
+        description: 'Timber trestle coaling stage with gravity hopper chute slide and coal bunker defilade.',
+        minSize: [8, 5, 8],
+        codeGenerator: (x, y, z) => `
+  // === MACRO STRUCTURE: High Coaling Stage Gantry at (${x}, ${y}, ${z}) ===
+  box(${x}, ${y}, ${z}, 8.5, 1.2, 6.0, { ink: BK });
+  box(${x} - 3.8, ${y} + 1.2, ${z}, 0.8, 4.2, 0.8, { ink: OR });
+  box(${x} + 3.8, ${y} + 1.2, ${z}, 0.8, 4.2, 0.8, { ink: OR });
+  slab(${x} - 4.5, ${z} - 3.2, ${x} + 4.5, ${z} + 3.2, ${y} + 4.2, 0.4, { ink: OR });
+  rail(${x} - 4.5, ${z} - 3.2, ${x} + 4.5, ${z} - 3.2, ${y} + 4.2, { ink: BK });
+  rail(${x} - 4.5, ${z} + 3.2, ${x} + 4.5, ${z} + 3.2, ${y} + 4.2, { ink: BK });
+  box(${x}, ${y} + 4.6, ${z}, 3.5, 1.4, 2.5, { ink: BK, tag: 'cover' });
+  ring(${x}, ${y} + 8.8, ${z}, 'z');`
+      }
+    ],
+
+    chemistry_lab: [
+      {
+        id: 'fume_hood_citadel',
+        title: 'Industrial Fume Hood Citadel',
+        description: 'Walk-in chemical containment redoubt with exhaust duct gantry and observation balcony.',
+        minSize: [8, 6, 8],
+        codeGenerator: (x, y, z) => `
+  // === MACRO STRUCTURE: Industrial Fume Hood Citadel at (${x}, ${y}, ${z}) ===
+  box(${x}, ${y}, ${z}, 8.0, 3.2, 6.0, { ink: BL });
+  slab(${x} - 4.2, ${z} - 3.2, ${x} + 4.2, ${z} + 3.2, ${y} + 3.2, 0.3, { ink: OR });
+  rail(${x} - 4.2, ${z} - 3.2, ${x} + 4.2, ${z} - 3.2, ${y} + 3.2, { ink: BL });
+  rail(${x} - 4.2, ${z} + 3.2, ${x} + 4.2, ${z} + 3.2, ${y} + 3.2, { ink: BL });
+  cyl(${x}, ${y} + 3.5, ${z}, 1.6, 4.0, { seg: 10, ink: BK });
+  box(${x} - 2.5, ${y} + 3.5, ${z}, 1.2, 1.1, 1.2, { ink: OR, tag: 'cover' });
+  box(${x} + 2.5, ${y} + 3.5, ${z}, 1.2, 1.1, 1.2, { ink: OR, tag: 'cover' });
+  ring(${x}, ${y} + 9.2, ${z}, 'y');
+  pickup(${x}, ${y} + 3.5, ${z} + 2.0);`
+      },
+      {
+        id: 'bunsen_burner_spire',
+        title: 'Bunsen Burner Flame Spire',
+        description: 'Massive brass burner base with vertical chimney barrel and elevated grapple collar.',
+        minSize: [6, 6, 6],
+        codeGenerator: (x, y, z) => `
+  // === MACRO STRUCTURE: Bunsen Burner Flame Spire at (${x}, ${y}, ${z}) ===
+  cyl(${x}, ${y}, ${z}, 3.0, 0.8, { seg: 12, ink: BK });
+  cyl(${x}, ${y} + 0.8, ${z}, 1.2, 5.5, { seg: 8, ink: OR });
+  slab(${x} - 2.8, ${z} - 2.8, ${x} + 2.8, ${z} + 2.8, ${y} + 4.5, 0.3, { ink: BL });
+  rail(${x} - 2.8, ${z} - 2.8, ${x} + 2.8, ${z} - 2.8, ${y} + 4.5, { ink: OR });
+  rail(${x} - 2.8, ${z} + 2.8, ${x} + 2.8, ${z} + 2.8, ${y} + 4.5, { ink: OR });
+  ring(${x}, ${y} + 8.8, ${z}, 'z');
+  pickup(${x}, ${y} + 4.8, ${z});`
+      }
     ]
   };
   templates.station = templates.space_station;
+  templates.arcade = templates.retro_arcade;
+  templates.depot = templates.train_depot;
+  templates.lab = templates.chemistry_lab;
 
   // Return theme-specific templates or fall back to a mix
   const themeKey = theme && templates[theme] ? theme : null;

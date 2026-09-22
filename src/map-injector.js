@@ -356,9 +356,65 @@ const propCatalog = {
   // Prefab: Telemetry Flight Station & Avionics Terminal
   buildTelemetryConsole(B, ${x.toFixed(1)}, ${y}, ${z.toFixed(1)});`
     }
+  ],
+  retro_arcade: [
+    { type: 'arcade_cabinet_pod', w: 4, h: 2.2, d: 4, tier: 2, gen: (x, y, z) => `
+  // Prefab: Clustered Arcade Cabinet Pod
+  box(${x.toFixed(1)} - 1.0, ${y}, ${z.toFixed(1)}, 1.2, 2.2, 1.2, { ink: BK });
+  box(${x.toFixed(1)} + 1.0, ${y}, ${z.toFixed(1)}, 1.2, 2.2, 1.2, { ink: BK });
+  box(${x.toFixed(1)} - 1.0, ${y} + 1.2, ${z.toFixed(1)}, 1.1, 0.8, 1.1, { ink: BL, noCollide: true });
+  box(${x.toFixed(1)} + 1.0, ${y} + 1.2, ${z.toFixed(1)}, 1.1, 0.8, 1.1, { ink: RD, noCollide: true });`
+    },
+    { type: 'air_hockey_court', w: 5, h: 1.4, d: 3, tier: 2, gen: (x, y, z) => `
+  // Prefab: Air Hockey Table
+  box(${x.toFixed(1)}, ${y}, ${z.toFixed(1)}, 4.6, 0.95, 2.6, { ink: BK });
+  slab(${x.toFixed(1)} - 2.3, ${z.toFixed(1)} - 1.3, ${x.toFixed(1)} + 2.3, ${z.toFixed(1)} + 1.3, ${y} + 0.95, 0.1, { ink: BL });
+  box(${x.toFixed(1)}, ${y} + 2.4, ${z.toFixed(1)}, 0.2, 0.2, 2.6, { ink: RD, noCollide: true });`
+    },
+    { type: 'token_changer_kiosk', w: 2, h: 1.8, d: 1.5, tier: 1, gen: (x, y, z) => `
+  // Prefab: Token Changer Machine
+  box(${x.toFixed(1)}, ${y}, ${z.toFixed(1)}, 1.4, 1.8, 0.8, { ink: BK });
+  box(${x.toFixed(1)}, ${y} + 0.8, ${z.toFixed(1)} + 0.45, 0.8, 0.4, 0.2, { ink: OR });`
+    }
+  ],
+  train_depot: [
+    { type: 'locomotive_wheel_stack', w: 3, h: 1.8, d: 3, tier: 1, gen: (x, y, z) => `
+  // Prefab: Locomotive Driving Wheel Stack
+  cyl(${x.toFixed(1)} - 0.8, ${y} + 1.0, ${z.toFixed(1)}, 1.0, 0.4, { seg: 8, ink: BK, tag: 'cover' });
+  cyl(${x.toFixed(1)} + 0.8, ${y} + 1.0, ${z.toFixed(1)}, 1.0, 0.4, { seg: 8, ink: BK, tag: 'cover' });`
+    },
+    { type: 'machinist_workbench', w: 4, h: 1.5, d: 2, tier: 2, gen: (x, y, z) => `
+  // Prefab: Heavy Machine Shop Workbench
+  box(${x.toFixed(1)}, ${y}, ${z.toFixed(1)}, 3.6, 1.1, 1.4, { ink: OR, tag: 'cover' });
+  box(${x.toFixed(1)} - 1.0, ${y} + 1.1, ${z.toFixed(1)}, 0.4, 0.4, 0.4, { ink: BK, tag: 'cover' });`
+    },
+    { type: 'coal_bunker_berm', w: 4, h: 1.6, d: 3, tier: 1, gen: (x, y, z) => `
+  // Prefab: Mounded Coal Bunker
+  box(${x.toFixed(1)}, ${y}, ${z.toFixed(1)}, 3.8, 1.4, 2.6, { ink: BK, tag: 'cover' });`
+    }
+  ],
+  chemistry_lab: [
+    { type: 'epoxy_lab_bench', w: 6, h: 1.5, d: 3, tier: 2, gen: (x, y, z) => `
+  // Prefab: Chemical-Resistant Epoxy Lab Bench
+  box(${x.toFixed(1)}, ${y}, ${z.toFixed(1)}, 5.5, 1.05, 2.2, { ink: BK, tag: 'cover' });
+  cyl(${x.toFixed(1)}, ${y} + 1.05, ${z.toFixed(1)}, 0.1, 0.6, { ink: BL, noCollide: true });`
+    },
+    { type: 'acid_storage_cabinet', w: 3, h: 2.4, d: 2, tier: 2, gen: (x, y, z) => `
+  // Prefab: Safety Yellow Acid Cabinet
+  box(${x.toFixed(1)}, ${y}, ${z.toFixed(1)}, 2.4, 2.1, 1.2, { ink: OR, tag: 'cover' });`
+    },
+    { type: 'test_tube_drying_rack', w: 2, h: 1.4, d: 1.5, tier: 1, gen: (x, y, z) => `
+  // Prefab: Test Tube Rack & Mortar Set
+  box(${x.toFixed(1)}, ${y}, ${z.toFixed(1)}, 1.6, 0.85, 0.8, { ink: OR, tag: 'cover' });
+  cyl(${x.toFixed(1)} + 0.4, ${y} + 0.85, ${z.toFixed(1)}, 0.25, 0.3, { ink: BK, noCollide: true });`
+    }
   ]
 };
 propCatalog['station'] = propCatalog['space_station'];
+propCatalog['arcade'] = propCatalog['retro_arcade'];
+propCatalog['depot'] = propCatalog['train_depot'];
+propCatalog['roundhouse'] = propCatalog['train_depot'];
+propCatalog['lab'] = propCatalog['chemistry_lab'];
 
 const defaultProps = [];
 const availableProps = propCatalog[themeArg] || propCatalog['colossal'] || propCatalog['broken_galleon'];

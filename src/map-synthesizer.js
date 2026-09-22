@@ -24,6 +24,23 @@ const rawName = process.argv[2];
 const themeArg = (process.argv[3] || '').toLowerCase();
 
 export function generateMasterConceptDoc(mapKey, title, themeKey) {
+  let mem = {};
+  if (fs.existsSync(MEMORY_FILE)) {
+    try {
+      mem = JSON.parse(fs.readFileSync(MEMORY_FILE, 'utf8'));
+    } catch (e) {}
+  }
+  const arch = (mem.thematicArchetypes && (mem.thematicArchetypes[themeKey] || mem.thematicArchetypes[themeKey.toLowerCase()])) || (mem.thematicArchetypes ? mem.thematicArchetypes.forest : null);
+  const guidance = arch && arch.guidance ? arch.guidance : `${title} is a monumental tactical sanctuary built with authentic ballpoint pen linecraft upon drafting paper.`;
+  const t1 = arch && arch.props && arch.props.tier1_micro ? arch.props.tier1_micro.join(', ') : 'micro cover props';
+  const t2 = arch && arch.props && arch.props.tier2_meso ? arch.props.tier2_meso.join(', ') : 'tactical walkways and furniture';
+  const t3 = arch && arch.props && arch.props.tier3_macro ? arch.props.tier3_macro.join(', ') : 'landmark anchor structures';
+  const t4 = arch && arch.props && arch.props.tier4_kinetic ? arch.props.tier4_kinetic.join(', ') : 'hero kinetic centerpiece and aerial highways';
+  const primaryInk = arch ? arch.primaryInk : 'INK.BLUE';
+  const secondaryInk = arch ? arch.secondaryInk : 'INK.BLACK';
+  const accentInk = arch ? arch.accentInk : 'INK.ORANGE';
+  const hazardInk = arch ? arch.hazardInk : 'INK.RED';
+
   return `# MAP CONCEPT SPECIFICATION: ${title}
 # MASTER ARCHITECTURAL & PROCEDURAL WORLD BLUEPRINT (500+ LINES)
 # System: Doodle Strike Autonomous Procedural Engine
@@ -34,7 +51,9 @@ export function generateMasterConceptDoc(mapKey, title, themeKey) {
 ## 1. Spatial Coordinates & Level Envelope
 
 ### 1.1 Thematic Thesis & World Narrative
-${title} is not a flat arena with painted cardboard boxes; it is a monumental, living 3D woodland sanctuary drawn with raw ballpoint pen lines upon aged drafting paper. The player is a miniature doodle miniature immersed in a colossal ancient biome. Giant fallen redwood logs form cavernous sprint defilade tunnels, vertical bamboo groves create dense labyrinthine firing channels, and a colossal 28-meter Titan Redwood dominates the center with climbable spiral trunk stairs, open-hatch balconies, and high-altitude grapple highways.
+${title} is not a flat arena with painted cardboard boxes; it is a monumental, living 3D arena drawn with raw ballpoint pen lines upon aged drafting paper. 
+
+${guidance}
 
 ### 1.2 Coordinate Boundaries & Metric Volume
 - **Bounding Box**:
@@ -42,20 +61,20 @@ ${title} is not a flat arena with painted cardboard boxes; it is a monumental, l
   - Horizontal Z: [-55.0m, +55.0m] (Total Depth: 110.0m)
   - Vertical Y: [0.0m, 32.0m] (Solo Play Space: 0m to 20m | Arena Aerial Ceiling: 32m)
   - Sub-surface Hazard Depth: Y < -10.0m (Abyssal ink chasm)
-- **Perimeter Thickness**: 6.0m solid ancient redwood palisade hull with overhanging needle eaves.
+- **Perimeter Thickness**: 6.0m solid reinforced palisade hull with overhanging architectural eaves.
 - **Continuous Headroom Standard**: Every covered passage, tunnel, and stairway aperture guarantees >= 2.4m vertical headroom.
 - **Anti-Pinch Corridor Minimum**: All walkable routes between natural colliders maintain a strict minimum width of >= 1.8m to prevent player wedging.
 
 ### 1.3 Vertical Tier Topology
-- **Tier 0 (Earthen Forest Bed & River Gorge)**: Y = 0.0m to Y = 1.2m
-  - Soft green rolling moss floor, riverbed stepping stones, and natural rock terraces.
-- **Tier 1 (Meso Tactical Platforms & Ridge Shelves)**: Y = 3.5m to Y = 5.0m
-  - Mantleable rock berms, curved log rooftops, and stream footbridges.
-- **Tier 2 (The Canopy Skybridge Highway)**: Y = 9.5m
-  - Radiating cedar timber catwalks linking the central treehouse to the 4 quadrant tree bastions.
-- **Tier 3 (Upper Foliage Perches & Cabin Overlooks)**: Y = 14.0m to Y = 18.0m
-  - High sniper nests, crow's nests, and branch perches.
-- **Tier 4 (Apex Aerial Momentum Highway)**: Y = 22.0m to Y = 31.0m
+- **Tier 0 (Ground Datum Bed & Sunken Trenches)**: Y = -2.0m to Y = 0.0m
+  - Tactile foundation slab, sunken service trenches, and drainage gutters.
+- **Tier 1 (Meso Tactical Platforms & Ridge Shelves)**: Y = 0.85m to Y = 1.4m
+  - Mantleable cover berms, platform decks, and mid-level obstacle furniture.
+- **Tier 2 (The Mid-Level Gantry & Skybridge Highway)**: Y = 5.5m to Y = 7.5m
+  - Radiating catwalks linking the central landmark to the 4 quadrant bastions.
+- **Tier 3 (Upper Balcony Perches & Lookout Overlooks)**: Y = 12.0m to Y = 16.0m
+  - High sniper nests, crow's nests, and crane catwalks.
+- **Tier 4 (Apex Aerial Momentum Highway)**: Y = 18.0m to Y = 31.0m
   - Aerial grapple network allowing players to zap, glide, and launch across the sky.
 
 ---
@@ -65,32 +84,21 @@ ${title} is not a flat arena with painted cardboard boxes; it is a monumental, l
 Doodle Strike adheres to strict semantic ink coloring. Color conveys physical affordances and tactical function:
 
 ### 2.1 Color Semantics
-1. **INK.GREEN (Vegetation, Needles, Fronds, Moss)**:
-   - Soft mossy ground floor, pine needles, bamboo fronds, toadstool umbrellas, and leaf skirts.
-   - Hex Reference: #2e7d32 / #1b5e20.
-   - Conveys: Organic matter, concealment, soft terrain.
-2. **INK.BLACK (Ancient Ironwood Bark, Iron Brackets, Structural Cables)**:
-   - Massive redwood trunks, granite boulders, iron gate framing, lantern chains, and firearm hardware.
-   - Hex Reference: #111111 / #1a1a1a.
-   - Conveys: Solid immovable cover, structural skeletons, deep shadows.
-3. **INK.ORANGE (Constructed Cedar Timber, Ramps, Walkways, Bone)**:
-   - Hand-hewn planks, treehouse cabin, spiral steps, skybridge decking, and creature rib cages.
-   - Hex Reference: #c05621 / #d97706.
-   - Conveys: Walkable surfaces, interactive pathways, tactical furniture.
-4. **INK.BLUE (Mountain Stream, Water Currents, Drafting Guides)**:
-   - Clear mountain stream bed, river pools, and architectural sketch lines.
-   - Hex Reference: #1a365d / #2563eb.
-   - Conveys: Water hazards, navigation markers, cool ambient depth.
-5. **INK.RED (Campfire Embers, Danger Glyphs, Power Pickups)**:
-   - Crackling fire pits, explosive canisters, sniper laser warnings, and high-tier armor pickups.
-   - Hex Reference: #b91c1c / #dc2626.
-   - Conveys: High lethality, primary objectives, critical threat.
+1. **${primaryInk} (Primary Structural Architecture & Terrain)**:
+   - Dominant structural geometry, hulls, conduits, and architectural framework.
+2. **${secondaryInk} (Heavy Anchors, Iron Hardware & Shadows)**:
+   - Immovable cast-iron foundations, heavy columns, and deep shadow crosshatching.
+3. **${accentInk} (Tactical Walkways, Timber & Brass Hardware)**:
+   - Walkable decks, step treads, handrails, and interactive grapple rings.
+4. **${hazardInk} (High Lethality, Fire & Energy Pickups)**:
+   - Explosive elements, laser lines, hazard diamond decals, and legendary pickups.
 
 ### 2.2 Detailing Prop Taxonomy (Tiers 1-4)
-- **Tier 1 (Cover Props - 3-5 meshes each)**: giant_stalk_grass (blade cluster with apical grapple ring), faceted_boulder_cluster (sketched granite cover rock with 1.8m channels), hollow_stump_bunker (natural ambush bunker stump with mossy rim), toadstool_cover (fly agaric spotted umbrella mushroom waist cover), weathered_cedar_trail_sign (directional post with fingerboards), mossy_river_stone (hewn rock barrier providing waist-high defilade).
-- **Tier 2 (Tactical Furniture & Walkways - 5-10 meshes each)**: curved_hollow_log_tunnel (sprint defilade tube with top catwalk), bracket_shelf_fungus_stairs (stepped fungal spiral stairs), suspended_timber_rope_bridge (canopy connector with wooden guard rails), giant_umbrella_mushroom_platform (elevated bounce/sniper perch), canopy_survey_outpost (observation deck with lantern and railings).
-- **Tier 3 (Landmark Anchor Props - 10-20 meshes each)**: colossal_titan_treehouse (monumental redwood with hollow trunk niche, spiral stairs, constructed timber house and canopy deck), ancient_gnarled_banyan_spire (multi-limb split anchor with elevated perches), alpine_conifer_needle_spire (tiered needle skirts with sniper perches), great_timber_gateway_arch (massive arched redwood portal spanning mid lane).
-- **Tier 4 (Hero Set Piece & Centerpiece)**: high_altitude_grapple_highway (aerial grapple rings spanning overhanging boughs), swaying_pine_canopy_boughs (kinetic wind-responsive branches), colossal_titan_treehouse_complex (hero multi-story centerpiece fortress).
+- **Tier 1 (Cover Props)**: ${t1}.
+- **Tier 2 (Tactical Furniture & Walkways)**: ${t2}.
+- **Tier 3 (Landmark Anchor Props)**: ${t3}.
+- **Tier 4 (Hero Set Piece & Centerpiece)**: ${t4}.
+
 
 ---
 

@@ -1830,6 +1830,41 @@ export const PREFAB_REGISTRY = {
     tags: ['urban', 'transit', 'decal', 'pavement', 'drain'],
     builder: buildUrbanDecals,
     footprint: [4.0, 0.1, 4.0]
+  },
+  arcade_cabinet: {
+    id: 'arcade_cabinet',
+    name: 'Vintage Upright Arcade Cabinet Pod',
+    tags: ['arcade', 'retro_arcade', 'cabinet', 'cover', 'cqb'],
+    builder: buildArcadeCabinet,
+    footprint: [2.4, 2.2, 1.8]
+  },
+  pinball_bumper: {
+    id: 'pinball_bumper',
+    name: 'Kinetic Pop-Bumper Jump Pad',
+    tags: ['arcade', 'retro_arcade', 'bumper', 'jump', 'pinball'],
+    builder: buildPinballBumper,
+    footprint: [1.8, 1.4, 1.8]
+  },
+  locomotive_boiler: {
+    id: 'locomotive_boiler',
+    name: 'Victorian Locomotive Boiler & Running Gear',
+    tags: ['train_depot', 'depot', 'boiler', 'locomotive', 'landmark'],
+    builder: buildLocomotiveBoiler,
+    footprint: [4.2, 4.4, 14.0]
+  },
+  water_tower: {
+    id: 'water_tower',
+    name: 'Elevated Riveted Water Tank Tower',
+    tags: ['train_depot', 'depot', 'tower', 'water', 'landmark', 'sniper'],
+    builder: buildWaterTower,
+    footprint: [8.0, 15.0, 8.0]
+  },
+  bunsen_burner: {
+    id: 'bunsen_burner',
+    name: 'Colossal Laboratory Bunsen Burner',
+    tags: ['chemistry_lab', 'lab', 'burner', 'flame', 'landmark', 'grapple'],
+    builder: buildBunsenBurner,
+    footprint: [5.0, 14.0, 5.0]
   }
 };
 
@@ -2615,6 +2650,100 @@ export function buildTechnicalFraming(B, minX, minZ, maxX, maxZ, y, o = {}) {
   const midZ = (minZ + maxZ) / 2;
   box(midX, y + 0.02, midZ, 0.6, tickH, tickW, { ink, noCollide: true });
   box(midX, y + 0.02, midZ, tickW, tickH, 0.6, { ink, noCollide: true });
+}
+
+/**
+ * Procedural Arcade Cabinet Pod
+ */
+export function buildArcadeCabinet(B, x, y, z, o = {}) {
+  const { box } = B;
+  const inkBody = o.inkBody ?? INK.BLACK;
+  const inkScreen = o.inkScreen ?? INK.BLUE;
+  const inkMarquee = o.inkMarquee ?? INK.RED;
+
+  box(x, y, z, 1.2, 2.2, 1.1, { ink: inkBody });
+  box(x, y + 1.2, z + 0.1, 1.0, 0.7, 0.2, { ink: inkScreen, noCollide: true });
+  box(x, y + 2.0, z, 1.1, 0.3, 0.4, { ink: inkMarquee, noCollide: true });
+}
+
+/**
+ * Procedural Kinetic Pop-Bumper Jump Pad
+ */
+export function buildPinballBumper(B, x, y, z, o = {}) {
+  const { cyl, ring } = B;
+  const inkBase = o.inkBase ?? INK.ORANGE;
+  const inkCap = o.inkCap ?? INK.RED;
+
+  cyl(x, y, z, 0.9, 0.4, { seg: 10, ink: inkBase });
+  cyl(x, y + 0.4, z, 0.7, 0.8, { seg: 10, ink: inkCap, tag: 'cover' });
+  cyl(x, y + 1.2, z, 1.1, 0.2, { seg: 12, ink: inkBase });
+  ring(x, y + 3.8, z, 'y');
+}
+
+/**
+ * Procedural Locomotive Boiler Loft
+ */
+export function buildLocomotiveBoiler(B, x, y, z, o = {}) {
+  const { cyl, box, ring } = B;
+  const inkBoiler = o.inkBoiler ?? INK.BLACK;
+  const inkBrass = o.inkBrass ?? INK.ORANGE;
+
+  // Longitudinal cylindrical boiler
+  cyl(x, y + 1.8, z, 1.2, 10.0, { seg: 12, ink: inkBoiler });
+  // Smokebox stack
+  cyl(x, y + 3.2, z - 4.0, 0.35, 1.4, { seg: 8, ink: inkBoiler });
+  // Steam dome
+  cyl(x, y + 3.2, z + 1.0, 0.5, 0.8, { seg: 8, ink: inkBrass });
+  // Running board platform
+  box(x, y + 0.8, z, 3.2, 0.3, 10.5, { ink: inkBoiler, tag: 'cover' });
+  // Apex Grapple
+  ring(x, y + 5.2, z - 4.0, 'z');
+}
+
+/**
+ * Procedural Riveted Water Tank Tower
+ */
+export function buildWaterTower(B, x, y, z, o = {}) {
+  const { box, slab, rail, cyl, ring } = B;
+  const inkLegs = o.inkLegs ?? INK.BLACK;
+  const inkTank = o.inkTank ?? INK.BLUE;
+  const inkDeck = o.inkDeck ?? INK.ORANGE;
+
+  // 4 Legs
+  box(x - 2.8, y, z - 2.8, 0.8, 7.5, 0.8, { ink: inkLegs });
+  box(x + 2.8, y, z - 2.8, 0.8, 7.5, 0.8, { ink: inkLegs });
+  box(x - 2.8, y, z + 2.8, 0.8, 7.5, 0.8, { ink: inkLegs });
+  box(x + 2.8, y, z + 2.8, 0.8, 7.5, 0.8, { ink: inkLegs });
+
+  // Balcony deck
+  slab(x - 3.8, z - 3.8, x + 3.8, z + 3.8, y + 7.5, 0.4, { ink: inkDeck });
+  rail(x - 3.8, z - 3.8, x + 3.8, z - 3.8, y + 7.5, { ink: inkLegs });
+  rail(x - 3.8, z + 3.8, x + 3.8, z + 3.8, y + 7.5, { ink: inkLegs });
+  rail(x - 3.8, z - 3.8, x - 3.8, z + 3.8, y + 7.5, { ink: inkLegs });
+  rail(x + 3.8, z - 3.8, x + 3.8, z + 3.8, y + 7.5, { ink: inkLegs });
+
+  // Tank cylinder
+  cyl(x, y + 7.9, z, 2.6, 4.5, { seg: 12, ink: inkTank });
+  ring(x, y + 13.5, z, 'y');
+}
+
+/**
+ * Procedural Laboratory Bunsen Burner
+ */
+export function buildBunsenBurner(B, x, y, z, o = {}) {
+  const { cyl, ring, box } = B;
+  const inkBase = o.inkBase ?? INK.BLACK;
+  const inkBrass = o.inkBrass ?? INK.ORANGE;
+  const inkFlame = o.inkFlame ?? INK.BLUE;
+
+  // Cast iron circular base
+  cyl(x, y, z, 2.4, 0.6, { seg: 12, ink: inkBase });
+  // Brass barrel
+  cyl(x, y + 0.6, z, 0.9, 6.0, { seg: 10, ink: inkBrass });
+  // Flame reduction cone (visual only)
+  cyl(x, y + 6.6, z, 0.6, 3.5, { seg: 8, ink: inkFlame, noCollide: true });
+  // Collar grapple ring
+  ring(x, y + 6.8, z, 'z');
 }
 
 
