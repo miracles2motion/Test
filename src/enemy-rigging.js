@@ -78,7 +78,7 @@ export function buildHumanoid(mat, solid, T) {
   root.scale.setScalar(T.scale);
   return { root, parts, J, tip, face: fc, hit };
 }
-function buildBomber(mat, solid, T, boss = false) {
+export function buildBomber(mat, solid, T, boss = false) {
   const root = new THREE.Group(); const parts = {}, J = {};
   const hips = new THREE.Group(); hips.position.y = 0.5; root.add(hips);
   const torso = new THREE.Group(); hips.add(torso);
@@ -107,7 +107,7 @@ function buildBomber(mat, solid, T, boss = false) {
   const tip = spark || (() => { const o = new THREE.Object3D(); o.position.set(0, 0.5, 0.5); torso.add(o); return o; })();
   return { root, parts, J, tip, face: fc, hit: [['torso', 0.5]] };
 }
-function buildFlyer(mat, solid, T) {
+export function buildFlyer(mat, solid, T) {
   const root = new THREE.Group(); const parts = {}, J = {};
   const body = new THREE.Group(); body.position.y = 0.6; root.add(body);
   const cone = new THREE.Mesh(new THREE.ConeGeometry(0.32, 1.25, 3), mat); cone.rotation.x = Math.PI / 2; cone.position.z = 0.08; body.add(cone);
@@ -121,7 +121,7 @@ function buildFlyer(mat, solid, T) {
   return { root, parts, J, tip: headG, face: fc, hit: [['torso', 0.48]] };
 }
 
-class Projectiles {
+export class Projectiles {
   constructor(mgr) {
     this.mgr = mgr; this.list = []; this.max = 240; this.onFire = null;
     this.mesh = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), makeInkMaterial({ ink: INK.RED, fill: true }), this.max);

@@ -52,6 +52,7 @@ window.currentDifficulty = parseInt(localStorage.getItem('doodle_difficulty') ||
 let level = buildLevel(R.scene, world, mapKey, { arena: false });
 let nav = new NavGrid(world, level.bounds, 1).build();
 let loadedKey = mapKey, arenaLoaded = false;
+let screen = 'main';
 let previewWeaponType = 'rifle', previewWeaponInst = null, weaponsReturnTo = 'map_select';
 const previewWeaponGroup = new THREE.Group();
 previewWeaponGroup.position.set(-0.1, 0, -0.6);
@@ -307,7 +308,6 @@ const net = new Net();
 const remote = new Map();      // peer id -> RemotePlayer
 const lobby = { players: new Map(), hostId: null, isPublic: true, status: '', code: '', map: null };
 const scores = new Map();      // peer id -> { name, kills, deaths }
-let screen = 'main';           // which start-screen panel is showing: main | online | lobby
 export const botArena = new BotArenaManager(ctx);
 let arenaFormat = localStorage.getItem('doodle_arena_format') || '5v5';
 window.__game = { ctx, game, player, enemies, nav, world, level, hud, effects, input, mobile, net, remote, lobby, scores, botArena };

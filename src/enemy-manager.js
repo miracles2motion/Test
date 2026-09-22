@@ -2,7 +2,10 @@ import * as THREE from 'three';
 import { INK, makeInkMaterial } from './render.js';
 import { rand, choose, clamp, approach, TAU } from './util.js';
 import { TYPES, STATE_CODES, BOSSES } from './enemy-types.js';
-import { buildHumanoid, buildWeaponProp } from './enemy-rigging.js';
+import { makeBody, SEE_THROUGH } from './physics.js';
+import { audio } from './audio.js';
+import { EnemyBrain } from './enemy-brain.js';
+import { buildHumanoid, buildWeaponProp, buildBomber, buildFlyer, Projectiles } from './enemy-rigging.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { thinkBoss, thinkFlyer, animateFlyer, combatSlide, findCover, retreatToCover } from './enemy-bosses.js';
 
