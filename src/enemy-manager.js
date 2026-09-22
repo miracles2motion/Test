@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { INK, makeInkMaterial } from './render.js';
+import { INK, makeInkMaterial, setFill } from './render.js';
 import { rand, choose, clamp, approach, damp, TAU, angleLerp, wrapAngle } from './util.js';
 import { TYPES, STATE_CODES, BOSSES } from './enemy-types.js';
 
