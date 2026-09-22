@@ -259,7 +259,7 @@ export function mapSelectHTML(ctx) {
         </div>
         ${curMap.hazard && curMap.hazard !== 'None' ? `<div style="color: var(--ink-red); font-family: var(--font-mono); font-size: 12px; font-weight: bold; text-align: center; margin-top: 8px;">WARNING: ${curMap.hazard}</div>` : ''}
         ${bestScore > 0 ? `<div style="font-family: var(--font-display); font-size: 16px; text-align: center; border-top: 2px dashed var(--ink-wash); padding-top: 12px; margin-top: 8px;">BEST SCORE: ${bestScore}</div>` : ''}
-        ${checkpointHTML()}
+        ${checkpointHTML(ctx)}
       </div>
     </div>
 
@@ -370,7 +370,7 @@ export function onlineHTML(ctx) {
           <button type="button" class="ds-btn ghost sm" id="refreshBtn">REFRESH</button>
         </div>
         <div class="rows" id="lobbyRows" style="background: var(--ink-wash); border-radius: var(--r-sketch-md); padding: 12px; min-height: 100px;">
-          ${lobbyListHTML()}
+          ${lobbyListHTML(ctx)}
         </div>
       </div>
       
