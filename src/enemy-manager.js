@@ -1,7 +1,9 @@
 import * as THREE from 'three';
 import { INK, makeInkMaterial } from './render.js';
-import { rand, choose, clamp, approach, TAU } from './util.js';
+import { rand, choose, clamp, approach, damp, TAU } from './util.js';
 import { TYPES, STATE_CODES, BOSSES } from './enemy-types.js';
+
+const _v = new THREE.Vector3();
 import { makeBody, SEE_THROUGH } from './physics.js';
 import { audio } from './audio.js';
 import { EnemyBrain } from './enemy-brain.js';
