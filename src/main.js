@@ -105,11 +105,31 @@ document.addEventListener('visibilitychange', () => {
 });
 
 
+let screenTransitionUntil = 0;
+
+function setScreenTransitionGuard(duration = 380) {
+  screenTransitionUntil = Math.max(screenTransitionUntil, Date.now() + duration);
+  if (hud && hud.el && hud.el.panel) {
+    hud.el.panel.style.pointerEvents = 'none';
+    setTimeout(() => {
+      if (Date.now() >= screenTransitionUntil && hud.el && hud.el.panel) {
+        hud.el.panel.style.pointerEvents = '';
+      }
+    }, duration);
+  }
+}
+
 function fastClick(el, handler) {
   if (!el) return;
   let lastTriggerTime = 0;
   const trigger = (e) => {
     const now = Date.now();
+    if (now < screenTransitionUntil) {
+      if (e && e.preventDefault) e.preventDefault();
+      if (e && e.stopImmediatePropagation) e.stopImmediatePropagation();
+      else if (e && e.stopPropagation) e.stopPropagation();
+      return;
+    }
     if (now - lastTriggerTime < 320) return;
     lastTriggerTime = now;
     handler(e);
@@ -117,6 +137,7 @@ function fastClick(el, handler) {
 
   let startX = 0, startY = 0, tracking = false;
   el.addEventListener('touchstart', (e) => {
+    if (Date.now() < screenTransitionUntil) return;
     tracking = true;
     if (e.touches && e.touches[0]) {
       startX = e.touches[0].clientX;
@@ -131,14 +152,16 @@ function fastClick(el, handler) {
   el.addEventListener('touchend', (e) => {
     if (tracking) {
       tracking = false;
+      if (Date.now() < screenTransitionUntil) return;
       if (e.changedTouches && e.changedTouches[0]) {
         const dx = Math.abs(e.changedTouches[0].clientX - startX);
         const dy = Math.abs(e.changedTouches[0].clientY - startY);
         if (dx > 14 || dy > 14) return;
       }
+      if (e && e.preventDefault && e.cancelable) e.preventDefault();
       trigger(e);
     }
-  }, { passive: true });
+  }, { passive: false });
 
   el.addEventListener('click', (e) => {
     trigger(e);
@@ -2083,6 +2106,7 @@ function lockButtons(box) { for (const b of box.querySelectorAll('button')) if (
 function unlockButtons() { const box = hud.el.panel.querySelector('#online'); if (box) for (const b of box.querySelectorAll('button')) b.disabled = false; }
 function renderLobby() { if (game.state === 'lobby') showStart(); }
 function showStart() {
+  setScreenTransitionGuard(350);
   hud.el.screen.onclick = null;
   hud.setGameplayVisible(false);
   if (game.state === 'lobby') screen = 'lobby';
@@ -2470,13 +2494,20 @@ function menuBtnHTML() { return '<div class="online menubtn"><div class="row"><b
 function wireMenuBtn() {
   const b = hud.el.panel.querySelector('#menuBtn');
   if (b) fastClick(b, (e) => {
-    if (e && e.stopPropagation) e.stopPropagation();
     if (e && e.preventDefault) e.preventDefault();
+    if (e && e.stopImmediatePropagation) e.stopImmediatePropagation();
+    else if (e && e.stopPropagation) e.stopPropagation();
+    setScreenTransitionGuard(420);
     toMainMenu();
   });
 }
 function toMainMenu() {
+  setScreenTransitionGuard(420);
   hud.el.screen.onclick = null;
+  if (typeof mobile !== 'undefined' && mobile.buttons) {
+    for (const k in mobile.buttons) mobile.buttons[k] = false;
+    if (mobile.buttonTaps) mobile.buttonTaps.clear();
+  }
   game.state = 'start';
   game.mode = 'solo';
   game.menu = false;
