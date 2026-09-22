@@ -1,0 +1,99 @@
+{
+  "id": "retro_arcade",
+  "name": "RETRO ARCADE",
+  "version": 1,
+  "seed": 1337,
+  "scale": "urban",
+  "bounds": {
+    "half": 55,
+    "wallH": 55
+  },
+  "palette": "urban",
+  "paper": {
+    "tint": "#f6f3e7",
+    "rules": true,
+    "lineSpacing": 50
+  },
+  "ground": {
+    "ink": "BL"
+  },
+  "sectors": [
+    {
+      "id": "alpha",
+      "shape": "disc",
+      "c": [
+        -20,
+        -20
+      ],
+      "rIn": 8,
+      "rOut": 14,
+      "reward": {
+        "pickup": true
+      }
+    },
+    {
+      "id": "beta",
+      "shape": "disc",
+      "c": [
+        20,
+        20
+      ],
+      "rIn": 8,
+      "rOut": 14,
+      "reward": {
+        "pickup": true
+      }
+    }
+  ],
+  "landmarks": [
+    {
+      "prefab": "pinball_machine",
+      "at": [
+        0,
+        0,
+        0
+      ],
+      "opts": {},
+      "role": "hub",
+      "beacon": true
+    }
+  ],
+  "spawns": {
+    "cardinal": 4,
+    "offset": 5
+  },
+  "pickups": [
+    {
+      "at": [
+        0,
+        0.4,
+        0
+      ],
+      "tier": "legendary"
+    },
+    {
+      "at": [
+        -20,
+        0.4,
+        -20
+      ],
+      "tier": "ammo"
+    },
+    {
+      "at": [
+        20,
+        0.4,
+        20
+      ],
+      "tier": "health"
+    },
+    {
+      "at": [
+        0,
+        0.4,
+        18
+      ],
+      "tier": "armor"
+    }
+  ]
+}

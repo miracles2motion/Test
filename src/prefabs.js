@@ -81,7 +81,8 @@ export const {
   buildArcadeCabinet,
   buildPinballBumper,
   buildLocomotiveBoiler,
-  buildBunsenBurner
+  buildBunsenBurner,
+  buildPinballMachine
 } = PropsPrefabs;
 
 import { INK } from './render.js';
@@ -806,6 +807,20 @@ export const PREFAB_REGISTRY = {
     tags: ['chemistry_lab', 'lab', 'burner', 'flame', 'landmark', 'grapple'],
     builder: buildBunsenBurner,
     footprint: [5.0, 14.0, 5.0]
+  },
+  pinball_machine: {
+    id: 'pinball_machine',
+    name: 'Monumental Tilted Pinball Machine Centerpiece',
+    tags: ['arcade', 'retro_arcade', 'pinball', 'table', 'landmark', 'grapple'],
+    builder: buildPinballMachine,
+    footprint: [10.0, 14.0, 18.0]
+  },
+  hero_pinball_machine: {
+    id: 'hero_pinball_machine',
+    name: 'Colossal 16m Tilted Pinball Arena Centerpiece',
+    tags: ['arcade', 'retro_arcade', 'pinball', 'table', 'landmark', 'hero'],
+    builder: buildPinballMachine,
+    footprint: [10.0, 14.0, 18.0]
   }
 };
 

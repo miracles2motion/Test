@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { INK } from '../render.js';
 import { rand, choose } from '../util.js';
 import { splineTube, annularDeck, sweptRibbon } from '../spline-engine.js';
+import { createRNG } from '../rebuild/prng.js';
 export function buildCampfire(B, x, y, z, o = {}) {
   const { sphere, cyl, box, scene } = B;
   const stoneR = 0.85;
@@ -932,3 +933,33 @@ export function buildBunsenBurner(B, x, y, z, o = {}) {
   // Collar grapple ring
   ring(x, y + 6.8, z, 'z');
 }
+
+export function buildPinballMachine(B, x, y, z, o = {}) {
+  const { box, slab, cyl, ring } = B;
+  const inkChassis = o.inkChassis ?? INK.BLACK;
+  const inkPlayfield = o.inkPlayfield ?? INK.BLUE;
+  const inkBackglass = o.inkBackglass ?? INK.RED;
+  const inkTrim = o.inkTrim ?? INK.ORANGE;
+
+  // 1. Tilted Playfield Table Cabinet (16m long, 8m wide, rises from 0.85m to 3.6m)
+  slab(x - 4.0, z - 8.0, x + 4.0, z + 8.0, y + 0.85, 0.4, { ink: inkPlayfield });
+  // Side wooden rails
+  box(x - 4.1, y + 0.5, z, 0.4, 1.4, 16.2, { ink: inkChassis, tag: 'cover' });
+  box(x + 4.1, y + 0.5, z, 0.4, 1.4, 16.2, { ink: inkChassis, tag: 'cover' });
+  // Front apron (crouch cover)
+  box(x, y + 0.5, z + 8.1, 8.4, 1.2, 0.4, { ink: inkTrim, tag: 'cover' });
+
+  // 2. Colossal Scoreboard Backglass Cabinet (North end at z - 8.5, Y = 3.6m to 12.0m)
+  box(x, y + 3.6, z - 8.6, 8.8, 8.4, 2.2, { ink: inkChassis });
+  box(x, y + 5.0, z - 7.4, 7.6, 6.0, 0.3, { ink: inkBackglass, noCollide: true });
+
+  // 3. Kinetic Bumpers on Playfield
+  cyl(x - 2.0, y + 1.25, z - 2.0, 0.9, 1.1, { seg: 10, ink: inkTrim, tag: 'cover' });
+  cyl(x + 2.0, y + 1.25, z - 2.0, 0.9, 1.1, { seg: 10, ink: inkTrim, tag: 'cover' });
+  cyl(x, y + 1.65, z - 5.0, 1.1, 1.1, { seg: 10, ink: inkBackglass, tag: 'cover' });
+
+  // 4. Overhead Grapple Ring
+  ring(x, y + 14.0, z - 8.6, 'z');
+  ring(x, y + 6.0, z + 2.0, 'y');
+}
+

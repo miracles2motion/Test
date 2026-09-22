@@ -1,5 +1,6 @@
 // Level construction. Two maps share one builder: everything is merged ink geometry plus
 // axis-aligned box colliders, which is what the navigation grid is generated from.
+import { buildRetroArcade } from './levels/retro_arcade.js';
 import { buildDistrict } from './levels/district.js';
 import { buildClassroom } from './levels/classroom.js';
 import { buildClockwork } from './levels/clockwork.js';
@@ -159,6 +160,18 @@ export const LEVELS = [
     env: 'Urban Transit Terminal',
     engagement: 'CQB & Vertical',
     hazard: 'Moving Traffic',
+    scale: 'Tier 1-4',
+    comingSoon: false
+  },
+  {
+    key: 'retro_arcade',
+    name: 'RETRO ARCADE & PINBALL',
+    blurb: '16m tilted pinball table, vector CRT pit, air hockey plaza & neon skee-ball gallery',
+    category: 'urban',
+    tags: ['NEON 80S', 'KINETIC', 'AMUSEMENT'],
+    env: 'Neon Amusement Palace',
+    engagement: 'CQB & Vertical',
+    hazard: 'Kinetic Bumpers & Pit Abyss',
     scale: 'Tier 1-4',
     comingSoon: false
   }
@@ -623,7 +636,8 @@ export const MAP_BUILDERS = {
   studio: buildStudio,
   mexico: buildMexico,
   forest: buildForest,
-  bus_station: buildBusStation
+  bus_station: buildBusStation,
+  retro_arcade: buildRetroArcade
 };
 
 export function registerMapBuilder(key, builderFn) {

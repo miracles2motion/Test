@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { INK, makeInkMaterial } from './render.js';
-import { rand, choose, clamp, dist, approach, sqr, angleDiff, normalizeAngle } from './util.js';
+import { rand, choose, clamp, approach, TAU } from './util.js';
 import { TYPES, STATE_CODES, BOSSES } from './enemy-types.js';
 import { buildHumanoid, buildWeaponProp } from './enemy-rigging.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';

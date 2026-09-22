@@ -550,6 +550,42 @@ export function getMapSVG(key, isDossier = false) {
         <line x1="50" y1="66" x2="50" y2="82" stroke="${c}" stroke-width="1" stroke-dasharray="2 2"/>
       </svg>`;
     }
+  } else if (key === 'retro_arcade') {
+    if (isDossier) {
+      return `<svg viewBox="0 0 200 100" class="map-svg blueprint" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: ${isDossier ? '200px' : '90px'};">
+        <!-- Pinball Playfield Outer Chassis -->
+        <polygon points="75,95 125,95 135,25 65,25" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <!-- Scoreboard Backglass Head -->
+        <rect x="60" y="8" width="80" height="17" rx="2" fill="none" stroke="${c}" stroke-width="1.6"/>
+        <text x="100" y="20" font-family="monospace" font-size="7" text-anchor="middle" fill="${c}">HIGH SCORE</text>
+        <!-- Flipper Apron & Pop Bumpers -->
+        <circle cx="88" cy="45" r="5" fill="none" stroke="${c}" stroke-width="1.2"/>
+        <circle cx="112" cy="45" r="5" fill="none" stroke="${c}" stroke-width="1.2"/>
+        <circle cx="100" cy="35" r="6" fill="none" stroke="${c}" stroke-width="1.2"/>
+        <line x1="85" y1="88" x2="96" y2="83" stroke="${c}" stroke-width="2"/>
+        <line x1="115" y1="88" x2="104" y2="83" stroke="${c}" stroke-width="2"/>
+        <!-- Vector CRT Pit (West) -->
+        <rect x="10" y="25" width="40" height="55" rx="3" fill="none" stroke="${c}" stroke-width="1.4" stroke-dasharray="3 2"/>
+        <text x="30" y="55" font-family="monospace" font-size="5" text-anchor="middle" fill="${c}">VECTOR PIT</text>
+        <!-- Skee-Ball & Air Hockey (East) -->
+        <rect x="150" y="25" width="40" height="55" rx="3" fill="none" stroke="${c}" stroke-width="1.4" stroke-dasharray="3 2"/>
+        <text x="170" y="55" font-family="monospace" font-size="5" text-anchor="middle" fill="${c}">RHYTHM / HOCKEY</text>
+      </svg>`;
+    } else {
+      return `<svg viewBox="0 0 100 100" class="map-svg thumb" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: 90px; max-height: 90px;">
+        <!-- Tilted Pinball Table Body -->
+        <polygon points="32,90 68,90 76,30 24,30" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <!-- Backbox Scoreboard -->
+        <rect x="20" y="14" width="60" height="16" rx="2" fill="none" stroke="${c}" stroke-width="1.6"/>
+        <text x="50" y="25" font-family="monospace" font-size="6" text-anchor="middle" fill="${c}">80s ARCADE</text>
+        <!-- Pop Bumpers & Solenoids -->
+        <circle cx="42" cy="50" r="4" fill="none" stroke="${c}" stroke-width="1.2"/>
+        <circle cx="58" cy="50" r="4" fill="none" stroke="${c}" stroke-width="1.2"/>
+        <circle cx="50" cy="40" r="5" fill="none" stroke="${c}" stroke-width="1.2"/>
+        <line x1="40" y1="84" x2="48" y2="80" stroke="${c}" stroke-width="2"/>
+        <line x1="60" y1="84" x2="52" y2="80" stroke="${c}" stroke-width="2"/>
+      </svg>`;
+    }
   } else {
     const curLevel = LEVELS.find((m) => m.key === key);
     return synthesizeMapSVG({ id: key, name: curLevel?.name || key, palette: curLevel?.env || '' }, isDossier);

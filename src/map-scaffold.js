@@ -184,8 +184,8 @@ if (!activeRecipe && isRecipeMode) {
   const memoryFile = path.join(ROOT_DIR, '.agents', 'thematic-memory.json');
   let mem = {};
   try { mem = JSON.parse(fs.readFileSync(memoryFile, 'utf8')); } catch (e) {}
-  const arch = mem.thematicArchetypes?.[presetArg] || mem.thematicArchetypes?.[key];
-  const landmarkPrefab = arch?.props?.tier3_macro?.[0] || (conf.category === 'colossal' ? 'ancient_tree' : 'book_stack');
+  const rawLandmark = arch?.props?.tier3_macro?.[0] || (conf.category === 'colossal' ? 'ancient_tree' : 'book_stack');
+  const landmarkPrefab = String(rawLandmark).split(/[\s(]/)[0].trim();
   const paletteKey = BIOME_PALETTES[presetArg] ? presetArg : (conf.category === 'colossal' ? 'forest' : 'urban');
 
   activeRecipe = {

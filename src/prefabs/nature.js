@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { INK } from '../render.js';
 import { rand, choose } from '../util.js';
 import { splineTube, annularDeck, sweptRibbon } from '../spline-engine.js';
+import { createRNG } from '../rebuild/prng.js';
 export function buildAncientTree(B, x, y, z, o = {}) {
   const { box, slab, cyl, sphere, ring, rail, wedge, pickup } = B;
   const inkBark = o.inkBark ?? INK.ORANGE;

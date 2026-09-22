@@ -148,13 +148,94 @@
           "timestamp": "2026-09-14T14:50:12.208Z"
         }
       }
+    },
+    {
+      "id": "dream-005",
+      "timestamp": "2026-09-22T12:14:28.013Z",
+      "mapKey": "retro_arcade",
+      "mode": "MAP",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "spatial-doctor": {
+          "status": "pass",
+          "fixes": 0
+        },
+        "Dream Mutation Optimization": {
+          "status": "pass",
+          "timestamp": "2026-09-22T12:14:24.107Z"
+        },
+        "Recipe Sync": {
+          "status": "pass",
+          "timestamp": "2026-09-22T12:14:24.378Z"
+        },
+        "Enemy Synthesis": {
+          "status": "pass",
+          "timestamp": "2026-09-22T12:14:24.578Z"
+        },
+        "Universal Dream Verification": {
+          "status": "fail",
+          "error": "Command failed: node src/verify-suite.js retro_arcade\nAudit failures:\n  [t7_aesthetics]: [\n  'Ambiguous cover height 8.40m (must be micro/step <=0.85m, waist 0.85-1.6m, or full 1.8-4.0m)',\n  'Ambiguou",
+          "timestamp": "2026-09-22T12:14:25.223Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-22T12:14:26.968Z"
+        },
+        "Self-Healing Audit": {
+          "status": "pass",
+          "timestamp": "2026-09-22T12:14:27.640Z"
+        },
+        "Graduation to Map Description": {
+          "status": "pass",
+          "timestamp": "2026-09-22T12:14:27.997Z"
+        }
+      }
+    },
+    {
+      "id": "dream-006",
+      "timestamp": "2026-09-22T12:15:21.812Z",
+      "mapKey": "retro_arcade",
+      "mode": "MAP",
+      "success": true,
+      "score": 0,
+      "stages": {
+        "spatial-doctor": {
+          "status": "pass",
+          "fixes": 0
+        },
+        "Dream Mutation Optimization": {
+          "status": "pass",
+          "timestamp": "2026-09-22T12:15:18.234Z"
+        },
+        "Recipe Sync": {
+          "status": "pass",
+          "timestamp": "2026-09-22T12:15:18.467Z"
+        },
+        "Enemy Synthesis": {
+          "status": "pass",
+          "timestamp": "2026-09-22T12:15:18.661Z"
+        },
+        "Universal Dream Verification": {
+          "status": "pass",
+          "timestamp": "2026-09-22T12:15:19.278Z"
+        },
+        "Bot Flow Simulation": {
+          "status": "pass",
+          "timestamp": "2026-09-22T12:15:21.222Z"
+        },
+        "Self-Healing Audit": {
+          "status": "pass",
+          "timestamp": "2026-09-22T12:15:21.804Z"
+        }
+      }
     }
   ],
   "stats": {
-    "totalRuns": 4,
-    "successes": 4,
+    "totalRuns": 6,
+    "successes": 6,
     "failures": 0,
-    "errorRate": "0/4 (0%)",
+    "errorRate": "0/6 (0%)",
     "avgScore": 0
   }
 }

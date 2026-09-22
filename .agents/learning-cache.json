@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "updatedAt": "2026-09-20T19:58:21.569Z",
+  "updatedAt": "2026-09-22T12:15:21.808Z",
   "rules": {
     "stairway": {
       "minRise": 0.2,
@@ -55,8 +55,8 @@
       "description": "Identified dead zone at (0, -15.174999999999999) due to head-glitch",
       "trigger": "dead-zone-identified",
       "autoRemedy": "blacklistCoordinate",
-      "occurrences": 94,
-      "lastObserved": "2026-09-20T19:58:21.569Z"
+      "occurrences": 97,
+      "lastObserved": "2026-09-22T12:10:15.638Z"
     }
   ],
   "history": [
@@ -689,6 +689,24 @@
       "mapKey": "bus_station",
       "patternId": "dead-zone-identified",
       "description": "Identified dead zone at (0, 0) due to god-spot"
+    },
+    {
+      "timestamp": "2026-09-22T12:10:15.612Z",
+      "mapKey": "retro_arcade",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (0, 0) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-22T12:10:15.627Z",
+      "mapKey": "retro_arcade",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (0, 12) due to god-spot"
+    },
+    {
+      "timestamp": "2026-09-22T12:10:15.638Z",
+      "mapKey": "retro_arcade",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (0, -12) due to god-spot"
     }
   ],
   "humanLessons": [
@@ -751,6 +769,14 @@
       "dilemma": "Dream refuses to hallucinate generic or disconnected props. It needs human architect guidance on authentic drafting metaphors, materials, and Tier 1-4 props for \"pirate_cove\".",
       "resolution": "Smugglers cutlass cove: maritime pirate docks, wooden rum barrels for waist cover, black iron cannons on catwalks, tall galleon ship masts for crow nests and grapples, cargo cranes on docks, and tropical palm trees.",
       "absorbedAt": "2026-09-14T16:51:04.653Z"
+    },
+    {
+      "id": "lesson_1790079046506",
+      "topic": "Design Pipeline Failure: Self-Healing Audit",
+      "mapName": "retro_arcade",
+      "dilemma": "Dream does not know how to complete the Self-Healing Audit phase.",
+      "resolution": "Fixed missing exports in util.js and imported createRNG in prefabs/props.js and prefabs/nature.js",
+      "absorbedAt": "2026-09-22T12:10:46.506Z"
     }
   ],
   "stats": {
@@ -985,6 +1011,20 @@
       {
         "timestamp": "2026-09-14T14:50:12.211Z",
         "mapKey": "pirate_cove",
+        "success": true,
+        "score": 0,
+        "mode": "MAP"
+      },
+      {
+        "timestamp": "2026-09-22T12:14:28.008Z",
+        "mapKey": "retro_arcade",
+        "success": true,
+        "score": 0,
+        "mode": "MAP"
+      },
+      {
+        "timestamp": "2026-09-22T12:15:21.808Z",
+        "mapKey": "retro_arcade",
         "success": true,
         "score": 0,
         "mode": "MAP"
@@ -1745,6 +1785,30 @@
       "radius": 8,
       "reason": "god-spot",
       "timestamp": "2026-09-20T19:58:21.562Z"
+    },
+    {
+      "mapKey": "retro_arcade",
+      "x": 0,
+      "z": 0,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-22T12:10:15.600Z"
+    },
+    {
+      "mapKey": "retro_arcade",
+      "x": 0,
+      "z": 12,
+      "radius": 8,
+      "reason": "god-spot",
+      "timestamp": "2026-09-22T12:10:15.620Z"
+    },
+    {
+      "mapKey": "retro_arcade",
+      "x": 0,
+      "z": -12,
+      "radius": 8,
+      "reason": "god-spot",
+      "timestamp": "2026-09-22T12:10:15.632Z"
     }
   ]
 }
