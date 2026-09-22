@@ -14,6 +14,7 @@ export const wrapAngle = (a) => ((a + Math.PI) % TAU + TAU) % TAU - Math.PI;
 export const angleLerp = (a, b, t) => a + wrapAngle(b - a) * t;
 export const randDir = () => new THREE.Vector3(rand(-1, 1), rand(-1, 1), rand(-1, 1)).normalize();
 export const v3 = (x = 0, y = 0, z = 0) => new THREE.Vector3(x, y, z);
+export const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 
 // Damped spring for one scalar (used for camera kicks, weapon recoil, etc.)
 export class Spring {

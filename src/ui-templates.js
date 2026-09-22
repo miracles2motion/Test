@@ -1,5 +1,5 @@
 import { getMapSVG } from './map-svgs.js';
-import { esc, formatTime } from './util.js';
+import { esc } from './util.js';
 
 export function settingsScreenHTML(ctx) {
   const { LEVELS, mapKey, game, window, arenaFormat, best, bestForMap, bestWaveForMap, musicWanted, renderQuality, isAppInstalled, deferredPrompt, mobile, player, previewWeaponType, previewWeaponInst, cameraFov, lobby, FFA_TARGET, FFA_TIME, net, myName, scores, version, getPlayableMaps, Object } = ctx;
