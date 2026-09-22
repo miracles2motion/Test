@@ -1,6 +1,9 @@
 import * as THREE from 'three';
 import { INK, makeInkMaterial } from './render.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+import { rand, clamp, TAU } from './util.js';
+import { V3, bx, blob, noodle } from './enemy-types.js';
+
 
 export function buildWeaponProp(gun, mat, solid, T) {
   if (T.weapon === 'blade') { bx(0.02, 0.05, 0.95, 0, 0.04, 0.42, mat, gun); bx(0.11, 0.11, 0.03, 0, 0.04, -0.06, solid, gun); bx(0.035, 0.045, 0.24, 0, 0.04, -0.19, solid, gun); }

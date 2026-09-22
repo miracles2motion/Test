@@ -31,13 +31,13 @@ export const TYPES = {
 // Everything below is drawn as pen strokes: limbs are slightly bowed tubes, bodies are
 // flattened ovals and none of it is hatched, so enemies read as ink drawings on the page
 // rather than as shaded 3D primitives.
-const V3 = (x, y, z) => new THREE.Vector3(x, y, z);
-function bx(w, h, d, x, y, z, mat, parent) { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat); m.position.set(x, y, z); parent.add(m); return m; }
+export const V3 = (x, y, z) => new THREE.Vector3(x, y, z);
+export function bx(w, h, d, x, y, z, mat, parent) { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat); m.position.set(x, y, z); parent.add(m); return m; }
 function sph(r, x, y, z, mat, parent, seg = 8) { const m = new THREE.Mesh(new THREE.SphereGeometry(r, seg, Math.max(4, seg - 2)), mat); m.position.set(x, y, z); parent.add(m); return m; }
 // a flattened oval "drawn" body part
-function blob(rx, ry, rz, x, y, z, mat, parent) { const m = new THREE.Mesh(new THREE.SphereGeometry(1, 10, 8), mat); m.scale.set(rx, ry, rz); m.position.set(x, y, z); parent.add(m); return m; }
+export function blob(rx, ry, rz, x, y, z, mat, parent) { const m = new THREE.Mesh(new THREE.SphereGeometry(1, 10, 8), mat); m.scale.set(rx, ry, rz); m.position.set(x, y, z); parent.add(m); return m; }
 // a limb: one slightly bowed stroke hanging from its pivot, with a marker at its middle for hit tests
-function noodle(len, r, mat, parent, x, y, z, bow = 0.05) {
+export function noodle(len, r, mat, parent, x, y, z, bow = 0.05) {
   const g = new THREE.Group(); g.position.set(x, y, z); parent.add(g);
   const c = new THREE.QuadraticBezierCurve3(V3(0, 0, 0), V3(rand(-bow, bow), -len * 0.5, rand(-bow, bow) + bow * 0.6), V3(0, -len, 0));
   g.add(new THREE.Mesh(new THREE.TubeGeometry(c, 5, r, 6, false), mat));
