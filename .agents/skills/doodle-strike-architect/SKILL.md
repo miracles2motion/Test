@@ -20,7 +20,7 @@ Read the comprehensive technical specification in:
 - **Game Engine & Lifecycle**: [src/main.js](file:///c:/Users/dd/Desktop/Test/src/main.js) (Game loop, physics step, state machine, asset preload)
 - **Player & Humanoid**: [src/player.js](file:///c:/Users/dd/Desktop/Test/src/player.js), [src/players.js](file:///c:/Users/dd/Desktop/Test/src/players.js) (Movement, slide, grapple, aim synchronization)
 - **Enemy Hierarchy & AI**: [src/enemies.js](file:///c:/Users/dd/Desktop/Test/src/enemies.js), [src/nav.js](file:///c:/Users/dd/Desktop/Test/src/nav.js) (7 enemy archetypes, 3 bosses, navmesh pathfinding)
-- **Environment & Maps**: [src/level.js](file:///c:/Users/dd/Desktop/Test/src/level.js), [src/physics.js](file:///c:/Users/dd/Desktop/Test/src/physics.js) (Doodle District, Doodle Mexico, breakable props)
+- **Environment & Maps**: [src/levels/<map_name>.js](file:///c:/Users/dd/Desktop/Test/src/levels/<map_name>.js), [src/physics.js](file:///c:/Users/dd/Desktop/Test/src/physics.js) (Doodle District, Doodle Mexico, breakable props)
 - **Weapons & Ballistics**: [src/weapons.js](file:///c:/Users/dd/Desktop/Test/src/weapons.js), [src/effects.js](file:///c:/Users/dd/Desktop/Test/src/effects.js) (Rifle, shotgun, sniper, katana, grenade)
 - **Pen-and-Ink Rendering**: [src/render.js](file:///c:/Users/dd/Desktop/Test/src/render.js) (G-buffer, inverse-depth Laplacian outlines, biro crosshatching)
 - **Tactical Mobile Controls**: [src/mobile.js](file:///c:/Users/dd/Desktop/Test/src/mobile.js), [style.css](file:///c:/Users/dd/Desktop/Test/style.css) (Dual-fire, joystick, layout customizer)
