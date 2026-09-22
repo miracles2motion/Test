@@ -147,27 +147,39 @@
     "urban": {
       "keywords": [
         "urban",
-        "bus_station"
+        "bus_station",
+        "transit",
+        "metro",
+        "terminal"
       ],
-      "primaryInk": "INK.GREEN",
+      "layoutPrior": "monumental_transit",
+      "primaryInk": "INK.BLUE",
       "secondaryInk": "INK.BLACK",
       "accentInk": "INK.ORANGE",
+      "hazardInk": "INK.RED",
+      "guidance": "High-density urban transit terminal: curved space-frame steel concourse arches, raised passenger boarding islands with tactile curbs, full 12m commuter buses with mantleable roofs, elevated skybridges, departure split-flap schedule spires, and subterranean underpasses.",
       "props": {
         "tier1_micro": [
-          "cover prop",
-          "barrier block"
+          "transit_bench (perforated metal passenger waiting bench with waist cover)",
+          "urban_decals (engine oil puddles, storm drains, and road chevrons)",
+          "turnstile_gate (stainless steel tripod turnstile battery)",
+          "baggage_carousel (luggage conveyor islands and trolley defilade)",
+          "timetable_stanchion (vertical route map and schedule totems)"
         ],
         "tier2_meso": [
-          "tactical platform",
-          "walkway ramp"
+          "passenger_shelter (cantilever glass and steel boarding shelter)",
+          "mezzanine_skybridge (elevated 5m pedestrian walkway with stairs and railings)",
+          "transit_underpass (tiled subterranean sprint corridor linking bays)"
         ],
         "tier3_macro": [
-          "central landmark spire",
-          "watchtower"
+          "transit_bus (full 12m commuter coach with mantleable roof, wheel wells, and bike racks)",
+          "space_frame_concourse (swept 56m curved tubular steel terminal arch)",
+          "terminal_clock_tower (four-sided departure clock spire with split-flap schedule displays)"
         ],
         "tier4_kinetic": [
-          "swaying boughs",
-          "gliding paper elements"
+          "coach_exhaust_haze (rising particle puffs from idling bus exhausts)",
+          "tumbling_tickets (wind-blown doodle paper sheets and transit slips)",
+          "flickering_fluorescents (stochastic neon tube lighting pulses)"
         ]
       }
     }
