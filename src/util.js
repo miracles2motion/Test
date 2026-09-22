@@ -11,6 +11,8 @@ export const choose = (arr) => arr[Math.floor(Math.random() * arr.length)];
 export const smoothstep = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
 export const approach = (cur, target, maxDelta) => (cur < target ? Math.min(cur + maxDelta, target) : Math.max(cur - maxDelta, target));
 export const wrapAngle = (a) => ((a + Math.PI) % TAU + TAU) % TAU - Math.PI;
+export const nxOf = (dx, d) => dx / (d || 1);
+export const nzOf = (dz, d) => dz / (d || 1);
 export const angleLerp = (a, b, t) => a + wrapAngle(b - a) * t;
 export const randDir = () => new THREE.Vector3(rand(-1, 1), rand(-1, 1), rand(-1, 1)).normalize();
 export const v3 = (x = 0, y = 0, z = 0) => new THREE.Vector3(x, y, z);
