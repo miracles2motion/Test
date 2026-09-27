@@ -238,6 +238,45 @@ export function buildMayanSanctuary(B, arena = false) {
   pickup(cenX, -1.5, cenZ);
 
   // =========================================================================
+  // 3B. HERO LANDMARK: EL CARACOL ASTRONOMICAL OBSERVATORY (North-East)
+  // X in [18, 42], Z in [-44, -24]
+  // =========================================================================
+  const obsX = 29;
+  const obsZ = -34;
+
+  // Raised Astronomical Terrace (Y = 2.4m, 21m x 16m)
+  slab(19, -42, 40, -26, 2.4, 0.5, { ink: OR, tag: 'walkway' });
+
+  // West Access Stairway (climbing +x from Central Plaza onto Terrace at X=19)
+  stairs(15.4, 0, obsZ, '+x', 8, 3.2, { rise: 2.4 / 8, run: 0.45, ink: OR });
+
+  // Concentric Cylindrical Drum Tower (Lower Drum: Y = 2.4m to 6.0m, r=4.2m)
+  cyl(obsX, 2.4, obsZ, 4.2, 3.6, { seg: 16, ink: BK });
+  // Upper Observation Catwalk Terrace (Y = 6.0m, r=4.8m)
+  slab(obsX - 4.8, obsZ - 4.8, obsX + 4.8, obsZ + 4.8, 6.0, 0.4, { ink: OR, tag: 'walkway' });
+  rail(obsX - 4.8, obsZ - 4.8, obsX + 4.8, obsZ - 4.8, 6.0, { ink: BK });
+  rail(obsX - 4.8, obsZ + 4.8, obsX + 4.8, obsZ + 4.8, 6.0, { ink: BK });
+  rail(obsX - 4.8, obsZ - 4.8, obsX - 4.8, obsZ + 4.8, 6.0, { ink: BK });
+  rail(obsX + 4.8, obsZ - 4.8, obsX + 4.8, obsZ + 4.8, 6.0, { ink: BK });
+
+  // Upper Dome Observatory Chamber (Y = 6.0m to 9.2m, r=2.8m)
+  cyl(obsX, 6.0, obsZ, 2.8, 3.2, { seg: 14, ink: BK });
+  // Conical Spire Dome (Y = 9.2m to 11.6m)
+  cyl(obsX, 9.2, obsZ, 1.4, 2.4, { seg: 10, ink: OR, noCollide: true });
+
+  // 4 Solar Solstice Observation Portals (Cardinal Slits)
+  box(obsX, 7.2, obsZ - 3.0, 1.0, 1.4, 0.4, { ink: BK, noCollide: true });
+  box(obsX, 7.2, obsZ + 3.0, 1.0, 1.4, 0.4, { ink: BK, noCollide: true });
+  box(obsX - 3.0, 7.2, obsZ, 0.4, 1.4, 1.0, { ink: BK, noCollide: true });
+  box(obsX + 3.0, 7.2, obsZ, 0.4, 1.4, 1.0, { ink: BK, noCollide: true });
+
+  // Observatory Apex Grapple Ring
+  ring(obsX, 12.5, obsZ, 'y');
+  // Sniper vantage on Observation Balcony
+  sniper(obsX, 6.4, obsZ + 4.2);
+  pickup(obsX, 6.4, obsZ - 4.2);
+
+  // =========================================================================
   // 4. THE CEREMONIAL BALL COURT - POK-TA-POK (South)
   // X in [-20, 20], Z in [18, 38]
   // =========================================================================
@@ -289,6 +328,82 @@ export function buildMayanSanctuary(B, arena = false) {
   pickup(14, 0.4, courtZ);
 
   // =========================================================================
+  // 4B. HERO SECTOR: THE SACRED MERCADO & GRANARY (South-East)
+  // X in [18, 42], Z in [12, 32]
+  // =========================================================================
+  const granX = 30;
+  const granZ = 24;
+
+  // Central Granary Watchtower (6m x 6m x 4.2m)
+  box(granX, 0, granZ, 6.0, 4.2, 6.0, { ink: BK });
+  slab(27.0, 21.0, 33.0, 27.0, 4.2, 0.4, { ink: OR, tag: 'walkway' });
+  rail(27.0, 21.0, 28.5, 21.0, 4.2, { ink: BK });
+  rail(31.5, 21.0, 33.0, 21.0, 4.2, { ink: BK });
+  rail(27.0, 27.0, 33.0, 27.0, 4.2, { ink: BK });
+  rail(27.0, 21.0, 27.0, 27.0, 4.2, { ink: BK });
+  rail(33.0, 21.0, 33.0, 27.0, 4.2, { ink: BK });
+
+  // Granary Roof Access Stairs (climbing +z from Z=14.7 to Z=21.0 onto roof deck)
+  // 14 steps, rise = 4.2 / 14 = 0.30m, run = 0.45m
+  stairs(granX, 0, 14.7, '+z', 14, 2.2, { rise: 4.2 / 14, run: 0.45, ink: OR });
+  sniper(granX, 4.6, granZ); // Granary sniper vantage
+
+  // Row of 4 Artisan Merchant Stalls (Timber canopy & stone counters)
+  const stallZs = [14, 19, 25, 30];
+  for (let s = 0; s < stallZs.length; s++) {
+    const sZ = stallZs[s];
+    // Stone vendor counter (waist-high cover)
+    box(21, 0, sZ, 1.4, 0.9, 2.6, { ink: OR, tag: 'cover' });
+    // Timber canopy posts & roof
+    box(21, 2.6, sZ, 2.2, 0.15, 3.2, { ink: BK, noCollide: true });
+    cyl(20.2, 0, sZ - 1.3, 0.08, 2.6, { ink: BK, noCollide: true });
+    cyl(21.8, 0, sZ - 1.3, 0.08, 2.6, { ink: BK, noCollide: true });
+    cyl(20.2, 0, sZ + 1.3, 0.08, 2.6, { ink: BK, noCollide: true });
+    cyl(21.8, 0, sZ + 1.3, 0.08, 2.6, { ink: BK, noCollide: true });
+  }
+
+  // Terracotta Storage Urns & Indigo Dye Vats in Mercado Plaza
+  cyl(24, 0, 16, 0.7, 1.1, { ink: RD, tag: 'cover' });
+  cyl(24, 0, 23, 0.7, 1.1, { ink: BL, tag: 'cover' });
+  ring(granX, 8.5, granZ, 'z');
+  pickup(21, 1.0, 19);
+
+  // =========================================================================
+  // 4C. HERO SECTOR: THE TEMAZCAL & WATER LILY POOLS (South-West)
+  // X in [-40, -22], Z in [24, 44]
+  // =========================================================================
+  const temX = -31;
+  const temZ = 34;
+
+  // Sunken Limestone Basin (Y = -1.0m, 16m x 16m)
+  slab(-40, 26, -22, 42, -0.8, 0.4, { ink: BL, tag: 'water' });
+  // Sunken Perimeter Basin Stone Walkway
+  slab(-42, 24, -20, 26, -0.2, 0.4, { ink: BK });
+  slab(-42, 42, -20, 44, -0.2, 0.4, { ink: BK });
+  slab(-42, 26, -40, 42, -0.2, 0.4, { ink: BK });
+  slab(-22, 26, -20, 42, -0.2, 0.4, { ink: BK });
+
+  // Domed Stone Steam Lodge (Sweat Chamber: r=3.4m, Y = -0.8 to 2.4m)
+  cyl(temX, -0.8, temZ, 3.4, 3.2, { seg: 14, ink: BK });
+  // Low Arched Entrance Portal
+  arch(temX, -0.8, temZ + 3.4, 2.2, 2.0, 0.8, { axis: 'z', ink: OR });
+  // Central Volcanic Basalt Hearth (Heated river stones)
+  box(temX, -0.8, temZ, 1.6, 0.8, 1.6, { ink: OR, tag: 'cover' });
+
+  // Floating Water Lily Stepping Stones across the reflecting pool
+  facetedRock(B, temX + 4.5, -0.7, temZ - 4.0, 1.4, 0.5, 1.4, { ink: GR, cover: 'step' });
+  facetedRock(B, temX + 6.0, -0.7, temZ, 1.5, 0.5, 1.5, { ink: GR, cover: 'step' });
+  facetedRock(B, temX + 4.5, -0.7, temZ + 4.0, 1.4, 0.5, 1.4, { ink: GR, cover: 'step' });
+
+  // Water Ripple VFX Decals in Temazcal Pool
+  buildWaterRipples(B, temX + 5.0, -0.75, temZ - 2.0, { count: 2 });
+  buildWaterRipples(B, temX + 5.0, -0.75, temZ + 2.0, { count: 2 });
+
+  // Temazcal Apex Grapple Ring
+  ring(temX, 7.5, temZ, 'y');
+  pickup(temX, 0.2, temZ);
+
+  // =========================================================================
   // 5. THE STELAE PLAZA & COLONNADE (West)
   // X in [-42, -14], Z in [-14, 26]
   // =========================================================================
@@ -331,6 +446,44 @@ export function buildMayanSanctuary(B, arena = false) {
   // Plaza Grapple Rings
   ring(plazaX, 11.0, plazaZ - 10, 'y');
   ring(plazaX, 11.0, plazaZ + 10, 'y');
+
+  // =========================================================================
+  // 5B. HERO LANDMARK: THE SCRIBE'S ROYAL PALACE (North-West)
+  // X in [-40, -18], Z in [-42, -26]
+  // =========================================================================
+  const palX = -29;
+  const palZ = -34;
+
+  // Raised Palace Terrace (Y = 2.0m, 22m x 16m)
+  slab(-40, -42, -18, -26, 2.0, 0.4, { ink: OR, tag: 'walkway' });
+
+  // East Access Stairway (climbing -x from Central Plaza onto Palace terrace at X=-18)
+  stairs(-15.3, 0, palZ, '-x', 6, 3.2, { rise: 2.0 / 6, run: 0.45, ink: OR });
+
+  // Royal Corbelled Arch Vault Chambers (3 interconnected vaulted halls)
+  arch(palX - 5.0, 2.0, palZ, 3.6, 3.6, 1.2, { axis: 'x', ink: BK });
+  arch(palX, 2.0, palZ, 3.6, 3.6, 1.2, { axis: 'x', ink: BK });
+  arch(palX + 5.0, 2.0, palZ, 3.6, 3.6, 1.2, { axis: 'x', ink: BK });
+
+  // Palace Corbelled Roof Deck (Y = 5.6m)
+  slab(-38, -40, -20, -28, 5.6, 0.4, { ink: BK, tag: 'walkway' });
+
+  // Scribe's Inscribed Glyph Stelae & Stone Drafting Tables
+  box(palX - 3.0, 2.0, palZ - 4.0, 2.2, 0.9, 1.2, { ink: OR, tag: 'cover' }); // Scribe desk
+  box(palX + 3.0, 2.0, palZ - 4.0, 2.2, 0.9, 1.2, { ink: OR, tag: 'cover' }); // Scribe desk
+  box(palX, 2.0, palZ + 4.0, 1.4, 2.8, 1.4, { ink: BK, tag: 'cover' }); // Central royal glyph stela
+
+  // High Elevated Skybridge connecting Palace Roof to West Wall Walkway (Y = 7.0m)
+  slab(-47, -36, -38, -32, 7.0, 0.4, { ink: OR, tag: 'walkway' });
+  rail(-47, -36, -38, -36, 7.0, { ink: BK });
+  rail(-47, -32, -38, -32, 7.0, { ink: BK });
+
+  // Palace Roof to Skybridge Access Stairway (5 steps, rise = 1.4 / 5 = 0.28m, run = 0.45m)
+  stairs(-35.75, 5.6, palZ, '-x', 5, 2.0, { rise: 1.4 / 5, run: 0.45, ink: OR });
+
+  // Palace Grapple Ring above Courtyard
+  ring(palX, 9.5, palZ, 'x');
+  pickup(palX, 2.2, palZ);
 
   // =========================================================================
   // 6. CENTRAL CONTESTED DAIS & JUNGLE ATRIUM (Center: 0, 0, 0)
