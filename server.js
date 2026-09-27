@@ -12,7 +12,9 @@ const PORT = 3000;
 express.static.mime.define({
   'application/manifest+json': ['webmanifest'],
   'application/javascript': ['js', 'mjs'],
-  'image/svg+xml': ['svg']
+  'image/svg+xml': ['svg'],
+  'model/gltf-binary': ['glb'],
+  'model/gltf+json': ['gltf']
 });
 
 // Cache control headers for dev iteration

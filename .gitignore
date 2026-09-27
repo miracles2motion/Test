@@ -8,3 +8,5 @@ coverage/
 !.env.example
 scratch/
 .snapshots/
+__pycache__/
+*.pyc
