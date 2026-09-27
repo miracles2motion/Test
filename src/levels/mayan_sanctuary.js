@@ -75,6 +75,18 @@ export function buildMayanSanctuary(B, arena = false) {
   // South Wall Walkway
   slab(-P + T, -P + T, P - T, -P + T + 3.0, 7.0, 0.4, { ink: OR, tag: 'walkway' });
 
+  // 4 Corner Megalith Bastion Platforms (Y = 7.0m, 6m x 6m corners with high parapets)
+  slab(-P + T, -P + T, -P + T + 6.0, -P + T + 6.0, 7.0, 0.4, { ink: OR, tag: 'walkway' }); // NW Bastion
+  slab(P - T - 6.0, -P + T, P - T, -P + T + 6.0, 7.0, 0.4, { ink: OR, tag: 'walkway' });   // NE Bastion
+  slab(-P + T, P - T - 6.0, -P + T + 6.0, P - T, 7.0, 0.4, { ink: OR, tag: 'walkway' });   // SW Bastion
+  slab(P - T - 6.0, P - T - 6.0, P - T, P - T, 7.0, 0.4, { ink: OR, tag: 'walkway' });   // SE Bastion
+
+  // Bastion Stone Braziers (Waist-high cover)
+  box(-P + T + 3.0, 7.0, -P + T + 3.0, 1.2, 1.0, 1.2, { ink: BK, tag: 'cover' });
+  box(P - T - 3.0, 7.0, -P + T + 3.0, 1.2, 1.0, 1.2, { ink: BK, tag: 'cover' });
+  box(-P + T + 3.0, 7.0, P - T - 3.0, 1.2, 1.0, 1.2, { ink: BK, tag: 'cover' });
+  box(P - T - 3.0, 7.0, P - T - 3.0, 1.2, 1.0, 1.2, { ink: BK, tag: 'cover' });
+
   // Walkway access stairs (West & East perimeters)
   stairs(-P + T + 1.5, 0, 15, '+z', 24, 2.5, { rise: 7.0 / 24, run: 0.5, ink: OR });
   stairs(P - T - 1.5, 0, 15, '+z', 24, 2.5, { rise: 7.0 / 24, run: 0.5, ink: OR });
@@ -86,81 +98,93 @@ export function buildMayanSanctuary(B, arena = false) {
   const pyrX = 0;
   const pyrZ = -24;
 
-  // Tier 1: 30m x 30m base platform (Y = 0 to 2.2m)
-  // Split into West & East wings with an open central 4.6m corridor for stairs
-  box(pyrX - 8.6, 0, pyrZ, 12.8, 2.2, 30, { ink: BK });
-  box(pyrX + 8.6, 0, pyrZ, 12.8, 2.2, 30, { ink: BK });
-  slab(pyrX - 15.4, pyrZ - 15.4, pyrX + 15.4, pyrZ + 15.4, 2.3, 0.3, { ink: OR, noCollide: true });
+  // Tier 1: 30m x 30m base platform (Y = 0 to 2.0m)
+  // Split into West & East wings with an open central 4.4m corridor for stairs
+  box(pyrX - 8.6, 0, pyrZ, 12.8, 2.0, 30, { ink: BK });
+  box(pyrX + 8.6, 0, pyrZ, 12.8, 2.0, 30, { ink: BK });
+  slab(pyrX - 15.4, pyrZ - 15.4, pyrX + 15.4, pyrZ + 15.4, 2.1, 0.2, { ink: OR, noCollide: true });
 
-  // Tier 2: 24m x 24m terrace (Y = 2.2 to 4.4m)
-  box(pyrX - 7.1, 2.2, pyrZ, 9.8, 2.2, 24, { ink: BK });
-  box(pyrX + 7.1, 2.2, pyrZ, 9.8, 2.2, 24, { ink: BK });
-  slab(pyrX - 12.4, pyrZ - 12.4, pyrX + 12.4, pyrZ + 12.4, 4.5, 0.3, { ink: OR, noCollide: true });
+  // Tier 2: 24m x 24m terrace (Y = 2.0 to 4.0m)
+  box(pyrX - 7.1, 2.0, pyrZ, 9.8, 2.0, 24, { ink: BK });
+  box(pyrX + 7.1, 2.0, pyrZ, 9.8, 2.0, 24, { ink: BK });
+  slab(pyrX - 12.4, pyrZ - 12.4, pyrX + 12.4, pyrZ + 12.4, 4.1, 0.2, { ink: OR, noCollide: true });
 
-  // Tier 3: 18m x 18m terrace (Y = 4.4 to 6.6m)
-  box(pyrX - 5.6, 4.4, pyrZ, 6.8, 2.2, 18, { ink: BK });
-  box(pyrX + 5.6, 4.4, pyrZ, 6.8, 2.2, 18, { ink: BK });
-  slab(pyrX - 9.4, pyrZ - 9.4, pyrX + 9.4, pyrZ + 9.4, 6.7, 0.3, { ink: OR, noCollide: true });
+  // Tier 3: 18m x 18m terrace (Y = 4.0 to 6.0m)
+  box(pyrX - 5.6, 4.0, pyrZ, 6.8, 2.0, 18, { ink: BK });
+  box(pyrX + 5.6, 4.0, pyrZ, 6.8, 2.0, 18, { ink: BK });
+  slab(pyrX - 9.4, pyrZ - 9.4, pyrX + 9.4, pyrZ + 9.4, 6.1, 0.2, { ink: OR, noCollide: true });
 
-  // Tier 4: 12m x 12m summit terrace (Y = 6.6 to 8.2m)
-  box(pyrX - 4.1, 6.6, pyrZ, 3.8, 1.6, 12, { ink: BK });
-  box(pyrX + 4.1, 6.6, pyrZ, 3.8, 1.6, 12, { ink: BK });
-  slab(pyrX - 6.3, pyrZ - 6.3, pyrX + 6.3, pyrZ + 6.3, 8.3, 0.3, { ink: OR, noCollide: true });
+  // Tier 4: 12m x 12m summit terrace (Y = 6.0 to 8.0m)
+  box(pyrX - 4.1, 6.0, pyrZ, 3.8, 2.0, 12, { ink: BK });
+  box(pyrX + 4.1, 6.0, pyrZ, 3.8, 2.0, 12, { ink: BK });
+  slab(pyrX - 6.3, pyrZ - 6.3, pyrX + 6.3, pyrZ + 6.3, 8.1, 0.2, { ink: OR, noCollide: true });
 
   // Solid foundation directly under the High Temple summit
-  box(pyrX, 0, pyrZ, 4.4, 7.8, 8.0, { ink: BK, noNav: true });
-  // Walkable Summit Platform Landing (Y = 8.2m)
-  slab(pyrX - 6.0, pyrZ - 6.0, pyrX + 6.0, pyrZ + 6.0, 8.2, 0.4, { ink: OR });
+  box(pyrX, 0, pyrZ, 4.4, 7.6, 8.0, { ink: BK, noNav: true });
+  // Walkable Summit Platform Landing (Y = 8.0m, Z in [-30, -18])
+  slab(pyrX - 6.0, pyrZ - 6.0, pyrX + 6.0, pyrZ + 6.0, 8.0, 0.4, { ink: OR });
 
-  // Summit High Temple Sanctuary (Y = 8.2m to 12.0m)
+  // Summit High Temple Sanctuary (Y = 8.0m to 11.6m)
   // Outer temple walls with cardinal doorways
-  wallX(pyrX - 3.8, pyrX + 3.8, pyrZ + 3.6, 8.2, 3.6, 0.6, [[-1.2, 1.2, 0, 2.8]], { ink: BK }); // South entrance
-  wallX(pyrX - 3.8, pyrX + 3.8, pyrZ - 3.6, 8.2, 3.6, 0.6, [[-1.2, 1.2, 0, 2.8]], { ink: BK }); // North entrance
-  wallZ(pyrZ - 3.6, pyrZ + 3.6, pyrX - 3.8, 8.2, 3.6, 0.6, [[-1.2, 1.2, 0, 2.8]], { ink: BK }); // West entrance
-  wallZ(pyrZ - 3.6, pyrZ + 3.6, pyrX + 3.8, 8.2, 3.6, 0.6, [[-1.2, 1.2, 0, 2.8]], { ink: BK }); // East entrance
+  wallX(pyrX - 3.8, pyrX + 3.8, pyrZ + 3.6, 8.0, 3.6, 0.6, [[-1.2, 1.2, 0, 2.8]], { ink: BK }); // South entrance
+  wallX(pyrX - 3.8, pyrX + 3.8, pyrZ - 3.6, 8.0, 3.6, 0.6, [[-1.2, 1.2, 0, 2.8]], { ink: BK }); // North entrance
+  wallZ(pyrZ - 3.6, pyrZ + 3.6, pyrX - 3.8, 8.0, 3.6, 0.6, [[-1.2, 1.2, 0, 2.8]], { ink: BK }); // West entrance
+  wallZ(pyrZ - 3.6, pyrZ + 3.6, pyrX + 3.8, 8.0, 3.6, 0.6, [[-1.2, 1.2, 0, 2.8]], { ink: BK }); // East entrance
 
-  // Slanted Mansard Roofcomb Crest (Y = 11.8m to 13.6m)
-  slab(pyrX - 4.2, pyrZ - 4.2, pyrX + 4.2, pyrZ + 4.2, 12.0, 0.4, { ink: OR });
-  box(pyrX, 12.0, pyrZ, 5.0, 1.6, 5.0, { ink: BK });
-  box(pyrX, 13.6, pyrZ, 2.0, 1.2, 4.0, { ink: OR, noCollide: true }); // Crest finial
+  // Slanted Mansard Roofcomb Crest (Y = 11.6m to 13.2m)
+  slab(pyrX - 4.2, pyrZ - 4.2, pyrX + 4.2, pyrZ + 4.2, 11.6, 0.4, { ink: OR });
+  box(pyrX, 11.6, pyrZ, 5.0, 1.6, 5.0, { ink: BK });
+  box(pyrX, 13.2, pyrZ, 2.0, 1.2, 4.0, { ink: OR, noCollide: true }); // Crest finial
 
   // Ceremonial Altar in the Temple center
-  box(pyrX, 8.2, pyrZ, 1.6, 0.9, 1.6, { ink: OR, tag: 'cover' });
+  box(pyrX, 8.0, pyrZ, 1.6, 0.9, 1.6, { ink: OR, tag: 'cover' });
   // Legendary Weapon Pickup at apex altar
-  pickup(pyrX, 9.4, pyrZ);
+  pickup(pyrX, 9.2, pyrZ);
 
   // --- DUAL AXIAL STAIRWAYS (Anti-Camp 2-Way Flow) ---
-  // South Grand Staircase (Ground Y=0 to Summit Landing Y=8.2m at Z=-18.4)
-  // Run = 12.0m, Steps = 24 -> rise = 8.2 / 24 = 0.3416m, run = 0.5m
+  // South Grand Staircase (Base Z=-9.0, Y=0 to Summit Landing Z=-18.0, Y=8.0m)
+  // Run = 9.0m, Steps = 24 -> rise = 8.0 / 24 = 0.3333m, run = 0.375m
   const stairW = 4.0;
-  stairs(pyrX, 0, -6.4, '-z', 24, stairW, { rise: 8.2 / 24, run: 0.5, ink: OR });
+  stairs(pyrX, 0, -9.0, '-z', 24, stairW, { rise: 8.0 / 24, run: 0.375, ink: OR });
 
-  // Flanking Stone Balustrade Ramps (South)
-  box(pyrX - stairW / 2 - 0.3, 0, -12.4, 0.6, 8.5, 12.2, { ink: BK, noCollide: true });
-  box(pyrX + stairW / 2 + 0.3, 0, -12.4, 0.6, 8.5, 12.2, { ink: BK, noCollide: true });
+  // Flanking Stepped Stone Balustrades (South)
+  for (let b = 0; b < 4; b++) {
+    const bZ = -9.0 - (b + 0.5) * 2.25;
+    const bH = (b + 1) * 2.0 + 0.4;
+    box(pyrX - stairW / 2 - 0.3, 0, bZ, 0.6, bH, 2.3, { ink: BK, noCollide: true });
+    box(pyrX + stairW / 2 + 0.3, 0, bZ, 0.6, bH, 2.3, { ink: BK, noCollide: true });
+  }
 
-  // Carved Serpent Head Pedestals at foot of South Staircase
-  box(pyrX - 2.6, 0, -6.8, 1.2, 1.2, 0.8, { ink: OR, tag: 'cover' });
-  cyl(pyrX - 2.6, 1.2, -6.8, 0.4, 0.6, { ink: BK, noCollide: true });
-  box(pyrX + 2.6, 0, -6.8, 1.2, 1.2, 0.8, { ink: OR, tag: 'cover' });
-  cyl(pyrX + 2.6, 1.2, -6.8, 0.4, 0.6, { ink: BK, noCollide: true });
+  // Carved Serpent Head Pedestals at foot of South Staircase (Z = -8.5)
+  box(pyrX - 2.6, 0, -8.5, 1.2, 1.2, 1.0, { ink: OR, tag: 'cover' });
+  cyl(pyrX - 2.6, 1.2, -8.5, 0.4, 0.6, { ink: BK, noCollide: true });
+  box(pyrX + 2.6, 0, -8.5, 1.2, 1.2, 1.0, { ink: OR, tag: 'cover' });
+  cyl(pyrX + 2.6, 1.2, -8.5, 0.4, 0.6, { ink: BK, noCollide: true });
 
-  // North Rear Escape Stair (Ground Y=0 to Summit Landing Y=8.2m at Z=-29.6)
-  stairs(pyrX, 0, -41.6, '+z', 24, stairW, { rise: 8.2 / 24, run: 0.5, ink: OR });
+  // North Rear Escape Stair (Base Z=-39.0, Y=0 to Summit Landing Z=-30.0, Y=8.0m)
+  stairs(pyrX, 0, -39.0, '+z', 24, stairW, { rise: 8.0 / 24, run: 0.375, ink: OR });
 
-  // Flanking Stone Balustrade Ramps (North)
-  box(pyrX - stairW / 2 - 0.3, 0, -35.6, 0.6, 8.5, 12.2, { ink: BK, noCollide: true });
-  box(pyrX + stairW / 2 + 0.3, 0, -35.6, 0.6, 8.5, 12.2, { ink: BK, noCollide: true });
+  // Flanking Stepped Stone Balustrades (North)
+  for (let b = 0; b < 4; b++) {
+    const bZ = -39.0 + (b + 0.5) * 2.25;
+    const bH = (b + 1) * 2.0 + 0.4;
+    box(pyrX - stairW / 2 - 0.3, 0, bZ, 0.6, bH, 2.3, { ink: BK, noCollide: true });
+    box(pyrX + stairW / 2 + 0.3, 0, bZ, 0.6, bH, 2.3, { ink: BK, noCollide: true });
+  }
 
-  // 4 Corner Braziers on Tier 2 Terraces (Waist-high cover)
+  // 4 Symmetrical Fire Braziers on Tier 2 Terraces (Waist-high cover)
   const bDist = 10.5;
-  box(pyrX - bDist, 2.2, pyrZ - bDist, 1.1, 1.1, 1.1, { ink: OR, tag: 'cover' });
-  box(pyrX + bDist, 2.2, pyrZ - bDist, 1.1, 1.1, 1.1, { ink: OR, tag: 'cover' });
-  box(pyrX - bDist, 2.2, pyrZ + bDist, 1.1, 1.1, 1.1, { ink: OR, tag: 'cover' });
-  box(pyrX + bDist, 2.2, pyrZ + bDist, 1.1, 1.1, 1.1, { ink: OR, tag: 'cover' });
+  box(pyrX - bDist, 2.0, pyrZ - bDist, 1.1, 1.1, 1.1, { ink: OR, tag: 'cover' });
+  box(pyrX + bDist, 2.0, pyrZ - bDist, 1.1, 1.1, 1.1, { ink: OR, tag: 'cover' });
+  box(pyrX - bDist, 2.0, pyrZ + bDist, 1.1, 1.1, 1.1, { ink: OR, tag: 'cover' });
+  box(pyrX + bDist, 2.0, pyrZ + bDist, 1.1, 1.1, 1.1, { ink: OR, tag: 'cover' });
+
+  // Ceremonial Staircase Flanking Braziers at Tier 1 (Z = -10.5)
+  box(pyrX - 3.2, 2.0, -10.5, 0.9, 0.9, 0.9, { ink: OR, tag: 'cover' });
+  box(pyrX + 3.2, 2.0, -10.5, 0.9, 0.9, 0.9, { ink: OR, tag: 'cover' });
 
   // Apex Grapple Ring above Temple Roof
-  ring(pyrX, 16.2, pyrZ, 'z');
+  ring(pyrX, 15.8, pyrZ, 'z');
 
   // =========================================================================
   // 3. THE SACRED CENOTE GORGE & SUBTERRANEAN CAVERN (East)
@@ -179,6 +203,14 @@ export function buildMayanSanctuary(B, arena = false) {
   slab(cenX - cenW / 2 - 3.5, cenZ - cenL / 2, cenX - cenW / 2, cenZ + cenL / 2, -1.0, 0.6, { ink: BK });
   // East Bank
   slab(cenX + cenW / 2, cenZ - cenL / 2, cenX + cenW / 2 + 3.5, cenZ + cenL / 2, -1.0, 0.6, { ink: BK });
+
+  // Cascading Limestone Waterfall Steps at North End of Gorge
+  slab(cenX - 4.5, cenZ - cenL / 2 - 2, cenX + 4.5, cenZ - cenL / 2 + 4, -0.6, 0.6, { ink: BK });
+  slab(cenX - 4.0, cenZ - cenL / 2 + 2, cenX + 4.0, cenZ - cenL / 2 + 8, -1.3, 0.7, { ink: BK });
+
+  // Subterranean Limestone Cave Shrine into the East Bluff (X=36, Z=-10)
+  box(cenX + cenW / 2 + 2.5, -2.0, cenZ, 4.0, 2.6, 8.0, { ink: BK });
+  box(cenX + cenW / 2 + 2.5, -2.0, cenZ, 1.4, 0.9, 1.4, { ink: OR, tag: 'cover' }); // Cave altar
 
   // Natural Granite Stepping Stones across Cenote
   facetedRock(B, cenX - 3, -1.8, cenZ - 12, 1.6, 1.2, 1.6, { ink: BK, cover: 'step' });
@@ -288,10 +320,13 @@ export function buildMayanSanctuary(B, arena = false) {
   box(plazaX, 1.2, plazaZ, 1.4, 0.8, 1.4, { ink: OR, tag: 'cover' });
   pickup(plazaX, 2.2, plazaZ); // Offering pickup
 
-  // West Colonnade Stone Arches
+  // West Colonnade Stone Arches & Portico
   arch(-40, 1.2, -4, 3.2, 3.8, 0.8, { axis: 'x', ink: BK });
   arch(-40, 1.2, 8, 3.2, 3.8, 0.8, { axis: 'x', ink: BK });
   arch(-40, 1.2, 18, 3.2, 3.8, 0.8, { axis: 'x', ink: BK });
+  // Portico Architrave Beam overhead (Sheltered Colonnade Corridor)
+  box(-40, 4.4, 7, 1.6, 0.5, 26, { ink: BK, noCollide: true });
+  slab(-41, -6, -39, 20, 4.6, 0.2, { ink: OR, noCollide: true }); // Colonnade roof trim
 
   // Plaza Grapple Rings
   ring(plazaX, 11.0, plazaZ - 10, 'y');
@@ -300,20 +335,36 @@ export function buildMayanSanctuary(B, arena = false) {
   // =========================================================================
   // 6. CENTRAL CONTESTED DAIS & JUNGLE ATRIUM (Center: 0, 0, 0)
   // =========================================================================
-  // Raised Central Dais (Y = 1.6m, 12m x 12m)
-  box(0, 0, 0, 12, 1.6, 12, { ink: BK });
-  slab(-6.3, -6.3, 6.3, 6.3, 1.7, 0.3, { ink: OR, noCollide: true });
+  // Raised Central Dais (Y = 1.6m, 10m x 10m)
+  box(0, 0, 0, 10, 1.6, 10, { ink: BK });
+  slab(-5.3, -5.3, 5.3, 5.3, 1.7, 0.3, { ink: OR, noCollide: true });
 
-  // 4 Cardinal Access Stairs to Central Dais
-  stairs(0, 0, 8.5, '-z', 5, 4.0, { rise: 1.6 / 5, run: 0.5, ink: OR }); // South
-  stairs(0, 0, -8.5, '+z', 5, 4.0, { rise: 1.6 / 5, run: 0.5, ink: OR }); // North
-  stairs(8.5, 0, 0, '-x', 5, 4.0, { rise: 1.6 / 5, run: 0.5, ink: OR }); // East
-  stairs(-8.5, 0, 0, '+x', 5, 4.0, { rise: 1.6 / 5, run: 0.5, ink: OR }); // West
+  // 4 Cardinal Access Stairs to Central Dais (Uniform 5-step flights)
+  // Run = 2.25m, Rise = 1.6 / 5 = 0.32m, Step Run = 0.45m
+  stairs(0, 0, 7.25, '-z', 5, 3.6, { rise: 1.6 / 5, run: 0.45, ink: OR }); // South
+  stairs(0, 0, -7.25, '+z', 5, 3.6, { rise: 1.6 / 5, run: 0.45, ink: OR }); // North
+  stairs(7.25, 0, 0, '-x', 5, 3.6, { rise: 1.6 / 5, run: 0.45, ink: OR }); // East
+  stairs(-7.25, 0, 0, '+x', 5, 3.6, { rise: 1.6 / 5, run: 0.45, ink: OR }); // West
 
   // Central Carved Monolith Column
-  box(0, 1.6, 0, 2.2, 3.4, 2.2, { ink: OR, tag: 'cover' });
+  box(0, 1.6, 0, 2.0, 3.4, 2.0, { ink: OR, tag: 'cover' });
   // Central Ring overhead for aerial pass-through
   ring(0, 12.0, 0, 'z');
+
+  // =========================================================================
+  // 7. CEREMONIAL TZOMPANTLI (Skull Rack Platform) & PLAZA MONUMENTS
+  // West Plaza Corridor (X=-12, Z=-16)
+  // =========================================================================
+  // Raised Stone Skull Platform (8m x 4m, Y=0.9m)
+  box(-12, 0.0, -16, 8.0, 0.9, 4.0, { ink: BK, tag: 'cover' });
+  slab(-16.2, -18.2, -7.8, -13.8, 1.0, 0.2, { ink: OR, noCollide: true });
+  // 4 Vertical Wooden Impalement Posts
+  cyl(-14.5, 0.9, -16, 0.12, 1.8, { ink: BK, noCollide: true });
+  cyl(-12.5, 0.9, -16, 0.12, 1.8, { ink: BK, noCollide: true });
+  cyl(-10.5, 0.9, -16, 0.12, 1.8, { ink: BK, noCollide: true });
+  cyl(-8.5, 0.9, -16, 0.12, 1.8, { ink: BK, noCollide: true });
+  // Sacrificial Flint Dagger Cache Pickup
+  pickup(-11.5, 1.2, -16);
 
   // Crepuscular Atmospheric Sun Rays shining onto Central Dais
   buildAtmosphericBeams(B, 0, 1.6, 0, { radius: 6.0, height: 18.0 });
