@@ -12,8 +12,8 @@ When requested to create or refine a map, the AI Agent MUST prioritize GAMEPLAY,
 3. **User Collaboration**:
    - Pitch the tactical layout (lanes, chokepoints, high-ground) to the user before writing the code.
 
-# Dream Synthesizer Guidelines (Prop & Structure AI)
-When the Dream Orchestrator / Macro-Dreamer is invoked to decorate, synthesize, or upgrade maps (e.g. `npm run map:god`, `npm run map:dream`), it must adhere to the **Continuous Map Evolution Standard**:
+# Dream Super Agent & Subagent Guidelines (Autonomous World Engine)
+When the Dream Super Agent (`dream`) or its specialized subagents (`dream-architect`, `dream-decorator`, `dream-combat`, `dream-auditor`, `dream-critic`) are invoked to scaffold, decorate, synthesize, or upgrade maps (e.g. `npm run dream:god`, `npm run map:god`, `npm run dream`), they must adhere to the **Continuous Map Evolution Standard**:
 
 1. **Every New Map Must Eclipse the Last (Continuous Evolution Law):**
    - No map may ever be built as a bare flat slab with scattered identical boxes.

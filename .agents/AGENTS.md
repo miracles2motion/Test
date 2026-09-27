@@ -52,6 +52,12 @@ Whenever a new map is created, promoted, or added to the game:
   - **DEBUG ("enemy not dodging", "AI broken", "enemy just stands there")**: Check that the enemy's `role` and capability tags match the expected behaviors for the current difficulty level.
 - **Kamikaze / Aerial / Boss Rule**: ALL intelligence tags (`canDodge`, `canCover`, `canRetreat`, `canFlank`) MUST be `false` for enemies with `role: 'kamikaze'`, `role: 'aerial'`, or `role: 'boss'`. These have dedicated brain functions.
 
-
-
-
+## Dream Super Agent & Subagent Architecture Standard (Mandatory for All Map Work)
+- For all autonomous map generation, scaffolding, detailing, physics healing, or audit operations, follow `.agents/skills/dream-super-agent/SKILL.md` and `.agents/rules/dream-agent.md`.
+- Dream is a **Master Super Agent** orchestrating 5 specialized subagents:
+  1. `dream-architect`: Spatial scaffolding, 3-lane topology, vertical tiers, $\ge 1.8\text{m}$ corridor clearance, and stair mathematics ($0.25-0.28\text{m}$ rise, $\ge 2.4\text{m}$ headroom).
+  2. `dream-decorator`: Universal Detailing Standard (Skeleton-Skin-Trim triad, $0.3\text{m}$ threshold with `noCollide: true`), stationery metaphors, anti-repetition law (`seed + i * 137`), transition belts, and curved 3D splines.
+  3. `dream-combat`: Tactical flow, balanced spawns without mutual LOS, anti-camp sniper perches, grapple momentum chains ($\ge 1.5\text{m}$ clearance, $8-12\text{m}$ gaps), risk-stratified pickups, and enemy intelligence tags.
+  4. `dream-auditor`: 100-point verification suite (`verify-suite.js`), AST blunder inspector, A* bot navigation simulation (`map-simulate.js`), and Universal Detailing audit (`verify-detailing.js`).
+  5. `dream-critic`: Adversarial evaluation against the Garbage Map Disqualification Checklist and composition heuristics.
+- **Zero Garbage Maps Law**: Never generate flat slabs with scattered boxes, unplayable bottlenecks, illegal stairs, or duplicate regex injection blocks. All generation must flow through declarative JSON recipes (`recipes/<mapKey>.json`) and the verified interpreter (`src/map-scaffold.js`).

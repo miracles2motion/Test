@@ -17,8 +17,28 @@
       "description": "Auto-discovered capability: help"
     },
     {
-      "name": "orchestrator",
-      "description": "Auto-discovered capability: orchestrator"
+      "name": "super-agent",
+      "description": "Master Super Agent coordinating autonomous map generation, scaffolding, detailing, and quality certification"
+    },
+    {
+      "name": "dream-architect",
+      "description": "Spatial Scaffolder & 3-Lane Topology Architect"
+    },
+    {
+      "name": "dream-decorator",
+      "description": "Universal Detailing Standard & Material Specialist"
+    },
+    {
+      "name": "dream-combat",
+      "description": "Tactical Combat Flow, Sightlines & Enemy AI Architect"
+    },
+    {
+      "name": "dream-auditor",
+      "description": "Diagnostics, A* Simulation Tester & Self-Healing Doctor"
+    },
+    {
+      "name": "dream-critic",
+      "description": "Adversarial Quality Evaluator & Debate Judge"
     },
     {
       "name": "registry-sync",
@@ -31,6 +51,18 @@
     {
       "name": "consultant",
       "description": "Auto-discovered capability: consultant"
+    },
+    {
+      "name": "mutator",
+      "description": "Auto-discovered capability: mutator"
+    },
+    {
+      "name": "recipe",
+      "description": "Auto-discovered capability: recipe"
+    },
+    {
+      "name": "svgs",
+      "description": "Auto-discovered capability: svgs"
     }
   ],
   "diagnostics": [

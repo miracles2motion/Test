@@ -229,13 +229,49 @@
           "timestamp": "2026-09-22T12:15:21.804Z"
         }
       }
+    },
+    {
+      "id": "dream-007",
+      "timestamp": "2026-09-27T07:55:42.381Z",
+      "mapKey": "forest",
+      "mode": "MAP",
+      "success": true,
+      "score": 0,
+      "stages": {}
+    },
+    {
+      "id": "dream-008",
+      "timestamp": "2026-09-27T07:55:56.724Z",
+      "mapKey": "forest",
+      "mode": "MAP",
+      "success": true,
+      "score": 0,
+      "stages": {}
+    },
+    {
+      "id": "dream-009",
+      "timestamp": "2026-09-27T07:56:21.642Z",
+      "mapKey": "forest",
+      "mode": "MAP",
+      "success": true,
+      "score": 0,
+      "stages": {}
+    },
+    {
+      "id": "dream-010",
+      "timestamp": "2026-09-27T07:56:39.024Z",
+      "mapKey": "forest",
+      "mode": "MAP",
+      "success": true,
+      "score": 0,
+      "stages": {}
     }
   ],
   "stats": {
-    "totalRuns": 6,
-    "successes": 6,
+    "totalRuns": 10,
+    "successes": 10,
     "failures": 0,
-    "errorRate": "0/6 (0%)",
+    "errorRate": "0/10 (0%)",
     "avgScore": 0
   }
 }
