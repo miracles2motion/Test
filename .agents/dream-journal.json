@@ -265,13 +265,40 @@
       "success": true,
       "score": 0,
       "stages": {}
+    },
+    {
+      "id": "dream-011",
+      "timestamp": "2026-09-27T08:12:43.819Z",
+      "mapKey": "neon_midway",
+      "mode": "NOTHING",
+      "success": true,
+      "score": 0,
+      "stages": {}
+    },
+    {
+      "id": "dream-012",
+      "timestamp": "2026-09-27T08:15:12.132Z",
+      "mapKey": "neon_midway",
+      "mode": "MAP",
+      "success": true,
+      "score": 0,
+      "stages": {}
+    },
+    {
+      "id": "dream-013",
+      "timestamp": "2026-09-27T08:15:29.699Z",
+      "mapKey": "crystal_cavern",
+      "mode": "NOTHING",
+      "success": true,
+      "score": 0,
+      "stages": {}
     }
   ],
   "stats": {
-    "totalRuns": 10,
-    "successes": 10,
+    "totalRuns": 13,
+    "successes": 13,
     "failures": 0,
-    "errorRate": "0/10 (0%)",
+    "errorRate": "0/13 (0%)",
     "avgScore": 0
   }
 }

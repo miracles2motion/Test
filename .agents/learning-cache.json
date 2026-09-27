@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "updatedAt": "2026-09-27T07:56:39.020Z",
+  "updatedAt": "2026-09-27T08:15:29.696Z",
   "rules": {
     "stairway": {
       "minRise": 0.2,
@@ -55,8 +55,8 @@
       "description": "Identified dead zone at (0, -15.174999999999999) due to head-glitch",
       "trigger": "dead-zone-identified",
       "autoRemedy": "blacklistCoordinate",
-      "occurrences": 97,
-      "lastObserved": "2026-09-22T12:10:15.638Z"
+      "occurrences": 111,
+      "lastObserved": "2026-09-27T08:15:28.992Z"
     }
   ],
   "history": [
@@ -707,6 +707,90 @@
       "mapKey": "retro_arcade",
       "patternId": "dead-zone-identified",
       "description": "Identified dead zone at (0, -12) due to god-spot"
+    },
+    {
+      "timestamp": "2026-09-27T08:15:11.675Z",
+      "mapKey": "neon_midway",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (36.824414753355086, 19.369190638884902) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-27T08:15:11.682Z",
+      "mapKey": "neon_midway",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (32.493466266430914, 14.29987559095025) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-27T08:15:11.688Z",
+      "mapKey": "neon_midway",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (26.931949499994516, 14.035475216805935) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-27T08:15:11.693Z",
+      "mapKey": "neon_midway",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-1.4007280338555574, 21.832497321534902) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-27T08:15:11.699Z",
+      "mapKey": "neon_midway",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (0, 12) due to god-spot"
+    },
+    {
+      "timestamp": "2026-09-27T08:15:11.704Z",
+      "mapKey": "neon_midway",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (0, -12) due to god-spot"
+    },
+    {
+      "timestamp": "2026-09-27T08:15:28.907Z",
+      "mapKey": "crystal_cavern",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (0, 0) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-27T08:15:28.916Z",
+      "mapKey": "crystal_cavern",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (27.67259403805672, -19.948833535350442) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-27T08:15:28.928Z",
+      "mapKey": "crystal_cavern",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (34.47217945053911, -32.67258239280593) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-27T08:15:28.956Z",
+      "mapKey": "crystal_cavern",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-27.527605716139078, 30.63374199345708) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-27T08:15:28.967Z",
+      "mapKey": "crystal_cavern",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-21.43704254552722, 23.53925582394004) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-27T08:15:28.974Z",
+      "mapKey": "crystal_cavern",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (-26.007863231003284, 18.28959909826517) due to head-glitch"
+    },
+    {
+      "timestamp": "2026-09-27T08:15:28.985Z",
+      "mapKey": "crystal_cavern",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (0, 12) due to god-spot"
+    },
+    {
+      "timestamp": "2026-09-27T08:15:28.992Z",
+      "mapKey": "crystal_cavern",
+      "patternId": "dead-zone-identified",
+      "description": "Identified dead zone at (0, -12) due to god-spot"
     }
   ],
   "humanLessons": [
@@ -1056,6 +1140,27 @@
         "success": true,
         "score": 0,
         "mode": "MAP"
+      },
+      {
+        "timestamp": "2026-09-27T08:12:43.816Z",
+        "mapKey": "neon_midway",
+        "success": true,
+        "score": 0,
+        "mode": "NOTHING"
+      },
+      {
+        "timestamp": "2026-09-27T08:15:12.128Z",
+        "mapKey": "neon_midway",
+        "success": true,
+        "score": 0,
+        "mode": "MAP"
+      },
+      {
+        "timestamp": "2026-09-27T08:15:29.696Z",
+        "mapKey": "crystal_cavern",
+        "success": true,
+        "score": 0,
+        "mode": "NOTHING"
       }
     ],
     "currentRate": 0
@@ -1837,6 +1942,118 @@
       "radius": 8,
       "reason": "god-spot",
       "timestamp": "2026-09-22T12:10:15.632Z"
+    },
+    {
+      "mapKey": "neon_midway",
+      "x": 36.824414753355086,
+      "z": 19.369190638884902,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-27T08:15:11.672Z"
+    },
+    {
+      "mapKey": "neon_midway",
+      "x": 32.493466266430914,
+      "z": 14.29987559095025,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-27T08:15:11.678Z"
+    },
+    {
+      "mapKey": "neon_midway",
+      "x": 26.931949499994516,
+      "z": 14.035475216805935,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-27T08:15:11.685Z"
+    },
+    {
+      "mapKey": "neon_midway",
+      "x": -1.4007280338555574,
+      "z": 21.832497321534902,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-27T08:15:11.690Z"
+    },
+    {
+      "mapKey": "neon_midway",
+      "x": 0,
+      "z": 12,
+      "radius": 8,
+      "reason": "god-spot",
+      "timestamp": "2026-09-27T08:15:11.695Z"
+    },
+    {
+      "mapKey": "neon_midway",
+      "x": 0,
+      "z": -12,
+      "radius": 8,
+      "reason": "god-spot",
+      "timestamp": "2026-09-27T08:15:11.702Z"
+    },
+    {
+      "mapKey": "crystal_cavern",
+      "x": 0,
+      "z": 0,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-27T08:15:28.903Z"
+    },
+    {
+      "mapKey": "crystal_cavern",
+      "x": 27.67259403805672,
+      "z": -19.948833535350442,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-27T08:15:28.910Z"
+    },
+    {
+      "mapKey": "crystal_cavern",
+      "x": 34.47217945053911,
+      "z": -32.67258239280593,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-27T08:15:28.923Z"
+    },
+    {
+      "mapKey": "crystal_cavern",
+      "x": -27.527605716139078,
+      "z": 30.63374199345708,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-27T08:15:28.940Z"
+    },
+    {
+      "mapKey": "crystal_cavern",
+      "x": -21.43704254552722,
+      "z": 23.53925582394004,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-27T08:15:28.961Z"
+    },
+    {
+      "mapKey": "crystal_cavern",
+      "x": -26.007863231003284,
+      "z": 18.28959909826517,
+      "radius": 5,
+      "reason": "head-glitch",
+      "timestamp": "2026-09-27T08:15:28.970Z"
+    },
+    {
+      "mapKey": "crystal_cavern",
+      "x": 0,
+      "z": 12,
+      "radius": 8,
+      "reason": "god-spot",
+      "timestamp": "2026-09-27T08:15:28.979Z"
+    },
+    {
+      "mapKey": "crystal_cavern",
+      "x": 0,
+      "z": -12,
+      "radius": 8,
+      "reason": "god-spot",
+      "timestamp": "2026-09-27T08:15:28.989Z"
     }
   ]
 }

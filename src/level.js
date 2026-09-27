@@ -1,5 +1,8 @@
 // Level construction. Two maps share one builder: everything is merged ink geometry plus
 // axis-aligned box colliders, which is what the navigation grid is generated from.
+import { buildCrystalCavern } from './levels/crystal_cavern.js';
+import { buildNeonMidway } from './levels/neon_midway.js';
+import { buildClockworkFoundry } from './levels/clockwork_foundry.js';
 import { buildRetroArcade } from './levels/retro_arcade.js';
 import { buildDistrict } from './levels/district.js';
 import { buildClassroom } from './levels/classroom.js';
@@ -172,6 +175,39 @@ export const LEVELS = [
     env: 'Neon Amusement Palace',
     engagement: 'CQB & Vertical',
     hazard: 'Kinetic Bumpers & Pit Abyss',
+    scale: 'Tier 1-4',
+    comingSoon: false
+  },
+  {
+    key: 'clockwork_foundry',
+    name: 'CLOCKWORK FOUNDRY',
+    category: 'steampunk',
+    tags: ['STEAMPUNK', 'CLOCK', 'TOWER', 'LANDMARK', 'DEPOT', 'TRAIN_DEPOT', 'BOILER', 'VALVE', 'STEAM', 'CHEMISTRY_LAB', 'DREAM MODE'],
+    env: 'Clockwork Foundry Steamworks',
+    engagement: 'CQB & Vertical',
+    hazard: 'Superheated Steam',
+    scale: 'Tier 1-4',
+    comingSoon: false
+  },
+  {
+    key: 'neon_midway',
+    name: 'NEON MIDWAY',
+    category: 'retro_arcade',
+    tags: ["ARCADE", "RETRO_ARCADE", "NEON", "PINBALL", "MIDWAY", "CYBER", "SPACE_STATION", "SPACE", "STEAMPUNK", "DREAM MODE"],
+    env: 'Electric Neon Midway',
+    engagement: 'CQB & Vertical',
+    hazard: 'Kinetic Pop Bumpers',
+    scale: 'Tier 1-4',
+    comingSoon: false
+  },
+  {
+    key: 'crystal_cavern',
+    name: 'CRYSTAL CAVERN',
+    category: 'anomalous',
+    tags: ["ANOMALOUS","ANOMALOUS","CRYSTAL","CAVERN","KINETIC","SUBTERRANEAN","GEODE","CHASM","SPIRES","ROCK","BOULDER","SKELETON","CREATURE","HOLO","BEACON","FUNGUS","MUSHROOM","FLORA","STEAMPUNK","STEAM","VALVE","PIPE","CONDUIT","CYBER","DREAM MODE","PROCEDURAL"],
+    env: 'CRYSTAL CAVERN Environment',
+    engagement: 'CQB & Vertical',
+    hazard: 'TBD',
     scale: 'Tier 1-4',
     comingSoon: false
   }
@@ -637,7 +673,10 @@ export const MAP_BUILDERS = {
   mexico: buildMexico,
   forest: buildForest,
   bus_station: buildBusStation,
-  retro_arcade: buildRetroArcade
+  retro_arcade: buildRetroArcade,
+  clockwork_foundry: buildClockworkFoundry,
+  neon_midway: buildNeonMidway,
+  crystal_cavern: buildCrystalCavern
 };
 
 export function registerMapBuilder(key, builderFn) {

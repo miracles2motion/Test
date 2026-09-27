@@ -49,5 +49,29 @@ export const SCALE_PRESETS = {
     grappleGap: [6.0, 15.0],
     grappleClearance: 1.5,
     sniperDeckY: 10.0
+  },
+  standard: {
+    half: 42,
+    wallH: 16,
+    arenaHalf: 54,
+    arenaWallH: 24,
+    corridorMin: 1.8,
+    stepRiseMax: 0.28,
+    headroomMin: 2.4,
+    grappleGap: [5.0, 12.0],
+    grappleClearance: 1.5,
+    sniperDeckY: 8.5
+  },
+  compact: {
+    half: 28,
+    wallH: 14,
+    arenaHalf: 36,
+    arenaWallH: 20,
+    corridorMin: 1.8,
+    stepRiseMax: 0.28,
+    headroomMin: 2.4,
+    grappleGap: [4.0, 10.0],
+    grappleClearance: 1.5,
+    sniperDeckY: 7.0
   }
 };

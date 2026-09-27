@@ -928,10 +928,8 @@ export function buildBunsenBurner(B, x, y, z, o = {}) {
   cyl(x, y, z, 2.4, 0.6, { seg: 12, ink: inkBase });
   // Brass barrel
   cyl(x, y + 0.6, z, 0.9, 6.0, { seg: 10, ink: inkBrass });
-  // Flame reduction cone (visual only)
-  cyl(x, y + 6.6, z, 0.6, 3.5, { seg: 8, ink: inkFlame, noCollide: true });
-  // Collar grapple ring
-  ring(x, y + 6.8, z, 'z');
+  // Collar grapple ring (positioned above flame with > 1.5m clearance from solid barrel)
+  ring(x, y + 10.2, z, 'y');
 }
 
 export function buildPinballMachine(B, x, y, z, o = {}) {

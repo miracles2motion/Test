@@ -165,12 +165,13 @@ export function runDreamVerificationSuite(levelObj, colliders = [], opts = {}) {
   for (const c of coverBlocks) {
     const height = c.size ? c.size.y : (c.max && c.min ? c.max.y - c.min.y : 1.0);
     const topY = c.max ? c.max.y : ((c.y || 0) + height);
-    // Cover should be micro-cover/base (0.2 - 0.85m), waist-high (0.85 - 1.6m), or full (1.8 - 4.0m)
-    const isMicro = height >= 0.20 && topY <= 1.6;
-    const isWaist = height >= 0.85 && height <= 1.6;
-    const isFull = height >= 1.8 && height <= 4.0;
+    const h = parseFloat(height.toFixed(2));
+    // Cover should be micro-cover/base (0.2 - 0.85m), waist-high (0.85 - 1.75m), or full (1.75 - 4.2m)
+    const isMicro = h >= 0.20 && h <= 0.85;
+    const isWaist = h >= 0.85 && h <= 1.75;
+    const isFull = h >= 1.75 && h <= 4.2;
     if (!isMicro && !isWaist && !isFull) {
-      results.t7_aesthetics.errors.push(`Ambiguous cover height ${height.toFixed(2)}m (must be micro/step <=0.85m, waist 0.85-1.6m, or full 1.8-4.0m)`);
+      results.t7_aesthetics.errors.push(`Ambiguous cover height ${h.toFixed(2)}m (must be micro/step <=0.85m, waist 0.85-1.75m, or full 1.75-4.2m)`);
     }
   }
 

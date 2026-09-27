@@ -170,7 +170,7 @@ const neStairX = parseFloat((20 - sniperStepCount * conf.recRun).toFixed(3));
 const swStairX = parseFloat((-20 + quadStepCount * conf.recRun).toFixed(3));
 const seStairX = parseFloat((20 - quadStepCount * conf.recRun).toFixed(3));
 
-const isRecipeMode = process.argv.includes('--recipe');
+const isRecipeMode = !process.argv.includes('--legacy');
 const recipesDir = path.join(ROOT_DIR, 'recipes');
 const recipeFilePath = path.join(recipesDir, `${key}.json`);
 
@@ -180,41 +180,9 @@ if (fs.existsSync(recipeFilePath)) {
 }
 
 if (!activeRecipe && isRecipeMode) {
-  if (!fs.existsSync(recipesDir)) fs.mkdirSync(recipesDir, { recursive: true });
-  const memoryFile = path.join(ROOT_DIR, '.agents', 'thematic-memory.json');
-  let mem = {};
-  try { mem = JSON.parse(fs.readFileSync(memoryFile, 'utf8')); } catch (e) {}
-  const rawLandmark = arch?.props?.tier3_macro?.[0] || (conf.category === 'colossal' ? 'ancient_tree' : 'book_stack');
-  const landmarkPrefab = String(rawLandmark).split(/[\s(]/)[0].trim();
-  const paletteKey = BIOME_PALETTES[presetArg] ? presetArg : (conf.category === 'colossal' ? 'forest' : 'urban');
-
-  activeRecipe = {
-    id: key,
-    name: displayName,
-    version: 1,
-    seed: 1337,
-    scale: conf.category === 'colossal' ? 'colossal' : (conf.category === 'urban' ? 'urban' : 'anomalous'),
-    bounds: { half: conf.bounds.P, wallH: conf.bounds.PH },
-    palette: paletteKey,
-    paper: { tint: '#f6f3e7', rules: true, lineSpacing: 50 },
-    ground: { ink: conf.primaryInkVar || 'BL' },
-    sectors: [
-      { id: 'alpha', shape: 'disc', c: [-20, -20], rIn: 8, rOut: 14, reward: { pickup: true } },
-      { id: 'beta', shape: 'disc', c: [20, 20], rIn: 8, rOut: 14, reward: { pickup: true } }
-    ],
-    landmarks: [
-      { prefab: landmarkPrefab, at: [0, 0, 0], opts: {}, role: 'hub', beacon: true }
-    ],
-    spawns: { cardinal: 4, offset: 5 },
-    pickups: [
-      { at: [0, 0.4, 0], tier: 'legendary' },
-      { at: [-20, 0.4, -20], tier: 'ammo' },
-      { at: [20, 0.4, 20], tier: 'health' },
-      { at: [0, 0.4, 18], tier: 'armor' }
-    ]
-  };
-  fs.writeFileSync(recipeFilePath, JSON.stringify(activeRecipe, null, 2), 'utf8');
-  console.log(`📜 Declarative Recipe compiled: recipes/${key}.json (100% data-driven, zero box walls)`);
+  const { researchAndGenerateMapAssets } = await import('./dream-researcher.js');
+  const result = researchAndGenerateMapAssets(key, presetArg);
+  activeRecipe = result.recipe;
 }
 
 // 3. Generate Level Code
@@ -394,26 +362,37 @@ if (fs.existsSync(levelManagerFile)) {
     }
   }
 
-  // Add to LEVELS array
-  if (!mgrCode.includes(`key: '${key}'`)) {
-    const levelsRegex = /export const LEVELS = \[([\s\S]*?)\];/;
-    const match = mgrCode.match(levelsRegex);
-    if (match) {
-      const currentLevels = match[1].replace(/\s+$/, '');
-      const newLevelEntry = `  {
+  // Add or update in LEVELS array
+  const themeCategory = activeRecipe?.theme || conf.category || 'urban';
+  const themeTags = activeRecipe?.tags || [
+    themeCategory.toUpperCase(),
+    (activeRecipe?.palette || 'URBAN').toUpperCase(),
+    'DREAM MODE',
+    'PROCEDURAL'
+  ];
+  const newLevelEntry = `  {
     key: '${key}',
     name: '${displayName}',
-    category: '${conf.category}',
-    tags: ['DREAM MODE', 'AUTO-GENERATED'],
+    category: '${themeCategory}',
+    tags: ${JSON.stringify(themeTags)},
     env: '${displayName} Environment',
     engagement: 'CQB & Vertical',
     hazard: 'TBD',
     scale: 'Tier 1-4',
     comingSoon: false
   }`;
+
+  if (!mgrCode.includes(`key: '${key}'`)) {
+    const levelsRegex = /export const LEVELS = \[([\s\S]*?)\];/;
+    const match = mgrCode.match(levelsRegex);
+    if (match) {
+      const currentLevels = match[1].replace(/\s+$/, '');
       const newLevelsBlock = `export const LEVELS = [${currentLevels}${currentLevels.endsWith(',') ? '' : ','}\n${newLevelEntry}\n];`;
       mgrCode = mgrCode.replace(levelsRegex, newLevelsBlock);
     }
+  } else {
+    const entryRegex = new RegExp(`\\{\\s*key:\\s*'${key}'[\\s\\S]*?\\}`);
+    mgrCode = mgrCode.replace(entryRegex, newLevelEntry.trim());
   }
 
   fs.writeFileSync(levelManagerFile, mgrCode, 'utf8');

@@ -198,15 +198,15 @@ Current Error Rate: ${getErrorRate()}%
     // PIPELINE EXECUTION
     // ========================================================
     if (mode === 'NOTHING') {
-      console.log(`⚡ Mode 1: Synthesizing concept & declarative recipe from pure imagination...`);
-      // Step 1: Synthesize Concept
-      runStage('Concept Synthesis', `node src/map-synthesizer.js ${key} ${theme}`, { verbose: isVerbose });
-      // Step 2: Scaffold from declarative recipe
-      runStage('Recipe Scaffolding', `node src/map-scaffold.js ${key} ${scaffoldPreset} --recipe`, { verbose: isVerbose });
+      console.log(`⚡ Mode 1: Researching theme & synthesizing declarative recipe from pure imagination...`);
+      // Step 1: Autonomous Thematic Research & Recipe Generation
+      runStage('Thematic Research & Recipe Synthesis', `node src/dream-researcher.js ${key} ${theme}`, { verbose: isVerbose });
+      // Step 2: Compile Level Geometry from Recipe
+      runStage('Level Compilation', `node src/map-scaffold.js ${key} ${scaffoldPreset}`, { verbose: isVerbose });
       // Step 3: Brain 1 Mutation Optimization
       if (fs.existsSync(recipeFile)) {
         runStage('Layout Mutation Search', `node src/dream-mutator.js ${key}`, { verbose: isVerbose });
-        runStage('Recipe Sync', `node src/map-scaffold.js ${key} ${scaffoldPreset} --recipe`, { verbose: isVerbose });
+        runStage('Recipe Sync', `node src/map-scaffold.js ${key} ${scaffoldPreset}`, { verbose: isVerbose });
       }
       // Step 4: Enemy AI Synthesis
       runStage('Enemy AI Synthesis', `node src/enemy-synthesizer.js ${key}`, { verbose: isVerbose });

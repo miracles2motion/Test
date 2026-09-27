@@ -134,7 +134,7 @@ export const PREFAB_REGISTRY = {
   giant_mushroom: {
     id: 'giant_mushroom',
     name: 'Giant Umbrella Mushroom Platform',
-    tags: ['forest', 'fungus', 'swamp', 'nature'],
+    tags: ['forest', 'fungus', 'swamp', 'nature', 'anomalous'],
     builder: buildGiantMushroom,
     footprint: [6.0, 7.0, 6.0]
   },
@@ -253,7 +253,7 @@ export const PREFAB_REGISTRY = {
   toadstools: {
     id: 'toadstools',
     name: 'Fly Agaric Toadstool Cluster',
-    tags: ['forest', 'mushroom', 'flora', 'decoration'],
+    tags: ['forest', 'mushroom', 'flora', 'decoration', 'anomalous'],
     builder: buildToadstoolCluster,
     footprint: [1.5, 0.8, 1.5]
   },
@@ -337,14 +337,14 @@ export const PREFAB_REGISTRY = {
   holo_pylon: {
     id: 'holo_pylon',
     name: 'Holographic Pylon Beacon',
-    tags: ['cyber', 'beacon', 'holo', 'pylon', 'cover'],
+    tags: ['cyber', 'beacon', 'holo', 'pylon', 'cover', 'anomalous'],
     builder: buildHoloPylon,
     footprint: [0.7, 2.7, 0.7]
   },
   valve_bank: {
     id: 'valve_bank',
     name: 'Industrial Steam Valve Manifold Bank',
-    tags: ['steampunk', 'steam', 'valve', 'pipe', 'cover'],
+    tags: ['steampunk', 'steam', 'valve', 'pipe', 'cover', 'urban'],
     builder: buildValveBank,
     footprint: [2.0, 1.1, 0.8]
   },
@@ -442,7 +442,7 @@ export const PREFAB_REGISTRY = {
   creature_skeleton: {
     id: 'creature_skeleton',
     name: 'Leviathan Creature Skeleton Sprint Tunnel',
-    tags: ['creature', 'skeleton', 'tunnel', 'defilade', 'ribcage', 'corridor'],
+    tags: ['creature', 'skeleton', 'tunnel', 'defilade', 'ribcage', 'corridor', 'anomalous'],
     builder: buildCreatureSkeleton,
     footprint: [6.0, 5.0, 24.0]
   },
@@ -470,21 +470,21 @@ export const PREFAB_REGISTRY = {
   atmospheric_beams: {
     id: 'atmospheric_beams',
     name: 'Crepuscular Sky Rays & Atmospheric Beams',
-    tags: ['atmosphere', 'sky-rays', 'lighting', 'vfx'],
+    tags: ['atmosphere', 'sky-rays', 'lighting', 'vfx', 'universal'],
     builder: buildAtmosphericBeams,
     footprint: [14.0, 20.0, 14.0]
   },
   ink_splatters: {
     id: 'ink_splatters',
     name: 'Biro Ink Droplet & Splatter Decal Cluster',
-    tags: ['vfx', 'ink', 'splatter', 'paper', 'decal'],
+    tags: ['vfx', 'ink', 'splatter', 'paper', 'decal', 'universal'],
     builder: buildInkSplatters,
     footprint: [2.5, 0.1, 2.5]
   },
   technical_framing: {
     id: 'technical_framing',
     name: 'Drafting Paper Technical Framing & Elevation Stamp',
-    tags: ['framing', 'paper-technical', 'drafting', 'brackets'],
+    tags: ['framing', 'paper-technical', 'drafting', 'brackets', 'universal'],
     builder: buildTechnicalFraming,
     footprint: [8.0, 0.2, 8.0]
   },
@@ -519,7 +519,7 @@ export const PREFAB_REGISTRY = {
   space_frame_concourse: {
     id: 'space_frame_concourse',
     name: 'Curved Space-Frame Concourse Steel Arch',
-    tags: ['urban', 'transit', 'arch', 'canopy', 'roof', 'landmark'],
+    tags: ['urban', 'transit', 'cyber', 'station', 'arch', 'canopy', 'roof', 'landmark'],
     builder: buildSpaceFrameConcourse,
     footprint: [36.0, 12.0, 48.0]
   },

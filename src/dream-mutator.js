@@ -19,7 +19,7 @@ const ROOT_DIR = path.resolve(__dirname, '..');
  */
 export function mutateRecipe(baseRecipe, rng) {
   const recipe = JSON.parse(JSON.stringify(baseRecipe));
-  const mutationType = Math.floor(rng() * 5);
+  const mutationType = Math.floor(rng() * 8);
 
   switch (mutationType) {
     case 0:
@@ -66,6 +66,37 @@ export function mutateRecipe(baseRecipe, rng) {
       // Jitter clearing radius
       if (recipe.ground?.clearing) {
         recipe.ground.clearing.r = Math.max(6.0, Math.min(11.0, recipe.ground.clearing.r + (rng() - 0.5) * 2.0));
+      }
+      break;
+
+    case 5:
+      // Jitter ground terrace plateau height
+      if (recipe.ground?.terraces?.length > 0) {
+        const terr = recipe.ground.terraces[Math.floor(rng() * recipe.ground.terraces.length)];
+        if (terr.y !== undefined) {
+          terr.y = Math.max(2.4, Math.min(4.2, terr.y + (rng() - 0.5) * 0.8));
+        }
+      }
+      break;
+
+    case 6:
+      // Modulate sector radius boundaries
+      if (recipe.sectors?.length > 0) {
+        const sec = recipe.sectors[Math.floor(rng() * recipe.sectors.length)];
+        if (sec.rIn !== undefined && sec.rOut !== undefined) {
+          sec.rIn = Math.max(5.0, Math.min(10.0, sec.rIn + (rng() - 0.5) * 1.5));
+          sec.rOut = Math.max(sec.rIn + 3.0, Math.min(18.0, sec.rOut + (rng() - 0.5) * 2.0));
+        }
+      }
+      break;
+
+    case 7:
+      // Jitter water crossing position
+      if (recipe.water?.crossings?.length > 0) {
+        const cross = recipe.water.crossings[Math.floor(rng() * recipe.water.crossings.length)];
+        if (cross.z !== undefined) {
+          cross.z += (rng() - 0.5) * 4.0;
+        }
       }
       break;
   }

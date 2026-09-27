@@ -1,0 +1,551 @@
+import { buildMapFromRecipe } from '../map-recipe.js';
+
+/**
+ * Map: CRYSTAL CAVERN (crystal_cavern)
+ * Pure Declarative Recipe Implementation (Dream Master Architecture)
+ * 100% Data-Driven, Biome-Adaptive, and Standard-Compliant.
+ */
+export const RECIPE = {
+  "id": "crystal_cavern",
+  "name": "Crystal Cavern",
+  "theme": "anomalous",
+  "category": "anomalous",
+  "tags": [
+    "ANOMALOUS",
+    "ANOMALOUS",
+    "CRYSTAL",
+    "CAVERN",
+    "KINETIC",
+    "SUBTERRANEAN",
+    "GEODE",
+    "CHASM",
+    "SPIRES",
+    "ROCK",
+    "BOULDER",
+    "SKELETON",
+    "CREATURE",
+    "HOLO",
+    "BEACON",
+    "FUNGUS",
+    "MUSHROOM",
+    "FLORA",
+    "STEAMPUNK",
+    "STEAM",
+    "VALVE",
+    "PIPE",
+    "CONDUIT",
+    "CYBER",
+    "DREAM MODE",
+    "PROCEDURAL"
+  ],
+  "version": 2,
+  "seed": 95986,
+  "scale": "colossal",
+  "bounds": {
+    "half": 55,
+    "wallH": 20,
+    "arenaHalf": 68,
+    "arenaWallH": 30
+  },
+  "palette": "anomalous",
+  "paper": {
+    "tint": "#f8fafc",
+    "rules": true,
+    "lineSpacing": 50
+  },
+  "ground": {
+    "ink": "BL",
+    "clearing": {
+      "r": 9,
+      "ink": "GREEN"
+    },
+    "terraces": [
+      {
+        "x": -26,
+        "z": -26,
+        "rx": 10,
+        "rz": 10,
+        "y": 3.2,
+        "ink": "OR",
+        "stairDir": "+z",
+        "stairW": 3
+      },
+      {
+        "x": 26,
+        "z": 26,
+        "rx": 10,
+        "rz": 10,
+        "y": 3.2,
+        "ink": "OR",
+        "stairDir": "-z",
+        "stairW": 3
+      }
+    ]
+  },
+  "water": {
+    "ribbon": {
+      "axis": "z",
+      "x": 16,
+      "from": -46,
+      "to": 46,
+      "width": 9,
+      "sink": 0.05,
+      "ink": "BLUE"
+    },
+    "banks": {
+      "ink": "BLACK",
+      "step": 6,
+      "len": 7.2
+    },
+    "crossings": [
+      {
+        "type": "stepping_stones",
+        "z": 0
+      },
+      {
+        "type": "arched_bridge",
+        "z": -18
+      }
+    ]
+  },
+  "sectors": [
+    {
+      "id": "crystal_spires",
+      "name": "Resonant Crystal Spires",
+      "shape": "disc",
+      "c": [
+        -25,
+        -24
+      ],
+      "rIn": 8,
+      "rOut": 14,
+      "core": {
+        "prefab": "holo_pylon",
+        "opts": {
+          "count": 18,
+          "seed": 100
+        }
+      },
+      "props": [
+        {
+          "prefab": "boulder_field",
+          "n": 3,
+          "place": "inField"
+        },
+        {
+          "prefab": "warning_sign",
+          "n": 2,
+          "place": "inField"
+        }
+      ],
+      "tint": {
+        "ink": "OR",
+        "rx": 11,
+        "rz": 11
+      },
+      "reward": {
+        "pickup": true
+      }
+    },
+    {
+      "id": "cavern_depths",
+      "name": "Subterranean Basalt Terrace",
+      "shape": "disc",
+      "c": [
+        26,
+        -24
+      ],
+      "rIn": 8,
+      "rOut": 14,
+      "core": {
+        "prefab": "terraced_ridge",
+        "opts": {
+          "count": 18,
+          "seed": 237
+        }
+      },
+      "props": [
+        {
+          "prefab": "boulder_field",
+          "n": 3,
+          "place": "inField"
+        },
+        {
+          "prefab": "giant_mushroom",
+          "n": 2,
+          "place": "inField"
+        }
+      ],
+      "tint": {
+        "ink": "BL",
+        "rx": 11,
+        "rz": 11
+      },
+      "reward": {
+        "pickup": true
+      }
+    },
+    {
+      "id": "fossil_trench",
+      "name": "Ancient Leviathan Trench",
+      "shape": "capsule",
+      "c": [
+        -25,
+        24
+      ],
+      "a": [
+        -26,
+        12
+      ],
+      "b": [
+        -26,
+        34
+      ],
+      "rIn": 4,
+      "rOut": 7,
+      "core": {
+        "prefab": "creature_skeleton",
+        "opts": {
+          "count": 18,
+          "seed": 374
+        }
+      },
+      "props": [
+        {
+          "prefab": "boulder_field",
+          "n": 3,
+          "place": "inField"
+        },
+        {
+          "prefab": "toadstools",
+          "n": 2,
+          "place": "inField"
+        }
+      ],
+      "tint": {
+        "ink": "OR",
+        "rx": 11,
+        "rz": 11
+      },
+      "reward": {
+        "pickup": true
+      }
+    },
+    {
+      "id": "geode_chamber",
+      "name": "Luminescent Geode Vault",
+      "shape": "disc",
+      "c": [
+        26,
+        24
+      ],
+      "rIn": 8,
+      "rOut": 14,
+      "core": {
+        "prefab": "holo_pylon",
+        "opts": {
+          "count": 18,
+          "seed": 511
+        }
+      },
+      "props": [
+        {
+          "prefab": "boulder_field",
+          "n": 3,
+          "place": "inField"
+        },
+        {
+          "prefab": "toadstools",
+          "n": 2,
+          "place": "inField"
+        }
+      ],
+      "tint": {
+        "ink": "BL",
+        "rx": 11,
+        "rz": 11
+      },
+      "reward": {
+        "pickup": true
+      }
+    }
+  ],
+  "landmarks": [
+    {
+      "prefab": "space_frame_concourse",
+      "at": [
+        0,
+        0,
+        0
+      ],
+      "opts": {},
+      "role": "hub",
+      "beacon": true
+    }
+  ],
+  "beltProps": [
+    {
+      "between": [
+        "crystal_spires",
+        "cavern_depths"
+      ],
+      "prefabs": [
+        "boulder_field",
+        "holo_pylon",
+        "warning_sign"
+      ]
+    },
+    {
+      "between": [
+        "fossil_trench",
+        "geode_chamber"
+      ],
+      "prefabs": [
+        "holo_pylon",
+        "warning_sign",
+        "toadstools"
+      ]
+    },
+    {
+      "between": [
+        "crystal_spires",
+        "fossil_trench"
+      ],
+      "prefabs": [
+        "boulder_field",
+        "holo_pylon"
+      ]
+    }
+  ],
+  "trails": {
+    "ink": "OR",
+    "width": 2.4,
+    "routes": [
+      {
+        "from": "spawn:S",
+        "to": "landmark:hub",
+        "via": [
+          [
+            0,
+            44
+          ],
+          [
+            0,
+            32
+          ],
+          [
+            2,
+            20
+          ],
+          [
+            0,
+            10
+          ]
+        ]
+      },
+      {
+        "from": "spawn:N",
+        "to": "landmark:hub",
+        "via": [
+          [
+            0,
+            -44
+          ],
+          [
+            0,
+            -32
+          ],
+          [
+            -2,
+            -20
+          ],
+          [
+            0,
+            -10
+          ]
+        ]
+      },
+      {
+        "from": "spawn:W",
+        "to": "landmark:hub",
+        "via": [
+          [
+            -44,
+            0
+          ],
+          [
+            -32,
+            0
+          ],
+          [
+            -18,
+            0
+          ],
+          [
+            -8,
+            0
+          ]
+        ]
+      },
+      {
+        "from": "spawn:E",
+        "to": "landmark:hub",
+        "via": [
+          [
+            44,
+            0
+          ],
+          [
+            32,
+            0
+          ],
+          [
+            18,
+            0
+          ],
+          [
+            8,
+            0
+          ]
+        ]
+      }
+    ],
+    "furniture": {
+      "every": 14,
+      "prefabs": [
+        "boulder_field",
+        "holo_pylon"
+      ]
+    }
+  },
+  "vertical": {
+    "tiers": [
+      {
+        "y": 0
+      },
+      {
+        "y": 3.2,
+        "kit": "tier1"
+      },
+      {
+        "y": 6.5,
+        "link": "decks"
+      },
+      {
+        "y": 9.5
+      }
+    ],
+    "grappleChains": [
+      {
+        "name": "hub_overlook",
+        "from": [
+          -14,
+          15,
+          -14
+        ],
+        "to": [
+          14,
+          15,
+          14
+        ]
+      },
+      {
+        "name": "cross_chasm",
+        "from": [
+          0,
+          16,
+          -26
+        ],
+        "to": [
+          0,
+          16,
+          26
+        ]
+      }
+    ],
+    "bouncePoints": [
+      {
+        "at": [
+          -20,
+          3.2,
+          -20
+        ],
+        "to": "terrace:nw"
+      },
+      {
+        "at": [
+          20,
+          3.2,
+          20
+        ],
+        "to": "terrace:se"
+      }
+    ]
+  },
+  "spawns": {
+    "cardinal": 4,
+    "offset": 6
+  },
+  "snipers": {
+    "deckY": 9.5,
+    "cardinal": 4
+  },
+  "pickups": [
+    {
+      "at": [
+        0,
+        4.8,
+        0
+      ],
+      "tier": "legendary"
+    },
+    {
+      "at": [
+        -26,
+        0.4,
+        26
+      ],
+      "tier": "health"
+    },
+    {
+      "at": [
+        26,
+        0.4,
+        -26
+      ],
+      "tier": "armor"
+    },
+    {
+      "at": [
+        -26,
+        3.6,
+        -26
+      ],
+      "tier": "ammo"
+    },
+    {
+      "at": [
+        26,
+        3.6,
+        26
+      ],
+      "tier": "ammo"
+    }
+  ],
+  "actors": [
+    "dust",
+    "atmospheric_beams",
+    "paper"
+  ],
+  "detail": {
+    "litter": "inner30",
+    "shadows": "blob:all",
+    "beacons": true
+  }
+};
+
+export function buildCrystalCavern(B, arena = false) {
+  const result = buildMapFromRecipe(B, RECIPE, arena);
+  B.finish();
+  return result.L;
+}
