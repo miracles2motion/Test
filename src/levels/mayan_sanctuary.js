@@ -74,11 +74,31 @@ export function buildMayanSanctuary(B, arena = false) {
   // =========================================================================
   // 1. FOUNDATION & PERIMETER LIMESTONE ENCLOSURE
   // =========================================================================
-  // Base ground substrate
-  slab(-P, -P, P, P, 0.0, 0.5, { ink: GR, tag: 'ground' });
+  const T = 5.0; // Wall thickness
+
+  // Deep limestone bedrock foundation plinth (seals the underside of the world at Y = -2.4m)
+  slab(-58, -58, 58, 58, -2.4, 0.6, { ink: BK, noCollide: true });
+  // Sub-ground foundation plinth walls from Y = -2.4m to 0.0m
+  wallX(-P, P, P, -2.4, 2.4, T, [], { ink: BK, noCollide: true });
+  wallX(-P, P, -P, -2.4, 2.4, T, [], { ink: BK, noCollide: true });
+  wallZ(-P, P, -P, -2.4, 2.4, T, [], { ink: BK, noCollide: true });
+  wallZ(-P, P, P, -2.4, 2.4, T, [], { ink: BK, noCollide: true });
+
+  // Base ground substrate (Y = 0.0m) with clean cutouts for sunken Cenote and Temazcal
+  // Area 1: North & Mid-West (Kukulkan, Scribe Palace, Stelae Plaza, Central Dais)
+  slab(-P, -P, 17, 24, 0.0, 0.5, { ink: GR, tag: 'ground' });
+  // Area 2: South-Central & South-West around Temazcal
+  slab(-P, 24, -42, P, 0.0, 0.5, { ink: GR, tag: 'ground' });       // West of Temazcal
+  slab(-42, 44, -20, P, 0.0, 0.5, { ink: GR, tag: 'ground' });      // South of Temazcal
+  slab(-20, 24, 17, P, 0.0, 0.5, { ink: GR, tag: 'ground' });       // Ball Court & South Courtyard
+  // Area 3: East Border (East of Cenote)
+  slab(42, -P, P, P, 0.0, 0.5, { ink: GR, tag: 'ground' });
+  // Area 4: North of Cenote
+  slab(17, -P, 42, -38, 0.0, 0.5, { ink: GR, tag: 'ground' });
+  // Area 5: South of Cenote (Sacred Mercado)
+  slab(17, 16, 42, P, 0.0, 0.5, { ink: GR, tag: 'ground' });
 
   // 4 Cardinal Megalith Perimeter Walls
-  const T = 5.0; // Wall thickness
   // South Wall with Grand Portal
   wallX(-P, P, P, 0, PH, T, [[-6, 6, 0, 8]], { ink: BK });
   // North Wall behind Pyramid
