@@ -35,7 +35,8 @@
     "dream:heal": "node src/map-refiner.js",
     "dream:inspect": "node tools/dream_inspect_cli.js",
     "dream:teach": "node src/dream-consultant.js",
-    "verify:themes": "node src/verify-suite.js all"
+    "verify:themes": "node src/verify-suite.js all",
+    "blender:load": "node tools/load_map_to_blender.js"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",
