@@ -29,7 +29,7 @@ import {
 export function buildVolcanicFoundry(B, arena = false) {
   const {
     L, box, slab, wallX, wallZ, stairs, rail, cyl, ring,
-    spawn, sniper, pickup, planes, finish
+    spawn, sniper, pickup, planes, finish, facetedRock
   } = B;
 
   const OR = INK.ORANGE; // Molten Slag / Heat Glow / Crucible Steel
@@ -105,6 +105,24 @@ export function buildVolcanicFoundry(B, arena = false) {
   cyl(14, 3.5, 0, 0.6, 14.0, { axis: 'z', ink: OR });
   box(13, 1.6, -6, 3.2, 3.2, 1.2, { ink: BK });
   box(13, 1.6, 6, 3.2, 3.2, 1.2, { ink: BK });
+
+  // =========================================================================
+  // 2B. NORTH SLAG CRUSHING MILL & GEOTHERMAL VENT TOWER (X: -10 to 10, Z: -36 to -18)
+  // =========================================================================
+  // Heavy Ore Stamp Mill Housing (X=-4, Z=-26)
+  box(-4, 0.0, -26, 7.0, 4.2, 8.0, { ink: BL });
+  box(-4, 4.2, -26, 7.4, 0.4, 8.4, { ink: OR });
+  cyl(-4, 4.6, -26, 1.2, 3.5, { ink: BK, noCollide: true });
+  ring(-4, 9.5, -26, 'y');
+
+  // Slag Granulation Cooling Trough & Vent Chimney (X=6, Z=-26)
+  box(6, 0.0, -26, 6.0, 1.6, 8.0, { ink: BK });
+  box(6, 1.4, -26, 5.2, 0.2, 7.2, { ink: OR, noCollide: true });
+  cyl(6, 1.6, -26, 0.8, 6.5, { ink: BL, noCollide: true });
+
+  // North Terrace Ingot Stacks & Iron Ingot Molds
+  box(0, 0.0, -18, 4.5, 0.85, 2.2, { ink: OR, tag: 'cover' });
+  box(-10, 0.0, -22, 3.2, 0.85, 2.0, { ink: OR, tag: 'cover' });
 
   // =========================================================================
   // 3. EAST LANE HERO LANDMARK: GIGANTIC BLAST FURNACE TOWER (X=24, Z=-26)
@@ -199,6 +217,18 @@ export function buildVolcanicFoundry(B, arena = false) {
   buildToolRack(B, -12, 0.4, 20, 'z');
   buildToolRack(B, 12, 0.4, 20, 'z');
   buildWarningSign(B, 0, 0.4, 16, 'CAUTION: MOLTEN SLAG 1400C');
+
+  // Ingot Stacks & Rail Trolleys in South Plaza
+  box(-10, 0.0, 36, 4.0, 0.9, 2.5, { ink: OR, tag: 'cover' });
+  box(10, 0.0, 36, 4.0, 0.9, 2.5, { ink: OR, tag: 'cover' });
+
+  // Heavy Basalt Caldera Spire Outcrops (Corner framing & lava canal rocks)
+  facetedRock(-44, 0.0, -44, 4.5, 8.5, 4.5, { ink: BK, cover: 'full', seed: 601 });
+  facetedRock(44, 0.0, -44, 4.5, 8.5, 4.5, { ink: BK, cover: 'full', seed: 602 });
+  facetedRock(-44, 0.0, 44, 4.5, 8.5, 4.5, { ink: BK, cover: 'full', seed: 603 });
+  facetedRock(44, 0.0, 44, 4.5, 8.5, 4.5, { ink: BK, cover: 'full', seed: 604 });
+  facetedRock(-10, -1.8, 0, 2.4, 3.2, 2.4, { ink: BK, cover: 'waist', seed: 605 });
+  facetedRock(8, -1.8, 0, 2.4, 3.2, 2.4, { ink: BK, cover: 'waist', seed: 606 });
 
   // =========================================================================
   // 7. TACTICAL SPOTS, GRAPPLE RINGS, PICKUPS & LIGHTING

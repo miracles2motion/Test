@@ -30,7 +30,7 @@ import {
 export function buildArcticOutpost(B, arena = false) {
   const {
     L, box, slab, wallX, wallZ, stairs, rail, cyl, sphere, ring,
-    spawn, sniper, pickup, planes, finish
+    spawn, sniper, pickup, planes, finish, facetedRock
   } = B;
 
   const OR = INK.ORANGE; // Arctic Survival Orange / Signal Beacons / Brass
@@ -214,6 +214,40 @@ export function buildArcticOutpost(B, arena = false) {
   buildToolRack(B, -10, 0.4, 24, 'z');
   buildToolRack(B, 10, 0.4, 24, 'z');
   buildWarningSign(B, 0, 0.4, 22, 'STATION BOREAS - SECTOR 7');
+
+  // =========================================================================
+  // 6B. EAST HELIPAD & ARCTIC SNOWCAT VEHICLE DEPOT (X: 22 to 40, Z: -8 to 16)
+  // =========================================================================
+  // Elevated Landing Deck (Y=2.2m)
+  slab(24, -4, 38, 14, 2.2, 0.4, { ink: BL });
+  rail(24, -4, 38, -4, 2.4, { ink: OR });
+  rail(24, 14, 38, 14, 2.4, { ink: OR });
+  rail(38, -4, 38, 14, 2.4, { ink: OR });
+
+  // Helipad Access Stairs (8 steps, rise 0.275m, run 0.45m, total run 3.6m)
+  stairs(31, 0.0, -7.6, '+z', 8, 2.0, { rise: 2.2 / 8, run: 0.45, ink: BL });
+
+  // Parked Arctic Snowcat Exploration Vehicle on Helipad
+  box(31, 2.6, 5, 4.2, 1.8, 6.5, { ink: OR, tag: 'cover' });
+  cyl(28.5, 2.4, 5, 0.5, 5.8, { axis: 'z', ink: BK, noCollide: true });
+  cyl(33.5, 2.4, 5, 0.5, 5.8, { axis: 'z', ink: BK, noCollide: true });
+  ring(31, 6.8, 5, 'y'); // Clear air 2.4m above Snowcat roof
+
+  // Windsock Mast & Floodlight Tower
+  cyl(37, 2.2, 13, 0.12, 4.5, { ink: BK, noCollide: true });
+  box(37, 6.5, 13, 0.6, 0.3, 0.6, { ink: OR, noCollide: true });
+
+  // Heavy Fuel Pipeline Umbilicals
+  cyl(18, 0.5, 0, 0.35, 24.0, { axis: 'z', ink: OR, noCollide: true });
+  cyl(-18, 0.5, 0, 0.35, 24.0, { axis: 'z', ink: OR, noCollide: true });
+
+  // Glacial Ice Hummocks & Iceberg Shards (Framing perimeter & drydock)
+  facetedRock(-42, 0.0, -42, 5.0, 8.5, 5.0, { ink: BL, cover: 'full', seed: 701 });
+  facetedRock(42, 0.0, -42, 5.0, 8.5, 5.0, { ink: BL, cover: 'full', seed: 702 });
+  facetedRock(-42, 0.0, 42, 5.0, 8.5, 5.0, { ink: BL, cover: 'full', seed: 703 });
+  facetedRock(42, 0.0, 42, 5.0, 8.5, 5.0, { ink: BL, cover: 'full', seed: 704 });
+  facetedRock(-14, 0.0, 0, 3.2, 3.0, 3.2, { ink: BL, cover: 'waist', seed: 705 });
+  facetedRock(14, 0.0, 0, 3.2, 3.0, 3.2, { ink: BL, cover: 'waist', seed: 706 });
 
   // =========================================================================
   // 7. TACTICAL SPOTS, GRAPPLE RINGS, PICKUPS & LIGHTING

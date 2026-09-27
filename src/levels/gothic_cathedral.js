@@ -29,7 +29,7 @@ import {
 export function buildGothicCathedral(B, arena = false) {
   const {
     L, box, slab, wallX, wallZ, stairs, rail, cyl, sphere, ring,
-    spawn, sniper, pickup, planes, arch, finish
+    spawn, sniper, pickup, planes, arch, finish, facetedRock
   } = B;
 
   const OR = INK.ORANGE; // Weathered Oak / Gold Trim / Organ Pipes
@@ -136,6 +136,11 @@ export function buildGothicCathedral(B, arena = false) {
   wallZ(17.4, 30.0, -24.0, 0.0, 18.0, 0.8, [], { ink: BL });
   wallZ(17.4, 30.0, -12.0, 0.0, 18.0, 0.8, [[22, 26, 0, 3.5]], { ink: BL });
 
+  // Belfry Tower Corner Buttress Piers (Vertical Architectural Articulation)
+  box(-24.5, 9.0, 17.0, 1.4, 18.0, 1.4, { ink: BL });
+  box(-24.5, 9.0, 30.5, 1.4, 18.0, 1.4, { ink: BL });
+  box(-11.5, 9.0, 30.5, 1.4, 18.0, 1.4, { ink: BL });
+
   // Belfry Tower Intermediate Landing (Y=5.5m)
   // West side corridor landing and north apron (open stairwell at X: -17 to -12, Z: 18 to 27)
   slab(-23.6, 17.8, -17.0, 29.6, 5.5, 0.4, { ink: BL });
@@ -194,7 +199,7 @@ export function buildGothicCathedral(B, arena = false) {
   stairs(11, 0.0, -3.0, '+z', 20, 2.0, { rise: 5.5 / 20, run: 0.45, ink: BL });
 
   // =========================================================================
-  // 6. EXTERIOR FLYING BUTTRESSES (East Flank, X=13 to 26, Y=3.5m to 8.5m)
+  // 6. EXTERIOR FLYING BUTTRESSES & GOTHIC CLOISTER (East Flank, X=13 to 42)
   // =========================================================================
   for (let z = -6; z <= 18; z += 12) {
     box(24, 4.0, z, 2.4, 8.0, 2.4, { ink: BL });
@@ -202,10 +207,49 @@ export function buildGothicCathedral(B, arena = false) {
     ring(24, 12.8, z, 'y');
   }
 
-  // Exterior Cloister Walkway
-  buildCrateStack(B, 20, 0.4, -14, 401);
-  buildToolRack(B, 26, 0.4, 0, 'z');
-  buildWarningSign(B, 18, 0.4, 16, 'CLOISTER SANCTUARY');
+  // Gothic Cloister Colonnade Walkway (Covered Arcade, Y=3.8m)
+  slab(26, -18, 38, 22, 3.8, 0.3, { ink: BL });
+  for (let pz = -16; pz <= 20; pz += 6) {
+    cyl(26.5, 0.0, pz, 0.35, 3.8, { ink: BL });
+    cyl(37.5, 0.0, pz, 0.35, 3.8, { ink: BL });
+    arch(32, 2.8, pz, 11.0, 1.0, 0.4, { axis: 'x', ink: BL });
+  }
+
+  // Cloister Central Garth Courtyard Basin & Fountain
+  cyl(32, 0.0, 2, 2.4, 0.6, { ink: BL, tag: 'cover' });
+  cyl(32, 0.6, 2, 0.6, 1.8, { ink: BL });
+  sphere(32, 2.6, 2, 0.5, { ink: OR, noCollide: true });
+
+  // Cloister Sanctuary Clutter
+  buildCrateStack(B, 32, 0.4, -14, 401);
+  buildToolRack(B, 36, 0.4, 16, 'z');
+  buildWarningSign(B, 26, 0.4, -16, 'CLOISTER SANCTUARY');
+
+  // =========================================================================
+  // 6B. ASH CEMETERY & MAUSOLEUM GROUNDS (West Grounds, X=-44 to -22)
+  // =========================================================================
+  // Stone Family Mausoleum (Hero mini-structure at X=-34, Z=-6, Y=0 to 4.4m)
+  box(-34, 0.0, -6, 6.0, 4.0, 7.0, { ink: BL });
+  box(-34, 4.0, -6, 6.4, 0.4, 7.4, { ink: BK });
+  box(-34, 0.0, -6, 1.8, 1.2, 3.6, { ink: OR, noCollide: true });
+  ring(-34, 7.0, -6, 'y'); // Clean air 2.6m above mausoleum roof (4.4m)
+
+  // Cemetery Ruined Gothic Portal Archway (X=-28, Z=12)
+  box(-28, 0.0, 10.5, 1.0, 4.4, 1.0, { ink: BL });
+  box(-28, 0.0, 13.5, 1.0, 4.4, 1.0, { ink: BL });
+  arch(-28, 3.8, 12, 3.0, 1.2, 0.8, { axis: 'z', ink: BL });
+
+  // Weathered Gravestones and Celtic Crosses
+  for (let gz = -20; gz <= 4; gz += 4) {
+    const gx = -26 - (Math.abs(gz) % 3) * 3.5;
+    box(gx, 0.6, gz, 0.8, 1.2, 0.25, { ink: BL, tag: 'cover' });
+  }
+
+  // Craggy Limestone Cemetery Rock Formations
+  facetedRock(-40, 0.0, 6, 3.5, 5.0, 3.5, { ink: BL, cover: 'full', seed: 501 });
+  facetedRock(-42, 0.0, -20, 3.8, 6.2, 3.8, { ink: BL, cover: 'full', seed: 502 });
+  facetedRock(42, 0.0, -24, 4.0, 6.5, 4.0, { ink: BL, cover: 'full', seed: 503 });
+  facetedRock(42, 0.0, 24, 4.0, 6.5, 4.0, { ink: BL, cover: 'full', seed: 504 });
 
   // =========================================================================
   // 7. TACTICAL SPOTS, GRAPPLE RINGS, PICKUPS & LIGHTING

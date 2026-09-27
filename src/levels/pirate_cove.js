@@ -21,7 +21,7 @@ import {
 export function buildPirateCove(B, arena = false) {
   const {
     L, box, slab, wallX, wallZ, stairs, rail, cyl, sphere, ring,
-    spawn, sniper, pickup, planes, finish
+    spawn, sniper, pickup, planes, finish, facetedRock
   } = B;
 
   const OR = INK.ORANGE; // Aged Oak Wood / Teak
@@ -222,14 +222,69 @@ export function buildPirateCove(B, arena = false) {
   // =========================================================================
   // 7. SOUTH HARBOR APPROACH & TRANSITION BELTS (Z=18 to 45)
   // =========================================================================
+  // South-West Harbor Shack (Armory & Smuggler Depot)
   box(-14, 1.2, 26, 4.8, 2.4, 3.6, { ink: OR });
+  // South-East Harbor Shack (Customs & Nav Office)
   box(14, 1.2, 26, 4.8, 2.4, 3.6, { ink: OR });
 
-  // Anchor Monument in Center Harbor Plaza (noCollide so ring has clean air)
+  // Anchor Monument in Center Harbor Plaza
   cyl(0, 1.8, 30, 0.4, 3.6, { ink: BK, noCollide: true });
   cyl(0, 3.2, 30, 0.25, 2.8, { axis: 'x', ink: BK, noCollide: true });
   ring(0, 5.8, 30, 'y'); // Ring raised above monument in clear air
   sphere(0, 0.4, 30, 0.8, { ink: BK, noCollide: true });
+
+  // South-East Smuggler Watchtower (Macro Hero Structure at x=32, z=32, y=0)
+  cyl(30, 1.75, 30, 0.25, 3.5, { ink: BK, noCollide: true });
+  cyl(34, 1.75, 30, 0.25, 3.5, { ink: BK, noCollide: true });
+  cyl(30, 1.75, 34, 0.25, 3.5, { ink: BK, noCollide: true });
+  cyl(34, 1.75, 34, 0.25, 3.5, { ink: BK, noCollide: true });
+  slab(29, 29, 35, 35, 3.5, 0.3, { ink: OR });
+  rail(29, 29, 35, 29, 3.7, { ink: BK });
+  rail(29, 35, 35, 35, 3.7, { ink: BK });
+  rail(35, 29, 35, 35, 3.7, { ink: BK });
+  // Watchtower Access Stairs (14 steps, rise 0.250m, run 0.45m, total run 6.3m)
+  stairs(32, 0.0, 22.7, '+z', 14, 1.8, { rise: 3.5 / 14, run: 0.45, ink: OR });
+  ring(32, 7.5, 32, 'y');
+
+  // South-West Fishery Staging & Netting Pergola (x=-32, z=32)
+  slab(-36, 28, -26, 36, 1.6, 0.3, { ink: OR });
+  // 6 steps up to deck (rise 1.6/6 = 0.267m, run 0.45m, run 2.7m)
+  stairs(-31, 0.0, 25.3, '+z', 6, 2.2, { rise: 1.6 / 6, run: 0.45, ink: OR });
+  buildToolRack(B, -34, 1.9, 34, 'z');
+  buildRopeCoil(B, -28, 1.9, 30);
+  buildCrateStack(B, -28, 1.9, 34, 1842);
+
+  // Smuggler Timber Palisades along Harbor Shoreline
+  for (let px = -22; px <= -16; px += 1.5) {
+    cyl(px, 1.2, 20, 0.2, 2.4, { ink: OR });
+  }
+  for (let px = 16; px <= 22; px += 1.5) {
+    cyl(px, 1.2, 20, 0.2, 2.4, { ink: OR });
+  }
+
+  // =========================================================================
+  // 7B. COASTAL SEA-STACKS & SHORELINE REEF BOULDERS (ANTI-SLOP ROCK MESHES)
+  // =========================================================================
+  facetedRock(-42, 0.0, 42, 4.5, 7.0, 4.5, { ink: BL, cover: 'full', seed: 401 });
+  facetedRock(-38, 0.0, 44, 3.2, 4.5, 3.2, { ink: BL, cover: 'full', seed: 402 });
+  facetedRock(42, 0.0, 42, 4.5, 7.0, 4.5, { ink: BL, cover: 'full', seed: 403 });
+  facetedRock(38, 0.0, 44, 3.2, 4.5, 3.2, { ink: BL, cover: 'full', seed: 404 });
+  facetedRock(-36, 0.0, -42, 5.0, 8.5, 5.0, { ink: BL, cover: 'full', seed: 405 });
+  facetedRock(36, 0.0, -42, 5.0, 8.5, 5.0, { ink: BL, cover: 'full', seed: 406 });
+  facetedRock(0, 0.0, -44, 6.5, 8.0, 4.2, { ink: BL, cover: 'full', seed: 407 });
+
+  // North Shore Beached Skiff & Half-Buried Shipwreck Ribs (x=-14, z=-34)
+  for (let i = 0; i < 5; i++) {
+    const rx = -18 + i * 2.2;
+    const rz = -34 + (i % 2) * 0.6;
+    cyl(rx, 1.2, rz, 0.25, 2.4, { ink: OR });
+    cyl(rx, 2.4, rz, 0.2, 1.8, { axis: 'x', ink: OR, noCollide: true });
+  }
+
+  // East Lane Grand Bastion Entrance Portal (framing bastion stairs at x=19, z=-18)
+  box(18.5, 2.2, -15.5, 1.2, 4.4, 1.2, { ink: BL });
+  box(18.5, 2.2, -20.5, 1.2, 4.4, 1.2, { ink: BL });
+  box(18.5, 4.6, -18.0, 1.4, 0.8, 6.2, { ink: BL });
 
   // Clutter Stacks along the Transition Belts
   buildCrateStack(B, -8, 0.4, 32, 2011);

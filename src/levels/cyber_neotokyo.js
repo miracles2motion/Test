@@ -6,7 +6,10 @@ import {
   buildWarningSign,
   buildCrateStack,
   buildToolRack,
-  buildTechnicalFraming
+  buildTechnicalFraming,
+  buildTransitBus,
+  buildTransitBench,
+  buildUrbanDecals
 } from '../prefabs.js';
 
 /**
@@ -78,7 +81,18 @@ export function buildCyberNeotokyo(B, arena = false) {
   cyl(-5.5, 0.0, 34, 0.25, 3.2, { ink: BK });
   cyl(5.5, 0.0, 34, 0.25, 3.2, { ink: BK });
   rail(-6, 31, 6, 31, 0.1, { ink: OR });
+  buildTransitBench(B, -3.5, 0.0, 34);
+  buildTransitBench(B, 3.5, 0.0, 34);
   buildWarningSign(B, 0, 0.1, 28, 'NEO-SHINJUKU METRO');
+
+  // Parked Futuristic Transit Bus at Depot Curb
+  buildTransitBus(B, 14, 0.0, 34, { busType: 'express', inkBody: OR, inkTrim: BK, inkGlass: BL, bikeRack: true });
+  buildUrbanDecals(B, 14, 34, { inkOil: BK, inkMark: OR });
+  buildUrbanDecals(B, 0, 24, { inkOil: BK, inkMark: BL });
+
+  // Center Avenue Roadway Jersey Barriers (traversal chicanes)
+  box(0, 0.45, 20, 0.5, 0.9, 10.0, { ink: BK });
+  box(0, 0.45, -20, 0.5, 0.9, 10.0, { ink: BK });
 
   // =========================================================================
   // 3. MID HERO LANDMARK: ELEVATED MAGLEV MONORAIL (Y=8.0m)
@@ -147,10 +161,20 @@ export function buildCyberNeotokyo(B, arena = false) {
   box(-28.2, 0.6, -2, 1.2, 1.0, 3.4, { ink: BK });
   box(-28.2, 0.6, 8, 1.2, 1.0, 3.4, { ink: BK });
 
+  // Neon Marquee Signs mounted over stalls
+  buildNeonMarquee(B, -28, 3.6, -2, 'RAMEN ラーメン', { ink: OR });
+  buildNeonMarquee(B, -28, 3.6, 8, 'CYBERNETICS', { ink: BL });
+
   // Vending Machine Cluster
   box(-24.5, 1.0, -2, 1.0, 2.0, 1.4, { ink: BL });
   box(-24.5, 1.0, 0, 1.0, 2.0, 1.4, { ink: RD });
   box(-24.5, 1.0, 2, 1.0, 2.0, 1.4, { ink: GR });
+
+  // Streetlight Lantern Posts
+  cyl(-22, 2.5, 0, 0.12, 5.0, { ink: BK });
+  box(-21.2, 4.8, 0, 1.4, 0.3, 0.5, { ink: OR });
+  cyl(-22, 2.5, 20, 0.12, 5.0, { ink: BK });
+  box(-21.2, 4.8, 20, 1.4, 0.3, 0.5, { ink: OR });
 
   // West Rooftop Deck 1: Cyber Cafe Terrace (Y=3.4m, X=-44 to -24, Z=-36 to -22)
   slab(-44, -36, -24, -22, 3.4, 0.5, { ink: BL });
@@ -206,6 +230,30 @@ export function buildCyberNeotokyo(B, arena = false) {
   // Heavy Coolant Conduit Pipes running along the ground
   cyl(24, 0.5, 6, 0.4, 20.0, { axis: 'z', ink: GR });
   cyl(25, 0.5, 6, 0.4, 20.0, { axis: 'z', ink: GR });
+
+  // Substation Battery Bank & Transformer Vault (x=32, z=26)
+  box(32, 1.5, 26, 7.0, 3.0, 10.0, { ink: BK });
+  // Elevated Service Catwalk on top of Vault (Y=3.0m, X: 28 to 36, Z: 20 to 32)
+  slab(28, 20, 36, 32, 3.0, 0.3, { ink: BL });
+  rail(28, 20, 36, 20, 3.2, { ink: OR });
+  rail(28, 32, 36, 32, 3.2, { ink: OR });
+  rail(36, 20, 36, 32, 3.2, { ink: OR });
+
+  // Catwalk Access Stairs from Ground (12 steps, rise = 3.0/12 = 0.250m, run = 0.45m, total run = 5.4m)
+  // Direction '+z', starts at Z=14.6, lands at Z=20.0 flush with catwalk
+  stairs(32, 0.0, 14.6, '+z', 12, 1.8, { rise: 3.0 / 12, run: 0.45, ink: BL });
+
+  // Transformer Coils and High-Voltage Equipment
+  cyl(30, 3.8, 24, 0.35, 1.4, { ink: BL });
+  cyl(34, 3.8, 24, 0.35, 1.4, { ink: BL });
+  buildWarningSign(B, 28, 0.1, 14, 'HIGH VOLTAGE 500kV');
+
+  // Overhead Industrial Pipe Bridge spanning from Substation across the street (Y=6.5m)
+  cyl(0, 6.5, 10, 0.35, 48.0, { axis: 'x', ink: GR, noCollide: true });
+  cyl(0, 7.2, 10, 0.25, 48.0, { axis: 'x', ink: OR, noCollide: true });
+  // Support stanchions
+  cyl(-18, 3.25, 10, 0.3, 6.5, { ink: BK });
+  cyl(18, 3.25, 10, 0.3, 6.5, { ink: BK });
 
   // =========================================================================
   // 7. HERO STRUCTURE: HOLO-BILLBOARD COMMUNICATIONS TOWER (North, Z=-42)

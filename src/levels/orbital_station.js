@@ -104,6 +104,14 @@ export function buildOrbitalStation(B, arena = false) {
     box(P - T - 3.1, 7.9, wz, 0.3, 0.3, 0.8, { ink: OR, noCollide: true });
   }
 
+  // Structural Under-Chassis Cantilever Trusses supporting Perimeter Catwalks
+  for (let wz = -36; wz <= 36; wz += 12) {
+    box(-P + T + 1.5, 4.0, wz, 2.8, 0.4, 0.4, { ink: BK, noCollide: true });
+    cyl(-P + T + 2.8, 2.0, wz, 0.15, 4.0, { ink: OR, noCollide: true });
+    box(P - T - 1.5, 4.0, wz, 2.8, 0.4, 0.4, { ink: BK, noCollide: true });
+    cyl(P - T - 2.8, 2.0, wz, 0.15, 4.0, { ink: OR, noCollide: true });
+  }
+
   // =========================================================================
   // 2. HERO LANDMARK: SUNKEN FUSION REACTOR & PLASMA PIT (Mid: 0, 0)
   // =========================================================================
@@ -238,6 +246,10 @@ export function buildOrbitalStation(B, arena = false) {
   buildTelemetryConsole(B, -4.5, 3.6, cmdZ + 3.0, { inkConsole: BK, inkDisplay: OR });
   buildTelemetryConsole(B, 4.5, 3.6, cmdZ + 3.0, { inkConsole: BK, inkDisplay: OR });
 
+  // Command Telemetry Server Racks
+  box(-10, 3.6, cmdZ, 1.4, 2.4, 4.0, { ink: BK, tag: 'cover' });
+  box(10, 3.6, cmdZ, 1.4, 2.4, 4.0, { ink: BK, tag: 'cover' });
+
   // Overhanging Tactical Skybridge connecting Command Bridge to North Wall (Y = 7.0m)
   slab(-3.0, -50.0, 3.0, -40.0, 7.0, 0.4, { ink: OR, tag: 'walkway' });
   rail(-3.0, -50.0, -3.0, -40.0, 7.0, { ink: BK });
@@ -265,6 +277,15 @@ export function buildOrbitalStation(B, arena = false) {
   buildToolRack(B, -10.0, 0.9, dockZ + 4.0, { ink: BK });
   buildToolRack(B, 10.0, 0.9, dockZ + 4.0, { ink: BK });
   buildWarningSign(B, 0, 0.9, dockZ - 5.5, { text: 'EVA HAZARD', ink: RD });
+
+  // Shuttle Fuel Manifold Umbilicals
+  cyl(0, 0.4, dockZ + 6, 0.4, 16.0, { axis: 'x', ink: OR, noCollide: true });
+
+  // Flanking Pressurized Freight Modules
+  box(-24, 0.0, dockZ, 4.0, 2.4, 7.0, { ink: BL, tag: 'cover' });
+  box(24, 0.0, dockZ, 4.0, 2.4, 7.0, { ink: BL, tag: 'cover' });
+  ring(-24, 4.8, dockZ, 'y');
+  ring(24, 4.8, dockZ, 'y');
 
   ring(0, 9.5, dockZ, 'y');
   pickup(0, 1.3, dockZ);
