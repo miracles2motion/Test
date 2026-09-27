@@ -586,6 +586,225 @@ export function getMapSVG(key, isDossier = false) {
         <line x1="60" y1="84" x2="52" y2="80" stroke="${c}" stroke-width="2"/>
       </svg>`;
     }
+  } else if (key === 'orbital_station') {
+    if (isDossier) {
+      return `<svg viewBox="0 0 200 100" class="map-svg blueprint" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: ${isDossier ? '200px' : '90px'};">
+        <!-- Centrifuge Outer Annular Ring -->
+        <circle cx="100" cy="50" r="38" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <circle cx="100" cy="50" r="28" fill="none" stroke="${c}" stroke-width="1.2" stroke-dasharray="4 2"/>
+        <!-- Central Fusion Reactor Core Pit -->
+        <circle cx="100" cy="50" r="14" fill="none" stroke="${c}" stroke-width="2.0"/>
+        <circle cx="100" cy="50" r="6" fill="${c}" opacity="0.3"/>
+        <!-- 4 Pressurized Radial Spokes -->
+        <line x1="100" y1="12" x2="100" y2="88" stroke="${c}" stroke-width="2.2"/>
+        <line x1="62" y1="50" x2="138" y2="50" stroke="${c}" stroke-width="2.2"/>
+        <!-- Photovoltaic Solar Wings (East & West) -->
+        <rect x="10" y="20" width="30" height="60" rx="2" fill="none" stroke="${c}" stroke-width="1.5"/>
+        <line x1="10" y1="40" x2="40" y2="40" stroke="${c}" stroke-width="0.8"/>
+        <line x1="10" y1="60" x2="40" y2="60" stroke="${c}" stroke-width="0.8"/>
+        <line x1="25" y1="20" x2="25" y2="80" stroke="${c}" stroke-width="0.8"/>
+        <rect x="160" y="20" width="30" height="60" rx="2" fill="none" stroke="${c}" stroke-width="1.5"/>
+        <line x1="160" y1="40" x2="190" y2="40" stroke="${c}" stroke-width="0.8"/>
+        <line x1="160" y1="60" x2="190" y2="60" stroke="${c}" stroke-width="0.8"/>
+        <line x1="175" y1="20" x2="175" y2="80" stroke="${c}" stroke-width="0.8"/>
+        <text x="100" y="96" font-family="monospace" font-size="6" text-anchor="middle" fill="${c}">AEGIS-9 ORBITAL RESEARCH HABITAT</text>
+      </svg>`;
+    } else {
+      return `<svg viewBox="0 0 100 100" class="map-svg thumb" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: 90px; max-height: 90px;">
+        <circle cx="50" cy="50" r="32" fill="none" stroke="${c}" stroke-width="2"/>
+        <circle cx="50" cy="50" r="22" fill="none" stroke="${c}" stroke-width="1" stroke-dasharray="3 2"/>
+        <circle cx="50" cy="50" r="10" fill="none" stroke="${c}" stroke-width="2"/>
+        <line x1="50" y1="18" x2="50" y2="82" stroke="${c}" stroke-width="2"/>
+        <line x1="18" y1="50" x2="82" y2="50" stroke="${c}" stroke-width="2"/>
+        <!-- Solar Panels -->
+        <rect x="4" y="32" width="10" height="36" fill="none" stroke="${c}" stroke-width="1.5"/>
+        <rect x="86" y="32" width="10" height="36" fill="none" stroke="${c}" stroke-width="1.5"/>
+      </svg>`;
+    }
+  } else if (key === 'pirate_cove') {
+    if (isDossier) {
+      return `<svg viewBox="0 0 200 100" class="map-svg blueprint" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: ${isDossier ? '200px' : '90px'};">
+        <!-- Sunken Lagoon Basin Outer Shoreline -->
+        <path d="M 30,15 C 60,10 140,10 170,15 C 190,40 190,75 165,90 C 130,95 60,95 35,90 C 15,70 15,35 30,15 Z" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <!-- War Galleon "The Black Ink" in Center -->
+        <ellipse cx="100" cy="50" rx="36" ry="12" fill="none" stroke="${c}" stroke-width="2.2"/>
+        <line x1="64" y1="50" x2="136" y2="50" stroke="${c}" stroke-width="1.5"/>
+        <!-- 3 Masts & Yardarms -->
+        <circle cx="80" cy="50" r="3" fill="${c}"/>
+        <line x1="80" y1="36" x2="80" y2="64" stroke="${c}" stroke-width="1.5"/>
+        <circle cx="100" cy="50" r="4" fill="${c}"/>
+        <line x1="100" y1="32" x2="100" y2="68" stroke="${c}" stroke-width="2.0"/>
+        <circle cx="120" cy="50" r="3" fill="${c}"/>
+        <line x1="120" y1="38" x2="120" y2="62" stroke="${c}" stroke-width="1.5"/>
+        <!-- Lighthouse Fortress Bastion (East) -->
+        <circle cx="165" cy="30" r="14" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <line x1="165" y1="30" x2="195" y2="15" stroke="${c}" stroke-width="1.2" stroke-dasharray="2 2"/>
+        <!-- Stilt Town & Suspension Bridge (West) -->
+        <rect x="25" y="35" width="20" height="35" rx="2" fill="none" stroke="${c}" stroke-width="1.5"/>
+        <path d="M 45,45 Q 70,30 95,45" fill="none" stroke="${c}" stroke-width="1.2" stroke-dasharray="3 2"/>
+        <text x="100" y="94" font-family="monospace" font-size="6" text-anchor="middle" fill="${c}">SMUGGLER'S HARBOR &amp; WAR GALLEON</text>
+      </svg>`;
+    } else {
+      return `<svg viewBox="0 0 100 100" class="map-svg thumb" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: 90px; max-height: 90px;">
+        <!-- Galleon Hull & Sails -->
+        <path d="M 20,65 L 80,65 C 88,55 85,45 80,45 L 20,45 C 15,45 12,55 20,65 Z" fill="none" stroke="${c}" stroke-width="2"/>
+        <line x1="35" y1="45" x2="35" y2="20" stroke="${c}" stroke-width="1.8"/>
+        <line x1="50" y1="45" x2="50" y2="12" stroke="${c}" stroke-width="2.2"/>
+        <line x1="65" y1="45" x2="65" y2="22" stroke="${c}" stroke-width="1.8"/>
+        <!-- Square Sails -->
+        <path d="M 28,25 Q 35,28 42,25" fill="none" stroke="${c}" stroke-width="1.5"/>
+        <path d="M 40,18 Q 50,22 60,18" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <path d="M 58,27 Q 65,30 72,27" fill="none" stroke="${c}" stroke-width="1.5"/>
+        <!-- Water Waves -->
+        <path d="M 10,75 Q 30,70 50,75 T 90,75" fill="none" stroke="${c}" stroke-width="1.5"/>
+      </svg>`;
+    }
+  } else if (key === 'cyber_neotokyo') {
+    if (isDossier) {
+      return `<svg viewBox="0 0 200 100" class="map-svg blueprint" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: ${isDossier ? '200px' : '90px'};">
+        <!-- Monorail High-Line Beam Track (North-South through Mid) -->
+        <line x1="100" y1="5" x2="100" y2="95" stroke="${c}" stroke-width="3.0"/>
+        <line x1="97" y1="5" x2="97" y2="95" stroke="${c}" stroke-width="1.0" stroke-dasharray="4 2"/>
+        <line x1="103" y1="5" x2="103" y2="95" stroke="${c}" stroke-width="1.0" stroke-dasharray="4 2"/>
+        <!-- Monorail Train Car Carriage -->
+        <rect x="94" y="35" width="12" height="30" rx="3" fill="none" stroke="${c}" stroke-width="2.0"/>
+        <!-- Pedestrian Skybridge Concourse (East-West Crossing) -->
+        <rect x="50" y="42" width="100" height="16" rx="2" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <!-- Neon Yokocho Alleys (West) -->
+        <rect x="15" y="20" width="30" height="60" fill="none" stroke="${c}" stroke-width="1.5"/>
+        <line x1="15" y1="40" x2="45" y2="40" stroke="${c}" stroke-width="1.0"/>
+        <line x1="15" y1="60" x2="45" y2="60" stroke="${c}" stroke-width="1.0"/>
+        <text x="30" y="32" font-family="monospace" font-size="6" text-anchor="middle" fill="${c}">YOKOCHO</text>
+        <!-- HVAC Substation Cooling Towers (East) -->
+        <circle cx="170" cy="35" r="12" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <circle cx="170" cy="65" r="12" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <text x="170" y="37" font-family="monospace" font-size="5" text-anchor="middle" fill="${c}">HVAC</text>
+        <text x="100" y="96" font-family="monospace" font-size="6" text-anchor="middle" fill="${c}">SHINJUKU ROOFTOPS &amp; KINETIC MONORAIL</text>
+      </svg>`;
+    } else {
+      return `<svg viewBox="0 0 100 100" class="map-svg thumb" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: 90px; max-height: 90px;">
+        <!-- Skyscraper Rooftops & Monorail -->
+        <rect x="10" y="30" width="24" height="60" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <rect x="66" y="25" width="24" height="65" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <!-- Skybridge Linking Towers -->
+        <rect x="30" y="48" width="40" height="10" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <!-- Monorail Beam & Train -->
+        <line x1="50" y1="10" x2="50" y2="90" stroke="${c}" stroke-width="2.5"/>
+        <rect x="45" y="32" width="10" height="24" rx="2" fill="none" stroke="${c}" stroke-width="2"/>
+        <text x="22" y="45" font-family="monospace" font-size="6" text-anchor="middle" fill="${c}">CYBER</text>
+      </svg>`;
+    }
+  } else if (key === 'gothic_cathedral') {
+    if (isDossier) {
+      return `<svg viewBox="0 0 200 100" class="map-svg blueprint" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: ${isDossier ? '200px' : '90px'};">
+        <!-- Latin Cross Cathedral Blueprint Plan -->
+        <!-- Grand Nave Aisle -->
+        <rect x="40" y="35" width="120" height="30" fill="none" stroke="${c}" stroke-width="2.0"/>
+        <!-- Transept Wings (North-South Cross) -->
+        <rect x="120" y="15" width="24" height="70" fill="none" stroke="${c}" stroke-width="2.0"/>
+        <!-- Apse High Altar Semi-Circle (East) -->
+        <path d="M 160,35 C 180,35 180,65 160,65" fill="none" stroke="${c}" stroke-width="2.0"/>
+        <!-- Sunken Subterranean Crypt Perimeter -->
+        <rect x="100" y="40" width="45" height="20" stroke-dasharray="3 2" fill="none" stroke="${c}" stroke-width="1.5"/>
+        <text x="122" y="52" font-family="monospace" font-size="5" text-anchor="middle" fill="${c}">CRYPT</text>
+        <!-- Belfry Clock Tower (West Facade) -->
+        <rect x="30" y="15" width="22" height="22" fill="none" stroke="${c}" stroke-width="2.2"/>
+        <circle cx="41" cy="26" r="6" fill="none" stroke="${c}" stroke-width="1.5"/>
+        <text x="41" y="28" font-family="monospace" font-size="5" text-anchor="middle" fill="${c}">BELFRY</text>
+        <!-- Flying Buttress Arches -->
+        <line x1="60" y1="35" x2="60" y2="20" stroke="${c}" stroke-width="1.5"/>
+        <line x1="85" y1="35" x2="85" y2="20" stroke="${c}" stroke-width="1.5"/>
+        <line x1="60" y1="65" x2="60" y2="80" stroke="${c}" stroke-width="1.5"/>
+        <line x1="85" y1="65" x2="85" y2="80" stroke="${c}" stroke-width="1.5"/>
+        <text x="100" y="95" font-family="monospace" font-size="6" text-anchor="middle" fill="${c}">CATHEDRAL OF ASH: NAVE, CRYPT &amp; BELFRY</text>
+      </svg>`;
+    } else {
+      return `<svg viewBox="0 0 100 100" class="map-svg thumb" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: 90px; max-height: 90px;">
+        <!-- Pointed Arch Nave Portal & Rose Window -->
+        <path d="M 25,85 L 25,45 C 25,25 50,15 50,15 C 50,15 75,25 75,45 L 75,85 Z" fill="none" stroke="${c}" stroke-width="2"/>
+        <!-- Belfry Spire on Left -->
+        <rect x="12" y="35" width="16" height="50" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <polygon points="12,35 20,10 28,35" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <!-- Rose Window Circle -->
+        <circle cx="50" cy="42" r="12" fill="none" stroke="${c}" stroke-width="1.5"/>
+        <circle cx="50" cy="42" r="4" fill="none" stroke="${c}" stroke-width="1.2"/>
+        <line x1="50" y1="30" x2="50" y2="54" stroke="${c}" stroke-width="1"/>
+        <line x1="38" y1="42" x2="62" y2="42" stroke="${c}" stroke-width="1"/>
+      </svg>`;
+    }
+  } else if (key === 'volcanic_foundry') {
+    if (isDossier) {
+      return `<svg viewBox="0 0 200 100" class="map-svg blueprint" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: ${isDossier ? '200px' : '90px'};">
+        <!-- Molten Slag Canal Chasm Cutting Across Mid -->
+        <rect x="10" y="42" width="180" height="16" fill="none" stroke="${c}" stroke-width="2.0"/>
+        <line x1="10" y1="50" x2="190" y2="50" stroke="${c}" stroke-dasharray="3 3" stroke-width="1.2"/>
+        <!-- Central Steel Grating Drawbridge -->
+        <rect x="90" y="38" width="20" height="24" rx="2" fill="none" stroke="${c}" stroke-width="2.2"/>
+        <!-- Blast Furnace Tower Compound (North-East) -->
+        <circle cx="150" cy="22" r="16" fill="none" stroke="${c}" stroke-width="2.0"/>
+        <circle cx="150" cy="22" r="8" fill="none" stroke="${c}" stroke-width="1.5"/>
+        <text x="150" y="24" font-family="monospace" font-size="5" text-anchor="middle" fill="${c}">FURNACE</text>
+        <!-- Overhead Crucible Cableway Line -->
+        <line x1="130" y1="22" x2="130" y2="78" stroke="${c}" stroke-width="2.5"/>
+        <circle cx="130" cy="50" r="5" fill="${c}"/>
+        <!-- Heavy Gantry Crane & Container Yard (West) -->
+        <rect x="25" y="15" width="45" height="70" stroke-dasharray="4 2" fill="none" stroke="${c}" stroke-width="1.5"/>
+        <rect x="30" y="20" width="14" height="25" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <rect x="50" y="55" width="14" height="25" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <text x="100" y="94" font-family="monospace" font-size="6" text-anchor="middle" fill="${c}">VOLCANIC BLAST FURNACE &amp; SLAG CANAL</text>
+      </svg>`;
+    } else {
+      return `<svg viewBox="0 0 100 100" class="map-svg thumb" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: 90px; max-height: 90px;">
+        <!-- Blast Furnace & Slag Canal -->
+        <circle cx="65" cy="35" r="18" fill="none" stroke="${c}" stroke-width="2"/>
+        <circle cx="65" cy="35" r="8" fill="none" stroke="${c}" stroke-width="1.5"/>
+        <!-- Molten Canal River -->
+        <path d="M 10,70 L 90,70 L 90,85 L 10,85 Z" fill="none" stroke="${c}" stroke-width="2"/>
+        <line x1="10" y1="77" x2="90" y2="77" stroke="${c}" stroke-width="1" stroke-dasharray="3 2"/>
+        <!-- Heavy Crane Legs -->
+        <line x1="20" y1="20" x2="20" y2="65" stroke="${c}" stroke-width="2"/>
+        <line x1="38" y1="20" x2="38" y2="65" stroke="${c}" stroke-width="2"/>
+        <line x1="15" y1="25" x2="43" y2="25" stroke="${c}" stroke-width="2.5"/>
+      </svg>`;
+    }
+  } else if (key === 'arctic_outpost') {
+    if (isDossier) {
+      return `<svg viewBox="0 0 200 100" class="map-svg blueprint" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: ${isDossier ? '200px' : '90px'};">
+        <!-- Drydock Sunken Ice Basin -->
+        <rect x="60" y="15" width="80" height="70" rx="4" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <!-- Ballistic Submarine "Leviathan" Hull -->
+        <rect x="86" y="18" width="28" height="64" rx="14" fill="none" stroke="${c}" stroke-width="2.2"/>
+        <line x1="100" y1="22" x2="100" y2="78" stroke="${c}" stroke-width="1.5"/>
+        <!-- Conning Tower Sail -->
+        <rect x="94" y="44" width="12" height="18" rx="2" fill="${c}"/>
+        <!-- Missile Silo Hatches -->
+        <circle cx="92" cy="32" r="2" fill="none" stroke="${c}" stroke-width="1"/>
+        <circle cx="108" cy="32" r="2" fill="none" stroke="${c}" stroke-width="1"/>
+        <circle cx="92" cy="38" r="2" fill="none" stroke="${c}" stroke-width="1"/>
+        <circle cx="108" cy="38" r="2" fill="none" stroke="${c}" stroke-width="1"/>
+        <!-- Geodesic Radar Dome (East) -->
+        <circle cx="165" cy="30" r="16" fill="none" stroke="${c}" stroke-width="2.0"/>
+        <line x1="150" y1="30" x2="180" y2="30" stroke="${c}" stroke-width="1"/>
+        <line x1="165" y1="15" x2="165" y2="45" stroke="${c}" stroke-width="1"/>
+        <text x="165" y="32" font-family="monospace" font-size="5" text-anchor="middle" fill="${c}">RADAR</text>
+        <!-- Drill Derrick Tower (West) -->
+        <polygon points="35,15 20,45 50,45" fill="none" stroke="${c}" stroke-width="2.0"/>
+        <text x="35" y="40" font-family="monospace" font-size="5" text-anchor="middle" fill="${c}">DRILL</text>
+        <text x="100" y="95" font-family="monospace" font-size="6" text-anchor="middle" fill="${c}">STATION BOREAS: SUBMARINE DRYDOCK &amp; RADAR</text>
+      </svg>`;
+    } else {
+      return `<svg viewBox="0 0 100 100" class="map-svg thumb" style="opacity:${alpha}; stroke-linecap:round; stroke-linejoin:round; width:100%; height:100%; max-width: 90px; max-height: 90px;">
+        <!-- Submarine Hull Silhouette -->
+        <rect x="36" y="15" width="28" height="70" rx="14" fill="none" stroke="${c}" stroke-width="2.2"/>
+        <rect x="44" y="42" width="12" height="18" rx="2" fill="${c}"/>
+        <!-- Radar Dome & Drill Spire -->
+        <circle cx="80" cy="30" r="12" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <line x1="72" y1="30" x2="88" y2="30" stroke="${c}" stroke-width="1"/>
+        <polygon points="18,20 8,50 28,50" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <!-- Polar Ice Shelf Crack -->
+        <path d="M 5,75 L 30,70 L 36,80" fill="none" stroke="${c}" stroke-width="1.5"/>
+      </svg>`;
+    }
   } else {
     const curLevel = LEVELS.find((m) => m.key === key);
     return synthesizeMapSVG({ id: key, name: curLevel?.name || key, palette: curLevel?.env || '' }, isDossier);

@@ -139,10 +139,10 @@ export function buildFullGalleon(B, x, y, z, o = {}) {
   }
 
   // 7. Stairways Connecting Decks (Open gun deck with unobstructed vertical headroom)
-  // Starboard stair up to Forecastle deck (y + 7.7 at z + 8.5)
-  stairs(x + 2.8, y + 5.5, z + 5.35, '+z', 7, 1.8, { rise: 2.2 / 7, run: 0.45, ink: W });
-  // Port stair up to Poop deck (y + 9.7 at z - 4.5)
-  stairs(x - 2.8, y + 5.5, z + 1.8, '-z', 14, 1.8, { rise: 4.2 / 14, run: 0.45, ink: W });
+  // Starboard stair up to Forecastle deck (y + 7.7 at z + 8.5, 8 steps, rise 0.275m)
+  stairs(x + 2.8, y + 5.5, z + 4.9, '+z', 8, 1.8, { rise: 2.2 / 8, run: 0.45, ink: W });
+  // Port stair up to Poop deck (y + 9.7 at z - 4.5, 16 steps, rise 0.2625m)
+  stairs(x - 2.8, y + 5.5, z + 2.7, '-z', 16, 1.8, { rise: 4.2 / 16, run: 0.45, ink: W });
 
   // 8. Triple Towering Masts
   // Foremast
@@ -569,7 +569,7 @@ export function buildAntennaWhip(B, x, y, z, o = {}) {
 export function buildRopeCoil(B, x, y, z, o = {}) {
   const { cyl, ring } = B;
   const ink = o.ink ?? INK.ORANGE;
-  cyl(x, y, z, 0.55, 0.25, { ink, tag: 'cover' });
+  cyl(x, y, z, 0.55, 0.25, { ink, tag: 'cover', noGrapple: true });
   ring(x, y + 0.25, z, 'y');
 }
 

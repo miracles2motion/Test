@@ -1,5 +1,11 @@
 // Level construction. Two maps share one builder: everything is merged ink geometry plus
 // axis-aligned box colliders, which is what the navigation grid is generated from.
+import { buildArcticOutpost } from './levels/arctic_outpost.js';
+import { buildVolcanicFoundry } from './levels/volcanic_foundry.js';
+import { buildGothicCathedral } from './levels/gothic_cathedral.js';
+import { buildCyberNeotokyo } from './levels/cyber_neotokyo.js';
+import { buildPirateCove } from './levels/pirate_cove.js';
+import { buildOrbitalStation } from './levels/orbital_station.js';
 import { buildMayanSanctuary } from './levels/mayan_sanctuary.js';
 import { buildCrystalCavern } from './levels/crystal_cavern.js';
 import { buildNeonMidway } from './levels/neon_midway.js';
@@ -220,6 +226,78 @@ export const LEVELS = [
     env: 'MAYAN SANCTUARY Environment',
     engagement: 'CQB & Vertical',
     hazard: 'TBD',
+    scale: 'Tier 1-4',
+    comingSoon: false
+  },
+  {
+    key: 'orbital_station',
+    name: 'ORBITAL STATION (AEGIS-9)',
+    blurb: 'fusion reactor pit, centrifuge gravity ring, solar wings & orbital telemetry bridge',
+    category: 'anomalous',
+    tags: ["SCI-FI", "SPACE", "ORBITAL", "STATION", "REACTOR", "KINETIC", "CENTRIFUGE", "DREAM MODE"],
+    env: 'Orbital Research Station',
+    engagement: 'CQB & Vertical',
+    hazard: 'Plasma Confinement Core',
+    scale: 'Tier 1-4',
+    comingSoon: false
+  },
+  {
+    key: 'pirate_cove',
+    name: "PIRATE COVE (SMUGGLER'S HARBOR)",
+    blurb: "3-masted war galleon, stone lighthouse fortress, rope suspension bridges & stilt distillery",
+    category: 'colossal',
+    tags: ["PIRATE", "GALLEON", "LIGHTHOUSE", "HARBOR", "LAGOON", "CAVE", "COLOSSAL", "KINETIC", "DREAM MODE"],
+    env: 'Smuggler Haven & Sea Lagoon',
+    engagement: 'CQB, Mid-Range & Vertical',
+    hazard: 'Tidal Swell & High Yardarms',
+    scale: 'Tier 1-4',
+    comingSoon: false
+  },
+  {
+    key: 'cyber_neotokyo',
+    name: 'CYBER NEOTOKYO (SHINJUKU ROOFTOPS)',
+    blurb: 'automated maglev monorail, skybridge concourse, neon yokocho & holo-billboard spire',
+    category: 'urban',
+    tags: ["CYBERPUNK", "MONORAIL", "KINETIC", "NEON", "URBAN", "ROOFTOP", "SHINJUKU", "HOLOGRAM", "DREAM MODE"],
+    env: 'Cyberpunk Shinjuku Metropolis',
+    engagement: 'CQB, Mid-Range & Vertical',
+    hazard: 'Automated Maglev Traffic',
+    scale: 'Tier 1-4',
+    comingSoon: false
+  },
+  {
+    key: 'gothic_cathedral',
+    name: 'GOTHIC CATHEDRAL (CATHEDRAL OF ASH)',
+    blurb: 'vaulted grand nave, sunken subterranean crypt, high belfry clock tower & flying buttresses',
+    category: 'anomalous',
+    tags: ["GOTHIC", "CATHEDRAL", "VAULT", "CRYPT", "BELFRY", "BELL", "BUTTRESS", "MONUMENTAL", "DREAM MODE"],
+    env: 'Sacred Gothic Cathedral of Ash',
+    engagement: 'CQB, Mid-Range & Vertical',
+    hazard: 'Belfry Drop & Crypt Ambush',
+    scale: 'Tier 1-4',
+    comingSoon: false
+  },
+  {
+    key: 'volcanic_foundry',
+    name: 'VOLCANIC FOUNDRY (CALDERA SMELTER)',
+    blurb: 'gigantic blast furnace, moving magma crucible cableway, sunken molten slag canal & crane',
+    category: 'colossal',
+    tags: ["VOLCANIC", "CALDERA", "SMELTER", "FURNACE", "LAVA", "SLAG", "CRANE", "KINETIC", "COLOSSAL", "DREAM MODE"],
+    env: 'Basalt Caldera Heavy Steelworks',
+    engagement: 'CQB, Mid-Range & Vertical',
+    hazard: 'Molten Slag & Overhead Crucible',
+    scale: 'Tier 1-4',
+    comingSoon: false
+  },
+  {
+    key: 'arctic_outpost',
+    name: 'ARCTIC OUTPOST (STATION BOREAS)',
+    blurb: 'nuclear submarine drydock, geodesic radar dome, geothermal drill derrick & ice caverns',
+    category: 'urban',
+    tags: ["ARCTIC", "POLAR", "SUBMARINE", "RADAR", "DRILL", "ICE", "NAVAL", "COLOSSAL", "KINETIC", "DREAM MODE"],
+    env: 'Sub-Zero Naval Research Station',
+    engagement: 'CQB, Mid-Range & Vertical',
+    hazard: 'Sub-Zero Ice Shelf & Drill String',
     scale: 'Tier 1-4',
     comingSoon: false
   }
@@ -689,7 +767,13 @@ export const MAP_BUILDERS = {
   clockwork_foundry: buildClockworkFoundry,
   neon_midway: buildNeonMidway,
   crystal_cavern: buildCrystalCavern,
-  mayan_sanctuary: buildMayanSanctuary
+  mayan_sanctuary: buildMayanSanctuary,
+  orbital_station: buildOrbitalStation,
+  pirate_cove: buildPirateCove,
+  cyber_neotokyo: buildCyberNeotokyo,
+  gothic_cathedral: buildGothicCathedral,
+  volcanic_foundry: buildVolcanicFoundry,
+  arctic_outpost: buildArcticOutpost
 };
 
 export function registerMapBuilder(key, builderFn) {
