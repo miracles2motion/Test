@@ -547,6 +547,12 @@ const levelFilePath = path.join(ROOT_DIR, 'src', 'levels', `${mapArg}.js`);
 if (fs.existsSync(levelFilePath)) {
   let code = fs.readFileSync(levelFilePath, 'utf8');
 
+  // Safeguard: Do not corrupt pure declarative recipe maps with raw string injections
+  if (code.includes('buildMapFromRecipe')) {
+    console.log(`ℹ️ [MAP INJECTOR] Target ${mapArg} is a pure Declarative Recipe. Preserving data integrity (handled via Dream Super Agent).`);
+    process.exit(0);
+  }
+
   // Remove existing prop block if re-running
   if (code.includes('// === DREAM AUTO-INJECTED THEMATIC PROPS ===')) {
     const regex = /\/\/ === DREAM AUTO-INJECTED THEMATIC PROPS ===[\s\S]*?\/\/ === END DREAM AUTO-INJECTED PROPS ===/g;

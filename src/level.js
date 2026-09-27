@@ -1,5 +1,6 @@
 // Level construction. Two maps share one builder: everything is merged ink geometry plus
 // axis-aligned box colliders, which is what the navigation grid is generated from.
+import { buildMayanSanctuary } from './levels/mayan_sanctuary.js';
 import { buildCrystalCavern } from './levels/crystal_cavern.js';
 import { buildNeonMidway } from './levels/neon_midway.js';
 import { buildClockworkFoundry } from './levels/clockwork_foundry.js';
@@ -206,6 +207,17 @@ export const LEVELS = [
     category: 'anomalous',
     tags: ["ANOMALOUS","ANOMALOUS","CRYSTAL","CAVERN","KINETIC","SUBTERRANEAN","GEODE","CHASM","SPIRES","ROCK","BOULDER","SKELETON","CREATURE","HOLO","BEACON","FUNGUS","MUSHROOM","FLORA","STEAMPUNK","STEAM","VALVE","PIPE","CONDUIT","CYBER","DREAM MODE","PROCEDURAL"],
     env: 'CRYSTAL CAVERN Environment',
+    engagement: 'CQB & Vertical',
+    hazard: 'TBD',
+    scale: 'Tier 1-4',
+    comingSoon: false
+  },
+  {
+    key: 'mayan_sanctuary',
+    name: 'MAYAN SANCTUARY',
+    category: 'mayan',
+    tags: ["MAYAN","MAYAN","ANCIENT","SANCTUARY","TEMPLE","PYRAMID","JUNGLE","CENOTE","NATURE","COLOSSAL","ORGANIC","TREE","CANOPY","BAMBOO","CREATURE","SKELETON","UNIVERSAL","DREAM MODE","PROCEDURAL"],
+    env: 'MAYAN SANCTUARY Environment',
     engagement: 'CQB & Vertical',
     hazard: 'TBD',
     scale: 'Tier 1-4',
@@ -676,7 +688,8 @@ export const MAP_BUILDERS = {
   retro_arcade: buildRetroArcade,
   clockwork_foundry: buildClockworkFoundry,
   neon_midway: buildNeonMidway,
-  crystal_cavern: buildCrystalCavern
+  crystal_cavern: buildCrystalCavern,
+  mayan_sanctuary: buildMayanSanctuary
 };
 
 export function registerMapBuilder(key, builderFn) {

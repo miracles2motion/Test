@@ -15,7 +15,14 @@ import {
   buildWaterRipples,
   buildAtmosphericBeams,
   buildInkSplatters,
-  buildTechnicalFraming
+  buildTechnicalFraming,
+  buildDraftingTapeBridge,
+  buildSetSquareRamp,
+  buildEraserBarricade,
+  buildPaperclipCatwalk,
+  buildCoffeeStainDecal,
+  buildClockworkGear,
+  buildSwingingPendulum
 } from './prefabs.js';
 import { sweptRibbon } from './spline-engine.js';
 import {
@@ -126,7 +133,23 @@ export function buildMapFromRecipe(B, recipe, arena = false) {
     }
   }
 
-  // 2b. Procedural 3D Topography / Multi-Tier Terracing
+  // 2b. Drafting Substrate Artistry (Notebook Margins & Coffee Stains)
+  if (recipe.substrateArtistry || recipe.paper?.rules) {
+    // Red left margin rule
+    box(-P + 5.0, 0.007, 0, 0.15, 0.01, 2 * P, { ink: RD, noCollide: true });
+    // Faint horizontal rules across paper
+    for (let rz = -P + 8.0; rz <= P - 8.0; rz += 5.0) {
+      box(0, 0.006, rz, 2 * P, 0.01, 0.06, { ink: BL, noCollide: true });
+    }
+    // Procedural coffee stains
+    if (recipe.substrateArtistry?.coffeeStains && Array.isArray(recipe.substrateArtistry.coffeeStains)) {
+      for (const cs of recipe.substrateArtistry.coffeeStains) {
+        buildCoffeeStainDecal(B, cs.x, 0, cs.z, cs.r || 3.5, { ink: OR });
+      }
+    }
+  }
+
+  // 2c. Procedural 3D Topography / Multi-Tier Terracing
   if (recipe.ground?.terraces && Array.isArray(recipe.ground.terraces)) {
     for (const terr of recipe.ground.terraces) {
       const tx = terr.x ?? 0;
@@ -235,6 +258,14 @@ export function buildMapFromRecipe(B, recipe, arena = false) {
           rail(wX - 4.8, bz - 1.6, wX + 4.8, bz - 1.6, 2.6, { ink: OR });
           rail(wX - 4.8, bz + 1.6, wX + 4.8, bz + 1.6, 2.6, { ink: OR });
           reserveCorridor(context, wX - 6.0, bz, wX + 6.0, bz, 3.2);
+        } else if (cross.type === 'drafting_tape_bridge') {
+          const bz = cross.z;
+          buildDraftingTapeBridge(B, wX - 5.5, bz, wX + 5.5, bz, 0.4, { ink: OR, inkTrim: BK, width: 3.4 });
+          reserveCorridor(context, wX - 6.5, bz, wX + 6.5, bz, 3.4);
+        } else if (cross.type === 'setsquare_ramp') {
+          const bz = cross.z;
+          buildSetSquareRamp(B, wX, 0, bz, 3.6, 9.0, 3.2, { inkRamp: BL, inkTicks: BK });
+          reserveCorridor(context, wX - 4.5, bz, wX + 4.5, bz, 3.6);
         }
       }
     }
@@ -531,6 +562,17 @@ export function buildMapFromRecipe(B, recipe, arena = false) {
           pickup(p.at[0], p.at[1], p.at[2]);
           report.pickupsCount++;
         }
+      }
+    }
+  }
+
+  // 10b. Living Kinetic Architecture (Rotating Gears & Swinging Pendulums)
+  if (Array.isArray(recipe.kineticMechanisms)) {
+    for (const km of recipe.kineticMechanisms) {
+      if (km.type === 'clockwork_gear') {
+        buildClockworkGear(B, km.x, km.y ?? 0, km.z, km.radius ?? 5.0, km.thickness ?? 0.8, { inkBrass: OR, inkHub: BK, teeth: km.teeth ?? 12, speed: km.speed ?? 0.4 });
+      } else if (km.type === 'swinging_pendulum') {
+        buildSwingingPendulum(B, km.x, km.y ?? 0, km.z, km.length ?? 12.0, { inkRod: BK, inkBob: OR });
       }
     }
   }

@@ -1,0 +1,64 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-09-27T09:50:00.000Z",
+  "designPrinciples": [
+    {
+      "id": "DP-001",
+      "category": "sightlines",
+      "principle": "Long unbroken sightlines (>35m) must feature staggered waist-high defilade at 12-14m intervals to protect advancing CQB players from sniper spawn-camping.",
+      "enforcedBy": "dream-combat"
+    },
+    {
+      "id": "DP-002",
+      "category": "verticality",
+      "principle": "Every competitive map must maintain at least 3 distinct vertical tiers with a delta of >= 8.0m, and all sniper nests must have at least 2 independent ascent paths.",
+      "enforcedBy": "dream-architect"
+    },
+    {
+      "id": "DP-003",
+      "category": "stationery_artistry",
+      "principle": "Ground slabs must not be sterile; they must feature procedural drafting margin lines, coffee cup ring stains, and authentic ballpoint biro hatching.",
+      "enforcedBy": "dream-decorator"
+    },
+    {
+      "id": "DP-004",
+      "category": "kinetic_life",
+      "principle": "Maps must not be static monolithic boxes; they must incorporate at least 2 active kinetic ambient actors (rotating brass gears, swinging pendulums, cascading ink ribbons).",
+      "enforcedBy": "dream-decorator"
+    },
+    {
+      "id": "DP-005",
+      "category": "grapple_momentum",
+      "principle": "Grapple rings must be chained every 8-12m with >= 1.5m clearance to allow high-velocity aerial traversal across central chasms.",
+      "enforcedBy": "dream-combat"
+    },
+    {
+      "id": "DP-006",
+      "category": "continuous_eclipse",
+      "principle": "No map may be certified that possesses lower architectural, visual, or kinetic complexity than The Colossal Canopy and Giant Classroom.",
+      "enforcedBy": "dream-critic"
+    }
+  ],
+  "retrospectives": [
+    {
+      "mapKey": "forest",
+      "verdict": "Gold standard for organic multi-tier canopy verticality and hollow log tunnels.",
+      "score": 100
+    },
+    {
+      "mapKey": "clockwork_foundry",
+      "verdict": "Flawless industrial kinetic steampunk archetype with active boiler works and valve banks.",
+      "score": 100
+    },
+    {
+      "mapKey": "neon_midway",
+      "verdict": "Vibrant arcade midway with high-density pinball bumpers and skee-ball corridors.",
+      "score": 100
+    },
+    {
+      "mapKey": "crystal_cavern",
+      "verdict": "Subterranean anomalous biome with resonant crystal spires and basalt terracing.",
+      "score": 100
+    }
+  ]
+}

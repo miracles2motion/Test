@@ -83,7 +83,14 @@ export const {
   buildPinballBumper,
   buildLocomotiveBoiler,
   buildBunsenBurner,
-  buildPinballMachine
+  buildPinballMachine,
+  buildDraftingTapeBridge,
+  buildSetSquareRamp,
+  buildEraserBarricade,
+  buildPaperclipCatwalk,
+  buildCoffeeStainDecal,
+  buildClockworkGear,
+  buildSwingingPendulum
 } = PropsPrefabs;
 
 export const {
@@ -155,7 +162,7 @@ export const PREFAB_REGISTRY = {
   fern_cluster: {
     id: 'fern_cluster',
     name: 'Radiating Arched Fern Fronds',
-    tags: ['forest', 'flora', 'fern', 'cover'],
+    tags: ['forest', 'flora', 'fern', 'cover', 'nature', 'jungle'],
     builder: buildFernCluster,
     footprint: [2.5, 1.2, 2.5]
   },
@@ -456,7 +463,7 @@ export const PREFAB_REGISTRY = {
   bamboo_plantation: {
     id: 'bamboo_plantation',
     name: 'Dense Procedural Bamboo Plantation',
-    tags: ['forest', 'bamboo', 'plantation', 'grove', 'cqb', 'cover'],
+    tags: ['forest', 'bamboo', 'plantation', 'grove', 'cqb', 'cover', 'nature', 'jungle'],
     builder: buildBambooPlantation,
     footprint: [24.0, 12.0, 24.0]
   },
@@ -594,7 +601,56 @@ export const PREFAB_REGISTRY = {
   ticket_booth: { id: 'ticket_booth', tags: ['arcade', 'retro_arcade', 'ticket', 'booth'], builder: buildTicketBooth },
   arcade_carpet: { id: 'arcade_carpet', tags: ['arcade', 'retro_arcade', 'carpet', 'decal'], builder: buildArcadeCarpet },
   coin_op_wall: { id: 'coin_op_wall', tags: ['arcade', 'retro_arcade', 'coin', 'wall'], builder: buildCoinOpWall },
-  ticket_chute: { id: 'ticket_chute', tags: ['arcade', 'retro_arcade', 'ticket', 'chute'], builder: buildTicketChute }
+  ticket_chute: { id: 'ticket_chute', tags: ['arcade', 'retro_arcade', 'ticket', 'chute'], builder: buildTicketChute },
+  drafting_tape_bridge: {
+    id: 'drafting_tape_bridge',
+    name: 'Drafting Tape Translucent Suspension Bridge',
+    tags: ['bridge', 'tape', 'stationery', 'walkway', 'universal', 'paper'],
+    builder: buildDraftingTapeBridge,
+    footprint: [4.0, 1.0, 14.0]
+  },
+  setsquare_ramp: {
+    id: 'setsquare_ramp',
+    name: 'Acrylic Drafting Set-Square Ascending Ramp',
+    tags: ['ramp', 'setsquare', 'stationery', 'ascent', 'universal', 'paper'],
+    builder: buildSetSquareRamp,
+    footprint: [4.0, 3.5, 9.0]
+  },
+  eraser_barricade: {
+    id: 'eraser_barricade',
+    name: 'Pink Drafting Beveled Eraser Cover Block',
+    tags: ['eraser', 'cover', 'stationery', 'barricade', 'universal', 'paper'],
+    builder: buildEraserBarricade,
+    footprint: [2.8, 1.2, 1.4]
+  },
+  paperclip_catwalk: {
+    id: 'paperclip_catwalk',
+    name: 'Bent Wire Paperclip Catwalk & Railing',
+    tags: ['catwalk', 'paperclip', 'stationery', 'walkway', 'universal', 'paper'],
+    builder: buildPaperclipCatwalk,
+    footprint: [3.4, 4.5, 8.0]
+  },
+  coffee_stain: {
+    id: 'coffee_stain',
+    name: 'Procedural Coffee Cup Ring Stain Decal',
+    tags: ['decal', 'coffee', 'stain', 'paper', 'vfx', 'universal'],
+    builder: buildCoffeeStainDecal,
+    footprint: [4.0, 0.1, 4.0]
+  },
+  clockwork_gear: {
+    id: 'clockwork_gear',
+    name: 'Active Rotating Brass Clockwork Gear',
+    tags: ['clockwork', 'steampunk', 'gear', 'kinetic', 'cover', 'platform', 'anomalous', 'universal'],
+    builder: buildClockworkGear,
+    footprint: [10.0, 1.2, 10.0]
+  },
+  swinging_pendulum: {
+    id: 'swinging_pendulum',
+    name: 'Kinetic Articulated Brass Swinging Pendulum',
+    tags: ['clockwork', 'steampunk', 'pendulum', 'kinetic', 'grapple', 'cover', 'anomalous', 'universal'],
+    builder: buildSwingingPendulum,
+    footprint: [4.0, 14.0, 4.0]
+  }
 };
 
 /**

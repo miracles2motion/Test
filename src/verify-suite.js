@@ -190,7 +190,7 @@ export function runDreamVerificationSuite(levelObj, colliders = [], opts = {}) {
   // =========================================================================
   const mapDef = LEVELS.find(m => m.key === levelObj.key);
   if (mapDef && levelObj.instantiatedPrefabs) {
-    const isForestMap = mapDef.key === 'forest' || mapDef.category === 'anomalous'; // simplistic heuristic for demo
+    const isForestMap = mapDef.key === 'forest' || mapDef.category === 'nature' || mapDef.category === 'anomalous' || mapDef.category === 'mayan' || (mapDef.tags && mapDef.tags.some(t => ['FOREST', 'NATURE', 'JUNGLE'].includes(t.toUpperCase())));
     
     for (const prefab of levelObj.instantiatedPrefabs) {
       // G2b Anti-Forest: Zero forest-tagged prefabs allowed in non-forest maps
@@ -212,6 +212,25 @@ export function runDreamVerificationSuite(levelObj, colliders = [], opts = {}) {
     results.t8_themes.pass = false;
   }
 
+  // ========================================================
+  // SUITE 9: Continuous Map Evolution Standard (Eclipse Gate)
+  // Ensures new maps match or exceed the standard of Forest and Classroom.
+  // ========================================================
+  results.t9_continuous_eclipse = { pass: true, errors: [] };
+  const maxY = colliders.reduce((acc, c) => Math.max(acc, c.max ? c.max.y : 0), 0);
+  const minY = colliders.reduce((acc, c) => Math.min(acc, c.min ? c.min.y : 0), 0);
+  const verticalDelta = maxY - minY;
+
+  if (verticalDelta < 3.0) {
+    results.t9_continuous_eclipse.errors.push(`Substandard verticality: map has only ${verticalDelta.toFixed(1)}m delta (must have >= 3.0m multi-tier delta to eclipse baseline)`);
+  }
+  if (colliders.length < 150) {
+    results.t9_continuous_eclipse.errors.push(`Substandard density: map has only ${colliders.length} colliders (minimum 150 required)`);
+  }
+  if (results.t9_continuous_eclipse.errors.length > 0) {
+    results.t9_continuous_eclipse.pass = false;
+  }
+
   const allPassed =
     results.t1_invariants.pass &&
     results.t2_structural.pass &&
@@ -220,7 +239,8 @@ export function runDreamVerificationSuite(levelObj, colliders = [], opts = {}) {
     results.t5_determinism.pass &&
     results.t6_budget.pass &&
     results.t7_aesthetics.pass &&
-    results.t8_themes.pass;
+    results.t8_themes.pass &&
+    results.t9_continuous_eclipse.pass;
 
   return {
     pass: allPassed,
@@ -230,7 +250,8 @@ export function runDreamVerificationSuite(levelObj, colliders = [], opts = {}) {
       results.t3_reachability.errors.length * 20 +
       results.t6_budget.errors.length * 15 +
       results.t7_aesthetics.errors.length * 5 +
-      results.t8_themes.errors.length * 25
+      results.t8_themes.errors.length * 25 +
+      results.t9_continuous_eclipse.errors.length * 25
     )),
     results
   };
@@ -268,6 +289,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     console.log(`   T6 (Performance):  ${audit.results.t6_budget.pass ? '✅ PASS' : '❌ FAIL'}`);
     console.log(`   T7 (Aesthetics):   ${audit.results.t7_aesthetics.pass ? '✅ PASS' : '❌ FAIL'}`);
     console.log(`   T8 (Themes):       ${audit.results.t8_themes.pass ? '✅ PASS' : '❌ FAIL'}`);
+    console.log(`   T9 (Eclipse Gate): ${audit.results.t9_continuous_eclipse.pass ? '✅ PASS' : '❌ FAIL'}`);
     console.log(`============================================================\n`);
 
     if (!audit.pass) {

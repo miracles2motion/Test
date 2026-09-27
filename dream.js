@@ -178,12 +178,10 @@ if (!theme) {
 try {
   let command = '';
   const themeParam = theme ? ` ${theme}` : '';
-  if (action === 'god_mode') command = `npm run dream:god ${mapName}${themeParam}`;
+  if (action === 'god_mode' || action === 'macro' || action === 'inject') command = `npm run dream:god ${mapName}${themeParam}`;
   else if (action === 'detail') command = `node src/map-refiner.js ${mapName} detail`;
   else if (action === 'heal') command = `node src/map-refiner.js ${mapName} heal`;
   else if (action === 'inspect') command = `node tools/dream_inspect_cli.js ${mapName}`;
-  else if (action === 'macro') command = `npm run dream:macro ${mapName} ${theme}`;
-  else if (action === 'inject') command = `npm run dream:inject ${mapName} ${theme}`;
   else if (action === 'delete') command = `node src/map-deleter.js ${mapName}`;
   else if (action === 'graduate') command = `node graduate-map.js ${mapName}`;
   else if (action === 'populate') command = `node src/thematic-populator.js ${mapName}`;

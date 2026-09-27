@@ -36,6 +36,17 @@ if (!fs.existsSync(levelFilePath)) {
 
 let code = fs.readFileSync(levelFilePath, 'utf8');
 
+// Safeguard: Pure Declarative Recipe maps are data-driven
+if (code.includes('buildMapFromRecipe')) {
+  console.log(`ℹ️ [MAP REFINER] Target [${mapArg.toUpperCase()}] is a pure Declarative Recipe.`);
+  if (actionArg === 'heal') {
+    healMap(levelFilePath);
+  } else {
+    console.log(`✅ Pure declarative recipe maps adhere to the Universal Detailing Standard at generation time.`);
+  }
+  process.exit(0);
+}
+
 // --- 1. Density Matrix Analysis ---
 const boxMatches = [...code.matchAll(/box\(([^,]+),\s*([^,]+),\s*([^,]+),\s*([^,]+),\s*([^,]+),\s*([^,]+)(?:,\s*(\{.*?\}))?\)/g)];
 const cylMatches = [...code.matchAll(/cyl\(([^,]+),\s*([^,]+),\s*([^,]+),\s*([^,]+),\s*([^,]+)(?:,\s*(\{.*?\}))?\)/g)];

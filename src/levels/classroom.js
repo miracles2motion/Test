@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { INK } from '../render.js';
+import { INK, makeInkMaterial } from '../render.js';
 import { choose, rand } from '../util.js';
 import { buildHumanoid } from '../enemies.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';

@@ -1,0 +1,572 @@
+import { buildMapFromRecipe } from '../map-recipe.js';
+
+/**
+ * Map: MAYAN SANCTUARY (mayan_sanctuary)
+ * Pure Declarative Recipe Implementation (Dream Master Architecture)
+ * 100% Data-Driven, Biome-Adaptive, and Standard-Compliant.
+ */
+export const RECIPE = {
+  "id": "mayan_sanctuary",
+  "name": "Mayan Sanctuary",
+  "theme": "mayan",
+  "category": "mayan",
+  "topology": "vertical_ziggurat",
+  "tags": [
+    "MAYAN",
+    "MAYAN",
+    "ANCIENT",
+    "SANCTUARY",
+    "TEMPLE",
+    "PYRAMID",
+    "JUNGLE",
+    "CENOTE",
+    "NATURE",
+    "COLOSSAL",
+    "ORGANIC",
+    "TREE",
+    "CANOPY",
+    "BAMBOO",
+    "CREATURE",
+    "SKELETON",
+    "UNIVERSAL",
+    "DREAM MODE",
+    "PROCEDURAL"
+  ],
+  "version": 2,
+  "seed": 68730,
+  "scale": "colossal",
+  "bounds": {
+    "half": 55,
+    "wallH": 20,
+    "arenaHalf": 68,
+    "arenaWallH": 30
+  },
+  "palette": "forest",
+  "paper": {
+    "tint": "#f6f3e7",
+    "rules": true,
+    "lineSpacing": 50
+  },
+  "substrateArtistry": {
+    "marginRule": true,
+    "paperRules": true,
+    "coffeeStains": [
+      {
+        "x": -16,
+        "z": 14,
+        "r": 3.6
+      },
+      {
+        "x": 22,
+        "z": -18,
+        "r": 3.2
+      }
+    ]
+  },
+  "kineticMechanisms": [],
+  "ground": {
+    "ink": "BL",
+    "clearing": {
+      "r": 9,
+      "ink": "GREEN"
+    },
+    "terraces": [
+      {
+        "x": 0,
+        "z": 0,
+        "rx": 20,
+        "rz": 20,
+        "y": 2.2,
+        "ink": "OR",
+        "stairDir": "+z",
+        "stairW": 4
+      },
+      {
+        "x": 0,
+        "z": 0,
+        "rx": 10,
+        "rz": 10,
+        "y": 4.8,
+        "ink": "OR",
+        "stairDir": "-z",
+        "stairW": 3.2
+      },
+      {
+        "x": 26,
+        "z": 0,
+        "rx": 7,
+        "rz": 12,
+        "y": 3.2,
+        "ink": "OR",
+        "stairDir": "-x",
+        "stairW": 3
+      }
+    ]
+  },
+  "water": {
+    "ribbon": {
+      "axis": "z",
+      "x": -24,
+      "from": -46,
+      "to": 46,
+      "width": 11.5,
+      "sink": 0.05,
+      "ink": "BLUE"
+    },
+    "banks": {
+      "ink": "BLACK",
+      "step": 6,
+      "len": 7.2
+    },
+    "crossings": [
+      {
+        "type": "stepping_stones",
+        "z": -14
+      },
+      {
+        "type": "setsquare_ramp",
+        "z": 14
+      }
+    ]
+  },
+  "sectors": [
+    {
+      "id": "stepped_pyramid",
+      "name": "Stepped Pyramid Acropolis",
+      "shape": "disc",
+      "c": [
+        -22,
+        -22
+      ],
+      "rIn": 8,
+      "rOut": 14,
+      "core": {
+        "prefab": "terraced_ridge",
+        "opts": {
+          "count": 18,
+          "seed": 100
+        }
+      },
+      "props": [
+        {
+          "prefab": "boulder_field",
+          "n": 3,
+          "place": "inField"
+        },
+        {
+          "prefab": "eraser_barricade",
+          "n": 2,
+          "place": "inField"
+        }
+      ],
+      "tint": {
+        "ink": "OR",
+        "rx": 11,
+        "rz": 11
+      },
+      "reward": {
+        "pickup": true
+      }
+    },
+    {
+      "id": "cenote_grotto",
+      "name": "Sacred Cenote Cavern",
+      "shape": "disc",
+      "c": [
+        22,
+        -22
+      ],
+      "rIn": 8,
+      "rOut": 14,
+      "core": {
+        "prefab": "boulder_field",
+        "opts": {
+          "count": 18,
+          "seed": 237
+        }
+      },
+      "props": [
+        {
+          "prefab": "fern_cluster",
+          "n": 3,
+          "place": "inField"
+        },
+        {
+          "prefab": "atmospheric_beams",
+          "n": 2,
+          "place": "inField"
+        }
+      ],
+      "tint": {
+        "ink": "BL",
+        "rx": 11,
+        "rz": 11
+      },
+      "reward": {
+        "pickup": true
+      }
+    },
+    {
+      "id": "ball_court",
+      "name": "Ceremonial Stone Ball Court",
+      "shape": "capsule",
+      "c": [
+        0,
+        0
+      ],
+      "a": [
+        -26,
+        12
+      ],
+      "b": [
+        -26,
+        34
+      ],
+      "rIn": 4,
+      "rOut": 7,
+      "core": {
+        "prefab": "terraced_ridge",
+        "opts": {
+          "count": 18,
+          "seed": 374
+        }
+      },
+      "props": [
+        {
+          "prefab": "boulder_field",
+          "n": 3,
+          "place": "inField"
+        },
+        {
+          "prefab": "eraser_barricade",
+          "n": 2,
+          "place": "inField"
+        }
+      ],
+      "tint": {
+        "ink": "OR",
+        "rx": 11,
+        "rz": 11
+      },
+      "reward": {
+        "pickup": true
+      }
+    },
+    {
+      "id": "stelae_plaza",
+      "name": "Monolithic Inscribed Stelae Plaza",
+      "shape": "disc",
+      "c": [
+        0,
+        26
+      ],
+      "rIn": 8,
+      "rOut": 14,
+      "core": {
+        "prefab": "creature_skeleton",
+        "opts": {
+          "count": 18,
+          "seed": 511
+        }
+      },
+      "props": [
+        {
+          "prefab": "boulder_field",
+          "n": 3,
+          "place": "inField"
+        },
+        {
+          "prefab": "atmospheric_beams",
+          "n": 2,
+          "place": "inField"
+        }
+      ],
+      "tint": {
+        "ink": "BL",
+        "rx": 11,
+        "rz": 11
+      },
+      "reward": {
+        "pickup": true
+      }
+    }
+  ],
+  "landmarks": [
+    {
+      "prefab": "space_frame_concourse",
+      "at": [
+        0,
+        0,
+        0
+      ],
+      "opts": {},
+      "role": "hub",
+      "beacon": true
+    }
+  ],
+  "beltProps": [
+    {
+      "between": [
+        "stepped_pyramid",
+        "cenote_grotto"
+      ],
+      "prefabs": [
+        "boulder_field",
+        "fern_cluster",
+        "eraser_barricade"
+      ]
+    },
+    {
+      "between": [
+        "ball_court",
+        "stelae_plaza"
+      ],
+      "prefabs": [
+        "fern_cluster",
+        "eraser_barricade"
+      ]
+    },
+    {
+      "between": [
+        "stepped_pyramid",
+        "ball_court"
+      ],
+      "prefabs": [
+        "boulder_field",
+        "fern_cluster"
+      ]
+    }
+  ],
+  "trails": {
+    "ink": "OR",
+    "width": 2.4,
+    "routes": [
+      {
+        "from": "spawn:S",
+        "to": "landmark:hub",
+        "via": [
+          [
+            0,
+            44
+          ],
+          [
+            0,
+            32
+          ],
+          [
+            2,
+            20
+          ],
+          [
+            0,
+            10
+          ]
+        ]
+      },
+      {
+        "from": "spawn:N",
+        "to": "landmark:hub",
+        "via": [
+          [
+            0,
+            -44
+          ],
+          [
+            0,
+            -32
+          ],
+          [
+            -2,
+            -20
+          ],
+          [
+            0,
+            -10
+          ]
+        ]
+      },
+      {
+        "from": "spawn:W",
+        "to": "landmark:hub",
+        "via": [
+          [
+            -44,
+            0
+          ],
+          [
+            -32,
+            0
+          ],
+          [
+            -18,
+            0
+          ],
+          [
+            -8,
+            0
+          ]
+        ]
+      },
+      {
+        "from": "spawn:E",
+        "to": "landmark:hub",
+        "via": [
+          [
+            44,
+            0
+          ],
+          [
+            32,
+            0
+          ],
+          [
+            18,
+            0
+          ],
+          [
+            8,
+            0
+          ]
+        ]
+      }
+    ],
+    "furniture": {
+      "every": 14,
+      "prefabs": [
+        "boulder_field",
+        "fern_cluster"
+      ]
+    }
+  },
+  "vertical": {
+    "tiers": [
+      {
+        "y": 0
+      },
+      {
+        "y": 3.2,
+        "kit": "tier1"
+      },
+      {
+        "y": 6.5,
+        "link": "decks"
+      },
+      {
+        "y": 9.5
+      }
+    ],
+    "grappleChains": [
+      {
+        "name": "hub_overlook",
+        "from": [
+          -14,
+          15,
+          -14
+        ],
+        "to": [
+          14,
+          15,
+          14
+        ]
+      },
+      {
+        "name": "cross_chasm",
+        "from": [
+          0,
+          16,
+          -26
+        ],
+        "to": [
+          0,
+          16,
+          26
+        ]
+      }
+    ],
+    "bouncePoints": [
+      {
+        "at": [
+          -20,
+          3.2,
+          -20
+        ],
+        "to": "terrace:nw"
+      },
+      {
+        "at": [
+          20,
+          3.2,
+          20
+        ],
+        "to": "terrace:se"
+      }
+    ]
+  },
+  "spawns": {
+    "cardinal": 4,
+    "offset": 6
+  },
+  "snipers": {
+    "deckY": 9.5,
+    "cardinal": 4
+  },
+  "pickups": [
+    {
+      "at": [
+        0,
+        4.8,
+        0
+      ],
+      "tier": "legendary"
+    },
+    {
+      "at": [
+        -26,
+        0.4,
+        26
+      ],
+      "tier": "health"
+    },
+    {
+      "at": [
+        26,
+        0.4,
+        -26
+      ],
+      "tier": "armor"
+    },
+    {
+      "at": [
+        -26,
+        3.6,
+        -26
+      ],
+      "tier": "ammo"
+    },
+    {
+      "at": [
+        26,
+        3.6,
+        26
+      ],
+      "tier": "ammo"
+    }
+  ],
+  "actors": [
+    "birds",
+    "leaves",
+    "paper",
+    "dust"
+  ],
+  "detail": {
+    "litter": "inner30",
+    "shadows": "blob:all",
+    "beacons": true
+  }
+};
+
+export function buildMayanSanctuary(B, arena = false) {
+  const result = buildMapFromRecipe(B, RECIPE, arena);
+  B.finish();
+  return result.L;
+}

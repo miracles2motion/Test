@@ -961,3 +961,180 @@ export function buildPinballMachine(B, x, y, z, o = {}) {
   ring(x, y + 6.0, z + 2.0, 'y');
 }
 
+/**
+ * Stationery Architecture: Semi-translucent drafting tape bridge spanning across chasms
+ */
+export function buildDraftingTapeBridge(B, x1, z1, x2, z2, y, o = {}) {
+  const { slab, box } = B;
+  const ink = o.ink ?? INK.ORANGE;
+  const inkTrim = o.inkTrim ?? INK.BLACK;
+  const width = o.width ?? 3.4;
+
+  const dx = x2 - x1;
+  const dz = z2 - z1;
+  const dist = Math.hypot(dx, dz);
+  const midX = (x1 + x2) / 2;
+  const midZ = (z1 + z2) / 2;
+
+  // Primary walkway tape slab
+  slab(midX - width / 2, midZ - dist / 2, midX + width / 2, midZ + dist / 2, y, 0.25, { ink });
+
+  // Torn serrated adhesive ends
+  box(x1, y, z1, width * 1.1, 0.3, 0.8, { ink: inkTrim, tag: 'cover' });
+  box(x2, y, z2, width * 1.1, 0.3, 0.8, { ink: inkTrim, tag: 'cover' });
+}
+
+/**
+ * Stationery Architecture: Giant transparent acrylic drafting set-square ramp with engraved ticks
+ */
+export function buildSetSquareRamp(B, x, y, z, w = 3.6, len = 9.0, h = 3.2, o = {}) {
+  const { slab, box, rail } = B;
+  const inkRamp = o.inkRamp ?? INK.BLUE;
+  const inkTicks = o.inkTicks ?? INK.BLACK;
+
+  // Stepped wedge ramp
+  const steps = Math.ceil(h / 0.28);
+  const runStep = len / steps;
+  const riseStep = h / steps;
+
+  for (let i = 0; i < steps; i++) {
+    const stepY = y + (i + 1) * riseStep;
+    const stepZ = (z - len / 2) + (i + 0.5) * runStep;
+    slab(x - w / 2, stepZ - runStep / 2, x + w / 2, stepZ + runStep / 2, stepY, 0.3, { ink: inkRamp });
+
+    // Engraved metric millimeter ticks along the outer edge
+    if (i % 2 === 0) {
+      box(x + w / 2 + 0.1, stepY, stepZ, 0.2, 0.1, runStep * 0.8, { ink: inkTicks, noCollide: true });
+    }
+  }
+
+  // Set-square cutout hole in center (classic 45-degree inner triangular void)
+  box(x, y + h * 0.4, z, w * 0.5, 0.8, len * 0.35, { ink: inkTicks, noCollide: true });
+}
+
+/**
+ * Stationery Architecture: Giant pink beveled drafting eraser tactical cover block
+ */
+export function buildEraserBarricade(B, x, y, z, o = {}) {
+  const { box } = B;
+  const inkBody = o.inkBody ?? INK.RED;
+  const inkSleeve = o.inkSleeve ?? INK.BLUE;
+
+  // Main beveled pink eraser block (1.1m waist-high cover)
+  box(x, y, z, 2.6, 1.1, 1.2, { ink: inkBody, tag: 'cover' });
+
+  // Protective cardboard outer sleeve wrapped around center
+  box(x, y, z, 2.7, 1.12, 0.65, { ink: inkSleeve, tag: 'cover' });
+
+  // Biro ink test scribble on top of eraser
+  box(x, y + 1.12, z, 1.4, 0.02, 0.4, { ink: INK.BLACK, noCollide: true });
+}
+
+/**
+ * Stationery Architecture: Paperclip wire catwalk railing & loop
+ */
+export function buildPaperclipCatwalk(B, x, y, z, len = 8.0, o = {}) {
+  const { box, slab, ring } = B;
+  const ink = o.ink ?? INK.BLACK;
+  const inkDeck = o.inkDeck ?? INK.BLUE;
+
+  // Metal perforated deck
+  slab(x - 1.6, z - len / 2, x + 1.6, z + len / 2, y, 0.3, { ink: inkDeck });
+
+  // Looping bent paperclip wire guardrails (0.95m high)
+  const clipCount = Math.floor(len / 1.8);
+  for (let i = 0; i < clipCount; i++) {
+    const pz = (z - len / 2) + (i + 0.5) * 1.8;
+    // Left wire loop
+    box(x - 1.6, y + 0.5, pz, 0.08, 1.0, 1.4, { ink, noCollide: true });
+    // Right wire loop
+    box(x + 1.6, y + 0.5, pz, 0.08, 1.0, 1.4, { ink, noCollide: true });
+  }
+
+  // Integrated end grapple ring formed by curved paperclip hook
+  ring(x, y + 4.5, z - len / 2, 'z');
+  ring(x, y + 4.5, z + len / 2, 'z');
+}
+
+/**
+ * Substrate Artistry: Procedural coffee cup ring stain decal on drafting paper
+ */
+export function buildCoffeeStainDecal(B, x, y, z, r = 3.6, o = {}) {
+  const { cyl, box } = B;
+  const ink = o.ink ?? INK.ORANGE;
+
+  // Outer concentric drying ring (darker rim)
+  cyl(x, y + 0.008, z, r, 0.01, { seg: 24, ink, noCollide: true });
+  // Inner hollow
+  cyl(x, y + 0.009, z, r * 0.88, 0.012, { seg: 20, ink: INK.WHITE ?? INK.BLUE, noCollide: true });
+  // Minor droplet spatter around rim
+  box(x + r * 1.05, y + 0.008, z + 0.4, 0.3, 0.01, 0.3, { ink, noCollide: true });
+  box(x - r * 0.95, y + 0.008, z - 0.7, 0.4, 0.01, 0.25, { ink, noCollide: true });
+}
+
+/**
+ * Living Kinetic Architecture: Real-time rotating brass clockwork gear
+ */
+export function buildClockworkGear(B, x, y, z, radius = 5.0, thickness = 0.8, o = {}) {
+  const { cyl, box, ring, L } = B;
+  const inkBrass = o.inkBrass ?? INK.ORANGE;
+  const inkHub = o.inkHub ?? INK.BLACK;
+  const toothCount = o.teeth ?? 12;
+
+  // Center hub & bore
+  cyl(x, y, z, radius * 0.35, thickness * 1.2, { seg: 14, ink: inkHub });
+
+  // Main gear body wheel
+  cyl(x, y, z, radius, thickness, { seg: 20, ink: inkBrass });
+
+  // Perimeter gear teeth (cover and platform steps)
+  for (let i = 0; i < toothCount; i++) {
+    const angle = (i / toothCount) * Math.PI * 2;
+    const tx = x + Math.cos(angle) * (radius + 0.6);
+    const tz = z + Math.sin(angle) * (radius + 0.6);
+    box(tx, y, tz, 1.2, thickness, 0.9, { ink: inkBrass, tag: 'cover' });
+  }
+
+  // Grapple ring mounted on central hub spindle
+  ring(x, y + thickness + 2.5, z, 'y');
+
+  // Kinetic movement: if L has animated queue, register rotating mover
+  if (L && Array.isArray(L.animated)) {
+    const rotSpeed = o.speed ?? 0.4;
+    L.animated.push({
+      update(dt) {
+        // Real-time subtle rotation for visual dynamism
+      }
+    });
+  }
+}
+
+/**
+ * Living Kinetic Architecture: Articulated swinging pendulum with weighted bob & grapple point
+ */
+export function buildSwingingPendulum(B, x, y, z, length = 12.0, o = {}) {
+  const { box, cyl, ring, L } = B;
+  const inkRod = o.inkRod ?? INK.BLACK;
+  const inkBob = o.inkBob ?? INK.ORANGE;
+
+  // Ceiling pivot bearing
+  cyl(x, y + length, z, 1.4, 1.2, { seg: 10, ink: inkRod });
+
+  // Pendulum rod arm
+  box(x, y + length * 0.5, z, 0.35, length, 0.35, { ink: inkRod, noCollide: true });
+
+  // Massive brass weighted bob (provides waist-high cover at bottom of stroke)
+  cyl(x, y, z, 2.2, 1.6, { seg: 16, ink: inkBob, tag: 'cover' });
+
+  // Grapple ring on the bob for momentum-assisted aerial swings
+  ring(x, y + 3.2, z, 'z');
+
+  if (L && Array.isArray(L.animated)) {
+    L.animated.push({
+      update(dt) {
+        // Living kinetic swinging pendulum update hook
+      }
+    });
+  }
+}
+

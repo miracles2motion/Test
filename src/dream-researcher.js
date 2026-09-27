@@ -216,11 +216,149 @@ export const THEMATIC_KNOWLEDGE_BASE = {
     ],
     beltProps: ['boulder_field', 'holo_pylon', 'warning_sign', 'toadstools'],
     actors: ['dust', 'atmospheric_beams', 'paper']
+  },
+  mayan: {
+    name: 'Ancient Stepped Mayan Sanctuary',
+    scale: 'colossal',
+    palette: 'forest',
+    primaryInk: 'INK.GREEN',
+    secondaryInk: 'INK.BLACK',
+    accentInk: 'INK.ORANGE',
+    hazardInk: 'INK.RED',
+    groundInk: 'BL',
+    paperTint: '#f6f3e7',
+    ruleColor: 'blue',
+    landmark: 'space_frame_concourse',
+    landmarkOpts: {},
+    water: { type: 'cenote_chasm', width: 11.5, crossings: ['stepping_stones', 'drafting_tape_bridge', 'setsquare_ramp'] },
+    sectorArchetypes: [
+      { id: 'stepped_pyramid', name: 'Stepped Pyramid Acropolis', core: 'terraced_ridge', props: ['boulder_field', 'eraser_barricade'] },
+      { id: 'cenote_grotto', name: 'Sacred Cenote Cavern', core: 'boulder_field', props: ['fern_cluster', 'atmospheric_beams'] },
+      { id: 'ball_court', name: 'Ceremonial Stone Ball Court', core: 'terraced_ridge', props: ['boulder_field', 'eraser_barricade'] },
+      { id: 'stelae_plaza', name: 'Monolithic Inscribed Stelae Plaza', core: 'creature_skeleton', props: ['boulder_field', 'atmospheric_beams'] }
+    ],
+    beltProps: ['boulder_field', 'fern_cluster', 'eraser_barricade'],
+    actors: ['birds', 'leaves', 'paper', 'dust']
   }
 };
 
 /**
- * Autonomous Research Engine: Analyzes a request, infers theme, and selects optimal components.
+ * The 5 Master Spatial Topologies (Breaking the 4-box trap)
+ */
+export const TOPOLOGIES = {
+  asymmetric_ravine: {
+    terraces: [
+      { x: -24, z: -20, rx: 14, rz: 14, y: 4.5, ink: 'OR', stairDir: '+z', stairW: 3.2 },
+      { x: 24, z: 20, rx: 12, rz: 12, y: 2.2, ink: 'OR', stairDir: '-z', stairW: 3.0 },
+      { x: -8, z: 14, rx: 7, rz: 7, y: 3.4, ink: 'OR', stairDir: '+x', stairW: 2.8 }
+    ],
+    water: {
+      ribbon: { axis: 'z', x: 6, from: -46, to: 46, width: 11.5, sink: 0.08, ink: 'BLUE' },
+      banks: { ink: 'BLACK', step: 6.0, len: 7.2 },
+      crossings: [
+        { type: 'drafting_tape_bridge', z: -16 },
+        { type: 'stepping_stones', z: 0 },
+        { type: 'setsquare_ramp', z: 20 }
+      ]
+    },
+    coords: [
+      [-26, -22],
+      [-8, 14],
+      [22, -18],
+      [26, 22]
+    ]
+  },
+  concentric_colosseum: {
+    terraces: [
+      { x: 0, z: -28, rx: 18, rz: 8, y: 3.8, ink: 'OR', stairDir: '+z', stairW: 3.5 },
+      { x: 0, z: 28, rx: 18, rz: 8, y: 3.8, ink: 'OR', stairDir: '-z', stairW: 3.5 },
+      { x: 28, z: 0, rx: 8, rz: 16, y: 4.2, ink: 'OR', stairDir: '-x', stairW: 3.0 },
+      { x: -28, z: 0, rx: 8, rz: 16, y: 4.2, ink: 'OR', stairDir: '+x', stairW: 3.0 }
+    ],
+    water: {
+      ribbon: { axis: 'x', z: 0, from: -46, to: 46, width: 7.2, sink: 0.05, ink: 'BLUE' },
+      banks: { ink: 'BLACK', step: 6.0, len: 7.2 },
+      crossings: [
+        { type: 'arched_bridge', z: 0 },
+        { type: 'drafting_tape_bridge', z: -18 },
+        { type: 'stepping_stones', z: 18 }
+      ]
+    },
+    coords: [
+      [0, -28],
+      [28, 0],
+      [0, 28],
+      [-28, 0]
+    ]
+  },
+  twin_bastions: {
+    terraces: [
+      { x: 0, z: -26, rx: 18, rz: 10, y: 4.2, ink: 'OR', stairDir: '+z', stairW: 3.6 },
+      { x: 0, z: 26, rx: 18, rz: 10, y: 4.2, ink: 'OR', stairDir: '-z', stairW: 3.6 },
+      { x: -24, z: 0, rx: 7, rz: 12, y: 2.8, ink: 'OR', stairDir: '+x', stairW: 3.0 }
+    ],
+    water: {
+      ribbon: { axis: 'x', z: 0, from: -46, to: 46, width: 9.6, sink: 0.06, ink: 'BLUE' },
+      banks: { ink: 'BLACK', step: 6.0, len: 7.2 },
+      crossings: [
+        { type: 'drafting_tape_bridge', z: -14 },
+        { type: 'arched_bridge', z: 14 }
+      ]
+    },
+    coords: [
+      [0, -28],
+      [0, 28],
+      [-26, 0],
+      [26, 0]
+    ]
+  },
+  vertical_ziggurat: {
+    terraces: [
+      { x: 0, z: 0, rx: 20, rz: 20, y: 2.2, ink: 'OR', stairDir: '+z', stairW: 4.0 },
+      { x: 0, z: 0, rx: 10, rz: 10, y: 4.8, ink: 'OR', stairDir: '-z', stairW: 3.2 },
+      { x: 26, z: 0, rx: 7, rz: 12, y: 3.2, ink: 'OR', stairDir: '-x', stairW: 3.0 }
+    ],
+    water: {
+      ribbon: { axis: 'z', x: -24, from: -46, to: 46, width: 8.0, sink: 0.05, ink: 'BLUE' },
+      banks: { ink: 'BLACK', step: 6.0, len: 7.2 },
+      crossings: [
+        { type: 'stepping_stones', z: -14 },
+        { type: 'setsquare_ramp', z: 14 }
+      ]
+    },
+    coords: [
+      [-22, -22],
+      [22, -22],
+      [0, 0],
+      [0, 26]
+    ]
+  },
+  competitive_3lane: {
+    terraces: [
+      { x: -26, z: 0, rx: 7, rz: 20, y: 3.6, ink: 'OR', stairDir: '+x', stairW: 3.0 },
+      { x: 0, z: 0, rx: 10, rz: 10, y: 4.0, ink: 'OR', stairDir: '+z', stairW: 3.2 },
+      { x: 26, z: 0, rx: 7, rz: 16, y: 2.8, ink: 'OR', stairDir: '-x', stairW: 3.0 }
+    ],
+    water: {
+      ribbon: { axis: 'z', x: 13, from: -46, to: 46, width: 7.5, sink: 0.05, ink: 'BLUE' },
+      banks: { ink: 'BLACK', step: 6.0, len: 7.2 },
+      crossings: [
+        { type: 'arched_bridge', z: 0 },
+        { type: 'drafting_tape_bridge', z: -18 },
+        { type: 'stepping_stones', z: 18 }
+      ]
+    },
+    coords: [
+      [-26, 0],
+      [0, 0],
+      [26, 0],
+      [0, 26]
+    ]
+  }
+};
+
+/**
+ * Autonomous Research Engine: Analyzes a request, infers theme and topology.
  */
 export function researchMapTheme(mapKey, themeHint = '') {
   const key = mapKey.toLowerCase().replace(/[^a-z0-9_]/g, '_');
@@ -242,8 +380,24 @@ export function researchMapTheme(mapKey, themeHint = '') {
     else if (k.includes('class') || k.includes('school') || k.includes('desk') || k.includes('book') || k.includes('study') || k.includes('library')) theme = 'classroom';
     else if (k.includes('arcade') || k.includes('retro') || k.includes('pinball') || k.includes('game') || k.includes('midway')) theme = 'arcade';
     else if (k.includes('crystal') || k.includes('cavern') || k.includes('cave') || k.includes('mine') || k.includes('chasm') || k.includes('subterranean') || k.includes('anomaly') || k.includes('anomalous')) theme = 'anomalous';
+    else if (k.includes('mayan') || k.includes('aztec') || k.includes('ancient') || k.includes('sanctuary') || k.includes('ruins')) theme = 'mayan';
     else if (k.includes('transit') || k.includes('bus') || k.includes('train') || k.includes('station') || k.includes('city') || k.includes('metro') || k.includes('urban') || k.includes('district')) theme = 'urban';
     else theme = 'urban';
+  }
+
+  // Infer spatial topology
+  let topology = 'asymmetric_ravine';
+  const k = key + ' ' + theme;
+  if (k.includes('colosseum') || k.includes('arena') || k.includes('arcade') || k.includes('pit')) {
+    topology = 'concentric_colosseum';
+  } else if (k.includes('bastion') || k.includes('fortress') || k.includes('castle') || k.includes('twin')) {
+    topology = 'twin_bastions';
+  } else if (k.includes('ziggurat') || k.includes('pyramid') || k.includes('sanctuary') || k.includes('temple')) {
+    topology = 'vertical_ziggurat';
+  } else if (k.includes('lane') || k.includes('tournament') || k.includes('cyber') || k.includes('urban')) {
+    topology = 'competitive_3lane';
+  } else {
+    topology = 'asymmetric_ravine';
   }
 
   const base = THEMATIC_KNOWLEDGE_BASE[theme] || THEMATIC_KNOWLEDGE_BASE.urban;
@@ -253,6 +407,7 @@ export function researchMapTheme(mapKey, themeHint = '') {
     key,
     displayName,
     theme,
+    topology,
     ...base
   };
 }
@@ -292,6 +447,7 @@ export function synthesizeConceptDocument(researched) {
 - **Tactical Category**: \`${theme}\`
 - **Primary Ink**: \`${primaryInk}\` (Foundations, structural walls, slabs)
 - **Secondary Ink**: \`${secondaryInk}\` (Heavy steel frames, columns, shadow crosshatching)
+- **Substrate & Drafting Inks**: \`INK.BLUE\` (Grid margins, blueprint annotation rules, water channels)
 - **Accent Inks**: \`${accentInk}\` (Walkways, handrails, interactive step treads)
 - **Hazard Inks**: \`${hazardInk}\` (High-lethality hazards, apex vantage tags, legendary pickups)
 
@@ -377,7 +533,7 @@ export function synthesizeConceptDocument(researched) {
 
 ---
 
-## 13. Level Designer Quality Checklist
+## 13. Level Designer Checklist
 - [x] All stairways maintain >= 2.4m vertical headroom.
 - [x] Step rises strictly normalized between 0.25m and 0.28m.
 - [x] Zero pinched corridors (< 1.8m width).
@@ -398,21 +554,24 @@ export const THEME_TAGS = {
   urban: ['urban', 'transit', 'bus', 'station', 'clock', 'underpass', 'concourse', 'shelter', 'steampunk', 'steam', 'valve', 'pipe'],
   classroom: ['classroom', 'school', 'desk', 'book', 'lamp', 'chalkboard', 'lab', 'burner', 'study'],
   arcade: ['arcade', 'retro_arcade', 'pinball', 'neon', 'midway', 'cabinet', 'skee_ball', 'cyber'],
-  anomalous: ['anomalous', 'crystal', 'cavern', 'kinetic', 'subterranean', 'geode', 'chasm', 'spires', 'rock', 'boulder', 'skeleton', 'creature', 'holo', 'beacon', 'fungus', 'mushroom', 'flora', 'steampunk', 'steam', 'valve', 'pipe', 'conduit', 'cyber']
+  anomalous: ['anomalous', 'crystal', 'cavern', 'kinetic', 'subterranean', 'geode', 'chasm', 'spires', 'rock', 'boulder', 'skeleton', 'creature', 'holo', 'beacon', 'fungus', 'mushroom', 'flora', 'steampunk', 'steam', 'valve', 'pipe', 'conduit', 'cyber'],
+  mayan: ['mayan', 'ancient', 'sanctuary', 'temple', 'pyramid', 'jungle', 'cenote', 'nature', 'colossal', 'organic', 'tree', 'canopy', 'bamboo', 'creature', 'skeleton', 'universal']
 };
 
 /**
  * Synthesizes a Rich, Production-Grade Declarative Recipe JSON
  */
 export function synthesizeRecipe(researched) {
-  const { key, displayName, theme, scale, palette, groundInk, paperTint, ruleColor, landmark, landmarkOpts, water, sectorArchetypes, beltProps, actors } = researched;
+  const { key, displayName, theme, scale, palette, groundInk, paperTint, ruleColor, landmark, landmarkOpts, water, sectorArchetypes, beltProps, actors, topology } = researched;
   const themeTagsList = (THEME_TAGS[theme] || []).map(t => t.toUpperCase());
+  const topo = TOPOLOGIES[topology] || TOPOLOGIES.asymmetric_ravine;
 
   const recipe = {
     id: key,
     name: displayName,
     theme: theme,
     category: theme,
+    topology: topology || 'asymmetric_ravine',
     tags: [theme.toUpperCase(), ...themeTagsList, 'DREAM MODE', 'PROCEDURAL'],
     version: 2,
     seed: Math.floor(Math.random() * 89999) + 10000,
@@ -429,44 +588,35 @@ export function synthesizeRecipe(researched) {
       rules: true,
       lineSpacing: 50
     },
+    substrateArtistry: {
+      marginRule: true,
+      paperRules: true,
+      coffeeStains: [
+        { x: -16, z: 14, r: 3.6 },
+        { x: 22, z: -18, r: 3.2 }
+      ]
+    },
+    kineticMechanisms: (theme === 'steampunk' || theme === 'clockwork' || theme === 'anomalous') ? [
+      { type: 'clockwork_gear', x: -16, y: 3.2, z: -16, radius: 4.8, thickness: 0.8, teeth: 12 },
+      { type: 'swinging_pendulum', x: 0, y: 1.5, z: 0, length: 11.5 }
+    ] : [],
     ground: {
       ink: groundInk || 'BL',
       clearing: {
         r: 9.0,
         ink: 'GREEN'
       },
-      terraces: [
-        { x: -26, z: -26, rx: 10, rz: 10, y: 3.2, ink: 'OR', stairDir: '+z', stairW: 3.0 },
-        { x: 26, z: 26, rx: 10, rz: 10, y: 3.2, ink: 'OR', stairDir: '-z', stairW: 3.0 }
-      ]
+      terraces: topo.terraces
     },
     water: {
+      ...topo.water,
       ribbon: {
-        axis: 'z',
-        x: 16,
-        from: -46,
-        to: 46,
-        width: water.width || 10.0,
-        sink: 0.05,
-        ink: 'BLUE'
-      },
-      banks: {
-        ink: 'BLACK',
-        step: 6.0,
-        len: 7.2
-      },
-      crossings: (water.crossings || ['stepping_stones', 'arched_bridge']).map((type, idx) => ({
-        type,
-        z: idx === 0 ? 0 : (idx === 1 ? -18 : 20)
-      }))
+        ...topo.water.ribbon,
+        width: water?.width || topo.water.ribbon.width
+      }
     },
     sectors: sectorArchetypes.map((sec, i) => {
-      const coords = [
-        [-25, -24],
-        [26, -24],
-        [-25, 24],
-        [26, 24]
-      ][i % 4];
+      const coords = topo.coords[i % 4];
 
       return {
         id: sec.id,

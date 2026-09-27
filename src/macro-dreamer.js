@@ -762,6 +762,12 @@ const levelFilePath = path.join(ROOT_DIR, 'src', 'levels', `${mapArg}.js`);
 if (fs.existsSync(levelFilePath)) {
   let code = fs.readFileSync(levelFilePath, 'utf8');
 
+  // Safeguard: Do not corrupt pure declarative recipe maps with raw string injections
+  if (code.includes('buildMapFromRecipe')) {
+    console.log(`ℹ️ [MACRO DREAMER] Target ${mapArg} is a pure Declarative Recipe. Preserving data integrity (handled via Dream Super Agent).`);
+    process.exit(0);
+  }
+
   // Remove existing macro block if re-running
   if (code.includes('// === DREAM AUTO-INJECTED MACRO STRUCTURES ===')) {
     const regex = /\/\/ === DREAM AUTO-INJECTED MACRO STRUCTURES ===[\s\S]*?\/\/ === END DREAM AUTO-INJECTED MACRO STRUCTURES ===/g;
