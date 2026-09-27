@@ -215,7 +215,17 @@ void main() {
 
   vec3 col = paper;
   float press = mix(1.25, 0.70, smoothstep(2.0, 65.0, dFront));
-  col = mix(col, inkColor(s.g), hatch * 0.55 * fade * mix(1.15, 0.90, smoothstep(2.0, 40.0, d)));
+
+  // Live color wash: bring scene surfaces to life with rich, vibrant watercolor tones
+  if (!sky && s.g >= 0.0) {
+    vec3 liveWash = inkColor(s.g);
+    float washStr = mix(0.32, 0.18, smoothstep(8.0, 85.0, d));
+    float litFactor = smoothstep(0.05, 0.85, max(0.0, shade));
+    col = mix(col, liveWash, washStr * (0.55 + 0.45 * litFactor));
+  }
+
+  // Softened artistic drafting hatching (reduced visual noise)
+  col = mix(col, inkColor(s.g), hatch * 0.32 * fade * mix(1.15, 0.90, smoothstep(2.0, 40.0, d)));
   float ew = (0.75 + 0.35 * vnoise(pp * 0.35)) * press;
   col = mix(col, inkColor(inkId) * (0.86 + 0.10 * press), clamp(edge * ew, 0.0, 1.0) * fadeE);
 

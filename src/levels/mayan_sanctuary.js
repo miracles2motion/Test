@@ -1,572 +1,368 @@
-import { buildMapFromRecipe } from '../map-recipe.js';
+import * as THREE from 'three';
+import { INK, makeInkMaterial } from '../render.js';
+import {
+  buildBoulderField,
+  buildFernCluster,
+  buildBambooPlantation,
+  buildDraftingTapeBridge,
+  buildAtmosphericBeams,
+  buildWaterRipples,
+  buildSuspendedRopeBridge
+} from '../prefabs.js';
 
 /**
- * Map: MAYAN SANCTUARY (mayan_sanctuary)
- * Pure Declarative Recipe Implementation (Dream Master Architecture)
- * 100% Data-Driven, Biome-Adaptive, and Standard-Compliant.
+ * ============================================================================
+ * MAYAN SANCTUARY (Reimagined & Architectural Masterpiece)
+ * ============================================================================
+ * A monumental Mesoamerican ancient temple complex set in a lush jungle cenote.
+ * 
+ * Major Sectors:
+ * 1. THE KUKULKAN ACROPOLIS (North): A 4-tier stepped ziggurat pyramid (Y=0 to 11.8m)
+ *    with dual axial staircases, serpent heads, and high summit sanctuary.
+ * 2. THE SACRED CENOTE GORGE (East): A sunken limestone chasm with glowing azure
+ *    water, stepping stones, and a high suspended timber/tape bridge.
+ * 3. THE CEREMONIAL BALL COURT - POK-TA-POK (South): Tournament corridor with
+ *    45° angled ramp embankments, spectator galleries, and vertical scoring rings.
+ * 4. THE STELAE PLAZA & COLONNADE (West): Rhythmic rows of carved stone glyph pillars,
+ *    sunken offering pit, and stone archways.
+ * 5. CENTRAL DAIS (Mid): Contested elevated hub linking all 4 quadrants.
  */
-export const RECIPE = {
-  "id": "mayan_sanctuary",
-  "name": "Mayan Sanctuary",
-  "theme": "mayan",
-  "category": "mayan",
-  "topology": "vertical_ziggurat",
-  "tags": [
-    "MAYAN",
-    "MAYAN",
-    "ANCIENT",
-    "SANCTUARY",
-    "TEMPLE",
-    "PYRAMID",
-    "JUNGLE",
-    "CENOTE",
-    "NATURE",
-    "COLOSSAL",
-    "ORGANIC",
-    "TREE",
-    "CANOPY",
-    "BAMBOO",
-    "CREATURE",
-    "SKELETON",
-    "UNIVERSAL",
-    "DREAM MODE",
-    "PROCEDURAL"
-  ],
-  "version": 2,
-  "seed": 68730,
-  "scale": "colossal",
-  "bounds": {
-    "half": 55,
-    "wallH": 20,
-    "arenaHalf": 68,
-    "arenaWallH": 30
-  },
-  "palette": "forest",
-  "paper": {
-    "tint": "#f6f3e7",
-    "rules": true,
-    "lineSpacing": 50
-  },
-  "substrateArtistry": {
-    "marginRule": true,
-    "paperRules": true,
-    "coffeeStains": [
-      {
-        "x": -16,
-        "z": 14,
-        "r": 3.6
-      },
-      {
-        "x": 22,
-        "z": -18,
-        "r": 3.2
-      }
-    ]
-  },
-  "kineticMechanisms": [],
-  "ground": {
-    "ink": "BL",
-    "clearing": {
-      "r": 9,
-      "ink": "GREEN"
-    },
-    "terraces": [
-      {
-        "x": 0,
-        "z": 0,
-        "rx": 20,
-        "rz": 20,
-        "y": 2.2,
-        "ink": "OR",
-        "stairDir": "+z",
-        "stairW": 4
-      },
-      {
-        "x": 0,
-        "z": 0,
-        "rx": 10,
-        "rz": 10,
-        "y": 4.8,
-        "ink": "OR",
-        "stairDir": "-z",
-        "stairW": 3.2
-      },
-      {
-        "x": 26,
-        "z": 0,
-        "rx": 7,
-        "rz": 12,
-        "y": 3.2,
-        "ink": "OR",
-        "stairDir": "-x",
-        "stairW": 3
-      }
-    ]
-  },
-  "water": {
-    "ribbon": {
-      "axis": "z",
-      "x": -24,
-      "from": -46,
-      "to": 46,
-      "width": 11.5,
-      "sink": 0.05,
-      "ink": "BLUE"
-    },
-    "banks": {
-      "ink": "BLACK",
-      "step": 6,
-      "len": 7.2
-    },
-    "crossings": [
-      {
-        "type": "stepping_stones",
-        "z": -14
-      },
-      {
-        "type": "setsquare_ramp",
-        "z": 14
-      }
-    ]
-  },
-  "sectors": [
-    {
-      "id": "stepped_pyramid",
-      "name": "Stepped Pyramid Acropolis",
-      "shape": "disc",
-      "c": [
-        -22,
-        -22
-      ],
-      "rIn": 8,
-      "rOut": 14,
-      "core": {
-        "prefab": "terraced_ridge",
-        "opts": {
-          "count": 18,
-          "seed": 100
-        }
-      },
-      "props": [
-        {
-          "prefab": "boulder_field",
-          "n": 3,
-          "place": "inField"
-        },
-        {
-          "prefab": "eraser_barricade",
-          "n": 2,
-          "place": "inField"
-        }
-      ],
-      "tint": {
-        "ink": "OR",
-        "rx": 11,
-        "rz": 11
-      },
-      "reward": {
-        "pickup": true
-      }
-    },
-    {
-      "id": "cenote_grotto",
-      "name": "Sacred Cenote Cavern",
-      "shape": "disc",
-      "c": [
-        22,
-        -22
-      ],
-      "rIn": 8,
-      "rOut": 14,
-      "core": {
-        "prefab": "boulder_field",
-        "opts": {
-          "count": 18,
-          "seed": 237
-        }
-      },
-      "props": [
-        {
-          "prefab": "fern_cluster",
-          "n": 3,
-          "place": "inField"
-        },
-        {
-          "prefab": "atmospheric_beams",
-          "n": 2,
-          "place": "inField"
-        }
-      ],
-      "tint": {
-        "ink": "BL",
-        "rx": 11,
-        "rz": 11
-      },
-      "reward": {
-        "pickup": true
-      }
-    },
-    {
-      "id": "ball_court",
-      "name": "Ceremonial Stone Ball Court",
-      "shape": "capsule",
-      "c": [
-        0,
-        0
-      ],
-      "a": [
-        -26,
-        12
-      ],
-      "b": [
-        -26,
-        34
-      ],
-      "rIn": 4,
-      "rOut": 7,
-      "core": {
-        "prefab": "terraced_ridge",
-        "opts": {
-          "count": 18,
-          "seed": 374
-        }
-      },
-      "props": [
-        {
-          "prefab": "boulder_field",
-          "n": 3,
-          "place": "inField"
-        },
-        {
-          "prefab": "eraser_barricade",
-          "n": 2,
-          "place": "inField"
-        }
-      ],
-      "tint": {
-        "ink": "OR",
-        "rx": 11,
-        "rz": 11
-      },
-      "reward": {
-        "pickup": true
-      }
-    },
-    {
-      "id": "stelae_plaza",
-      "name": "Monolithic Inscribed Stelae Plaza",
-      "shape": "disc",
-      "c": [
-        0,
-        26
-      ],
-      "rIn": 8,
-      "rOut": 14,
-      "core": {
-        "prefab": "creature_skeleton",
-        "opts": {
-          "count": 18,
-          "seed": 511
-        }
-      },
-      "props": [
-        {
-          "prefab": "boulder_field",
-          "n": 3,
-          "place": "inField"
-        },
-        {
-          "prefab": "atmospheric_beams",
-          "n": 2,
-          "place": "inField"
-        }
-      ],
-      "tint": {
-        "ink": "BL",
-        "rx": 11,
-        "rz": 11
-      },
-      "reward": {
-        "pickup": true
-      }
-    }
-  ],
-  "landmarks": [
-    {
-      "prefab": "space_frame_concourse",
-      "at": [
-        0,
-        0,
-        0
-      ],
-      "opts": {},
-      "role": "hub",
-      "beacon": true
-    }
-  ],
-  "beltProps": [
-    {
-      "between": [
-        "stepped_pyramid",
-        "cenote_grotto"
-      ],
-      "prefabs": [
-        "boulder_field",
-        "fern_cluster",
-        "eraser_barricade"
-      ]
-    },
-    {
-      "between": [
-        "ball_court",
-        "stelae_plaza"
-      ],
-      "prefabs": [
-        "fern_cluster",
-        "eraser_barricade"
-      ]
-    },
-    {
-      "between": [
-        "stepped_pyramid",
-        "ball_court"
-      ],
-      "prefabs": [
-        "boulder_field",
-        "fern_cluster"
-      ]
-    }
-  ],
-  "trails": {
-    "ink": "OR",
-    "width": 2.4,
-    "routes": [
-      {
-        "from": "spawn:S",
-        "to": "landmark:hub",
-        "via": [
-          [
-            0,
-            44
-          ],
-          [
-            0,
-            32
-          ],
-          [
-            2,
-            20
-          ],
-          [
-            0,
-            10
-          ]
-        ]
-      },
-      {
-        "from": "spawn:N",
-        "to": "landmark:hub",
-        "via": [
-          [
-            0,
-            -44
-          ],
-          [
-            0,
-            -32
-          ],
-          [
-            -2,
-            -20
-          ],
-          [
-            0,
-            -10
-          ]
-        ]
-      },
-      {
-        "from": "spawn:W",
-        "to": "landmark:hub",
-        "via": [
-          [
-            -44,
-            0
-          ],
-          [
-            -32,
-            0
-          ],
-          [
-            -18,
-            0
-          ],
-          [
-            -8,
-            0
-          ]
-        ]
-      },
-      {
-        "from": "spawn:E",
-        "to": "landmark:hub",
-        "via": [
-          [
-            44,
-            0
-          ],
-          [
-            32,
-            0
-          ],
-          [
-            18,
-            0
-          ],
-          [
-            8,
-            0
-          ]
-        ]
-      }
-    ],
-    "furniture": {
-      "every": 14,
-      "prefabs": [
-        "boulder_field",
-        "fern_cluster"
-      ]
-    }
-  },
-  "vertical": {
-    "tiers": [
-      {
-        "y": 0
-      },
-      {
-        "y": 3.2,
-        "kit": "tier1"
-      },
-      {
-        "y": 6.5,
-        "link": "decks"
-      },
-      {
-        "y": 9.5
-      }
-    ],
-    "grappleChains": [
-      {
-        "name": "hub_overlook",
-        "from": [
-          -14,
-          15,
-          -14
-        ],
-        "to": [
-          14,
-          15,
-          14
-        ]
-      },
-      {
-        "name": "cross_chasm",
-        "from": [
-          0,
-          16,
-          -26
-        ],
-        "to": [
-          0,
-          16,
-          26
-        ]
-      }
-    ],
-    "bouncePoints": [
-      {
-        "at": [
-          -20,
-          3.2,
-          -20
-        ],
-        "to": "terrace:nw"
-      },
-      {
-        "at": [
-          20,
-          3.2,
-          20
-        ],
-        "to": "terrace:se"
-      }
-    ]
-  },
-  "spawns": {
-    "cardinal": 4,
-    "offset": 6
-  },
-  "snipers": {
-    "deckY": 9.5,
-    "cardinal": 4
-  },
-  "pickups": [
-    {
-      "at": [
-        0,
-        4.8,
-        0
-      ],
-      "tier": "legendary"
-    },
-    {
-      "at": [
-        -26,
-        0.4,
-        26
-      ],
-      "tier": "health"
-    },
-    {
-      "at": [
-        26,
-        0.4,
-        -26
-      ],
-      "tier": "armor"
-    },
-    {
-      "at": [
-        -26,
-        3.6,
-        -26
-      ],
-      "tier": "ammo"
-    },
-    {
-      "at": [
-        26,
-        3.6,
-        26
-      ],
-      "tier": "ammo"
-    }
-  ],
-  "actors": [
-    "birds",
-    "leaves",
-    "paper",
-    "dust"
-  ],
-  "detail": {
-    "litter": "inner30",
-    "shadows": "blob:all",
-    "beacons": true
-  }
-};
-
 export function buildMayanSanctuary(B, arena = false) {
-  const result = buildMapFromRecipe(B, RECIPE, arena);
-  B.finish();
-  return result.L;
+  const {
+    L, box, slab, wallX, wallZ, stairs, rail, cyl, ring,
+    spawn, sniper, pickup, planes, arch, facetedRock, finish
+  } = B;
+
+  const OR = INK.ORANGE;
+  const GR = INK.GREEN;
+  const BK = INK.BLACK;
+  const BL = INK.BLUE;
+  const RD = INK.RED;
+
+  L.key = 'mayan_sanctuary';
+  // Player spawns at South entrance courtyard facing North towards the towering Pyramid
+  L.playerStart.set(0, 0.5, 42);
+
+  const P = arena ? 68 : 55;
+  const PH = arena ? 30 : 20;
+  L.bounds.minX = -P; L.bounds.maxX = P;
+  L.bounds.minZ = -P; L.bounds.maxZ = P;
+
+  // =========================================================================
+  // 1. FOUNDATION & PERIMETER LIMESTONE ENCLOSURE
+  // =========================================================================
+  // Base ground substrate
+  slab(-P, -P, P, P, 0.0, 0.5, { ink: GR, tag: 'ground' });
+
+  // 4 Cardinal Megalith Perimeter Walls
+  const T = 5.0; // Wall thickness
+  // South Wall with Grand Portal
+  wallX(-P, P, P, 0, PH, T, [[-6, 6, 0, 8]], { ink: BK });
+  // North Wall behind Pyramid
+  wallX(-P, P, -P, 0, PH, T, [], { ink: BK });
+  // West Wall
+  wallZ(-P, P, -P, 0, PH, T, [], { ink: BK });
+  // East Wall
+  wallZ(-P, P, P, 0, PH, T, [], { ink: BK });
+
+  // Elevated Perimeter Sniper Walkways (Y = 7.0m)
+  // West Walkway (split to provide open stairwell for ascending stairs)
+  slab(-P + T, -P + T, -P + T + 3.0, 15.0, 7.0, 0.4, { ink: OR, tag: 'walkway' });
+  slab(-P + T, 27.0, -P + T + 3.0, P - T, 7.0, 0.4, { ink: OR, tag: 'walkway' });
+  // East Walkway (split to provide open stairwell for ascending stairs)
+  slab(P - T - 3.0, -P + T, P - T, 15.0, 7.0, 0.4, { ink: OR, tag: 'walkway' });
+  slab(P - T - 3.0, 27.0, P - T, P - T, 7.0, 0.4, { ink: OR, tag: 'walkway' });
+  // South Wall Walkway
+  slab(-P + T, -P + T, P - T, -P + T + 3.0, 7.0, 0.4, { ink: OR, tag: 'walkway' });
+
+  // Walkway access stairs (West & East perimeters)
+  stairs(-P + T + 1.5, 0, 15, '+z', 24, 2.5, { rise: 7.0 / 24, run: 0.5, ink: OR });
+  stairs(P - T - 1.5, 0, 15, '+z', 24, 2.5, { rise: 7.0 / 24, run: 0.5, ink: OR });
+
+  // =========================================================================
+  // 2. HERO LANDMARK: THE KUKULKAN PYRAMID ACROPOLIS (North)
+  // Center: (0, 0, -24)
+  // =========================================================================
+  const pyrX = 0;
+  const pyrZ = -24;
+
+  // Tier 1: 30m x 30m base platform (Y = 0 to 2.2m)
+  // Split into West & East wings with an open central 4.6m corridor for stairs
+  box(pyrX - 8.6, 0, pyrZ, 12.8, 2.2, 30, { ink: BK });
+  box(pyrX + 8.6, 0, pyrZ, 12.8, 2.2, 30, { ink: BK });
+  slab(pyrX - 15.4, pyrZ - 15.4, pyrX + 15.4, pyrZ + 15.4, 2.3, 0.3, { ink: OR, noCollide: true });
+
+  // Tier 2: 24m x 24m terrace (Y = 2.2 to 4.4m)
+  box(pyrX - 7.1, 2.2, pyrZ, 9.8, 2.2, 24, { ink: BK });
+  box(pyrX + 7.1, 2.2, pyrZ, 9.8, 2.2, 24, { ink: BK });
+  slab(pyrX - 12.4, pyrZ - 12.4, pyrX + 12.4, pyrZ + 12.4, 4.5, 0.3, { ink: OR, noCollide: true });
+
+  // Tier 3: 18m x 18m terrace (Y = 4.4 to 6.6m)
+  box(pyrX - 5.6, 4.4, pyrZ, 6.8, 2.2, 18, { ink: BK });
+  box(pyrX + 5.6, 4.4, pyrZ, 6.8, 2.2, 18, { ink: BK });
+  slab(pyrX - 9.4, pyrZ - 9.4, pyrX + 9.4, pyrZ + 9.4, 6.7, 0.3, { ink: OR, noCollide: true });
+
+  // Tier 4: 12m x 12m summit terrace (Y = 6.6 to 8.2m)
+  box(pyrX - 4.1, 6.6, pyrZ, 3.8, 1.6, 12, { ink: BK });
+  box(pyrX + 4.1, 6.6, pyrZ, 3.8, 1.6, 12, { ink: BK });
+  slab(pyrX - 6.3, pyrZ - 6.3, pyrX + 6.3, pyrZ + 6.3, 8.3, 0.3, { ink: OR, noCollide: true });
+
+  // Solid foundation directly under the High Temple summit
+  box(pyrX, 0, pyrZ, 4.4, 7.8, 8.0, { ink: BK, noNav: true });
+  // Walkable Summit Platform Landing (Y = 8.2m)
+  slab(pyrX - 6.0, pyrZ - 6.0, pyrX + 6.0, pyrZ + 6.0, 8.2, 0.4, { ink: OR });
+
+  // Summit High Temple Sanctuary (Y = 8.2m to 12.0m)
+  // Outer temple walls with cardinal doorways
+  wallX(pyrX - 3.8, pyrX + 3.8, pyrZ + 3.6, 8.2, 3.6, 0.6, [[-1.2, 1.2, 0, 2.8]], { ink: BK }); // South entrance
+  wallX(pyrX - 3.8, pyrX + 3.8, pyrZ - 3.6, 8.2, 3.6, 0.6, [[-1.2, 1.2, 0, 2.8]], { ink: BK }); // North entrance
+  wallZ(pyrZ - 3.6, pyrZ + 3.6, pyrX - 3.8, 8.2, 3.6, 0.6, [[-1.2, 1.2, 0, 2.8]], { ink: BK }); // West entrance
+  wallZ(pyrZ - 3.6, pyrZ + 3.6, pyrX + 3.8, 8.2, 3.6, 0.6, [[-1.2, 1.2, 0, 2.8]], { ink: BK }); // East entrance
+
+  // Slanted Mansard Roofcomb Crest (Y = 11.8m to 13.6m)
+  slab(pyrX - 4.2, pyrZ - 4.2, pyrX + 4.2, pyrZ + 4.2, 12.0, 0.4, { ink: OR });
+  box(pyrX, 12.0, pyrZ, 5.0, 1.6, 5.0, { ink: BK });
+  box(pyrX, 13.6, pyrZ, 2.0, 1.2, 4.0, { ink: OR, noCollide: true }); // Crest finial
+
+  // Ceremonial Altar in the Temple center
+  box(pyrX, 8.2, pyrZ, 1.6, 0.9, 1.6, { ink: OR, tag: 'cover' });
+  // Legendary Weapon Pickup at apex altar
+  pickup(pyrX, 9.4, pyrZ);
+
+  // --- DUAL AXIAL STAIRWAYS (Anti-Camp 2-Way Flow) ---
+  // South Grand Staircase (Ground Y=0 to Summit Landing Y=8.2m at Z=-18.4)
+  // Run = 12.0m, Steps = 24 -> rise = 8.2 / 24 = 0.3416m, run = 0.5m
+  const stairW = 4.0;
+  stairs(pyrX, 0, -6.4, '-z', 24, stairW, { rise: 8.2 / 24, run: 0.5, ink: OR });
+
+  // Flanking Stone Balustrade Ramps (South)
+  box(pyrX - stairW / 2 - 0.3, 0, -12.4, 0.6, 8.5, 12.2, { ink: BK, noCollide: true });
+  box(pyrX + stairW / 2 + 0.3, 0, -12.4, 0.6, 8.5, 12.2, { ink: BK, noCollide: true });
+
+  // Carved Serpent Head Pedestals at foot of South Staircase
+  box(pyrX - 2.6, 0, -6.8, 1.2, 1.2, 0.8, { ink: OR, tag: 'cover' });
+  cyl(pyrX - 2.6, 1.2, -6.8, 0.4, 0.6, { ink: BK, noCollide: true });
+  box(pyrX + 2.6, 0, -6.8, 1.2, 1.2, 0.8, { ink: OR, tag: 'cover' });
+  cyl(pyrX + 2.6, 1.2, -6.8, 0.4, 0.6, { ink: BK, noCollide: true });
+
+  // North Rear Escape Stair (Ground Y=0 to Summit Landing Y=8.2m at Z=-29.6)
+  stairs(pyrX, 0, -41.6, '+z', 24, stairW, { rise: 8.2 / 24, run: 0.5, ink: OR });
+
+  // Flanking Stone Balustrade Ramps (North)
+  box(pyrX - stairW / 2 - 0.3, 0, -35.6, 0.6, 8.5, 12.2, { ink: BK, noCollide: true });
+  box(pyrX + stairW / 2 + 0.3, 0, -35.6, 0.6, 8.5, 12.2, { ink: BK, noCollide: true });
+
+  // 4 Corner Braziers on Tier 2 Terraces (Waist-high cover)
+  const bDist = 10.5;
+  box(pyrX - bDist, 2.2, pyrZ - bDist, 1.1, 1.1, 1.1, { ink: OR, tag: 'cover' });
+  box(pyrX + bDist, 2.2, pyrZ - bDist, 1.1, 1.1, 1.1, { ink: OR, tag: 'cover' });
+  box(pyrX - bDist, 2.2, pyrZ + bDist, 1.1, 1.1, 1.1, { ink: OR, tag: 'cover' });
+  box(pyrX + bDist, 2.2, pyrZ + bDist, 1.1, 1.1, 1.1, { ink: OR, tag: 'cover' });
+
+  // Apex Grapple Ring above Temple Roof
+  ring(pyrX, 16.2, pyrZ, 'z');
+
+  // =========================================================================
+  // 3. THE SACRED CENOTE GORGE & SUBTERRANEAN CAVERN (East)
+  // X in [16, 44], Z in [-38, 18]
+  // =========================================================================
+  const cenX = 28;
+  const cenZ = -10;
+  const cenW = 14;
+  const cenL = 50;
+
+  // Sunken water chasm (-2.2m sink)
+  slab(cenX - cenW / 2, cenZ - cenL / 2, cenX + cenW / 2, cenZ + cenL / 2, -2.0, 0.4, { ink: BL, tag: 'water' });
+
+  // Cascading Limestone Ledge Banks
+  // West Bank (descending from ground Y=0 to water Y=-2.0)
+  slab(cenX - cenW / 2 - 3.5, cenZ - cenL / 2, cenX - cenW / 2, cenZ + cenL / 2, -1.0, 0.6, { ink: BK });
+  // East Bank
+  slab(cenX + cenW / 2, cenZ - cenL / 2, cenX + cenW / 2 + 3.5, cenZ + cenL / 2, -1.0, 0.6, { ink: BK });
+
+  // Natural Granite Stepping Stones across Cenote
+  facetedRock(B, cenX - 3, -1.8, cenZ - 12, 1.6, 1.2, 1.6, { ink: BK, cover: 'step' });
+  facetedRock(B, cenX + 1, -1.8, cenZ - 10, 1.8, 1.4, 1.8, { ink: BK, cover: 'step' });
+  facetedRock(B, cenX - 2, -1.8, cenZ + 8, 1.5, 1.2, 1.5, { ink: BK, cover: 'step' });
+  facetedRock(B, cenX + 2, -1.8, cenZ + 10, 1.7, 1.3, 1.7, { ink: BK, cover: 'step' });
+
+  // Water Ripple VFX Decals
+  buildWaterRipples(B, cenX, -1.95, cenZ - 11, { count: 3 });
+  buildWaterRipples(B, cenX, -1.95, cenZ + 9, { count: 3 });
+
+  // High Suspended Timber Rope Bridge spanning Cenote Gorge (Y = 4.4m)
+  // Connects Pyramid East Terrace (X=15) to East Jungle Bluff (X=40)
+  buildSuspendedRopeBridge(B, 15.0, 4.4, -24.0, 39.0, 4.4, -24.0, { ink: OR, sag: 0.6, walkwayW: 2.2 });
+
+  // Translucent Drafting Tape Footbridge at Mid-Gorge (Y = 0.5m)
+  buildDraftingTapeBridge(B, cenX - 8, 0.3, 0, cenX + 8, 0.3, 0, { width: 2.6, tapeColor: '#f0e68c' });
+
+  // Cenote Aerial Momentum Grapple Chain (3 rings)
+  ring(cenX - 2, 11.5, cenZ - 16, 'x');
+  ring(cenX + 3, 12.0, cenZ, 'x');
+  ring(cenX - 1, 11.5, cenZ + 16, 'x');
+
+  // Health Pickup in Cenote Grotto under bridge
+  pickup(cenX, -1.5, cenZ);
+
+  // =========================================================================
+  // 4. THE CEREMONIAL BALL COURT - POK-TA-POK (South)
+  // X in [-20, 20], Z in [18, 38]
+  // =========================================================================
+  const courtZ = 28;
+  const courtW = 38; // East-West corridor length
+  const courtD = 14; // North-South width
+
+  // Sunken Court Floor
+  slab(-courtW / 2, courtZ - courtD / 2, courtW / 2, courtZ + courtD / 2, 0.0, 0.4, { ink: GR });
+
+  // Sloping 45° Ramp Embankments on North and South sides
+  // South Embankment Wall
+  for (let s = 0; s < 8; s++) {
+    const rH = (s + 1) * 0.45;
+    const rZ = courtZ + courtD / 2 + s * 0.5;
+    box(0, 0, rZ, courtW, rH, 0.55, { ink: BK });
+  }
+  // Elevated South Spectator Gallery at Y = 3.6m
+  slab(-courtW / 2, courtZ + courtD / 2 + 4.0, courtW / 2, courtZ + courtD / 2 + 8.0, 3.6, 0.4, { ink: OR, tag: 'walkway' });
+
+  // North Embankment Wall
+  for (let s = 0; s < 8; s++) {
+    const rH = (s + 1) * 0.45;
+    const rZ = courtZ - courtD / 2 - s * 0.5;
+    box(0, 0, rZ, courtW, rH, 0.55, { ink: BK });
+  }
+  // Elevated North Spectator Gallery at Y = 3.6m
+  slab(-courtW / 2, courtZ - courtD / 2 - 8.0, courtW / 2, courtZ - courtD / 2 - 4.0, 3.6, 0.4, { ink: OR, tag: 'walkway' });
+
+  // Gallery Safety Rails
+  rail(-courtW / 2, courtZ + courtD / 2 + 4.0, courtW / 2, courtZ + courtD / 2 + 4.0, 3.6, { ink: BK });
+  rail(-courtW / 2, courtZ - courtD / 2 - 4.0, courtW / 2, courtZ - courtD / 2 - 4.0, 3.6, { ink: BK });
+
+  // TWO VERTICAL STONE SCORING RINGS (Hoops mounted at Y=5.4m with grapple rings!)
+  // North Hoop
+  cyl(0, 5.4, courtZ - courtD / 2 - 0.2, 1.2, 0.4, { axis: 'z', ink: OR, noCollide: true });
+  ring(0, 5.4, courtZ - courtD / 2 - 0.2, 'z');
+
+  // South Hoop
+  cyl(0, 5.4, courtZ + courtD / 2 + 0.2, 1.2, 0.4, { axis: 'z', ink: OR, noCollide: true });
+  ring(0, 5.4, courtZ + courtD / 2 + 0.2, 'z');
+
+  // East & West End-Zone Monumental Stone Archways
+  arch(-courtW / 2 + 2, 0, courtZ, 4.0, 4.2, 1.2, { axis: 'z', ink: BK });
+  arch(courtW / 2 - 2, 0, courtZ, 4.0, 4.2, 1.2, { axis: 'z', ink: BK });
+
+  // Ball Court Ammo Pickups
+  pickup(-14, 0.4, courtZ);
+  pickup(14, 0.4, courtZ);
+
+  // =========================================================================
+  // 5. THE STELAE PLAZA & COLONNADE (West)
+  // X in [-42, -14], Z in [-14, 26]
+  // =========================================================================
+  const plazaX = -28;
+  const plazaZ = 6;
+
+  // Raised Plaza Terrace (Y = 1.2m)
+  slab(plazaX - 12, plazaZ - 16, plazaX + 12, plazaZ + 16, 1.2, 0.4, { ink: OR });
+  // Access Steps from Central Court (climbing -x onto Plaza terrace at X=-16)
+  stairs(-14.0, 0, plazaZ, '-x', 4, 4.0, { rise: 0.3, run: 0.5, ink: OR });
+
+  // 8 MONUMENTAL INSCRIBED STONE STELAE (Rhythmic cover grid)
+  const stelaeLocs = [
+    [-34, -6], [-28, -6], [-22, -6],
+    [-34, 4],  [-22, 4],
+    [-34, 14], [-28, 14], [-22, 14]
+  ];
+  for (let i = 0; i < stelaeLocs.length; i++) {
+    const [sx, sz] = stelaeLocs[i];
+    // Stela pillar: 1.2m x 1.2m base, 2.8m high
+    box(sx, 1.2, sz, 1.2, 2.8, 1.2, { ink: BK, tag: 'cover' });
+    // Decorative top cap
+    box(sx, 4.0, sz, 1.5, 0.3, 1.5, { ink: OR, noCollide: true });
+  }
+
+  // Sunken Ceremonial Offering Pit in Plaza Center
+  box(plazaX, 0.0, plazaZ, 4.0, 1.2, 4.0, { ink: BK });
+  // Fire Brazier in center of pit
+  box(plazaX, 1.2, plazaZ, 1.4, 0.8, 1.4, { ink: OR, tag: 'cover' });
+  pickup(plazaX, 2.2, plazaZ); // Offering pickup
+
+  // West Colonnade Stone Arches
+  arch(-40, 1.2, -4, 3.2, 3.8, 0.8, { axis: 'x', ink: BK });
+  arch(-40, 1.2, 8, 3.2, 3.8, 0.8, { axis: 'x', ink: BK });
+  arch(-40, 1.2, 18, 3.2, 3.8, 0.8, { axis: 'x', ink: BK });
+
+  // Plaza Grapple Rings
+  ring(plazaX, 11.0, plazaZ - 10, 'y');
+  ring(plazaX, 11.0, plazaZ + 10, 'y');
+
+  // =========================================================================
+  // 6. CENTRAL CONTESTED DAIS & JUNGLE ATRIUM (Center: 0, 0, 0)
+  // =========================================================================
+  // Raised Central Dais (Y = 1.6m, 12m x 12m)
+  box(0, 0, 0, 12, 1.6, 12, { ink: BK });
+  slab(-6.3, -6.3, 6.3, 6.3, 1.7, 0.3, { ink: OR, noCollide: true });
+
+  // 4 Cardinal Access Stairs to Central Dais
+  stairs(0, 0, 8.5, '-z', 5, 4.0, { rise: 1.6 / 5, run: 0.5, ink: OR }); // South
+  stairs(0, 0, -8.5, '+z', 5, 4.0, { rise: 1.6 / 5, run: 0.5, ink: OR }); // North
+  stairs(8.5, 0, 0, '-x', 5, 4.0, { rise: 1.6 / 5, run: 0.5, ink: OR }); // East
+  stairs(-8.5, 0, 0, '+x', 5, 4.0, { rise: 1.6 / 5, run: 0.5, ink: OR }); // West
+
+  // Central Carved Monolith Column
+  box(0, 1.6, 0, 2.2, 3.4, 2.2, { ink: OR, tag: 'cover' });
+  // Central Ring overhead for aerial pass-through
+  ring(0, 12.0, 0, 'z');
+
+  // Crepuscular Atmospheric Sun Rays shining onto Central Dais
+  buildAtmosphericBeams(B, 0, 1.6, 0, { radius: 6.0, height: 18.0 });
+
+  // Organic Jungle Fern Clusters & Bamboo Groves anchoring corners
+  buildFernCluster(B, -8, 0, -10, { count: 6 });
+  buildFernCluster(B, 8, 0, -10, { count: 6 });
+  buildFernCluster(B, -10, 0, 10, { count: 5 });
+  buildFernCluster(B, 10, 0, 10, { count: 5 });
+  buildBoulderField(B, -12, 0, -18, { count: 8, seed: 101 });
+  buildBambooPlantation(B, -28, 0, -32, { culms: 18 });
+
+  // =========================================================================
+  // 7. SNIPER VANTAGES & TACTICAL SPAWNS
+  // =========================================================================
+  // Anti-Camp Sniper Perches (Wide open rear vectors)
+  sniper(pyrX, 8.4, pyrZ + 5.0); // Temple South Portico overlooking mid
+  sniper(0, 4.0, courtZ + courtD / 2 + 5.5); // South Gallery overlooking ball court
+  sniper(-P + T + 1.5, 7.4, 0); // West High Wall
+  sniper(P - T - 1.5, 7.4, 0);  // East High Wall
+
+  // 4 Cardinal Solo Spawns
+  spawn(0, 0.2, 42);   // South Courtyard (Player start)
+  spawn(0, 0.2, -44);  // North Pyramid Rear
+  spawn(-42, 0.2, 0);  // West Stelae Flank
+  spawn(42, 0.2, 0);   // East Cenote Bluff
+
+  // Balanced Team Spawns (Red & Blue)
+  L.teamSpawns = [
+    // Red Team (South & West)
+    [[-10, 0.2, 38], [10, 0.2, 38], [-28, 1.4, 18], [-32, 1.4, -6],
+     [0, 0.2, 42], [-14, 0.2, 28], [-20, 3.8, 32], [-4, 0.2, 36]].map(([x, y, z]) => new THREE.Vector3(x, y, z)),
+    // Blue Team (North & East)
+    [[-10, 0.2, -42], [10, 0.2, -42], [32, 0.2, -18], [36, 0.2, 6],
+     [0, 2.4, -12], [14, 0.2, -28], [24, 4.6, -24], [4, 0.2, -40]].map(([x, y, z]) => new THREE.Vector3(x, y, z))
+  ];
+
+  // 16 Symmetrical Arena Spawns
+  for (const [x, y, z] of [
+    [-10, 0.2, 38], [10, 0.2, 38], [-28, 1.4, 18], [-32, 1.4, -6],
+    [0, 0.2, 42], [-14, 0.2, 28], [-20, 3.8, 32], [-4, 0.2, 36],
+    [-10, 0.2, -42], [10, 0.2, -42], [32, 0.2, -18], [36, 0.2, 6],
+    [0, 2.4, -12], [14, 0.2, -28], [24, 4.6, -24], [4, 0.2, -40]
+  ]) {
+    L.arenaSpawns.push(new THREE.Vector3(x, y, z));
+  }
+
+  // 4 Circling Paper Planes in Upper Sky
+  planes(4, 32, 22, { rStep: 8, hStep: 4, scale: 1.5, speed: 0.1 });
+
+  return finish();
 }
