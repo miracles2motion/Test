@@ -7,8 +7,31 @@ import {
   buildDraftingTapeBridge,
   buildAtmosphericBeams,
   buildWaterRipples,
-  buildSuspendedRopeBridge
+  buildSuspendedRopeBridge,
+  buildAncientTree,
+  buildWillowTree,
+  buildGrassClump
 } from '../prefabs.js';
+
+/**
+ * Helper to build an authentic carved feathered serpent head (Kukulkan terminal)
+ */
+function buildSerpentHead(B, x, y, z, dir = '+z') {
+  const { box, cyl, wedge } = B;
+  // Lower jaw plinth
+  box(x, y, z, 1.2, 0.45, 1.3, { ink: INK.BLACK, tag: 'cover' });
+  // Upper snout protruding forward
+  const offsetZ = dir === '+z' ? 0.35 : -0.35;
+  box(x, y + 0.45, z + offsetZ, 1.15, 0.55, 1.2, { ink: INK.ORANGE, tag: 'cover' });
+  // Searing Jade Eyes
+  cyl(x - 0.4, y + 0.95, z + offsetZ * 0.5, 0.12, 0.15, { ink: INK.GREEN, noCollide: true });
+  cyl(x + 0.4, y + 0.95, z + offsetZ * 0.5, 0.12, 0.15, { ink: INK.GREEN, noCollide: true });
+  // Dual curved fangs
+  box(x - 0.35, y + 0.25, z + (dir === '+z' ? 0.8 : -0.8), 0.08, 0.35, 0.08, { ink: INK.ORANGE, noCollide: true });
+  box(x + 0.35, y + 0.25, z + (dir === '+z' ? 0.8 : -0.8), 0.08, 0.35, 0.08, { ink: INK.ORANGE, noCollide: true });
+  // Feathered Quetzal crest plumes behind head
+  wedge(x, y + 0.7, z - offsetZ, 1.1, 0.75, 0.8, { dir: dir === '+z' ? '-z' : '+z', ink: INK.GREEN, noCollide: true });
+}
 
 /**
  * ============================================================================
@@ -30,7 +53,7 @@ import {
 export function buildMayanSanctuary(B, arena = false) {
   const {
     L, box, slab, wallX, wallZ, stairs, rail, cyl, ring,
-    spawn, sniper, pickup, planes, arch, facetedRock, finish
+    spawn, sniper, pickup, planes, arch, facetedRock, wedge, finish
   } = B;
 
   const OR = INK.ORANGE;
@@ -91,6 +114,15 @@ export function buildMayanSanctuary(B, arena = false) {
   stairs(-P + T + 1.5, 0, 15, '+z', 24, 2.5, { rise: 7.0 / 24, run: 0.5, ink: OR });
   stairs(P - T - 1.5, 0, 15, '+z', 24, 2.5, { rise: 7.0 / 24, run: 0.5, ink: OR });
 
+  // Stepped Mesoamerican Parapet Merlons along elevated sniper walkways (Y = 7.0m)
+  for (let wz = -36; wz <= 36; wz += 8) {
+    if (wz >= 13 && wz <= 27) continue; // Keep open for stairwell clearance
+    box(-P + T + 3.1, 7.0, wz, 0.35, 0.85, 1.2, { ink: BK, noCollide: true });
+    box(-P + T + 3.1, 7.85, wz, 0.3, 0.35, 0.6, { ink: OR, noCollide: true });
+    box(P - T - 3.1, 7.0, wz, 0.35, 0.85, 1.2, { ink: BK, noCollide: true });
+    box(P - T - 3.1, 7.85, wz, 0.3, 0.35, 0.6, { ink: OR, noCollide: true });
+  }
+
   // =========================================================================
   // 2. HERO LANDMARK: THE KUKULKAN PYRAMID ACROPOLIS (North)
   // Center: (0, 0, -24)
@@ -103,21 +135,26 @@ export function buildMayanSanctuary(B, arena = false) {
   box(pyrX - 8.6, 0, pyrZ, 12.8, 2.0, 30, { ink: BK });
   box(pyrX + 8.6, 0, pyrZ, 12.8, 2.0, 30, { ink: BK });
   slab(pyrX - 15.4, pyrZ - 15.4, pyrX + 15.4, pyrZ + 15.4, 2.1, 0.2, { ink: OR, noCollide: true });
+  // Talud-Tablero Cantilevered Cornice Mouldings (Architectural Beveling)
+  slab(pyrX - 15.6, pyrZ - 15.6, pyrX + 15.6, pyrZ + 15.6, 1.9, 0.25, { ink: OR, noCollide: true });
 
   // Tier 2: 24m x 24m terrace (Y = 2.0 to 4.0m)
   box(pyrX - 7.1, 2.0, pyrZ, 9.8, 2.0, 24, { ink: BK });
   box(pyrX + 7.1, 2.0, pyrZ, 9.8, 2.0, 24, { ink: BK });
   slab(pyrX - 12.4, pyrZ - 12.4, pyrX + 12.4, pyrZ + 12.4, 4.1, 0.2, { ink: OR, noCollide: true });
+  slab(pyrX - 12.6, pyrZ - 12.6, pyrX + 12.6, pyrZ + 12.6, 3.9, 0.25, { ink: OR, noCollide: true });
 
   // Tier 3: 18m x 18m terrace (Y = 4.0 to 6.0m)
   box(pyrX - 5.6, 4.0, pyrZ, 6.8, 2.0, 18, { ink: BK });
   box(pyrX + 5.6, 4.0, pyrZ, 6.8, 2.0, 18, { ink: BK });
   slab(pyrX - 9.4, pyrZ - 9.4, pyrX + 9.4, pyrZ + 9.4, 6.1, 0.2, { ink: OR, noCollide: true });
+  slab(pyrX - 9.6, pyrZ - 9.6, pyrX + 9.6, pyrZ + 9.6, 5.9, 0.25, { ink: OR, noCollide: true });
 
   // Tier 4: 12m x 12m summit terrace (Y = 6.0 to 8.0m)
   box(pyrX - 4.1, 6.0, pyrZ, 3.8, 2.0, 12, { ink: BK });
   box(pyrX + 4.1, 6.0, pyrZ, 3.8, 2.0, 12, { ink: BK });
   slab(pyrX - 6.3, pyrZ - 6.3, pyrX + 6.3, pyrZ + 6.3, 8.1, 0.2, { ink: OR, noCollide: true });
+  slab(pyrX - 6.6, pyrZ - 6.6, pyrX + 6.6, pyrZ + 6.6, 7.9, 0.25, { ink: OR, noCollide: true });
 
   // Solid foundation directly under the High Temple summit
   box(pyrX, 0, pyrZ, 4.4, 7.6, 8.0, { ink: BK, noNav: true });
@@ -155,11 +192,9 @@ export function buildMayanSanctuary(B, arena = false) {
     box(pyrX + stairW / 2 + 0.3, 0, bZ, 0.6, bH, 2.3, { ink: BK, noCollide: true });
   }
 
-  // Carved Serpent Head Pedestals at foot of South Staircase (Z = -8.5)
-  box(pyrX - 2.6, 0, -8.5, 1.2, 1.2, 1.0, { ink: OR, tag: 'cover' });
-  cyl(pyrX - 2.6, 1.2, -8.5, 0.4, 0.6, { ink: BK, noCollide: true });
-  box(pyrX + 2.6, 0, -8.5, 1.2, 1.2, 1.0, { ink: OR, tag: 'cover' });
-  cyl(pyrX + 2.6, 1.2, -8.5, 0.4, 0.6, { ink: BK, noCollide: true });
+  // Sculpted Feathered Serpent Head Terminals (Kukulkan) at foot of South Staircase (Z = -8.5)
+  buildSerpentHead(B, pyrX - 2.6, 0, -8.5, '+z');
+  buildSerpentHead(B, pyrX + 2.6, 0, -8.5, '+z');
 
   // North Rear Escape Stair (Base Z=-39.0, Y=0 to Summit Landing Z=-30.0, Y=8.0m)
   stairs(pyrX, 0, -39.0, '+z', 24, stairW, { rise: 8.0 / 24, run: 0.375, ink: OR });
@@ -171,6 +206,10 @@ export function buildMayanSanctuary(B, arena = false) {
     box(pyrX - stairW / 2 - 0.3, 0, bZ, 0.6, bH, 2.3, { ink: BK, noCollide: true });
     box(pyrX + stairW / 2 + 0.3, 0, bZ, 0.6, bH, 2.3, { ink: BK, noCollide: true });
   }
+
+  // Sculpted Feathered Serpent Head Terminals at foot of North Rear Staircase (Z = -39.5)
+  buildSerpentHead(B, pyrX - 2.6, 0, -39.5, '-z');
+  buildSerpentHead(B, pyrX + 2.6, 0, -39.5, '-z');
 
   // 4 Symmetrical Fire Braziers on Tier 2 Terraces (Waist-high cover)
   const bDist = 10.5;
@@ -252,12 +291,31 @@ export function buildMayanSanctuary(B, arena = false) {
 
   // Concentric Cylindrical Drum Tower (Lower Drum: Y = 2.4m to 6.0m, r=4.2m)
   cyl(obsX, 2.4, obsZ, 4.2, 3.6, { seg: 16, ink: BK });
+
+  // 4 Radial Sloping Stone Buttress Piers anchoring Observatory Drum
+  wedge(obsX + 4.6, 2.4, obsZ, 1.4, 2.8, 1.2, { dir: '+x', ink: BK, noCollide: true });
+  wedge(obsX - 4.6, 2.4, obsZ, 1.4, 2.8, 1.2, { dir: '-x', ink: BK, noCollide: true });
+  wedge(obsX, 2.4, obsZ + 4.6, 1.2, 2.8, 1.4, { dir: '+z', ink: BK, noCollide: true });
+  wedge(obsX, 2.4, obsZ - 4.6, 1.2, 2.8, 1.4, { dir: '-z', ink: BK, noCollide: true });
+
   // Upper Observation Catwalk Terrace (Y = 6.0m, r=4.8m)
   slab(obsX - 4.8, obsZ - 4.8, obsX + 4.8, obsZ + 4.8, 6.0, 0.4, { ink: OR, tag: 'walkway' });
   rail(obsX - 4.8, obsZ - 4.8, obsX + 4.8, obsZ - 4.8, 6.0, { ink: BK });
   rail(obsX - 4.8, obsZ + 4.8, obsX + 4.8, obsZ + 4.8, 6.0, { ink: BK });
   rail(obsX - 4.8, obsZ - 4.8, obsX - 4.8, obsZ + 4.8, 6.0, { ink: BK });
   rail(obsX + 4.8, obsZ - 4.8, obsX + 4.8, obsZ + 4.8, 6.0, { ink: BK });
+
+  // Hanging Strangler-Fig Vines cascading from catwalk down into jungle air (Y=6.0m to 2.5m)
+  const vineAngles = [0.5, 1.3, 2.2, 3.6, 4.4, 5.3];
+  for (let v = 0; v < vineAngles.length; v++) {
+    const va = vineAngles[v];
+    const vr = 4.7;
+    const vx = obsX + Math.cos(va) * vr;
+    const vz = obsZ + Math.sin(va) * vr;
+    const vLen = 2.5 + (v % 3) * 0.8;
+    cyl(vx, 6.0 - vLen, vz, 0.07, vLen, { ink: GR, noCollide: true });
+    box(vx, 6.0 - vLen * 0.5, vz, 0.22, 0.15, 0.22, { ink: GR, noCollide: true });
+  }
 
   // Upper Dome Observatory Chamber (Y = 6.0m to 9.2m, r=2.8m)
   cyl(obsX, 6.0, obsZ, 2.8, 3.2, { seg: 14, ink: BK });
@@ -354,6 +412,10 @@ export function buildMayanSanctuary(B, arena = false) {
     const sZ = stallZs[s];
     // Stone vendor counter (waist-high cover)
     box(21, 0, sZ, 1.4, 0.9, 2.6, { ink: OR, tag: 'cover' });
+    // Slanted woven palm awning trim (chamfered silhouette)
+    wedge(21, 2.7, sZ, 2.2, 0.35, 3.2, { dir: '+x', ink: OR, noCollide: true });
+    // Carved copal incense burner atop counter
+    cyl(21, 0.9, sZ + 0.8, 0.22, 0.28, { ink: BK, noCollide: true });
     // Timber canopy posts & roof
     box(21, 2.6, sZ, 2.2, 0.15, 3.2, { ink: BK, noCollide: true });
     cyl(20.2, 0, sZ - 1.3, 0.08, 2.6, { ink: BK, noCollide: true });
@@ -530,6 +592,17 @@ export function buildMayanSanctuary(B, arena = false) {
   buildBoulderField(B, -12, 0, -18, { count: 8, seed: 101 });
   buildBambooPlantation(B, -28, 0, -32, { culms: 18 });
 
+  // Colossal Sacred Ceiba Trees & Willow Canopy at South-West and South-East outer corners
+  buildWillowTree(B, -36.0, 0, 38.0, { inkBark: BK, inkLeaves: GR });
+  buildWillowTree(B, 36.0, 0, 38.0, { inkBark: BK, inkLeaves: GR });
+
+  // Dense Jungle Flora anchoring transitions
+  buildFernCluster(B, cenX - 4, 0, cenZ - 20, { count: 6 });
+  buildFernCluster(B, cenX + 5, 0, cenZ + 20, { count: 6 });
+  buildFernCluster(B, temX - 6, 0, temZ, { count: 6 });
+  buildGrassClump(B, cenX - 2, -1.8, cenZ - 8, 8, { ink: GR });
+  buildGrassClump(B, cenX + 2, -1.8, cenZ + 6, 8, { ink: GR });
+
   // =========================================================================
   // 7. SNIPER VANTAGES & TACTICAL SPAWNS
   // =========================================================================
@@ -563,6 +636,103 @@ export function buildMayanSanctuary(B, arena = false) {
     [0, 2.4, -12], [14, 0.2, -28], [24, 4.6, -24], [4, 0.2, -40]
   ]) {
     L.arenaSpawns.push(new THREE.Vector3(x, y, z));
+  }
+
+  // =========================================================================
+  // 8. LIVING KINETIC ACTORS: CEREMONIAL BRAZIER FLAMES, EMBERS & LIGHTING
+  // =========================================================================
+  if (B.scene && L.animated) {
+    const brazierPositions = [
+      [pyrX, 8.9, pyrZ],               // Summit Altar
+      [pyrX - 10.5, 3.1, pyrZ - 10.5], // Tier 2 NW
+      [pyrX + 10.5, 3.1, pyrZ - 10.5], // Tier 2 NE
+      [pyrX - 10.5, 3.1, pyrZ + 10.5], // Tier 2 SW
+      [pyrX + 10.5, 3.1, pyrZ + 10.5], // Tier 2 SE
+      [0, 2.5, 0],                     // Central Dais / Altar
+      [temX, 0.0, temZ],               // Temazcal Hearth
+      [plazaX, 2.0, plazaZ]            // Plaza Offering Pit
+    ];
+
+    const emberMat = makeInkMaterial({ ink: OR });
+    const flameMat = makeInkMaterial({ ink: RD });
+    const allEmbers = [];
+
+    const fireGroup = new THREE.Group();
+    for (let b = 0; b < brazierPositions.length; b++) {
+      const [bx, by, bz] = brazierPositions[b];
+      // Flame tongue core cone
+      const fg = new THREE.ConeGeometry(0.32, 0.75, 5);
+      const fm = new THREE.Mesh(fg, flameMat);
+      fm.position.set(bx, by + 0.38, bz);
+      fireGroup.add(fm);
+      L.meshes.push(fm);
+
+      // 4 animated drifting embers per active brazier
+      for (let e = 0; e < 4; e++) {
+        const eg = new THREE.BoxGeometry(0.1, 0.1, 0.1);
+        const em = new THREE.Mesh(eg, emberMat);
+        em.position.set(bx, by + 0.5, bz);
+        fireGroup.add(em);
+        L.meshes.push(em);
+        allEmbers.push({
+          mesh: em,
+          baseX: bx,
+          baseY: by + 0.5,
+          baseZ: bz,
+          phase: b * 0.8 + e * 1.5,
+          speed: 1.2 + (e % 3) * 0.4,
+          radius: 0.25 + (e % 2) * 0.2
+        });
+      }
+    }
+    B.scene.add(fireGroup);
+
+    // Dynamic warm point lighting at Central Dais & Summit Sanctuary
+    let centralLight = null;
+    let templeLight = null;
+    if (typeof THREE.PointLight === 'function') {
+      centralLight = new THREE.PointLight(0xff7722, 1.8, 16, 2);
+      centralLight.position.set(0, 3.2, 0);
+      B.scene.add(centralLight);
+
+      templeLight = new THREE.PointLight(0xff8833, 1.5, 14, 2);
+      templeLight.position.set(pyrX, 10.0, pyrZ);
+      B.scene.add(templeLight);
+    }
+
+    L.animated.push({
+      mesh: fireGroup,
+      update: (t) => {
+        // Flame tongue flicker
+        for (let i = 0; i < fireGroup.children.length; i++) {
+          const child = fireGroup.children[i];
+          if (child.geometry && child.geometry.type === 'ConeGeometry') {
+            const sc = 0.85 + Math.sin(t * 9.0 + i * 2.1) * 0.2;
+            child.scale.set(sc, 0.8 + Math.cos(t * 11.0 + i) * 0.3, sc);
+          }
+        }
+        // Floating ember drift
+        for (const e of allEmbers) {
+          const cycle = (t * e.speed + e.phase) % 2.0;
+          const prog = cycle / 2.0;
+          const angle = t * 2.5 + e.phase;
+          e.mesh.position.set(
+            e.baseX + Math.cos(angle) * e.radius * (1.0 + prog),
+            e.baseY + prog * 1.8,
+            e.baseZ + Math.sin(angle) * e.radius * (1.0 + prog)
+          );
+          const sc = prog < 0.2 ? prog / 0.2 : (1.0 - prog);
+          e.mesh.scale.setScalar(Math.max(0.01, sc));
+        }
+        // Dynamic light flicker
+        if (centralLight) {
+          centralLight.intensity = 1.6 + Math.sin(t * 12.0) * 0.35 + Math.cos(t * 7.5) * 0.2;
+        }
+        if (templeLight) {
+          templeLight.intensity = 1.3 + Math.sin(t * 10.0 + 1.5) * 0.3;
+        }
+      }
+    });
   }
 
   // 4 Circling Paper Planes in Upper Sky
